@@ -1,0 +1,100 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurestack.storageaccounts.undelete
+name: Undelete
+service: Azure Stack Admin
+groupName: Storage Accounts
+apiVersion: 2019-08-08-preview
+summary: Undelete a deleted storage account with new account name if the a new name is provided.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Storage.Admin/locations/{location}/storageAccounts/{accountId}/undelete?api-version=2019-08-08-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Storage.Admin/locations/{location}/storageAccounts/{accountId}/undelete?api-version=2019-08-08-preview&newAccountName={newAccountName}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription Id.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Resource location.
+  types:
+  - uid: string
+- name: accountId
+  in: path
+  isRequired: true
+  description: Internal storage account ID, which is not visible to tenant.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: REST Api Version.
+  types:
+  - uid: string
+- name: newAccountName
+  in: query
+  description: New storage account name when doing undelete storage account operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- Undelete either has been performed or account was not deleted.
+- name: 202 Accepted
+  description: Accepted -- undelete operation trigged; operation will complete asynchronously.
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: The error response for request which failed.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error description code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error description message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target description.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details information.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: Undelete a deleted storage account.
+  request:
+    uri: POST https://management.azure.com/subscriptions/9ad61516-995c-4873-a21f-7e44904f0ed2/providers/Microsoft.Storage.Admin/locations/local/storageAccounts/f93c9df9e7af487fbda484a9201d9c18/undelete?api-version=2019-08-08-preview
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Azure Stack Admin service - Undelete a deleted storage account with new account name if the a new name is provided.
+errorCodes: []

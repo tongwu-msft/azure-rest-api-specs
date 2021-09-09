@@ -1,5 +1,6 @@
 ---
 title: "Get Upgrade Orchestration Service State"
+description: "Get Upgrade Orchestration Service State"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

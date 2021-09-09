@@ -60,16 +60,6 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.deploymentProperties
-    in: body
-    description: The deployment properties of the environment.
-    types:
-    - uid: EnvironmentDeploymentPropertiesFragment
-  - name: properties.armTemplateDisplayName
-    in: body
-    description: The display name of the Azure Resource Manager template that produced the environment.
-    types:
-    - uid: string
   - name: tags
     in: body
     description: The tags of the resource.
@@ -81,19 +71,6 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: EnvironmentDeploymentPropertiesFragment
-  description: Properties of an environment deployment.
-  kind: object
-  properties:
-  - name: armTemplateId
-    description: The Azure Resource Manager template's identifier.
-    types:
-    - uid: string
-  - name: parameters
-    description: The parameters of the Azure Resource Manager template.
-    types:
-    - uid: ArmTemplateParameterPropertiesFragment
-      isArray: true
 - name: DtlEnvironment
   description: An environment, which is essentially an ARM template deployment.
   kind: object
@@ -165,14 +142,6 @@ definitions:
   description: An environment, which is essentially an ARM template deployment.
   kind: object
   properties:
-  - name: properties.deploymentProperties
-    description: The deployment properties of the environment.
-    types:
-    - uid: EnvironmentDeploymentPropertiesFragment
-  - name: properties.armTemplateDisplayName
-    description: The display name of the Azure Resource Manager template that produced the environment.
-    types:
-    - uid: string
   - name: tags
     description: The tags of the resource.
     types:
@@ -181,18 +150,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: ArmTemplateParameterPropertiesFragment
-  description: Properties of an Azure Resource Manager template parameter.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the template parameter.
-    types:
-    - uid: string
-  - name: value
-    description: The value of the template parameter.
-    types:
-    - uid: string
 - name: EnvironmentDeploymentProperties
   description: Properties of an environment deployment.
   kind: object
@@ -239,7 +196,36 @@ definitions:
     description: The value of the template parameter.
     types:
     - uid: string
-examples: []
+examples:
+- name: Environments_Update
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/users/@me/environments/{environmentName}?api-version=2018-09-15
+    body: >-
+      {
+        "tags": {
+          "tagName1": "tagValue1"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}/users/{uniqueIdentifier}/environments/{environmentName}",
+        "name": "{environmentName}",
+        "type": "Microsoft.DevTestLab/labs/users/environments",
+        "location": "{location}",
+        "properties": {
+          "deploymentProperties": {
+            "armTemplateId": "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}/artifactSources/{artifactSourceName}/armTemplates/{armTemplateName}"
+          },
+          "createdByUser": "user@contoso.com",
+          "provisioningState": "Succeeded",
+          "uniqueIdentifier": "{uniqueIdentifier}"
+        },
+        "tags": {
+          "tagName1": "tagValue1"
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -249,4 +235,6 @@ security:
   scopes:
   - name: user_impersonation
     description: Access Microsoft Azure
+metadata:
+  description: Learn more about Dev Test Labs service - Allows modifying tags of environments. All other properties will be ignored.
 errorCodes: []

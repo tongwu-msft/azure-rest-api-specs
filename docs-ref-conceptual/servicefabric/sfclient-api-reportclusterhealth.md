@@ -1,5 +1,6 @@
 ---
 title: "Report Cluster Health"
+description: "Report Cluster Health"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

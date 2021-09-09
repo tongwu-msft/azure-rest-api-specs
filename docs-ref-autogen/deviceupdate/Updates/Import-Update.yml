@@ -1,0 +1,188 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.updates.importupdate
+name: Import Update
+service: Device Update
+groupName: Updates
+apiVersion: 2020-09-01
+summary: Import new update version.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{accountEndpoint}/deviceupdate/{instanceId}/v2/updates?action=import
+uriParameters:
+- name: accountEndpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account endpoint.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account instance identifier.
+  types:
+  - uid: string
+- name: action
+  in: query
+  isRequired: true
+  description: Import update action.
+  types:
+  - uid: ImportAction
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  - name: Operation-Location
+    value: string
+  description: Accepted update import request; background operation location to track status is specified in Operation-Location response header.
+- name: Other Status Codes
+  description: Too many requests; there is a rate limit on how many operations can be executed within a time period and there is also a limit on how many concurrent import and delete background operations can be executed.
+requestBody:
+- name: default
+  parameters:
+  - name: importManifest
+    in: body
+    isRequired: true
+    description: Import manifest metadata like source URL, file size/hashes, etc.
+    types:
+    - uid: ImportManifestMetadata
+  - name: files
+    in: body
+    isRequired: true
+    description: One or more update file properties like filename and source URL.
+    types:
+    - uid: FileImportMetadata
+      isArray: true
+requestHeader: []
+definitions:
+- name: ImportAction
+  description: Import update action.
+  kind: enum
+  properties:
+  - name: import
+    description: Import action.
+    types:
+    - uid: string
+- name: ImportManifestMetadata
+  description: Metadata describing the import manifest, a document which describes the files and other metadata about an update version.
+  kind: object
+  properties:
+  - name: url
+    description: Azure Blob location from which the import manifest can be downloaded by Device Update for IoT Hub. This is typically a read-only SAS-protected blob URL with an expiration set to at least 4 hours.
+    types:
+    - uid: string
+  - name: sizeInBytes
+    description: File size in number of bytes.
+    types:
+    - uid: integer
+  - name: hashes
+    description: A JSON object containing the hash(es) of the file. At least SHA256 hash is required. This object can be thought of as a set of key-value pairs where the key is the hash algorithm, and the value is the hash of the file calculated using that algorithm.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: FileImportMetadata
+  description: Metadata describing an update file.
+  kind: object
+  properties:
+  - name: filename
+    description: Update file name as specified inside import manifest.
+    types:
+    - uid: string
+  - name: url
+    description: Azure Blob location from which the update file can be downloaded by Device Update for IoT Hub. This is typically a read-only SAS-protected blob URL with an expiration set to at least 4 hours.
+    types:
+    - uid: string
+- name: ImportUpdateInput
+  description: Import update input metadata.
+  kind: object
+  properties:
+  - name: importManifest
+    description: Import manifest metadata like source URL, file size/hashes, etc.
+    types:
+    - uid: ImportManifestMetadata
+  - name: files
+    description: One or more update file properties like filename and source URL.
+    types:
+    - uid: FileImportMetadata
+      isArray: true
+examples:
+- name: Updates_ImportUpdate
+  request:
+    uri: POST https://contoso.api.adu.microsoft.com/deviceupdate/blue/v2/updates?action=import
+    body: >-
+      {
+        "importManifest": {
+          "url": "http://test.blob.core.windows.net/test/uploadimportMan.json",
+          "sizeInBytes": 816,
+          "hashes": {
+            "sha256": "O19LyyncPe1AGstOdkcmozLV8pSbBdqrE18HdYVohRc="
+          }
+        },
+        "files": [
+          {
+            "filename": "file1.bin",
+            "url": "http://test.blob.core.windows.net/test/upload1v5uww1q"
+          },
+          {
+            "filename": "file2.bin",
+            "url": "http://test.blob.core.windows.net/test/uploadkrmn5yw0"
+          },
+          {
+            "filename": "file3.bin",
+            "url": "http://test.blob.core.windows.net/test/uploaddq52ky5m"
+          }
+        ]
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: /deviceupdate/instanceId/v2/updates/operations/e4491c54-916f-443d-9094-bcca546ace2f
+    - name: Operation-Location
+      value: /deviceupdate/instanceId/v2/updates/operations/e4491c54-916f-443d-9094-bcca546ace2f
+  - statusCode: "429"
+security:
+- name: azure_auth_implicit
+  type: oauth2
+  description: Azure Active Directory OAuth2 Implicit Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+- name: azure_auth_code
+  type: oauth2
+  description: Azure Active Directory OAuth2 AccessCode Flow
+  flow: accessCode
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+  tokenUrl: https://login.microsoftonline.com/common/oauth2/v2.0/token
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+- name: azure_auth_application
+  type: oauth2
+  description: Azure Active Directory OAuth2 Application Flow
+  flow: application
+  tokenUrl: https://login.microsoftonline.com/common/oauth2/v2.0/token
+  scopes:
+  - name: .default
+    description: client credential scope
+- name: azure_auth_password
+  type: oauth2
+  description: Azure Active Directory OAuth2 Password Flow
+  flow: password
+  tokenUrl: https://login.microsoftonline.com/common/oauth2/v2.0/token
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Device Update service - Import new update version.
+errorCodes: []

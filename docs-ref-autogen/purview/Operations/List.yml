@@ -1,0 +1,340 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.purview.operations.list
+name: List
+service: Purview
+groupName: Operations
+apiVersion: 2020-12-01-preview
+summary: "Lists the available operations  \nList of available operations"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Purview/operations?api-version=2020-12-01-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version to use.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: OperationList
+- name: Other Status Codes
+  description: An error response received from the provider.
+  types:
+  - uid: ErrorResponseModel
+requestHeader: []
+definitions:
+- name: OperationList
+  description: Paged list of operation resources
+  kind: object
+  properties:
+  - name: count
+    description: Total item count.
+    types:
+    - uid: integer
+  - name: nextLink
+    description: The Url of next result page.
+    types:
+    - uid: string
+  - name: value
+    description: Collection of items of type results.
+    types:
+    - uid: Operation
+      isArray: true
+- name: ErrorResponseModel
+  description: Default error response model
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Gets or sets the error.
+    types:
+    - uid: Error
+- name: Operation
+  description: Operation resource
+  kind: object
+  properties:
+  - name: display
+    description: Properties on the operation
+    types:
+    - uid: OperationDisplay
+  - name: isDataAction
+    description: Whether operation is a data action
+    types:
+    - uid: boolean
+  - name: name
+    description: Operation name for display purposes
+    types:
+    - uid: string
+  - name: origin
+    description: origin of the operation
+    types:
+    - uid: string
+  - name: properties.serviceSpecification
+    description: meta service specification
+    types:
+    - uid: OperationMetaServiceSpecification
+- name: Error
+  description: Gets or sets the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Gets or sets the code.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Gets or sets the details.
+    types:
+    - uid: ErrorModel
+      isArray: true
+  - name: message
+    isReadyOnly: true
+    description: Gets or sets the messages.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Gets or sets the target.
+    types:
+    - uid: string
+- name: OperationDisplay
+  description: The response model for get operation properties
+  kind: object
+  properties:
+  - name: description
+    description: Description of the operation for display purposes
+    types:
+    - uid: string
+  - name: operation
+    description: Name of the operation for display purposes
+    types:
+    - uid: string
+  - name: provider
+    description: Name of the provider for display purposes
+    types:
+    - uid: string
+  - name: resource
+    description: Name of the resource type for display purposes
+    types:
+    - uid: string
+- name: OperationMetaServiceSpecification
+  description: The operation meta service specification
+  kind: object
+  properties:
+  - name: logSpecifications
+    description: log specifications for the operation
+    types:
+    - uid: OperationMetaLogSpecification
+      isArray: true
+  - name: metricSpecifications
+    description: metric specifications for the operation
+    types:
+    - uid: OperationMetaMetricSpecification
+      isArray: true
+- name: ErrorModel
+  description: Default error model
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Gets or sets the code.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Gets or sets the details.
+    types:
+    - uid: ErrorModel
+      isArray: true
+  - name: message
+    isReadyOnly: true
+    description: Gets or sets the messages.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Gets or sets the target.
+    types:
+    - uid: string
+- name: OperationMetaLogSpecification
+  description: log specifications for operation api
+  kind: object
+  properties:
+  - name: blobDuration
+    description: blob duration of the log
+    types:
+    - uid: string
+  - name: displayName
+    description: localized name of the log category
+    types:
+    - uid: string
+  - name: name
+    description: name of the log category
+    types:
+    - uid: string
+- name: OperationMetaMetricSpecification
+  description: metric specifications for the operation
+  kind: object
+  properties:
+  - name: aggregationType
+    description: aggregation type of metric
+    types:
+    - uid: string
+  - name: dimensions
+    description: properties for dimension
+    types:
+    - uid: DimensionProperties
+      isArray: true
+  - name: displayDescription
+    description: description of the metric
+    types:
+    - uid: string
+  - name: displayName
+    description: localized name of the metric
+    types:
+    - uid: string
+  - name: enableRegionalMdmAccount
+    description: enable regional mdm account
+    types:
+    - uid: string
+  - name: internalMetricName
+    description: internal metric name
+    types:
+    - uid: string
+  - name: name
+    description: name of the metric
+    types:
+    - uid: string
+  - name: resourceIdDimensionNameOverride
+    description: dimension name use to replace resource id if specified
+    types:
+    - uid: string
+  - name: sourceMdmNamespace
+    description: "Metric namespace.\nOnly set the namespace if different from the default value, \nleaving it empty makes it use the value from the ARM manifest."
+    types:
+    - uid: string
+  - name: supportedAggregationTypes
+    description: supported aggregation types
+    types:
+    - uid: string
+      isArray: true
+  - name: supportedTimeGrainTypes
+    description: supported time grain types
+    types:
+    - uid: string
+      isArray: true
+  - name: unit
+    description: units for the metric
+    types:
+    - uid: string
+- name: DimensionProperties
+  description: properties for dimension
+  kind: object
+  properties:
+  - name: displayName
+    description: localized display name of the dimension to customer
+    types:
+    - uid: string
+  - name: name
+    description: dimension name
+    types:
+    - uid: string
+  - name: toBeExportedForCustomer
+    description: flag indicating whether this dimension should be included to the customer in Azure Monitor logs (aka Shoebox)
+    types:
+    - uid: boolean
+examples:
+- name: Operations_List
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Purview/operations?api-version=2020-12-01-preview
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2017 18:04:32 GMT
+    - name: x-ms-request-id
+      value: d5496da4-9c52-402f-b067-83cc9ddea888
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-tenant-reads
+      value: "14999"
+    - name: x-ms-correlation-request-id
+      value: 25c78f97-0b0a-4fe9-ad39-883a482265cd
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.Purview/operations/read",
+            "display": {
+              "provider": "Microsoft Purview",
+              "resource": "Operations",
+              "operation": "Read all operations",
+              "description": "Reads all available operations in Purview Resource Provider."
+            }
+          },
+          {
+            "name": "Microsoft.Purview/register/action",
+            "display": {
+              "provider": "Microsoft Purview",
+              "resource": "Purview Resource Provider",
+              "operation": "Register Purview Resource Provider",
+              "description": "Register the subscription for Purview Resource Provider"
+            }
+          },
+          {
+            "name": "Microsoft.Purview/unregister/action",
+            "display": {
+              "provider": "Microsoft Purview",
+              "resource": "Purview Resource Provider",
+              "operation": "Unregister Purview Resource Provider",
+              "description": "Unregister  the subscription for Purview Resource Provider"
+            }
+          },
+          {
+            "name": "Microsoft.Purview/accounts/read",
+            "display": {
+              "provider": "Microsoft Purview",
+              "resource": "Account",
+              "operation": "Read account resource",
+              "description": "Read account resource for Purview Resource Provider."
+            }
+          },
+          {
+            "name": "Microsoft.Purview/accounts/write",
+            "display": {
+              "provider": "Microsoft Purview",
+              "resource": "Account",
+              "operation": "Write account resource",
+              "description": "Write account resource for Purview Resource Provider."
+            }
+          },
+          {
+            "name": "Microsoft.Purview/accounts/delete",
+            "display": {
+              "provider": "Microsoft Purview",
+              "resource": "Account",
+              "operation": "Delete account resource",
+              "description": "Delete account resource for Purview Resource Provider."
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: "Learn more about Purview service - Lists the available operations  \nList of available operations"
+errorCodes: []

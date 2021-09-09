@@ -1,5 +1,6 @@
 ---
 title: "Get Container Logs"
+description: "Get Container Logs"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

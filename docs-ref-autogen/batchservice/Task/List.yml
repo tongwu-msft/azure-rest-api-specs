@@ -3,15 +3,15 @@ uid: batchservice.task.list
 name: List
 service: Batch Service
 groupName: Task
-apiVersion: 2020-09-01.12.0
+apiVersion: 2021-06-01.14.0
 summary: "Lists all of the Tasks that are associated with the specified Job.  \nFor multi-instance Tasks, information such as affinityId, executionInfo and nodeInfo refer to the primary Task. Use the list subtasks API to retrieve information about subtasks."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET {batchUrl}/jobs/{jobId}/tasks?api-version=2020-09-01.12.0
-- content: GET {batchUrl}/jobs/{jobId}/tasks?$filter={$filter}&$select={$select}&$expand={$expand}&maxresults={maxresults}&timeout={timeout}&api-version=2020-09-01.12.0
+- content: GET {batchUrl}/jobs/{jobId}/tasks?api-version=2021-06-01.14.0
+- content: GET {batchUrl}/jobs/{jobId}/tasks?$filter={$filter}&$select={$select}&$expand={$expand}&maxresults={maxresults}&timeout={timeout}&api-version=2021-06-01.14.0
   isOptional: true
 uriParameters:
 - name: batchUrl
@@ -342,11 +342,11 @@ definitions:
     types:
     - uid: string
   - name: storageContainerUrl
-    description: "The URL of the blob container within Azure Blob Storage.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable using anonymous access; that is, the Batch service does not present any credentials when downloading blobs from the container. There are two ways to get such a URL for a container in Azure storage: include a Shared Access Signature (SAS) granting read and list permissions on the container, or set the ACL for the container to allow public access."
+    description: "The URL of the blob container within Azure Blob Storage.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable from compute nodes. There are three ways to get such a URL for a container in Azure storage: include a Shared Access Signature (SAS) granting read and list permissions on the container, use a managed identity with read and list permissions, or set the ACL for the container to allow public access."
     types:
     - uid: string
   - name: httpUrl
-    description: "The URL of the file to download.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+    description: "The URL of the file to download.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable from compute nodes. There are three ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, use a managed identity with read permission, or set the ACL for the blob or its container to allow public access."
     types:
     - uid: string
   - name: blobPrefix
@@ -361,6 +361,10 @@ definitions:
     description: "The file permission mode attribute in octal format.  \nThis property applies only to files being downloaded to Linux Compute Nodes. It will be ignored if it is specified for a resourceFile which will be downloaded to a Windows Compute Node. If this property is not specified for a Linux Compute Node, then a default value of 0770 is applied to the file."
     types:
     - uid: string
+  - name: identityReference
+    description: "The reference to the user assigned identity to use to access Azure Blob Storage specified by storageContainerUrl or httpUrl  \nThe reference to a user assigned identity associated with the Batch pool which a compute node will use."
+    types:
+    - uid: ComputeNodeIdentityReference
 - name: OutputFile
   description: A specification for uploading files from an Azure Batch Compute Node to another location after the Batch service has finished executing the Task process.
   kind: object
@@ -641,10 +645,6 @@ definitions:
   description: A private container registry.
   kind: object
   properties:
-  - name: registryServer
-    description: "The registry URL.  \nIf omitted, the default is \"docker.io\"."
-    types:
-    - uid: string
   - name: username
     description: The user name to log into the registry server.
     types:
@@ -653,6 +653,14 @@ definitions:
     description: The password to log into the registry server.
     types:
     - uid: string
+  - name: registryServer
+    description: "The registry URL.  \nIf omitted, the default is \"docker.io\"."
+    types:
+    - uid: string
+  - name: identityReference
+    description: "The reference to the user assigned identity to use to access an Azure Container Registry instead of username and password.  \nThe reference to a user assigned identity associated with the Batch pool which a compute node will use."
+    types:
+    - uid: ComputeNodeIdentityReference
 - name: ContainerWorkingDirectory
   description: The location of the container Task working directory.
   kind: enum
@@ -663,6 +671,14 @@ definitions:
     - uid: string
   - name: containerImageDefault
     description: Use the working directory defined in the container Image. Beware that this directory will not contain the Resource Files downloaded by Batch.
+    types:
+    - uid: string
+- name: ComputeNodeIdentityReference
+  description: The reference to a user assigned identity associated with the Batch pool which a compute node will use.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The ARM resource id of the user assigned identity.
     types:
     - uid: string
 - name: OutputFileDestination
@@ -791,9 +807,13 @@ definitions:
     types:
     - uid: string
   - name: containerUrl
-    description: "The URL of the container within Azure Blob Storage to which to upload the file(s).  \nThe URL must include a Shared Access Signature (SAS) granting write permissions to the container."
+    description: "The URL of the container within Azure Blob Storage to which to upload the file(s).  \nIf not using a managed identity, the URL must include a Shared Access Signature (SAS) granting write permissions to the container."
     types:
     - uid: string
+  - name: identityReference
+    description: "The reference to the user assigned identity to use to access Azure Blob Storage specified by containerUrl  \nThe identity must have write access to the Azure Blob Storage container"
+    types:
+    - uid: ComputeNodeIdentityReference
 - name: OutputFileUploadCondition
   description: The conditions under which a Task output file or set of files should be uploaded.
   kind: enum
@@ -861,7 +881,7 @@ definitions:
 examples:
 - name: Task list
   request:
-    uri: GET account.region.batch.azure.com/jobs/jobId/tasks?api-version=2020-09-01.12.0
+    uri: GET account.region.batch.azure.com/jobs/jobId/tasks?api-version=2021-06-01.14.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
@@ -938,4 +958,6 @@ security:
 - name: Authorization
   type: apiKey
   in: header
+metadata:
+  description: "Lists all of the Tasks that are associated with the specified Job.  \nFor multi-instance Tasks, information such as affinityId, executionInfo and nodeInfo refer to the primary Task."
 errorCodes: []

@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 08/05/2020
+ms.date: 03/05/2021
 ---
 
 # Azure Time Series Insights Gen2 Time Series Expression syntax
@@ -137,8 +137,9 @@ For comparison expressions (**<**, **>**, **<=**, **>=**, **=**, **!=**), the op
 
 > [!NOTE]
 > **String** type is not nullable in Warm Store:
->   * Comparison of **String** against **NULL** and empty string (**''**) behaves the same way: `$event.p1.String = NULL` is equivalent to `$event.p1.String = ''`.
->   * API may return **NULL** values even if original events contained empty strings.
+>
+> * Comparison of **String** against **NULL** and empty string (**''**) behaves the same way: `$event.p1.String = NULL` is equivalent to `$event.p1.String = ''`.
+> * API may return **NULL** values even if original events contained empty strings.
 >
 > In the future, the same behavior will be on Cold Store.
 >
@@ -231,7 +232,7 @@ Below is the list of scalar functions by categories:
 
 | Function name | Signature | Example | Notes |
 |--|--|--|--|
-| `coalesce` | `String, Long, Double, Bool coalesce (value: String, Long, Double, Bool)` | `coalesce(toLong($event.value.Double), $event.value.Long)` | Returns the first non-null value in the argument list. Accepts any number of arguments, but they must all be of the same type.|
+| `coalesce` | `String, Long, Double, Bool coalesce (value: String, Long, Double, Bool)` | `coalesce(toLong($event.value.Double), $event.value.Long)` | Returns the first non-null value in the argument list. Accepts at minimum 2 and at maximum 64 arguments, but they must all be of the same data type.|
 | `iff` | `String, Long, Double, Bool iff (predicate: bool, ifTrue: String, Long, Double, Bool, ifFalse: String, Long, Double, Bool)` | `iff ($event.value.Double > 100, 'Good', 'Bad')` | Returns the second or third argument depending on whether the predicate resolved to true (returns second argument) or false (returns third argument). The predicate must be a Boolean expression and the second and third arguments must be of the same type.|
 
 ## See also

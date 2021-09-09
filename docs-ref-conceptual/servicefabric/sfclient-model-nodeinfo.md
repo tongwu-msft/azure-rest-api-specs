@@ -1,6 +1,7 @@
 ---
 title: "NodeInfo"
-ms.date: "10/21/2020"
+description: "NodeInfo"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -51,6 +52,7 @@ Information about a node in Service Fabric cluster.
 | [`NodeDownTimeInSeconds`](#nodedowntimeinseconds) | string | No |
 | [`NodeUpAt`](#nodeupat) | string (date-time) | No |
 | [`NodeDownAt`](#nodedownat) | string (date-time) | No |
+| [`NodeTags`](#nodetags) | array of string | No |
 
 ____
 ### `Name`
@@ -204,3 +206,10 @@ __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 Date time in UTC when the node went down. If node has never been down then this value will be zero date time.
+
+____
+### `NodeTags`
+__Type__: array of string <br/>
+__Required__: No<br/>
+<br/>
+List that contains tags, which will be applied to the nodes.

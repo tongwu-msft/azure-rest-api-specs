@@ -1,0 +1,307 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iotcentral.2018-09-01controlplane.apps.createorupdate
+name: Create Or Update
+service: IoT Central
+groupName: Apps
+apiVersion: 2018-09-01
+summary: Create or update the metadata of an IoT Central application. The usual pattern to modify a property is to retrieve the IoT Central application metadata and security metadata, and then combine them with the modified values in a new body to update the IoT Central application.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/iotApps/{resourceName}?api-version=2018-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the IoT Central application.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The ARM resource name of the IoT Central application.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: This is returned as a response to the status polling request for the create or update operation. The body contains the resource representation that indicates a transitional provisioning state.
+  types:
+  - uid: App
+- name: 201 Created
+  description: This is returned as a response to the status polling request for the create or update operation. The body contains the resource representation that indicates a transitional provisioning state.
+  types:
+  - uid: App
+- name: 202 Accepted
+  description: Accepted - Put request accepted; the operation will complete asynchronously.
+- name: Other Status Codes
+  description: DefaultErrorResponse
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: sku
+    in: body
+    isRequired: true
+    description: A valid instance SKU.
+    types:
+    - uid: AppSkuInfo
+  - name: properties.displayName
+    in: body
+    description: The display name of the application.
+    types:
+    - uid: string
+  - name: properties.subdomain
+    in: body
+    description: The subdomain of the application.
+    types:
+    - uid: string
+  - name: properties.template
+    in: body
+    description: The ID of the application template, which is a blueprint that defines the characteristics and behaviors of an application. Optional; if not specified, defaults to a blank blueprint and allows the application to be defined from scratch.
+    types:
+    - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: The resource location.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: The resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: AppSkuInfo
+  description: Information about the SKU of the IoT Central application.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU.
+    types:
+    - uid: AppSku
+- name: App
+  description: The IoT Central application.
+  kind: object
+  properties:
+  - name: sku
+    description: A valid instance SKU.
+    types:
+    - uid: AppSkuInfo
+  - name: properties.applicationId
+    isReadyOnly: true
+    description: The ID of the application.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: The display name of the application.
+    types:
+    - uid: string
+  - name: properties.subdomain
+    description: The subdomain of the application.
+    types:
+    - uid: string
+  - name: properties.template
+    description: The ID of the application template, which is a blueprint that defines the characteristics and behaviors of an application. Optional; if not specified, defaults to a blank blueprint and allows the application to be defined from scratch.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The ARM resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The ARM resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: location
+    description: The resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: The resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: Error details.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: error.target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: error.details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: AppSku
+  description: The name of the SKU.
+  kind: enum
+  properties:
+  - name: F1
+    types:
+    - uid: string
+  - name: S1
+    types:
+    - uid: string
+  - name: ST0
+    types:
+    - uid: string
+  - name: ST1
+    types:
+    - uid: string
+  - name: ST2
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: Details of error response.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Apps_CreateOrUpdate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.IoTCentral/iotApps/myIoTCentralApp?api-version=2018-09-01
+    body: >-
+      {
+        "location": "westus",
+        "sku": {
+          "name": "F1"
+        },
+        "properties": {
+          "displayName": "My IoT Central App",
+          "subdomain": "my-iot-central-app",
+          "template": "iotc-default@1.0.0"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resRg/providers/Microsoft.IoTCentral/IoTApps/myIoTCentralApp",
+        "name": "myIoTCentralApp",
+        "type": "Microsoft.IoTCentral/IoTApps",
+        "location": "westus",
+        "tags": {
+          "key": "value"
+        },
+        "properties": {
+          "applicationId": "6ebd8fd3-6e34-419e-908f-9be61ec6f6d6",
+          "displayName": "My IoT Central App 2",
+          "subdomain": "my-iot-central-app-2",
+          "template": "iotc-default@1.0.0"
+        },
+        "sku": {
+          "name": "F1"
+        }
+      }
+  - statusCode: "201"
+    headers:
+    - name: code
+      value: "201"
+    - name: message
+      value: Created
+    - name: target
+      value: ResourceHandler.ExecutePutRequest
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resRg/providers/Microsoft.IoTCentral/IoTApps/myIoTCentralApp",
+        "name": "myIoTCentralApp",
+        "type": "Microsoft.IoTCentral/IoTApps",
+        "location": "westus",
+        "tags": {
+          "key": "value"
+        },
+        "properties": {
+          "applicationId": "6ebd8fd3-6e34-419e-908f-9be61ec6f6d6",
+          "displayName": "My IoT Central App",
+          "subdomain": "my-iot-central-app",
+          "template": "iotc-default@1.0.0"
+        },
+        "sku": {
+          "name": "F1"
+        }
+      }
+  - statusCode: "202"
+  - statusCode: default
+    body: >-
+      {
+        "error": {
+          "code": "Error code",
+          "message": "Error message",
+          "target": "Error target"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Create or update the metadata of an IoT Central application. The usual pattern to modify a property is to retrieve the IoT Central application metadata and security metadata, and then combine them with the modified values in a new body to update the IoT Central application.
+errorCodes: []

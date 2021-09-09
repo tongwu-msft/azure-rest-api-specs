@@ -22,12 +22,15 @@ Azure Spring Cloud REST API provides operations for working with the following r
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Create Or Update](xref:management.azure.com.azurespringclould.apps.createorupdate) | Create a new App or update an existing App |
-| [Delete](xref:management.azure.com.azurespringclould.apps.delete) | Operation to delete an App. |
-| [Get](xref:management.azure.com.azurespringclould.apps.get) | Get an App and its properties. |
-| [Get Resource Upload Url](xref:management.azure.com.azurespringclould.apps.getresourceuploadurl)  | Get an resource upload URL for an App, which may be artifacts or source archive. |
-| [List](xref:management.azure.com.azurespringclould.apps.list) | Handles requests to list all resources in a Service |
-| [Update](xref:management.azure.com.azurespringclould.apps.update)| Operation to update an exiting App. |
+| [Services](../../docs-ref-autogen/azurespringcloud/Services.yml) | Provides operations for managing Azure Spring Cloud service instances. |
+| [Apps](../../docs-ref-autogen/azurespringcloud/Apps.yml) | Provides operations for managing apps under service instances. |
+| [Deployments](../../docs-ref-autogen/azurespringcloud/Deployments.yml) | Provides operations for managing deployments under apps. |
+| [Bindings](../../docs-ref-autogen/azurespringcloud/Bindings.yml) | Provides operations for managing service bindings under apps. |
+| [Custom Domains](../../docs-ref-autogen/azurespringcloud/CustomDomains.yml) | Provides operations for managing custom domains for apps. |
+| [Certificates](../../docs-ref-autogen/azurespringcloud/Certificates.yml) | Provides operations for managing certificates for custom domains. |
+| [Operations](../../docs-ref-autogen/azurespringcloud/Operations.yml) |  Provides operations to list all of the available REST API operations. |
+| [Runtime Versions](../../docs-ref-autogen/azurespringcloud/RuntimeVersions.yml) | Provides operations to list all of the available runtime versions supported. |
+
 
 
 ## Next steps

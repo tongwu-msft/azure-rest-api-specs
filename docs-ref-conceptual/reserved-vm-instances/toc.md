@@ -1,2 +1,1 @@
-# [Automated Quota Increase (Preview)](aqm.md)
-# [Quota API (Preview)](quotaapi.md)
+# [Quota API](quotaapi.md)

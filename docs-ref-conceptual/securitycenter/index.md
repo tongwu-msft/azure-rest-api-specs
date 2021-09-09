@@ -37,6 +37,15 @@ Azure Security Center provides unified security management and advanced threat p
 | [lot Alerts](../../docs-ref-autogen/securitycenter/Iot-Alerts.yml) | Get the IoT alerts. |
 | [lot Recommendation Types](../../docs-ref-autogen/securitycenter/Iot-Recommendation-Types.yml) | Get IoT recommendation types. |
 | [lot Recommendations](../../docs-ref-autogen/securitycenter/Iot-Recommendations.yml) | Get IoT recommendations. |
+| [Connectors](../../docs-ref-autogen/securitycenter/Connectors.yml) |Manage cloud connectors for multicloud scenarios.|
+| [Device Security Groups](../../docs-ref-autogen/securitycenter/Device-Security-Groups.yml) |Manage the device security group for a specified IoT Hub resource.|
+| [Discovered Security Solutions](../../docs-ref-autogen/securitycenter/Discovered-Security-Solutions.yml) | Details of specific discovered Security Solution. |
+| [External Security Solutions](../../docs-ref-autogen/securitycenter/External-Security-Solutions.yml) | External Security Solutions for the subscription and location. |
+| [Information Protection Policies](../../docs-ref-autogen/securitycenter/Information-Protection-Policies.yml) |Details of the information protection policies.|
+| [lot Alert Types](../../docs-ref-autogen/securitycenter/iot-alert-types.yml) | Details of an IoT alert type. |
+| [lot Alerts](../../docs-ref-autogen/securitycenter/iot-alerts.yml) | Get the IoT alerts. |
+| [lot Recommendation Types](../../docs-ref-autogen/securitycenter/iot-recommendation-types.yml) | Get IoT recommendation types. |
+| [lot Recommendations](../../docs-ref-autogen/securitycenter/iot-recommendations.yml) | Get IoT recommendations. |
 | [lot Security Solution](https://docs.microsoft.com/rest/api/securitycenter/iotsecuritysolution) |Manage your IoT Security solution by name, resource group, subscription, or tag.|
 | [lot Security Solution Analytics](https://docs.microsoft.com/rest/api/securitycenter/iotsecuritysolutionanalytics) |List IoT Security Analytics metrics.|
 | [lot Security Solutions Analytics Aggregated Alert](https://docs.microsoft.com/rest/api/securitycenter/iotsecuritysolutionsanalyticsaggregatedalert) |Manage an aggregated IoT Security Solution Alert.|

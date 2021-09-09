@@ -1,0 +1,645 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resources.providers.getattenantscope
+name: Get At Tenant Scope
+service: Resource Management
+groupName: Providers
+apiVersion: 2021-04-01
+summary: Gets the specified resource provider at the tenant level.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/{resourceProviderNamespace}?api-version=2021-04-01
+- content: GET https://management.azure.com/providers/{resourceProviderNamespace}?$expand={$expand}&api-version=2021-04-01
+  isOptional: true
+uriParameters:
+- name: resourceProviderNamespace
+  in: path
+  isRequired: true
+  description: The namespace of the resource provider.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: The $expand query parameter. For example, to include property aliases in response, use $expand=resourceTypes/aliases.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns information about the resource provider.
+  types:
+  - uid: Provider
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: Provider
+  description: Resource provider information.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The provider ID.
+    types:
+    - uid: string
+  - name: namespace
+    description: The namespace of the resource provider.
+    types:
+    - uid: string
+  - name: registrationState
+    isReadyOnly: true
+    description: The registration state of the resource provider.
+    types:
+    - uid: string
+  - name: registrationPolicy
+    isReadyOnly: true
+    description: The registration policy of the resource provider.
+    types:
+    - uid: string
+  - name: resourceTypes
+    isReadyOnly: true
+    description: The collection of provider resource types.
+    types:
+    - uid: ProviderResourceType
+      isArray: true
+  - name: providerAuthorizationConsentState
+    description: The provider authorization consent state.
+    types:
+    - uid: ProviderAuthorizationConsentState
+- name: CloudError
+  description: An error response for a resource management request.
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nCommon error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.)"
+    types:
+    - uid: ErrorResponse
+- name: ProviderResourceType
+  description: Resource type managed by the resource provider.
+  kind: object
+  properties:
+  - name: resourceType
+    description: The resource type.
+    types:
+    - uid: string
+  - name: locations
+    description: The collection of locations where this resource type can be created.
+    types:
+    - uid: string
+      isArray: true
+  - name: locationMappings
+    description: The location mappings that are supported by this resource type.
+    types:
+    - uid: ProviderExtendedLocation
+      isArray: true
+  - name: aliases
+    description: The aliases that are supported by this resource type.
+    types:
+    - uid: Alias
+      isArray: true
+  - name: apiVersions
+    description: The API version.
+    types:
+    - uid: string
+      isArray: true
+  - name: defaultApiVersion
+    isReadyOnly: true
+    description: The default API version.
+    types:
+    - uid: string
+  - name: apiProfiles
+    isReadyOnly: true
+    description: The API profiles for the resource provider.
+    types:
+    - uid: ApiProfile
+      isArray: true
+  - name: capabilities
+    description: The additional capabilities offered by this resource type.
+    types:
+    - uid: string
+  - name: properties
+    description: The properties.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ProviderAuthorizationConsentState
+  description: The provider authorization consent state.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: Required
+    types:
+    - uid: string
+  - name: NotRequired
+    types:
+    - uid: string
+  - name: Consented
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ProviderExtendedLocation
+  description: 'The provider extended location. '
+  kind: object
+  properties:
+  - name: location
+    description: The azure location.
+    types:
+    - uid: string
+  - name: type
+    description: The extended location type.
+    types:
+    - uid: string
+  - name: extendedLocations
+    description: The extended locations for the azure location.
+    types:
+    - uid: string
+      isArray: true
+- name: Alias
+  description: 'The alias type. '
+  kind: object
+  properties:
+  - name: name
+    description: The alias name.
+    types:
+    - uid: string
+  - name: paths
+    description: The paths for an alias.
+    types:
+    - uid: AliasPath
+      isArray: true
+  - name: type
+    description: The type of the alias.
+    types:
+    - uid: AliasType
+  - name: defaultPath
+    description: The default path for an alias.
+    types:
+    - uid: string
+  - name: defaultPattern
+    description: The default pattern for an alias.
+    types:
+    - uid: AliasPattern
+  - name: defaultMetadata
+    isReadyOnly: true
+    description: The default alias path metadata. Applies to the default path and to any alias path that doesn't have metadata
+    types:
+    - uid: AliasPathMetadata
+- name: ApiProfile
+  kind: object
+  properties:
+  - name: profileVersion
+    isReadyOnly: true
+    description: The profile version.
+    types:
+    - uid: string
+  - name: apiVersion
+    isReadyOnly: true
+    description: The API version.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: AliasPath
+  description: The type of the paths for alias.
+  kind: object
+  properties:
+  - name: path
+    description: The path of an alias.
+    types:
+    - uid: string
+  - name: apiVersions
+    description: The API versions.
+    types:
+    - uid: string
+      isArray: true
+  - name: pattern
+    description: The pattern for an alias path.
+    types:
+    - uid: AliasPattern
+  - name: metadata
+    isReadyOnly: true
+    description: The metadata of the alias path. If missing, fall back to the default metadata of the alias.
+    types:
+    - uid: AliasPathMetadata
+- name: AliasType
+  description: The type of the alias.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    description: Alias type is unknown (same as not providing alias type).
+    types:
+    - uid: string
+  - name: PlainText
+    description: Alias value is not secret.
+    types:
+    - uid: string
+  - name: Mask
+    description: Alias value is secret.
+    types:
+    - uid: string
+- name: AliasPattern
+  description: The type of the pattern for an alias path.
+  kind: object
+  properties:
+  - name: phrase
+    description: The alias pattern phrase.
+    types:
+    - uid: string
+  - name: variable
+    description: The alias pattern variable.
+    types:
+    - uid: string
+  - name: type
+    description: The type of alias pattern
+    types:
+    - uid: AliasPatternType
+- name: AliasPathMetadata
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of the token that the alias path is referring to.
+    types:
+    - uid: AliasPathTokenType
+  - name: attributes
+    isReadyOnly: true
+    description: The attributes of the token that the alias path is referring to.
+    types:
+    - uid: AliasPathAttributes
+- name: AliasPatternType
+  description: The type of alias pattern
+  kind: enum
+  properties:
+  - name: NotSpecified
+    description: NotSpecified is not allowed.
+    types:
+    - uid: string
+  - name: Extract
+    description: Extract is the only allowed value.
+    types:
+    - uid: string
+- name: AliasPathTokenType
+  description: The type of the token that the alias path is referring to.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    description: The token type is not specified.
+    types:
+    - uid: string
+  - name: Any
+    description: The token type can be anything.
+    types:
+    - uid: string
+  - name: String
+    description: The token type is string.
+    types:
+    - uid: string
+  - name: Object
+    description: The token type is object.
+    types:
+    - uid: string
+  - name: Array
+    description: The token type is array.
+    types:
+    - uid: string
+  - name: Integer
+    description: The token type is integer.
+    types:
+    - uid: string
+  - name: Number
+    description: The token type is number.
+    types:
+    - uid: string
+  - name: Boolean
+    description: The token type is boolean.
+    types:
+    - uid: string
+- name: AliasPathAttributes
+  description: The attributes of the token that the alias path is referring to.
+  kind: enum
+  properties:
+  - name: None
+    description: The token that the alias path is referring to has no attributes.
+    types:
+    - uid: string
+  - name: Modifiable
+    description: The token that the alias path is referring to is modifiable by policies with 'modify' effect.
+    types:
+    - uid: string
+examples:
+- name: Get a resource provider at tenant scope
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Storage?$expand=resourceTypes/aliases&api-version=2021-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "namespace": "Microsoft.Storage",
+        "resourceTypes": [
+          {
+            "resourceType": "storageAccounts",
+            "locations": [
+              "East US",
+              "East US 2",
+              "East US 2 (Stage)",
+              "West US",
+              "West Europe",
+              "East Asia",
+              "Southeast Asia",
+              "Japan East",
+              "Japan West",
+              "North Central US",
+              "South Central US",
+              "Central US",
+              "North Europe",
+              "Brazil South",
+              "Australia East",
+              "Australia Southeast",
+              "South India",
+              "Central India",
+              "West India",
+              "Canada East",
+              "Canada Central",
+              "West US 2",
+              "West Central US",
+              "UK South",
+              "UK West",
+              "Korea Central",
+              "Korea South",
+              "East US 2 EUAP",
+              "Central US EUAP",
+              "France Central",
+              "France South",
+              "Australia Central",
+              "Australia Central 2",
+              "South Africa West",
+              "South Africa North",
+              "UAE Central",
+              "UAE North",
+              "Switzerland North",
+              "Switzerland West",
+              "Germany West Central",
+              "Germany North",
+              "Norway East",
+              "Norway West",
+              "South Central US STG",
+              "Brazil Southeast"
+            ],
+            "apiVersions": [
+              "2019-06-01",
+              "2019-04-01",
+              "2018-11-01",
+              "2018-07-01",
+              "2018-03-01-preview",
+              "2018-02-01",
+              "2017-10-01",
+              "2017-06-01",
+              "2016-12-01",
+              "2016-05-01",
+              "2016-01-01",
+              "2015-06-15",
+              "2015-05-01-preview"
+            ],
+            "defaultApiVersion": "2019-06-01",
+            "apiProfiles": [
+              {
+                "profileVersion": "2019-03-01-hybrid",
+                "apiVersion": "2017-10-01"
+              },
+              {
+                "profileVersion": "2017-03-09-profile",
+                "apiVersion": "2016-01-01"
+              },
+              {
+                "profileVersion": "2018-03-01-hybrid",
+                "apiVersion": "2016-01-01"
+              },
+              {
+                "profileVersion": "2018-06-01-profile",
+                "apiVersion": "2017-10-01"
+              }
+            ],
+            "aliases": [
+              {
+                "name": "Microsoft.Storage/storageAccounts/accountType",
+                "paths": [
+                  {
+                    "path": "properties.accountType",
+                    "apiVersions": [
+                      "2015-06-15",
+                      "2015-05-01-preview"
+                    ]
+                  },
+                  {
+                    "path": "sku.name",
+                    "apiVersions": [
+                      "2018-11-01",
+                      "2018-11-09",
+                      "2018-07-01",
+                      "2018-03-01-Preview",
+                      "2018-02-01",
+                      "2017-10-01",
+                      "2017-06-01",
+                      "2016-12-01",
+                      "2016-05-01",
+                      "2016-01-01"
+                    ]
+                  }
+                ],
+                "defaultPath": "sku.name"
+              },
+              {
+                "name": "Microsoft.Storage/storageAccounts/sku.name",
+                "paths": [
+                  {
+                    "path": "properties.accountType",
+                    "apiVersions": [
+                      "2015-06-15",
+                      "2015-05-01-preview"
+                    ]
+                  },
+                  {
+                    "path": "sku.name",
+                    "apiVersions": [
+                      "2018-11-01",
+                      "2018-11-09",
+                      "2018-07-01",
+                      "2018-03-01-Preview",
+                      "2018-02-01",
+                      "2017-10-01",
+                      "2017-06-01",
+                      "2016-12-01",
+                      "2016-05-01",
+                      "2016-01-01"
+                    ]
+                  }
+                ],
+                "defaultPath": "sku.name"
+              },
+              {
+                "name": "Microsoft.Storage/storageAccounts/accessTier",
+                "paths": [
+                  {
+                    "path": "properties.accessTier",
+                    "apiVersions": [
+                      "2018-11-01",
+                      "2018-11-09",
+                      "2018-07-01",
+                      "2018-03-01-Preview",
+                      "2018-02-01",
+                      "2017-10-01",
+                      "2017-06-01",
+                      "2016-12-01",
+                      "2016-05-01",
+                      "2016-01-01",
+                      "2015-06-15",
+                      "2015-05-01-preview"
+                    ]
+                  }
+                ],
+                "defaultPath": "properties.accessTier"
+              },
+              {
+                "name": "Microsoft.Storage/storageAccounts/enableBlobEncryption",
+                "paths": [
+                  {
+                    "path": "properties.encryption.services.blob.enabled",
+                    "apiVersions": [
+                      "2018-11-01",
+                      "2018-11-09",
+                      "2018-07-01",
+                      "2018-03-01-Preview",
+                      "2018-02-01",
+                      "2017-10-01",
+                      "2017-06-01",
+                      "2016-12-01",
+                      "2016-05-01",
+                      "2016-01-01",
+                      "2015-06-15",
+                      "2015-05-01-preview"
+                    ]
+                  }
+                ],
+                "defaultPath": "properties.encryption.services.blob.enabled"
+              },
+              {
+                "name": "Microsoft.Storage/storageAccounts/enableFileEncryption",
+                "paths": [
+                  {
+                    "path": "properties.encryption.services.file.enabled",
+                    "apiVersions": [
+                      "2018-11-01",
+                      "2018-11-09",
+                      "2018-07-01",
+                      "2018-03-01-Preview",
+                      "2018-02-01",
+                      "2017-10-01",
+                      "2017-06-01",
+                      "2016-12-01",
+                      "2016-05-01",
+                      "2016-01-01",
+                      "2015-06-15",
+                      "2015-05-01-preview"
+                    ]
+                  }
+                ],
+                "defaultPath": "properties.encryption.services.file.enabled"
+              },
+              {
+                "name": "Microsoft.Storage/storageAccounts/supportsHttpsTrafficOnly",
+                "paths": [
+                  {
+                    "path": "properties.supportsHttpsTrafficOnly",
+                    "apiVersions": [
+                      "2018-11-09",
+                      "2018-03-01-Preview",
+                      "2016-05-01",
+                      "2016-01-01",
+                      "2015-06-15",
+                      "2015-05-01-preview"
+                    ],
+                    "metadata": {
+                      "type": "NotSpecified",
+                      "attributes": "None"
+                    }
+                  }
+                ],
+                "defaultPath": "properties.supportsHttpsTrafficOnly",
+                "defaultMetadata": {
+                  "type": "Boolean",
+                  "attributes": "Modifiable"
+                }
+              }
+            ],
+            "capabilities": "SupportsTags, SupportsLocation"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Resource Management service - Gets the specified resource provider at the tenant level.
+errorCodes: []

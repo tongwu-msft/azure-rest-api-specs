@@ -51,6 +51,10 @@ responses:
   description: Successfully retrieved the specified input.
   types:
   - uid: Input
+- name: Other Status Codes
+  description: Error.
+  types:
+  - uid: Error
 requestHeader: []
 definitions:
 - name: Input
@@ -77,6 +81,14 @@ definitions:
     description: Resource type
     types:
     - uid: string
+- name: Error
+  description: Common error representation.
+  kind: object
+  properties:
+  - name: error
+    description: Error definition properties.
+    types:
+    - uid: Error
 - name: StreamInputProperties
   description: The properties that are associated with an input containing stream data.
   kind: object
@@ -88,6 +100,7 @@ definitions:
     - uid: EventHubStreamInputDataSource
     - uid: EventHubV2StreamInputDataSource
     - uid: IoTHubStreamInputDataSource
+    - uid: RawStreamInputDataSource
     typesTitle: StreamInputDataSource
   - name: type
     description: Indicates whether the input is a source of reference data or stream data. Required on PUT (CreateOrReplace) requests.
@@ -129,6 +142,7 @@ definitions:
     description: Describes an input data source that contains reference data. Required on PUT (CreateOrReplace) requests.
     types:
     - uid: BlobReferenceInputDataSource
+    - uid: RawReferenceInputDataSource
     - uid: AzureSqlReferenceInputDataSource
     typesTitle: ReferenceInputDataSource
   - name: type
@@ -310,6 +324,23 @@ definitions:
     types:
     - uid: Microsoft.Devices/IotHubs
     typesTitle: string
+- name: RawStreamInputDataSource
+  description: Describes a raw input data source that contains stream data. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an input of this data source type to an existing job.
+  kind: object
+  properties:
+  - name: properties.payload
+    description: 'The JSON serialized content of the input data. Either payload or payloadUri must be set, but not both. '
+    types:
+    - uid: string
+  - name: properties.payloadUri
+    description: The SAS URL to a blob containing the JSON serialized content of the input data. Either payload or payloadUri must be set, but not both.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Raw
+    typesTitle: string
 - name: ParquetSerialization
   description: Describes how data from an input is serialized or how data is serialized when written to an output in Parquet format.
   kind: object
@@ -428,12 +459,29 @@ definitions:
     description: The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead.
     types:
     - uid: string
+- name: RawReferenceInputDataSource
+  description: Describes a raw input data source that contains reference data. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an input of this data source type to an existing job.
+  kind: object
+  properties:
+  - name: properties.payload
+    description: 'The JSON serialized content of the input data. Either payload or payloadUri must be set, but not both. '
+    types:
+    - uid: string
+  - name: properties.payloadUri
+    description: The SAS URL to a blob containing the JSON serialized content of the input data. Either payload or payloadUri must be set, but not both.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Raw
+    typesTitle: string
 - name: AzureSqlReferenceInputDataSource
   description: Describes an Azure SQL database reference input data source.
   kind: object
   properties:
   - name: properties
-    description: ''
+    description: Describes Azure SQL database reference input data source properties.
     types:
     - uid: AzureSqlReferenceInputDataSourceProperties
   - name: type
@@ -503,6 +551,7 @@ definitions:
     types:
     - uid: string
 - name: AzureSqlReferenceInputDataSourceProperties
+  description: Describes Azure SQL database reference input data source properties.
   kind: object
   properties:
   - name: server
@@ -690,4 +739,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Stream Analytics service - Gets details about the specified input.
 errorCodes: []

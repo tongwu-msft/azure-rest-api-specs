@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.backups.update
 name: Update
 service: Azure NetApp Files
 groupName: Backups
-apiVersion: 2020-08-01
-summary: "Patch a backup  \nPatch a backup for the volume"
+apiVersion: 2021-06-01
+summary: Patch a backup for the volume
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backups/{backupName}?api-version=2020-08-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backups/{backupName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -54,12 +54,16 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
 - name: 200 OK
   description: OK
+  types:
+  - uid: backup
+- name: 202 Accepted
+  description: Accepted -- Create or update request accepted; operation will complete asynchronously
   types:
   - uid: backup
 - name: Other Status Codes
@@ -81,6 +85,11 @@ requestBody:
     description: Label for backup
     types:
     - uid: string
+  - name: properties.useExistingSnapshot
+    in: body
+    description: Manual backup an already existing snapshot. This will always be false for scheduled backups and true/false for manual backups
+    types:
+    - uid: boolean
 requestHeader: []
 definitions:
 - name: backup
@@ -132,9 +141,23 @@ definitions:
     - uid: string
   - name: properties.backupType
     isReadyOnly: true
-    description: Type of backup adhoc or scheduled
+    description: "backupType  \nType of backup Manual or Scheduled"
+    types:
+    - uid: backupType
+  - name: properties.failureReason
+    isReadyOnly: true
+    description: Failure reason
     types:
     - uid: string
+  - name: properties.volumeName
+    isReadyOnly: true
+    description: Volume name
+    types:
+    - uid: string
+  - name: properties.useExistingSnapshot
+    description: Manual backup an already existing snapshot. This will always be false for scheduled backups and true/false for manual backups
+    types:
+    - uid: boolean
 - name: backupPatch
   description: Backup patch
   kind: object
@@ -173,13 +196,39 @@ definitions:
     - uid: string
   - name: properties.backupType
     isReadyOnly: true
-    description: Type of backup adhoc or scheduled
+    description: "backupType  \nType of backup Manual or Scheduled"
+    types:
+    - uid: backupType
+  - name: properties.failureReason
+    isReadyOnly: true
+    description: Failure reason
+    types:
+    - uid: string
+  - name: properties.volumeName
+    isReadyOnly: true
+    description: Volume name
+    types:
+    - uid: string
+  - name: properties.useExistingSnapshot
+    description: Manual backup an already existing snapshot. This will always be false for scheduled backups and true/false for manual backups
+    types:
+    - uid: boolean
+- name: backupType
+  description: backupType
+  kind: enum
+  properties:
+  - name: Manual
+    description: Manual backup
+    types:
+    - uid: string
+  - name: Scheduled
+    description: Scheduled backup
     types:
     - uid: string
 examples:
 - name: Backups_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/backups/backup1?api-version=2020-08-01
+    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/backups/backup1?api-version=2021-06-01
     body: '{}'
   responses:
   - statusCode: "200"
@@ -194,7 +243,22 @@ examples:
           "provisioningState": "Succeeded",
           "size": 10011,
           "label": "myLabel",
-          "backupType": "adhoc"
+          "backupType": "Manual"
+        }
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/backups/backup1",
+        "name": "account1/pool1/volume1/backup1",
+        "type": "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups",
+        "location": "eastus",
+        "properties": {
+          "creationDate": "2017-08-15T13:23:33Z",
+          "provisioningState": "Succeeded",
+          "size": 10011,
+          "label": "myLabel",
+          "backupType": "Manual"
         }
       }
 security:
@@ -206,4 +270,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Azure NetApp Files service - Patch a backup for the volume
 errorCodes: []

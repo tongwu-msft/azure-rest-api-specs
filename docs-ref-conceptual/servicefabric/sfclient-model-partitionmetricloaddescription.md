@@ -1,6 +1,7 @@
 ---
-title: "PartitionMetricLoadDescription"
-ms.date: "10/21/2020"
+title: "PartitionMetricLoadDescription v8.1"
+description: "PartitionMetricLoadDescription"
+ms.date: "07/13/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -26,9 +27,9 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionMetricLoadDescription
+# PartitionMetricLoadDescription v8.1
 
-Represents load information for a partition, which contains the metrics load information about primary, all secondary replicas/instances or a specific secondary replica/instance located on a specific node.
+Represents load information for a partition, which contains the metrics load information about primary, all secondary replicas/instances or a specific secondary replica/instance on a specific node , all auxiliary replicas or a specific auxiliary replica on a specific node.
 
 
 ## Properties
@@ -38,6 +39,8 @@ Represents load information for a partition, which contains the metrics load inf
 | [`PrimaryReplicaLoadEntries`](#primaryreplicaloadentries) | array of [MetricLoadDescription](sfclient-model-metricloaddescription.md) | No |
 | [`SecondaryReplicasOrInstancesLoadEntries`](#secondaryreplicasorinstancesloadentries) | array of [MetricLoadDescription](sfclient-model-metricloaddescription.md) | No |
 | [`SecondaryReplicaOrInstanceLoadEntriesPerNode`](#secondaryreplicaorinstanceloadentriespernode) | array of [ReplicaMetricLoadDescription](sfclient-model-replicametricloaddescription.md) | No |
+| [`AuxiliaryReplicasLoadEntries`](#auxiliaryreplicasloadentries) | array of [MetricLoadDescription](sfclient-model-metricloaddescription.md) | No |
+| [`AuxiliaryReplicaLoadEntriesPerNode`](#auxiliaryreplicaloadentriespernode) | array of [ReplicaMetricLoadDescription](sfclient-model-replicametricloaddescription.md) | No |
 
 ____
 ### `PartitionId`
@@ -68,4 +71,20 @@ __Type__: array of [ReplicaMetricLoadDescription](sfclient-model-replicametriclo
 __Required__: No<br/>
 <br/>
 Partition's load information for a specific secondary replica or instance located on a specific node.
+
+
+____
+### `AuxiliaryReplicasLoadEntries`
+__Type__: array of [MetricLoadDescription](sfclient-model-metricloaddescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Partition's load information for all auxiliary replicas.
+
+
+____
+### `AuxiliaryReplicaLoadEntriesPerNode`
+__Type__: array of [ReplicaMetricLoadDescription](sfclient-model-replicametricloaddescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Partition's load information for a specific auxiliary replica located on a specific node.
 

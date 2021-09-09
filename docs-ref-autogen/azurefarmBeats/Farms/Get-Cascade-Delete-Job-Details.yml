@@ -1,0 +1,215 @@
+### YamlMime:RESTOperation
+uid: azurefarmbeats.farms.getcascadedeletejobdetails
+name: Get Cascade Delete Job Details
+service: Azure FarmBeats
+groupName: Farms
+apiVersion: 2021-03-31-preview
+summary: >+
+  Get details of cascade delete job for a specified farm.
+
+produces:
+- application/json
+paths:
+- content: GET /farms/cascade-delete/{jobId}?api-version=2021-03-31-preview
+uriParameters:
+- name: jobId
+  in: path
+  isRequired: true
+  description: Id of the farm cascade delete job.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The requested API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: CascadeDeleteJob
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  types:
+  - uid: string
+definitions:
+- name: CascadeDeleteJob
+  description: Schema of cascade delete job.
+  kind: object
+  properties:
+  - name: farmerId
+    description: Farmer Id.
+    types:
+    - uid: string
+  - name: resourceId
+    description: The id of the resource which is to be deleted (along with the subtree & associated data).
+    types:
+    - uid: string
+  - name: resourceType
+    description: Signifies the type of the resource that is being deleted (along with the subtree & associated data).
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Unique Id of the cascade delete job. This Id is unique for a given tenant.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: >-
+      Status of the job.
+
+      Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
+    types:
+    - uid: JobStatus
+  - name: durationInSeconds
+    isReadyOnly: true
+    description: Processing duration of the job. Can be calculated as min(current time, job succeeded/failed/cancelled time) - job execution start time. This does not include the time spent waiting in the queue for the job to be picked up for processing.
+    types:
+    - uid: number
+  - name: message
+    isReadyOnly: true
+    description: Brief description of the result of the job.
+    types:
+    - uid: string
+  - name: createdDateTime
+    isReadyOnly: true
+    description: UTC Date-time at which the job was created (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: lastActionDateTime
+    isReadyOnly: true
+    description: UTC Date-time at which the job was last acted upon (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: UTC Date-time at which the processing of the job started (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: UTC Date-time at which the processing of the job ended (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: >-
+    An error response from Azure AgPlatform service.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
+  kind: object
+  properties:
+  - name: error
+    description: An error from Azure FarmBeats service.
+    types:
+    - uid: Error
+  - name: traceId
+    description: Unique trace Id.
+    types:
+    - uid: string
+- name: JobStatus
+  description: >-
+    Status of the job.
+
+    Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
+  kind: enum
+  properties:
+  - name: Waiting
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+- name: Error
+  description: An error from Azure FarmBeats service.
+  kind: object
+  properties:
+  - name: code
+    description: Server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+- name: InnerError
+  description: >-
+    Inner error containing list of errors.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+  kind: object
+  properties:
+  - name: code
+    description: Specific error code than was provided by the containing error.
+    types:
+    - uid: string
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+examples:
+- name: Farms_GetCascadeDeleteJobDetails
+  request:
+    uri: GET /farms/cascade-delete/JOB123?api-version=2021-03-31-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "JOB123",
+        "status": "Succeeded",
+        "message": "Job completed successfully.",
+        "durationInSeconds": 14.7977857,
+        "createdDateTime": "2021-04-19T11:31:20Z",
+        "lastActionDateTime": "2021-04-19T11:31:34Z",
+        "startTime": "2021-04-19T11:31:19Z",
+        "endTime": "2021-04-19T11:31:34Z",
+        "farmerId": "FARMER123",
+        "resourceId": "FARM123",
+        "resourceType": "farm"
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  in: header
+metadata:
+  description: >+
+    Learn more about Azure FarmBeats service - Get details of cascade delete job for a specified farm.
+
+errorCodes: []

@@ -1,5 +1,6 @@
 ---
 title: "Force Approve Repair Task"
+description: "Force Approve Repair Task"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

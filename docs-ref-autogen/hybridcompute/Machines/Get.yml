@@ -3,30 +3,30 @@ uid: management.azure.com.hybridcompute.machines.get
 name: Get
 service: Hybrid Compute
 groupName: Machines
-apiVersion: 2020-08-02
+apiVersion: 2021-05-20
 summary: Retrieves information about the model view or the instance view of a hybrid machine.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{name}?api-version=2020-08-02
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{name}?api-version=2020-08-02&$expand=instanceView
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}?api-version=2021-05-20
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}?api-version=2021-05-20&$expand=instanceView
   isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
-- name: name
+- name: machineName
   in: path
   isRequired: true
   description: The name of the hybrid machine.
@@ -35,7 +35,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 - name: $expand
@@ -65,10 +65,19 @@ definitions:
   description: Describes a hybrid machine.
   kind: object
   properties:
+  - name: properties
+    description: Hybrid Compute Machine properties
+    types:
+    - uid: MachineProperties
   - name: identity
-    description: ''
+    description: Identity for the resource.
     types:
     - uid: Identity
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
+    types:
+    - uid: systemData
   - name: tags
     description: Resource tags.
     types:
@@ -96,125 +105,205 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-  - name: properties.locationData
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: MachineProperties
+  description: Describes the properties of a hybrid machine.
+  kind: object
+  properties:
+  - name: locationData
     description: Metadata pertaining to the geographic location of the resource.
     types:
     - uid: locationData
-  - name: properties.osProfile
+  - name: osProfile
+    isReadyOnly: true
     description: Specifies the operating system settings for the hybrid machine.
     types:
-    - uid: OsProfile
-  - name: properties.provisioningState
+    - uid: OSProfile
+  - name: provisioningState
     isReadyOnly: true
     description: The provisioning state, which only appears in the response.
     types:
     - uid: string
-  - name: properties.status
+  - name: status
     isReadyOnly: true
     description: The status of the hybrid machine agent.
     types:
     - uid: StatusTypes
-  - name: properties.lastStatusChange
+  - name: lastStatusChange
     isReadyOnly: true
     description: The time of the last status change.
     types:
     - uid: string
-  - name: properties.errorDetails
+  - name: errorDetails
     isReadyOnly: true
     description: Details about the error state.
     types:
     - uid: ErrorDetail
       isArray: true
-  - name: properties.agentVersion
+  - name: agentVersion
     isReadyOnly: true
     description: The hybrid machine agent full version.
     types:
     - uid: string
-  - name: properties.vmId
+  - name: vmId
     description: Specifies the hybrid machine unique ID.
     types:
     - uid: string
-  - name: properties.displayName
+  - name: displayName
     isReadyOnly: true
     description: Specifies the hybrid machine display name.
     types:
     - uid: string
-  - name: properties.machineFqdn
+  - name: machineFqdn
     isReadyOnly: true
     description: Specifies the hybrid machine FQDN.
     types:
     - uid: string
-  - name: properties.clientPublicKey
+  - name: clientPublicKey
     description: Public Key that the client provides to be used during initial resource onboarding
     types:
     - uid: string
-  - name: properties.osName
+  - name: osName
     isReadyOnly: true
     description: The Operating System running on the hybrid machine.
     types:
     - uid: string
-  - name: properties.osVersion
+  - name: osVersion
     isReadyOnly: true
     description: The version of Operating System running on the hybrid machine.
     types:
     - uid: string
-  - name: properties.vmUuid
+  - name: vmUuid
     isReadyOnly: true
     description: Specifies the Arc Machine's unique SMBIOS ID
     types:
     - uid: string
-  - name: properties.extensions
-    isReadyOnly: true
+  - name: extensions
     description: Machine Extensions information
     types:
     - uid: MachineExtensionInstanceView
       isArray: true
-  - name: properties.osSku
+  - name: osSku
     isReadyOnly: true
     description: Specifies the Operating System product SKU.
     types:
     - uid: string
-  - name: properties.domainName
+  - name: domainName
     isReadyOnly: true
     description: Specifies the Windows domain name.
     types:
     - uid: string
-  - name: properties.adFqdn
+  - name: adFqdn
     isReadyOnly: true
     description: Specifies the AD fully qualified display name.
     types:
     - uid: string
-  - name: properties.dnsFqdn
+  - name: dnsFqdn
     isReadyOnly: true
     description: Specifies the DNS fully qualified display name.
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error response.
-  kind: object
-  properties:
-  - name: error
-    description: "Error details.  \nThe error details."
-    types:
-    - uid: ErrorDetail
-- name: Identity
-  description: Managed Identity.
-  kind: object
-  properties:
-  - name: type
-    description: The identity type.
+  - name: privateLinkScopeResourceId
+    description: The resource id of the private link scope this machine is assigned to, if any.
     types:
     - uid: string
+  - name: parentClusterResourceId
+    description: The resource id of the parent cluster (Azure HCI) this machine is assigned to, if any.
+    types:
+    - uid: string
+  - name: detectedProperties
+    isReadyOnly: true
+    description: Detected properties from the machine.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: Identity
+  description: Identity for the resource.
+  kind: object
+  properties:
   - name: principalId
     isReadyOnly: true
-    description: The identity's principal id.
+    description: The principal ID of resource identity.
     types:
     - uid: string
   - name: tenantId
     isReadyOnly: true
-    description: The identity's tenant id.
+    description: The tenant ID of resource.
     types:
     - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: ResourceIdentityType
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: locationData
   description: Metadata pertaining to the geographic location of the resource.
   kind: object
@@ -235,7 +324,7 @@ definitions:
     description: The country or region where the resource is located
     types:
     - uid: string
-- name: OsProfile
+- name: OSProfile
   description: Specifies the operating system settings for the hybrid machine.
   kind: object
   properties:
@@ -257,43 +346,19 @@ definitions:
   - name: Error
     types:
     - uid: string
-- name: ErrorDetail
-  description: Error details.
-  kind: object
-  properties:
-  - name: code
-    description: The error's code.
-    types:
-    - uid: string
-  - name: message
-    description: A human readable error message.
-    types:
-    - uid: string
-  - name: target
-    description: Indicates which property in the request is responsible for the error.
-    types:
-    - uid: string
-  - name: details
-    description: Additional error details.
-    types:
-    - uid: ErrorDetail
-      isArray: true
 - name: MachineExtensionInstanceView
   description: Describes the Machine Extension Instance View.
   kind: object
   properties:
   - name: name
-    isReadyOnly: true
     description: The machine extension name.
     types:
     - uid: string
   - name: type
-    isReadyOnly: true
     description: Specifies the type of the extension; an example is "CustomScriptExtension".
     types:
     - uid: string
   - name: typeHandlerVersion
-    isReadyOnly: true
     description: Specifies the version of the script handler.
     types:
     - uid: string
@@ -301,32 +366,64 @@ definitions:
     description: Instance view status.
     types:
     - uid: Status
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 - name: Status
   description: Instance view status.
   kind: object
   properties:
   - name: code
-    isReadyOnly: true
     description: The status code.
     types:
     - uid: string
   - name: level
-    isReadyOnly: true
     description: The level code.
     types:
     - uid: StatusLevelTypes
   - name: displayStatus
-    isReadyOnly: true
     description: The short localizable label for the status.
     types:
     - uid: string
   - name: message
-    isReadyOnly: true
     description: The detailed status message, including for alerts and error messages.
     types:
     - uid: string
   - name: time
-    isReadyOnly: true
     description: The time of the status.
     types:
     - uid: string
@@ -346,7 +443,7 @@ definitions:
 examples:
 - name: Get Machine
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine?api-version=2020-08-02&$expand=instanceView
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine?api-version=2021-05-20&$expand=instanceView
   responses:
   - statusCode: "200"
     body: >-
@@ -386,7 +483,15 @@ examples:
             "district": null,
             "countryOrRegion": "usa"
           },
-          "clientPublicKey": "string"
+          "clientPublicKey": "string",
+          "parentClusterResourceId": "{AzureStackHCIResourceId}",
+          "detectedProperties": {
+            "cloudprovider": "N/A",
+            "manufacturer": "Microsoft Corporation",
+            "model": "Virtual Machine",
+            "mssqldiscovered": "false"
+          },
+          "privateLinkScopeResourceId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/privateLinkScopes/privateLinkScopeName"
         }
       }
 security:
@@ -398,4 +503,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Hybrid Compute service - Retrieves information about the model view or the instance view of a hybrid machine.
 errorCodes: []

@@ -1,28 +1,27 @@
 ---
 title: Versioning for the Azure Storage services
 description: The Azure Storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.
-author: pemari
+author: seanmcc-msft
 
-ms.date: 11/03/2020
+ms.date: 07/06/2021
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: seanmcc
 ---
 
 # Versioning for the Azure Storage services
 
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
- The current version of the Azure storage services is 2020-04-08, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
+The current version of the Azure storage services is 2020-10-02, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
 
-## Version 2020-04-08
+## Version 2020-10-02
   
-The 2020-04-08 service version includes the following features:
-
-- The ability to permanently delete a soft-deleted blob version or snapshot.  For more information, see [Delete Blob](Delete-Blob.md).
-- [Get Blob Tags](get-blob-tags.md) and [Set Blob Tags](set-blob-tags.md) now support the `x-ms-lease-id` header.
-- A new API [Put Blob from URL](put-blob-from-url.md) allows a block blob to be created from an existing blob.
-- The ability to specify protocol and squash root when creating a File Share.  Squash root can also be set with [Set Share Properties](Set-Share-Properties.md).
+The 2020-10-02 service version includes the following features:
+- The ability to delete root blobs with versions.  For more information, see [Delete Blob](Delete-Blob.md).
+- Added ability to utilize OAuth for source authorization on synchronous copies.  For more information, see [Put Blob from URL](put-blob-from-url.md), [Copy Blob](Copy-Blob.md), [Put Block from URL](put-block-from-url.md), [Put Page from URL](put-page-from-url.md), [Append Block from URL](append-block-from-url.md), and [Put Range from URL](put-range-from-url.md).
+- File-Id is now returned unconditionally in the response body for [List Directories and Files](List-Directories-and-Files.md).
+- Directory-Id is now returned in the response body for [List Directories and Files](List-Directories-and-Files.md).
 
 ## Specifying service versions in requests  
 
@@ -42,7 +41,7 @@ How you specify the version of the storage services to use for a request relates
   
 ```
 Request Headers:  
-x-ms-version: 2017-07-29
+x-ms-version: 2020-04-08
 ```  
   
  The following rules indicate how these requests are evaluated to determine the version to use in processing the request.  
@@ -78,7 +77,7 @@ x-ms-version: 2017-07-29
   
  `https://myaccount.blob.core.windows.net/mycontainer?restype=container&comp=list&sv=2015-04-05&si=readpolicy&sig=a39 %2BYozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ%3d`  
   
- In this case, the service uthenticates and authorizes the request using version 2015-04-05 and also executes the operation using version 2015-04-05.  
+ In this case, the service authenticates and authorizes the request using version 2015-04-05 and also executes the operation using version 2015-04-05.  
   
 #### Example 2  
   

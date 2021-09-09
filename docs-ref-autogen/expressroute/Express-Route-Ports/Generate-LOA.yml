@@ -1,0 +1,129 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.expressroute.expressrouteports.generateloa
+name: Generate LOA
+service: ExpressRoute
+groupName: Express Route Ports
+apiVersion: 2021-02-01
+summary: Generate a letter of authorization for the requested ExpressRoutePort resource.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/generateLoa?api-version=2021-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: expressRoutePortName
+  in: path
+  isRequired: true
+  description: The name of ExpressRoutePort.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns the content as a base64 encoded string.
+  types:
+  - uid: GenerateExpressRoutePortsLOAResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: customerName
+    in: body
+    isRequired: true
+    description: The customer name.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: GenerateExpressRoutePortsLOAResult
+  description: Response for GenerateExpressRoutePortsLOA API service call.
+  kind: object
+  properties:
+  - name: encodedContent
+    description: The content as a base64 encoded string.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: GenerateExpressRoutePortsLOARequest
+  description: The customer name to be printed on a letter of authorization.
+  kind: object
+  properties:
+  - name: customerName
+    description: The customer name.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: GenerateExpressRoutePortLOA
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRoutePorts/portName/generateLoa?api-version=2021-02-01
+    body: >-
+      {
+        "customerName": "customerName"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "encodedContent": "TWFuIGlzIGRpc3"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about ExpressRoute service - Generate a letter of authorization for the requested ExpressRoutePort resource.
+errorCodes: []

@@ -1,5 +1,6 @@
 ---
 title: "Get Deployed Service Replica Detail Info By Partition Id"
+description: "Get Deployed Service Replica Detail Info By Partition Id"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

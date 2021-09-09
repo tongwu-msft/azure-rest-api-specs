@@ -1,0 +1,288 @@
+### YamlMime:RESTOperation
+uid: azurefarmbeats.farmoperations.createdataingestionjob
+name: Create Data Ingestion Job
+service: Azure FarmBeats
+groupName: Farm Operations
+apiVersion: 2021-03-31-preview
+summary: >+
+  Create a farm operation data ingestion job.
+
+
+
+  ###### Note:
+
+
+  1. The **‘contentType’** in the request header should be **'application/json'**.
+
+  2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+
+  3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT /farm-operations/ingest-data/{jobId}?api-version=2021-03-31-preview
+uriParameters:
+- name: jobId
+  in: path
+  isRequired: true
+  description: Id of the farm operation data ingestion job.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The requested API version.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Success
+  types:
+  - uid: FarmOperationDataIngestionJob
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: farmerId
+    in: body
+    isRequired: true
+    description: Id of the farmer whose farm operations are to be fetched.
+    types:
+    - uid: string
+  - name: authProviderId
+    in: body
+    isRequired: true
+    description: Id of the farm operations data provider. Use 'JOHNDEERE' to fetch data from John Deere.
+    types:
+    - uid: string
+  - name: operations
+    in: body
+    description: List of types of farm operations for which data needs to be fetched. Valid values are AllOperations, Application, Planting, Harvest and Tillage.
+    types:
+    - uid: string
+      isArray: true
+  - name: startYear
+    in: body
+    isRequired: true
+    description: The beginning year from when the farm operations data needs to be fetched (minimum = 2000, maximum = current year).
+    types:
+    - uid: integer
+  - name: name
+    in: body
+    description: Name of the farm operations data ingestion job.
+    types:
+    - uid: string
+  - name: description
+    in: body
+    description: Brief description of the farm operations data ingestion job.
+    types:
+    - uid: string
+  - name: properties
+    in: body
+    description: A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  types:
+  - uid: string
+definitions:
+- name: FarmOperationDataIngestionJob
+  description: Schema of farm operation data ingestion job.
+  kind: object
+  properties:
+  - name: farmerId
+    description: Id of the farmer whose farm operations are to be fetched.
+    types:
+    - uid: string
+  - name: authProviderId
+    description: Id of the farm operations data provider. Use 'JOHNDEERE' to fetch data from John Deere.
+    types:
+    - uid: string
+  - name: operations
+    description: List of types of farm operations for which data needs to be fetched. Valid values are AllOperations, Application, Planting, Harvest and Tillage.
+    types:
+    - uid: string
+      isArray: true
+  - name: startYear
+    description: The beginning year from when the farm operations data needs to be fetched (minimum = 2000, maximum = current year).
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: Unique Id of the farm operations data ingestion job. This Id must be unique for a given tenant.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: >-
+      Status of the job.
+
+      Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
+    types:
+    - uid: string
+  - name: durationInSeconds
+    isReadyOnly: true
+    description: Processing duration of the job. Can be calculated as min(current time, job succeeded/failed/cancelled time) - job execution start time. This does not include the time spent waiting in the queue for the job to be picked up for processing.
+    types:
+    - uid: number
+  - name: message
+    isReadyOnly: true
+    description: Brief description of the result of the job.
+    types:
+    - uid: string
+  - name: createdDateTime
+    isReadyOnly: true
+    description: UTC Date-time at which the job was created (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: lastActionDateTime
+    isReadyOnly: true
+    description: UTC Date-time at which the job was last acted upon (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: UTC Date-time at which the processing of the job started (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: UTC Date-time at which the processing of the job ended (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: name
+    description: Name of the farm operations data ingestion job.
+    types:
+    - uid: string
+  - name: description
+    description: Brief description of the farm operations data ingestion job.
+    types:
+    - uid: string
+  - name: properties
+    description: A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: ErrorResponse
+  description: >-
+    An error response from Azure AgPlatform service.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
+  kind: object
+  properties:
+  - name: error
+    description: An error from Azure FarmBeats service.
+    types:
+    - uid: Error
+  - name: traceId
+    description: Unique trace Id.
+    types:
+    - uid: string
+- name: Error
+  description: An error from Azure FarmBeats service.
+  kind: object
+  properties:
+  - name: code
+    description: Server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+- name: InnerError
+  description: >-
+    Inner error containing list of errors.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+  kind: object
+  properties:
+  - name: code
+    description: Specific error code than was provided by the containing error.
+    types:
+    - uid: string
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+examples:
+- name: FarmOperations_CreateDataIngestionJob
+  request:
+    uri: PUT /farm-operations/ingest-data/Job123?api-version=2021-03-31-preview
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "operations": [
+          "AllOperations"
+        ],
+        "startYear": 2012,
+        "durationInSeconds": 14.79,
+        "id": "sdi-0916aeec-ad8d-41d0-9797-63924f818cd7",
+        "status": "Waiting",
+        "message": "Created job to ingest farm operations data for job name 'Job123', farmer id 'Farmer123'.",
+        "createdDateTime": "2021-03-15T07:14:14Z",
+        "lastActionDateTime": "2021-03-15T07:14:14Z",
+        "startTime": "2021-03-15T07:14:14Z",
+        "endTime": "2021-03-15T07:14:14Z",
+        "name": "Test farm operations job",
+        "description": "Test farm operations job details",
+        "properties": {
+          "Region": "Central US",
+          "RetailerId": 123
+        },
+        "farmerId": "Farmer123",
+        "authProviderId": "JOHNDEERE"
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  in: header
+metadata:
+  description: >-
+    Create a farm operation data ingestion job.
+
+
+
+    ###### Note:
+
+
+    1. The **‘contentType’** in the request header should be **'application/json'**.
+errorCodes: []

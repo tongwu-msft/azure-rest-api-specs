@@ -1,48 +1,55 @@
 ---
-title: Abort Copy File (REST API) - Azure Storage
+title: Abort Copy File (FileREST API) - Azure Files
 description: The Abort Copy File operation aborts a pending Copy File operation, and leaves a destination file with zero length and full metadata.
-author: pemari-msft
+author: wmgries
 
-ms.date: 09/09/2019
-ms.author: pemari
+ms.date: 06/06/2021
+ms.author: wgries
 ms.service: storage
 ms.topic: reference
 ---
 
 # Abort Copy File
-The **Abort Copy File** operation aborts a pending **Copy File** operation, and leaves a destination file with zero length and full metadata. Version 2015-02-21 and newer.  
+The **Abort Copy File** operation aborts a pending **Copy File** operation, and leaves a destination file with zero length and full metadata. Version 2015-02-21 and newer.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
-## Request  
- The Abort Copy File request may be constructed as follows. HTTPS is recommended.  
+## Request
+The `Abort Copy File` request may be constructed as follows. HTTPS is recommended.  
   
- Beginning with version 2013-08-15, you may specify a shared access signature for the destination file if it is in the same account as the source file. Beginning with version 2015-04-05, you may also specify a shared access signature for the destination file if it is in a different storage account.  
+Beginning with version 2013-08-15, you may specify a shared access signature for the destination file if it is in the same account as the source file. Beginning with version 2015-04-05, you may also specify a shared access signature for the destination file if it is in a different storage account.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |**PUT**|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?comp=copy&copyid=<id>`|HTTP/1.1|  
   
- Replace the path components shown in the request URI with your own, as follows:  
+Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
-|*mydirectorypath*|Optional. The path to the parent directory.|  
-|*myfile*|The name of the file.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
+|`mydirectorypath`|Optional. The path to the parent directory.|  
+|`myfile`|The name of the file.|  
   
- For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI parameters  
- The following additional parameters may be specified on the request URI.  
+### URI parameters
+The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see Setting Timeouts for File Service Operations.|  
   
-### Request Headers  
- The following table describes required and optional request headers.  
+### Request headers
+The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -51,19 +58,19 @@ The **Abort Copy File** operation aborts a pending **Copy File** operation, and 
 |`x-ms-lease-id:<ID>`|Required if the destination file has an active lease. Available for versions 2019-02-02 and later. |
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
   
-### Request Body  
- None.  
+### Request body
+None.  
   
 ## Response  
- The response includes an HTTP status code and a set of response headers.  
+The response includes an HTTP status code and a set of response headers.  
   
-### Status Code  
- A successful operation returns status code 204 (No Content).  
+### Status code  
+A successful operation returns status code 204 (No Content).  
   
- For information about status codes, see Status and Error Codes.  
+For information about status codes, see Status and Error Codes.  
   
-### Response Headers  
- The response for this operation includes the following headers. The response also includes additional standard HTTP headers. All standard headers conform to the HTTP/1.1 protocol specification.  
+### Response headers
+The response for this operation includes the following headers. The response also includes additional standard HTTP headers. All standard headers conform to the HTTP/1.1 protocol specification.  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -72,13 +79,13 @@ The **Abort Copy File** operation aborts a pending **Copy File** operation, and 
 |`Date` or `x-ms-date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
   
-### Response Body  
- None.  
+### Response body
+None.  
   
-## Authorization  
- Only the account owner may call this operation.  
+## Authorization
+Only the account owner may call this operation.  
   
-## Remarks  
- When you abort a pending **Copy File** operation, the destination file’s `x-ms-copy-status` header is set to `aborted`. Aborting a copy operation results in a destination file of zero length. However, the metadata for the destination file will have the new values copied from the source blob or file or set explicitly in the **Copy File** operation call.  
+## Remarks
+When you abort a pending **Copy File** operation, the destination file's `x-ms-copy-status` header is set to `aborted`. Aborting a copy operation results in a destination file of zero length. However, the metadata for the destination file will have the new values copied from the source blob or file or set explicitly in the **Copy File** operation call.  
   
- You can only abort a copy operation that is pending. Trying to abort a copy that has completed or failed results in **409 Conflict**. Trying to abort a copy operation using an incorrect copy ID also results in **409 Conflict**.
+You can only abort a copy operation that is pending. Trying to abort a copy that has completed or failed results in **409 Conflict**. Trying to abort a copy operation using an incorrect copy ID also results in **409 Conflict**.

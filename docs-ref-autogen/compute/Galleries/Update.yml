@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleries.update
 name: Update
 service: Compute
 groupName: Galleries
-apiVersion: 2019-12-01
+apiVersion: 2021-07-01
 summary: Update a Shared Image Gallery.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}?api-version=2019-12-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}?api-version=2021-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -58,6 +58,16 @@ requestBody:
     description: Describes the gallery unique name.
     types:
     - uid: GalleryIdentifier
+  - name: properties.sharingProfile
+    in: body
+    description: Profile for gallery sharing to subscription or tenant
+    types:
+    - uid: SharingProfile
+  - name: properties.softDeletePolicy
+    in: body
+    description: Contains information about the soft deletion policy of the gallery.
+    types:
+    - uid: SoftDeletePolicy
   - name: tags
     in: body
     description: Resource tags
@@ -78,6 +88,28 @@ definitions:
     description: The unique name of the Shared Image Gallery. This name is generated automatically by Azure.
     types:
     - uid: string
+- name: SharingProfile
+  description: Profile for gallery sharing to subscription or tenant
+  kind: object
+  properties:
+  - name: permissions
+    description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups**'
+    types:
+    - uid: GallerySharingPermissionTypes
+  - name: groups
+    isReadyOnly: true
+    description: A list of sharing profile groups.
+    types:
+    - uid: SharingProfileGroup
+      isArray: true
+- name: SoftDeletePolicy
+  description: Contains information about the soft deletion policy of the gallery.
+  kind: object
+  properties:
+  - name: isSoftDeleteEnabled
+    description: Enables soft-deletion for resources in this gallery, allowing them to be recovered within retention time.
+    types:
+    - uid: boolean
 - name: Gallery
   description: Specifies information about the Shared Image Gallery that you want to create or update.
   kind: object
@@ -101,6 +133,14 @@ definitions:
     - uid: Deleting
     - uid: Migrating
     typesTitle: enum
+  - name: properties.sharingProfile
+    description: Profile for gallery sharing to subscription or tenant
+    types:
+    - uid: SharingProfile
+  - name: properties.softDeletePolicy
+    description: Contains information about the soft deletion policy of the gallery.
+    types:
+    - uid: SoftDeletePolicy
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -159,6 +199,14 @@ definitions:
     - uid: Deleting
     - uid: Migrating
     typesTitle: enum
+  - name: properties.sharingProfile
+    description: Profile for gallery sharing to subscription or tenant
+    types:
+    - uid: SharingProfile
+  - name: properties.softDeletePolicy
+    description: Contains information about the soft deletion policy of the gallery.
+    types:
+    - uid: SoftDeletePolicy
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -182,6 +230,29 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: GallerySharingPermissionTypes
+  description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups**'
+  kind: enum
+  properties:
+  - name: Private
+    types:
+    - uid: string
+  - name: Groups
+    types:
+    - uid: string
+- name: SharingProfileGroup
+  description: Group of the gallery sharing profile
+  kind: object
+  properties:
+  - name: type
+    description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
+    types:
+    - uid: SharingProfileGroupTypes
+  - name: ids
+    description: A list of subscription/tenant ids the gallery is aimed to be shared to.
+    types:
+    - uid: string
+      isArray: true
 - name: ApiError
   description: Api error.
   kind: object
@@ -205,6 +276,16 @@ definitions:
     - uid: string
   - name: message
     description: The error message.
+    types:
+    - uid: string
+- name: SharingProfileGroupTypes
+  description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
+  kind: enum
+  properties:
+  - name: Subscriptions
+    types:
+    - uid: string
+  - name: AADTenants
     types:
     - uid: string
 - name: ApiErrorBase
@@ -238,7 +319,7 @@ definitions:
 examples:
 - name: Update a simple gallery.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2019-12-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-07-01
     body: >-
       {
         "properties": {
@@ -268,4 +349,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Compute service - Update a Shared Image Gallery.
 errorCodes: []

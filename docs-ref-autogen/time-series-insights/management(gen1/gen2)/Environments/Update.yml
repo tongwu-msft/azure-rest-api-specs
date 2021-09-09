@@ -48,8 +48,60 @@ responses:
   types:
   - uid: CloudError
 requestBody:
-- name: default
+- name: Gen1EnvironmentUpdateParameters
+  description: Parameters supplied to the Update Environment operation to update a Gen1 environment.
   parameters:
+  - name: sku
+    in: body
+    description: The sku of the environment.
+    types:
+    - uid: Sku
+  - name: properties.dataRetentionTime
+    in: body
+    description: ISO8601 timespan specifying the minimum number of days the environment's events will be available for query.
+    types:
+    - uid: string
+  - name: properties.storageLimitExceededBehavior
+    in: body
+    description: The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData.
+    types:
+    - uid: StorageLimitExceededBehavior
+  - name: kind
+    in: body
+    isRequired: true
+    description: The kind of the environment.
+    types:
+    - uid: Gen1
+    typesTitle: string
+  - name: tags
+    in: body
+    description: Key-value pairs of additional properties for the environment.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: Gen2EnvironmentUpdateParameters
+  description: Parameters supplied to the Update Environment operation to update a Gen2 environment.
+  parameters:
+  - name: properties.storageConfiguration
+    in: body
+    description: The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data.
+    types:
+    - uid: Gen2StorageConfigurationMutableProperties
+  - name: properties.warmStoreConfiguration
+    in: body
+    description: The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query.
+    types:
+    - uid: WarmStoreConfigurationProperties
+  - name: kind
+    in: body
+    isRequired: true
+    description: The kind of the environment.
+    types:
+    - uid: Gen2
+    typesTitle: string
   - name: tags
     in: body
     description: Key-value pairs of additional properties for the environment.
@@ -61,18 +113,27 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: CloudError
-  description: Contains information about an API error.
+- name: Gen1EnvironmentUpdateParameters
+  description: Parameters supplied to the Update Environment operation to update a Gen1 environment.
   kind: object
   properties:
-  - name: error
-    description: Describes a particular API error with an error code and a message.
+  - name: sku
+    description: The sku of the environment.
     types:
-    - uid: CloudErrorBody
-- name: EnvironmentUpdateParameters
-  description: Parameters supplied to the Update Environment operation.
-  kind: object
-  properties:
+    - uid: Sku
+  - name: properties.dataRetentionTime
+    description: ISO8601 timespan specifying the minimum number of days the environment's events will be available for query.
+    types:
+    - uid: string
+  - name: properties.storageLimitExceededBehavior
+    description: The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData.
+    types:
+    - uid: StorageLimitExceededBehavior
+  - name: kind
+    description: The kind of the environment.
+    types:
+    - uid: Gen1
+    typesTitle: string
   - name: tags
     description: Key-value pairs of additional properties for the environment.
     types:
@@ -81,6 +142,77 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: Gen2EnvironmentUpdateParameters
+  description: Parameters supplied to the Update Environment operation to update a Gen2 environment.
+  kind: object
+  properties:
+  - name: properties.storageConfiguration
+    description: The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data.
+    types:
+    - uid: Gen2StorageConfigurationMutableProperties
+  - name: properties.warmStoreConfiguration
+    description: The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query.
+    types:
+    - uid: WarmStoreConfigurationProperties
+  - name: kind
+    description: The kind of the environment.
+    types:
+    - uid: Gen2
+    typesTitle: string
+  - name: tags
+    description: Key-value pairs of additional properties for the environment.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: CloudErrorBody
+- name: Sku
+  description: The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate.
+  kind: object
+  properties:
+  - name: name
+    description: The name of this SKU.
+    types:
+    - uid: SkuName
+  - name: capacity
+    description: The capacity of the sku. For Gen1 environments, this value can be changed to support scale out of environments after they have been created.
+    types:
+    - uid: integer
+- name: StorageLimitExceededBehavior
+  description: The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData.
+  kind: enum
+  properties:
+  - name: PurgeOldData
+    types:
+    - uid: string
+  - name: PauseIngress
+    types:
+    - uid: string
+- name: Gen2StorageConfigurationMutableProperties
+  description: The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data.
+  kind: object
+  properties:
+  - name: managementKey
+    description: The value of the management key that grants the Time Series Insights service write access to the storage account. This property is not shown in environment responses.
+    types:
+    - uid: string
+- name: WarmStoreConfigurationProperties
+  description: The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query.
+  kind: object
+  properties:
+  - name: dataRetention
+    description: ISO8601 timespan specifying the number of days the environment's events will be available for query from the warm store.
+    types:
+    - uid: string
 - name: Gen1EnvironmentResource
   description: An environment is a set of time-series data available for query, and is the top level Azure Time Series Insights resource. Gen1 environments have data retention limits.
   kind: object
@@ -155,16 +287,6 @@ definitions:
     types:
     - uid: ProvisioningState
   - name: creationTime
-    isReadyOnly: true
-    description: The time the resource was created.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: Provisioning state of the resource.
-    types:
-    - uid: ProvisioningState
-  - name: properties.creationTime
     isReadyOnly: true
     description: The time the resource was created.
     types:
@@ -247,16 +369,6 @@ definitions:
     description: The time the resource was created.
     types:
     - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: Provisioning state of the resource.
-    types:
-    - uid: ProvisioningState
-  - name: properties.creationTime
-    isReadyOnly: true
-    description: The time the resource was created.
-    types:
-    - uid: string
 - name: CloudErrorBody
   description: Describes a particular API error with an error code and a message.
   kind: object
@@ -278,26 +390,20 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: Sku
-  description: The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate.
-  kind: object
-  properties:
-  - name: name
-    description: The name of this SKU.
-    types:
-    - uid: SkuName
-  - name: capacity
-    description: The capacity of the sku. For Gen1 environments, this value can be changed to support scale out of environments after they have been created.
-    types:
-    - uid: integer
-- name: StorageLimitExceededBehavior
-  description: The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If "PauseIngress" is specified, new events will not be read from the event source. If "PurgeOldData" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData.
+- name: SkuName
+  description: The name of this SKU.
   kind: enum
   properties:
-  - name: PurgeOldData
+  - name: S1
     types:
     - uid: string
-  - name: PauseIngress
+  - name: S2
+    types:
+    - uid: string
+  - name: P1
+    types:
+    - uid: string
+  - name: L1
     types:
     - uid: string
 - name: TimeSeriesIdProperty
@@ -354,30 +460,6 @@ definitions:
   properties:
   - name: accountName
     description: The name of the storage account that will hold the environment's Gen2 data.
-    types:
-    - uid: string
-- name: WarmStoreConfigurationProperties
-  description: The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query.
-  kind: object
-  properties:
-  - name: dataRetention
-    description: ISO8601 timespan specifying the number of days the environment's events will be available for query from the warm store.
-    types:
-    - uid: string
-- name: SkuName
-  description: The name of this SKU.
-  kind: enum
-  properties:
-  - name: S1
-    types:
-    - uid: string
-  - name: S2
-    types:
-    - uid: string
-  - name: P1
-    types:
-    - uid: string
-  - name: L1
     types:
     - uid: string
 - name: PropertyType
@@ -501,4 +583,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Time Series Insights service - Updates the environment with the specified name in the specified subscription and resource group.
 errorCodes: []

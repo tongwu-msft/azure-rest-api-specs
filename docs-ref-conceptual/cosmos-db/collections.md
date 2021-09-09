@@ -1,7 +1,7 @@
 ---
 title: "Collections -  Azure Cosmos DB REST API"
 description: Learn how to use REST API to create, query, and manage a collection, and indexing policies for Azure Cosmos DB.
-ms.date: "08/16/2017"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: c5fc31e0-7914-4a64-a5ad-4472e9953c7d
@@ -24,7 +24,10 @@ translation.priority.mt:
 # Collections
 [Azure Cosmos DB](/azure/cosmos-db/introduction) is a a globally distributed multi-model databases that supports the document, graph, and key-value data models. The content in this section is for creating, querying, and managing collection [resources](/azure/cosmos-db/sql-api-resources) using the [SQL API](/azure/cosmos-db/sql-api-introduction) via REST.  
 
-The REST API supports basic CRUD operations on the resources under a database account. A collection is a container of JSON documents and associated JavaScript application logic, i.e. stored procedures, triggers and user-defined functions. This topic outlines the REST operations used to manage document collections.  
+The REST API supports basic CRUD operations on the resources under a database account. A collection is a container of JSON documents and associated JavaScript application logic, i.e. stored procedures, triggers and user-defined functions. This topic outlines the REST operations used to manage document collections.
+
+> [!NOTE]
+> These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md).  
   
 A collection maps to a container in Azure Cosmos DB. Therefore, it is a billable entity, where the cost is determined by the provisioned throughput expressed in request units per second. Collections can span one or more partitions/servers and scaled up and down in terms of throughput. Collections are automatically partitioned into one or more physical servers by Azure Cosmos DB. 
 
@@ -96,7 +99,7 @@ The following example illustrates the JSON definition of a collection:
 |Property|Description|  
 |--------------|-----------------|  
 |**automatic**|Indicates whether automatic indexing is on or off. The default value is **True**, thus all documents are indexed. Setting the value to **False** would allow manual configuration of indexing paths.|  
-|**indexingMode**|By default, the indexing mode is **Consistent**. This means that indexing occurs synchronously during insertion, replacment or deletion of documents. To have indexing occur asynchronously, set the indexing mode to lazy.|  
+|**indexingMode**|By default, the indexing mode is **Consistent**. This means that indexing occurs synchronously during insertion, replacement, or deletion of documents. To have indexing occur asynchronously, set the indexing mode to lazy.|  
 |**includedPaths**|The array containing document paths to be indexed. By default, two paths are included: the / path, which specifies that all document paths be indexed, and the _ts path, which indexes for a timestamp range comparison.|  
 |**excludedPaths**|The array containing document paths to be excluded from indexing.|  
   

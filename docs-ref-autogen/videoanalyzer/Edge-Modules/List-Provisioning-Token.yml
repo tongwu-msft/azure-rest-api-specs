@@ -1,0 +1,158 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.videoanalyzer.edgemodules.listprovisioningtoken
+name: List Provisioning Token
+service: Azure Video Analyzer
+groupName: Edge Modules
+apiVersion: 2021-05-01-preview
+summary: Creates a new provisioning token. A provisioning token allows for a single instance of Azure Video analyzer IoT edge module to be initialized and authorized to the cloud account. The provisioning token itself is short lived and it is only used for the initial handshake between IoT edge module and the cloud. After the initial handshake, the IoT edge module will agree on a set of authentication keys which will be auto-rotated as long as the module is able to periodically connect to the cloud. A new provisioning token can be generated for the same IoT edge module in case the module state lost or reset.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/edgeModules/{edgeModuleName}/listProvisioningToken?api-version=2021-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Video Analyzer account name.
+  types:
+  - uid: string
+- name: edgeModuleName
+  in: path
+  isRequired: true
+  description: The name of the edge module used to create a new provisioning token.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: EdgeModuleProvisioningToken
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: expirationDate
+    in: body
+    isRequired: true
+    description: The desired expiration date of the registration token. The Azure Video Analyzer IoT edge module must be initialized and connected to the Internet prior to the token expiration date.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: EdgeModuleProvisioningToken
+  description: Provisioning token properties. A provisioning token allows for a single instance of Azure Video analyzer IoT edge module to be initialized and authorized to the cloud account. The provisioning token itself is short lived and it is only used for the initial handshake between IoT edge module and the cloud. After the initial handshake, the IoT edge module will agree on a set of authentication keys which will be auto-rotated as long as the module is able to periodically connect to the cloud. A new provisioning token can be generated for the same IoT edge module in case the module state lost or reset.
+  kind: object
+  properties:
+  - name: expirationDate
+    isReadyOnly: true
+    description: The expiration date of the registration token. The Azure Video Analyzer IoT edge module must be initialized and connected to the Internet prior to the token expiration date.
+    types:
+    - uid: string
+  - name: token
+    isReadyOnly: true
+    description: The token blob to be provided to the Azure Video Analyzer IoT edge module through the Azure IoT Edge module twin properties.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: ListProvisioningTokenInput
+  description: The input parameters to generate registration token for the Azure Video Analyzer IoT edge module.
+  kind: object
+  properties:
+  - name: expirationDate
+    description: The desired expiration date of the registration token. The Azure Video Analyzer IoT edge module must be initialized and connected to the Internet prior to the token expiration date.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Generate the Provisioning token for an edge module registration.
+  request:
+    uri: POST https://management.azure.com/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/edgeModules/edgeModule1/listProvisioningToken?api-version=2021-05-01-preview
+    body: >-
+      {
+        "expirationDate": "3021-01-23T11:04:49.0526841-08:00"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "expirationDate": "3021-01-23T19:04:49.0526841+00:00",
+        "token": "testtoken"
+      }
+security: []
+metadata:
+  description: Creates a new provisioning token. A provisioning token allows for a single instance of Azure Video analyzer IoT edge module to be initialized and authorized to the cloud account.
+errorCodes: []

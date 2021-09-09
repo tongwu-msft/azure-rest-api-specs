@@ -13,13 +13,15 @@ ms.manager: nitinme
 ---
 # Index operations (Azure Cognitive Search REST API)
 
-You can create and manage indexes in Azure Cognitive Search service via simple HTTP requests (POST, GET, PUT, DELETE) against a given index resource. To create an index, you first POST a JSON document that describes the index schema. The schema defines the fields of the index, their data types, and how they can be used (for example, in full-text searches, filters, sorting, or faceting). It also defines scoring profiles, suggesters, analyzers, and other attributes to configure the behavior of the index.
+You can create and manage indexes in Azure Cognitive Search service via simple HTTP requests (POST, GET, PUT, DELETE) against a given index resource. An index specifies the structure of a search document via the fields collection of the index. Field names, data types, and attributes determine how individual fields are configured, analyzed, and used at query time. For example, attributes on the field determine whether a field is searchable, filterable, sortable, and so forth. 
+
+An index also defines other constructs, such as scoring profiles for relevance tuning, suggesters, and custom analyzers.
+
+## Example
 
 The following example illustrates an index schema that includes fields, a suggester, a custom analyzer, and a language analyzer. Fields, suggesters, custom analyzers, and scoring profiles (not shown) are sections in the index. A language analyzer is predefined and referenced on the field definition.
 
-Within the field definition, attributes control how the field is used. For example, `"key": true` marks the field that is used to uniquely identify a document (`HotelId` in the example below). Other attributes like `searchable`, `filterable`, `sortable`, and `facetable` can be specified to change default behaviors. For example, they are used on the `description` field to turn off filtering, sorting and faceting. These features aren't needed for verbose text like a description, and turning them off saves space in the index.
-
-Language-specific fields are also illustrated in this index. Description fields exist for English and for French translations, with the French translation using the `fr.microsoft` analyzer for lexical analysis.
+Within the fields collection, one field must service as the search document identifier. This field is attributed with `"key": true` (see the `HotelId` in the example below).
 
 
 ```json  
@@ -72,11 +74,23 @@ Language-specific fields are also illustrated in this index. Description fields 
 }  
 ```  
 
- After the index is created, you'll upload documents that populate the index. See [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](addupdate-or-delete-documents.md) for this next step.  
+ After the index is created, you'll upload documents that populate the index. See [Add, Update, or Delete Documents](addupdate-or-delete-documents.md) for this next step.  
 
- For a code sample that shows how to create and build an index using the REST API, see [Get Started with Azure Cognitive Search using REST](https://github.com/Azure-Samples/search-rest-api-getting-started).  
+## Operations on indexes
+
+An admin API key is required for all search index operations, including GET.
+
++ [Create Index](create-index.md)
++ [Update Index](update-index.md)
++ [List Indexes](list-indexes.md)
++ [Delete Index](delete-index.md)
++ [Get Index](get-index.md)
++ [Get Index Statistics](get-index-statistics.md)
++ [Analyze Text](test-analyzer.md)
 
 ## See also  
 
-+ [Azure Cognitive Search REST APIs](index.md)
-+ [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)
++ [Get started with Azure Cognitive Search REST APIs](/azure/search/search-get-started-rest)
++ [Create and manage API keys](/azure/search/search-security-api-keys)
++ [Service Limits](/azure/search/search-limits-quotas-capacity/) 
++ [How to create a basic search index](/azure/search/search-what-is-an-index)

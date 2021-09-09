@@ -16,6 +16,10 @@ manager: "femila"
 # Event Hubs Management REST (classic) - Common headers and parameters
 These APIs enable you to perform management operations on Event Hubs.  
   
+> [!IMPORTANT]
+> If you are using **"Classic" or RDFE management APIs**, they are [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.  
+  
+  
 ## Common parameters
  The following information is common to all tasks related to managing event hubs. 
  

@@ -1,6 +1,7 @@
 ---
-title: "HealthEvaluation"
-ms.date: "10/21/2020"
+title: "HealthEvaluation v8.1"
+description: "HealthEvaluation"
+ms.date: "07/13/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -26,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# HealthEvaluation
+# HealthEvaluation v8.1
 
 Represents a health evaluation which describes the data and the algorithm used by health manager to evaluate the health of an entity.
 ## Inheritance
@@ -57,5 +58,7 @@ The following table lists the value of the `Kind` property and corresponding der
 | Services | [ServicesHealthEvaluation](sfclient-model-serviceshealthevaluation.md) |
 | SystemApplication | [SystemApplicationHealthEvaluation](sfclient-model-systemapplicationhealthevaluation.md) |
 | UpgradeDomainDeltaNodesCheck | [UpgradeDomainDeltaNodesCheckHealthEvaluation](sfclient-model-upgradedomaindeltanodescheckhealthevaluation.md) |
+| UpgradeDomainDeployedApplications | [UpgradeDomainDeployedApplicationsHealthEvaluation](sfclient-model-upgradedomaindeployedapplicationshealthevaluation.md) |
 | UpgradeDomainNodes | [UpgradeDomainNodesHealthEvaluation](sfclient-model-upgradedomainnodeshealthevaluation.md) |
+| NodeTypeNodes | [NodeTypeNodesHealthEvaluation](sfclient-model-nodetypenodeshealthevaluation.md) |
 

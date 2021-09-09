@@ -38,7 +38,8 @@ The `List Blobs` operation returns a list of the blobs under the specified conta
 |`delimiter`|Optional. When the request includes this parameter, the operation returns a `BlobPrefix` element in the response body that acts as a placeholder for all blobs whose names begin with the same substring up to the appearance of the delimiter character. The delimiter may be a single character or a string.|  
 |`marker`|Optional. A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items.<br /><br /> The marker value is opaque to the client.|  
 |`maxresults`|Optional. Specifies the maximum number of blobs to return, including all `BlobPrefix` elements. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request).|  
-|`include={snapshots,metadata,uncommittedblobs,copy,deleted,tags,versions}`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Specifies that snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that blob metadata be returned in the response.<br />-   `uncommittedblobs`: Specifies that blobs for which blocks have been uploaded, but which have not been committed using [Put Block List](Put-Block-List.md), be included in the response.<br />-   `copy`: Version 2012-02-12 and newer. Specifies that metadata related to any current or previous `Copy Blob` operation should be included in the response.<br />-`deleted`: Version 2017-07-29 and newer. Specifies that soft deleted blobs should be included in the response. <br />-`tags`: Version 2019-12-12 and newer. Specifies that user-defined Blob Index tags should be included in the response. <br />-`versions`: Version 2019-12-12 and newer. Specifies that Versions of blobs should be included in the enumeration.<br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").|  
+|`include={snapshots,metadata,uncommittedblobs,copy,deleted,tags,versions,`<br/>`deletedwithversions,immutabilitypolicy,legalhold,permissions}`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Specifies that snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that blob metadata be returned in the response.<br />-   `uncommittedblobs`: Specifies that blobs for which blocks have been uploaded, but which have not been committed using [Put Block List](Put-Block-List.md), be included in the response.<br />-   `copy`: Version 2012-02-12 and newer. Specifies that metadata related to any current or previous `Copy Blob` operation should be included in the response.<br />-`deleted`: Version 2017-07-29 and newer. Specifies that soft deleted blobs should be included in the response. <br />-`tags`: Version 2019-12-12 and newer. Specifies that user-defined Blob Index tags should be included in the response. <br />-`versions`: Version 2019-12-12 and newer. Specifies that Versions of blobs should be included in the enumeration.<br />-`deletedwithversions`: Version 2020-10-02 and newer. Specifies that deleted blobs with any versions (active or deleted) should be included in the response with a tag <b>\<HasVersionsOnly\></b> and value true.<br />-`immutabilitypolicy`: Version 2020-06-12 and newer.  Specifies that immutability policy until date and immutability policy mode of the blobs should be included in the enumeration.<br />-`legalhold`: Version 2020-06-12 and newer.  Specifies that legal hold of blobs should be included in the enumeration.<br />-`permissions`: Version 2020-06-12 and newer. Supported only for accounts with a hierarchical namespace enabled. If a request includes this parameter, then the Owner, Group, Permissions, and Access Control List for the listed blobs or directories will be included in the enumeration. <br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").|
+|`showonly={deleted}`|Optional. Version 2020-08-04 and newer. Only for accounts with Hierarchical Namespace enabled. When a request includes this parameter, the list only contains soft deleted blobs. If include=deleted is also specified, the request will fail with Bad Request (400).| 
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
@@ -49,7 +50,8 @@ The `List Blobs` operation returns a list of the blobs under the specified conta
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|
+|`x-ms-upn`|Optional. Valid only when a hierarchical namespace is enabled for the account and include=permissions is provided in the request. If **true**, the user identity values returned in the \<Owner\>, \<Group\>, and \<Acl\> fields will be transformed from Azure Active Directory object IDs to user principal names. If **false**, the values will be returned as Azure Active Directory object IDs. The default value is **false**. Note that group and application object IDs are not translated because they do not have unique friendly names.| 
   
 ### Request Body  
  None.  
@@ -113,11 +115,11 @@ For version 2015-12-11 and above, `List Blobs` returns the `ServerEncrypted` ele
 
 For version 2016-05-31 and above, `List Blobs` returns the `IncrementalCopy` element for incremental copy blobs and snapshots with the value set to `true`.
 
-For version 2017-04-17 and above, `List Blobs` returns the `AccessTier` element if an access tier has been explicitly set. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd). For Blob Storage or General Purpose v2 accounts, valid values are `Hot`/`Cool`/`Archive`. If the blob is in rehydrate pending state then `ArchiveStatus` element is returned with one of the valid values `rehydrate-pending-to-hot`/`rehydrate-pending-to-cool`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
+For version 2017-04-17 and above, `List Blobs` returns the `AccessTier` element if an access tier has been explicitly set. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd). For Blob Storage or General Purpose v2 accounts, valid values are `Hot`/`Cool`/`Archive`. If the blob is in rehydrate pending state then `ArchiveStatus` element is returned with one of the valid values `rehydrate-pending-to-hot`/`rehydrate-pending-to-cool`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](/azure/storage/storage-blob-storage-tiers).
 
-For version 2017-04-17 and above, `List Blobs` returns the `AccessTierInferred` element on Blob Storage or General Purpose v2 accounts. If the block blob does not have the access tier set then we infer tier from storage account properties and this value is set to `true`. This header is present only if the tier is inferred from the account property. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
+For version 2017-04-17 and above, `List Blobs` returns the `AccessTierInferred` element on Blob Storage or General Purpose v2 accounts. If the block blob does not have the access tier set then we infer tier from storage account properties and this value is set to `true`. This header is present only if the tier is inferred from the account property. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](/azure/storage/storage-blob-storage-tiers).
 
-For version 2017-04-17 and above, `List Blobs` returns the `AccessTierChangeTime` element on Blob Storage or General Purpose v2 accounts. This is returned only if tier on block blob was ever set. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
+For version 2017-04-17 and above, `List Blobs` returns the `AccessTierChangeTime` element on Blob Storage or General Purpose v2 accounts. This is returned only if tier on block blob was ever set. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). For detailed information about block blob tiering see [Hot, cool and archive storage tiers](/azure/storage/storage-blob-storage-tiers).
 
 For version 2017-07-29 and above, `Deleted`, `DeletedTime` and `RemainingRetentionDays` appear when this operation includes the `include={deleted}` parameter. These elements do not appear if this blob was not deleted. These elements appear for blob or snapshot that are deleted with `DELETE` operation when soft delete feature was enabled. `Deleted` element is set to true for blobs and snapshots that are soft deleted. `Deleted-Time` corresponds to time when the blob was deleted. `RemainingRetentionDays` indicates number of days after which soft deleted blob will be permanently deleted by blob service.
 
@@ -127,7 +129,7 @@ For version 2019-02-02 and above, `List Blobs` returns the `CustomerProvidedKeyS
 
 For version 2019-02-02 and above, `List Blobs` returns the `EncryptionScope` element if the blob is encrypted with an encryption scope. The value will be set to the name of the encryption scope used to encrypt the blob. If the operation includes the `include={metadata}` parameter, application metadata on the blob will be transparently decrypted and available in the `Metadata` element.
 
-For version 2019-12-12 and above, `List Blobs` returns the `RehydratePriority` element on Blob Storage or General Purpose v2 accounts if object is in rehydrate pending state. Valid values are `High`/`Standard`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
+For version 2019-12-12 and above, `List Blobs` returns the `RehydratePriority` element on Blob Storage or General Purpose v2 accounts if object is in rehydrate pending state. Valid values are `High`/`Standard`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](/azure/storage/storage-blob-storage-tiers).
 
 For version 2019-12-12 and above, `List Blobs` returns the `VersionId` element for blobs and generated blob versions when Versioning is enabled on the account.
 
@@ -135,7 +137,17 @@ For version 2019-12-12 and above, `List Blobs` returns the `IsCurrentVersion` el
 
 For version 2019-12-12 and above, `List Blobs` returns the `TagCount` element for blobs with any tags. The `Tags` element appears only when this operation includes the `include={tags}` parameter. These elements do not appear if there are no tags on the blob.
 
-For version 2020-02-10 and above, `List Blobs` returns the `LastAccessTime` element. The elements shows when the blob's data was last accessed according to the storage account's last access time tracking policy. The element will not be returned if the storage account does not have a last access time tracking policy, or the policy is disabled. For information about setting account's last access time tracking policy, see [Blob Service API](https://docs.microsoft.com/rest/api/storagerp/blobservices/setserviceproperties). The `LastAccessTime` element does not track the last time when the blob's metadata is accessed.
+For version 2019-12-12 and above, `List Blobs` returns the `Sealed` element for Append Blobs. The `Sealed` element appears only when the Append blob has been sealed. These elements do not appear if the Append Blob is not sealed.
+
+For version 2020-02-10 and above, `List Blobs` returns the `LastAccessTime` element. The elements shows when the blob's data was last accessed according to the storage account's last access time tracking policy. The element will not be returned if the storage account does not have a last access time tracking policy, or the policy is disabled. For information about setting account's last access time tracking policy, see [Blob Service API](/rest/api/storagerp/blobservices/setserviceproperties). The `LastAccessTime` element does not track the last time when the blob's metadata is accessed.
+
+For version 2020-06-12 and above, `List Blobs` returns the `ImmutabilityPolicyUntilDate` and `ImmutabilityPolicyMode` elements when this operation includes the `include={immutabilitypolicy}` parameter.
+
+For version 2020-06-12 and above, `List Blobs` returns the `LegalHold` element when this operation includes the `include={legalhold}` parameter.
+
+For version 2020-06-12 and above, for accounts with a hierarchical namespace enabled, `List Blobs` returns `Owner`, `Group`, `Permissions` and `Acl` element when the request contains `include={permissions}` parameter. Note that `Acl` element will be a combined list of Access and Default Acl's that were set on the file/directory.
+
+For version 2020-08-04 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `DeletionId` element for deleted blobs. `DeletionId` is an unsigned 64 bit identifier that uniquely identifies a soft deleted path to distinguish it from other deleted blobs with the same path.
 
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -154,7 +166,11 @@ For version 2020-02-10 and above, `List Blobs` returns the `LastAccessTime` elem
       <Properties> 
         <Creation-Time>date-time-value</Creation-Time>
         <Last-Modified>date-time-value</Last-Modified>  
-        <Etag>etag</Etag>  
+        <Etag>etag</Etag>
+        <Owner>owner user id</Owner>
+        <Group>owning group id</Group>
+        <Permissions>permission string</Permissions>
+        <Acl>access control list</Acl>
         <Content-Length>size-in-bytes</Content-Length>  
         <Content-Type>blob-content-type</Content-Type>  
         <Content-Encoding />  
@@ -228,7 +244,7 @@ For version 2020-02-10 and above, `List Blobs` returns the `LastAccessTime` elem
   
  The `Metadata` element is present only if the `include=metadata` parameter was specified on the URI. Within the `Metadata` element, the value of each name-value pair is listed within an element corresponding to the pair's name.  
   
- Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of the Blob service. Beginning with this version, all metadata names must adhere to the naming conventions for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).  
+ Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of the Blob service. Beginning with this version, all metadata names must adhere to the naming conventions for [C# identifiers](/dotnet/csharp/language-reference).  
   
  If a metadata name-value pair violates the naming restrictions enforced by the 2009-09-19 version, the response body indicates the problematic name within an `x-ms-invalid-name` element, as shown in the following XML fragment:  
   
@@ -300,6 +316,25 @@ For version 2020-02-10 and above, `List Blobs` returns the `LastAccessTime` elem
   
 ```  
 
+ **Immutability Policy in the Response**  
+  
+ The `ImmutabilityPolicyUntilDate`, `ImmutabilityPolicyMode` elements are present only if the `include=immutabilitypolicy` parameter was specified on the URI.
+ ```  
+ <Properties> 
+    <ImmutabilityPolicyUntilDate>date-time-value</ImmutabilityPolicyUntilDate>   
+    <ImmutabilityPolicyMode>unlocked | locked </ImmutabilityPolicyMode>  
+  </Properties> 
+ ```  
+ 
+ **Legal Hold in the Response**  
+  
+ The `LegalHold` element is present only if the `include=legalhold` parameter was specified on the URI. 
+ ```  
+  <Properties> 
+    <LegalHold>true | false </LegalHold>  
+  </Properties> 
+ ```  
+ 
  **Returning Result Sets Using a Marker Value**  
   
  If you specify a value for the `maxresults` parameter and the number of blobs to return exceeds this value, or exceeds the default value for `maxresults`, the response body will contain a `NextMarker` element that indicates the next blob to return on a subsequent request. To return the next set of items, specify the value of `NextMarker` as the marker parameter on the URI for the subsequent request.  

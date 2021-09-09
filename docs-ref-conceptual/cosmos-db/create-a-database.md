@@ -1,7 +1,7 @@
 ---
 title: "Create a Database - Azure Cosmos DB REST API"
 description: Create database REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "08/06/2020"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 44241df4-7d91-4236-ad56-5c57ba3f449b
@@ -23,6 +23,9 @@ translation.priority.mt:
 ---
 # Create Database
 The `Create Database` operation creates a new database in the database account.
+
+> [!NOTE]
+> These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md).
   
 ## Request  
   
@@ -97,7 +100,7 @@ The following example creates a database.
   
 ```  
 POST https://contosomarketing.documents.azure.com/dbs HTTP/1.1  
-x-ms-date: Tue, 08 Dec 2015 19:29:22 GMT  
+x-ms.date: 04/20/2021
 authorization: type%3dmaster%26ver%3d1.0%26sig%3dsc0%2fu25RB8wSqbY1%2bUZqTGD0yCQC5KkGOAP%2bgnHFceQ%3d  
 Cache-Control: no-cache  
 User-Agent: contoso/1.0  

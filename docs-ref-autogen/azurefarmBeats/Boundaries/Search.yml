@@ -1,0 +1,514 @@
+### YamlMime:RESTOperation
+uid: azurefarmbeats.boundaries.search
+name: Search
+service: Azure FarmBeats
+groupName: Boundaries
+apiVersion: 2021-03-31-preview
+summary: >+
+  Search for boundaries across all the farmers intersecting with a given geometry.
+
+  This API is expected to be used when users want to find boundaries that intersect with a given geometry. Otherwise, this is functionally same as 'List' API for boundaries.
+
+
+
+
+
+
+  ###### Note:
+
+  1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘Search by Farmer Id’** API as it is performant.
+
+  2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST /boundaries?api-version=2021-03-31-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: The requested API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: BoundaryListResponse
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: ids
+    in: body
+    description: List of boundary Ids to be searched.
+    types:
+    - uid: string
+      isArray: true
+  - name: names
+    in: body
+    description: List of names of boundaries to be searched.
+    types:
+    - uid: string
+      isArray: true
+  - name: propertyFilters
+    in: body
+    description: >-
+      Filters on key-value pairs within 'Properties'.
+
+      eg. "{testKey} eq {testValue}".
+    types:
+    - uid: string
+      isArray: true
+  - name: statuses
+    in: body
+    description: List of statuses of boundaries to be searched.
+    types:
+    - uid: string
+      isArray: true
+  - name: minCreatedDateTime
+    in: body
+    description: 'Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
+    types:
+    - uid: string
+  - name: maxCreatedDateTime
+    in: body
+    description: 'Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
+    types:
+    - uid: string
+  - name: minLastModifiedDateTime
+    in: body
+    description: 'Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
+    types:
+    - uid: string
+  - name: maxLastModifiedDateTime
+    in: body
+    description: 'Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
+    types:
+    - uid: string
+  - name: $maxPageSize
+    in: body
+    description: Maximum number of items to be returned in a single page.
+    types:
+    - uid: integer
+  - name: $skipToken
+    in: body
+    description: Token used in retrieving the next page. If null, there are no additional pages.
+    types:
+    - uid: string
+  - name: isPrimary
+    in: body
+    description: If set, search result will contain only primary boundaries.
+    types:
+    - uid: boolean
+  - name: parentType
+    in: body
+    description: Used to search based on the parent type (Field/ SeasonalField).
+    types:
+    - uid: string
+  - name: parentIds
+    in: body
+    description: List of parent Ids whose boundaries are to be retrieved.
+    types:
+    - uid: string
+      isArray: true
+  - name: minAcreage
+    in: body
+    description: Minimum acreage of the boundary (inclusive).
+    types:
+    - uid: number
+  - name: maxAcreage
+    in: body
+    description: Maximum acreage of the boundary (inclusive).
+    types:
+    - uid: number
+  - name: intersectsWithGeometry
+    in: body
+    description: GeoJSON abstract class.
+    types:
+    - uid: MultiPolygon
+    - uid: Point
+    - uid: Polygon
+    typesTitle: GeoJsonObject
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  types:
+  - uid: string
+definitions:
+- name: BoundaryListResponse
+  description: Paged response contains list of requested objects and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of requested objects.
+    types:
+    - uid: Boundary
+      isArray: true
+  - name: $skipToken
+    description: Token used in retrieving the next page. If null, there are no additional pages.
+    types:
+    - uid: string
+  - name: nextLink
+    description: Continuation link (absolute URI) to the next page of results in the list. If null, there are no additional pages.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: >-
+    An error response from Azure AgPlatform service.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
+  kind: object
+  properties:
+  - name: error
+    description: An error from Azure FarmBeats service.
+    types:
+    - uid: Error
+  - name: traceId
+    description: Unique trace Id.
+    types:
+    - uid: string
+- name: SearchBoundaryQuery
+  description: SearchAllBoundaries and SearchBoundaries parameters.
+  kind: object
+  properties:
+  - name: ids
+    description: List of boundary Ids to be searched.
+    types:
+    - uid: string
+      isArray: true
+  - name: names
+    description: List of names of boundaries to be searched.
+    types:
+    - uid: string
+      isArray: true
+  - name: propertyFilters
+    description: >-
+      Filters on key-value pairs within 'Properties'.
+
+      eg. "{testKey} eq {testValue}".
+    types:
+    - uid: string
+      isArray: true
+  - name: statuses
+    description: List of statuses of boundaries to be searched.
+    types:
+    - uid: string
+      isArray: true
+  - name: minCreatedDateTime
+    description: 'Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
+    types:
+    - uid: string
+  - name: maxCreatedDateTime
+    description: 'Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
+    types:
+    - uid: string
+  - name: minLastModifiedDateTime
+    description: 'Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
+    types:
+    - uid: string
+  - name: maxLastModifiedDateTime
+    description: 'Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
+    types:
+    - uid: string
+  - name: $maxPageSize
+    description: Maximum number of items to be returned in a single page.
+    types:
+    - uid: integer
+  - name: $skipToken
+    description: Token used in retrieving the next page. If null, there are no additional pages.
+    types:
+    - uid: string
+  - name: isPrimary
+    description: If set, search result will contain only primary boundaries.
+    types:
+    - uid: boolean
+  - name: parentType
+    description: Used to search based on the parent type (Field/ SeasonalField).
+    types:
+    - uid: string
+  - name: parentIds
+    description: List of parent Ids whose boundaries are to be retrieved.
+    types:
+    - uid: string
+      isArray: true
+  - name: minAcreage
+    description: Minimum acreage of the boundary (inclusive).
+    types:
+    - uid: number
+  - name: maxAcreage
+    description: Maximum acreage of the boundary (inclusive).
+    types:
+    - uid: number
+  - name: intersectsWithGeometry
+    description: GeoJSON abstract class.
+    types:
+    - uid: MultiPolygon
+    - uid: Point
+    - uid: Polygon
+    typesTitle: GeoJsonObject
+- name: MultiPolygon
+  description: MultiPolygon geometry.
+  kind: object
+  properties:
+  - name: type
+    description: GeoJSON object type.
+    types:
+    - uid: MultiPolygon
+    typesTitle: string
+  - name: coordinates
+    description: >-
+      Gets or sets coordinates of GeoJSON Object.
+
+      It must be an array of polygons, each polygon contains list of linear rings.
+
+      For Polygons with more than one of these rings, the first MUST be the exterior ring,
+
+      and any others MUST be interior rings.
+    types:
+    - uid: array
+      isArray: true
+- name: Point
+  description: Point geometry.
+  kind: object
+  properties:
+  - name: type
+    description: GeoJSON object type.
+    types:
+    - uid: Point
+    typesTitle: string
+  - name: coordinates
+    description: >-
+      Gets or sets the coordinate of this point.
+
+      It must be an array of 2 or 3 elements for a 2D or 3D system respectively.
+    types:
+    - uid: number
+      isArray: true
+- name: Polygon
+  description: Polygon geometry.
+  kind: object
+  properties:
+  - name: type
+    description: GeoJSON object type.
+    types:
+    - uid: Polygon
+    typesTitle: string
+  - name: coordinates
+    description: >-
+      Gets or sets type of the GeoJSON Object.
+
+      It must be an array of linear ring coordinate arrays.
+
+      For Polygons with more than one of these rings, the first MUST be the exterior ring,
+
+      and any others MUST be interior rings.
+    types:
+    - uid: array
+      isArray: true
+- name: Boundary
+  description: Schema of boundary resource.
+  kind: object
+  properties:
+  - name: farmerId
+    isReadyOnly: true
+    description: Id of the associated farmer.
+    types:
+    - uid: string
+  - name: parentId
+    description: If the boundary is associated with a field or a seasonal field then the  parent id refers to the id of the field/seasonal field.
+    types:
+    - uid: string
+  - name: geometry
+    description: GeoJSON abstract class.
+    types:
+    - uid: MultiPolygon
+    - uid: Point
+    - uid: Polygon
+    typesTitle: GeoJsonObject
+  - name: isPrimary
+    description: Indicates if the boundary is a primary boundary for the associated parent (if any).
+    types:
+    - uid: boolean
+  - name: acreage
+    isReadyOnly: true
+    description: Area of the boundary in acres.
+    types:
+    - uid: number
+  - name: parentType
+    isReadyOnly: true
+    description: Indicates if the parent is a field or a seasonal field. Permissible values are 'Field' and 'SeasonalField'.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Unique Id of the boundary. This Id is unique for a given farmer.
+    types:
+    - uid: string
+  - name: eTag
+    isReadyOnly: true
+    description: ETag value can be used to implement optimistic concurrency.
+    types:
+    - uid: string
+  - name: status
+    description: User determined status of the resource.
+    types:
+    - uid: string
+  - name: createdDateTime
+    isReadyOnly: true
+    description: UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: modifiedDateTime
+    isReadyOnly: true
+    description: UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: name
+    description: Name of the boundary.
+    types:
+    - uid: string
+  - name: description
+    description: Brief description of the boundary.
+    types:
+    - uid: string
+  - name: properties
+    description: A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: Error
+  description: An error from Azure FarmBeats service.
+  kind: object
+  properties:
+  - name: code
+    description: Server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+- name: GeoJsonObjectType
+  description: GeoJSON object type.
+  kind: enum
+  properties:
+  - name: Point
+    types:
+    - uid: string
+  - name: Polygon
+    types:
+    - uid: string
+  - name: MultiPolygon
+    types:
+    - uid: string
+- name: InnerError
+  description: >-
+    Inner error containing list of errors.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+  kind: object
+  properties:
+  - name: code
+    description: Specific error code than was provided by the containing error.
+    types:
+    - uid: string
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+examples:
+- name: Boundaries_Search
+  request:
+    uri: POST /boundaries?api-version=2021-03-31-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "parentId": "FIELD123",
+            "isPrimary": false,
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    73.704571723937988,
+                    20.545385304358106
+                  ],
+                  [
+                    73.704571723937988,
+                    20.545385304358106
+                  ],
+                  [
+                    73.704485893249512,
+                    20.542411534243367
+                  ],
+                  [
+                    73.70877742767334,
+                    20.541688176010233
+                  ],
+                  [
+                    73.710236549377441,
+                    20.545083911372505
+                  ],
+                  [
+                    73.706631660461426,
+                    20.546992723579137
+                  ],
+                  [
+                    73.704571723937988,
+                    20.545385304358106
+                  ]
+                ]
+              ]
+            },
+            "name": "John Smith's Boundary",
+            "description": "Some description"
+          }
+        ],
+        "$skipToken": "string",
+        "nextLink": "https://{{resourceName}}.farmbeats.azure.net/farmers/{{farmerId}}/seasonalFields/{{seasonalFieldId}}?api-version={{apiVersion}}&$skipToken=%5b%7b%22token%22%3a%22%2bRID%3a%7e23TRC%3a10%23ISA%3d%22%2c%22range%22%3a%7b%22min%22%3a%22%22%2c%22max%22%3a%22FF%22%7d%7d%5d"
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  in: header
+metadata:
+  description: >-
+    Search for boundaries across all the farmers intersecting with a given geometry.
+
+    This API is expected to be used when users want to find boundaries that intersect with a given geometry.
+errorCodes: []

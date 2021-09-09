@@ -1,5 +1,6 @@
 ---
 title: "ChaosReplicaRemovalScheduledEvent"
+description: "ChaosReplicaRemovalScheduledEvent"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

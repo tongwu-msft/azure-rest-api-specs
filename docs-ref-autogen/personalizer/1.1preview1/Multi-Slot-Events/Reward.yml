@@ -1,0 +1,278 @@
+### YamlMime:RESTOperation
+uid: personalizer.v1.1-preview.1.personalizer.1.1preview1.multislotevents.reward
+name: Reward
+service: Cognitive Services - Personalizer
+groupName: Multi Slot Events
+apiVersion: v1.1-preview.1
+summary: "Post multi-slot Rewards.  \nReport reward that resulted from using the action specified in rewardActionId for the slot."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/personalizer/v1.1-preview.1/multislot/events/{eventId}/reward
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Supported Cognitive Services endpoint.
+  types:
+  - uid: string
+- name: eventId
+  in: path
+  isRequired: true
+  description: The event id this reward applies to.
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: Success
+- name: Other Status Codes
+  description: Invalid reward request.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: reward
+    in: body
+    isRequired: true
+    description: List of SlotRewards
+    types:
+    - uid: SlotReward
+      isArray: true
+requestHeader: []
+definitions:
+- name: SlotReward
+  kind: object
+  properties:
+  - name: slotId
+    description: Slot id for which we are sending the reward.
+    types:
+    - uid: string
+  - name: value
+    description: Reward to be assigned to slotId. Value should be between -1 and 1 inclusive.
+    types:
+    - uid: number
+- name: ErrorResponse
+  description: Used to return an error to the client
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: PersonalizerError
+- name: MultiSlotRewardRequest
+  description: Reward given to a list of slots.
+  kind: object
+  properties:
+  - name: reward
+    description: List of SlotRewards
+    types:
+    - uid: SlotReward
+      isArray: true
+- name: PersonalizerError
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: Error Codes returned by Personalizer
+    types:
+    - uid: PersonalizerErrorCode
+  - name: message
+    description: A message explaining the error reported by the service.
+    types:
+    - uid: string
+  - name: target
+    description: Error source element.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: PersonalizerError
+      isArray: true
+  - name: innerError
+    description: An object containing more specific information than the parent object about the error.
+    types:
+    - uid: InternalError
+- name: PersonalizerErrorCode
+  description: Error Codes returned by Personalizer
+  kind: enum
+  properties:
+  - name: BadRequest
+    description: Request could not be understood by the server.
+    types:
+    - uid: string
+  - name: InvalidServiceConfiguration
+    description: Invalid service configuration.
+    types:
+    - uid: string
+  - name: InvalidLearningModeServiceConfiguration
+    description: Updating defaultReward, rewardWaitTime and rewardAggregation when changing learning mode from Online to Apprentice mode and vice versa is not allowed. Make the mode change and then change the additional settings with an additional API call.
+    types:
+    - uid: string
+  - name: InvalidPolicyConfiguration
+    description: Invalid policy configuration.
+    types:
+    - uid: string
+  - name: InvalidPolicyContract
+    description: Invalid policy contract.
+    types:
+    - uid: string
+  - name: InvalidEvaluationContract
+    description: Invalid evaluation contract.
+    types:
+    - uid: string
+  - name: DuplicateCustomPolicyNames
+    description: Custom policy names should be unique.
+    types:
+    - uid: string
+  - name: NoLogsExistInDateRange
+    description: No logs exist in date range.
+    types:
+    - uid: string
+  - name: LogsSizeExceedAllowedLimit
+    description: Total size of logs exceed allowed limit.
+    types:
+    - uid: string
+  - name: InvalidRewardRequest
+    description: Invalid reward request.
+    types:
+    - uid: string
+  - name: InvalidEventIdToActivate
+    description: Invalid activate event request.
+    types:
+    - uid: string
+  - name: InvalidRankRequest
+    description: Invalid request.
+    types:
+    - uid: string
+  - name: InvalidExportLogsRequest
+    description: Invalid request.
+    types:
+    - uid: string
+  - name: InvalidContainer
+    description: SAS Uri must be the Uri to a container that has write permissions.
+    types:
+    - uid: string
+  - name: InvalidModelMetadata
+    description: Invalid model metadata.
+    types:
+    - uid: string
+  - name: ApprenticeModeNeverTurnedOn
+    description: Apprentice mode never turned on.
+    types:
+    - uid: string
+  - name: MissingAppId
+    description: AppId is missing in the header.
+    types:
+    - uid: string
+  - name: InvalidRewardWaitTime
+    description: Reward wait time should be between 5 seconds and 2 days
+    types:
+    - uid: string
+  - name: InvalidMultiSlotApiAccess
+    description: Multi-slot feature is currently disabled. Please follow multi-slot Personalizer documentation to update your loop settings to enable multi-slot functionality.
+    types:
+    - uid: string
+  - name: ModelFileAccessDenied
+    description: Key vault Key used for customer managed key cannot be accessed.
+    types:
+    - uid: string
+  - name: ProblemTypeIncompatibleWithAutoOptimization
+    description: Auto-optimization is not compatible with multi-slot personalization.
+    types:
+    - uid: string
+  - name: ResourceNotFound
+    description: Requested resource does not exist on the server.
+    types:
+    - uid: string
+  - name: FrontEndNotFound
+    description: Front end not found.
+    types:
+    - uid: string
+  - name: EvaluationNotFound
+    description: Offline Evaluation not found.
+    types:
+    - uid: string
+  - name: LearningSettingsNotFound
+    description: Learning Settings not found in evaluation.
+    types:
+    - uid: string
+  - name: EvaluationModelNotFound
+    description: Model not found in evaluation.
+    types:
+    - uid: string
+  - name: LogsPropertiesNotFound
+    description: Log properties not found.
+    types:
+    - uid: string
+  - name: ModelRankingError
+    description: Error while ranking actions using model. Please verify the learning settings are valid.
+    types:
+    - uid: string
+  - name: InternalServerError
+    description: A generic error has occurred on the server.
+    types:
+    - uid: string
+  - name: RankNullResponse
+    description: Rank call returned null response.
+    types:
+    - uid: string
+  - name: UpdateConfigurationFailed
+    description: Failed to update configuration.
+    types:
+    - uid: string
+  - name: ModelResetFailed
+    description: Model reset failed.
+    types:
+    - uid: string
+  - name: ModelPublishFailed
+    description: Model publish failed.
+    types:
+    - uid: string
+  - name: ModelMetadataUpdateFailed
+    description: Model metadata update failed.
+    types:
+    - uid: string
+  - name: OperationNotAllowed
+    description: This operation is not allowed at this time.
+    types:
+    - uid: string
+- name: InternalError
+  description: An object containing more specific information than the parent object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: Detailed error code.
+    types:
+    - uid: string
+  - name: innererror
+    description: An object containing more specific information than the parent object about the error.
+    types:
+    - uid: InternalError
+examples:
+- name: Successful MultiSlotEvents_Reward request
+  request:
+    uri: POST {Endpoint}/personalizer/v1.1-preview.1/multislot/events/id/reward
+    body: >-
+      {
+        "reward": [
+          {
+            "slotId": "Heroposition",
+            "value": 0.5
+          },
+          {
+            "slotId": "SideBar",
+            "value": 0.6
+          }
+        ]
+      }
+  responses:
+  - statusCode: "204"
+security: []
+metadata:
+  description: "Post multi-slot Rewards.  \nReport reward that resulted from using the action specified in rewardActionId for the slot."
+errorCodes: []

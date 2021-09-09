@@ -1,0 +1,216 @@
+### YamlMime:RESTOperation
+uid: azurefarmbeats.imageprocessing.createrasterizejob
+name: Create Rasterize Job
+service: Azure FarmBeats
+groupName: Image Processing
+apiVersion: 2021-03-31-preview
+summary: >+
+  Create a job which converts shape files into raster images.
+
+
+
+  ###### Note:
+
+
+  1. The **‘contentType’** in the request header should be **'application/json'**.
+
+  2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+
+  3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT /image-processing/rasterize/{jobId}?api-version=2021-03-31-preview
+uriParameters:
+- name: jobId
+  in: path
+  isRequired: true
+  description: Unique Id of the image processing (rasterize) job. This Id must be unique for a given tenant.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The requested API version.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Success
+  types:
+  - uid: ImageProcessingRasterizeJob
+- name: Other Status Codes
+  description: Error
+requestBody:
+- name: default
+  parameters:
+  - name: farmerId
+    in: body
+    isRequired: true
+    description: Id of the associated farmer.
+    types:
+    - uid: string
+  - name: shapefileAttachmentId
+    in: body
+    isRequired: true
+    description: Attachment id of the input shapefile which must be rasterized.
+    types:
+    - uid: string
+  - name: shapefileColumnNames
+    in: body
+    isRequired: true
+    description: List of shapefile column names that must be rasterized.
+    types:
+    - uid: string
+      isArray: true
+  - name: name
+    in: body
+    description: Name of the image processing (rasterize) job.
+    types:
+    - uid: string
+  - name: description
+    in: body
+    description: Brief description of the image processing (rasterize) job.
+    types:
+    - uid: string
+  - name: properties
+    in: body
+    description: A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  types:
+  - uid: string
+definitions:
+- name: ImageProcessingRasterizeJob
+  description: ImageProcessingRasterizeJob.
+  kind: object
+  properties:
+  - name: farmerId
+    description: Id of the associated farmer.
+    types:
+    - uid: string
+  - name: shapefileAttachmentId
+    description: Attachment id of the input shapefile which must be rasterized.
+    types:
+    - uid: string
+  - name: shapefileColumnNames
+    description: List of shapefile column names that must be rasterized.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Unique Id of the image processing (rasterize) job. This Id must be unique for a given tenant.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: >-
+      Status of the job.
+
+      Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
+    types:
+    - uid: string
+  - name: durationInSeconds
+    isReadyOnly: true
+    description: Processing duration of the job. Can be calculated as min(current time, job succeeded/failed/cancelled time) - job execution start time. This does not include the time spent waiting in the queue for the job to be picked up for processing.
+    types:
+    - uid: number
+  - name: message
+    isReadyOnly: true
+    description: Brief description of the result of the job.
+    types:
+    - uid: string
+  - name: createdDateTime
+    isReadyOnly: true
+    description: UTC Date-time at which the job was created (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: lastActionDateTime
+    isReadyOnly: true
+    description: UTC Date-time at which the job was last acted upon (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: UTC Date-time at which the processing of the job started (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: UTC Date-time at which the processing of the job ended (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: name
+    description: Name of the image processing (rasterize) job.
+    types:
+    - uid: string
+  - name: description
+    description: Brief description of the image processing (rasterize) job.
+    types:
+    - uid: string
+  - name: properties
+    description: A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+examples:
+- name: ImageProcessing_CreateRasterizeJob
+  request:
+    uri: PUT /image-processing/rasterize/Job123?api-version=2021-03-31-preview
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "durationInSeconds": 12.4,
+        "id": "Job123",
+        "status": "Waiting",
+        "message": "Created job to rasterize shapefile for job name 'Job123', farmer id 'Farmer123' and shapefileAttachment id 'HarvestingDataShapefile123'.",
+        "createdDateTime": "2021-04-16T11:33:45Z",
+        "lastActionDateTime": "2021-04-16T11:33:45Z",
+        "startTime": "2021-04-16T11:33:45Z",
+        "endTime": "2021-04-16T11:33:45Z",
+        "farmerId": "Farmer123",
+        "shapefileAttachmentId": "HarvestingDataShapefile123",
+        "shapefileColumnNames": [
+          "Wet_yield",
+          "Dry_yield"
+        ],
+        "name": "Harvest data rasterize job",
+        "description": "Harvest data rasterize job details",
+        "properties": {
+          "Region": "Central US",
+          "RetailerId": 123
+        }
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  in: header
+metadata:
+  description: >-
+    Create a job which converts shape files into raster images.
+
+
+
+    ###### Note:
+
+
+    1. The **‘contentType’** in the request header should be **'application/json'**.
+errorCodes: []

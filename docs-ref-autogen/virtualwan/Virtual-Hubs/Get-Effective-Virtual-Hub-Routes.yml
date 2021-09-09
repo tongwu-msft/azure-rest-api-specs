@@ -1,0 +1,144 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.virtualhubs.geteffectivevirtualhubroutes
+name: Get Effective Virtual Hub Routes
+service: Virtual WAN
+groupName: Virtual Hubs
+apiVersion: 2021-02-01
+summary: Gets the effective routes configured for the Virtual Hub resource or the specified resource .
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/effectiveRoutes?api-version=2021-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name of the VirtualHub.
+  types:
+  - uid: string
+- name: virtualHubName
+  in: path
+  isRequired: true
+  description: The name of the VirtualHub.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Follow the location header for the effective routes list.
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: resourceId
+    in: body
+    description: The resource whose effective routes are being requested.
+    types:
+    - uid: string
+  - name: virtualWanResourceType
+    in: body
+    description: The type of the specified resource like RouteTable, ExpressRouteConnection, HubVirtualNetworkConnection, VpnConnection and P2SConnection.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: EffectiveRoutesParameters
+  description: The parameters specifying the resource whose effective routes are being requested.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The resource whose effective routes are being requested.
+    types:
+    - uid: string
+  - name: virtualWanResourceType
+    description: The type of the specified resource like RouteTable, ExpressRouteConnection, HubVirtualNetworkConnection, VpnConnection and P2SConnection.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Effective Routes for the Virtual Hub
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/effectiveRoutes?api-version=2021-02-01
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+- name: Effective Routes for a Route Table resource
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/effectiveRoutes?api-version=2021-02-01
+    body: >-
+      {
+        "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1",
+        "virtualWanResourceType": "RouteTable"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+- name: Effective Routes for a Connection resource
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/effectiveRoutes?api-version=2021-02-01
+    body: >-
+      {
+        "resourceId": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/expressRouteGatewayName/expressRouteConnections/connectionName",
+        "virtualWanResourceType": "ExpressRouteConnection"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Virtual WAN service - Gets the effective routes configured for the Virtual Hub resource or the specified resource .
+errorCodes: []

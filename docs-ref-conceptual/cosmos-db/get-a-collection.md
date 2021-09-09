@@ -1,7 +1,7 @@
 ---
 title: "Get a Collection - Azure Cosmos DB REST API"
 description: Get a collection REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "03/29/2016"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: c2f93095-bd4c-4b11-a396-8f6a2574a3b3
@@ -23,6 +23,9 @@ translation.priority.mt:
 ---
 # Get a Collection
   Performing a GET on a specific collection resource retrieves the properties for the collection.  
+
+> [!NOTE]
+> These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md).
   
 ## Request  
   
@@ -71,7 +74,7 @@ translation.priority.mt:
 |Property|Description|  
 |--------------|-----------------|  
 |**automatic**|Indicates whether automatic indexing is on or off. The default value is True, thus all documents are indexed. Setting the value to False would allow manual configuration of indexing paths.|  
-|**indexingMode**|By default, the indexing mode is Consistent. This means that indexing occurs synchronously during insertion, replacment or deletion of documents. To have indexing occur asynchronously, set the indexing mode to lazy.|  
+|**indexingMode**|By default, the indexing mode is Consistent. This means that indexing occurs synchronously during insertion, replacement, or deletion of documents. To have indexing occur asynchronously, set the indexing mode to lazy.|  
 |**includedPaths**|The array containing document paths to be indexed. By default, two paths are included: the / path which specifies that all document paths be indexed, and the _ts path, which indexes for a timestamp range comparison.<br /><br /> Within element in the array.|  
   
  **Properties under Included Path**  

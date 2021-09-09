@@ -1,6 +1,7 @@
 ---
 title: "Backup Partition"
-ms.date: "10/21/2020"
+description: "Backup Partition"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -135,6 +136,30 @@ POST http://localhost:19080/Partitions/1daae3f5-7fd6-42e9-b1ba-8c05f873994d/$/Ba
     "StorageKind": "AzureBlobStore",
     "ConnectionString": "DefaultEndpointsProtocol=https;AccountName=storagesample;AccountKey=<PutYourAccountKeyHere>",
     "ContainerName": "BackupContainer"
+  }
+}
+```
+
+#### 202 Response
+##### Body
+The response body is empty.
+### Backup partition to a specific Azure storage location accessed using managed identity
+
+This example shows how to trigger backup of a partition now, and save the backup to a specific Azure blob storage account using managed identity.
+
+#### Request
+```
+POST http://localhost:19080/Partitions/1daae3f5-7fd6-42e9-b1ba-8c05f873994d/$/Backup?api-version=6.4
+```
+
+##### Body
+```json
+{
+  "BackupStorage": {
+    "StorageKind": "ManagedIdentityAzureBlobStore",
+    "BlobServiceUri": "https://managedidentitytest.blob.core.windows.net/",
+    "ContainerName": "BackupContainer",
+    "ManagedIdentityType": "Cluster"
   }
 }
 ```

@@ -3,7 +3,7 @@ title: Put Block From URL (REST API) - Azure Storage
 description: The Put Block From URL operation creates a new block to be committed as part of a blob where the contents are read from a URL.
 author: pemari-msft
 
-ms.date: 07/06/2020
+ms.date: 04/06/2021
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -45,6 +45,7 @@ The `Put Block From URL` operation creates a new block to be committed as part o
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md). For Put Block From URL, the version has to be 2018-03-28 or newer.|  
 |`Content-Length`|Required. Specifies the number of bytes being transmitted in the request body. The value of this header must be set to zero. When the length is not zero, the operation will fail with the status code 400 (Bad Request).|  
 |`x-ms-copy-source:name`|Required. Specifies the URL of the source blob. The value may be a URL of up to 2 KiB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. The source blob must either be public or must be authorized via a shared access signature. If the source blob is public, no authorization is required to perform the operation. Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?versionid=<DateTime>`|  
+|`x-ms-copy-source-authorization: <scheme> <signature>`|Optional. Specifies the authorization scheme and signature for copy source. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).<br /> Only scheme bearer is supported for Azure Active Directory.<br />This header is supported in versions 2020-10-02 and later.|
 |`x-ms-source-range`|Optional. Uploads only the bytes of the blob in the source URL in the specified range. If this is not specified, the entire source blob contents are uploaded as a single block. See [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|   
 |`x-ms-source-content-md5`|Optional. An MD5 hash of the block content from the URI. This hash is used to verify the integrity of the block during transport of the data from the URI. When this header is specified, the storage service compares the hash of the content that has arrived from the copy-source with this header value.<br /><br /> Note that this md5 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).|  
 |`x-ms-source-content-crc64`|Optional. A CRC64 hash of the block content from the URI. This hash is used to verify the integrity of the block during transport of the data from the URI. When this header is specified, the storage service compares the hash of the content that has arrived from the copy-source with this header value.<br /><br /> Note that this CRC64 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> If both `x-ms-source-content-md5` and `x-ms-source-content-crc64` headers are present, the request will fail with a 400 (Bad Request).<br /><br />This header is supported in versions 2019-02-02 or later.|  
@@ -120,29 +121,39 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  This operation can be called by the account owner and by anyone with a Shared Access Signature that has permission to write to this blob or its container.  
   
 ## Remarks  
- `Put Block From URL` uploads a block for future inclusion in a block blob. A block blob can include a maximum of 50,000 blocks. Each block can be a different size. The maximum size for a block uploaded with `Put Block From URL` is 100 MiB. To upload larger blocks (up to 4000 MiB), see [Put Block](Put-Block.md).  
 
- A blob can have a maximum of 100,000 uncommitted blocks at any given time. If this maximum is exceeded, the service returns status code 409 (RequestEntityTooLargeBlockCountExceedsLimit).
-  
- After you have uploaded a set of blocks, you can create or update the blob on the server from this set by calling the [Put Block List](Put-Block-List.md) operation. Each block in the set is identified by a block ID that is unique within that blob. Block IDs are scoped to a particular blob, so different blobs can have blocks with same IDs.  
-  
- If you call `Put Block From URL` on a blob that does not yet exist, a new block blob is created with a content length of 0. This blob is enumerated by the `List Blobs` operation if the `include=uncommittedblobs` option is specified. The block or blocks that you uploaded are not committed until you call `Put Block List` on the new blob. A blob created this way is maintained on the server for a week; if you have not added more blocks or committed blocks to the blob within that time period, then the blob is garbage collected.  
-  
- A block that has been successfully uploaded with the `Put Block From URL` operation does not become part of a blob until it is committed with `Put Block List`. Before `Put Block List` is called to commit the new or updated blob, any calls to [Get Blob](Get-Blob.md) return the blob contents without the inclusion of the uncommitted block.  
-  
- If you upload a block that has the same block ID as another block that has not yet been committed, the last uploaded block with that ID will be committed on the next successful `Put Block List` operation.  
-  
- After `Put Block List` is called, all uncommitted blocks specified in the block list are committed as part of the new blob. Any uncommitted blocks that were not specified in the block list for the blob will be garbage collected and removed from the Blob service. Any uncommitted blocks will also be garbage collected if there are no successful calls to `Put Block From URL` or `Put Block List` on the same blob within a week following the last successful `Put Block From URL` operation. If [Put Blob](Put-Blob.md) is called on the blob, any uncommitted blocks will be garbage collected.  
-  
- If the blob has an active lease, the client must specify a valid lease ID on the request in order to write a block to the blob. If the client does not specify a lease ID, or specifies an invalid lease ID, the Blob service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob does not have an active lease, the Blob service also returns status code 412 (Precondition Failed).  
-  
- For a given blob, all block IDs must be the same length. If a block is uploaded with a block ID of a different length than the block IDs for any existing uncommitted blocks, the service returns error response code 400 (Bad Request).  
-  
- Calling `Put Block From URL` does not update the last modified time of an existing blob.  
-  
- Calling `Put Block From URL` on a page blob returns an error.  
+`Put Block From URL` uploads a block for future inclusion in a block blob. A block blob can include a maximum of 50,000 blocks. Each block can be a different size. The maximum size for a block uploaded with `Put Block From URL` is 100 MiB. To upload larger blocks (up to 4000 MiB), see [Put Block](Put-Block.md).  
 
- Calling `Put Block From URL` on an archived blob will return an error and on `Hot`/`Cool` blob does not change the blob tier.
+ In version 2020-10-02 and newer, Azure Active Directory authorization is supported for the source of the copy operation.
+ 
+A blob can have a maximum of 100,000 uncommitted blocks at any given time. If this maximum is exceeded, the service returns status code 409 (RequestEntityTooLargeBlockCountExceedsLimit).
+
+The following table describes the maximum block and blob sizes permitted by service version.
+
+| Service version | Maximum block size (via Put Block from URL) | Maximum blob size (via Put Block List) | Maximum blob size via single write operation (via Put Blob from URL) |
+|-|-|-|-|
+| Version 2020-04-08 and later | 4000 MiB | Approximately 190.7 TiB (4000 MiB X 50,000 blocks) | 5000 MiB (preview) |
+| Versions prior to 2020-04-08 | 100 MiB | Approximately 4.75 TiB (100 MiB X 50,000 blocks) | 256 MiB |
+  
+After you have uploaded a set of blocks, you can create or update the blob on the server from this set by calling the [Put Block List](Put-Block-List.md) operation. Each block in the set is identified by a block ID that is unique within that blob. Block IDs are scoped to a particular blob, so different blobs can have blocks with same IDs.  
+
+If you call `Put Block From URL` on a blob that does not yet exist, a new block blob is created with a content length of 0. This blob is enumerated by the `List Blobs` operation if the `include=uncommittedblobs` option is specified. The block or blocks that you uploaded are not committed until you call `Put Block List` on the new blob. A blob created this way is maintained on the server for a week; if you have not added more blocks or committed blocks to the blob within that time period, then the blob is garbage collected.  
+
+A block that has been successfully uploaded with the `Put Block From URL` operation does not become part of a blob until it is committed with `Put Block List`. Before `Put Block List` is called to commit the new or updated blob, any calls to [Get Blob](Get-Blob.md) return the blob contents without the inclusion of the uncommitted block.  
+
+If you upload a block that has the same block ID as another block that has not yet been committed, the last uploaded block with that ID will be committed on the next successful `Put Block List` operation.  
+
+After `Put Block List` is called, all uncommitted blocks specified in the block list are committed as part of the new blob. Any uncommitted blocks that were not specified in the block list for the blob will be garbage collected and removed from the Blob service. Any uncommitted blocks will also be garbage collected if there are no successful calls to `Put Block From URL` or `Put Block List` on the same blob within a week following the last successful `Put Block From URL` operation. If [Put Blob](Put-Blob.md) is called on the blob, any uncommitted blocks will be garbage collected.  
+
+If the blob has an active lease, the client must specify a valid lease ID on the request in order to write a block to the blob. If the client does not specify a lease ID, or specifies an invalid lease ID, the Blob service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob does not have an active lease, the Blob service also returns status code 412 (Precondition Failed).  
+
+For a given blob, all block IDs must be the same length. If a block is uploaded with a block ID of a different length than the block IDs for any existing uncommitted blocks, the service returns error response code 400 (Bad Request).  
+
+Calling `Put Block From URL` does not update the last modified time of an existing blob.  
+
+Calling `Put Block From URL` on a page blob returns an error.  
+
+Calling `Put Block From URL` on an archived blob will return an error and on `Hot`/`Cool` blob does not change the blob tier.
   
 ## See Also
 

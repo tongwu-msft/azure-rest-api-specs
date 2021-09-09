@@ -1,5 +1,6 @@
 ---
 title: "Get Application Load Info"
+description: "Get Application Load Info"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -1,0 +1,245 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.searchmanagement.2021-04-01-preview.sharedprivatelinkresources.createorupdate
+name: Create Or Update
+service: Search Management
+groupName: Shared Private Link Resources
+apiVersion: 2021-04-01-preview
+summary: Initiates the creation or update of a shared private link resource managed by the search service in the given resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}?api-version=2021-04-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the current subscription. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: searchServiceName
+  in: path
+  isRequired: true
+  description: The name of the Azure Cognitive Search service associated with the specified resource group.
+  types:
+  - uid: string
+- name: sharedPrivateLinkResourceName
+  in: path
+  isRequired: true
+  description: The name of the shared private link resource managed by the Azure Cognitive Search service within the specified resource group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for each request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The details of the shared private link resource that was created or updated.
+  types:
+  - uid: SharedPrivateLinkResource
+- name: 202 Accepted
+  description: The shared private link resource create or update operation has been accepted and will complete asynchronously.
+- name: Other Status Codes
+  description: 'HTTP 400 (Bad Request): The given shared private link resource name or the shared private link resource definition is invalid; See the error code and message in the response for details. HTTP 404 (Not Found): The subscription, resource group, search service or shared private link resource could not be found. HTTP 409 (Conflict): The specified subscription is disabled.'
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties
+    in: body
+    description: Describes the properties of a Shared Private Link Resource managed by the Azure Cognitive Search service.
+    types:
+    - uid: SharedPrivateLinkResourceProperties
+requestHeader:
+- name: x-ms-client-request-id
+  in: header
+  description: A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request.
+  types:
+  - uid: string
+  format: uuid
+definitions:
+- name: SharedPrivateLinkResourceProperties
+  description: Describes the properties of an existing Shared Private Link Resource managed by the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: privateLinkResourceId
+    description: The resource id of the resource the shared private link resource is for.
+    types:
+    - uid: string
+  - name: groupId
+    description: The group id from the provider of resource the shared private link resource is for.
+    types:
+    - uid: string
+  - name: requestMessage
+    description: The request message for requesting approval of the shared private link resource.
+    types:
+    - uid: string
+  - name: resourceRegion
+    description: Optional. Can be used to specify the Azure Resource Manager location of the resource to which a shared private link is to be created. This is only required for those resources whose DNS configuration are regional (such as Azure Kubernetes Service).
+    types:
+    - uid: string
+  - name: status
+    description: Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected or other yet to be documented value.
+    types:
+    - uid: SharedPrivateLinkResourceStatus
+  - name: provisioningState
+    description: The provisioning state of the shared private link resource. Can be Updating, Deleting, Failed, Succeeded, Incomplete or other yet to be documented value.
+    types:
+    - uid: SharedPrivateLinkResourceProvisioningState
+- name: SharedPrivateLinkResource
+  description: Describes a Shared Private Link Resource managed by the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: properties
+    description: Describes the properties of a Shared Private Link Resource managed by the Azure Cognitive Search service.
+    types:
+    - uid: SharedPrivateLinkResourceProperties
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: CloudError
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: CloudErrorBody
+  - name: message
+    description: A brief description of the error that hints at what went wrong (for details/debugging information refer to the 'error.message' property).
+    types:
+    - uid: string
+- name: SharedPrivateLinkResourceStatus
+  description: Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected or other yet to be documented value.
+  kind: enum
+  properties:
+  - name: Pending
+    description: The shared private link resource has been created and is pending approval.
+    types:
+    - uid: string
+  - name: Approved
+    description: The shared private link resource is approved and is ready for use.
+    types:
+    - uid: string
+  - name: Rejected
+    description: The shared private link resource has been rejected and cannot be used.
+    types:
+    - uid: string
+  - name: Disconnected
+    description: The shared private link resource has been removed from the service.
+    types:
+    - uid: string
+- name: SharedPrivateLinkResourceProvisioningState
+  description: The provisioning state of the shared private link resource. Can be Updating, Deleting, Failed, Succeeded, Incomplete or other yet to be documented value.
+  kind: enum
+  properties:
+  - name: Updating
+    description: The shared private link resource is in the process of being created along with other resources for it to be fully functional.
+    types:
+    - uid: string
+  - name: Deleting
+    description: The shared private link resource is in the process of being deleted.
+    types:
+    - uid: string
+  - name: Failed
+    description: The shared private link resource has failed to be provisioned or deleted.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: The shared private link resource has finished provisioning and is ready for approval.
+    types:
+    - uid: string
+  - name: Incomplete
+    description: Provisioning request for the shared private link resource has been accepted but the process of creation has not commenced yet.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: Describes a particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: Contains nested errors that are related to this error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: SharedPrivateLinkResourceCreateOrUpdate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/sharedPrivateLinkResources/testResource?api-version=2021-04-01-preview
+    body: >-
+      {
+        "properties": {
+          "requestMessage": "please approve",
+          "groupId": "blob",
+          "privateLinkResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/storageAccountName",
+          "resourceRegion": null
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchService/sharedPrivateLinkResources/testResource/operationStatuses/08586060559526078782?api-version=2021-04-01-preview
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchService/sharedPrivateLinkResources/testResource/operationStatuses/08586060559526078782?api-version=2021-04-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "testResource",
+        "type": "Microsoft.Search/searchServices/sharedPrivateLinkResources",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/sharedPrivateLinkResources/testResource",
+        "properties": {
+          "requestMessage": "please approve",
+          "groupId": "blob",
+          "privateLinkResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/storageAccountName",
+          "status": "Pending",
+          "resourceRegion": null
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Initiates the creation or update of a shared private link resource managed by the search service in the given resource group.
+errorCodes: []

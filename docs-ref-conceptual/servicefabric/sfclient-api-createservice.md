@@ -1,6 +1,7 @@
 ---
 title: "Create Service"
-ms.date: "10/21/2020"
+description: "Create Service"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -235,7 +236,8 @@ POST http://localhost:19080/Applications/test/$/GetServices/$/Create?api-version
         "MetricName": "servicefabric:/_MemoryInMB",
         "LowerLoadThreshold": "500",
         "UpperLoadThreshold": "900",
-        "ScaleIntervalInSeconds": "600"
+        "ScaleIntervalInSeconds": "600",
+        "UseOnlyPrimaryLoad": false
       },
       "ScalingMechanism": {
         "Kind": "AddRemoveIncrementalNamedPartition",

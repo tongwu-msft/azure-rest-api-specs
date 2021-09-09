@@ -40,7 +40,8 @@ The following response headers are common to all responses from the SQL API:
 |**x-ms-schemaversion**|Shows the resource schema version number.|  
 |**x-ms-serviceversion**|Shows the service version number.|  
 |**x-ms-session-token**|The session token of the request. For session consistency, clients must echo this request via the x-ms-session-token request header for subsequent operations made to the corresponding collection.|  
-  
+|**x-ms-documentdb-partitionkeyrangeid**|Internal header identifying the partition key range for the request. Users are recommended to not take any dependency on this header value in their applications.|
+
 **See also**  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
 * [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   

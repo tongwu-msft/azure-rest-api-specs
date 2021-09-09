@@ -65,6 +65,11 @@ definitions:
   description: A Job resource type. The progress and state can be obtained by polling a Job or subscribing to events using EventGrid.
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata relating to this resource.
+    types:
+    - uid: systemData
   - name: properties.created
     isReadyOnly: true
     description: The UTC date and time when the customer has created the Job, in 'YYYY-MM-DDThh:mm:ssZ' format.
@@ -84,6 +89,7 @@ definitions:
     types:
     - uid: JobInputClip
     - uid: JobInputs
+    - uid: JobInputSequence
     - uid: JobInputAsset
     - uid: JobInputHttp
     typesTitle: JobInput
@@ -143,6 +149,34 @@ definitions:
     description: The error properties.
     types:
     - uid: ODataError
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: JobState
   description: Describes the state of the JobOutput.
   kind: enum
@@ -212,6 +246,22 @@ definitions:
     types:
     - uid: ODataError
       isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: JobInputClip
   description: Represents input files for a Job.
   kind: object
@@ -237,6 +287,16 @@ definitions:
     description: A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
     types:
     - uid: string
+  - name: inputDefinitions
+    description: Defines a list of InputDefinitions. For each InputDefinition, it defines a list of track selections and related metadata.
+    types:
+    - uid: FromAllInputFile
+      isArray: true
+    - uid: FromEachInputFile
+      isArray: true
+    - uid: InputFile
+      isArray: true
+    typesTitle: InputDefinition[]
   - name: '@odata.type'
     description: The discriminator for derived types.
     types:
@@ -253,6 +313,8 @@ definitions:
       isArray: true
     - uid: JobInputs
       isArray: true
+    - uid: JobInputSequence
+      isArray: true
     - uid: JobInputAsset
       isArray: true
     - uid: JobInputHttp
@@ -262,6 +324,23 @@ definitions:
     description: The discriminator for derived types.
     types:
     - uid: '#Microsoft.Media.JobInputs'
+    typesTitle: string
+- name: JobInputSequence
+  description: A Sequence contains an ordered list of Clips where each clip is a JobInput.  The Sequence will be treated as a single input.
+  kind: object
+  properties:
+  - name: inputs
+    description: JobInputs that make up the timeline.
+    types:
+    - uid: JobInputAsset
+      isArray: true
+    - uid: JobInputHttp
+      isArray: true
+    typesTitle: JobInputClip[]
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.JobInputSequence'
     typesTitle: string
 - name: JobInputAsset
   description: Represents an Asset for input into a Job.
@@ -292,6 +371,16 @@ definitions:
     description: A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
     types:
     - uid: string
+  - name: inputDefinitions
+    description: Defines a list of InputDefinitions. For each InputDefinition, it defines a list of track selections and related metadata.
+    types:
+    - uid: FromAllInputFile
+      isArray: true
+    - uid: FromEachInputFile
+      isArray: true
+    - uid: InputFile
+      isArray: true
+    typesTitle: InputDefinition[]
   - name: '@odata.type'
     description: The discriminator for derived types.
     types:
@@ -326,6 +415,16 @@ definitions:
     description: A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
     types:
     - uid: string
+  - name: inputDefinitions
+    description: Defines a list of InputDefinitions. For each InputDefinition, it defines a list of track selections and related metadata.
+    types:
+    - uid: FromAllInputFile
+      isArray: true
+    - uid: FromEachInputFile
+      isArray: true
+    - uid: InputFile
+      isArray: true
+    typesTitle: InputDefinition[]
   - name: '@odata.type'
     description: The discriminator for derived types.
     types:
@@ -429,6 +528,85 @@ definitions:
     types:
     - uid: '#Microsoft.Media.UtcClipTime'
     typesTitle: string
+- name: FromAllInputFile
+  description: An InputDefinition that looks across all of the files provided to select tracks specified by the IncludedTracks property. Generally used with the AudioTrackByAttribute and VideoTrackByAttribute to allow selection of a single track across a set of input files.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.FromAllInputFile'
+    typesTitle: string
+  - name: includedTracks
+    description: The list of TrackDescriptors which define the metadata and selection of tracks in the input.
+    types:
+    - uid: AudioTrackDescriptor
+      isArray: true
+    - uid: VideoTrackDescriptor
+      isArray: true
+    - uid: SelectVideoTrackByAttribute
+      isArray: true
+    - uid: SelectVideoTrackById
+      isArray: true
+    - uid: SelectAudioTrackByAttribute
+      isArray: true
+    - uid: SelectAudioTrackById
+      isArray: true
+    typesTitle: TrackDescriptor[]
+- name: FromEachInputFile
+  description: An InputDefinition that looks at each input file provided to select tracks specified by the IncludedTracks property. Generally used with the AudioTrackByAttribute and VideoTrackByAttribute to select tracks from each file given.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.FromEachInputFile'
+    typesTitle: string
+  - name: includedTracks
+    description: The list of TrackDescriptors which define the metadata and selection of tracks in the input.
+    types:
+    - uid: AudioTrackDescriptor
+      isArray: true
+    - uid: VideoTrackDescriptor
+      isArray: true
+    - uid: SelectVideoTrackByAttribute
+      isArray: true
+    - uid: SelectVideoTrackById
+      isArray: true
+    - uid: SelectAudioTrackByAttribute
+      isArray: true
+    - uid: SelectAudioTrackById
+      isArray: true
+    typesTitle: TrackDescriptor[]
+- name: InputFile
+  description: An InputDefinition for a single file.  TrackSelections are scoped to the file specified.
+  kind: object
+  properties:
+  - name: filename
+    description: Name of the file that this input definition applies to.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.InputFile'
+    typesTitle: string
+  - name: includedTracks
+    description: The list of TrackDescriptors which define the metadata and selection of tracks in the input.
+    types:
+    - uid: AudioTrackDescriptor
+      isArray: true
+    - uid: VideoTrackDescriptor
+      isArray: true
+    - uid: SelectVideoTrackByAttribute
+      isArray: true
+    - uid: SelectVideoTrackById
+      isArray: true
+    - uid: SelectAudioTrackByAttribute
+      isArray: true
+    - uid: SelectAudioTrackById
+      isArray: true
+    typesTitle: TrackDescriptor[]
 - name: JobErrorCode
   description: Error code describing the error.
   kind: enum
@@ -519,6 +697,172 @@ definitions:
     description: A human-readable representation of the error.
     types:
     - uid: string
+- name: AudioTrackDescriptor
+  description: A TrackSelection to select audio tracks.
+  kind: object
+  properties:
+  - name: channelMapping
+    description: Optional designation for single channel audio tracks.  Can be used to combine the tracks into stereo or multi-channel audio tracks.
+    types:
+    - uid: ChannelMapping
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.AudioTrackDescriptor'
+    typesTitle: string
+- name: VideoTrackDescriptor
+  description: A TrackSelection to select video tracks.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.VideoTrackDescriptor'
+    typesTitle: string
+- name: SelectVideoTrackByAttribute
+  description: Select video tracks from the input by specifying an attribute and an attribute filter.
+  kind: object
+  properties:
+  - name: attribute
+    description: The TrackAttribute to filter the tracks by.
+    types:
+    - uid: TrackAttribute
+  - name: filter
+    description: The type of AttributeFilter to apply to the TrackAttribute in order to select the tracks.
+    types:
+    - uid: AttributeFilter
+  - name: filterValue
+    description: "The value to filter the tracks by.  Only used when AttributeFilter.ValueEquals is specified for the Filter property. For TrackAttribute.Bitrate, this should be an integer value in bits per second (e.g: '1500000').  The TrackAttribute.Language is not supported for video tracks."
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.SelectVideoTrackByAttribute'
+    typesTitle: string
+- name: SelectVideoTrackById
+  description: Select video tracks from the input by specifying a track identifier.
+  kind: object
+  properties:
+  - name: trackId
+    description: Track identifier to select
+    types:
+    - uid: integer
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.SelectVideoTrackById'
+    typesTitle: string
+- name: SelectAudioTrackByAttribute
+  description: Select audio tracks from the input by specifying an attribute and an attribute filter.
+  kind: object
+  properties:
+  - name: attribute
+    description: The TrackAttribute to filter the tracks by.
+    types:
+    - uid: TrackAttribute
+  - name: filter
+    description: The type of AttributeFilter to apply to the TrackAttribute in order to select the tracks.
+    types:
+    - uid: AttributeFilter
+  - name: filterValue
+    description: The value to filter the tracks by.  Only used when AttributeFilter.ValueEquals is specified for the Filter property.
+    types:
+    - uid: string
+  - name: channelMapping
+    description: Optional designation for single channel audio tracks.  Can be used to combine the tracks into stereo or multi-channel audio tracks.
+    types:
+    - uid: ChannelMapping
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.SelectAudioTrackByAttribute'
+    typesTitle: string
+- name: SelectAudioTrackById
+  description: Select audio tracks from the input by specifying a track identifier.
+  kind: object
+  properties:
+  - name: trackId
+    description: Track identifier to select
+    types:
+    - uid: integer
+  - name: channelMapping
+    description: Optional designation for single channel audio tracks.  Can be used to combine the tracks into stereo or multi-channel audio tracks.
+    types:
+    - uid: ChannelMapping
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.SelectAudioTrackById'
+    typesTitle: string
+- name: ChannelMapping
+  description: Optional designation for single channel audio tracks.  Can be used to combine the tracks into stereo or multi-channel audio tracks.
+  kind: enum
+  properties:
+  - name: FrontLeft
+    description: The Front Left Channel.
+    types:
+    - uid: string
+  - name: FrontRight
+    description: The Front Right Channel.
+    types:
+    - uid: string
+  - name: Center
+    description: The Center Channel.
+    types:
+    - uid: string
+  - name: LowFrequencyEffects
+    description: Low Frequency Effects Channel.  Sometimes referred to as the Subwoofer.
+    types:
+    - uid: string
+  - name: BackLeft
+    description: The Back Left Channel.  Sometimes referred to as the Left Surround Channel.
+    types:
+    - uid: string
+  - name: BackRight
+    description: The Back Right Channel.  Sometimes referred to as the Right Surround Channel.
+    types:
+    - uid: string
+  - name: StereoLeft
+    description: The Left Stereo channel.  Sometimes referred to as Down Mix Left.
+    types:
+    - uid: string
+  - name: StereoRight
+    description: The Right Stereo channel.  Sometimes referred to as Down Mix Right.
+    types:
+    - uid: string
+- name: TrackAttribute
+  description: The TrackAttribute to filter the tracks by.
+  kind: enum
+  properties:
+  - name: Bitrate
+    description: The bitrate of the track.
+    types:
+    - uid: string
+  - name: Language
+    description: The language of the track.
+    types:
+    - uid: string
+- name: AttributeFilter
+  description: The type of AttributeFilter to apply to the TrackAttribute in order to select the tracks.
+  kind: enum
+  properties:
+  - name: All
+    description: All tracks will be included.
+    types:
+    - uid: string
+  - name: Top
+    description: The first track will be included when the attribute is sorted in descending order.  Generally used to select the largest bitrate.
+    types:
+    - uid: string
+  - name: Bottom
+    description: The first track will be included when the attribute is sorted in ascending order.  Generally used to select the smallest bitrate.
+    types:
+    - uid: string
+  - name: ValueEquals
+    description: Any tracks that have an attribute equal to the value given will be included.
+    types:
+    - uid: string
 examples:
 - name: Get a Job by name
   request:
@@ -540,6 +884,7 @@ examples:
               {
                 "@odata.type": "#Microsoft.Media.JobInputAsset",
                 "files": [],
+                "inputDefinitions": [],
                 "assetName": "job1-InputAsset"
               }
             ]
@@ -556,7 +901,17 @@ examples:
           ],
           "priority": "Low",
           "correlationData": {}
+        },
+        "systemData": {
+          "createdBy": "contoso@microsoft.com",
+          "createdByType": "User",
+          "createdAt": "0001-01-01T00:00:00Z",
+          "lastModifiedBy": "contoso@microsoft.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "0001-01-01T00:00:00Z"
         }
       }
 security: []
+metadata:
+  description: "Learn more about Media Services service - Get Job  \nGets a Job."
 errorCodes: []

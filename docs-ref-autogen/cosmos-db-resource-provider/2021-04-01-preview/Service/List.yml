@@ -1,0 +1,147 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmos-db-resource-provider.2021-04-01-preview.service.list
+name: List
+service: Cosmos DB Resource Provider
+groupName: Service
+apiVersion: 2021-04-01-preview
+summary: Gets the status of service.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services?api-version=2021-04-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: Cosmos DB database account name.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9]+(-[a-z0-9]+)*
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The ServiceResource.
+  types:
+  - uid: ServiceResourceListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ServiceResourceListResult
+  description: The List operation response, that contains the Service Resource and their properties.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of Service Resource and their properties.
+    types:
+    - uid: ServiceResource
+      isArray: true
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Error Response.
+    types:
+    - uid: ErrorResponse
+- name: ServiceResource
+  description: Properties for the database account.
+  kind: object
+  properties:
+  - name: properties
+    description: Services response resource.
+    types:
+    - uid: ServiceResourceProperties
+  - name: id
+    isReadyOnly: true
+    description: The unique resource identifier of the database account.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the database account.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of Azure resource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: CosmosDBServicesList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/services?api-version=2021-04-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/services/sqlDedicatedGateway",
+            "name": "sqlDedicatedGateway",
+            "type": "Microsoft.DocumentDB/databaseAccounts/services",
+            "properties": {
+              "status": "Running",
+              "creationTime": "2021-01-25T12:56:05.4622517Z",
+              "instanceSize": "Cosmos.D4s",
+              "instanceCount": 1,
+              "serviceType": "SqlDedicatedGateway",
+              "SqlDedicatedGatewayEndpoint": "https://sqlDedicatedGateway.sqlx.cosmos.windows-int.net/",
+              "locations": [
+                {
+                  "name": "sqlDedicatedGateway-westus2",
+                  "location": "West US 2",
+                  "status": "Running",
+                  "SqlDedicatedGatewayEndpoint": "https://sqlDedicatedGateway-westus.sqlx.cosmos.windows-int.net/"
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+metadata:
+  description: Learn more about Cosmos DB Resource Provider service - Gets the status of service.
+errorCodes: []

@@ -1,7 +1,7 @@
 ---
 title: Service operations using Azure Cognitive Search REST API
 description: Learn which REST APIs are used to obtain information about your Azure Cognitive Search service.
-ms.date: 06/30/2020
+ms.date: 01/18/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -13,13 +13,16 @@ ms.manager: nitinme
 ---
 # Service operations (Azure Cognitive Search REST API)
 
-While most of the Azure Cognitive Search REST APIs apply to a particular resource in your Search service such as an index, data source, and so on, some APIs are global to the Search service itself. Currently, the only service-level operation returns information about resource consumption and service limits.
+While most of the Azure Cognitive Search REST APIs apply to a particular object in your search service such as an index, data source, and so on, the **Get Service Statistics** API is global to the search service itself. It returns information about resource consumption and service limits. In the portal, this API is used to populate the **Usage** tab on the overview page of your search service.
 
 ## Operations on services
 
-- [Get Service Statistics &#40;Azure Cognitive Search REST API&#41;](get-service-statistics.md)  
+An admin API key is required for viewing system information.
 
-## See also  
- [Azure Cognitive Search REST APIs](index.md)   
- [Service limits in Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)   
- [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search)  
+- [Get Service Statistics](get-service-statistics.md)  
+
+## See also
+
++ [Get started with Azure Cognitive Search REST APIs](/azure/search/search-get-started-rest)   
++ [Service limits](/azure/search/search-limits-quotas-capacity/)   
++ [Create and manage API keys](/azure/search/search-security-api-keys)  

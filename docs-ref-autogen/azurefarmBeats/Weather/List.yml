@@ -1,0 +1,506 @@
+### YamlMime:RESTOperation
+uid: azurefarmbeats.weather.list
+name: List
+service: Azure FarmBeats
+groupName: Weather
+apiVersion: 2021-03-31-preview
+summary: "Get a paginated list of weather data resources for a given search criteria.\n\n\r###### Note: \n1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.\n2. This API will retrieve weather data present in the FarmBeats datastore and does not ingest new data. Example: a user has ingested historical weather data from 1st of Jan 2019 to 30th of June 2019. However, using the current API, the user has asked for historical data from 1st of Jan 2019 to 31st of December 2019. In such a case, only data for the first 6 months is returned to the user.\n\n"
+produces:
+- application/json
+paths:
+- content: GET /weather?farmerId={farmerId}&boundaryId={boundaryId}&extensionId={extensionId}&weatherDataType={weatherDataType}&granularity={granularity}&api-version=2021-03-31-preview
+- content: GET /weather?farmerId={farmerId}&boundaryId={boundaryId}&extensionId={extensionId}&weatherDataType={weatherDataType}&granularity={granularity}&startDateTime={startDateTime}&endDateTime={endDateTime}&$maxPageSize={$maxPageSize}&$skipToken={$skipToken}&api-version=2021-03-31-preview
+  isOptional: true
+uriParameters:
+- name: farmerId
+  in: query
+  isRequired: true
+  description: Id of the associated farmer.
+  types:
+  - uid: string
+- name: boundaryId
+  in: query
+  isRequired: true
+  description: Id of the associated boundary.
+  types:
+  - uid: string
+- name: extensionId
+  in: query
+  isRequired: true
+  description: Id of the weather extension. This signifies the source from where the weather data is fetched (eg. DTN.ClearAg).
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z]{3,50}[.][a-zA-Z]{3,100}$
+- name: weatherDataType
+  in: query
+  isRequired: true
+  description: Type of weather data (forecast/historical).
+  types:
+  - uid: string
+- name: granularity
+  in: query
+  isRequired: true
+  description: Granularity of weather data (daily/hourly).
+  types:
+  - uid: string
+- name: startDateTime
+  in: query
+  description: 'Weather data at or after the given UTC Date-time will be returned (format: yyyy-MM-ddTHH:mm:ssZ).'
+  types:
+  - uid: string
+  format: date-time
+- name: endDateTime
+  in: query
+  description: 'Weather data at or before the given UTC Date-time will be returned (format: yyyy-MM-ddTHH:mm:ssZ).'
+  types:
+  - uid: string
+  format: date-time
+- name: $maxPageSize
+  in: query
+  description: Maximum number of items to be returned in a single page.
+  types:
+  - uid: integer
+  format: int32
+- name: $skipToken
+  in: query
+  description: Skip token for getting next set of results.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The requested API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: WeatherDataListResponse
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  types:
+  - uid: string
+definitions:
+- name: WeatherDataListResponse
+  description: Paged response contains list of requested objects and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of requested objects.
+    types:
+    - uid: WeatherData
+      isArray: true
+  - name: $skipToken
+    description: Token used in retrieving the next page. If null, there are no additional pages.
+    types:
+    - uid: string
+  - name: nextLink
+    description: Continuation link (absolute URI) to the next page of results in the list. If null, there are no additional pages.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: >-
+    An error response from Azure AgPlatform service.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
+  kind: object
+  properties:
+  - name: error
+    description: An error from Azure FarmBeats service.
+    types:
+    - uid: Error
+  - name: traceId
+    description: Unique trace Id.
+    types:
+    - uid: string
+- name: WeatherData
+  description: Schema of weather data.
+  kind: object
+  properties:
+  - name: farmerId
+    description: Id of the associated farmer.
+    types:
+    - uid: string
+  - name: boundaryId
+    description: Id of the associated boundary.
+    types:
+    - uid: string
+  - name: extensionId
+    description: Id of the weather extension. This signifies the source from where the weather data is fetched (eg. DTN.ClearAg).
+    types:
+    - uid: string
+  - name: location
+    description: Location model class.
+    types:
+    - uid: Location
+  - name: dateTime
+    description: UTC Date-time of the weather data (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: unitSystemCode
+    description: Unit system like US/SI etc.
+    types:
+    - uid: string
+  - name: extensionVersion
+    description: Version of the weather data extension.
+    types:
+    - uid: string
+  - name: weatherDataType
+    description: Type of weather data (forecast/historical).
+    types:
+    - uid: string
+  - name: granularity
+    description: Granularity of weather data (daily/hourly).
+    types:
+    - uid: string
+  - name: cloudCover
+    description: Schema for storing measurement reading and unit.
+    types:
+    - uid: Measure
+  - name: dewPoint
+    description: Schema for storing measurement reading and unit.
+    types:
+    - uid: Measure
+  - name: growingDegreeDay
+    description: Schema for storing measurement reading and unit.
+    types:
+    - uid: Measure
+  - name: precipitation
+    description: Schema for storing measurement reading and unit.
+    types:
+    - uid: Measure
+  - name: pressure
+    description: Schema for storing measurement reading and unit.
+    types:
+    - uid: Measure
+  - name: relativeHumidity
+    description: Schema for storing measurement reading and unit.
+    types:
+    - uid: Measure
+  - name: soilMoisture
+    description: Schema for storing measurement reading and unit.
+    types:
+    - uid: Measure
+  - name: soilTemperature
+    description: Schema for storing measurement reading and unit.
+    types:
+    - uid: Measure
+  - name: temperature
+    description: Schema for storing measurement reading and unit.
+    types:
+    - uid: Measure
+  - name: visibility
+    description: Schema for storing measurement reading and unit.
+    types:
+    - uid: Measure
+  - name: wetBulbTemperature
+    description: Schema for storing measurement reading and unit.
+    types:
+    - uid: Measure
+  - name: windChill
+    description: Schema for storing measurement reading and unit.
+    types:
+    - uid: Measure
+  - name: windDirection
+    description: Schema for storing measurement reading and unit.
+    types:
+    - uid: Measure
+  - name: windGust
+    description: Schema for storing measurement reading and unit.
+    types:
+    - uid: Measure
+  - name: windSpeed
+    description: Schema for storing measurement reading and unit.
+    types:
+    - uid: Measure
+  - name: id
+    description: Unique id of weather data.
+    types:
+    - uid: string
+  - name: eTag
+    isReadyOnly: true
+    description: ETag value can be used to implement optimistic concurrency.
+    types:
+    - uid: string
+  - name: createdDateTime
+    isReadyOnly: true
+    description: UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: modifiedDateTime
+    isReadyOnly: true
+    description: UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: properties
+    description: A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: Error
+  description: An error from Azure FarmBeats service.
+  kind: object
+  properties:
+  - name: code
+    description: Server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+- name: Location
+  description: Location model class.
+  kind: object
+  properties:
+  - name: latitude
+    description: Latitude of the location.
+    types:
+    - uid: number
+  - name: longitude
+    description: Longitude of the location.
+    types:
+    - uid: number
+- name: Measure
+  description: Schema for storing measurement reading and unit.
+  kind: object
+  properties:
+  - name: unit
+    description: Data unit.
+    types:
+    - uid: string
+  - name: value
+    description: Data value.
+    types:
+    - uid: number
+- name: InnerError
+  description: >-
+    Inner error containing list of errors.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+  kind: object
+  properties:
+  - name: code
+    description: Specific error code than was provided by the containing error.
+    types:
+    - uid: string
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+examples:
+- name: Weather_List
+  request:
+    uri: GET /weather?farmerId=Farmer123&boundaryId=Boundary123&extensionId=DTN.ClearAg&weatherDataType=historical&granularity=daily&api-version=2021-03-31-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "farmerId": "Farmer123",
+            "boundaryId": "Boundary123",
+            "extensionId": "DTN.ClearAg",
+            "location": {
+              "latitude": 47.922759,
+              "longitude": -97.089954
+            },
+            "dateTime": "2020-11-30T00:00:00Z",
+            "unitSystemCode": "us-std",
+            "extensionVersion": "1.0",
+            "weatherDataType": "historical",
+            "granularity": "daily",
+            "cloudCover": {
+              "unit": "%",
+              "value": 10.2
+            },
+            "dewPoint": {
+              "unit": "F",
+              "value": 12
+            },
+            "precipitation": {
+              "unit": "in",
+              "value": 0
+            },
+            "relativeHumidity": {
+              "unit": "%",
+              "value": 70
+            },
+            "temperature": {
+              "unit": "F",
+              "value": 21
+            },
+            "visibility": {
+              "unit": "mi",
+              "value": 10
+            },
+            "windGust": {
+              "unit": "mph",
+              "value": 26
+            },
+            "windSpeed": {
+              "unit": "mph",
+              "value": 12
+            },
+            "id": "b947d00f-5078-9bfa-f97a-1ef1ce54756a",
+            "eTag": "03002f6d-0000-0600-0000-60ce04a90000",
+            "createdDateTime": "2021-06-19T14:52:25Z",
+            "modifiedDateTime": "2021-06-19T14:52:25Z",
+            "properties": {
+              "airTempMax": {
+                "unit": "F",
+                "value": 35
+              },
+              "airTempMin": {
+                "unit": "F",
+                "value": 10
+              },
+              "cloudCoverMax": {
+                "unit": "%",
+                "value": 59.7
+              },
+              "cloudCoverMin": {
+                "unit": "%",
+                "value": 0
+              },
+              "cloudCoverAvgDescriptor": "Sunny",
+              "cloudCoverMaxDescriptor": "Partly Cloudy",
+              "cloudCoverMinDescriptor": "Sunny",
+              "dewPointMax": {
+                "unit": "F",
+                "value": 18
+              },
+              "dewPointMin": {
+                "unit": "F",
+                "value": 6
+              },
+              "iceAccPeriod": {
+                "unit": "in",
+                "value": 0
+              },
+              "liquidAccPeriod": {
+                "unit": "in",
+                "value": 0
+              },
+              "longWaveRadiationAvg": {
+                "unit": "W/m^2",
+                "value": 210
+              },
+              "longWaveRadiationMax": {
+                "unit": "W/m^2",
+                "value": 264
+              },
+              "longWaveRadiationMin": {
+                "unit": "W/m^2",
+                "value": 173
+              },
+              "petPeriod": {
+                "unit": "in",
+                "value": 0.02
+              },
+              "precipAccPeriodAdjusted": {
+                "unit": "%",
+                "value": 0
+              },
+              "precipAccPeriodRaw": {
+                "unit": "%",
+                "value": 0
+              },
+              "relativeHumidityMax": {
+                "unit": "%",
+                "value": 82
+              },
+              "relativeHumidityMin": {
+                "unit": "%",
+                "value": 46
+              },
+              "shortWaveRadiationAvg": {
+                "unit": "W/m^2",
+                "value": 44
+              },
+              "shortWaveRadiationMax": {
+                "unit": "W/m^2",
+                "value": 220
+              },
+              "shortWaveRadiationMin": {
+                "unit": "W/m^2",
+                "value": 0
+              },
+              "snowAccPeriod": {
+                "unit": "in",
+                "value": 0
+              },
+              "sunshineDuration": {
+                "unit": "hours",
+                "value": 2
+              },
+              "visibilityMax": {
+                "unit": "mi",
+                "value": 10
+              },
+              "visibilityMin": {
+                "unit": "mi",
+                "value": 10
+              },
+              "windSpeed2mAvg": {
+                "unit": "mph",
+                "value": 9
+              },
+              "windSpeed2mMax": {
+                "unit": "mph",
+                "value": 14
+              },
+              "windSpeed2mMin": {
+                "unit": "mph",
+                "value": 4
+              },
+              "windSpeedMax": {
+                "unit": "mph",
+                "value": 18
+              },
+              "windSpeedMin": {
+                "unit": "mph",
+                "value": 5
+              }
+            }
+          }
+        ]
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  in: header
+metadata:
+  description: "Get a paginated list of weather data resources for a given search criteria.\n\n\r###### Note: \n1. Users will get paginated response with each page containing a link to the next page."
+errorCodes: []

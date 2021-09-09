@@ -25,6 +25,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Update Topic
+
+> [!IMPORTANT]
+> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+
 Updates a topic. The updated descriptor is sent in the request body. The API updates the topic entries in the FE/BE entries.  
   
 ## Request  

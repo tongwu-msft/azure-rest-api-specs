@@ -80,7 +80,7 @@ In this example, we are only sending messaging to the event hub, so add the appl
     2. Add `grant_type` key, and type `client_credentials` for the value. 
     3. Add `client_id` key, and paste the value of **client ID** you noted down earlier. 
     1. Add `client_secret` key, and paste the value of **client secret** you noted down earlier. 
-    1. Add `resource` key, and type `https://servicebus.azure.net` for the value. 
+    1. Add `resource` key, and type `https://eventhubs.azure.net` for the value. 
 
         :::image type="content" source="./media/get-azure-active-directory-token/postman-body.png" alt-text="Set body for the request" lightbox="./media/get-azure-active-directory-token/postman-body.png":::
 6. Select **Send** to send the request to get the token. You see the token in the result. Save the token (excluding double quotes). You will use it later. 

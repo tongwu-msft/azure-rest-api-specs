@@ -1,0 +1,171 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices-luis.authoringv3.0preview.examples.add
+name: Add
+service: Cognitive Services - LUIS
+groupName: Examples
+apiVersion: 3.0-preview
+summary: Adds a labeled example utterance in a version of the application.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/luis/authoring/v3.0-preview/apps/{appId}/versions/{versionId}/example
+- content: POST {Endpoint}/luis/authoring/v3.0-preview/apps/{appId}/versions/{versionId}/example?enableNestedChildren={enableNestedChildren}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: appId
+  in: path
+  isRequired: true
+  description: The application ID.
+  types:
+  - uid: string
+  format: uuid
+- name: versionId
+  in: path
+  isRequired: true
+  description: The version ID.
+  types:
+  - uid: string
+- name: enableNestedChildren
+  in: query
+  description: Toggles nested/flat format
+  types:
+  - uid: boolean
+responses:
+- name: 201 Created
+  description: The ID of the created example utterance.
+  types:
+  - uid: LabelExampleResponse
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: text
+    in: body
+    description: The example utterance.
+    types:
+    - uid: string
+  - name: entityLabels
+    in: body
+    description: The identified entities within the example utterance.
+    types:
+    - uid: EntityLabelObject
+      isArray: true
+  - name: intentName
+    in: body
+    description: The identified intent representing the example utterance.
+    types:
+    - uid: string
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: EntityLabelObject
+  description: Defines the entity type and position of the extracted entity within the example.
+  kind: object
+  properties:
+  - name: entityName
+    description: The entity type.
+    types:
+    - uid: string
+  - name: startCharIndex
+    description: The index within the utterance where the extracted entity starts.
+    types:
+    - uid: integer
+  - name: endCharIndex
+    description: The index within the utterance where the extracted entity ends.
+    types:
+    - uid: integer
+  - name: role
+    description: The role the entity plays in the utterance.
+    types:
+    - uid: string
+  - name: children
+    description: The identified entities within the example utterance.
+    types:
+    - uid: EntityLabelObject
+      isArray: true
+- name: LabelExampleResponse
+  description: Response when adding a labeled example utterance.
+  kind: object
+  properties:
+  - name: UtteranceText
+    description: The example utterance.
+    types:
+    - uid: string
+  - name: ExampleId
+    description: The newly created sample ID.
+    types:
+    - uid: integer
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+- name: ExampleLabelObject
+  description: A labeled example utterance.
+  kind: object
+  properties:
+  - name: text
+    description: The example utterance.
+    types:
+    - uid: string
+  - name: entityLabels
+    description: The identified entities within the example utterance.
+    types:
+    - uid: EntityLabelObject
+      isArray: true
+  - name: intentName
+    description: The identified intent representing the example utterance.
+    types:
+    - uid: string
+examples:
+- name: Successful Add Label request
+  request:
+    uri: POST {Endpoint}/luis/authoring/v3.0-preview/apps/86226c53-b7a6-416f-876b-226b2b5ab07b/versions/0.1/example?enableNestedChildren=False
+    body: >-
+      {
+        "text": "whats the weather in buenos aires?",
+        "intentName": "WeatherInPlace",
+        "entityLabels": [
+          {
+            "entityName": "Place",
+            "startCharIndex": 21,
+            "endCharIndex": 34
+          }
+        ]
+      }
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: "00000000000000000000000000000000"
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "UtteranceText": "whats the weather in buenos aires?",
+        "ExampleId": -11
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+metadata:
+  description: Learn more about Cognitive Services - LUIS service - Adds a labeled example utterance in a version of the application.
+errorCodes: []

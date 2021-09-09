@@ -1,5 +1,6 @@
 ---
 title: "Get Image Store Upload Session By Id"
+description: "Get Image Store Upload Session By Id"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

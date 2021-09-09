@@ -1,7 +1,7 @@
 ---
 title: "List Databases - Azure Cosmos DB REST API"
 description: List databases REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "02/25/2016"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: ca9ca696-fd60-4e21-8107-5ea293f20cdb
@@ -23,6 +23,9 @@ translation.priority.mt:
 ---
 # List Databases
   To list the databases under the database account, perform a GET on the databases resource, that is, the dbs URI path.  
+
+> [!NOTE]
+> These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md).
   
 ## Request  
   
