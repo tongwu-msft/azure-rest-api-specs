@@ -22,7 +22,7 @@ Azure Security Center provides unified security management and advanced threat p
 | [Adaptive Network Hardenings](../../docs-ref-autogen/securitycenter/Adaptive-Network-Hardenings.yml) | Controls for Adaptive Network Hardening resources and rules.|
 | [Advanced Threat Protection](../../docs-ref-autogen/securitycenter/Advanced-Threat-Protection.yml) | Advanced Threat Protection settings on a specified resource.|
 | [Alerts](../../docs-ref-autogen/securitycenter/Alerts.yml) |Alerts on security events that happened on the subscription.|
-| [Alerts Suppression Rules](../../docs-ref-autogen/securitycenter/Alerts-Suppression-Rules.yml.yml) | View and edit alert suppression rules.|
+| [Alerts Suppression Rules](../../docs-ref-autogen/securitycenter/Alerts-Suppression-Rules.yml) | View and edit alert suppression rules.|
 | [Allowed Connections](../../docs-ref-autogen/securitycenter/Allowed-Connections.yml) |Lists the permissible traffic routes between resources.|
 | [Assessments](../../docs-ref-autogen/securitycenter/Assessments.yml) |Manage security assessments.|
 | [Assessments Metadata](../../docs-ref-autogen/securitycenter/Assessments-Metadata.yml) |Manage metadata for the security assessments.|
