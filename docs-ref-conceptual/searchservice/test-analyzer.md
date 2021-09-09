@@ -1,7 +1,7 @@
 ---
 title: Analyze Text (Azure Cognitive Search REST API)
 description: Test predefined and custom analyzers used for breaking text into tokens during Azure Cognitive Search indexing.
-ms.date: 06/30/2020
+ms.date: 09/08/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -13,7 +13,7 @@ ms.manager: nitinme
 ---
 # Analyze Text (Azure Cognitive Search REST API)
 
-The **Analyze API** shows how an analyzer breaks text into tokens.
+The **Analyze API** shows how an analyzer breaks text into tokens. It's intended for interactive testing so that you can see how a given analyzer will tokenize a string input.
 
 ```http
 POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-version=[api-version]
@@ -21,7 +21,9 @@ POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-
     api-key: [admin key]
 ```
 
- ## URI Parameters
+To specify an analyzer used during indexing and query execution, set the analyzer property on string fields in the index.
+
+## URI Parameters
 
 | Parameter	  | Description  | 
 |-------------|--------------|
@@ -29,14 +31,14 @@ POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-
 | index name  | Required. The request URI specifies the name of the index that contains the field you want to analyze.   |
 | api-version | Required. The current stable version is `api-version=2020-06-30`. See [API versions](search-service-api-versions.md) for more versions. |
 
-## Request Headers 
- The following table describes the required and optional request headers.  
+## Request Headers
+
+The following table describes the required and optional request headers.  
 
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Analyzer requests must include an `api-key` header set to your admin key (as opposed to a query key). You can [find the API key](/azure/search/search-security-api-keys#find-existing-keys) in your search service dashboard in the Azure portal.|  
-
 
 ## Request Body
 
@@ -45,8 +47,10 @@ POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-
   "text": "Text to analyze",
   "analyzer": "analyzer_name"
 }
-```  
+```
+ 
 or
+
 ```json
 {
   "text": "Text to analyze",
@@ -54,15 +58,16 @@ or
   "tokenFilters": (optional) [ "token_filter_name" ],
   "charFilters": (optional) [ "char_filter_name" ]
 }
-```  
+``` 
+ 
 The `analyzer_name`, `tokenizer_name`, `token_filter_name` and `char_filter_name` need to be valid names of predefined or custom analyzers, tokenizers, token filters, and char filters for the index. To learn more about the process of lexical analysis, see [Analysis in Azure Cognitive Search](https://aka.ms/azsanalysis).
-
 
 ## Response  
 
 Status Code: 200 OK is returned for a successful response.
 
 The response body is in the following format:
+
 ```json
     {
       "tokens": [
@@ -80,6 +85,7 @@ The response body is in the following format:
 ## Examples
 
 Request body includes the string and analyzer you want to use.
+
 ```json
      {
        "text": "The quick brown fox",
@@ -120,12 +126,8 @@ The response shows the tokens emitted by the analyzer for the string you provide
 }
 ```
 
- > [!Tip]
- > The [Search Analyzer Demo](https://alice.unearth.ai/) provides side-by-side comparison of results produced by the standard Lucene analyzer, Lucene's English language analyzer, and Microsoft's English natural language processor. For each search input you provide, results from each analyzer are displayed in adjacent panes.
- 
 ## See also  
 
-+ [Azure Cognitive Search REST APIs](index.md)  
-+ [Custom analyzers in Azure Cognitive Search](/azure/search/index-add-custom-analyzers)  
-+ [Language support](/azure/search/index-add-language-analyzers)  
-+ [HTTP status codes](http-status-codes.md) 
++ [Analyzers in Azure Cognitive Search](/azure/search/search-analyzers)  
++ [Add a custom analyzer](/azure/search/index-add-custom-analyzers)  
++ [Add a language analyzer](/azure/search/index-add-language-analyzers) 
