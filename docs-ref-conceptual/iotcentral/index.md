@@ -6,7 +6,7 @@ ms.service: iot-central
 ms.topic: reference
 author: avneet723
 ms.author: avneets
-ms.date: 08/02/2021
+ms.date: 09/09/21
 ---
 
 # Azure IoT Central REST API reference
@@ -22,16 +22,13 @@ The IoT Central REST API enables you to develop clients that integrate with your
 
 Try our [guided learning journey](/learn/modules/manage-iot-central-apps-with-rest-api/) to learn about how to use the IoT Central APIs.
 
-> [!Note]
-> Organization REST API is going live soon. Please note that our latest IoT Central REST API preview includes REST endpoint for the newly introduced Organization capability in the product. This endpoint will go live as Organization feature releases over the next few weeks.  
-
 ## Operation groups
 
 The IoT Central REST API provides operations for working with the following resources:
 
 | Operation group | Description                                                        | Learn more |
 |-----------------|--------------------------------------------------------------------|------------| 
-| [API Tokens](/rest/api/iotcentral/1.0/apitokens)  | Create, read, delete access tokens used to interact with the IoT Central public APIs| [Authenticating against the API](https://aka.ms/iotcentralapidocsauth)
+| [API Tokens](https://aka.ms/iotcapi-token)  | Create, read, delete access tokens used to interact with the IoT Central public APIs| [Authenticating against the API](https://aka.ms/iotcentralapidocsauth)
 | [Continuous Data Exports](https://aka.ms/iotcapi-cde) | Manage data exports within your IoT Central application | [Export your data](/azure/iot-central/preview/howto-export-data)|
 | [Device Templates](https://aka.ms/iotcapi-devicetemplates) | Create, read, and delete device templates within an IoT Central application| [Setup device template](/azure/iot-central/core/howto-set-up-template)|
 | [Devices](https://aka.ms/iotcapi-devices) | Get information about and manage devices and IoT Edge modules in your IoT Central application| [Manage your devices](/azure/iot-central/preview/howto-manage-devices)|
