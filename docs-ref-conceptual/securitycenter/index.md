@@ -18,8 +18,8 @@ Azure Security Center provides unified security management and advanced threat p
 
 | Operation Group | Description |
 |---|---|
-| [Adaptive Application Controls](../../docs-ref-autogen/securitycenter/AdaptiveApplicationControls.yml) | Configuration of application control rules on groups of VMs/servers.|
-| [Adaptive Network Hardenings](../../docs-ref-autogen/securitycenter/AdaptiveNetworkHardenings.yml) | Controls for Adaptive Network Hardening resources and rules.|
+| [Adaptive Application Controls](../../docs-ref-autogen/securitycenter/Adaptive-Application-Controls.yml) | Configuration of application control rules on groups of VMs/servers.|
+| [Adaptive Network Hardenings](../../docs-ref-autogen/securitycenter/Adaptive-Network-Hardenings.yml) | Controls for Adaptive Network Hardening resources and rules.|
 | [Advanced Threat Protection](../../docs-ref-autogen/securitycenter/AdvancedThreatProtection.yml) | Advanced Threat Protection settings on a specified resource.|
 | [Alerts](../../docs-ref-autogen/securitycenter/Alerts.yml) |Alerts on security events that happened on the subscription.|
 | [Alerts Suppression Rules](../../docs-ref-autogen/securitycenter/alertssuppressionrules.yml) | View and edit alert suppression rules.|
