@@ -3,14 +3,14 @@ uid: management.azure.com.purview.accounts.createorupdate
 name: Create Or Update
 service: Purview
 groupName: Accounts
-apiVersion: 2020-12-01-preview
+apiVersion: 2021-07-01
 summary: "Create or update an account resource  \nCreates or updates an account"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts/{accountName}?api-version=2020-12-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts/{accountName}?api-version=2021-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -184,6 +184,24 @@ definitions:
     description: Gets or sets the type.
     types:
     - uid: string
+- name: Identity
+  description: The Managed Identity of the resource
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: Service principal object Id
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: Tenant Id
+    types:
+    - uid: string
+  - name: type
+    description: Identity Type
+    types:
+    - uid: type
 - name: SystemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -218,24 +236,6 @@ definitions:
     description: The type of identity that last modified the resource.
     types:
     - uid: lastModifiedByType
-- name: Identity
-  description: The Managed Identity of the resource
-  kind: object
-  properties:
-  - name: principalId
-    isReadyOnly: true
-    description: Service principal object Id
-    types:
-    - uid: string
-  - name: tenantId
-    isReadyOnly: true
-    description: Tenant Id
-    types:
-    - uid: string
-  - name: type
-    description: Identity Type
-    types:
-    - uid: type
 - name: Account
   description: Account resource
   kind: object
@@ -301,11 +301,6 @@ definitions:
     description: Gets or sets the public network access.
     types:
     - uid: publicNetworkAccess
-  - name: properties.systemData
-    isReadyOnly: true
-    description: Metadata pertaining to creation and last modification of the resource.
-    types:
-    - uid: SystemData
   - name: id
     isReadyOnly: true
     description: Gets or sets the identifier.
@@ -324,6 +319,11 @@ definitions:
     description: Gets or sets the name.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
   - name: tags
     description: Tags on the azure resource.
     types:
@@ -377,6 +377,13 @@ definitions:
     description: The status.
     types:
     - uid: status
+- name: type
+  description: Identity Type
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -407,13 +414,6 @@ definitions:
     types:
     - uid: string
   - name: Key
-    types:
-    - uid: string
-- name: type
-  description: Identity Type
-  kind: enum
-  properties:
-  - name: SystemAssigned
     types:
     - uid: string
 - name: provisioningState
@@ -532,7 +532,7 @@ definitions:
 examples:
 - name: Accounts_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/SampleResourceGroup/providers/Microsoft.Purview/accounts/account1?api-version=2020-12-01-preview
+    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/SampleResourceGroup/providers/Microsoft.Purview/accounts/account1?api-version=2021-07-01
     body: >-
       {
         "location": "West US 2",
@@ -599,6 +599,14 @@ examples:
           "name": "Standard",
           "capacity": 1
         },
+        "systemData": {
+          "createdBy": "client-name",
+          "createdByType": "User",
+          "createdAt": "2019-11-22T18:39:58.6929344Z",
+          "lastModifiedBy": "client-name",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-03-16T23:24:34.3430059Z"
+        },
         "properties": {
           "friendlyName": "friendly-account1",
           "createdBy": "client-name",
@@ -616,14 +624,6 @@ examples:
             "resourceGroup": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/custom-rgname",
             "storageAccount": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/custom-rgname/providers/Microsoft.Storage/storageAccounts/scanwestustzaagzr",
             "eventHubNamespace": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/custom-rgname/providers/Microsoft.EventHub/namespaces/atlas-westusdddnbtp"
-          },
-          "systemData": {
-            "createdBy": "client-name",
-            "createdByType": "User",
-            "createdAt": "2019-11-22T18:39:58.6929344Z",
-            "lastModifiedBy": "client-name",
-            "lastModifiedByType": "User",
-            "lastModifiedAt": "2021-03-16T23:24:34.3430059Z"
           }
         }
       }

@@ -11919,6 +11919,7 @@
 ## [Overview](../docs-ref-conceptual/purview/index.md)
 ## Accounts
 ### [Overview](purview/Accounts.yml)
+### [Add Root Collection Admin](purview/Accounts/Add-Root-Collection-Admin.yml)
 ### [Check Name Availability](purview/Accounts/Check-Name-Availability.yml)
 ### [Create Or Update](purview/Accounts/Create-Or-Update.yml)
 ### [Delete](purview/Accounts/Delete.yml)
