@@ -9696,6 +9696,27 @@
 ## wrap Key
 ### [Overview](keyvault/wrap-Key.yml)
 ### [wrap Key](keyvault/wrap-Key/wrap-Key.yml)
+# Kubernetes Configuration
+## [Overview](../docs-ref-conceptual/kubernetesconfiguration/index.md)
+## Extensions
+### [Overview](kubernetesconfiguration/Extensions.yml)
+### [Create](kubernetesconfiguration/Extensions/Create.yml)
+### [Delete](kubernetesconfiguration/Extensions/Delete.yml)
+### [Get](kubernetesconfiguration/Extensions/Get.yml)
+### [List](kubernetesconfiguration/Extensions/List.yml)
+## Operation Status
+### [Overview](kubernetesconfiguration/Operation-Status.yml)
+### [Get](kubernetesconfiguration/Operation-Status/Get.yml)
+### [List](kubernetesconfiguration/Operation-Status/List.yml)
+## Operations
+### [Overview](kubernetesconfiguration/Operations.yml)
+### [List](kubernetesconfiguration/Operations/List.yml)
+## Source Control Configurations
+### [Overview](kubernetesconfiguration/Source-Control-Configurations.yml)
+### [Create Or Update](kubernetesconfiguration/Source-Control-Configurations/Create-Or-Update.yml)
+### [Delete](kubernetesconfiguration/Source-Control-Configurations/Delete.yml)
+### [Get](kubernetesconfiguration/Source-Control-Configurations/Get.yml)
+### [List](kubernetesconfiguration/Source-Control-Configurations/List.yml)
 # Lab Services
 ## [Overview](../docs-ref-conceptual/labservices/index.md)
 ## Environment Settings
@@ -19429,27 +19450,6 @@
 #### [Overview](synapse/data-plane/Big-Data-Pools.yml)
 #### [Get](synapse/data-plane/Big-Data-Pools/Get.yml)
 #### [List](synapse/data-plane/Big-Data-Pools/List.yml)
-### Data Flow
-#### [Overview](synapse/data-plane/Data-Flow.yml)
-#### [Create Or Update Data Flow](synapse/data-plane/Data-Flow/Create-Or-Update-Data-Flow.yml)
-#### [Delete Data Flow](synapse/data-plane/Data-Flow/Delete-Data-Flow.yml)
-#### [Get Data Flow](synapse/data-plane/Data-Flow/Get-Data-Flow.yml)
-#### [Get Data Flows By Workspace](synapse/data-plane/Data-Flow/Get-Data-Flows-By-Workspace.yml)
-#### [Rename Data Flow](synapse/data-plane/Data-Flow/Rename-Data-Flow.yml)
-### Data Flow Debug Session
-#### [Overview](synapse/data-plane/Data-Flow-Debug-Session.yml)
-#### [Add Data Flow](synapse/data-plane/Data-Flow-Debug-Session/Add-Data-Flow.yml)
-#### [Create Data Flow Debug Session](synapse/data-plane/Data-Flow-Debug-Session/Create-Data-Flow-Debug-Session.yml)
-#### [Delete Data Flow Debug Session](synapse/data-plane/Data-Flow-Debug-Session/Delete-Data-Flow-Debug-Session.yml)
-#### [Execute Command](synapse/data-plane/Data-Flow-Debug-Session/Execute-Command.yml)
-#### [Query Data Flow Debug Sessions By Workspace](synapse/data-plane/Data-Flow-Debug-Session/Query-Data-Flow-Debug-Sessions-By-Workspace.yml)
-### Dataset
-#### [Overview](synapse/data-plane/Dataset.yml)
-#### [Create Or Update Dataset](synapse/data-plane/Dataset/Create-Or-Update-Dataset.yml)
-#### [Delete Dataset](synapse/data-plane/Dataset/Delete-Dataset.yml)
-#### [Get Dataset](synapse/data-plane/Dataset/Get-Dataset.yml)
-#### [Get Datasets By Workspace](synapse/data-plane/Dataset/Get-Datasets-By-Workspace.yml)
-#### [Rename Dataset](synapse/data-plane/Dataset/Rename-Dataset.yml)
 ### Get Role Definition By Id
 #### [Overview](synapse/data-plane/Get-Role-Definition-By-Id.yml)
 #### [Get Role Definition By Id](synapse/data-plane/Get-Role-Definition-By-Id/Get-Role-Definition-By-Id.yml)
@@ -19469,13 +19469,6 @@
 #### [Get](synapse/data-plane/Library/Get.yml)
 #### [Get Operation Result](synapse/data-plane/Library/Get-Operation-Result.yml)
 #### [List](synapse/data-plane/Library/List.yml)
-### Linked Service
-#### [Overview](synapse/data-plane/Linked-Service.yml)
-#### [Create Or Update Linked Service](synapse/data-plane/Linked-Service/Create-Or-Update-Linked-Service.yml)
-#### [Delete Linked Service](synapse/data-plane/Linked-Service/Delete-Linked-Service.yml)
-#### [Get Linked Service](synapse/data-plane/Linked-Service/Get-Linked-Service.yml)
-#### [Get Linked Services By Workspace](synapse/data-plane/Linked-Service/Get-Linked-Services-By-Workspace.yml)
-#### [Rename Linked Service](synapse/data-plane/Linked-Service/Rename-Linked-Service.yml)
 ### Managed Private Endpoints
 #### [Overview](synapse/data-plane/Managed-Private-Endpoints.yml)
 #### [Create](synapse/data-plane/Managed-Private-Endpoints/Create.yml)
@@ -19486,37 +19479,12 @@
 #### [Overview](synapse/data-plane/Monitoring.yml)
 #### [Get Spark Job List](synapse/data-plane/Monitoring/Get-Spark-Job-List.yml)
 #### [Get Sql Job Query String](synapse/data-plane/Monitoring/Get-Sql-Job-Query-String.yml)
-### Notebook
-#### [Overview](synapse/data-plane/Notebook.yml)
-#### [Create Or Update Notebook](synapse/data-plane/Notebook/Create-Or-Update-Notebook.yml)
-#### [Delete Notebook](synapse/data-plane/Notebook/Delete-Notebook.yml)
-#### [Get Notebook](synapse/data-plane/Notebook/Get-Notebook.yml)
-#### [Get Notebook Summary By Work Space](synapse/data-plane/Notebook/Get-Notebook-Summary-By-Work-Space.yml)
-#### [Get Notebooks By Workspace](synapse/data-plane/Notebook/Get-Notebooks-By-Workspace.yml)
-#### [Rename Notebook](synapse/data-plane/Notebook/Rename-Notebook.yml)
-### Notebook Operation Result
-#### [Overview](synapse/data-plane/Notebook-Operation-Result.yml)
-#### [Get](synapse/data-plane/Notebook-Operation-Result/Get.yml)
 ### Operation Result
 #### [Overview](synapse/data-plane/Operation-Result.yml)
 #### [Get](synapse/data-plane/Operation-Result/Get.yml)
 ### Operation Status
 #### [Overview](synapse/data-plane/Operation-Status.yml)
 #### [Get](synapse/data-plane/Operation-Status/Get.yml)
-### Pipeline
-#### [Overview](synapse/data-plane/Pipeline.yml)
-#### [Create Or Update Pipeline](synapse/data-plane/Pipeline/Create-Or-Update-Pipeline.yml)
-#### [Create Pipeline Run](synapse/data-plane/Pipeline/Create-Pipeline-Run.yml)
-#### [Delete Pipeline](synapse/data-plane/Pipeline/Delete-Pipeline.yml)
-#### [Get Pipeline](synapse/data-plane/Pipeline/Get-Pipeline.yml)
-#### [Get Pipelines By Workspace](synapse/data-plane/Pipeline/Get-Pipelines-By-Workspace.yml)
-#### [Rename Pipeline](synapse/data-plane/Pipeline/Rename-Pipeline.yml)
-### Pipeline Run
-#### [Overview](synapse/data-plane/Pipeline-Run.yml)
-#### [Cancel Pipeline Run](synapse/data-plane/Pipeline-Run/Cancel-Pipeline-Run.yml)
-#### [Get Pipeline Run](synapse/data-plane/Pipeline-Run/Get-Pipeline-Run.yml)
-#### [Query Activity Runs](synapse/data-plane/Pipeline-Run/Query-Activity-Runs.yml)
-#### [Query Pipeline Runs By Workspace](synapse/data-plane/Pipeline-Run/Query-Pipeline-Runs-By-Workspace.yml)
 ### Role Assignments
 #### [Overview](synapse/data-plane/Role-Assignments.yml)
 #### [Create Role Assignment](synapse/data-plane/Role-Assignments/Create-Role-Assignment.yml)
@@ -19537,15 +19505,6 @@
 #### [Create Spark Batch Job](synapse/data-plane/Spark-Batch/Create-Spark-Batch-Job.yml)
 #### [Get Spark Batch Job](synapse/data-plane/Spark-Batch/Get-Spark-Batch-Job.yml)
 #### [Get Spark Batch Jobs](synapse/data-plane/Spark-Batch/Get-Spark-Batch-Jobs.yml)
-### Spark Job Definition
-#### [Overview](synapse/data-plane/Spark-Job-Definition.yml)
-#### [Create Or Update Spark Job Definition](synapse/data-plane/Spark-Job-Definition/Create-Or-Update-Spark-Job-Definition.yml)
-#### [Debug Spark Job Definition](synapse/data-plane/Spark-Job-Definition/Debug-Spark-Job-Definition.yml)
-#### [Delete Spark Job Definition](synapse/data-plane/Spark-Job-Definition/Delete-Spark-Job-Definition.yml)
-#### [Execute Spark Job Definition](synapse/data-plane/Spark-Job-Definition/Execute-Spark-Job-Definition.yml)
-#### [Get Spark Job Definition](synapse/data-plane/Spark-Job-Definition/Get-Spark-Job-Definition.yml)
-#### [Get Spark Job Definitions By Workspace](synapse/data-plane/Spark-Job-Definition/Get-Spark-Job-Definitions-By-Workspace.yml)
-#### [Rename Spark Job Definition](synapse/data-plane/Spark-Job-Definition/Rename-Spark-Job-Definition.yml)
 ### Spark Session
 #### [Overview](synapse/data-plane/Spark-Session.yml)
 #### [Cancel Spark Session](synapse/data-plane/Spark-Session/Cancel-Spark-Session.yml)
@@ -19561,29 +19520,6 @@
 #### [Overview](synapse/data-plane/Sql-Pools.yml)
 #### [Get](synapse/data-plane/Sql-Pools/Get.yml)
 #### [List](synapse/data-plane/Sql-Pools/List.yml)
-### Sql Script
-#### [Overview](synapse/data-plane/Sql-Script.yml)
-#### [Create Or Update Sql Script](synapse/data-plane/Sql-Script/Create-Or-Update-Sql-Script.yml)
-#### [Delete Sql Script](synapse/data-plane/Sql-Script/Delete-Sql-Script.yml)
-#### [Get Sql Script](synapse/data-plane/Sql-Script/Get-Sql-Script.yml)
-#### [Get Sql Scripts By Workspace](synapse/data-plane/Sql-Script/Get-Sql-Scripts-By-Workspace.yml)
-#### [Rename Sql Script](synapse/data-plane/Sql-Script/Rename-Sql-Script.yml)
-### Trigger
-#### [Overview](synapse/data-plane/Trigger.yml)
-#### [Create Or Update Trigger](synapse/data-plane/Trigger/Create-Or-Update-Trigger.yml)
-#### [Delete Trigger](synapse/data-plane/Trigger/Delete-Trigger.yml)
-#### [Get Event Subscription Status](synapse/data-plane/Trigger/Get-Event-Subscription-Status.yml)
-#### [Get Trigger](synapse/data-plane/Trigger/Get-Trigger.yml)
-#### [Get Triggers By Workspace](synapse/data-plane/Trigger/Get-Triggers-By-Workspace.yml)
-#### [Start Trigger](synapse/data-plane/Trigger/Start-Trigger.yml)
-#### [Stop Trigger](synapse/data-plane/Trigger/Stop-Trigger.yml)
-#### [Subscribe Trigger To Events](synapse/data-plane/Trigger/Subscribe-Trigger-To-Events.yml)
-#### [Unsubscribe Trigger From Events](synapse/data-plane/Trigger/Unsubscribe-Trigger-From-Events.yml)
-### Trigger Run
-#### [Overview](synapse/data-plane/Trigger-Run.yml)
-#### [Cancel Trigger Instance](synapse/data-plane/Trigger-Run/Cancel-Trigger-Instance.yml)
-#### [Query Trigger Runs By Workspace](synapse/data-plane/Trigger-Run/Query-Trigger-Runs-By-Workspace.yml)
-#### [Rerun Trigger Instance](synapse/data-plane/Trigger-Run/Rerun-Trigger-Instance.yml)
 ### Workspace
 #### [Overview](synapse/data-plane/Workspace.yml)
 #### [Get](synapse/data-plane/Workspace/Get.yml)
