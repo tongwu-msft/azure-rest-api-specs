@@ -3,15 +3,15 @@ uid: management.azure.com.authorization.accessreviewcalls.accessreviewinstances.
 name: List
 service: Authorization
 groupName: Access Review Instances
-apiVersion: 2021-03-01-preview
+apiVersion: 2021-07-01-preview
 summary: Get access review instances
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances?api-version=2021-03-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances?api-version=2021-03-01-preview&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances?api-version=2021-07-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances?api-version=2021-07-01-preview&$filter={$filter}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -101,6 +101,21 @@ definitions:
     description: The DateTime when the review instance is scheduled to end.
     types:
     - uid: string
+  - name: properties.reviewers
+    description: This is the collection of reviewers.
+    types:
+    - uid: AccessReviewReviewer
+      isArray: true
+  - name: properties.backupReviewers
+    description: This is the collection of backup reviewers.
+    types:
+    - uid: AccessReviewReviewer
+      isArray: true
+  - name: properties.reviewersType
+    isReadyOnly: true
+    description: This field specifies the type of reviewers for a review. Usually for a review, reviewers are explicitly assigned. However, in some cases, the reviewers may not be assigned and instead be chosen dynamically. For example managers review or self review.
+    types:
+    - uid: AccessReviewInstanceReviewersType
 - name: ErrorDefinitionProperties
   description: Error
   kind: object
@@ -151,10 +166,46 @@ definitions:
   - name: Starting
     types:
     - uid: string
+- name: AccessReviewReviewer
+  description: Descriptor for what needs to be reviewed
+  kind: object
+  properties:
+  - name: principalId
+    description: The id of the reviewer(user/servicePrincipal)
+    types:
+    - uid: string
+  - name: principalType
+    isReadyOnly: true
+    description: 'The identity type : user/servicePrincipal'
+    types:
+    - uid: AccessReviewReviewerType
+- name: AccessReviewInstanceReviewersType
+  description: This field specifies the type of reviewers for a review. Usually for a review, reviewers are explicitly assigned. However, in some cases, the reviewers may not be assigned and instead be chosen dynamically. For example managers review or self review.
+  kind: enum
+  properties:
+  - name: Assigned
+    types:
+    - uid: string
+  - name: Self
+    types:
+    - uid: string
+  - name: Managers
+    types:
+    - uid: string
+- name: AccessReviewReviewerType
+  description: 'The identity type : user/servicePrincipal'
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: servicePrincipal
+    types:
+    - uid: string
 examples:
 - name: GetAccessReviews
   request:
-    uri: GET https://management.azure.com/subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/265785a7-a81f-4201-8a18-bb0db95982b7/instances?api-version=2021-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/265785a7-a81f-4201-8a18-bb0db95982b7/instances?api-version=2021-07-01-preview
   responses:
   - statusCode: "200"
     body: >-
