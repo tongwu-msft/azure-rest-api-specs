@@ -1,0 +1,156 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datashare.2020-09-01.emailregistrations.activateemail
+name: Activate Email
+service: Data Share
+groupName: Email Registrations
+apiVersion: 2020-09-01
+summary: "Activates the tenant and email combination using email code received.  \nActivate the email registration for the current tenant"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.DataShare/locations/{location}/activateEmail?api-version=2020-09-01
+uriParameters:
+- name: location
+  in: path
+  isRequired: true
+  description: Location of the activation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version to use.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: EmailRegistration
+- name: Other Status Codes
+  description: An error response received from the Microsoft.DataShare resource provider.
+  types:
+  - uid: DataShareError
+requestBody:
+- name: default
+  parameters:
+  - name: activationCode
+    in: body
+    description: Activation code for the registration
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: EmailRegistration
+  description: Dto for tenant domain registration
+  kind: object
+  properties:
+  - name: activationCode
+    description: Activation code for the registration
+    types:
+    - uid: string
+  - name: activationExpirationDate
+    isReadyOnly: true
+    description: Date of the activation expiration
+    types:
+    - uid: string
+  - name: email
+    isReadyOnly: true
+    description: The email to register
+    types:
+    - uid: string
+  - name: registrationStatus
+    isReadyOnly: true
+    description: Registration status
+    types:
+    - uid: registrationStatus
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant to register
+    types:
+    - uid: string
+- name: DataShareError
+  description: The data share error model.
+  kind: object
+  properties:
+  - name: error
+    description: The data share error body
+    types:
+    - uid: DataShareErrorInfo
+- name: registrationStatus
+  description: Registration status
+  kind: enum
+  properties:
+  - name: ActivationPending
+    types:
+    - uid: string
+  - name: Activated
+    types:
+    - uid: string
+  - name: ActivationAttemptsExhausted
+    types:
+    - uid: string
+- name: DataShareErrorInfo
+  description: The data share error body model.
+  kind: object
+  properties:
+  - name: code
+    description: Code of the error
+    types:
+    - uid: string
+  - name: details
+    description: Nested details of the error model
+    types:
+    - uid: DataShareErrorInfo
+      isArray: true
+  - name: message
+    description: Message of the error
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error
+    types:
+    - uid: string
+examples:
+- name: EmailRegistrations_ActivateEmail
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.DataShare/locations/East US 2/activateEmail?api-version=2020-09-01
+    body: >-
+      {
+        "activationCode": "djsfhakj2lekowd3wepfklpwe9lpflcd"
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2021 18:04:32 GMT
+    - name: x-ms-request-id
+      value: d5496da4-9c52-402f-b067-83cc9ddea888
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-tenant-reads
+      value: "14999"
+    - name: x-ms-correlation-request-id
+      value: 25c78f97-0b0a-4fe9-ad39-883a482265cd
+    body: >-
+      {
+        "tenantId": "9f532315-b048-4374-8de1-14734d9b7f77",
+        "email": "receiver@microsoft.com",
+        "registrationStatus": "Activated",
+        "activationCode": null,
+        "activationExpirationDate": "2022-08-12T16:44:53.688049Z"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: "Activates the tenant and email combination using email code received.  \nActivate the email registration for the current tenant"
+errorCodes: []

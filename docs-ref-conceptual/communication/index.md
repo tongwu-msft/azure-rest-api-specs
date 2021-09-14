@@ -21,8 +21,8 @@ You can perform various actions against several key areas of communication servi
 
 | Resource Groups                                                                       | Current API Version | Description                                                                                            |
 | ------------------------------------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------ |
-| [Chat](xref:communication.chat.chat)                                                  | 2021-03-07          | Create and delete chat threads.                                                                        |
-| [ChatThread](xref:communication.chat.chatthread)                                      | 2021-03-07          | Send messages, add participants and manage chat threads.                                               |
+| [Chat](xref:communication.chat.chat)                                                  | 2021-09-07          | Create and delete chat threads.                                                                        |
+| [ChatThread](xref:communication.chat.chatthread)                                      | 2021-09-07          | Send messages, add participants and manage chat threads.                                               |
 | [Communication Service](xref:management.azure.com.communication.communicationservice) | 2020-08-20-preview  | Create, update, or delete a Communication Services instance, Link a Notification Hub, regenerate keys. |
 | [Communication Identity](xref:communication.communicationidentity)                    | 2021-03-07          | Create, manage, and issue tokens for Communication Services Identities.                                |
 | [Phone Number Administration](xref:communication.phonenumberadministration)           | 2021-03-07          | Search, obtain, and manage Communication Services telephone numbers.                                   |

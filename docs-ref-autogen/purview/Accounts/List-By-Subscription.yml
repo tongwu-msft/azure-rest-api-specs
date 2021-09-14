@@ -3,15 +3,15 @@ uid: management.azure.com.purview.accounts.listbysubscription
 name: List By Subscription
 service: Purview
 groupName: Accounts
-apiVersion: 2020-12-01-preview
+apiVersion: 2021-07-01
 summary: "Gets the accounts resources by subscription.  \nList accounts in Subscription"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Purview/accounts?api-version=2020-12-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Purview/accounts?api-version=2020-12-01-preview&$skipToken={$skipToken}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Purview/accounts?api-version=2021-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Purview/accounts?api-version=2021-07-01&$skipToken={$skipToken}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -73,9 +73,10 @@ definitions:
   kind: object
   properties:
   - name: sku
+    isReadyOnly: true
     description: Gets or sets the Sku.
     types:
-    - uid: AccountSku
+    - uid: Sku
   - name: properties.cloudConnectors
     description: >-
       Cloud connectors.
@@ -132,11 +133,6 @@ definitions:
     description: Gets or sets the public network access.
     types:
     - uid: publicNetworkAccess
-  - name: properties.systemData
-    isReadyOnly: true
-    description: Metadata pertaining to creation and last modification of the resource.
-    types:
-    - uid: SystemData
   - name: id
     isReadyOnly: true
     description: Gets or sets the identifier.
@@ -155,6 +151,11 @@ definitions:
     description: Gets or sets the name.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
   - name: tags
     description: Tags on the azure resource.
     types:
@@ -193,12 +194,12 @@ definitions:
     description: Gets or sets the target.
     types:
     - uid: string
-- name: AccountSku
-  description: The Sku
+- name: Sku
+  description: Gets or sets the Sku.
   kind: object
   properties:
   - name: capacity
-    description: 'Gets or sets the sku capacity. Possible values include: 4, 16'
+    description: Gets or sets the sku capacity.
     types:
     - uid: integer
   - name: name
@@ -330,6 +331,24 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: Identity
+  description: The Managed Identity of the resource
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: Service principal object Id
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: Tenant Id
+    types:
+    - uid: string
+  - name: type
+    description: Identity Type
+    types:
+    - uid: type
 - name: SystemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -364,24 +383,6 @@ definitions:
     description: The type of identity that last modified the resource.
     types:
     - uid: lastModifiedByType
-- name: Identity
-  description: The Managed Identity of the resource
-  kind: object
-  properties:
-  - name: principalId
-    isReadyOnly: true
-    description: Service principal object Id
-    types:
-    - uid: string
-  - name: tenantId
-    isReadyOnly: true
-    description: Tenant Id
-    types:
-    - uid: string
-  - name: type
-    description: Identity Type
-    types:
-    - uid: type
 - name: ErrorModel
   description: Default error model
   kind: object
@@ -438,6 +439,13 @@ definitions:
     description: The status.
     types:
     - uid: status
+- name: type
+  description: Identity Type
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -470,13 +478,6 @@ definitions:
   - name: Key
     types:
     - uid: string
-- name: type
-  description: Identity Type
-  kind: enum
-  properties:
-  - name: SystemAssigned
-    types:
-    - uid: string
 - name: status
   description: The status.
   kind: enum
@@ -499,7 +500,7 @@ definitions:
 examples:
 - name: Accounts_ListBySubscription
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Purview/accounts?api-version=2020-12-01-preview
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Purview/accounts?api-version=2021-07-01
   responses:
   - statusCode: "200"
     headers:
@@ -523,7 +524,15 @@ examples:
             "type": "Microsoft.Purview/accounts",
             "sku": {
               "name": "Standard",
-              "capacity": 4
+              "capacity": 1
+            },
+            "systemData": {
+              "createdBy": "client-name",
+              "createdByType": "User",
+              "createdAt": "2019-11-22T18:39:58.6929344Z",
+              "lastModifiedBy": "client-name",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-03-16T23:24:34.3430059Z"
             },
             "properties": {
               "friendlyName": "friendly-account1",
@@ -536,15 +545,7 @@ examples:
                 "scan": "https://account1.scan.purview.azure-test.com",
                 "guardian": "https://account1.guardian.purview.azure-test.com"
               },
-              "publicNetworkAccess": "Enabled",
-              "systemData": {
-                "createdBy": "client-name",
-                "createdByType": "User",
-                "createdAt": "2019-11-22T18:39:58.6929344Z",
-                "lastModifiedBy": "client-name",
-                "lastModifiedByType": "User",
-                "lastModifiedAt": "2021-03-16T23:24:34.3430059Z"
-              }
+              "publicNetworkAccess": "Enabled"
             }
           },
           {
@@ -554,7 +555,15 @@ examples:
             "type": "Microsoft.Purview/accounts",
             "sku": {
               "name": "Standard",
-              "capacity": 4
+              "capacity": 1
+            },
+            "systemData": {
+              "createdBy": "client-name",
+              "createdByType": "User",
+              "createdAt": "2019-11-22T18:39:58.6929344Z",
+              "lastModifiedBy": "client-name",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-03-16T23:24:34.3430059Z"
             },
             "properties": {
               "friendlyName": "friendly-account1",
@@ -567,15 +576,7 @@ examples:
                 "scan": "https://account2.scan.purview.azure-test.com",
                 "guardian": "https://account1.guardian.purview.azure-test.com"
               },
-              "publicNetworkAccess": "Enabled",
-              "systemData": {
-                "createdBy": "client-name",
-                "createdByType": "User",
-                "createdAt": "2019-11-22T18:39:58.6929344Z",
-                "lastModifiedBy": "client-name",
-                "lastModifiedByType": "User",
-                "lastModifiedAt": "2021-03-16T23:24:34.3430059Z"
-              }
+              "publicNetworkAccess": "Enabled"
             }
           }
         ]

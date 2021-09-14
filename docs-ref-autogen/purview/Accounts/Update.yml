@@ -3,14 +3,14 @@ uid: management.azure.com.purview.accounts.update
 name: Update
 service: Purview
 groupName: Accounts
-apiVersion: 2020-12-01-preview
+apiVersion: 2021-07-01
 summary: "Patches the account resource.  \nUpdates an account"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts/{accountName}?api-version=2020-12-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Purview/accounts/{accountName}?api-version=2021-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -128,19 +128,15 @@ definitions:
     description: Gets or sets the public network access.
     types:
     - uid: publicNetworkAccess
-  - name: systemData
-    isReadyOnly: true
-    description: Metadata pertaining to creation and last modification of the resource.
-    types:
-    - uid: SystemData
 - name: Account
   description: Account resource
   kind: object
   properties:
   - name: sku
+    isReadyOnly: true
     description: Gets or sets the Sku.
     types:
-    - uid: AccountSku
+    - uid: Sku
   - name: properties.cloudConnectors
     description: >-
       Cloud connectors.
@@ -197,11 +193,6 @@ definitions:
     description: Gets or sets the public network access.
     types:
     - uid: publicNetworkAccess
-  - name: properties.systemData
-    isReadyOnly: true
-    description: Metadata pertaining to creation and last modification of the resource.
-    types:
-    - uid: AccountProperties.SystemData
   - name: id
     isReadyOnly: true
     description: Gets or sets the identifier.
@@ -220,6 +211,11 @@ definitions:
     description: Gets or sets the name.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
   - name: tags
     description: Tags on the azure resource.
     types:
@@ -402,6 +398,36 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: Sku
+  description: Gets or sets the Sku.
+  kind: object
+  properties:
+  - name: capacity
+    description: Gets or sets the sku capacity.
+    types:
+    - uid: integer
+  - name: name
+    description: Gets or sets the sku name.
+    types:
+    - uid: name
+- name: Identity
+  description: The Managed Identity of the resource
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: Service principal object Id
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: Tenant Id
+    types:
+    - uid: string
+  - name: type
+    description: Identity Type
+    types:
+    - uid: type
 - name: SystemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -436,70 +462,6 @@ definitions:
     description: The type of identity that last modified the resource.
     types:
     - uid: lastModifiedByType
-- name: AccountProperties.SystemData
-  description: Metadata pertaining to creation and last modification of the resource.
-  kind: object
-  properties:
-  - name: createdAt
-    isReadyOnly: true
-    description: The timestamp of resource creation (UTC).
-    types:
-    - uid: string
-  - name: createdBy
-    isReadyOnly: true
-    description: The identity that created the resource.
-    types:
-    - uid: string
-  - name: createdByType
-    isReadyOnly: true
-    description: The type of identity that created the resource.
-    types:
-    - uid: createdByType
-  - name: lastModifiedAt
-    isReadyOnly: true
-    description: The timestamp of the last modification the resource (UTC).
-    types:
-    - uid: string
-  - name: lastModifiedBy
-    isReadyOnly: true
-    description: The identity that last modified the resource.
-    types:
-    - uid: string
-  - name: lastModifiedByType
-    isReadyOnly: true
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: lastModifiedByType
-- name: AccountSku
-  description: The Sku
-  kind: object
-  properties:
-  - name: capacity
-    description: 'Gets or sets the sku capacity. Possible values include: 4, 16'
-    types:
-    - uid: integer
-  - name: name
-    description: Gets or sets the sku name.
-    types:
-    - uid: name
-- name: Identity
-  description: The Managed Identity of the resource
-  kind: object
-  properties:
-  - name: principalId
-    isReadyOnly: true
-    description: Service principal object Id
-    types:
-    - uid: string
-  - name: tenantId
-    isReadyOnly: true
-    description: Tenant Id
-    types:
-    - uid: string
-  - name: type
-    description: Identity Type
-    types:
-    - uid: type
 - name: Error
   description: Gets or sets the error.
   kind: object
@@ -549,6 +511,20 @@ definitions:
     description: The status.
     types:
     - uid: status
+- name: name
+  description: Gets or sets the sku name.
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+- name: type
+  description: Identity Type
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -579,20 +555,6 @@ definitions:
     types:
     - uid: string
   - name: Key
-    types:
-    - uid: string
-- name: name
-  description: Gets or sets the sku name.
-  kind: enum
-  properties:
-  - name: Standard
-    types:
-    - uid: string
-- name: type
-  description: Identity Type
-  kind: enum
-  properties:
-  - name: SystemAssigned
     types:
     - uid: string
 - name: ErrorModel
@@ -642,7 +604,7 @@ definitions:
 examples:
 - name: Accounts_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/SampleResourceGroup/providers/Microsoft.Purview/accounts/account1?api-version=2020-12-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/SampleResourceGroup/providers/Microsoft.Purview/accounts/account1?api-version=2021-07-01
     body: >-
       {
         "tags": {
@@ -670,7 +632,15 @@ examples:
         "type": "Microsoft.Purview/accounts",
         "sku": {
           "name": "Standard",
-          "capacity": 4
+          "capacity": 1
+        },
+        "systemData": {
+          "createdBy": "client-name",
+          "createdByType": "User",
+          "createdAt": "2019-11-22T18:39:58.6929344Z",
+          "lastModifiedBy": "client-name",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-03-16T23:24:34.3430059Z"
         },
         "properties": {
           "friendlyName": "friendly-account1",
@@ -688,14 +658,6 @@ examples:
             "resourceGroup": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/managed-rg-mwjotkl",
             "storageAccount": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/managed-rg-mwjotkl/providers/Microsoft.Storage/storageAccounts/scanwestustzaagzr",
             "eventHubNamespace": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/managed-rg-mwjotkl/providers/Microsoft.EventHub/namespaces/atlas-westusdddnbtp"
-          },
-          "systemData": {
-            "createdBy": "client-name",
-            "createdByType": "User",
-            "createdAt": "2019-11-22T18:39:58.6929344Z",
-            "lastModifiedBy": "client-name",
-            "lastModifiedByType": "User",
-            "lastModifiedAt": "2021-03-16T23:24:34.3430059Z"
           }
         },
         "tags": {
@@ -717,7 +679,7 @@ examples:
     - name: x-ms-long-running-operation
       value: "True"
     - name: Azure-AsyncOperation
-      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/SampleResourceGroup/providers/Microsoft.Purview/accounts/account1/operationResults/dad6baec-3a39-41df-a469-843a9ee94213?api-version=2020-12-01-preview
+      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/SampleResourceGroup/providers/Microsoft.Purview/accounts/account1/operationResults/dad6baec-3a39-41df-a469-843a9ee94213?api-version=2021-07-01
     body: >-
       {
         "location": "West US 2",
@@ -726,7 +688,15 @@ examples:
         "type": "Microsoft.Purview/accounts",
         "sku": {
           "name": "Standard",
-          "capacity": 4
+          "capacity": 1
+        },
+        "systemData": {
+          "createdBy": "client-name",
+          "createdByType": "User",
+          "createdAt": "2019-11-22T18:39:58.6929344Z",
+          "lastModifiedBy": "client-name",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-03-16T23:24:34.3430059Z"
         },
         "properties": {
           "friendlyName": "friendly-account1",
@@ -744,14 +714,6 @@ examples:
             "resourceGroup": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/managed-rg-mwjotkl",
             "storageAccount": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/managed-rg-mwjotkl/providers/Microsoft.Storage/storageAccounts/scanwestustzaagzr",
             "eventHubNamespace": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/managed-rg-mwjotkl/providers/Microsoft.EventHub/namespaces/atlas-westusdddnbtp"
-          },
-          "systemData": {
-            "createdBy": "client-name",
-            "createdByType": "User",
-            "createdAt": "2019-11-22T18:39:58.6929344Z",
-            "lastModifiedBy": "client-name",
-            "lastModifiedByType": "User",
-            "lastModifiedAt": "2021-03-16T23:24:34.3430059Z"
           }
         },
         "tags": {
