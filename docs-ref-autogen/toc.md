@@ -3173,6 +3173,10 @@
 ### [Check File Path Availability](netapp/NetApp-Resource/Check-File-Path-Availability.yml)
 ### [Check Name Availability](netapp/NetApp-Resource/Check-Name-Availability.yml)
 ### [Check Quota Availability](netapp/NetApp-Resource/Check-Quota-Availability.yml)
+## NetApp Resource Quota Limits
+### [Overview](netapp/NetApp-Resource-Quota-Limits.yml)
+### [Get](netapp/NetApp-Resource-Quota-Limits/Get.yml)
+### [List](netapp/NetApp-Resource-Quota-Limits/List.yml)
 ## Operations
 ### [Overview](netapp/Operations.yml)
 ### [List](netapp/Operations/List.yml)
@@ -7589,6 +7593,10 @@
 #### [Delete](datashare/2019-11-01/Data-Sets/Delete.yml)
 #### [Get](datashare/2019-11-01/Data-Sets/Get.yml)
 #### [List By Share](datashare/2019-11-01/Data-Sets/List-By-Share.yml)
+### Email Registrations
+#### [Overview](datashare/2019-11-01/Email-Registrations.yml)
+#### [Activate Email](datashare/2019-11-01/Email-Registrations/Activate-Email.yml)
+#### [Register Email](datashare/2019-11-01/Email-Registrations/Register-Email.yml)
 ### Invitations
 #### [Overview](datashare/2019-11-01/Invitations.yml)
 #### [Create](datashare/2019-11-01/Invitations/Create.yml)
@@ -7664,6 +7672,10 @@
 #### [Delete](datashare/2020-09-01/Data-Sets/Delete.yml)
 #### [Get](datashare/2020-09-01/Data-Sets/Get.yml)
 #### [List By Share](datashare/2020-09-01/Data-Sets/List-By-Share.yml)
+### Email Registrations
+#### [Overview](datashare/2020-09-01/Email-Registrations.yml)
+#### [Activate Email](datashare/2020-09-01/Email-Registrations/Activate-Email.yml)
+#### [Register Email](datashare/2020-09-01/Email-Registrations/Register-Email.yml)
 ### Invitations
 #### [Overview](datashare/2020-09-01/Invitations.yml)
 #### [Create](datashare/2020-09-01/Invitations/Create.yml)
