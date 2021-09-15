@@ -1,21 +1,27 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.iotcentral.2018-09-01controlplane.apps.listbysubscription
-name: List By Subscription
+uid: management.azure.com.iotcentral.2021-06-01controlplane.apps.listbyresourcegroup
+name: List By Resource Group
 service: IoT Central
 groupName: Apps
-apiVersion: 2018-09-01
-summary: Get all IoT Central Applications in a subscription.
+apiVersion: 2021-06-01
+summary: Get all the IoT Central Applications in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.IoTCentral/iotApps?api-version=2018-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/iotApps?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the IoT Central application.
   types:
   - uid: string
 - name: api-version
@@ -26,7 +32,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: This is a synchronous operation. The body contains a JSON-serialized array of the metadata from all the IoT Central Applications in the subscription.
+  description: This is a synchronous operation. The body contains a JSON-serialized array of the metadata from all the IoT Central Applications in the resource group.
   types:
   - uid: AppListResult
 - name: Other Status Codes
@@ -97,6 +103,11 @@ definitions:
     description: The ID of the application template, which is a blueprint that defines the characteristics and behaviors of an application. Optional; if not specified, defaults to a blank blueprint and allows the application to be defined from scratch.
     types:
     - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: The current state of the application.
+    types:
+    - uid: AppState
   - name: id
     isReadyOnly: true
     description: The ARM resource identifier.
@@ -156,16 +167,20 @@ definitions:
     description: The name of the SKU.
     types:
     - uid: AppSku
+- name: AppState
+  description: The current state of the application.
+  kind: enum
+  properties:
+  - name: created
+    types:
+    - uid: string
+  - name: suspended
+    types:
+    - uid: string
 - name: AppSku
   description: The name of the SKU.
   kind: enum
   properties:
-  - name: F1
-    types:
-    - uid: string
-  - name: S1
-    types:
-    - uid: string
   - name: ST0
     types:
     - uid: string
@@ -176,9 +191,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Apps_ListBySubscription
+- name: Apps_ListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.IoTCentral/iotApps?api-version=2018-09-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.IoTCentral/iotApps?api-version=2021-06-01
   responses:
   - statusCode: "200"
     headers:
@@ -199,7 +214,8 @@ examples:
               "applicationId": "6ebd8fd3-6e34-419e-908f-9be61ec6f6d6",
               "displayName": "My IoT Central App",
               "subdomain": "my-iot-central-app",
-              "template": "iotc-default@1.0.0"
+              "template": "iotc-pnp-preview@1.0.0",
+              "state": "created"
             },
             "sku": {
               "name": "F1"
@@ -207,6 +223,15 @@ examples:
           }
         ],
         "nextLink": null
+      }
+  - statusCode: default
+    body: >-
+      {
+        "error": {
+          "code": "Error code",
+          "message": "Error message",
+          "target": "Error target"
+        }
       }
 security:
 - name: azure_auth
@@ -218,5 +243,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about IoT Central service - Get all IoT Central Applications in a subscription.
+  description: Learn more about IoT Central service - Get all the IoT Central Applications in a resource group.
 errorCodes: []

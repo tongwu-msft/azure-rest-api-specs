@@ -9228,21 +9228,6 @@
 ##### [List](iotcentral/1.1-previewdataplane/Users/List.yml)
 ##### [Remove](iotcentral/1.1-previewdataplane/Users/Remove.yml)
 ##### [Update](iotcentral/1.1-previewdataplane/Users/Update.yml)
-### 2018-09-01 Control Plane
-#### Apps
-##### [Overview](iotcentral/2018-09-01controlplane/Apps.yml)
-##### [Check Name Availability](iotcentral/2018-09-01controlplane/Apps/Check-Name-Availability.yml)
-##### [Check Subdomain Availability](iotcentral/2018-09-01controlplane/Apps/Check-Subdomain-Availability.yml)
-##### [Create Or Update](iotcentral/2018-09-01controlplane/Apps/Create-Or-Update.yml)
-##### [Delete](iotcentral/2018-09-01controlplane/Apps/Delete.yml)
-##### [Get](iotcentral/2018-09-01controlplane/Apps/Get.yml)
-##### [List By Resource Group](iotcentral/2018-09-01controlplane/Apps/List-By-Resource-Group.yml)
-##### [List By Subscription](iotcentral/2018-09-01controlplane/Apps/List-By-Subscription.yml)
-##### [List Templates](iotcentral/2018-09-01controlplane/Apps/List-Templates.yml)
-##### [Update](iotcentral/2018-09-01controlplane/Apps/Update.yml)
-#### Operations
-##### [Overview](iotcentral/2018-09-01controlplane/Operations.yml)
-##### [List](iotcentral/2018-09-01controlplane/Operations/List.yml)
 ### 2021-04-30 preview Data Plane (deprecated)
 #### Api Tokens
 ##### [Overview](iotcentral/2021-04-30previewdataplane(deprecated)/Api-Tokens.yml)
@@ -9331,6 +9316,21 @@
 ##### [List](iotcentral/2021-04-30previewdataplane(deprecated)/Users/List.yml)
 ##### [Remove](iotcentral/2021-04-30previewdataplane(deprecated)/Users/Remove.yml)
 ##### [Update](iotcentral/2021-04-30previewdataplane(deprecated)/Users/Update.yml)
+### 2021-06-01 Control Plane
+#### Apps
+##### [Overview](iotcentral/2021-06-01controlplane/Apps.yml)
+##### [Check Name Availability](iotcentral/2021-06-01controlplane/Apps/Check-Name-Availability.yml)
+##### [Check Subdomain Availability](iotcentral/2021-06-01controlplane/Apps/Check-Subdomain-Availability.yml)
+##### [Create Or Update](iotcentral/2021-06-01controlplane/Apps/Create-Or-Update.yml)
+##### [Delete](iotcentral/2021-06-01controlplane/Apps/Delete.yml)
+##### [Get](iotcentral/2021-06-01controlplane/Apps/Get.yml)
+##### [List By Resource Group](iotcentral/2021-06-01controlplane/Apps/List-By-Resource-Group.yml)
+##### [List By Subscription](iotcentral/2021-06-01controlplane/Apps/List-By-Subscription.yml)
+##### [List Templates](iotcentral/2021-06-01controlplane/Apps/List-Templates.yml)
+##### [Update](iotcentral/2021-06-01controlplane/Apps/Update.yml)
+#### Operations
+##### [Overview](iotcentral/2021-06-01controlplane/Operations.yml)
+##### [List](iotcentral/2021-06-01controlplane/Operations/List.yml)
 # IoT Hub
 ## [Overview](../docs-ref-conceptual/iothub/index.md)
 ## [Common error codes](../docs-ref-conceptual/iothub/common-error-codes.md)

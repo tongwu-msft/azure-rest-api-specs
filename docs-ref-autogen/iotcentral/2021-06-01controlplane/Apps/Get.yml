@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.iotcentral.2018-09-01controlplane.apps.get
+uid: management.azure.com.iotcentral.2021-06-01controlplane.apps.get
 name: Get
 service: IoT Central
 groupName: Apps
-apiVersion: 2018-09-01
+apiVersion: 2021-06-01
 summary: Get the metadata of an IoT Central application.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/iotApps/{resourceName}?api-version=2018-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/iotApps/{resourceName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -72,6 +72,11 @@ definitions:
     description: The ID of the application template, which is a blueprint that defines the characteristics and behaviors of an application. Optional; if not specified, defaults to a blank blueprint and allows the application to be defined from scratch.
     types:
     - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: The current state of the application.
+    types:
+    - uid: AppState
   - name: id
     isReadyOnly: true
     description: The ARM resource identifier.
@@ -131,6 +136,16 @@ definitions:
     description: The name of the SKU.
     types:
     - uid: AppSku
+- name: AppState
+  description: The current state of the application.
+  kind: enum
+  properties:
+  - name: created
+    types:
+    - uid: string
+  - name: suspended
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: Details of error response.
   kind: object
@@ -159,12 +174,6 @@ definitions:
   description: The name of the SKU.
   kind: enum
   properties:
-  - name: F1
-    types:
-    - uid: string
-  - name: S1
-    types:
-    - uid: string
   - name: ST0
     types:
     - uid: string
@@ -177,7 +186,7 @@ definitions:
 examples:
 - name: Apps_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.IoTCentral/iotApps/myIoTCentralApp?api-version=2018-09-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.IoTCentral/iotApps/myIoTCentralApp?api-version=2021-06-01
   responses:
   - statusCode: "200"
     headers:
@@ -196,7 +205,8 @@ examples:
           "applicationId": "6ebd8fd3-6e34-419e-908f-9be61ec6f6d6",
           "displayName": "My IoT Central App",
           "subdomain": "my-iot-central-app",
-          "template": "iotc-default@1.0.0"
+          "template": "iotc-pnp-preview@1.0.0",
+          "state": "created"
         },
         "sku": {
           "name": "F1"
