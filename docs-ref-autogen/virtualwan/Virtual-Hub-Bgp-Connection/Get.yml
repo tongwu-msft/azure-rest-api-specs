@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.virtualhubbgpconnection.get
 name: Get
 service: Virtual WAN
 groupName: Virtual Hub Bgp Connection
-apiVersion: 2021-02-01
+apiVersion: 2021-03-01
 summary: Retrieves the details of a Virtual Hub Bgp Connection.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}?api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -79,6 +79,10 @@ definitions:
     description: Peer IP.
     types:
     - uid: string
+  - name: properties.hubVirtualNetworkConnection
+    description: The reference to the HubVirtualNetworkConnection resource.
+    types:
+    - uid: SubResource
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the resource.
@@ -101,6 +105,14 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -157,7 +169,7 @@ definitions:
 examples:
 - name: VirtualHubVirtualHubRouteTableV2Get
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1/bgpConnections/conn1?api-version=2021-02-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1/bgpConnections/conn1?api-version=2021-03-01
   responses:
   - statusCode: "200"
     body: >-
@@ -169,7 +181,10 @@ examples:
           "provisioningState": "Succeeded",
           "peerIp": "192.168.1.5",
           "peerAsn": 20000,
-          "connectionState": "Connected"
+          "connectionState": "Connected",
+          "hubVirtualNetworkConnection": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1/hubVirtualNetworkConnections/hubVnetConn1"
+          }
         }
       }
 security:

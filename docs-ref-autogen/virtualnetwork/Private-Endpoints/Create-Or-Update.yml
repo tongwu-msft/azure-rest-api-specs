@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.privateendpoints.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Private Endpoints
-apiVersion: 2021-02-01
+apiVersion: 2021-03-01
 summary: Creates or updates an private endpoint in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}?api-version=2021-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -57,11 +57,6 @@ requestBody:
     description: The extended location of the load balancer.
     types:
     - uid: ExtendedLocation
-  - name: properties.resourceGuid
-    in: body
-    description: The resource id of private endpoint.
-    types:
-    - uid: string
   - name: properties.subnet
     in: body
     description: The ID of the subnet from which the private IP will be allocated.
@@ -85,6 +80,23 @@ requestBody:
     types:
     - uid: CustomDnsConfigPropertiesFormat
       isArray: true
+  - name: properties.applicationSecurityGroups
+    in: body
+    description: Application security groups in which the private endpoint IP configuration is included.
+    types:
+    - uid: ApplicationSecurityGroup
+      isArray: true
+  - name: properties.ipConfigurations
+    in: body
+    description: A list of IP configurations of the private endpoint. This will be used to map to the First Party Service's endpoints.
+    types:
+    - uid: PrivateEndpointIPConfiguration
+      isArray: true
+  - name: properties.customNetworkInterfaceName
+    in: body
+    description: The custom name of the network interface attached to the private endpoint.
+    types:
+    - uid: string
   - name: id
     in: body
     description: Resource ID.
@@ -383,10 +395,6 @@ definitions:
     description: The resource id of private link service.
     types:
     - uid: string
-  - name: properties.resolvedPrivateLinkServiceLocation
-    description: The location for the resolved private link service.
-    types:
-    - uid: string
   - name: properties.groupIds
     description: The ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to.
     types:
@@ -417,6 +425,81 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: ApplicationSecurityGroup
+  description: An application security group in a resource group.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the application security group resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: PrivateEndpointIPConfiguration
+  description: An IP Configuration of the private endpoint.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.groupId
+    description: The ID of a group obtained from the remote resource that this private endpoint should connect to.
+    types:
+    - uid: string
+  - name: properties.memberName
+    description: The member name of a group obtained from the remote resource that this private endpoint should connect to.
+    types:
+    - uid: string
+  - name: properties.privateIPAddress
+    description: A private ip address obtained from the private endpoint's subnet.
+    types:
+    - uid: string
 - name: PrivateEndpoint
   description: Private endpoint resource.
   kind: object
@@ -428,10 +511,6 @@ definitions:
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.resourceGuid
-    description: The resource id of private endpoint.
     types:
     - uid: string
   - name: properties.subnet
@@ -464,6 +543,20 @@ definitions:
     types:
     - uid: CustomDnsConfigPropertiesFormat
       isArray: true
+  - name: properties.applicationSecurityGroups
+    description: Application security groups in which the private endpoint IP configuration is included.
+    types:
+    - uid: ApplicationSecurityGroup
+      isArray: true
+  - name: properties.ipConfigurations
+    description: A list of IP configurations of the private endpoint. This will be used to map to the First Party Service's endpoints.
+    types:
+    - uid: PrivateEndpointIPConfiguration
+      isArray: true
+  - name: properties.customNetworkInterfaceName
+    description: The custom name of the network interface attached to the private endpoint.
+    types:
+    - uid: string
   - name: id
     description: Resource ID.
     types:
@@ -717,6 +810,15 @@ definitions:
     description: The provisioning state of the service endpoint policy resource.
     types:
     - uid: ProvisioningState
+  - name: properties.serviceAlias
+    description: The alias indicating if the policy belongs to a service
+    types:
+    - uid: string
+  - name: properties.contextualServiceEndpointPolicies
+    description: A collection of contextual service endpoint policy.
+    types:
+    - uid: string
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -1167,10 +1269,6 @@ definitions:
     types:
     - uid: FrontendIPConfiguration
       isArray: true
-  - name: properties.resourceGuid
-    description: The resource id of private link service.
-    types:
-    - uid: string
   - name: properties.ipConfigurations
     description: An array of private link service IP configurations.
     types:
@@ -1506,6 +1604,10 @@ definitions:
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the resource.
     types:
     - uid: string
   - name: properties.description
@@ -1872,6 +1974,18 @@ definitions:
     description: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP.
     types:
     - uid: boolean
+  - name: properties.frontendPortRangeStart
+    description: The port range start for the external endpoint. This property is used together with BackendAddressPool and FrontendPortRangeEnd. Individual inbound NAT rule port mappings will be created for each backend address from BackendAddressPool. Acceptable values range from 1 to 65534.
+    types:
+    - uid: integer
+  - name: properties.frontendPortRangeEnd
+    description: The port range end for the external endpoint. This property is used together with BackendAddressPool and FrontendPortRangeStart. Individual inbound NAT rule port mappings will be created for each backend address from BackendAddressPool. Acceptable values range from 1 to 65534.
+    types:
+    - uid: integer
+  - name: properties.backendAddressPool
+    description: A reference to backendAddressPool resource.
+    types:
+    - uid: SubResource
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the inbound NAT rule resource.
@@ -1891,51 +2005,6 @@ definitions:
   - name: IPv6
     types:
     - uid: string
-- name: ApplicationSecurityGroup
-  description: An application security group in a resource group.
-  kind: object
-  properties:
-  - name: etag
-    isReadyOnly: true
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.resourceGuid
-    isReadyOnly: true
-    description: The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the application security group resource.
-    types:
-    - uid: ProvisioningState
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties
   description: PrivateLinkConnection properties for the network interface.
   kind: object
@@ -2577,14 +2646,13 @@ definitions:
 examples:
 - name: Create private endpoint
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2021-02-01
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2021-03-01
     body: >-
       {
         "location": "eastus2euap",
         "properties": {
           "privateLinkServiceConnections": [
             {
-              "name": "testPlc",
               "properties": {
                 "privateLinkServiceId": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
                 "groupIds": [
@@ -2596,7 +2664,18 @@ examples:
           ],
           "subnet": {
             "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"
-          }
+          },
+          "ipConfigurations": [
+            {
+              "name": "pestaticconfig",
+              "properties": {
+                "groupId": "file",
+                "memberName": "file",
+                "privateIPAddress": "192.168.0.6"
+              }
+            }
+          ],
+          "customNetworkInterfaceName": "testPeNic"
         }
       }
   responses:
@@ -2646,7 +2725,19 @@ examples:
                 "192.168.0.5"
               ]
             }
-          ]
+          ],
+          "applicationSecurityGroups": [],
+          "ipConfigurations": [
+            {
+              "name": "pestaticconfig",
+              "properties": {
+                "groupId": "file",
+                "memberName": "file",
+                "privateIPAddress": "192.168.0.6"
+              }
+            }
+          ],
+          "customNetworkInterfaceName": "testPeNic"
         }
       }
   - statusCode: "201"
@@ -2694,12 +2785,24 @@ examples:
                 "192.168.0.5"
               ]
             }
-          ]
+          ],
+          "applicationSecurityGroups": [],
+          "ipConfigurations": [
+            {
+              "name": "pestaticconfig",
+              "properties": {
+                "groupId": "file",
+                "memberName": "file",
+                "privateIPAddress": "192.168.0.6"
+              }
+            }
+          ],
+          "customNetworkInterfaceName": "testPeNic"
         }
       }
 - name: Create private endpoint with manual approval connection
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2021-02-01
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2021-03-01
     body: >-
       {
         "location": "eastus",
@@ -2717,7 +2820,18 @@ examples:
           ],
           "subnet": {
             "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"
-          }
+          },
+          "ipConfigurations": [
+            {
+              "name": "pestaticconfig",
+              "properties": {
+                "groupId": "file",
+                "memberName": "file",
+                "privateIPAddress": "192.168.0.5"
+              }
+            }
+          ],
+          "customNetworkInterfaceName": "testPeNic"
         }
       }
   responses:
@@ -2767,7 +2881,19 @@ examples:
                 "192.168.0.5"
               ]
             }
-          ]
+          ],
+          "applicationSecurityGroups": [],
+          "ipConfigurations": [
+            {
+              "name": "pestaticconfig",
+              "properties": {
+                "groupId": "file",
+                "memberName": "file",
+                "privateIPAddress": "192.168.0.5"
+              }
+            }
+          ],
+          "customNetworkInterfaceName": "testPeNic"
         }
       }
   - statusCode: "201"
@@ -2814,6 +2940,154 @@ examples:
               "ipAddresses": [
                 "192.168.0.5"
               ]
+            }
+          ],
+          "applicationSecurityGroups": [],
+          "ipConfigurations": [
+            {
+              "name": "pestaticconfig",
+              "properties": {
+                "groupId": "file",
+                "memberName": "file",
+                "privateIPAddress": "192.168.0.5"
+              }
+            }
+          ],
+          "customNetworkInterfaceName": "testPeNic"
+        }
+      }
+- name: Create private endpoint with application security groups
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2021-03-01
+    body: >-
+      {
+        "location": "eastus2euap",
+        "properties": {
+          "privateLinkServiceConnections": [
+            {
+              "properties": {
+                "privateLinkServiceId": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
+                "groupIds": [
+                  "groupIdFromResource"
+                ],
+                "requestMessage": "Please approve my connection."
+              }
+            }
+          ],
+          "subnet": {
+            "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"
+          },
+          "applicationSecurityGroups": [
+            {
+              "id": "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/applicationSecurityGroup/asg1"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "testPe",
+        "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe",
+        "location": "eastus2euap",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "privateLinkServiceConnections": [
+            {
+              "properties": {
+                "privateLinkServiceId": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
+                "groupIds": [
+                  "groupIdFromResource"
+                ],
+                "requestMessage": "Please approve my connection.",
+                "privateLinkServiceConnectionState": {
+                  "status": "Approved",
+                  "description": "Auto-approved",
+                  "actionsRequired": "None"
+                }
+              }
+            }
+          ],
+          "manualPrivateLinkServiceConnections": [],
+          "subnet": {
+            "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"
+          },
+          "networkInterfaces": [
+            {
+              "id": "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/networkInterfaces/testPe.nic.abcd1234"
+            }
+          ],
+          "customDnsConfigs": [
+            {
+              "fqdn": "abc.cosmos.com",
+              "ipAddresses": [
+                "192.168.0.4"
+              ]
+            },
+            {
+              "fqdn": "abc2.cosmos.com",
+              "ipAddresses": [
+                "192.168.0.5"
+              ]
+            }
+          ],
+          "applicationSecurityGroups": [
+            {
+              "id": "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/applicationSecurityGroup/asg1"
+            }
+          ]
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "testPe",
+        "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe",
+        "location": "eastus2euap",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "privateLinkServiceConnections": [
+            {
+              "properties": {
+                "privateLinkServiceId": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
+                "groupIds": [
+                  "groupIdFromResource"
+                ],
+                "requestMessage": "Please approve my connection.",
+                "privateLinkServiceConnectionState": {
+                  "status": "Approved",
+                  "description": "Auto-approved",
+                  "actionsRequired": "None"
+                }
+              }
+            }
+          ],
+          "subnet": {
+            "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"
+          },
+          "networkInterfaces": [
+            {
+              "id": "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/networkInterfaces/testPe.nic.abcd1234"
+            }
+          ],
+          "customDnsConfigs": [
+            {
+              "fqdn": "abc.cosmos.com",
+              "ipAddresses": [
+                "192.168.0.4"
+              ]
+            },
+            {
+              "fqdn": "abc2.cosmos.com",
+              "ipAddresses": [
+                "192.168.0.5"
+              ]
+            }
+          ],
+          "applicationSecurityGroups": [
+            {
+              "id": "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/applicationSecurityGroup/asg1"
             }
           ]
         }

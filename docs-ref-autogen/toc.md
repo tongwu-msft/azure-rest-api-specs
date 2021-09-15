@@ -19803,6 +19803,7 @@
 ### [Get](virtualnetwork/Bastion-Hosts/Get.yml)
 ### [List](virtualnetwork/Bastion-Hosts/List.yml)
 ### [List By Resource Group](virtualnetwork/Bastion-Hosts/List-By-Resource-Group.yml)
+### [Update Tags](virtualnetwork/Bastion-Hosts/Update-Tags.yml)
 ## Check Dns Name Availability
 ### [Overview](virtualnetwork/Check-Dns-Name-Availability.yml)
 ### [Check Dns Name Availability](virtualnetwork/Check-Dns-Name-Availability/Check-Dns-Name-Availability.yml)
@@ -20048,6 +20049,9 @@
 ## Service Association Links
 ### [Overview](virtualnetwork/Service-Association-Links.yml)
 ### [List](virtualnetwork/Service-Association-Links/List.yml)
+## Service Tag Information
+### [Overview](virtualnetwork/Service-Tag-Information.yml)
+### [List](virtualnetwork/Service-Tag-Information/List.yml)
 ## Service Tags
 ### [Overview](virtualnetwork/Service-Tags.yml)
 ### [List](virtualnetwork/Service-Tags/List.yml)
