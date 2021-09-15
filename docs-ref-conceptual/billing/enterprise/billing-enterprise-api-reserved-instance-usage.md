@@ -28,7 +28,7 @@ See the [Overview of Reporting APIs for Enterprise customers](/azure/billing/bil
 |GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/reservationdetails?startDate={yyyy-mm-dd}&endDate={yyyy-mm-dd}
 
 
-## Response
+## Usage details response
 
 ```json
 [{
@@ -67,7 +67,7 @@ See the [Overview of Reporting APIs for Enterprise customers](/azure/billing/bil
 |GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/reservationsummaries?grain=daily&startdate={yyyy-mm-dd}&enddate={yyyy-mm-dd}
 
 
-## Response
+## Usage summary response
 
 ```json
 [

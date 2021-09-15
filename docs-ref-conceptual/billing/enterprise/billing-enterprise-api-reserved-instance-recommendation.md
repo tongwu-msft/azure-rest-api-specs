@@ -27,7 +27,7 @@ See the [Overview of Reporting APIs for Enterprise customers](/azure/billing/bil
 |-|-|
 |GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/SharedReservationRecommendations?lookBackPeriod=7
 
-## Response
+## Shared recommendations response
 
 ```json
 [{
@@ -69,7 +69,7 @@ See the [Overview of Reporting APIs for Enterprise customers](/azure/billing/bil
 |-|-|
 |GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/SingleReservationRecommendations?lookBackPeriod=7
 
-## Response
+## Single recommendation response
 
 ```json
 [{
