@@ -1,0 +1,145 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.glossary.getimportcsvoperationstatus
+name: Get Import Csv Operation Status
+service: Purview
+groupName: Glossary
+apiVersion: 2021-09-01
+summary: Get the status of import csv operation
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/catalog/api/glossary/terms/import/{operationGuid}?api-version=2021-09-01
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: operationGuid
+  in: path
+  isRequired: true
+  description: The globally unique identifier for async operation/job.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of Purview APIs
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. Return the status of import csv operation.
+  types:
+  - uid: ImportCSVOperation
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ImportCSVOperation
+  description: Status of import csv operation
+  kind: object
+  properties:
+  - name: id
+    description: guid string
+    types:
+    - uid: string
+  - name: status
+    description: "ImportCSVOperationStatus  \nEnum of the status of import csv operation."
+    types:
+    - uid: ImportCSVOperationStatus
+  - name: createTime
+    description: The created time of the record.
+    types:
+    - uid: string
+  - name: lastUpdateTime
+    description: The last updated time of the record.
+    types:
+    - uid: string
+  - name: properties.importedTerms
+    description: Term numbers that already imported successfully
+    types:
+    - uid: string
+  - name: properties.totalTermsDetected
+    description: Total term numbers that detected in csv
+    types:
+    - uid: string
+  - name: error.errorCode
+    description: Error code from async import job if fail
+    types:
+    - uid: integer
+  - name: error.errorMessage
+    description: Error message from async import job if fail
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+- name: ImportCSVOperationStatus
+  description: ImportCSVOperationStatus
+  kind: enum
+  properties:
+  - name: NotStarted
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+examples:
+- name: Glossary_GetImportCsvOperationStatus
+  request:
+    uri: GET {Endpoint}/catalog/api/glossary/terms/import/3ffca165-75a7-4987-ba71-cfc0a273d6b7?api-version=2021-09-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "ed27f06c-dcfc-4e60-be27-7be65060108f",
+        "status": "Succeeded",
+        "createTime": "2020-07-22T13:48:21.688+0000",
+        "lastUpdateTime": "2020-07-22T13:55:27.752+0000",
+        "properties": {
+          "importedTerms": "1000",
+          "totalTermsDetected": "1000"
+        },
+        "error": {
+          "errorCode": 0,
+          "errorMessage": ""
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - Get the status of import csv operation
+errorCodes: []

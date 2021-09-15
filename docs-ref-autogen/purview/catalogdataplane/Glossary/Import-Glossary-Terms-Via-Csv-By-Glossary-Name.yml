@@ -1,0 +1,152 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.glossary.importglossarytermsviacsvbyglossaryname
+name: Import Glossary Terms Via Csv By Glossary Name
+service: Purview
+groupName: Glossary
+apiVersion: 2021-09-01
+summary: Import Glossary Terms from local csv file by glossaryName
+consumes:
+- multipart/form-data
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/catalog/api/glossary/name/{glossaryName}/terms/import?api-version=2021-09-01
+- content: POST {Endpoint}/catalog/api/glossary/name/{glossaryName}/terms/import?includeTermHierarchy={includeTermHierarchy}&api-version=2021-09-01
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: glossaryName
+  in: path
+  isRequired: true
+  description: The name of the glossary.
+  types:
+  - uid: string
+- name: includeTermHierarchy
+  in: query
+  description: Whether include term hierarchy
+  types:
+  - uid: boolean
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of Purview APIs
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted. A job to import glossary terms via csv has been accepted.
+  types:
+  - uid: ImportCSVOperation
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ImportCSVOperation
+  description: Status of import csv operation
+  kind: object
+  properties:
+  - name: id
+    description: guid string
+    types:
+    - uid: string
+  - name: status
+    description: "ImportCSVOperationStatus  \nEnum of the status of import csv operation."
+    types:
+    - uid: ImportCSVOperationStatus
+  - name: createTime
+    description: The created time of the record.
+    types:
+    - uid: string
+  - name: lastUpdateTime
+    description: The last updated time of the record.
+    types:
+    - uid: string
+  - name: properties.importedTerms
+    description: Term numbers that already imported successfully
+    types:
+    - uid: string
+  - name: properties.totalTermsDetected
+    description: Total term numbers that detected in csv
+    types:
+    - uid: string
+  - name: error.errorCode
+    description: Error code from async import job if fail
+    types:
+    - uid: integer
+  - name: error.errorMessage
+    description: Error message from async import job if fail
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+- name: ImportCSVOperationStatus
+  description: ImportCSVOperationStatus
+  kind: enum
+  properties:
+  - name: NotStarted
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+examples:
+- name: Glossary_ImportGlossaryTermsViaCsvByGlossaryName
+  request:
+    uri: POST {Endpoint}/catalog/api/glossary/name/Glossary/terms/import?includeTermHierarchy=True&api-version=2021-09-01
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "id": "99e60bea-6f70-4fcb-966a-a313bb2738ef",
+        "status": "Running",
+        "createTime": "2021-03-15T06:27:23.961+0000",
+        "lastUpdateTime": "2021-03-15T06:27:23.961+0000",
+        "properties": {
+          "importedTerms": "0",
+          "totalTermsDetected": "-1"
+        },
+        "error": {
+          "errorCode": 0,
+          "errorMessage": ""
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - Import Glossary Terms from local csv file by glossaryName
+errorCodes: []

@@ -1,0 +1,175 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.types.listtypedefinitionheaders
+name: List Type Definition Headers
+service: Purview
+groupName: Types
+apiVersion: 2021-09-01
+summary: List all type definitions returned as a list of minimal information header.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/catalog/api/atlas/v2/types/typedefs/headers
+- content: GET {Endpoint}/catalog/api/atlas/v2/types/typedefs/headers?includeTermTemplate={includeTermTemplate}&type={type}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: includeTermTemplate
+  in: query
+  description: >-
+    Whether include termtemplatedef when return all typedefs.
+
+    This is always true when search filter type=term_template
+  types:
+  - uid: boolean
+- name: type
+  in: query
+  description: Typedef name as search filter when get typedefs.
+  types:
+  - uid: type
+responses:
+- name: 200 OK
+  description: >-
+    An array of AtlasTypeDefHeader matching the search criteria
+
+    or an empty list if no match.
+  types:
+  - uid: AtlasTypeDefHeader
+    isArray: true
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: type
+  description: Typedef name as search filter when get typedefs.
+  kind: enum
+  properties:
+  - name: enum
+    types:
+    - uid: string
+  - name: entity
+    types:
+    - uid: string
+  - name: classification
+    types:
+    - uid: string
+  - name: relationship
+    types:
+    - uid: string
+  - name: struct
+    types:
+    - uid: string
+  - name: term_template
+    types:
+    - uid: string
+- name: AtlasTypeDefHeader
+  description: AtlasTypeDefHeader
+  kind: object
+  properties:
+  - name: category
+    description: "TypeCategory  \nThe enum of type category."
+    types:
+    - uid: TypeCategory
+  - name: guid
+    description: The GUID of the type definition.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the type definition.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+- name: TypeCategory
+  description: TypeCategory
+  kind: enum
+  properties:
+  - name: PRIMITIVE
+    types:
+    - uid: string
+  - name: OBJECT_ID_TYPE
+    types:
+    - uid: string
+  - name: ENUM
+    types:
+    - uid: string
+  - name: STRUCT
+    types:
+    - uid: string
+  - name: CLASSIFICATION
+    types:
+    - uid: string
+  - name: ENTITY
+    types:
+    - uid: string
+  - name: ARRAY
+    types:
+    - uid: string
+  - name: MAP
+    types:
+    - uid: string
+  - name: RELATIONSHIP
+    types:
+    - uid: string
+  - name: TERM_TEMPLATE
+    types:
+    - uid: string
+examples:
+- name: Types_ListTypeDefinitionHeaders
+  request:
+    uri: GET {Endpoint}/catalog/api/atlas/v2/types/typedefs/headers?includeTermTemplate=True
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "guid": "644ab9c7-893a-4a4d-8e0a-591a6556d1a0",
+          "name": "hive_principal_type",
+          "category": "ENUM"
+        },
+        {
+          "guid": "e5030e81-da05-4571-84f1-265ce20fa6d9",
+          "name": "AtlasGlossaryTermRelationshipStatus",
+          "category": "ENUM"
+        },
+        {
+          "guid": "d776af9c-985c-4168-abb2-477523dbfc70",
+          "name": "MS KPI",
+          "category": "TERM_TEMPLATE"
+        }
+      ]
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - List all type definitions returned as a list of minimal information header.
+errorCodes: []

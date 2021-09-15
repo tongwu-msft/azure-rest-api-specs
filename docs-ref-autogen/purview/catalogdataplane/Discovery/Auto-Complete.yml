@@ -1,0 +1,157 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.discovery.autocomplete
+name: Auto Complete
+service: Purview
+groupName: Discovery
+apiVersion: 2021-09-01
+summary: Get auto complete options.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/catalog/api/search/autocomplete?api-version=2021-09-01
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of Purview APIs
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. On successful lookup of the auto complete options.
+  types:
+  - uid: AutoCompleteResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: keywords
+    in: body
+    description: The keywords applied to all fields that support autocomplete operation. It must be at least 1 character, and no more than 100 characters.
+    types:
+    - uid: string
+  - name: limit
+    in: body
+    description: The number of autocomplete results we hope to return. The default value is 50. The value must be a number between 1 and 100.
+    types:
+    - uid: integer
+  - name: filter
+    in: body
+    description: The filter for the autocomplete request.
+    types:
+    - uid: object
+requestHeader: []
+definitions:
+- name: AutoCompleteResult
+  description: AutoCompleteResult
+  kind: object
+  properties:
+  - name: value
+    description: "AutoCompleteResultValue  \nThe value item of the autocomplete suggest."
+    types:
+    - uid: AutoCompleteResultValue
+      isArray: true
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+- name: AutoCompleteRequest
+  description: AutoCompleteRequest
+  kind: object
+  properties:
+  - name: keywords
+    description: The keywords applied to all fields that support autocomplete operation. It must be at least 1 character, and no more than 100 characters.
+    types:
+    - uid: string
+  - name: limit
+    description: The number of autocomplete results we hope to return. The default value is 50. The value must be a number between 1 and 100.
+    types:
+    - uid: integer
+  - name: filter
+    description: The filter for the autocomplete request.
+    types:
+    - uid: object
+- name: AutoCompleteResultValue
+  description: AutoCompleteResultValue
+  kind: object
+  properties:
+  - name: text
+    description: The completed term or phrase.
+    types:
+    - uid: string
+  - name: queryPlusText
+    description: The completed search query text.
+    types:
+    - uid: string
+examples:
+- name: Discovery_AutoComplete
+  request:
+    uri: POST {Endpoint}/catalog/api/search/autocomplete?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": "exa",
+        "filter": {
+          "and": [
+            {
+              "entityType": "azure_blob_path",
+              "includeSubTypes": false
+            }
+          ]
+        },
+        "limit": 10
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "text": "example",
+            "queryPlusText": "example"
+          },
+          {
+            "text": "exampleconfiguration",
+            "queryPlusText": "exampleconfiguration"
+          },
+          {
+            "text": "exampleresources",
+            "queryPlusText": "exampleresources"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - Get auto complete options.
+errorCodes: []

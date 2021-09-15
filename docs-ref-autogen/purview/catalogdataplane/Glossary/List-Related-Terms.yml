@@ -1,0 +1,106 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.glossary.listrelatedterms
+name: List Related Terms
+service: Purview
+groupName: Glossary
+apiVersion: 2021-09-01
+summary: Get all related terms for a specific term by its GUID. Limit, offset, and sort parameters are currently not being enabled and won't work even they are passed.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/catalog/api/atlas/v2/glossary/terms/{termGuid}/related
+- content: GET {Endpoint}/catalog/api/atlas/v2/glossary/terms/{termGuid}/related?limit={limit}&offset={offset}&sort={sort}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: termGuid
+  in: path
+  isRequired: true
+  description: The globally unique identifier for glossary term.
+  types:
+  - uid: string
+- name: limit
+  in: query
+  description: The page size - by default there is no paging.
+  types:
+  - uid: integer
+  format: int32
+- name: offset
+  in: query
+  description: The offset for pagination purpose.
+  types:
+  - uid: integer
+  format: int32
+- name: sort
+  in: query
+  description: The sort order, ASC (default) or DESC.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. An array of related glossary terms for the given glossary or an empty list.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+examples:
+- name: Glossary_ListRelatedTerms
+  request:
+    uri: GET {Endpoint}/catalog/api/atlas/v2/glossary/terms/54688d39-b298-4104-9e80-f2a16f44aaea/related?limit=-1&offset=0&sort=ASC
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "seeAlso": [
+          {
+            "termGuid": "952c7ba4-4c89-42d8-a05a-7d2161be7008",
+            "relationGuid": "dfa44030-bd14-4111-a0f1-3d01c964eb01",
+            "displayText": "ExampleTerm2"
+          }
+        ],
+        "synonyms": [
+          {
+            "termGuid": "952c7ba4-4c89-42d8-a05a-7d2161be7008",
+            "relationGuid": "15bcbd12-eb48-4b63-8ff5-74f7ec3a562c",
+            "displayText": "ExampleTerm2"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Get all related terms for a specific term by its GUID. Limit, offset, and sort parameters are currently not being enabled and won't work even they are passed.
+errorCodes: []
