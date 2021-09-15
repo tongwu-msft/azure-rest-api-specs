@@ -2382,6 +2382,9 @@
 ##### [Reset Decisions](authorization/accessreviewcalls/Access-Review-Instance/Reset-Decisions.yml)
 ##### [Send Reminders](authorization/accessreviewcalls/Access-Review-Instance/Send-Reminders.yml)
 ##### [Stop](authorization/accessreviewcalls/Access-Review-Instance/Stop.yml)
+#### Access Review Instance Contacted Reviewers
+##### [Overview](authorization/accessreviewcalls/Access-Review-Instance-Contacted-Reviewers.yml)
+##### [List](authorization/accessreviewcalls/Access-Review-Instance-Contacted-Reviewers/List.yml)
 #### Access Review Instance Decisions
 ##### [Overview](authorization/accessreviewcalls/Access-Review-Instance-Decisions.yml)
 ##### [List](authorization/accessreviewcalls/Access-Review-Instance-Decisions/List.yml)
@@ -2392,6 +2395,7 @@
 ##### [Patch](authorization/accessreviewcalls/Access-Review-Instance-My-Decisions/Patch.yml)
 #### Access Review Instances
 ##### [Overview](authorization/accessreviewcalls/Access-Review-Instances.yml)
+##### [Create](authorization/accessreviewcalls/Access-Review-Instances/Create.yml)
 ##### [Get By Id](authorization/accessreviewcalls/Access-Review-Instances/Get-By-Id.yml)
 ##### [List](authorization/accessreviewcalls/Access-Review-Instances/List.yml)
 #### Access Review Instances Assigned For My Approval
@@ -2411,6 +2415,9 @@
 #### Operations
 ##### [Overview](authorization/accessreviewcalls/Operations.yml)
 ##### [List](authorization/accessreviewcalls/Operations/List.yml)
+#### Tenant Level Access Review Instance Contacted Reviewers
+##### [Overview](authorization/accessreviewcalls/Tenant-Level-Access-Review-Instance-Contacted-Reviewers.yml)
+##### [List](authorization/accessreviewcalls/Tenant-Level-Access-Review-Instance-Contacted-Reviewers/List.yml)
 # Automation
 ## [Overview](../docs-ref-conceptual/automation/index.md)
 ## Activity
