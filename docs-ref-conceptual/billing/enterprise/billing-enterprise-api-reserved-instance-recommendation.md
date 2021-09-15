@@ -21,13 +21,14 @@ The Reserved Instance recommendations API looks at Customer's 7, 30 or 60 days v
 
 ## Request for shared reserved instance recommendations
 
-See the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article to learn about common required header properties.
+See the [Overview of Reporting APIs for Enterprise customers](/azure/billing/billing-enterprise-api) article to learn about common required header properties.
 
 |Method | Request URI|
 |-|-|
 |GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/SharedReservationRecommendations?lookBackPeriod=7
 
 ## Response
+
 ```json
 [{
     "lookBackPeriod": "Last7Days",
@@ -43,6 +44,7 @@ See the [Overview of Reporting APIs for Enterprise customers](https://docs.micro
 }
 ]
 ```
+
 **Response property definitions**
 
 |Property Name| Type| Description|
@@ -61,7 +63,7 @@ See the [Overview of Reporting APIs for Enterprise customers](https://docs.micro
 
 
 ## Request for single reserved instance recommendations
-See the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article to learn about common required header properties.
+See the [Overview of Reporting APIs for Enterprise customers](/azure/billing/billing-enterprise-api) article to learn about common required header properties.
 
 |Method | Request URI|
 |-|-|

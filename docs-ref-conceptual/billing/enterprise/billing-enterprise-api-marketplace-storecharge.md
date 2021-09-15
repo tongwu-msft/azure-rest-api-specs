@@ -1,6 +1,6 @@
 ---
 title: Azure Billing Enterprise APIs - Marketplace Charges
-description: Learn about the Reporting APIs that enable Enterprise Azure customers to pull consumption data programmatically.
+description: Learn about the Marketplace Store Charge to get consumption data programmatically.
 author: banders
 ms.reviewer: prkumar
 tags: billing
@@ -19,7 +19,7 @@ ms.author: banders
 The Marketplace Store Charge API returns the usage-based marketplace charges breakdown by day for the specified Billing Period or start and end dates. Recurring Charges are returned as a part of the API response.
 
 ## Request
-Common header properties that you must specify are shown in the [Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article. If a billing period isn't specified, then data for the current billing period is returned. You can specify custom time ranges. Start and end date parameters are in yyyy-MM-dd format. The maximum supported time range is 36 months.  
+Common header properties that you must specify are shown in the [Reporting APIs for Enterprise customers](/azure/billing/billing-enterprise-api) article. If a billing period isn't specified, then data for the current billing period is returned. You can specify custom time ranges. Start and end date parameters are in yyyy-MM-dd format. The maximum supported time range is 36 months.  
 
 |Method | Request URI|
 |-|-|
@@ -30,7 +30,7 @@ Common header properties that you must specify are shown in the [Reporting APIs 
 
 ## Response
 
-
+```json
         [
             {
                 "id": "id",
@@ -61,7 +61,7 @@ Common header properties that you must specify are shown in the [Reporting APIs 
             },
             ...
         ]
-
+```
 
 **Response property definitions**
 

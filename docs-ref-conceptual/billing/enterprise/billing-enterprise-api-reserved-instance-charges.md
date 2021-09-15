@@ -20,7 +20,7 @@ Reserved Instance charges API shows the billing transactions made on the Enterpr
 
 
 ## Request for Reserved Instance charges
-Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article.
+Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](/azure/billing/billing-enterprise-api) article.
 
 |Method | Request URI|
 |-|-|
@@ -30,6 +30,7 @@ Common header properties that need to be added are specified in the [Overview of
 > To use the previous version of the API, replace v4 with v3 or v2 in the URLs above. Some fields aren't available if you use v2.
 
 ## Response
+
 ```json
 [
     {
