@@ -1,12 +1,12 @@
 ---
 title: Azure Billing Enterprise APIs - Billing periods
-description: Learn about the Reporting APIs that enable Enterprise Azure customers to pull consumption data programmatically.
+description: Learn about the Billing Periods API that's part of the to enable Enterprise Azure customers to get consumption data programmatically.
 author: bandersmsft
 ms.reviewer: prkumar
 tags: billing
 ms.service: cost-management-billing
 ms.topic: article
-ms.date: 06/22/2020
+ms.date: 09/15/2021
 ms.author: banders
 
 ---
@@ -20,7 +20,7 @@ The Billing Periods API returns a list of billing periods that have consumption 
 
 
 ## Request
-Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article.
+Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](/azure/billing/billing-enterprise-api) article.
 
 |Method | Request URI|
 |-|-|
@@ -31,8 +31,7 @@ Common header properties that need to be added are specified in the [Overview of
 
 ## Response
 
-
-
+```json
         [
             {
                   "billingPeriodId": "201704",
@@ -45,7 +44,7 @@ Common header properties that need to be added are specified in the [Overview of
             },            
             ....
         ]
-
+```
 
 **Response property definitions**
 

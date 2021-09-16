@@ -6,7 +6,7 @@ ms.reviewer: prkumar
 tags: billing
 ms.service: cost-management-billing
 ms.topic: article
-ms.date: 06/22/2020
+ms.date: 09/15/2021
 ms.author: banders
 
 ---
@@ -20,7 +20,7 @@ Reserved Instance charges API shows the billing transactions made on the Enterpr
 
 
 ## Request for Reserved Instance charges
-Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article.
+Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](/azure/billing/billing-enterprise-api) article.
 
 |Method | Request URI|
 |-|-|
@@ -30,6 +30,7 @@ Common header properties that need to be added are specified in the [Overview of
 > To use the previous version of the API, replace v4 with v3 or v2 in the URLs above. Some fields aren't available if you use v2.
 
 ## Response
+
 ```json
 [
     {
@@ -85,7 +86,7 @@ Common header properties that need to be added are specified in the [Overview of
 
 ## See also
 
-* [Purchase Reserved Instance](https://docs.microsoft.com/azure/virtual-machines/windows/prepay-reserved-vm-instances)
+* [Purchase Reserved Instance](/azure/virtual-machines/windows/prepay-reserved-vm-instances)
 * [Billing Periods API](billing-enterprise-api-billing-periods.md)
 * [Usage Detail API](billing-enterprise-api-usage-detail.md)
 * [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md)

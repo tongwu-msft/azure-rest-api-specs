@@ -1,12 +1,12 @@
 ---
 title: Azure Billing Enterprise APIs - Balance and Summary
-description: Learn about Azure Billing Usage and RateCard APIs, which are used to provide insights into Azure resource consumption and trends.
+description: Learn about the Balance and Summary API that's in the Azure Billing Usage and RateCard APIs. They're used to provide insights into Azure resource consumption and trends.
 author: bandersmsft
 ms.reviewer: prkumar
 tags: billing
 ms.service: cost-management-billing
 ms.topic: article
-ms.date: 06/22/2020
+ms.date: 09/15/2021
 ms.author: banders
 
 ---
@@ -20,7 +20,7 @@ The Balance and Summary API offers a monthly summary of information on balances,
 
 
 ## Request
-Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article. If a billing period isn't specified, then data for the current billing period is returned.
+Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](/azure/billing/billing-enterprise-api) article. If a billing period isn't specified, then data for the current billing period is returned.
 
 |Method | Request URI|
 |-|-|
@@ -32,6 +32,7 @@ Common header properties that need to be added are specified in the [Overview of
 
 ## Response
 
+```json
         {
             "id": "enrollments/100/billingperiods/201507/balancesummaries",
               "billingPeriodId": 201507,
@@ -63,7 +64,7 @@ Common header properties that need to be added are specified in the [Overview of
                 }
               ]
         }
-
+```
 
 **Response property definitions**
 

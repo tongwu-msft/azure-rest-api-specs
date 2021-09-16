@@ -1,12 +1,12 @@
 ---
 title: Azure Billing Enterprise APIs - Usage Details
-description: Learn about Azure Billing Usage and RateCard APIs, which are used to provide insights into Azure resource consumption and trends.
+description: Learn about the Usage Details API, which is used to provide insights into Azure resource consumption and trends.
 author: bandersmsft
 ms.reviewer: prkumar
 tags: billing
 ms.service: cost-management-billing
 ms.topic: article
-ms.date: 06/22/2020
+ms.date: 09/15/2021
 ms.author: banders
 
 ---
@@ -18,7 +18,7 @@ ms.author: banders
 
 The Usage Detail API offers a daily breakdown of consumed quantities and estimated charges by an Enrollment. The result also includes information on instances, meters, and departments. The API can be queried by Billing period or by a specified start and end date.
 
-Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article. Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd.  
+Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](/azure/billing/billing-enterprise-api) article. Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd.  
 
 ## CSV Format
 The API listed below provides data in CSV format.
@@ -41,6 +41,7 @@ The call is a two-step process that requires you to submit your request first fo
 
 #### Response of Asynchronous (polling) submit call
 
+```json
     {
         "id": "string",
         "enrollmentNumber":"string",
@@ -51,7 +52,7 @@ The call is a two-step process that requires you to submit your request first fo
         "startDate":"2017-06-01T00:00:00",
         "endDate":"2017-06-30T00:00:00"
     }
-
+```
 
 ##### Asynchronous call Response property definitions
 
@@ -85,6 +86,7 @@ The API listed below provide data in JSON format. If a billing period is not spe
 
 > Due to the potentially large volume of data, the result set is paged. The nextLink property, if present, specifies the link for the next page of data. If the link is empty, it denotes that is the last page.
 
+```json
     {
         "id": "string",
         "data": [
@@ -133,7 +135,7 @@ The API listed below provide data in JSON format. If a billing period is not spe
         ],
         "nextLink": "string"
     }
-
+```
 
 ## Usage details field definitions
 
@@ -165,16 +167,16 @@ The API listed below provide data in JSON format. If a billing period is not spe
 |cost| double| The charge that has been incurred for the meter. |
 |resourceLocation| string| Identifies the datacenter where the meter is running. |
 |consumedService| string| The Azure platform service that was used. |
-|instanceId| string| This identifier is the name of the resource or the fully qualified Resource ID. For more information, see [Azure Resource Manager API](https://docs.microsoft.com/rest/api/resources/resources) |
+|instanceId| string| This identifier is the name of the resource or the fully qualified Resource ID. For more information, see [Azure Resource Manager API](/rest/api/resources/resources) |
 |serviceInfo1| string| Internal Azure Service Metadata. |
 |serviceInfo2| string| For example, an image type for a virtual machine and ISP name for ExpressRoute. |
 |additionalInfo| string| Service-specific metadata. For example, an image type for a virtual machine. |
-|tags| string| Customer added tags. For more information, see [Organize your Azure resources with tags](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags). |
+|tags| string| Customer added tags. For more information, see [Organize your Azure resources with tags](/azure/azure-resource-manager/resource-group-using-tags). |
 |storeServiceIdentifier| string| This column is not used. Present for backward compatibility. |
 |departmentName| string| Name of the department. |
 |costCenter| string| The cost center that the usage is associated with. |
 |unitOfMeasure| string| Identifies the unit that the service is charged in. Example: GB, hours, 10,000 s. |
-|resourceGroup| string| The resource group in which the deployed meter is running in. For more information, see [Azure Resource Manager overview](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-overview). |
+|resourceGroup| string| The resource group in which the deployed meter is running in. For more information, see [Azure Resource Manager overview](/azure/azure-resource-manager/resource-group-overview). |
 |chargesBilledSeparately| string| Charges billed outside of Monetary Commitment. |
 |location| string| Location where the service was deployed. |
 |offerId| string| OfferId against the service. |
