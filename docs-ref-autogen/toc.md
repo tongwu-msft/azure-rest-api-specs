@@ -9800,6 +9800,27 @@
 ## wrap Key
 ### [Overview](keyvault/wrap-Key.yml)
 ### [wrap Key](keyvault/wrap-Key/wrap-Key.yml)
+# Kubernetes Configuration
+## [Overview](../docs-ref-conceptual/kubernetesconfiguration/index.md)
+## Extensions
+### [Overview](kubernetesconfiguration/Extensions.yml)
+### [Create](kubernetesconfiguration/Extensions/Create.yml)
+### [Delete](kubernetesconfiguration/Extensions/Delete.yml)
+### [Get](kubernetesconfiguration/Extensions/Get.yml)
+### [List](kubernetesconfiguration/Extensions/List.yml)
+## Operation Status
+### [Overview](kubernetesconfiguration/Operation-Status.yml)
+### [Get](kubernetesconfiguration/Operation-Status/Get.yml)
+### [List](kubernetesconfiguration/Operation-Status/List.yml)
+## Operations
+### [Overview](kubernetesconfiguration/Operations.yml)
+### [List](kubernetesconfiguration/Operations/List.yml)
+## Source Control Configurations
+### [Overview](kubernetesconfiguration/Source-Control-Configurations.yml)
+### [Create Or Update](kubernetesconfiguration/Source-Control-Configurations/Create-Or-Update.yml)
+### [Delete](kubernetesconfiguration/Source-Control-Configurations/Delete.yml)
+### [Get](kubernetesconfiguration/Source-Control-Configurations/Get.yml)
+### [List](kubernetesconfiguration/Source-Control-Configurations/List.yml)
 # Lab Services
 ## [Overview](../docs-ref-conceptual/labservices/index.md)
 ## Environment Settings
