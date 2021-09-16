@@ -1,40 +1,21 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.guestconfiguration.guestconfigurationhcrpassignments.get
-name: Get
+uid: management.azure.com.guestconfiguration.guestconfigurationassignments.subscriptionlist
+name: Subscription List
 service: Guest Configuration
-groupName: Guest Configuration HCRP Assignments
+groupName: Guest Configuration Assignments
 apiVersion: 2020-06-25
-summary: Get information about a guest configuration assignment
+summary: List all guest configuration assignments for a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}?api-version=2020-06-25
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments?api-version=2020-06-25
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: Subscription ID which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
-  types:
-  - uid: string
-- name: resourceGroupName
-  in: path
-  isRequired: true
-  description: The resource group name.
-  types:
-  - uid: string
-  pattern: ^[-\w\._]+$
-- name: machineName
-  in: path
-  isRequired: true
-  description: The name of the ARC machine.
-  types:
-  - uid: string
-- name: guestConfigurationAssignmentName
-  in: path
-  isRequired: true
-  description: The guest configuration assignment name.
   types:
   - uid: string
 - name: api-version
@@ -45,15 +26,34 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK. The guest configuration assignment was returned successfully.
+  description: OK
   types:
-  - uid: GuestConfigurationAssignment
+  - uid: GuestConfigurationAssignmentList
+- name: 204 No Content
+  description: No Content
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: GuestConfigurationAssignmentList
+  description: The response of the list guest configuration assignment operation.
+  kind: object
+  properties:
+  - name: value
+    description: Result of the list guest configuration assignment operation.
+    types:
+    - uid: GuestConfigurationAssignment
+      isArray: true
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: Error
 - name: GuestConfigurationAssignment
   description: Guest configuration assignment is an association between a machine and guest configuration.
   kind: object
@@ -80,14 +80,17 @@ definitions:
     description: The type of the resource.
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error response of an operation failure
+- name: Error
   kind: object
   properties:
-  - name: error
-    description: ''
+  - name: code
+    description: Error code.
     types:
-    - uid: Error
+    - uid: string
+  - name: message
+    description: Detail error message indicating why the operation failed.
+    types:
+    - uid: string
 - name: GuestConfigurationAssignmentProperties
   description: Guest configuration assignment properties.
   kind: object
@@ -149,17 +152,6 @@ definitions:
     description: The provisioning state, which only appears in the response.
     types:
     - uid: provisioningState
-- name: Error
-  kind: object
-  properties:
-  - name: code
-    description: Error code.
-    types:
-    - uid: string
-  - name: message
-    description: Detail error message indicating why the operation failed.
-    types:
-    - uid: string
 - name: GuestConfigurationNavigation
   description: Guest configuration is an artifact that encapsulates DSC configuration and its dependencies. The artifact is a zip file containing DSC configuration (as MOF) and dependent resources and other dependencies like modules.
   kind: object
@@ -487,34 +479,59 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get a guest configuration assignment
+- name: List all guest configuration assignments for a subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.HybridCompute/machines/myMachineName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/SecureProtocol?api-version=2020-06-25
+    uri: GET https://management.azure.com/subscriptions/mySubscriptionId/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments?api-version=2020-06-25
   responses:
   - statusCode: "200"
     body: >-
-      {
-        "location": "centraluseuap",
-        "id": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.HybridCompute/machines/myMachineName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol",
-        "name": "AuditSecureProtocol",
-        "properties": {
-          "complianceStatus": "Compliant",
-          "assignmentHash": "E0D8941DD713F284284561648C00C18FA76C8602943C7CD38AFD73B56AE4C35F.E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
-          "latestReportId": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.HybridCompute/machines/myMachineName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports/7367cbb8-ae99-47d0-a33b-a283564d2cb1",
-          "lastComplianceStatusChecked": "2018-08-29T22:14:13Z",
-          "context": null,
-          "guestConfiguration": {
-            "kind": null,
-            "name": "AuditSecureProtocol",
-            "version": "1.0.0.3",
-            "contentUri": "https://mystorageaccount.blob.core.windows.net/builtinconfig/AuditSecureProtocol/AuditSecureProtocol_1.0.0.3.zip",
-            "contentHash": "content hash",
-            "configurationParameter": [],
-            "configurationSetting": null
-          },
-          "provisioningState": "Succeeded"
+      [
+        {
+          "location": "centraluseuap",
+          "id": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol2",
+          "name": "AuditSecureProtocol2",
+          "properties": {
+            "complianceStatus": "Compliant",
+            "assignmentHash": "content hash",
+            "latestReportId": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol2/reports/7367cbb8-ae99-47d0-a33b-a283564d2cb1",
+            "lastComplianceStatusChecked": "2018-08-29T22:14:13Z",
+            "context": null,
+            "guestConfiguration": {
+              "kind": null,
+              "name": "AuditSecureProtocol2",
+              "version": "1.0.0.3",
+              "contentUri": "https://mystorageaccount.blob.core.windows.net/builtinconfig/AuditSecureProtocol2/AuditSecureProtocol2_1.0.0.3.zip",
+              "contentHash": "content hash",
+              "configurationParameter": [],
+              "configurationSetting": null
+            },
+            "provisioningState": null
+          }
+        },
+        {
+          "location": "centraluseuap",
+          "id": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/myAssignment",
+          "name": "myAssignment",
+          "properties": {
+            "complianceStatus": "Compliant",
+            "assignmentHash": "content hash",
+            "latestReportId": "/subscriptions/subscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/myAssignment/reports/7367cbb8-ae99-47d0-a33b-a283564d2cb1",
+            "lastComplianceStatusChecked": "2018-08-29T22:14:13Z",
+            "context": null,
+            "guestConfiguration": {
+              "kind": null,
+              "name": "myAssignment",
+              "version": "1.0.0.3",
+              "contentUri": "https://mystorageaccount.blob.core.windows.net/builtinconfig/myAssignment/myAssignment.0.0.3.zip",
+              "contentHash": "content hash",
+              "configurationParameter": [],
+              "configurationSetting": null
+            },
+            "provisioningState": null
+          }
         }
-      }
+      ]
+  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2
@@ -525,5 +542,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Guest Configuration service - Get information about a guest configuration assignment
+  description: Learn more about Guest Configuration service - List all guest configuration assignments for a subscription.
 errorCodes: []

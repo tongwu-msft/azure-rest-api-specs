@@ -104,6 +104,21 @@ definitions:
     description: 'Id of the latest report for the guest configuration assignment. '
     types:
     - uid: string
+  - name: parameterHash
+    isReadyOnly: true
+    description: 'parameter hash for the guest configuration assignment. '
+    types:
+    - uid: string
+  - name: resourceType
+    isReadyOnly: true
+    description: Type of the resource - VMSS / VM
+    types:
+    - uid: string
+  - name: vmssVMList
+    description: The list of VM Compliance data for VMSS
+    types:
+    - uid: VMSSVMInfo
+      isArray: true
   - name: latestAssignmentReport
     description: Last reported guest configuration assignment report.
     types:
@@ -184,8 +199,18 @@ definitions:
     description: Specifies the assignment type and execution of the configuration. Possible values are Audit, DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor.
     types:
     - uid: assignmentType
+  - name: contentType
+    isReadyOnly: true
+    description: Specifies the content type of the configuration. Possible values could be Builtin or Custom.
+    types:
+    - uid: string
   - name: configurationParameter
     description: The configuration parameters for the guest configuration.
+    types:
+    - uid: ConfigurationParameter
+      isArray: true
+  - name: configurationProtectedParameter
+    description: The protected configuration parameters for the guest configuration.
     types:
     - uid: ConfigurationParameter
       isArray: true
@@ -204,6 +229,35 @@ definitions:
     types:
     - uid: string
   - name: Pending
+    types:
+    - uid: string
+- name: VMSSVMInfo
+  description: Information about VMSS VM
+  kind: object
+  properties:
+  - name: vmId
+    isReadyOnly: true
+    description: UUID of the VM.
+    types:
+    - uid: string
+  - name: vmResourceId
+    isReadyOnly: true
+    description: Azure resource Id of the VM.
+    types:
+    - uid: string
+  - name: complianceStatus
+    isReadyOnly: true
+    description: A value indicating compliance status of the machine for the assigned guest configuration.
+    types:
+    - uid: complianceStatus
+  - name: latestReportId
+    isReadyOnly: true
+    description: 'Id of the latest report for the guest configuration assignment. '
+    types:
+    - uid: string
+  - name: lastComplianceChecked
+    isReadyOnly: true
+    description: Date and time when last compliance status was checked.
     types:
     - uid: string
 - name: AssignmentReport
@@ -492,12 +546,15 @@ examples:
           "latestReportId": null,
           "lastComplianceStatusChecked": null,
           "context": "Azure policy",
+          "resourceType": null,
+          "vmssVMList": null,
           "guestConfiguration": {
             "kind": null,
             "name": "WhitelistedApplication",
             "version": "1.0.0.3",
             "contentUri": null,
             "contentHash": null,
+            "contentType": null,
             "configurationParameter": [
               {
                 "name": "[InstalledApplication]bwhitelistedapp;Name",
@@ -520,12 +577,15 @@ examples:
           "latestReportId": null,
           "lastComplianceStatusChecked": null,
           "context": "Azure policy",
+          "resourceType": null,
+          "vmssVMList": null,
           "guestConfiguration": {
             "kind": null,
             "name": "WhitelistedApplication",
             "version": "1.0.0.3",
             "contentUri": null,
             "contentHash": null,
+            "contentType": null,
             "configurationParameter": [
               {
                 "name": "[InstalledApplication]bwhitelistedapp;Name",

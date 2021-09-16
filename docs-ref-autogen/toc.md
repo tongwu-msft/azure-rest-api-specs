@@ -8787,6 +8787,8 @@
 ### [Delete](guestconfiguration/Guest-Configuration-Assignments/Delete.yml)
 ### [Get](guestconfiguration/Guest-Configuration-Assignments/Get.yml)
 ### [List](guestconfiguration/Guest-Configuration-Assignments/List.yml)
+### [RG List](guestconfiguration/Guest-Configuration-Assignments/RG-List.yml)
+### [Subscription List](guestconfiguration/Guest-Configuration-Assignments/Subscription-List.yml)
 ## Guest Configuration HCRP Assignment Reports
 ### [Overview](guestconfiguration/Guest-Configuration-HCRP-Assignment-Reports.yml)
 ### [Get](guestconfiguration/Guest-Configuration-HCRP-Assignment-Reports/Get.yml)
