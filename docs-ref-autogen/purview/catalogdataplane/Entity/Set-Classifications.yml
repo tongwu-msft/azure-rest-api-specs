@@ -1,0 +1,123 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.entity.setclassifications
+name: Set Classifications
+service: Purview
+groupName: Entity
+apiVersion: 2021-09-01
+summary: Set classifications on entities in bulk.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/catalog/api/atlas/v2/entity/bulk/setClassifications
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: string
+    isArray: true
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: guidHeaderMap
+    in: body
+    description: The description of the guid header map,
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+- name: AtlasEntityHeaders
+  description: AtlasEntityHeaders
+  kind: object
+  properties:
+  - name: guidHeaderMap
+    description: The description of the guid header map,
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+examples:
+- name: Entity_SetClassifications
+  request:
+    uri: POST {Endpoint}/catalog/api/atlas/v2/entity/bulk/setClassifications
+    body: >-
+      {
+        "guidHeaderMap": {
+          "9fb74c11-ac48-4650-95bc-760665c5bd92": {
+            "attributes": {
+              "qualifiedName": "https://exampleaccount1.core.windows.net"
+            },
+            "typeName": "azure_storage_account",
+            "classifications": [
+              {
+                "typeName": "MICROSOFT.PERSONAL.EMAIL"
+              }
+            ]
+          },
+          "7fcc43ab-55ea-45d4-9971-ce0443cb10bb": {
+            "attributes": {
+              "qualifiedName": "https://exampleaccount2.core.windows.net"
+            },
+            "typeName": "azure_storage_account",
+            "classifications": [
+              {
+                "typeName": "MICROSOFT.PERSONAL.IPADDRESS"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        "Add:9fb74c11-ac48-4650-95bc-760665c5bd92:azure_storage_account:qualifiedName -> MICROSOFT.PERSONAL.EMAIL:(Done)",
+        "Update:7fcc43ab-55ea-45d4-9971-ce0443cb10bb:azure_storage_account:qualifiedName -> MICROSOFT.PERSONAL.IPADDRESS:(Done)"
+      ]
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - Set classifications on entities in bulk.
+errorCodes: []

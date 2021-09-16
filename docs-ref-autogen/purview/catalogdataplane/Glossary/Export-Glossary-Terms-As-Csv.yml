@@ -1,0 +1,89 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.glossary.exportglossarytermsascsv
+name: Export Glossary Terms As Csv
+service: Purview
+groupName: Glossary
+apiVersion: 2021-09-01
+summary: Export Glossary Terms as csv file
+consumes:
+- application/json
+produces:
+- text/csv
+paths:
+- content: POST {Endpoint}/catalog/api/glossary/{glossaryGuid}/terms/export?api-version=2021-09-01
+- content: POST {Endpoint}/catalog/api/glossary/{glossaryGuid}/terms/export?includeTermHierarchy={includeTermHierarchy}&api-version=2021-09-01
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: glossaryGuid
+  in: path
+  isRequired: true
+  description: The globally unique identifier for glossary.
+  types:
+  - uid: string
+- name: includeTermHierarchy
+  in: query
+  description: Whether include term hierarchy
+  types:
+  - uid: boolean
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of Purview APIs
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. A csv file contains terms with given term guids will be generated.
+  types:
+  - uid: file
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: termGuids
+    in: body
+    description: An array of term guids.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+examples: []
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - Export Glossary Terms as csv file
+errorCodes: []

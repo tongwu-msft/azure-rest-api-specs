@@ -1,0 +1,343 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.entity.deletebyuniqueattribute
+name: Delete By Unique Attribute
+service: Purview
+groupName: Entity
+apiVersion: 2021-09-01
+summary: >-
+  Delete an entity identified by its type and unique attributes.
+
+  In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format:
+
+  attr:\<attrName>=\<attrValue>.
+
+  NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName.
+
+  The REST request would look something like this:
+
+  DELETE /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE {Endpoint}/catalog/api/atlas/v2/entity/uniqueAttribute/type/{typeName}
+- content: DELETE {Endpoint}/catalog/api/atlas/v2/entity/uniqueAttribute/type/{typeName}?attr:qualifiedName={attr:qualifiedName}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: typeName
+  in: path
+  isRequired: true
+  description: The name of the type.
+  types:
+  - uid: string
+- name: attr:qualifiedName
+  in: query
+  description: The qualified name of the entity.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Deleted with EntityMutationResponse.
+  types:
+  - uid: EntityMutationResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: EntityMutationResponse
+  description: EntityMutationResponse
+  kind: object
+  properties:
+  - name: guidAssignments
+    description: A map of GUID assignments with entities.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: mutatedEntities
+    description: The entity headers of mutated entities.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+  - name: partialUpdatedEntities
+    description: An array of entity headers that partially updated.
+    types:
+    - uid: AtlasEntityHeader
+      isArray: true
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+- name: AtlasEntityHeader
+  description: AtlasEntityHeader
+  kind: object
+  properties:
+  - name: attributes
+    description: The attributes of the struct.
+    types:
+    - uid: Attributes
+  - name: typeName
+    description: The name of the type.
+    types:
+    - uid: string
+  - name: lastModifiedTS
+    description: "lastModifiedTS  \nETag for concurrency control."
+    types:
+    - uid: string
+  - name: classificationNames
+    description: An array of classification names.
+    types:
+    - uid: string
+      isArray: true
+  - name: classifications
+    description: An array of classifications.
+    types:
+    - uid: AtlasClassification
+      isArray: true
+  - name: displayText
+    description: The display text.
+    types:
+    - uid: string
+  - name: guid
+    description: The GUID of the record.
+    types:
+    - uid: string
+  - name: meaningNames
+    description: An array of meanings.
+    types:
+    - uid: string
+      isArray: true
+  - name: meanings
+    description: An array of term assignment headers.
+    types:
+    - uid: AtlasTermAssignmentHeader
+      isArray: true
+  - name: status
+    description: "Status  \nStatus of the entity - can be active or deleted. Deleted entities are not removed from Atlas store."
+    types:
+    - uid: Status
+- name: Attributes
+  description: The attributes of the struct.
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+- name: AtlasClassification
+  description: AtlasClassification
+  kind: object
+  properties:
+  - name: attributes
+    description: The attributes of the struct.
+    types:
+    - uid: Attributes
+  - name: typeName
+    description: The name of the type.
+    types:
+    - uid: string
+  - name: lastModifiedTS
+    description: "lastModifiedTS  \nETag for concurrency control."
+    types:
+    - uid: string
+  - name: entityGuid
+    description: The GUID of the entity.
+    types:
+    - uid: string
+  - name: entityStatus
+    description: "Status  \nStatus of the entity - can be active or deleted. Deleted entities are not removed from Atlas store."
+    types:
+    - uid: Status
+  - name: removePropagationsOnEntityDelete
+    description: Determines if propagations will be removed on entity deletion.
+    types:
+    - uid: boolean
+  - name: validityPeriods
+    description: An array of time boundaries indicating validity periods.
+    types:
+    - uid: TimeBoundary
+      isArray: true
+  - name: source
+    description: indicate the source who create the classification detail
+    types:
+    - uid: string
+  - name: sourceDetails
+    description: more detail on source information
+    types:
+    - uid: SourceDetails
+- name: AtlasTermAssignmentHeader
+  description: AtlasTermAssignmentHeader
+  kind: object
+  properties:
+  - name: confidence
+    description: The confidence of the term assignment.
+    types:
+    - uid: integer
+  - name: createdBy
+    description: The user who created the record.
+    types:
+    - uid: string
+  - name: description
+    description: The description of the term assignment.
+    types:
+    - uid: string
+  - name: displayText
+    description: The display text.
+    types:
+    - uid: string
+  - name: expression
+    description: The expression of the term assignment.
+    types:
+    - uid: string
+  - name: relationGuid
+    description: The GUID of the relationship.
+    types:
+    - uid: string
+  - name: source
+    description: The source of the term.
+    types:
+    - uid: string
+  - name: status
+    description: "AtlasTermAssignmentStatus  \nThe status of terms assignment."
+    types:
+    - uid: AtlasTermAssignmentStatus
+  - name: steward
+    description: The steward of the term.
+    types:
+    - uid: string
+  - name: termGuid
+    description: The GUID of the term.
+    types:
+    - uid: string
+- name: Status
+  description: Status
+  kind: enum
+  properties:
+  - name: ACTIVE
+    types:
+    - uid: string
+  - name: DELETED
+    types:
+    - uid: string
+- name: TimeBoundary
+  description: TimeBoundary
+  kind: object
+  properties:
+  - name: endTime
+    description: The end of the time boundary.
+    types:
+    - uid: string
+  - name: startTime
+    description: The start of the time boundary.
+    types:
+    - uid: string
+  - name: timeZone
+    description: The timezone of the time boundary.
+    types:
+    - uid: string
+- name: SourceDetails
+  description: more detail on source information
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+- name: AtlasTermAssignmentStatus
+  description: AtlasTermAssignmentStatus
+  kind: enum
+  properties:
+  - name: DISCOVERED
+    types:
+    - uid: string
+  - name: PROPOSED
+    types:
+    - uid: string
+  - name: IMPORTED
+    types:
+    - uid: string
+  - name: VALIDATED
+    types:
+    - uid: string
+  - name: DEPRECATED
+    types:
+    - uid: string
+  - name: OBSOLETE
+    types:
+    - uid: string
+  - name: OTHER
+    types:
+    - uid: string
+examples:
+- name: Entity_DeleteByUniqueAttribute
+  request:
+    uri: DELETE {Endpoint}/catalog/api/atlas/v2/entity/uniqueAttribute/type/azure_storage_account?attr:qualifiedName=https://exampleaccount.core.windows.net
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "mutatedEntities": {
+          "DELETE": [
+            {
+              "classificationNames": [],
+              "displayText": "Example Name",
+              "guid": "e0ba3f20-f3b5-4d52-b769-ed35a02df60a",
+              "meaningNames": [],
+              "meanings": [],
+              "status": "ACTIVE",
+              "lastModifiedTS": "1",
+              "attributes": {
+                "owner": "ExampleOwner",
+                "createTime": 0,
+                "qualifiedName": "https://exampleaccount.core.windows.net",
+                "name": "ExampleName"
+              },
+              "typeName": "azure_storage_account"
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >-
+    Delete an entity identified by its type and unique attributes.
+
+    In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format:
+
+    attr:\<attrName>=\<attrValue>.
+errorCodes: []

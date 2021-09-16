@@ -1,0 +1,178 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.glossary.removetermassignmentfromentities
+name: Remove Term Assignment From Entities
+service: Purview
+groupName: Glossary
+apiVersion: 2021-09-01
+summary: Delete the term assignment for the given list of related objects.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT {Endpoint}/catalog/api/atlas/v2/glossary/terms/{termGuid}/assignedEntities
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: termGuid
+  in: path
+  isRequired: true
+  description: The globally unique identifier for glossary term.
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: OK. If glossary term dissociation was successful.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: relatedObjectIds
+    in: body
+    description: An array of related object IDs from which the term has to be dissociated.
+    types:
+    - uid: AtlasRelatedObjectId
+      isArray: true
+requestHeader: []
+definitions:
+- name: UniqueAttributes
+  description: The unique attributes of the object.
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+- name: AtlasStruct
+  description: AtlasStruct
+  kind: object
+  properties:
+  - name: attributes
+    description: The attributes of the struct.
+    types:
+    - uid: Attributes
+  - name: typeName
+    description: The name of the type.
+    types:
+    - uid: string
+  - name: lastModifiedTS
+    description: "lastModifiedTS  \nETag for concurrency control."
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+- name: AtlasRelatedObjectId
+  description: AtlasRelatedObjectId
+  kind: object
+  properties:
+  - name: guid
+    description: The GUID of the object.
+    types:
+    - uid: string
+  - name: typeName
+    description: The name of the type.
+    types:
+    - uid: string
+  - name: uniqueAttributes
+    description: The unique attributes of the object.
+    types:
+    - uid: UniqueAttributes
+  - name: displayText
+    description: The display text.
+    types:
+    - uid: string
+  - name: entityStatus
+    description: "Status  \nStatus of the entity - can be active or deleted. Deleted entities are not removed from Atlas store."
+    types:
+    - uid: Status
+  - name: relationshipType
+    description: ''
+    types:
+    - uid: string
+  - name: relationshipAttributes
+    description: "AtlasStruct  \nCaptures details of struct contents. Not instantiated directly, used only via AtlasEntity, AtlasClassification."
+    types:
+    - uid: AtlasStruct
+  - name: relationshipGuid
+    description: The GUID of the relationship.
+    types:
+    - uid: string
+  - name: relationshipStatus
+    description: "Status  \nThe enum of relationship status."
+    types:
+    - uid: Status_AtlasRelationship
+- name: Attributes
+  description: The attributes of the struct.
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+- name: Status
+  description: Status
+  kind: enum
+  properties:
+  - name: ACTIVE
+    types:
+    - uid: string
+  - name: DELETED
+    types:
+    - uid: string
+- name: Status_AtlasRelationship
+  description: Status
+  kind: enum
+  properties:
+  - name: ACTIVE
+    types:
+    - uid: string
+  - name: DELETED
+    types:
+    - uid: string
+examples:
+- name: Glossary_RemoveTermAssignmentFromEntities
+  request:
+    uri: PUT {Endpoint}/catalog/api/atlas/v2/glossary/terms/8a7f65ec-6429-0b9b-3734-ec57bf1e34c2/assignedEntities
+    body: >-
+      [
+        {
+          "guid": "16feb2a1-2c79-ade1-338d-fb24fcb8b8bd",
+          "relationshipGuid": "624f08bb-3c93-4f03-9ce1-ed2ce2c7c8d5"
+        }
+      ]
+  responses:
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - Delete the term assignment for the given list of related objects.
+errorCodes: []

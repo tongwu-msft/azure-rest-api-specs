@@ -1,0 +1,230 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.relationship.get
+name: Get
+service: Purview
+groupName: Relationship
+apiVersion: 2021-09-01
+summary: Get relationship information between entities by its GUID.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/catalog/api/atlas/v2/relationship/guid/{guid}
+- content: GET {Endpoint}/catalog/api/atlas/v2/relationship/guid/{guid}?extendedInfo={extendedInfo}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: guid
+  in: path
+  isRequired: true
+  description: The globally unique identifier of the relationship.
+  types:
+  - uid: string
+- name: extendedInfo
+  in: query
+  description: Limits whether includes extended information.
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: AtlasRelationshipWithExtInfo
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: AtlasRelationshipWithExtInfo
+  description: AtlasRelationshipWithExtInfo
+  kind: object
+  properties:
+  - name: referredEntities
+    description: The referred entity header.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: relationship
+    description: "AtlasRelationship  \nAtlas relationship instance."
+    types:
+    - uid: AtlasRelationship
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+- name: AtlasRelationship
+  description: AtlasRelationship
+  kind: object
+  properties:
+  - name: attributes
+    description: The attributes of the struct.
+    types:
+    - uid: Attributes
+  - name: typeName
+    description: The name of the type.
+    types:
+    - uid: string
+  - name: lastModifiedTS
+    description: "lastModifiedTS  \nETag for concurrency control."
+    types:
+    - uid: string
+  - name: createTime
+    description: The created time of the record.
+    types:
+    - uid: number
+  - name: createdBy
+    description: The user who created the record.
+    types:
+    - uid: string
+  - name: end1
+    description: "AtlasObjectId  \nReference to an object-instance of an Atlas type - like entity."
+    types:
+    - uid: AtlasObjectId
+  - name: end2
+    description: "AtlasObjectId  \nReference to an object-instance of an Atlas type - like entity."
+    types:
+    - uid: AtlasObjectId
+  - name: guid
+    description: The GUID of the relationship.
+    types:
+    - uid: string
+  - name: homeId
+    description: The home ID of the relationship.
+    types:
+    - uid: string
+  - name: label
+    description: The label of the relationship.
+    types:
+    - uid: string
+  - name: provenanceType
+    description: Used to record the provenance of an instance of an entity or relationship
+    types:
+    - uid: number
+  - name: status
+    description: "Status  \nThe enum of relationship status."
+    types:
+    - uid: Status_AtlasRelationship
+  - name: updateTime
+    description: The update time of the record.
+    types:
+    - uid: number
+  - name: updatedBy
+    description: The user who updated the record.
+    types:
+    - uid: string
+  - name: version
+    description: The version of the relationship.
+    types:
+    - uid: number
+- name: Attributes
+  description: The attributes of the struct.
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+- name: AtlasObjectId
+  description: AtlasObjectId
+  kind: object
+  properties:
+  - name: guid
+    description: The GUID of the object.
+    types:
+    - uid: string
+  - name: typeName
+    description: The name of the type.
+    types:
+    - uid: string
+  - name: uniqueAttributes
+    description: The unique attributes of the object.
+    types:
+    - uid: UniqueAttributes
+- name: Status_AtlasRelationship
+  description: Status
+  kind: enum
+  properties:
+  - name: ACTIVE
+    types:
+    - uid: string
+  - name: DELETED
+    types:
+    - uid: string
+- name: UniqueAttributes
+  description: The unique attributes of the object.
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+examples:
+- name: Relationship_Get
+  request:
+    uri: GET {Endpoint}/catalog/api/atlas/v2/relationship/guid/5cf8a9e5-c9fd-abe0-2e8c-d40024263dcb?extendedInfo=false
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "relationship": {
+          "typeName": "AtlasGlossarySynonym",
+          "attributes": {
+            "expression": null,
+            "steward": null,
+            "description": null,
+            "source": null,
+            "status": null
+          },
+          "guid": "de23cd5a-021c-413d-98a5-98752a1f7a3b",
+          "end1": {
+            "guid": "856d31e6-e342-a1ce-6273-22ddb77029c6",
+            "typeName": "AtlasGlossaryTerm"
+          },
+          "end2": {
+            "guid": "b0942506-2d7d-1f45-d286-c29ca9e7f2ef",
+            "typeName": "AtlasGlossaryTerm"
+          },
+          "label": "r:AtlasGlossarySynonym",
+          "status": "ACTIVE",
+          "createdBy": "ExampleCreator",
+          "updatedBy": "ExampleUpdator",
+          "createTime": 1553838993803,
+          "updateTime": 1553838993803,
+          "version": 0
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - Get relationship information between entities by its GUID.
+errorCodes: []
