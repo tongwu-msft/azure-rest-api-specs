@@ -5,6 +5,7 @@ author: bandersmsft
 ms.reviewer: prkumar
 tags: billing
 ms.service: cost-management-billing
+ms.subservice: enterprise
 ms.topic: article
 ms.date: 09/15/2021
 ms.author: banders
