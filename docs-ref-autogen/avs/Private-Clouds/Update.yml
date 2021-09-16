@@ -3,14 +3,14 @@ uid: management.azure.com.avs.privateclouds.update
 name: Update
 service: AVS
 groupName: Private Clouds
-apiVersion: 2020-03-20
+apiVersion: 2021-06-01
 summary: Update a private cloud
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}?api-version=2020-03-20
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -54,7 +54,7 @@ requestBody:
   parameters:
   - name: tags
     in: body
-    description: Resource tags.
+    description: Resource tags
     types:
     - uid: object
       isDictionary: true
@@ -80,9 +80,13 @@ requestBody:
 requestHeader: []
 definitions:
 - name: ManagementCluster
-  description: The properties of a default cluster
+  description: The properties of a management cluster
   kind: object
   properties:
+  - name: clusterSize
+    description: The cluster size
+    types:
+    - uid: integer
   - name: provisioningState
     isReadyOnly: true
     description: The state of the cluster provisioning
@@ -99,10 +103,6 @@ definitions:
     types:
     - uid: string
       isArray: true
-  - name: clusterSize
-    description: The cluster size
-    types:
-    - uid: integer
 - name: IdentitySource
   description: vCenter Single Sign On Identity Source
   kind: object
@@ -206,6 +206,12 @@ definitions:
     description: Thumbprint of the NSX-T Manager SSL certificate
     types:
     - uid: string
+  - name: properties.externalCloudLinks
+    isReadyOnly: true
+    description: Array of cloud link IDs from other clouds that connect to this one
+    types:
+    - uid: string
+      isArray: true
   - name: location
     description: Resource location
     types:
@@ -259,7 +265,7 @@ definitions:
   kind: object
   properties:
   - name: tags
-    description: Resource tags.
+    description: Resource tags
     types:
     - uid: object
       isDictionary: true
@@ -442,7 +448,7 @@ definitions:
 examples:
 - name: PrivateClouds_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1?api-version=2020-03-20
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1?api-version=2021-06-01
     body: >-
       {
         "properties": {
@@ -484,6 +490,9 @@ examples:
             "vcsa": "https://192.168.50.2/",
             "hcxCloudManager": "https://192.168.50.4/"
           },
+          "externalCloudLinks": [
+            "/subscriptions/12341234-1234-1234-1234-123412341234/resourceGroups/mygroup/providers/Microsoft.AVS/privateClouds/cloud2"
+          ],
           "identitySources": [
             {
               "alias": "groupAlias",
