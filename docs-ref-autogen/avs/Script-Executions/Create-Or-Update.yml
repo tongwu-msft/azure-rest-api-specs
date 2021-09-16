@@ -1,0 +1,458 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.avs.scriptexecutions.createorupdate
+name: Create Or Update
+service: AVS
+groupName: Script Executions
+apiVersion: 2021-06-01
+summary: Create or update a script execution resource in a private cloud
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}?api-version=2021-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: privateCloudName
+  in: path
+  isRequired: true
+  description: The name of the private cloud.
+  types:
+  - uid: string
+- name: scriptExecutionName
+  in: path
+  isRequired: true
+  description: Name of the user-invoked script execution resource
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: successful operation
+  types:
+  - uid: ScriptExecution
+- name: 201 Created
+  description: accepted operation
+  types:
+  - uid: ScriptExecution
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.scriptCmdletId
+    in: body
+    description: A reference to the script cmdlet resource if user is running a AVS script
+    types:
+    - uid: string
+  - name: properties.parameters
+    in: body
+    description: Parameters the script will accept
+    types:
+    - uid: ScriptSecureStringExecutionParameter
+      isArray: true
+    - uid: ScriptStringExecutionParameter
+      isArray: true
+    - uid: PSCredentialExecutionParameter
+      isArray: true
+    typesTitle: ScriptExecutionParameter[]
+  - name: properties.hiddenParameters
+    in: body
+    description: Parameters that will be hidden/not visible to ARM, such as passwords and credentials
+    types:
+    - uid: ScriptSecureStringExecutionParameter
+      isArray: true
+    - uid: ScriptStringExecutionParameter
+      isArray: true
+    - uid: PSCredentialExecutionParameter
+      isArray: true
+    typesTitle: ScriptExecutionParameter[]
+  - name: properties.failureReason
+    in: body
+    description: Error message if the script was able to run, but if the script itself had errors or powershell threw an exception
+    types:
+    - uid: string
+  - name: properties.timeout
+    in: body
+    isRequired: true
+    description: Time limit for execution
+    types:
+    - uid: string
+  - name: properties.retention
+    in: body
+    description: Time to live for the resource. If not provided, will be available for 60 days
+    types:
+    - uid: string
+  - name: properties.output
+    in: body
+    description: Standard output stream from the powershell execution
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.namedOutputs
+    in: body
+    description: User-defined dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+requestHeader: []
+definitions:
+- name: ScriptExecution
+  description: An instance of a script executed by a user - custom or AVS
+  kind: object
+  properties:
+  - name: properties.scriptCmdletId
+    description: A reference to the script cmdlet resource if user is running a AVS script
+    types:
+    - uid: string
+  - name: properties.parameters
+    description: Parameters the script will accept
+    types:
+    - uid: ScriptSecureStringExecutionParameter
+      isArray: true
+    - uid: ScriptStringExecutionParameter
+      isArray: true
+    - uid: PSCredentialExecutionParameter
+      isArray: true
+    typesTitle: ScriptExecutionParameter[]
+  - name: properties.hiddenParameters
+    description: Parameters that will be hidden/not visible to ARM, such as passwords and credentials
+    types:
+    - uid: ScriptSecureStringExecutionParameter
+      isArray: true
+    - uid: ScriptStringExecutionParameter
+      isArray: true
+    - uid: PSCredentialExecutionParameter
+      isArray: true
+    typesTitle: ScriptExecutionParameter[]
+  - name: properties.failureReason
+    description: Error message if the script was able to run, but if the script itself had errors or powershell threw an exception
+    types:
+    - uid: string
+  - name: properties.timeout
+    description: Time limit for execution
+    types:
+    - uid: string
+  - name: properties.retention
+    description: Time to live for the resource. If not provided, will be available for 60 days
+    types:
+    - uid: string
+  - name: properties.submittedAt
+    isReadyOnly: true
+    description: Time the script execution was submitted
+    types:
+    - uid: string
+  - name: properties.startedAt
+    isReadyOnly: true
+    description: Time the script execution was started
+    types:
+    - uid: string
+  - name: properties.finishedAt
+    isReadyOnly: true
+    description: Time the script execution was finished
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The state of the script execution resource
+    types:
+    - uid: ScriptExecutionProvisioningState
+  - name: properties.output
+    description: Standard output stream from the powershell execution
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.namedOutputs
+    description: User-defined dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.information
+    isReadyOnly: true
+    description: Standard information out stream from the powershell execution
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.warnings
+    isReadyOnly: true
+    description: Standard warning out stream from the powershell execution
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.errors
+    isReadyOnly: true
+    description: Standard error output stream from the powershell execution
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: CloudError
+  description: API error response
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nAn error returned by the API"
+    types:
+    - uid: ErrorResponse
+- name: ScriptSecureStringExecutionParameter
+  description: a plain text value execution parameter
+  kind: object
+  properties:
+  - name: secureValue
+    description: A secure value for the passed parameter, not to be stored in logs
+    types:
+    - uid: string
+  - name: name
+    description: The parameter name
+    types:
+    - uid: string
+  - name: type
+    description: The type of execution parameter
+    types:
+    - uid: SecureValue
+    typesTitle: string
+- name: ScriptStringExecutionParameter
+  description: a plain text value execution parameter
+  kind: object
+  properties:
+  - name: value
+    description: The value for the passed parameter
+    types:
+    - uid: string
+  - name: name
+    description: The parameter name
+    types:
+    - uid: string
+  - name: type
+    description: The type of execution parameter
+    types:
+    - uid: Value
+    typesTitle: string
+- name: PSCredentialExecutionParameter
+  description: a powershell credential object
+  kind: object
+  properties:
+  - name: username
+    description: username for login
+    types:
+    - uid: string
+  - name: password
+    description: password for login
+    types:
+    - uid: string
+  - name: name
+    description: The parameter name
+    types:
+    - uid: string
+  - name: type
+    description: The type of execution parameter
+    types:
+    - uid: Credential
+    typesTitle: string
+- name: ScriptExecutionProvisioningState
+  description: The state of the script execution resource
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelling
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: ScriptExecutions_CreateOrUpdate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptExecutions/addSsoServer?api-version=2021-06-01
+    body: >-
+      {
+        "properties": {
+          "scriptCmdletId": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptPackages/AVS.PowerCommands@1.0.0/scriptCmdlets/New-SsoExternalIdentitySource",
+          "timeout": "P0Y0M0DT0H60M60S",
+          "retention": "P0Y0M60DT0H60M60S",
+          "parameters": [
+            {
+              "name": "DomainName",
+              "type": "Value",
+              "value": "placeholderDomain.local"
+            },
+            {
+              "name": "BaseUserDN",
+              "type": "Value",
+              "value": "DC=placeholder, DC=placeholder"
+            }
+          ],
+          "hiddenParameters": [
+            {
+              "name": "Password",
+              "type": "SecureValue",
+              "secureValue": "PlaceholderPassword"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptExecutions/addSsoServer",
+        "name": "addSsoServer",
+        "properties": {
+          "scriptCmdletId": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptPackages/AVS.PowerCommands@1.0.0/scriptCmdlets/New-SsoExternalIdentitySource",
+          "timeout": "P0Y0M0DT0H60M60S",
+          "retention": "P0Y0M60DT0H60M60S",
+          "provisioningState": "Succeeded",
+          "failureReason": "vCenter failed to connect to the external server",
+          "parameters": [
+            {
+              "name": "DomainName",
+              "type": "Value",
+              "value": "placeholderDomain.local"
+            },
+            {
+              "name": "BaseUserDN",
+              "type": "Value",
+              "value": "DC=placeholder, DC=placeholder"
+            }
+          ],
+          "output": [
+            "IdentitySource: placeholder.dc",
+            "BaseDN='dc=placeholder, dc=local"
+          ]
+        },
+        "type": "Microsoft.AVS/privateClouds/scriptExecutions"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptExecutions/addSsoServer",
+        "name": "addSsoServer",
+        "properties": {
+          "scriptCmdletId": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptPackages/AVS.PowerCommands@1.0.0/scriptCmdlets/New-SsoExternalIdentitySource",
+          "timeout": "P0Y0M0DT0H60M60S",
+          "retention": "P0Y0M60DT0H60M60S",
+          "provisioningState": "Running",
+          "parameters": [
+            {
+              "name": "DomainName",
+              "type": "Value",
+              "value": "placeholderDomain.local"
+            },
+            {
+              "name": "BaseUserDN",
+              "type": "Value",
+              "value": "DC=placeholder, DC=placeholder"
+            }
+          ]
+        },
+        "type": "Microsoft.AVS/privateClouds/scriptExecutions"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about AVS service - Create or update a script execution resource in a private cloud
+errorCodes: []
