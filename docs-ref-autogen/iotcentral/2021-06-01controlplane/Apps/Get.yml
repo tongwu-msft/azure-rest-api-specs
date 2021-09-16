@@ -1,0 +1,235 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iotcentral.2021-06-01controlplane.apps.get
+name: Get
+service: IoT Central
+groupName: Apps
+apiVersion: 2021-06-01
+summary: Get the metadata of an IoT Central application.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/iotApps/{resourceName}?api-version=2021-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the IoT Central application.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The ARM resource name of the IoT Central application.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The body contains all the non-security properties of the IoT Central application. Security-related properties are set to null.
+  types:
+  - uid: App
+- name: Other Status Codes
+  description: Default error response
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: App
+  description: The IoT Central application.
+  kind: object
+  properties:
+  - name: sku
+    description: A valid instance SKU.
+    types:
+    - uid: AppSkuInfo
+  - name: properties.applicationId
+    isReadyOnly: true
+    description: The ID of the application.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: The display name of the application.
+    types:
+    - uid: string
+  - name: properties.subdomain
+    description: The subdomain of the application.
+    types:
+    - uid: string
+  - name: properties.template
+    description: The ID of the application template, which is a blueprint that defines the characteristics and behaviors of an application. Optional; if not specified, defaults to a blank blueprint and allows the application to be defined from scratch.
+    types:
+    - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: The current state of the application.
+    types:
+    - uid: AppState
+  - name: id
+    isReadyOnly: true
+    description: The ARM resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The ARM resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: location
+    description: The resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: The resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: Error details.
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: error.target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: error.details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: AppSkuInfo
+  description: Information about the SKU of the IoT Central application.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU.
+    types:
+    - uid: AppSku
+- name: AppState
+  description: The current state of the application.
+  kind: enum
+  properties:
+  - name: created
+    types:
+    - uid: string
+  - name: suspended
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: Details of error response.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: AppSku
+  description: The name of the SKU.
+  kind: enum
+  properties:
+  - name: ST0
+    types:
+    - uid: string
+  - name: ST1
+    types:
+    - uid: string
+  - name: ST2
+    types:
+    - uid: string
+examples:
+- name: Apps_Get
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.IoTCentral/iotApps/myIoTCentralApp?api-version=2021-06-01
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: code
+      value: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/resRg/providers/Microsoft.IoTCentral/iotApps/myIoTCentralApp",
+        "location": "westus",
+        "type": "Microsoft.IoTCentral/IoTApps",
+        "name": "myIoTCentralApp",
+        "tags": {
+          "key": "value"
+        },
+        "properties": {
+          "applicationId": "6ebd8fd3-6e34-419e-908f-9be61ec6f6d6",
+          "displayName": "My IoT Central App",
+          "subdomain": "my-iot-central-app",
+          "template": "iotc-pnp-preview@1.0.0",
+          "state": "created"
+        },
+        "sku": {
+          "name": "F1"
+        }
+      }
+  - statusCode: default
+    body: >-
+      {
+        "error": {
+          "code": "Error code",
+          "message": "Error message",
+          "target": "Error target"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about IoT Central service - Get the metadata of an IoT Central application.
+errorCodes: []
