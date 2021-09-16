@@ -3,16 +3,17 @@ title: Azure Billing REST API | Microsoft Docs
 author: bandersmsft
 ms.author: banders
 ms.reviewer: amberb
-ms.date: 01/04/2021
+ms.date: 09/16/2021
 ms.topic: reference
 ms.service: cost-management-billing
+ms.subservice: enterprise
 ms.devlang: rest-api
 description: Provides operations to programmatically view and manage your billing details.
 ---
 
 # Azure Billing REST API
 
-The Azure Billing APIs allow you to view and manage your billing details programmatically. Operation groups listed below do not support all billing accounts. Supported billing accounts are specified in the table. To identify your billing account type, see [Billing accounts and scopes](https://docs.microsoft.com/azure/cost-management-billing/manage/view-all-accounts).
+The Azure Billing APIs allow you to view and manage your billing details programmatically. Operation groups listed below do not support all billing accounts. Supported billing accounts are specified in the table. To identify your billing account type, see [Billing accounts and scopes](/azure/cost-management-billing/manage/view-all-accounts).
 
 ## REST Operation Groups
 
@@ -50,4 +51,4 @@ The Azure Billing APIs allow you to view and manage your billing details program
 ## See Also
 
 - [Azure Consumption APIs](/rest/api/consumption/)
-- [Azure Cost Management and Billing documentation](https://docs.microsoft.com/azure/cost-management-billing/)
+- [Azure Cost Management and Billing documentation](/azure/cost-management-billing/)
