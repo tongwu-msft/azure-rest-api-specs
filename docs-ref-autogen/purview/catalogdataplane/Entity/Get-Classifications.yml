@@ -1,0 +1,127 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.entity.getclassifications
+name: Get Classifications
+service: Purview
+groupName: Entity
+apiVersion: 2021-09-01
+summary: List classifications for a given entity represented by a GUID.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/catalog/api/atlas/v2/entity/guid/{guid}/classifications
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: guid
+  in: path
+  isRequired: true
+  description: The globally unique identifier of the entity.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: An array of classifications for the given entity GUID.
+  types:
+  - uid: AtlasClassifications
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: AtlasClassifications
+  description: AtlasClassifications
+  kind: object
+  properties:
+  - name: list
+    description: An array of objects.
+    types:
+    - uid: PList.List
+      isArray: true
+  - name: pageSize
+    description: The size of the page.
+    types:
+    - uid: integer
+  - name: sortBy
+    description: The sorted by field.
+    types:
+    - uid: string
+  - name: sortType
+    description: "SortType  \nto specify whether the result should be sorted? If yes, whether asc or desc."
+    types:
+    - uid: SortType
+  - name: startIndex
+    description: The start index of the page.
+    types:
+    - uid: integer
+  - name: totalCount
+    description: The total count of items.
+    types:
+    - uid: integer
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+- name: SortType
+  description: SortType
+  kind: enum
+  properties:
+  - name: NONE
+    types:
+    - uid: string
+  - name: ASC
+    types:
+    - uid: string
+  - name: DESC
+    types:
+    - uid: string
+examples:
+- name: Entity_GetClassifications
+  request:
+    uri: GET {Endpoint}/catalog/api/atlas/v2/entity/guid/67d26de6-771d-1a2d-cb2b-dec4dbd2a9bd/classifications
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "list": [
+          {
+            "typeName": "MICROSOFT.FINANCIAL.US.ABA_ROUTING_NUMBER",
+            "entityGuid": "67d26de6-771d-1a2d-cb2b-dec4dbd2a9bd"
+          }
+        ],
+        "startIndex": 0,
+        "pageSize": 1,
+        "totalCount": 1,
+        "sortType": "NONE"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - List classifications for a given entity represented by a GUID.
+errorCodes: []

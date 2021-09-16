@@ -1,0 +1,1494 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.discovery.query
+name: Query
+service: Purview
+groupName: Discovery
+apiVersion: 2021-09-01
+summary: Gets data using search.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/catalog/api/search/query?api-version=2021-09-01
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of Purview APIs
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. On successful lookup of the advanced search.
+  types:
+  - uid: SearchResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: keywords
+    in: body
+    description: The keywords applied to all searchable fields.
+    types:
+    - uid: string
+  - name: offset
+    in: body
+    description: The offset. The default value is 0.
+    types:
+    - uid: integer
+  - name: limit
+    in: body
+    description: The limit of the number of the search result. default value is 50; maximum value is 1000.
+    types:
+    - uid: integer
+  - name: filter
+    in: body
+    description: The filter for the search. See examples for the usage of supported filters.
+    types:
+    - uid: object
+  - name: facets
+    in: body
+    description: "SearchFacetItemValue  \nThe content of a search facet result item."
+    types:
+    - uid: SearchFacetItem
+      isArray: true
+  - name: taxonomySetting
+    in: body
+    description: ''
+    types:
+    - uid: TaxonomySetting
+requestHeader: []
+definitions:
+- name: SearchFacetItem
+  description: SearchFacetItemValue
+  kind: object
+  properties:
+  - name: count
+    description: The count of the facet item.
+    types:
+    - uid: integer
+  - name: facet
+    description: The name of the facet item.
+    types:
+    - uid: string
+  - name: sort
+    description: ''
+    types:
+    - uid: object
+- name: TaxonomySetting
+  kind: object
+  properties:
+  - name: assetTypes
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: facet
+    description: "SearchFacetItemValue  \nThe content of a search facet result item."
+    types:
+    - uid: SearchFacetItem
+- name: SearchResult
+  description: SearchResult
+  kind: object
+  properties:
+  - name: '@search.count'
+    description: The total number of search results (not the number of documents in a single page).
+    types:
+    - uid: integer
+  - name: '@search.facets'
+    description: "Context  \nA facet list that consists of index fields assetType ,classification, classificationCategory, contactId, fileExtension, label, and label. When the facet is specified in the request, the value of the facet is returned as an element of @search.facets."
+    types:
+    - uid: SearchFacetResultValue
+  - name: value
+    description: "SearchResultValue  \nThe value item of the search result."
+    types:
+    - uid: SearchResultValue
+      isArray: true
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+- name: SearchRequest
+  description: SearchRequest
+  kind: object
+  properties:
+  - name: keywords
+    description: The keywords applied to all searchable fields.
+    types:
+    - uid: string
+  - name: offset
+    description: The offset. The default value is 0.
+    types:
+    - uid: integer
+  - name: limit
+    description: The limit of the number of the search result. default value is 50; maximum value is 1000.
+    types:
+    - uid: integer
+  - name: filter
+    description: The filter for the search. See examples for the usage of supported filters.
+    types:
+    - uid: object
+  - name: facets
+    description: "SearchFacetItemValue  \nThe content of a search facet result item."
+    types:
+    - uid: SearchFacetItem
+      isArray: true
+  - name: taxonomySetting
+    description: ''
+    types:
+    - uid: TaxonomySetting
+- name: SearchFacetResultValue
+  description: Context
+  kind: object
+  properties:
+  - name: assetType
+    description: "SearchFacetItemValue  \nThe content of a search facet result item."
+    types:
+    - uid: SearchFacetItemValue
+      isArray: true
+  - name: classification
+    description: "SearchFacetItemValue  \nThe content of a search facet result item."
+    types:
+    - uid: SearchFacetItemValue
+      isArray: true
+  - name: classificationCategory
+    description: "SearchFacetItemValue  \nThe content of a search facet result item."
+    types:
+    - uid: SearchFacetItemValue
+      isArray: true
+  - name: contactId
+    description: "SearchFacetItemValue  \nThe content of a search facet result item."
+    types:
+    - uid: SearchFacetItemValue
+      isArray: true
+  - name: fileExtension
+    description: "SearchFacetItemValue  \nThe content of a search facet result item."
+    types:
+    - uid: SearchFacetItemValue
+      isArray: true
+  - name: label
+    description: "SearchFacetItemValue  \nThe content of a search facet result item."
+    types:
+    - uid: SearchFacetItemValue
+      isArray: true
+  - name: term
+    description: "SearchFacetItemValue  \nThe content of a search facet result item."
+    types:
+    - uid: SearchFacetItemValue
+      isArray: true
+- name: SearchResultValue
+  description: SearchResultValue
+  kind: object
+  properties:
+  - name: '@search.score'
+    description: The search score calculated by the search engine. The results are ordered by search score by default.
+    types:
+    - uid: number
+  - name: '@search.highlights'
+    description: "SearchHighlights  \nA highlight list that consists of index fields id ,qualifiedName, name, description, entityType. When the keyword appears in those fields, the value of the field, attached with emphasis mark, is returned as an element of @search.highlights."
+    types:
+    - uid: SearchHighlights
+  - name: '@search.text'
+    description: The target text that contains the keyword as prefix. The keyword is wrapped with emphasis mark.
+    types:
+    - uid: string
+  - name: description
+    description: The description of the record.
+    types:
+    - uid: string
+  - name: id
+    description: The GUID of the record.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the record.
+    types:
+    - uid: string
+  - name: owner
+    description: The owner of the record. This is an Atlas native attribute.
+    types:
+    - uid: string
+  - name: qualifiedName
+    description: The qualified name of the record.
+    types:
+    - uid: string
+  - name: entityType
+    description: The type name of the record.
+    types:
+    - uid: string
+  - name: classification
+    description: The classifications of the record.
+    types:
+    - uid: string
+      isArray: true
+  - name: label
+    description: The labels of the record.
+    types:
+    - uid: string
+      isArray: true
+  - name: term
+    description: The terms assigned to the record.
+    types:
+    - uid: TermSearchResultValue
+      isArray: true
+  - name: contact
+    description: The contacts of the record.
+    types:
+    - uid: ContactSearchResultValue
+      isArray: true
+  - name: assetType
+    description: The asset types of the record.
+    types:
+    - uid: string
+      isArray: true
+- name: SearchFacetItemValue
+  description: SearchFacetItemValue
+  kind: object
+  properties:
+  - name: count
+    description: The count of the facet item.
+    types:
+    - uid: integer
+  - name: value
+    description: The name of the facet item.
+    types:
+    - uid: string
+- name: SearchHighlights
+  description: SearchHighlights
+  kind: object
+  properties:
+  - name: id
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: qualifiedName
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: name
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: description
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: entityType
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: TermSearchResultValue
+  description: Context
+  kind: object
+  properties:
+  - name: name
+    description: The name of the term.
+    types:
+    - uid: string
+  - name: glossaryName
+    description: The name of the glossary which contains the term.
+    types:
+    - uid: string
+  - name: guid
+    description: The GUID of the term.
+    types:
+    - uid: string
+- name: ContactSearchResultValue
+  description: contact
+  kind: object
+  properties:
+  - name: id
+    description: The GUID of the contact.
+    types:
+    - uid: string
+  - name: info
+    description: The description of the contact.
+    types:
+    - uid: string
+  - name: contactType
+    description: The type of the contact. It can be Expert or Owner for an entity. It can be Expert or Steward for a glossary term.
+    types:
+    - uid: string
+examples:
+- name: Discovery_Query
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": "examplefile.csv",
+        "filter": {
+          "and": [
+            {
+              "not": {
+                "or": [
+                  {
+                    "attributeName": "size",
+                    "operator": "eq",
+                    "attributeValue": 0
+                  },
+                  {
+                    "attributeName": "fileSize",
+                    "operator": "eq",
+                    "attributeValue": 0
+                  }
+                ]
+              }
+            },
+            {
+              "not": {
+                "classification": "MICROSOFT.SYSTEM.TEMP_FILE"
+              }
+            },
+            {
+              "not": {
+                "or": [
+                  {
+                    "entityType": "AtlasGlossaryTerm"
+                  },
+                  {
+                    "entityType": "AtlasGlossary"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "limit": 2,
+        "offset": 0,
+        "facets": [
+          {
+            "facet": "assetType",
+            "count": 0,
+            "sort": {
+              "count": "desc"
+            }
+          },
+          {
+            "facet": "classification",
+            "count": 10,
+            "sort": {
+              "count": "desc"
+            }
+          },
+          {
+            "facet": "contactId",
+            "count": 10,
+            "sort": {
+              "count": "desc"
+            }
+          },
+          {
+            "facet": "label",
+            "count": 10,
+            "sort": {
+              "count": "desc"
+            }
+          },
+          {
+            "facet": "term",
+            "count": 10,
+            "sort": {
+              "count": "desc"
+            }
+          },
+          {
+            "facet": "classificationCategory",
+            "count": 0,
+            "sort": {
+              "count": "desc"
+            }
+          },
+          {
+            "facet": "fileExtension",
+            "count": 0,
+            "sort": {
+              "count": "desc"
+            }
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 339,
+        "value": [
+          {
+            "@search.score": 1,
+            "id": "97dc2d61-ef37-4cfd-8be8-d0a8b3524c1a",
+            "qualifiedName": "ExampleName1@Glossary",
+            "name": "Example Name 1",
+            "description": null,
+            "owner": null,
+            "entityType": "AtlasGlossaryTerm",
+            "classification": [],
+            "label": [],
+            "assetType": [],
+            "term": [],
+            "contact": []
+          },
+          {
+            "@search.score": 1,
+            "id": "477b0278-81e3-473f-a2d4-d134f1b52f84",
+            "qualifiedName": "ExampleName2@Glossary",
+            "name": "Example Name 2",
+            "description": null,
+            "owner": null,
+            "entityType": "AtlasGlossaryTerm",
+            "classification": [],
+            "label": [],
+            "assetType": [],
+            "term": [],
+            "contact": []
+          },
+          {
+            "@search.score": 1,
+            "id": "e09577ab-8d46-48af-b4b6-9476e2b5afb7",
+            "qualifiedName": "ExampleName2@Glossary",
+            "name": "Example Name 3",
+            "description": null,
+            "owner": null,
+            "entityType": "AtlasGlossaryTerm",
+            "classification": [],
+            "label": [],
+            "assetType": [],
+            "term": [],
+            "contact": []
+          }
+        ]
+      }
+- name: Discovery_Query_And
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": null,
+        "limit": 2,
+        "filter": {
+          "and": [
+            {
+              "entityType": "azure_blob_path"
+            },
+            {
+              "attributeName": "qualifiedName",
+              "operator": "contains",
+              "attributeValue": ".csv"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 5,
+        "value": [
+          {
+            "@search.score": 1,
+            "@search.highlights": {
+              "qualifiedName": [
+                "https://exampleaccount.blob.core.windows.net/examplepath/<em>csv</em>/exampledata.csv"
+              ]
+            },
+            "id": "63b92968-c9ac-4af8-8cff-f61d147bbf88",
+            "qualifiedName": "https://exampleaccount.blob.core.windows.net/examplepath/csv/exampledata.csv",
+            "name": "exampledata.csv",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_blob_path",
+            "classification": [],
+            "label": [
+              "Example.Label"
+            ],
+            "assetType": [
+              "Azure Blob Storage"
+            ],
+            "term": [],
+            "contact": []
+          },
+          {
+            "@search.score": 1,
+            "@search.highlights": {
+              "qualifiedName": [
+                "https://exampleaccount.blob.core.windows.net/examplepath/<em>csv</em>/AllTypes.csv"
+              ]
+            },
+            "id": "2605db54-086d-4d6c-adb6-f0bbed6c6eab",
+            "qualifiedName": "https://exampleaccount.blob.core.windows.net/examplepath/csv/AllTypes.csv",
+            "name": "AllTypes.csv",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_blob_path",
+            "classification": [],
+            "label": [
+              "Example.Label"
+            ],
+            "assetType": [
+              "Azure Blob Storage"
+            ],
+            "term": [],
+            "contact": []
+          }
+        ]
+      }
+- name: Discovery_Query_Not
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": null,
+        "limit": 2,
+        "filter": {
+          "not": {
+            "classification": "MICROSOFT.SYSTEM.TEMP_FILE"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 5158,
+        "value": [
+          {
+            "@search.score": 1,
+            "id": "11fd6e94-2dc6-4ebd-822c-caf6f6f60000",
+            "qualifiedName": "mssql://exampleaccount.database.windows.net:3342/exampledb/dbo/exampledata",
+            "name": "exampledata",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_sql_mi_table",
+            "classification": [],
+            "label": [],
+            "assetType": [
+              "Azure SQL Managed Instance"
+            ],
+            "term": [],
+            "contact": []
+          },
+          {
+            "@search.score": 1,
+            "id": "1af82c87-798c-41a2-abab-93f6f6f60000",
+            "qualifiedName": "mssql://exampleaccount.database.windows.net:3342/exampledb/dbo/exampledata2",
+            "name": "exampledata2",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_sql_mi_table",
+            "classification": [],
+            "label": [],
+            "assetType": [
+              "Azure SQL Managed Instance"
+            ],
+            "term": [],
+            "contact": []
+          }
+        ]
+      }
+- name: Discovery_Query_AndOrNested
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": null,
+        "limit": 2,
+        "filter": {
+          "and": [
+            {
+              "entityType": "azure_blob_path"
+            },
+            {
+              "attributeName": "qualifiedName",
+              "operator": "contains",
+              "attributeValue": ".csv"
+            },
+            {
+              "or": [
+                {
+                  "attributeName": "name",
+                  "operator": "eq",
+                  "attributeValue": "exampledata.csv"
+                },
+                {
+                  "attributeName": "name",
+                  "operator": "startswith",
+                  "attributeValue": "AllTypes"
+                }
+              ]
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 2,
+        "value": [
+          {
+            "@search.score": 1,
+            "@search.highlights": {
+              "qualifiedName": [
+                "https://exampleaccount.blob.core.windows.net/examplepath/<em>csv</em>/exampledata.csv"
+              ]
+            },
+            "id": "63b92968-c9ac-4af8-8cff-f61d147bbf88",
+            "qualifiedName": "https://exampleaccount.blob.core.windows.net/examplepath/csv/exampledata.csv",
+            "name": "exampledata.csv",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_blob_path",
+            "classification": [],
+            "label": [
+              "Example.Label"
+            ],
+            "assetType": [
+              "Azure Blob Storage"
+            ],
+            "term": [],
+            "contact": []
+          },
+          {
+            "@search.score": 1,
+            "@search.highlights": {
+              "qualifiedName": [
+                "https://exampleaccount.blob.core.windows.net/examplepath/<em>csv</em>/AllTypes.csv"
+              ],
+              "name": [
+                "<em>AllTypes.csv</em>"
+              ]
+            },
+            "id": "2605db54-086d-4d6c-adb6-f0bbed6c6eab",
+            "qualifiedName": "https://exampleaccount.blob.core.windows.net/examplepath/csv/AllTypes.csv",
+            "name": "AllTypes.csv",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_blob_path",
+            "classification": [],
+            "label": [
+              "Example.Label"
+            ],
+            "assetType": [
+              "Azure Blob Storage"
+            ],
+            "term": [],
+            "contact": [],
+            "@search.text": "<em>AllTypes.csv</em>"
+          }
+        ]
+      }
+- name: Discovery_Query_Attribute
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": null,
+        "limit": 2,
+        "filter": {
+          "attributeName": "name",
+          "operator": "eq",
+          "attributeValue": "exampledata.csv"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 3,
+        "value": [
+          {
+            "@search.score": 1,
+            "id": "63b92968-c9ac-4af8-8cff-f61d147bbf88",
+            "qualifiedName": "https://exampleaccount.blob.core.windows.net/examplepath/csv/exampledata.csv",
+            "name": "exampledata.csv",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_blob_path",
+            "classification": [],
+            "label": [
+              "Example.Label"
+            ],
+            "assetType": [
+              "Azure Blob Storage"
+            ],
+            "term": [],
+            "contact": []
+          },
+          {
+            "@search.score": 1,
+            "id": "55b2290d-e11d-4ed2-8c7a-0d8d35eb6254",
+            "qualifiedName": "https://examplegen2account.dfs.core.windows.net/examplepath/csv/exampledata.csv",
+            "name": "exampledata.csv",
+            "description": null,
+            "owner": "$superuser",
+            "entityType": "azure_datalake_gen2_path",
+            "classification": [],
+            "label": [
+              "Example.Label"
+            ],
+            "assetType": [
+              "Azure Data Lake Storage Gen2"
+            ],
+            "term": [],
+            "contact": []
+          }
+        ]
+      }
+- name: Discovery_Query_Classification
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": null,
+        "limit": 2,
+        "filter": {
+          "classification": "MICROSOFT.PERSONAL.EMAIL",
+          "includeSubClassifications": true
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 5,
+        "value": [
+          {
+            "@search.score": 1,
+            "id": "b9638b91-884f-4e5e-98b5-29f6f6f60000",
+            "qualifiedName": "mssql://exampleserver.database.windows.net/examplesqldb/examplepath/exampledata1",
+            "name": "exampledata1",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_sql_table",
+            "classification": [
+              "MICROSOFT.PERSONAL.NAME",
+              "MICROSOFT.PERSONAL.EU.PHONE_NUMBER",
+              "MICROSOFT.PERSONAL.US.PHONE_NUMBER",
+              "MICROSOFT.PERSONAL.EMAIL"
+            ],
+            "label": [],
+            "assetType": [
+              "Azure SQL Database"
+            ],
+            "term": [],
+            "contact": []
+          },
+          {
+            "@search.score": 1,
+            "id": "01aefb9a-61cd-4a02-a572-70f6f6f60000",
+            "qualifiedName": "mssql://exampleserver.database.windows.net/exampledw/examplepath/exampledata2",
+            "name": "exampledata2",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_sql_dw_table",
+            "classification": [
+              "MICROSOFT.GOVERNMENT.CITY_NAME",
+              "MICROSOFT.GOVERNMENT.US.STATE",
+              "MICROSOFT.PERSONAL.NAME",
+              "MICROSOFT.PERSONAL.EU.PHONE_NUMBER",
+              "MICROSOFT.PERSONAL.EMAIL"
+            ],
+            "label": [],
+            "assetType": [
+              "Azure SQL Data Warehouse"
+            ],
+            "term": [],
+            "contact": []
+          }
+        ]
+      }
+- name: Discovery_Query_FileExtension
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": null,
+        "limit": 2,
+        "filter": {
+          "and": [
+            {
+              "fileExtension": "txt"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 49,
+        "value": [
+          {
+            "@search.score": 1,
+            "id": "bfecbcc3-1838-45fe-96d6-112de8a170f9",
+            "qualifiedName": "https://exampleaccount.blob.core.windows.net/examplepath/exampledata.txt",
+            "name": "exampledata.txt",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_blob_path",
+            "classification": [],
+            "label": [],
+            "assetType": [
+              "Azure Blob Storage"
+            ],
+            "term": [],
+            "contact": []
+          },
+          {
+            "@search.score": 1,
+            "id": "14d857b9-e2c1-4118-8bfa-12e53ae6ce7f",
+            "qualifiedName": "https://exampleaccount.blob.core.windows.net/examplepath/exampledata.txt",
+            "name": "exampledata.txt",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_blob_path",
+            "classification": [],
+            "label": [],
+            "assetType": [
+              "Azure Blob Storage"
+            ],
+            "term": [],
+            "contact": []
+          }
+        ]
+      }
+- name: Discovery_Query_Id
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": null,
+        "limit": 2,
+        "filter": {
+          "and": [
+            {
+              "id": "bfecbcc3-1838-45fe-96d6-112de8a170f9"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 1,
+        "value": [
+          {
+            "@search.score": 1,
+            "id": "bfecbcc3-1838-45fe-96d6-112de8a170f9",
+            "qualifiedName": "https://exampleaccount.blob.core.windows.net/examplepath/exampledata.txt",
+            "name": "exampledata.txt",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_blob_path",
+            "classification": [],
+            "label": [],
+            "assetType": [
+              "Azure Blob Storage"
+            ],
+            "term": [],
+            "contact": []
+          }
+        ]
+      }
+- name: Discovery_Query_Type
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": null,
+        "limit": 2,
+        "filter": {
+          "and": [
+            {
+              "entityType": "azure_blob_path",
+              "includeSubTypes": false
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 221,
+        "value": [
+          {
+            "@search.score": 1,
+            "id": "1d797ddf-47bf-4151-8fe8-918590d62e70",
+            "qualifiedName": "https://exampleaccount.blob.core.windows.net/examplepath/exampledata.csv",
+            "name": "exampledata.csv",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_blob_path",
+            "classification": [],
+            "label": [
+              "Example.Label"
+            ],
+            "assetType": [
+              "Azure Blob Storage"
+            ],
+            "term": [],
+            "contact": []
+          },
+          {
+            "@search.score": 1,
+            "id": "d3e83b17-c730-4898-94c8-58579cda04f6",
+            "qualifiedName": "https://exampleaccount.blob.core.windows.net/examplepath/exampledata2.csv",
+            "name": "exampledata2.csv",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_blob_path",
+            "classification": [],
+            "label": [
+              "Example.Label"
+            ],
+            "assetType": [
+              "Azure Blob Storage"
+            ],
+            "term": [],
+            "contact": []
+          }
+        ]
+      }
+- name: Discovery_Query_AssetType
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": null,
+        "limit": 2,
+        "filter": {
+          "or": [
+            {
+              "assetType": "SQL Server"
+            },
+            {
+              "assetType": "Azure SQL Server"
+            },
+            {
+              "assetType": "Azure SQL Database"
+            },
+            {
+              "assetType": "Azure SQL Data Warehouse"
+            },
+            {
+              "assetType": "Azure SQL Managed Instance"
+            },
+            {
+              "assetType": "Azure Storage Account"
+            },
+            {
+              "assetType": "Azure Blob Storage"
+            },
+            {
+              "assetType": "Azure Files"
+            },
+            {
+              "assetType": "Azure Table Storage"
+            },
+            {
+              "assetType": "Azure Data Lake Storage Gen1"
+            },
+            {
+              "assetType": "Azure Data Lake Storage Gen2"
+            },
+            {
+              "assetType": "Azure Cosmos DB"
+            },
+            {
+              "assetType": "Azure Data Factory"
+            },
+            {
+              "assetType": "Azure Cognitive Search"
+            },
+            {
+              "assetType": "Power BI"
+            },
+            {
+              "assetType": "Azure Data Explorer"
+            },
+            {
+              "assetType": "Amazon S3"
+            },
+            {
+              "assetType": "Azure Data Share"
+            },
+            {
+              "assetType": "Teradata"
+            },
+            {
+              "assetType": "SAP S4HANA"
+            },
+            {
+              "assetType": "SAP ECC"
+            },
+            {
+              "assetType": "SQL Server Integration Services"
+            },
+            {
+              "assetType": "hive"
+            },
+            {
+              "assetType": "Azure Database for MySQL"
+            },
+            {
+              "assetType": "Azure Database for MariaDB"
+            },
+            {
+              "assetType": "Azure Database for PostgreSQL"
+            },
+            {
+              "assetType": "Azure Synapse Analytics"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 5155,
+        "value": [
+          {
+            "@search.score": 1,
+            "id": "24c16e53-1bfd-4d6c-b4ce-b1f6f6f60000",
+            "qualifiedName": "mssql://exampleaccount.database.windows.net:3342/examplesqlmidb/dbo/exampledata1",
+            "name": "exampledata1",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_sql_mi_table",
+            "classification": [],
+            "label": [],
+            "assetType": [
+              "Azure SQL Managed Instance"
+            ],
+            "term": [],
+            "contact": []
+          },
+          {
+            "@search.score": 1,
+            "id": "d7b516fc-5d38-40f8-baeb-72f6f6f60000",
+            "qualifiedName": "mssql://exampleaccount.database.windows.net:3342/examplesqlmidb/dbo/exampledata2",
+            "name": "exampledata2",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_sql_mi_table",
+            "classification": [],
+            "label": [],
+            "assetType": [
+              "Azure SQL Managed Instance"
+            ],
+            "term": [],
+            "contact": []
+          }
+        ]
+      }
+- name: Discovery_Query_Term
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": null,
+        "limit": 3,
+        "filter": {
+          "and": [
+            {
+              "term": "ExampleTerm"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 1,
+        "value": [
+          {
+            "@search.score": 1,
+            "id": "b20ac13a-7883-4376-b076-bac9f8f214a8",
+            "qualifiedName": "https://exampleaccount.blob.core.windows.net/examplecontainer",
+            "name": "examplecontainer",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_blob_container",
+            "classification": [],
+            "assetType": [
+              "Azure Blob Storage"
+            ],
+            "term": [
+              {
+                "name": "ExampleTerm",
+                "glossaryName": "Glossary"
+              }
+            ],
+            "contact": [],
+            "label": [
+              "Example.Label"
+            ]
+          }
+        ]
+      }
+- name: Discovery_Query_TermOfGlossary
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": null,
+        "limit": 3,
+        "filter": {
+          "and": [
+            {
+              "term": "ExampleTerm",
+              "glossaryName": "Glossary"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 1,
+        "value": [
+          {
+            "@search.score": 1,
+            "id": "b20ac13a-7883-4376-b076-bac9f8f214a8",
+            "qualifiedName": "https://exampleaccount.blob.core.windows.net/examplecontainer",
+            "name": "examplecontainer",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_blob_container",
+            "classification": [],
+            "assetType": [
+              "Azure Blob Storage"
+            ],
+            "term": [
+              {
+                "name": "ExampleTerm",
+                "glossaryName": "Glossary"
+              }
+            ],
+            "contact": [],
+            "label": [
+              "Example.Label"
+            ]
+          }
+        ]
+      }
+- name: Discovery_Query_Facet
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": null,
+        "filter": {
+          "and": [
+            {
+              "not": {
+                "entityType": "AtlasGlossaryTerm",
+                "includeSubTypes": false
+              }
+            }
+          ]
+        },
+        "limit": 2,
+        "offset": 0,
+        "facets": [
+          {
+            "facet": "assetType",
+            "count": 0
+          },
+          {
+            "facet": "classification",
+            "count": 10
+          },
+          {
+            "facet": "term",
+            "count": 10
+          },
+          {
+            "facet": "fileExtension",
+            "count": 10
+          },
+          {
+            "facet": "label",
+            "count": 10
+          },
+          {
+            "facet": "classificationCategory",
+            "count": 10
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 5156,
+        "@search.facets": {
+          "classification": [
+            {
+              "count": 8,
+              "value": "MICROSOFT.PERSONAL.NAME"
+            },
+            {
+              "count": 6,
+              "value": "MICROSOFT.PERSONAL.EU.PHONE_NUMBER"
+            },
+            {
+              "count": 5,
+              "value": "MICROSOFT.PERSONAL.EMAIL"
+            },
+            {
+              "count": 5,
+              "value": "MICROSOFT.PERSONAL.US.PHONE_NUMBER"
+            },
+            {
+              "count": 4,
+              "value": "MICROSOFT.GOVERNMENT.CITY_NAME"
+            },
+            {
+              "count": 2,
+              "value": "MICROSOFT.GOVERNMENT.US.STATE"
+            }
+          ],
+          "fileExtension": [],
+          "assetType": [
+            {
+              "count": 1476,
+              "value": "Azure SQL Database"
+            },
+            {
+              "count": 1358,
+              "value": "Azure SQL Data Warehouse"
+            },
+            {
+              "count": 1331,
+              "value": "Azure SQL Managed Instance"
+            },
+            {
+              "count": 293,
+              "value": "Azure Data Lake Storage Gen1"
+            },
+            {
+              "count": 261,
+              "value": "Azure Blob Storage"
+            },
+            {
+              "count": 231,
+              "value": "Azure Data Lake Storage Gen2"
+            },
+            {
+              "count": 194,
+              "value": "Azure Files"
+            },
+            {
+              "count": 18,
+              "value": "Azure Cosmos DB"
+            }
+          ],
+          "label": [
+            {
+              "count": 835,
+              "value": "Example.Label"
+            }
+          ],
+          "classificationCategory": [],
+          "term": [
+            {
+              "count": 1,
+              "value": "terma"
+            }
+          ]
+        },
+        "value": [
+          {
+            "@search.score": 1,
+            "id": "24c16e53-1bfd-4d6c-b4ce-b1f6f6f60000",
+            "qualifiedName": "mssql://exampleaccount.database.windows.net:3342/examplesqlmidb/dbo/exampledata",
+            "name": "exampledata",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_sql_mi_table",
+            "classification": [],
+            "label": [],
+            "assetType": [
+              "Azure SQL Managed Instance"
+            ],
+            "term": [],
+            "contact": []
+          },
+          {
+            "@search.score": 1,
+            "id": "d7b516fc-5d38-40f8-baeb-72f6f6f60000",
+            "qualifiedName": "mssql://exampleaccount.database.windows.net:3342/examplesqlmidb/dbo/exampledata2",
+            "name": "exampledata2",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_sql_mi_table",
+            "classification": [],
+            "label": [],
+            "assetType": [
+              "Azure SQL Managed Instance"
+            ],
+            "term": [],
+            "contact": []
+          }
+        ]
+      }
+- name: Discovery_Query_Taxonomy
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": "example",
+        "filter": {
+          "and": [
+            {
+              "not": {
+                "or": [
+                  {
+                    "attributeName": "size",
+                    "operator": "eq",
+                    "attributeValue": 0
+                  },
+                  {
+                    "attributeName": "fileSize",
+                    "operator": "eq",
+                    "attributeValue": 0
+                  }
+                ]
+              }
+            },
+            {
+              "not": {
+                "classification": "MICROSOFT.SYSTEM.TEMP_FILE"
+              }
+            },
+            {
+              "not": {
+                "entityType": "AtlasGlossaryTerm",
+                "includeSubTypes": false
+              }
+            }
+          ]
+        },
+        "limit": 2,
+        "offset": 0,
+        "facets": [
+          {
+            "facet": "assetType",
+            "count": 0
+          },
+          {
+            "facet": "classification",
+            "count": 10
+          },
+          {
+            "facet": "terms",
+            "count": 10
+          }
+        ],
+        "taxonomySetting": {
+          "assetTypes": [
+            "Azure Blob Storage"
+          ],
+          "facet": {
+            "count": 10,
+            "sort": {
+              "count": "desc"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 339,
+        "value": [
+          {
+            "@search.score": 1,
+            "id": "97dc2d61-ef37-4cfd-8be8-d0a8b3524c1a",
+            "qualifiedName": "ExampleName1@Glossary",
+            "name": "examplename1",
+            "description": null,
+            "owner": null,
+            "entityType": "AtlasGlossaryTerm",
+            "classification": [],
+            "label": [],
+            "assetType": [],
+            "term": [],
+            "contact": []
+          },
+          {
+            "@search.score": 1,
+            "id": "477b0278-81e3-473f-a2d4-d134f1b52f84",
+            "qualifiedName": "ExampleName2@Glossary",
+            "name": "examplename2",
+            "description": null,
+            "owner": null,
+            "entityType": "AtlasGlossaryTerm",
+            "classification": [],
+            "label": [],
+            "assetType": [],
+            "term": [],
+            "contact": []
+          },
+          {
+            "@search.score": 1,
+            "id": "e09577ab-8d46-48af-b4b6-9476e2b5afb7",
+            "qualifiedName": "ExampleName3@Glossary",
+            "name": "examplename3",
+            "description": null,
+            "owner": null,
+            "entityType": "AtlasGlossaryTerm",
+            "classification": [],
+            "label": [],
+            "assetType": [],
+            "term": [],
+            "contact": []
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - Gets data using search.
+errorCodes: []

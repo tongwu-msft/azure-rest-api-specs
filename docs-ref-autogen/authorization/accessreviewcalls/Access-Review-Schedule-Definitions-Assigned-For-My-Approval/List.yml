@@ -3,15 +3,15 @@ uid: management.azure.com.authorization.accessreviewcalls.accessreviewschedulede
 name: List
 service: Authorization
 groupName: Access Review Schedule Definitions Assigned For My Approval
-apiVersion: 2021-03-01-preview
+apiVersion: 2021-07-01-preview
 summary: Get access review instances assigned for my approval.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Authorization/accessReviewScheduleDefinitions?api-version=2021-03-01-preview
-- content: GET https://management.azure.com/providers/Microsoft.Authorization/accessReviewScheduleDefinitions?api-version=2021-03-01-preview&$filter={$filter}
+- content: GET https://management.azure.com/providers/Microsoft.Authorization/accessReviewScheduleDefinitions?api-version=2021-07-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.Authorization/accessReviewScheduleDefinitions?api-version=2021-07-01-preview&$filter={$filter}
   isOptional: true
 uriParameters:
 - name: api-version
@@ -161,6 +161,10 @@ definitions:
     description: Flag to indicate whether showing recommendations to reviewers is enabled.
     types:
     - uid: boolean
+  - name: properties.settings.recommendationLookBackDuration
+    description: 'Recommendations for access reviews are calculated by looking back at 30 days of data(w.r.t the start date of the review) by default. However, in some scenarios, customers want to change how far back to look at and want to configure 60 days, 90 days, etc. instead. This setting allows customers to configure this duration. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds))'
+    types:
+    - uid: string
   - name: properties.settings.instanceDurationInDays
     description: The duration in days for an instance.
     types:
@@ -213,6 +217,10 @@ definitions:
     description: 'Duration users are inactive for. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds))'
     types:
     - uid: string
+  - name: properties.scope.expandNestedMemberships
+    description: Flag to indicate whether to expand nested memberships or not.
+    types:
+    - uid: boolean
 - name: ErrorDefinitionProperties
   description: Error
   kind: object
@@ -321,6 +329,21 @@ definitions:
     description: The DateTime when the review instance is scheduled to end.
     types:
     - uid: string
+  - name: properties.reviewers
+    description: This is the collection of reviewers.
+    types:
+    - uid: AccessReviewReviewer
+      isArray: true
+  - name: properties.backupReviewers
+    description: This is the collection of backup reviewers.
+    types:
+    - uid: AccessReviewReviewer
+      isArray: true
+  - name: properties.reviewersType
+    isReadyOnly: true
+    description: This field specifies the type of reviewers for a review. Usually for a review, reviewers are explicitly assigned. However, in some cases, the reviewers may not be assigned and instead be chosen dynamically. For example managers review or self review.
+    types:
+    - uid: AccessReviewInstanceReviewersType
 - name: AccessReviewActorIdentityType
   description: 'The identity type : user/servicePrincipal'
   kind: enum
@@ -380,6 +403,12 @@ definitions:
   - name: servicePrincipal
     types:
     - uid: string
+  - name: user,group
+    types:
+    - uid: string
+  - name: redeemedGuestUser
+    types:
+    - uid: string
 - name: AccessReviewScopeAssignmentState
   description: The role assignment state eligible/active to review
   kind: enum
@@ -437,10 +466,23 @@ definitions:
   - name: Starting
     types:
     - uid: string
+- name: AccessReviewInstanceReviewersType
+  description: This field specifies the type of reviewers for a review. Usually for a review, reviewers are explicitly assigned. However, in some cases, the reviewers may not be assigned and instead be chosen dynamically. For example managers review or self review.
+  kind: enum
+  properties:
+  - name: Assigned
+    types:
+    - uid: string
+  - name: Self
+    types:
+    - uid: string
+  - name: Managers
+    types:
+    - uid: string
 examples:
 - name: GetAccessReviews
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Authorization/accessReviewScheduleDefinitions?api-version=2021-03-01-preview&$filter=assignedToMeToReview()
+    uri: GET https://management.azure.com/providers/Microsoft.Authorization/accessReviewScheduleDefinitions?api-version=2021-07-01-preview&$filter=assignedToMeToReview()
   responses:
   - statusCode: "200"
     body: >-

@@ -1,0 +1,160 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.glossary.listglossarytermheaders
+name: List Glossary Term Headers
+service: Purview
+groupName: Glossary
+apiVersion: 2021-09-01
+summary: Get term headers belonging to a specific glossary.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/catalog/api/atlas/v2/glossary/{glossaryGuid}/terms/headers
+- content: GET {Endpoint}/catalog/api/atlas/v2/glossary/{glossaryGuid}/terms/headers?limit={limit}&offset={offset}&sort={sort}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: glossaryGuid
+  in: path
+  isRequired: true
+  description: The globally unique identifier for glossary.
+  types:
+  - uid: string
+- name: limit
+  in: query
+  description: The page size - by default there is no paging.
+  types:
+  - uid: integer
+  format: int32
+- name: offset
+  in: query
+  description: The offset for pagination purpose.
+  types:
+  - uid: integer
+  format: int32
+- name: sort
+  in: query
+  description: The sort order, ASC (default) or DESC.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. An array of glossary terms for the given glossary or an empty list.
+  types:
+  - uid: AtlasRelatedTermHeader
+    isArray: true
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: AtlasRelatedTermHeader
+  description: AtlasRelatedTermHeader
+  kind: object
+  properties:
+  - name: description
+    description: The description of the related term.
+    types:
+    - uid: string
+  - name: displayText
+    description: The display text.
+    types:
+    - uid: string
+  - name: expression
+    description: The expression of the term.
+    types:
+    - uid: string
+  - name: relationGuid
+    description: The GUID of the relationship.
+    types:
+    - uid: string
+  - name: source
+    description: The source of the term.
+    types:
+    - uid: string
+  - name: status
+    description: "AtlasTermRelationshipStatus  \nThe status of term relationship."
+    types:
+    - uid: AtlasTermRelationshipStatus
+  - name: steward
+    description: The steward of the term.
+    types:
+    - uid: string
+  - name: termGuid
+    description: The GUID of the term.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+- name: AtlasTermRelationshipStatus
+  description: AtlasTermRelationshipStatus
+  kind: enum
+  properties:
+  - name: DRAFT
+    types:
+    - uid: string
+  - name: ACTIVE
+    types:
+    - uid: string
+  - name: DEPRECATED
+    types:
+    - uid: string
+  - name: OBSOLETE
+    types:
+    - uid: string
+  - name: OTHER
+    types:
+    - uid: string
+examples:
+- name: Glossary_ListGlossaryTermHeaders
+  request:
+    uri: GET {Endpoint}/catalog/api/atlas/v2/glossary/c018ddaf-7c21-4b37-a838-dae5f110c3d8/terms/headers?limit=-1&offset=0&sort=ASC
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "termGuid": "54688d39-b298-4104-9e80-f2a16f44aaea",
+          "relationGuid": "7b6a8149-a928-476a-a068-dce58653cfa0",
+          "displayText": "ExampleTerm1"
+        },
+        {
+          "termGuid": "952c7ba4-4c89-42d8-a05a-7d2161be7008",
+          "relationGuid": "9385640b-e6be-437d-a6b9-62d11c14a189",
+          "displayText": "ExampleTerm2"
+        }
+      ]
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - Get term headers belonging to a specific glossary.
+errorCodes: []

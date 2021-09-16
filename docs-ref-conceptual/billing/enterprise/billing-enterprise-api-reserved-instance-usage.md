@@ -5,8 +5,9 @@ author: bandersmsft
 ms.reviewer: prkumar
 tags: billing
 ms.service: cost-management-billing
+ms.subservice: enterprise
 ms.topic: article
-ms.date: 06/22/2020
+ms.date: 09/15/2021
 ms.author: banders
 
 ---
@@ -21,14 +22,14 @@ The Reserved Instance usage API returns the usage of the Reserved Instance purch
 
 ## Request for Reserved Instance usage details
 
-See the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article to learn about required common header properties.
+See the [Overview of Reporting APIs for Enterprise customers](/azure/billing/billing-enterprise-api) article to learn about required common header properties.
 
 |Method | Request URI|
 |-|-|
 |GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/reservationdetails?startDate={yyyy-mm-dd}&endDate={yyyy-mm-dd}
 
 
-## Response
+## Usage details response
 
 ```json
 [{
@@ -60,14 +61,14 @@ See the [Overview of Reporting APIs for Enterprise customers](https://docs.micro
 <br/>
 
 ## Request for Reserved Instance usage summary
-See the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article to learn about required common header properties. The API supports reservation utilization for daily and monthly grain. Startdate and EndDate parameters are not required for monthly data.
+See the [Overview of Reporting APIs for Enterprise customers](/azure/billing/billing-enterprise-api) article to learn about required common header properties. The API supports reservation utilization for daily and monthly grain. Startdate and EndDate parameters are not required for monthly data.
 
 |Method | Request URI|
 |-|-|
 |GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/reservationsummaries?grain=daily&startdate={yyyy-mm-dd}&enddate={yyyy-mm-dd}
 
 
-## Response
+## Usage summary response
 
 ```json
 [

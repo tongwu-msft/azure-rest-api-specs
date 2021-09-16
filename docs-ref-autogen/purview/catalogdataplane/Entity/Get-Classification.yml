@@ -1,0 +1,168 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.entity.getclassification
+name: Get Classification
+service: Purview
+groupName: Entity
+apiVersion: 2021-09-01
+summary: List classifications for a given entity represented by a GUID.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/catalog/api/atlas/v2/entity/guid/{guid}/classification/{classificationName}
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: guid
+  in: path
+  isRequired: true
+  description: The globally unique identifier of the entity.
+  types:
+  - uid: string
+- name: classificationName
+  in: path
+  isRequired: true
+  description: The name of the classification.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The classification for the given entity GUID.
+  types:
+  - uid: AtlasClassification
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: AtlasClassification
+  description: AtlasClassification
+  kind: object
+  properties:
+  - name: attributes
+    description: The attributes of the struct.
+    types:
+    - uid: Attributes
+  - name: typeName
+    description: The name of the type.
+    types:
+    - uid: string
+  - name: lastModifiedTS
+    description: "lastModifiedTS  \nETag for concurrency control."
+    types:
+    - uid: string
+  - name: entityGuid
+    description: The GUID of the entity.
+    types:
+    - uid: string
+  - name: entityStatus
+    description: "Status  \nStatus of the entity - can be active or deleted. Deleted entities are not removed from Atlas store."
+    types:
+    - uid: Status
+  - name: removePropagationsOnEntityDelete
+    description: Determines if propagations will be removed on entity deletion.
+    types:
+    - uid: boolean
+  - name: validityPeriods
+    description: An array of time boundaries indicating validity periods.
+    types:
+    - uid: TimeBoundary
+      isArray: true
+  - name: source
+    description: indicate the source who create the classification detail
+    types:
+    - uid: string
+  - name: sourceDetails
+    description: more detail on source information
+    types:
+    - uid: SourceDetails
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+- name: Attributes
+  description: The attributes of the struct.
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+- name: Status
+  description: Status
+  kind: enum
+  properties:
+  - name: ACTIVE
+    types:
+    - uid: string
+  - name: DELETED
+    types:
+    - uid: string
+- name: TimeBoundary
+  description: TimeBoundary
+  kind: object
+  properties:
+  - name: endTime
+    description: The end of the time boundary.
+    types:
+    - uid: string
+  - name: startTime
+    description: The start of the time boundary.
+    types:
+    - uid: string
+  - name: timeZone
+    description: The timezone of the time boundary.
+    types:
+    - uid: string
+- name: SourceDetails
+  description: more detail on source information
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+examples:
+- name: Entity_GetClassification
+  request:
+    uri: GET {Endpoint}/catalog/api/atlas/v2/entity/guid/9347abc5-7b86-4b82-a1e2-ad77c7c3cac3/classification/MICROSOFT.PERSONAL.DATE_OF_BIRTH
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "typeName": "MICROSOFT.PERSONAL.DATE_OF_BIRTH",
+        "lastModifiedTS": "1",
+        "entityGuid": "9347abc5-7b86-4b82-a1e2-ad77c7c3cac3",
+        "entityStatus": "ACTIVE"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - List classifications for a given entity represented by a GUID.
+errorCodes: []

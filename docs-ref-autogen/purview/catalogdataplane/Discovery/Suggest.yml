@@ -1,0 +1,258 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.discovery.suggest
+name: Suggest
+service: Purview
+groupName: Discovery
+apiVersion: 2021-09-01
+summary: Get search suggestions by query criteria.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/catalog/api/search/suggest?api-version=2021-09-01
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of Purview APIs
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. On successful lookup of the suggestions.
+  types:
+  - uid: SuggestResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: keywords
+    in: body
+    description: The keywords applied to all fields that support suggest operation. It must be at least 1 character, and no more than 100 characters. In the index schema we defined a default suggester which lists all the supported fields and specifies a search mode.
+    types:
+    - uid: string
+  - name: limit
+    in: body
+    description: The number of suggestions we hope to return. The default value is 5. The value must be a number between 1 and 100.
+    types:
+    - uid: integer
+  - name: filter
+    in: body
+    description: The filter for the search.
+    types:
+    - uid: object
+requestHeader: []
+definitions:
+- name: SuggestResult
+  description: SuggestResult
+  kind: object
+  properties:
+  - name: value
+    description: "SuggestResultValue  \nThe value item of the search suggest."
+    types:
+    - uid: SuggestResultValue
+      isArray: true
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+- name: SuggestRequest
+  description: SuggestRequest
+  kind: object
+  properties:
+  - name: keywords
+    description: The keywords applied to all fields that support suggest operation. It must be at least 1 character, and no more than 100 characters. In the index schema we defined a default suggester which lists all the supported fields and specifies a search mode.
+    types:
+    - uid: string
+  - name: limit
+    description: The number of suggestions we hope to return. The default value is 5. The value must be a number between 1 and 100.
+    types:
+    - uid: integer
+  - name: filter
+    description: The filter for the search.
+    types:
+    - uid: object
+- name: SuggestResultValue
+  description: SuggestResultValue
+  kind: object
+  properties:
+  - name: '@search.score'
+    description: The search score calculated by the search engine. The results are ordered by search score by default.
+    types:
+    - uid: number
+  - name: '@search.text'
+    description: The target text that contains the keyword as prefix. The keyword is wrapped with emphasis mark.
+    types:
+    - uid: string
+  - name: description
+    description: The description of the record.
+    types:
+    - uid: string
+  - name: id
+    description: The GUID of the record.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the record.
+    types:
+    - uid: string
+  - name: owner
+    description: The owner of the record. This is an Atlas native attribute.
+    types:
+    - uid: string
+  - name: qualifiedName
+    description: The qualified name of the record.
+    types:
+    - uid: string
+  - name: entityType
+    description: The type name of the record.
+    types:
+    - uid: string
+  - name: classification
+    description: The classifications of the record.
+    types:
+    - uid: string
+      isArray: true
+  - name: label
+    description: The labels of the record.
+    types:
+    - uid: string
+      isArray: true
+  - name: term
+    description: The terms assigned to the record.
+    types:
+    - uid: TermSearchResultValue
+      isArray: true
+  - name: contact
+    description: The contacts of the record.
+    types:
+    - uid: ContactSearchResultValue
+      isArray: true
+  - name: assetType
+    description: The asset types of the record.
+    types:
+    - uid: string
+      isArray: true
+- name: TermSearchResultValue
+  description: Context
+  kind: object
+  properties:
+  - name: name
+    description: The name of the term.
+    types:
+    - uid: string
+  - name: glossaryName
+    description: The name of the glossary which contains the term.
+    types:
+    - uid: string
+  - name: guid
+    description: The GUID of the term.
+    types:
+    - uid: string
+- name: ContactSearchResultValue
+  description: contact
+  kind: object
+  properties:
+  - name: id
+    description: The GUID of the contact.
+    types:
+    - uid: string
+  - name: info
+    description: The description of the contact.
+    types:
+    - uid: string
+  - name: contactType
+    description: The type of the contact. It can be Expert or Owner for an entity. It can be Expert or Steward for a glossary term.
+    types:
+    - uid: string
+examples:
+- name: Discovery_Suggest
+  request:
+    uri: POST {Endpoint}/catalog/api/search/suggest?api-version=2021-09-01
+    body: >-
+      {
+        "keywords": "exampledata",
+        "filter": {
+          "and": [
+            {
+              "entityType": "azure_blob_path",
+              "includeSubTypes": false
+            }
+          ]
+        },
+        "limit": 10
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "@search.text": "<em>exampledata.csv</em>",
+            "@search.score": 9.81402,
+            "description": "Example Description",
+            "id": "af7a01b0-1b14-4ab6-83a5-12cb11a717ed",
+            "name": "exampledata.csv",
+            "owner": "$superuser",
+            "qualifiedName": "https://exampleaccount.blob.core.windows.net/examplepath/exampledata.csv",
+            "entityType": "azure_blob_path",
+            "assetType": [
+              "Azure Blob Storage"
+            ],
+            "classification": [
+              "MICROSOFT.GOVERNMENT.US.PASSPORT_NUMBER"
+            ],
+            "contact": [
+              {
+                "id": "8a597ffc-6993-4772-ac25-86b7251e1234",
+                "info": "Example Info",
+                "contactType": "Expert"
+              }
+            ],
+            "label": [
+              "Example.Label"
+            ],
+            "term": [
+              {
+                "name": "Example Term",
+                "glossaryName": "Glossary"
+              }
+            ]
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - Get search suggestions by query criteria.
+errorCodes: []

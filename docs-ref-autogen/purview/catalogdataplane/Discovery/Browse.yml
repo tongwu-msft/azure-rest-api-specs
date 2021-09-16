@@ -1,0 +1,272 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.discovery.browse
+name: Browse
+service: Purview
+groupName: Discovery
+apiVersion: 2021-09-01
+summary: Browse entities by path or entity type.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/catalog/api/browse?api-version=2021-09-01
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of Purview APIs
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. On successful get the entities to browse.
+  types:
+  - uid: BrowseResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: entityType
+    in: body
+    description: The entity type to browse as the root level entry point.
+    types:
+    - uid: string
+  - name: path
+    in: body
+    description: The path to browse the next level child entities.
+    types:
+    - uid: string
+  - name: limit
+    in: body
+    description: The number of browse items we hope to return.
+    types:
+    - uid: integer
+  - name: offset
+    in: body
+    description: The offset. The default value is 0.
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: BrowseResult
+  description: BrowseResult
+  kind: object
+  properties:
+  - name: '@search.count'
+    description: The total number of browse results.
+    types:
+    - uid: integer
+  - name: value
+    description: "BrowseResultValue  \nThe value item of the browse result."
+    types:
+    - uid: BrowseResultValue
+      isArray: true
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+- name: BrowseRequest
+  description: BrowseRequest
+  kind: object
+  properties:
+  - name: entityType
+    description: The entity type to browse as the root level entry point.
+    types:
+    - uid: string
+  - name: path
+    description: The path to browse the next level child entities.
+    types:
+    - uid: string
+  - name: limit
+    description: The number of browse items we hope to return.
+    types:
+    - uid: integer
+  - name: offset
+    description: The offset. The default value is 0.
+    types:
+    - uid: integer
+- name: BrowseResultValue
+  description: BrowseResultValue
+  kind: object
+  properties:
+  - name: entityType
+    description: The type name of the record.
+    types:
+    - uid: string
+  - name: id
+    description: The GUID of the record.
+    types:
+    - uid: string
+  - name: isLeaf
+    description: If the record is a leaf entity.
+    types:
+    - uid: boolean
+  - name: name
+    description: The name of the record.
+    types:
+    - uid: string
+  - name: owner
+    description: The owners of the record.
+    types:
+    - uid: BrowseResultOwner
+      isArray: true
+  - name: path
+    description: The path of the record.
+    types:
+    - uid: string
+  - name: qualifiedName
+    description: The qualified name of the record.
+    types:
+    - uid: string
+- name: BrowseResultOwner
+  description: BrowseResultOwner
+  kind: object
+  properties:
+  - name: id
+    description: The GUID of the owner.
+    types:
+    - uid: string
+  - name: displayName
+    description: The display name of the owner.
+    types:
+    - uid: string
+  - name: mail
+    description: The mail of the owner.
+    types:
+    - uid: string
+  - name: contactType
+    description: The contact type of the owner. The value will be Owner.
+    types:
+    - uid: string
+examples:
+- name: Discovery_Browse_Path
+  request:
+    uri: POST {Endpoint}/catalog/api/browse?api-version=2021-09-01
+    body: >-
+      {
+        "path": "/azure_data_explorer_cluster#examplecluster.westus.kusto.windows.net",
+        "limit": 10
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 3,
+        "value": [
+          {
+            "id": "55656c92-7e29-4831-a243-f95bdcdd397b",
+            "name": "exampledata",
+            "qualifiedName": "https://examplecluster.westus.kusto.windows.net/exampledata",
+            "entityType": "azure_data_explorer_database",
+            "path": "/azure_data_explorer_cluster#examplecluster.westus.kusto.windows.net/azure_data_explorer_database#exampledata",
+            "owner": [
+              {
+                "id": "12345678-1234-5678-1234-86b7251e0353",
+                "displayName": "Example DisplayName",
+                "mail": "example.displayname@microsoft.com",
+                "contactType": "Owner"
+              }
+            ],
+            "isLeaf": false
+          },
+          {
+            "id": "940aa60f-36f6-4dcf-8989-2faa49c74462",
+            "name": "exampledata2",
+            "qualifiedName": "https://examplecluster.westus.kusto.windows.net/exampledata2",
+            "entityType": "azure_data_explorer_database",
+            "path": "/azure_data_explorer_cluster#examplecluster.westus.kusto.windows.net/azure_data_explorer_database#exampledata2",
+            "owner": [
+              {
+                "id": "12345678-1234-5678-1234-86b7251e0353",
+                "displayName": "Example DisplayName",
+                "mail": "example.displayname@microsoft.com",
+                "contactType": "Owner"
+              }
+            ],
+            "isLeaf": false
+          },
+          {
+            "id": "19c4a337-840b-442d-ac9c-3df65bb33d69",
+            "name": "exampledata3",
+            "qualifiedName": "https://examplecluster.westus.kusto.windows.net/exampledata3",
+            "entityType": "azure_data_explorer_database",
+            "path": "/azure_data_explorer_cluster#examplecluster.westus.kusto.windows.net/azure_data_explorer_database#exampledata3",
+            "owner": [
+              {
+                "id": "12345678-1234-5678-1234-86b7251e0353",
+                "displayName": "Example DisplayName",
+                "mail": "example.displayname@microsoft.com",
+                "contactType": "Owner"
+              }
+            ],
+            "isLeaf": false
+          }
+        ]
+      }
+- name: Discovery_Browse_EntityType
+  request:
+    uri: POST {Endpoint}/catalog/api/browse?api-version=2021-09-01
+    body: >-
+      {
+        "entityType": "azure_data_explorer_cluster",
+        "limit": 10
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 1,
+        "value": [
+          {
+            "id": "7afe6da2-4275-4096-90af-e40479cf70e2",
+            "name": "examplecluster.westus",
+            "qualifiedName": "https://examplecluster.westus.kusto.windows.net",
+            "entityType": "azure_data_explorer_cluster",
+            "path": "/azure_data_explorer_cluster#examplecluster.westus.kusto.windows.net",
+            "owner": [
+              {
+                "id": "12345678-1234-5678-1234-86b7251e0353",
+                "displayName": "Example DisplayName",
+                "mail": "example.displayname@microsoft.com",
+                "contactType": "Owner"
+              }
+            ],
+            "isLeaf": false
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - Browse entities by path or entity type.
+errorCodes: []

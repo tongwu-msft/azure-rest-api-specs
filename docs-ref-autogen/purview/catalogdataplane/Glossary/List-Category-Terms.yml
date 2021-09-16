@@ -1,0 +1,155 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.glossary.listcategoryterms
+name: List Category Terms
+service: Purview
+groupName: Glossary
+apiVersion: 2021-09-01
+summary: Get all terms associated with the specific category.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/catalog/api/atlas/v2/glossary/category/{categoryGuid}/terms
+- content: GET {Endpoint}/catalog/api/atlas/v2/glossary/category/{categoryGuid}/terms?limit={limit}&offset={offset}&sort={sort}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: categoryGuid
+  in: path
+  isRequired: true
+  description: The globally unique identifier of the category.
+  types:
+  - uid: string
+- name: limit
+  in: query
+  description: The page size - by default there is no paging.
+  types:
+  - uid: integer
+  format: int32
+- name: offset
+  in: query
+  description: The offset for pagination purpose.
+  types:
+  - uid: integer
+  format: int32
+- name: sort
+  in: query
+  description: The sort order, ASC (default) or DESC.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: An array of terms for the given category or an empty list.
+  types:
+  - uid: AtlasRelatedTermHeader
+    isArray: true
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: AtlasRelatedTermHeader
+  description: AtlasRelatedTermHeader
+  kind: object
+  properties:
+  - name: description
+    description: The description of the related term.
+    types:
+    - uid: string
+  - name: displayText
+    description: The display text.
+    types:
+    - uid: string
+  - name: expression
+    description: The expression of the term.
+    types:
+    - uid: string
+  - name: relationGuid
+    description: The GUID of the relationship.
+    types:
+    - uid: string
+  - name: source
+    description: The source of the term.
+    types:
+    - uid: string
+  - name: status
+    description: "AtlasTermRelationshipStatus  \nThe status of term relationship."
+    types:
+    - uid: AtlasTermRelationshipStatus
+  - name: steward
+    description: The steward of the term.
+    types:
+    - uid: string
+  - name: termGuid
+    description: The GUID of the term.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: An error response from the service
+  kind: object
+  properties:
+  - name: requestId
+    description: The request ID.
+    types:
+    - uid: string
+  - name: errorCode
+    description: The error code.
+    types:
+    - uid: string
+  - name: errorMessage
+    description: The error message.
+    types:
+    - uid: string
+- name: AtlasTermRelationshipStatus
+  description: AtlasTermRelationshipStatus
+  kind: enum
+  properties:
+  - name: DRAFT
+    types:
+    - uid: string
+  - name: ACTIVE
+    types:
+    - uid: string
+  - name: DEPRECATED
+    types:
+    - uid: string
+  - name: OBSOLETE
+    types:
+    - uid: string
+  - name: OTHER
+    types:
+    - uid: string
+examples:
+- name: Glossary_ListCategoryTerms
+  request:
+    uri: GET {Endpoint}/catalog/api/atlas/v2/glossary/category/ed7458f0-9463-48a5-b5c6-4f785fb34e12/terms?limit=-1&offset=0&sort=ASC
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "termGuid": "54688d39-b298-4104-9e80-f2a16f44aaea",
+          "relationGuid": "6aebf5ac-0c83-40c0-98bf-958fe9c99007",
+          "displayText": "ExampleTerm1"
+        }
+      ]
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - Get all terms associated with the specific category.
+errorCodes: []

@@ -149,6 +149,8 @@ For version 2020-06-12 and above, for accounts with a hierarchical namespace ena
 
 For version 2020-08-04 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `DeletionId` element for deleted blobs. `DeletionId` is an unsigned 64 bit identifier that uniquely identifies a soft deleted path to distinguish it from other deleted blobs with the same path.
 
+For version 2020-10-02 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `ResourceType` property element for the path, which can be either `file`/`directory`.   
+
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
 <EnumerationResults ServiceEndpoint="http://myaccount.blob.core.windows.net/"  ContainerName="mycontainer">  
@@ -171,6 +173,7 @@ For version 2020-08-04 and above, for Hierarchical Namespace enabled accounts, `
         <Group>owning group id</Group>
         <Permissions>permission string</Permissions>
         <Acl>access control list</Acl>
+        <ResourceType>file | directory</ResourceType>
         <Content-Length>size-in-bytes</Content-Length>  
         <Content-Type>blob-content-type</Content-Type>  
         <Content-Encoding />  
