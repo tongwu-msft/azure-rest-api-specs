@@ -12189,11 +12189,11 @@
 #### [Get Resource Set Rule](purview/accountdataplane/Resource-Set-Rules/Get-Resource-Set-Rule.yml)
 #### [List Resource Set Rules](purview/accountdataplane/Resource-Set-Rules/List-Resource-Set-Rules.yml)
 ## Catalog Data Plane
-### Catalog Collection
-#### [Overview](purview/catalogdataplane/Catalog-Collection.yml)
-#### [Create Or Update](purview/catalogdataplane/Catalog-Collection/Create-Or-Update.yml)
-#### [Create Or Update Bulk](purview/catalogdataplane/Catalog-Collection/Create-Or-Update-Bulk.yml)
-#### [Move Entities To Collection](purview/catalogdataplane/Catalog-Collection/Move-Entities-To-Collection.yml)
+### Collection
+#### [Overview](purview/catalogdataplane/Collection.yml)
+#### [Create Or Update](purview/catalogdataplane/Collection/Create-Or-Update.yml)
+#### [Create Or Update Bulk](purview/catalogdataplane/Collection/Create-Or-Update-Bulk.yml)
+#### [Move Entities To Collection](purview/catalogdataplane/Collection/Move-Entities-To-Collection.yml)
 ### Discovery
 #### [Overview](purview/catalogdataplane/Discovery.yml)
 #### [Auto Complete](purview/catalogdataplane/Discovery/Auto-Complete.yml)

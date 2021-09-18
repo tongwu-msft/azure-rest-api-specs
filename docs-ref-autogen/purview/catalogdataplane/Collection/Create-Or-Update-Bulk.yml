@@ -1,11 +1,11 @@
 ### YamlMime:RESTOperation
-uid: catalog.api.purview.catalogdataplane.catalogcollection.createorupdate
-name: Create Or Update
+uid: catalog.api.purview.catalogdataplane.collection.createorupdatebulk
+name: Create Or Update Bulk
 service: Purview
-groupName: Catalog Collection
+groupName: Collection
 apiVersion: 2021-09-01
 summary: >-
-  Creates or updates an entity to a collection.
+  Creates or updates entities in bulk to a collection.
 
   Existing entity is matched using its unique guid if supplied or by its unique attributes eg: qualifiedName.
 
@@ -15,7 +15,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: POST {Endpoint}/catalog/api/collections/{collection}/entity?api-version=2021-09-01
+- content: POST {Endpoint}/catalog/api/collections/{collection}/entity/bulk?api-version=2021-09-01
 uriParameters:
 - name: Endpoint
   in: path
@@ -57,11 +57,12 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: object
-  - name: entity
+  - name: entities
     in: body
-    description: "AtlasEntity  \nAn instance of an entity - like hive_table, hive_database."
+    description: An array of entities.
     types:
     - uid: AtlasEntity
+      isArray: true
 requestHeader: []
 definitions:
 - name: AtlasEntity
@@ -191,8 +192,8 @@ definitions:
     description: The error message.
     types:
     - uid: string
-- name: AtlasEntityWithExtInfo
-  description: AtlasEntityWithExtInfo
+- name: AtlasEntitiesWithExtInfo
+  description: AtlasEntitiesWithExtInfo
   kind: object
   properties:
   - name: referredEntities
@@ -203,10 +204,11 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: object
-  - name: entity
-    description: "AtlasEntity  \nAn instance of an entity - like hive_table, hive_database."
+  - name: entities
+    description: An array of entities.
     types:
     - uid: AtlasEntity
+      isArray: true
 - name: Attributes
   description: The attributes of the struct.
   kind: object
@@ -416,39 +418,61 @@ definitions:
     types:
     - uid: string
 examples:
-- name: CatalogCollection_CreateOrUpdate
+- name: Collection_CreateOrUpdateBulk
   request:
-    uri: POST {Endpoint}/catalog/api/collections/ExampleCollection/entity?api-version=2021-09-01
+    uri: POST {Endpoint}/catalog/api/collections/ExampleCollection/entity/bulk?api-version=2021-09-01
     body: >-
       {
         "referredEntities": {},
-        "entity": {
-          "typeName": "azure_storage_account",
-          "attributes": {
-            "name": "exampleaccount",
-            "qualifiedName": "https://exampleaccount.core.windows.net"
+        "entities": [
+          {
+            "typeName": "azure_storage_account",
+            "attributes": {
+              "qualifiedName": "exampleaccount",
+              "name": "exampleaccount",
+              "description": "Example Description"
+            }
+          },
+          {
+            "typeName": "azure_storage_account",
+            "attributes": {
+              "qualifiedName": "exampleaccount2",
+              "name": "exampleaccount2"
+            }
           }
-        }
+        ]
       }
   responses:
   - statusCode: "200"
     body: >-
       {
         "mutatedEntities": {
+          "UPDATE": [
+            {
+              "typeName": "azure_storage_account",
+              "attributes": {
+                "qualifiedName": "exampleaccount"
+              },
+              "lastModifiedTS": "2",
+              "guid": "b2f9c306-cf65-4bb0-878e-cfaafde156b1",
+              "status": "ACTIVE"
+            }
+          ],
           "CREATE": [
             {
               "typeName": "azure_storage_account",
               "attributes": {
-                "qualifiedName": "https://exampleaccount.core.windows.net"
+                "qualifiedName": "exampleaccount2"
               },
               "lastModifiedTS": "1",
-              "guid": "38d3c41f-300c-434e-8dad-0b1a7cb5efd6",
+              "guid": "321493e3-3fb7-4b3e-9df7-3b69154174c2",
               "status": "ACTIVE"
             }
           ]
         },
         "guidAssignments": {
-          "-9514774903018162": "38d3c41f-300c-434e-8dad-0b1a7cb5efd6"
+          "-9514774903018192": "321493e3-3fb7-4b3e-9df7-3b69154174c2",
+          "-9514774903018193": "b2f9c306-cf65-4bb0-878e-cfaafde156b1"
         }
       }
 security:
@@ -462,7 +486,7 @@ security:
     description: impersonate your user account
 metadata:
   description: >-
-    Creates or updates an entity to a collection.
+    Creates or updates entities in bulk to a collection.
 
     Existing entity is matched using its unique guid if supplied or by its unique attributes eg: qualifiedName.
 errorCodes: []
