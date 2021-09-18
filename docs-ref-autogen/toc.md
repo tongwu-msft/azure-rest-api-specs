@@ -12191,9 +12191,9 @@
 ## Catalog Data Plane
 ### Catalog Collection
 #### [Overview](purview/catalogdataplane/Catalog-Collection.yml)
-#### [create Or Update](purview/catalogdataplane/Catalog-Collection/create-Or-Update.yml)
-#### [create Or Update Bulk](purview/catalogdataplane/Catalog-Collection/create-Or-Update-Bulk.yml)
-#### [move Entities To Collection](purview/catalogdataplane/Catalog-Collection/move-Entities-To-Collection.yml)
+#### [Create Or Update](purview/catalogdataplane/Catalog-Collection/Create-Or-Update.yml)
+#### [Create Or Update Bulk](purview/catalogdataplane/Catalog-Collection/Create-Or-Update-Bulk.yml)
+#### [Move Entities To Collection](purview/catalogdataplane/Catalog-Collection/Move-Entities-To-Collection.yml)
 ### Discovery
 #### [Overview](purview/catalogdataplane/Discovery.yml)
 #### [Auto Complete](purview/catalogdataplane/Discovery/Auto-Complete.yml)
