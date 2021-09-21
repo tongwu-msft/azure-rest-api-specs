@@ -1,16 +1,21 @@
 ### YamlMime:RESTOperation
-uid: catalog.api.purview.catalogdataplane.catalogcollection.moveentitiestocollection
-name: move Entities To Collection
+uid: catalog.api.purview.catalogdataplane.collection.createorupdatebulk
+name: Create Or Update Bulk
 service: Purview
-groupName: Catalog Collection
+groupName: Collection
 apiVersion: 2021-09-01
-summary: Move existing entities to the target collection.
+summary: >-
+  Creates or updates entities in bulk to a collection.
+
+  Existing entity is matched using its unique guid if supplied or by its unique attributes eg: qualifiedName.
+
+  Map and array of collections are not well supported. E.g., array<array<int>>, array<map<string, int>>.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {Endpoint}/catalog/api/collections/{collection}/entity/moveHere?api-version=2021-09-01
+- content: POST {Endpoint}/catalog/api/collections/{collection}/entity/bulk?api-version=2021-09-01
 uriParameters:
 - name: Endpoint
   in: path
@@ -43,14 +48,109 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: entityGuids
+  - name: referredEntities
     in: body
-    description: An array of entity guids to be moved to target collection.
+    description: The referred entities.
     types:
-    - uid: string
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: entities
+    in: body
+    description: An array of entities.
+    types:
+    - uid: AtlasEntity
       isArray: true
 requestHeader: []
 definitions:
+- name: AtlasEntity
+  description: AtlasEntity
+  kind: object
+  properties:
+  - name: attributes
+    description: The attributes of the struct.
+    types:
+    - uid: Attributes
+  - name: typeName
+    description: The name of the type.
+    types:
+    - uid: string
+  - name: lastModifiedTS
+    description: "lastModifiedTS  \nETag for concurrency control."
+    types:
+    - uid: string
+  - name: classifications
+    description: An array of classifications.
+    types:
+    - uid: AtlasClassification
+      isArray: true
+  - name: createTime
+    description: The created time of the record.
+    types:
+    - uid: number
+  - name: createdBy
+    description: The user who created the record.
+    types:
+    - uid: string
+  - name: guid
+    description: The GUID of the entity.
+    types:
+    - uid: string
+  - name: homeId
+    description: The home ID of the entity.
+    types:
+    - uid: string
+  - name: meanings
+    description: An array of term assignment headers indicating the meanings of the entity.
+    types:
+    - uid: AtlasTermAssignmentHeader
+      isArray: true
+  - name: provenanceType
+    description: Used to record the provenance of an instance of an entity or relationship.
+    types:
+    - uid: number
+  - name: proxy
+    description: Determines if there's a proxy.
+    types:
+    - uid: boolean
+  - name: relationshipAttributes
+    description: The attributes of relationship.
+    types:
+    - uid: RelationshipAttributes
+  - name: status
+    description: "Status  \nStatus of the entity - can be active or deleted. Deleted entities are not removed from Atlas store."
+    types:
+    - uid: Status
+  - name: updateTime
+    description: The update time of the record.
+    types:
+    - uid: number
+  - name: updatedBy
+    description: The user who updated the record.
+    types:
+    - uid: string
+  - name: version
+    description: The version of the entity.
+    types:
+    - uid: number
+  - name: source
+    description: indicate the source who create the classification detail
+    types:
+    - uid: string
+  - name: sourceDetails
+    description: more detail on source information
+    types:
+    - uid: SourceDetails
+  - name: contacts
+    description: The dictionary of contacts for terms. Key could be Expert or Owner.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
 - name: EntityMutationResponse
   description: EntityMutationResponse
   kind: object
@@ -92,62 +192,23 @@ definitions:
     description: The error message.
     types:
     - uid: string
-- name: MoveEntitiesRequest
+- name: AtlasEntitiesWithExtInfo
+  description: AtlasEntitiesWithExtInfo
   kind: object
   properties:
-  - name: entityGuids
-    description: An array of entity guids to be moved to target collection.
+  - name: referredEntities
+    description: The referred entities.
     types:
-    - uid: string
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: entities
+    description: An array of entities.
+    types:
+    - uid: AtlasEntity
       isArray: true
-- name: AtlasEntityHeader
-  description: AtlasEntityHeader
-  kind: object
-  properties:
-  - name: attributes
-    description: The attributes of the struct.
-    types:
-    - uid: Attributes
-  - name: typeName
-    description: The name of the type.
-    types:
-    - uid: string
-  - name: lastModifiedTS
-    description: "lastModifiedTS  \nETag for concurrency control."
-    types:
-    - uid: string
-  - name: classificationNames
-    description: An array of classification names.
-    types:
-    - uid: string
-      isArray: true
-  - name: classifications
-    description: An array of classifications.
-    types:
-    - uid: AtlasClassification
-      isArray: true
-  - name: displayText
-    description: The display text.
-    types:
-    - uid: string
-  - name: guid
-    description: The GUID of the record.
-    types:
-    - uid: string
-  - name: meaningNames
-    description: An array of meanings.
-    types:
-    - uid: string
-      isArray: true
-  - name: meanings
-    description: An array of term assignment headers.
-    types:
-    - uid: AtlasTermAssignmentHeader
-      isArray: true
-  - name: status
-    description: "Status  \nStatus of the entity - can be active or deleted. Deleted entities are not removed from Atlas store."
-    types:
-    - uid: Status
 - name: Attributes
   description: The attributes of the struct.
   kind: object
@@ -241,6 +302,14 @@ definitions:
     description: The GUID of the term.
     types:
     - uid: string
+- name: RelationshipAttributes
+  description: The attributes of relationship.
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: Status
   description: Status
   kind: enum
@@ -251,6 +320,62 @@ definitions:
   - name: DELETED
     types:
     - uid: string
+- name: SourceDetails
+  description: more detail on source information
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+- name: AtlasEntityHeader
+  description: AtlasEntityHeader
+  kind: object
+  properties:
+  - name: attributes
+    description: The attributes of the struct.
+    types:
+    - uid: Attributes
+  - name: typeName
+    description: The name of the type.
+    types:
+    - uid: string
+  - name: lastModifiedTS
+    description: "lastModifiedTS  \nETag for concurrency control."
+    types:
+    - uid: string
+  - name: classificationNames
+    description: An array of classification names.
+    types:
+    - uid: string
+      isArray: true
+  - name: classifications
+    description: An array of classifications.
+    types:
+    - uid: AtlasClassification
+      isArray: true
+  - name: displayText
+    description: The display text.
+    types:
+    - uid: string
+  - name: guid
+    description: The GUID of the record.
+    types:
+    - uid: string
+  - name: meaningNames
+    description: An array of meanings.
+    types:
+    - uid: string
+      isArray: true
+  - name: meanings
+    description: An array of term assignment headers.
+    types:
+    - uid: AtlasTermAssignmentHeader
+      isArray: true
+  - name: status
+    description: "Status  \nStatus of the entity - can be active or deleted. Deleted entities are not removed from Atlas store."
+    types:
+    - uid: Status
 - name: TimeBoundary
   description: TimeBoundary
   kind: object
@@ -267,14 +392,6 @@ definitions:
     description: The timezone of the time boundary.
     types:
     - uid: string
-- name: SourceDetails
-  description: more detail on source information
-  kind: object
-  properties:
-  - name: ''
-    description: ''
-    types:
-    - uid: ''
 - name: AtlasTermAssignmentStatus
   description: AtlasTermAssignmentStatus
   kind: enum
@@ -301,14 +418,28 @@ definitions:
     types:
     - uid: string
 examples:
-- name: CatalogCollection_moveEntitiesToCollection
+- name: Collection_CreateOrUpdateBulk
   request:
-    uri: POST {Endpoint}/catalog/api/collections/ExampleNewCollection/entity/moveHere?api-version=2021-09-01
+    uri: POST {Endpoint}/catalog/api/collections/ExampleCollection/entity/bulk?api-version=2021-09-01
     body: >-
       {
-        "entityGuids": [
-          "321493e3-3fb7-4b3e-9df7-3b69154174c2",
-          "b2f9c306-cf65-4bb0-878e-cfaafde156b1"
+        "referredEntities": {},
+        "entities": [
+          {
+            "typeName": "azure_storage_account",
+            "attributes": {
+              "qualifiedName": "exampleaccount",
+              "name": "exampleaccount",
+              "description": "Example Description"
+            }
+          },
+          {
+            "typeName": "azure_storage_account",
+            "attributes": {
+              "qualifiedName": "exampleaccount2",
+              "name": "exampleaccount2"
+            }
+          }
         ]
       }
   responses:
@@ -322,16 +453,18 @@ examples:
               "attributes": {
                 "qualifiedName": "exampleaccount"
               },
-              "lastModifiedTS": "3",
+              "lastModifiedTS": "2",
               "guid": "b2f9c306-cf65-4bb0-878e-cfaafde156b1",
               "status": "ACTIVE"
-            },
+            }
+          ],
+          "CREATE": [
             {
               "typeName": "azure_storage_account",
               "attributes": {
                 "qualifiedName": "exampleaccount2"
               },
-              "lastModifiedTS": "2",
+              "lastModifiedTS": "1",
               "guid": "321493e3-3fb7-4b3e-9df7-3b69154174c2",
               "status": "ACTIVE"
             }
@@ -352,5 +485,8 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Purview service - Move existing entities to the target collection.
+  description: >-
+    Creates or updates entities in bulk to a collection.
+
+    Existing entity is matched using its unique guid if supplied or by its unique attributes eg: qualifiedName.
 errorCodes: []
