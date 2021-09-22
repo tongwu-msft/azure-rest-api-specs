@@ -12303,6 +12303,15 @@
 #### [Get Type Definition By Name](purview/catalogdataplane/Types/Get-Type-Definition-By-Name.yml)
 #### [List Type Definition Headers](purview/catalogdataplane/Types/List-Type-Definition-Headers.yml)
 #### [Update Atlas Type Definitions](purview/catalogdataplane/Types/Update-Atlas-Type-Definitions.yml)
+## MetadataPolicy Data Plane
+### Metadata Policy
+#### [Overview](purview/metadatapolicydataplane/Metadata-Policy.yml)
+#### [Get](purview/metadatapolicydataplane/Metadata-Policy/Get.yml)
+#### [List All](purview/metadatapolicydataplane/Metadata-Policy/List-All.yml)
+#### [Update](purview/metadatapolicydataplane/Metadata-Policy/Update.yml)
+### Metadata Roles
+#### [Overview](purview/metadatapolicydataplane/Metadata-Roles.yml)
+#### [List](purview/metadatapolicydataplane/Metadata-Roles/List.yml)
 ## Scanning Data Plane
 ### Classification Rules
 #### [Overview](purview/scanningdataplane/Classification-Rules.yml)
