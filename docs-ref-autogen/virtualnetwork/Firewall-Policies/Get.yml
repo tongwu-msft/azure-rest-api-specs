@@ -3,15 +3,15 @@ uid: management.azure.com.virtualnetwork.firewallpolicies.get
 name: Get
 service: Virtual Networks
 groupName: Firewall Policies
-apiVersion: 2021-02-01
+apiVersion: 2021-03-01
 summary: Gets the specified Firewall Policy.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2021-02-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2021-02-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2021-03-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -110,10 +110,18 @@ definitions:
     description: The private IP addresses/IP ranges to which traffic will not be SNAT.
     types:
     - uid: FirewallPolicySNAT
+  - name: properties.sql
+    description: SQL Settings definition.
+    types:
+    - uid: FirewallPolicySQL
   - name: properties.dnsSettings
     description: DNS Proxy Settings definition.
     types:
     - uid: DnsSettings
+  - name: properties.explicitProxySettings
+    description: Explicit Proxy Settings definition.
+    types:
+    - uid: ExplicitProxySettings
   - name: properties.intrusionDetection
     description: The configuration for Intrusion detection.
     types:
@@ -258,6 +266,14 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: FirewallPolicySQL
+  description: SQL Settings in Firewall Policy.
+  kind: object
+  properties:
+  - name: allowSqlRedirect
+    description: A flag to indicate if SQL Redirect traffic filtering is enabled. Turning on the flag requires no rule using port 11000-11999.
+    types:
+    - uid: boolean
 - name: DnsSettings
   description: DNS Proxy Settings in Firewall Policy.
   kind: object
@@ -275,6 +291,30 @@ definitions:
     description: FQDNs in Network Rules are supported when set to true.
     types:
     - uid: boolean
+- name: ExplicitProxySettings
+  description: Explicit Proxy Settings in Firewall Policy.
+  kind: object
+  properties:
+  - name: enableExplicitProxy
+    description: When set to true, explicit proxy mode is enabled.
+    types:
+    - uid: boolean
+  - name: httpPort
+    description: Port number for explicit proxy http protocol, cannot be greater than 64000.
+    types:
+    - uid: integer
+  - name: httpsPort
+    description: Port number for explicit proxy https protocol, cannot be greater than 64000.
+    types:
+    - uid: integer
+  - name: pacFilePort
+    description: Port number for firewall to serve PAC file.
+    types:
+    - uid: integer
+  - name: pacFile
+    description: SAS URL for PAC file.
+    types:
+    - uid: string
 - name: FirewallPolicyIntrusionDetection
   description: Configuration for intrusion detection mode and rules.
   kind: object
@@ -494,7 +534,7 @@ definitions:
 examples:
 - name: Get FirewallPolicy
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy?api-version=2021-02-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy?api-version=2021-03-01
   responses:
   - statusCode: "200"
     body: >-
@@ -552,12 +592,22 @@ examples:
               "IANAPrivateRanges"
             ]
           },
+          "sql": {
+            "allowSqlRedirect": true
+          },
           "dnsSettings": {
             "servers": [
               "30.3.4.5"
             ],
             "enableProxy": true,
             "requireProxyForNetworkRules": false
+          },
+          "explicitProxySettings": {
+            "enableExplicitProxy": true,
+            "httpPort": 8087,
+            "httpsPort": 8087,
+            "pacFilePort": 8087,
+            "pacFile": "https://tinawstorage.file.core.windows.net/?sv=2020-02-10&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2021-06-04T07:01:12Z&st=2021-06-03T23:01:12Z&sip=68.65.171.11&spr=https&sig=Plsa0RRVpGbY0IETZZOT6znOHcSro71LLTTbzquYPgs%3D"
           },
           "sku": {
             "tier": "Premium"

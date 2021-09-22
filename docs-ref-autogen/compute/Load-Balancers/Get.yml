@@ -3,15 +3,15 @@ uid: management.azure.com.compute.loadbalancers.get
 name: Get
 service: Compute
 groupName: Load Balancers
-apiVersion: 2021-02-01
+apiVersion: 2021-03-01
 summary: Gets the specified load balancer.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2021-02-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2021-02-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2021-03-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -502,6 +502,18 @@ definitions:
     description: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP.
     types:
     - uid: boolean
+  - name: properties.frontendPortRangeStart
+    description: The port range start for the external endpoint. This property is used together with BackendAddressPool and FrontendPortRangeEnd. Individual inbound NAT rule port mappings will be created for each backend address from BackendAddressPool. Acceptable values range from 1 to 65534.
+    types:
+    - uid: integer
+  - name: properties.frontendPortRangeEnd
+    description: The port range end for the external endpoint. This property is used together with BackendAddressPool and FrontendPortRangeStart. Individual inbound NAT rule port mappings will be created for each backend address from BackendAddressPool. Acceptable values range from 1 to 65534.
+    types:
+    - uid: integer
+  - name: properties.backendAddressPool
+    description: A reference to backendAddressPool resource.
+    types:
+    - uid: SubResource
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the inbound NAT rule resource.
@@ -1320,6 +1332,15 @@ definitions:
     description: The provisioning state of the service endpoint policy resource.
     types:
     - uid: ProvisioningState
+  - name: properties.serviceAlias
+    description: The alias indicating if the policy belongs to a service
+    types:
+    - uid: string
+  - name: properties.contextualServiceEndpointPolicies
+    description: A collection of contextual service endpoint policy.
+    types:
+    - uid: string
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -1359,10 +1380,6 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-  - name: properties.resourceGuid
-    description: The resource id of private endpoint.
-    types:
-    - uid: string
   - name: properties.subnet
     description: The ID of the subnet from which the private IP will be allocated.
     types:
@@ -1393,6 +1410,20 @@ definitions:
     types:
     - uid: CustomDnsConfigPropertiesFormat
       isArray: true
+  - name: properties.applicationSecurityGroups
+    description: Application security groups in which the private endpoint IP configuration is included.
+    types:
+    - uid: ApplicationSecurityGroup
+      isArray: true
+  - name: properties.ipConfigurations
+    description: A list of IP configurations of the private endpoint. This will be used to map to the First Party Service's endpoints.
+    types:
+    - uid: PrivateEndpointIPConfiguration
+      isArray: true
+  - name: properties.customNetworkInterfaceName
+    description: The custom name of the network interface attached to the private endpoint.
+    types:
+    - uid: string
   - name: id
     description: Resource ID.
     types:
@@ -2345,6 +2376,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: type
+    description: The type of the resource.
+    types:
+    - uid: string
   - name: properties.description
     description: A description for this rule. Restricted to 140 chars.
     types:
@@ -2394,10 +2429,6 @@ definitions:
     description: The resource id of private link service.
     types:
     - uid: string
-  - name: properties.resolvedPrivateLinkServiceLocation
-    description: The location for the resolved private link service.
-    types:
-    - uid: string
   - name: properties.groupIds
     description: The ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to.
     types:
@@ -2428,6 +2459,36 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: PrivateEndpointIPConfiguration
+  description: An IP Configuration of the private endpoint.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.groupId
+    description: The ID of a group obtained from the remote resource that this private endpoint should connect to.
+    types:
+    - uid: string
+  - name: properties.memberName
+    description: The member name of a group obtained from the remote resource that this private endpoint should connect to.
+    types:
+    - uid: string
+  - name: properties.privateIPAddress
+    description: A private ip address obtained from the private endpoint's subnet.
+    types:
+    - uid: string
 - name: PublicIPAddressSkuName
   description: Name of a public IP address SKU.
   kind: enum
@@ -2608,10 +2669,6 @@ definitions:
     types:
     - uid: FrontendIPConfiguration
       isArray: true
-  - name: properties.resourceGuid
-    description: The resource id of private link service.
-    types:
-    - uid: string
   - name: properties.ipConfigurations
     description: An array of private link service IP configurations.
     types:
@@ -2915,7 +2972,7 @@ definitions:
 examples:
 - name: Get load balancer
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2021-02-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2021-03-01
   responses:
   - statusCode: "200"
     body: >-

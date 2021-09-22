@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.networkinterfacesincloudservice.listclo
 name: List Cloud Service Network Interfaces
 service: Virtual Networks
 groupName: NetworkInterfaces In CloudService
-apiVersion: 2021-02-01
+apiVersion: 2021-03-01
 summary: Gets all network interfaces in a cloud service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/networkInterfaces?api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/networkInterfaces?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -327,10 +327,6 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-  - name: properties.resourceGuid
-    description: The resource id of private endpoint.
-    types:
-    - uid: string
   - name: properties.subnet
     description: The ID of the subnet from which the private IP will be allocated.
     types:
@@ -361,6 +357,20 @@ definitions:
     types:
     - uid: CustomDnsConfigPropertiesFormat
       isArray: true
+  - name: properties.applicationSecurityGroups
+    description: Application security groups in which the private endpoint IP configuration is included.
+    types:
+    - uid: ApplicationSecurityGroup
+      isArray: true
+  - name: properties.ipConfigurations
+    description: A list of IP configurations of the private endpoint. This will be used to map to the First Party Service's endpoints.
+    types:
+    - uid: PrivateEndpointIPConfiguration
+      isArray: true
+  - name: properties.customNetworkInterfaceName
+    description: The custom name of the network interface attached to the private endpoint.
+    types:
+    - uid: string
   - name: id
     description: Resource ID.
     types:
@@ -575,10 +585,6 @@ definitions:
     types:
     - uid: FrontendIPConfiguration
       isArray: true
-  - name: properties.resourceGuid
-    description: The resource id of private link service.
-    types:
-    - uid: string
   - name: properties.ipConfigurations
     description: An array of private link service IP configurations.
     types:
@@ -978,10 +984,6 @@ definitions:
     description: The resource id of private link service.
     types:
     - uid: string
-  - name: properties.resolvedPrivateLinkServiceLocation
-    description: The location for the resolved private link service.
-    types:
-    - uid: string
   - name: properties.groupIds
     description: The ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to.
     types:
@@ -1012,6 +1014,81 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: ApplicationSecurityGroup
+  description: An application security group in a resource group.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the application security group resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: PrivateEndpointIPConfiguration
+  description: An IP Configuration of the private endpoint.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.groupId
+    description: The ID of a group obtained from the remote resource that this private endpoint should connect to.
+    types:
+    - uid: string
+  - name: properties.memberName
+    description: The member name of a group obtained from the remote resource that this private endpoint should connect to.
+    types:
+    - uid: string
+  - name: properties.privateIPAddress
+    description: A private ip address obtained from the private endpoint's subnet.
+    types:
+    - uid: string
 - name: VirtualNetworkTap
   description: Virtual Network Tap resource.
   kind: object
@@ -1228,6 +1305,18 @@ definitions:
     description: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP.
     types:
     - uid: boolean
+  - name: properties.frontendPortRangeStart
+    description: The port range start for the external endpoint. This property is used together with BackendAddressPool and FrontendPortRangeEnd. Individual inbound NAT rule port mappings will be created for each backend address from BackendAddressPool. Acceptable values range from 1 to 65534.
+    types:
+    - uid: integer
+  - name: properties.frontendPortRangeEnd
+    description: The port range end for the external endpoint. This property is used together with BackendAddressPool and FrontendPortRangeStart. Individual inbound NAT rule port mappings will be created for each backend address from BackendAddressPool. Acceptable values range from 1 to 65534.
+    types:
+    - uid: integer
+  - name: properties.backendAddressPool
+    description: A reference to backendAddressPool resource.
+    types:
+    - uid: SubResource
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the inbound NAT rule resource.
@@ -1347,51 +1436,6 @@ definitions:
     description: Specify what happens to the public IP address when the VM using it is deleted
     types:
     - uid: DeleteOptions
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: ApplicationSecurityGroup
-  description: An application security group in a resource group.
-  kind: object
-  properties:
-  - name: etag
-    isReadyOnly: true
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.resourceGuid
-    isReadyOnly: true
-    description: The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the application security group resource.
-    types:
-    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -1783,6 +1827,15 @@ definitions:
     description: The provisioning state of the service endpoint policy resource.
     types:
     - uid: ProvisioningState
+  - name: properties.serviceAlias
+    description: The alias indicating if the policy belongs to a service
+    types:
+    - uid: string
+  - name: properties.contextualServiceEndpointPolicies
+    description: A collection of contextual service endpoint policy.
+    types:
+    - uid: string
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -2381,6 +2434,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: type
+    description: The type of the resource.
+    types:
+    - uid: string
   - name: properties.description
     description: A description for this rule. Restricted to 140 chars.
     types:
@@ -2527,7 +2584,7 @@ definitions:
 examples:
 - name: List cloud service network interfaces
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/cloudServices/cs1/networkInterfaces?api-version=2021-02-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/cloudServices/cs1/networkInterfaces?api-version=2021-03-01
   responses:
   - statusCode: "200"
     body: >-

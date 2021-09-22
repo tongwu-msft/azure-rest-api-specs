@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.virtualhubbgpconnection.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: Virtual Hub Bgp Connection
-apiVersion: 2021-02-01
+apiVersion: 2021-03-01
 summary: Creates a VirtualHubBgpConnection resource if it doesn't exist else updates the existing VirtualHubBgpConnection.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}?api-version=2021-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -73,6 +73,11 @@ requestBody:
     description: Peer IP.
     types:
     - uid: string
+  - name: properties.hubVirtualNetworkConnection
+    in: body
+    description: The reference to the HubVirtualNetworkConnection resource.
+    types:
+    - uid: SubResource
   - name: id
     in: body
     description: Resource ID.
@@ -80,6 +85,14 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: BgpConnection
   description: Virtual Appliance Site resource.
   kind: object
@@ -106,6 +119,10 @@ definitions:
     description: Peer IP.
     types:
     - uid: string
+  - name: properties.hubVirtualNetworkConnection
+    description: The reference to the HubVirtualNetworkConnection resource.
+    types:
+    - uid: SubResource
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the resource.
@@ -184,12 +201,15 @@ definitions:
 examples:
 - name: VirtualHubRouteTableV2Put
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1/bgpConnections/conn1?api-version=2021-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1/bgpConnections/conn1?api-version=2021-03-01
     body: >-
       {
         "properties": {
           "peerIp": "192.168.1.5",
-          "peerAsn": 20000
+          "peerAsn": 20000,
+          "hubVirtualNetworkConnection": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1/hubVirtualNetworkConnections/hubVnetConn1"
+          }
         }
       }
   responses:
@@ -203,7 +223,10 @@ examples:
           "provisioningState": "Succeeded",
           "peerIp": "192.168.1.5",
           "peerAsn": 20000,
-          "connectionState": "Connected"
+          "connectionState": "Connected",
+          "hubVirtualNetworkConnection": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1/hubVirtualNetworkConnections/hubVnetConn1"
+          }
         }
       }
   - statusCode: "201"
@@ -216,7 +239,10 @@ examples:
           "provisioningState": "Succeeded",
           "peerIp": "192.168.1.5",
           "peerAsn": 20000,
-          "connectionState": "Connected"
+          "connectionState": "Connected",
+          "hubVirtualNetworkConnection": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1/hubVirtualNetworkConnections/hubVnetConn1"
+          }
         }
       }
 security:
