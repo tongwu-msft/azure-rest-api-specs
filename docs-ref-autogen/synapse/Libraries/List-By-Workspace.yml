@@ -1,0 +1,226 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.synapse.libraries.listbyworkspace
+name: List By Workspace
+service: Synapse
+groupName: Libraries
+apiVersion: 2021-06-01
+summary: "List the libraries in a workspace.  \nList libraries in a workspace."
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/libraries?api-version=2021-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: LibraryListResponse
+- name: Other Status Codes
+  description: An error response received from the Azure Synapse service.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: LibraryListResponse
+  description: A list of Library resources.
+  kind: object
+  properties:
+  - name: value
+    description: List of Library.
+    types:
+    - uid: LibraryResource
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of results, if any remaining results exist.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: LibraryResource
+  description: Library response details
+  kind: object
+  properties:
+  - name: properties.name
+    description: Name of the library.
+    types:
+    - uid: string
+  - name: properties.path
+    description: Storage blob path of library.
+    types:
+    - uid: string
+  - name: properties.containerName
+    description: Storage blob container name.
+    types:
+    - uid: string
+  - name: properties.uploadedTimestamp
+    isReadyOnly: true
+    description: The last update time of the library.
+    types:
+    - uid: string
+  - name: properties.type
+    description: Type of the library.
+    types:
+    - uid: string
+  - name: properties.provisioningStatus
+    isReadyOnly: true
+    description: Provisioning status of the library/package.
+    types:
+    - uid: string
+  - name: properties.creatorId
+    isReadyOnly: true
+    description: Creator Id of the library/package.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Resource Etag.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: List libraries in a workspace
+  request:
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.Synapse/workspaces/exampleWorkspace/libraries?api-version=2021-06-01
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Wed, 23 Oct 2020 21:33:05 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-reads
+      value: "14909"
+    - name: x-ms-request-id
+      value: f632df92-1140-4e19-9e19-0b1c8cbe393b
+    - name: x-ms-correlation-request-id
+      value: f632df92-1140-4e19-9e19-0b1c8cbe393b
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.Synapse/workspaces/exampleWorkspace/libraries/exampleLibraryName1.jar",
+            "name": "exampleLibraryName1.jar",
+            "type": "Microsoft.Synapse/workspaces/libraries",
+            "properties": {
+              "name": "exampleLibraryName1.jar",
+              "path": "exampleWorkspace/libraries/exampleLibraryName1.jar",
+              "containerName": "exampleContainer",
+              "type": "jar",
+              "uploadedTimestamp": "2020-10-23T07:59:29.1573546+00:00",
+              "provisioningStatus": "Succeeded",
+              "creatorId": "2222222e-222d-222f-2222-22a2f222d2f2"
+            },
+            "etag": "1500474f-0000-0200-0000-5cbe090d0000"
+          },
+          {
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.Synapse/workspaces/exampleWorkspace/libraries/exampleLibraryName2.jar",
+            "name": "exampleLibraryName2.jar",
+            "type": "Microsoft.Synapse/workspaces/libraries",
+            "properties": {
+              "name": "exampleLibraryName2.jar",
+              "path": "exampleWorkspace/libraries/exampleLibraryName2.jar",
+              "containerName": "exampleContainer",
+              "type": "jar",
+              "uploadedTimestamp": "2020-10-23T07:59:29.1573546+00:00",
+              "provisioningStatus": "Succeeded",
+              "creatorId": "2222222e-222d-222f-2222-22a2f222d2f2"
+            },
+            "etag": "1500474f-0000-0200-0000-5cbe090d0000"
+          }
+        ],
+        "nextLink": ""
+      }
+security: []
+metadata:
+  description: "Learn more about Synapse service - List the libraries in a workspace.  \nList libraries in a workspace."
+errorCodes: []

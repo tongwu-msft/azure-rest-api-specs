@@ -3,14 +3,14 @@ uid: management.azure.com.synapse.workspaces.createorupdate
 name: Create Or Update
 service: Synapse
 groupName: Workspaces
-apiVersion: 2021-03-01
+apiVersion: 2021-06-01
 summary: Creates or updates a workspace
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}?api-version=2021-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -127,6 +127,16 @@ requestBody:
     description: Enable or Disable public network access to workspace
     types:
     - uid: WorkspacePublicNetworkAccess
+  - name: properties.cspWorkspaceAdminProperties
+    in: body
+    description: Initial workspace AAD admin properties for a CSP subscription
+    types:
+    - uid: CspWorkspaceAdminProperties
+  - name: properties.azureADOnlyAuthentication
+    in: body
+    description: Enable or Disable AzureADOnlyAuthentication on All Workspace subresource
+    types:
+    - uid: boolean
   - name: tags
     in: body
     description: Resource tags.
@@ -162,6 +172,14 @@ definitions:
     description: The type of managed identity for the workspace
     types:
     - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: The user assigned managed identities.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedManagedIdentity
 - name: DataLakeStorageAccountDetails
   description: Details of the data lake storage account associated with the workspace
   kind: object
@@ -174,6 +192,14 @@ definitions:
     description: Filesystem name
     types:
     - uid: string
+  - name: resourceId
+    description: ARM resource Id of this storage account
+    types:
+    - uid: string
+  - name: createManagedPrivateEndpoint
+    description: Create managed private endpoint to this storage account or not
+    types:
+    - uid: boolean
 - name: VirtualNetworkProfile
   description: Virtual Network Profile
   kind: object
@@ -292,6 +318,14 @@ definitions:
     description: Purview Resource ID
     types:
     - uid: string
+- name: CspWorkspaceAdminProperties
+  description: Initial workspace AAD admin properties for a CSP subscription
+  kind: object
+  properties:
+  - name: initialWorkspaceAdminObjectId
+    description: AAD object ID of initial workspace admin
+    types:
+    - uid: string
 - name: Workspace
   description: A workspace
   kind: object
@@ -381,6 +415,23 @@ definitions:
     description: Enable or Disable public network access to workspace
     types:
     - uid: WorkspacePublicNetworkAccess
+  - name: properties.cspWorkspaceAdminProperties
+    description: Initial workspace AAD admin properties for a CSP subscription
+    types:
+    - uid: CspWorkspaceAdminProperties
+  - name: properties.settings
+    isReadyOnly: true
+    description: Workspace settings
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.azureADOnlyAuthentication
+    description: Enable or Disable AzureADOnlyAuthentication on All Workspace subresource
+    types:
+    - uid: boolean
   - name: tags
     description: Resource tags.
     types:
@@ -426,6 +477,23 @@ definitions:
   - name: SystemAssigned
     types:
     - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedManagedIdentity
+  description: User Assigned Managed Identity
+  kind: object
+  properties:
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID.
+    types:
+    - uid: string
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID.
+    types:
+    - uid: string
 - name: PrivateEndpoint
   description: Private endpoint details
   kind: object
@@ -465,6 +533,10 @@ definitions:
     description: The key object of the workspace
     types:
     - uid: WorkspaceKeyDetails
+  - name: kekIdentity
+    description: Key encryption key
+    types:
+    - uid: KekIdentityProperties
 - name: WorkspacePublicNetworkAccess
   description: Enable or Disable public network access to workspace
   kind: enum
@@ -518,6 +590,18 @@ definitions:
     description: Workspace Key sub-resource key vault url
     types:
     - uid: string
+- name: KekIdentityProperties
+  description: Key encryption key properties
+  kind: object
+  properties:
+  - name: userAssignedIdentity
+    description: User assigned identity resource Id
+    types:
+    - uid: string
+  - name: useSystemAssignedIdentity
+    description: Boolean specifying whether to use system assigned identity or not
+    types:
+    - {}
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -535,11 +619,14 @@ definitions:
 examples:
 - name: Create or update a workspace
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup1/providers/Microsoft.Synapse/workspaces/workspace1?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup1/providers/Microsoft.Synapse/workspaces/workspace1?api-version=2021-06-01
     body: >-
       {
         "identity": {
-          "type": "SystemAssigned"
+          "type": "SystemAssigned,UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1": {}
+          }
         },
         "properties": {
           "defaultDataLakeStorage": {
@@ -571,13 +658,20 @@ examples:
           },
           "encryption": {
             "cmk": {
+              "kekIdentity": {
+                "userAssignedIdentity": "/subscriptions/b64d7b94-73e7-4d36-94b2-7764ea3fd74a/resourcegroups/SynapseCI/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",
+                "useSystemAssignedIdentity": false
+              },
               "key": {
                 "name": "default",
                 "keyVaultUrl": "https://vault.azure.net/keys/key1"
               }
             }
           },
-          "publicNetworkAccess": "Enabled"
+          "publicNetworkAccess": "Enabled",
+          "cspWorkspaceAdminProperties": {
+            "initialWorkspaceAdminObjectId": "6c20646f-8050-49ec-b3b1-80a0e58e454d"
+          }
         },
         "location": "East US",
         "tags": {
@@ -593,7 +687,13 @@ examples:
         "type": "Microsoft.Synapse/workspaces",
         "location": "East US",
         "identity": {
-          "type": "SystemAssigned",
+          "type": "SystemAssigned,UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1": {
+              "clientId": "ffffffff-8888-4444-8888-333333333333",
+              "principalId": "eeeeeeee-9999-4444-8888-333333333333"
+            }
+          },
           "principalId": "f4b0f1c2-xxxx-43db-xxxx-ccd99e1afd22",
           "tenantId": "72f988bf-xxxx-41af-xxxx-2d7cd011db47"
         },
@@ -642,6 +742,10 @@ examples:
           "encryption": {
             "doubleEncryptionEnabled": true,
             "cmk": {
+              "kekIdentity": {
+                "userAssignedIdentity": "/subscriptions/00000000-1111-2222-3333-444444444444/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",
+                "useSystemAssignedIdentity": false
+              },
               "status": "Consistent",
               "key": {
                 "name": "default",
@@ -662,6 +766,17 @@ examples:
         "name": "workspace1",
         "type": "Microsoft.Synapse/workspaces",
         "location": "East US",
+        "identity": {
+          "type": "SystemAssigned,UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1": {
+              "clientId": "ffffffff-8888-4444-8888-333333333333",
+              "principalId": "eeeeeeee-9999-4444-8888-333333333333"
+            }
+          },
+          "principalId": "f4b0f1c2-xxxx-43db-xxxx-ccd99e1afd22",
+          "tenantId": "72f988bf-xxxx-41af-xxxx-2d7cd011db47"
+        },
         "properties": {
           "defaultDataLakeStorage": {
             "accountUrl": "https://accountname.dfs.core.windows.net",
@@ -689,7 +804,11 @@ examples:
           "encryption": {
             "doubleEncryptionEnabled": true,
             "cmk": {
-              "status": "Updating",
+              "kekIdentity": {
+                "userAssignedIdentity": "/subscriptions/00000000-1111-2222-3333-444444444444/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",
+                "useSystemAssignedIdentity": false
+              },
+              "status": "Consistent",
               "key": {
                 "name": "default",
                 "keyVaultUrl": "https://vault.azure.net/keys/key1"

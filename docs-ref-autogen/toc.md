@@ -19504,6 +19504,11 @@
 #### [Update](support/Support-Tickets/Update.yml)
 # Synapse
 ## [Overview](../docs-ref-conceptual/synapse/index.md)
+## Azure AD Only Authentications
+### [Overview](synapse/Azure-AD-Only-Authentications.yml)
+### [Create](synapse/Azure-AD-Only-Authentications/Create.yml)
+### [Get](synapse/Azure-AD-Only-Authentications/Get.yml)
+### [List](synapse/Azure-AD-Only-Authentications/List.yml)
 ## Big Data Pools
 ### [Overview](synapse/Big-Data-Pools.yml)
 ### [Create Or Update](synapse/Big-Data-Pools/Create-Or-Update.yml)
@@ -19579,6 +19584,12 @@
 ### [Delete](synapse/Keys/Delete.yml)
 ### [Get](synapse/Keys/Get.yml)
 ### [List By Workspace](synapse/Keys/List-By-Workspace.yml)
+## Libraries
+### [Overview](synapse/Libraries.yml)
+### [List By Workspace](synapse/Libraries/List-By-Workspace.yml)
+## Library
+### [Overview](synapse/Library.yml)
+### [Get](synapse/Library/Get.yml)
 ## Operations
 ### [Overview](synapse/Operations.yml)
 ### [Check Name Availability](synapse/Operations/Check-Name-Availability.yml)
@@ -19595,6 +19606,7 @@
 ### [List](synapse/Private-Endpoint-Connections/List.yml)
 ## Private Endpoint Connections Private Link Hub
 ### [Overview](synapse/Private-Endpoint-Connections-Private-Link-Hub.yml)
+### [Get](synapse/Private-Endpoint-Connections-Private-Link-Hub/Get.yml)
 ### [List](synapse/Private-Endpoint-Connections-Private-Link-Hub/List.yml)
 ## Private Link Hub Private Link Resources
 ### [Overview](synapse/Private-Link-Hub-Private-Link-Resources.yml)
