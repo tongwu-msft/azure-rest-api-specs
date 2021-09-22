@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.deviceupdate.resourcemanager.accounts.listbyresourcegroup
-name: List By Resource Group
+uid: management.azure.com.deviceupdate.resourcemanager.privateendpointconnections.listbyaccount
+name: List By Account
 service: Device Update
-groupName: Accounts
+groupName: Private Endpoint Connections
 apiVersion: 2020-03-01-preview
-summary: Returns list of Accounts.
+summary: List all private endpoint connections in a device update account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts?api-version=2020-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}/privateEndpointConnections?api-version=2020-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,6 +24,13 @@ uriParameters:
   description: The resource group name.
   types:
   - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: Account name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(-[A-Za-z0-9]+)*$
 - name: api-version
   in: query
   isRequired: true
@@ -32,27 +39,23 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: List of Accounts.
+  description: The request was successful; the request was well-formed and received properly.
   types:
-  - uid: AccountList
+  - uid: PrivateEndpointConnectionListResult
 - name: Other Status Codes
   description: Error response describing the reason for operation failure.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: AccountList
-  description: List of Accounts.
+- name: PrivateEndpointConnectionListResult
+  description: List of private endpoint connection associated with the specified storage account
   kind: object
   properties:
-  - name: nextLink
-    description: The link used to get the next page of Accounts list.
-    types:
-    - uid: string
   - name: value
-    description: List of Accounts.
+    description: Array of private endpoint connections
     types:
-    - uid: Account
+    - uid: PrivateEndpointConnection
       isArray: true
 - name: ErrorResponse
   description: Error response
@@ -62,40 +65,23 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: Account
-  description: Device Update account details.
+- name: PrivateEndpointConnection
+  description: The Private Endpoint Connection resource.
   kind: object
   properties:
-  - name: identity
-    description: The type of identity used for the resource.
+  - name: properties.privateEndpoint
+    description: The resource of private end point.
     types:
-    - uid: Identity
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
+    types:
+    - uid: PrivateLinkServiceConnectionState
   - name: properties.provisioningState
     isReadyOnly: true
-    description: Provisioning state.
+    description: The provisioning state of the private endpoint connection resource.
     types:
-    - uid: ProvisioningState
-  - name: properties.hostName
-    isReadyOnly: true
-    description: API host name.
-    types:
-    - uid: string
-  - name: properties.publicNetworkAccess
-    description: Whether or not public network access is allowed for the container registry.
-    types:
-    - uid: PublicNetworkAccess
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: location
-    description: The geo-location where the resource lives
-    types:
-    - uid: string
+    - uid: PrivateEndpointConnectionProvisioningState
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -147,54 +133,45 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: Identity
-  description: Identity for the resource.
+- name: PrivateEndpoint
+  description: The Private Endpoint resource.
   kind: object
   properties:
-  - name: principalId
+  - name: id
     isReadyOnly: true
-    description: The principal ID of resource identity.
+    description: The ARM identifier for Private Endpoint
     types:
     - uid: string
-  - name: tenantId
-    isReadyOnly: true
-    description: The tenant ID of resource.
+- name: PrivateLinkServiceConnectionState
+  description: A collection of information about the state of the connection between service consumer and provider.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+    types:
+    - uid: PrivateEndpointServiceConnectionStatus
+  - name: description
+    description: The reason for approval/rejection of the connection.
     types:
     - uid: string
-  - name: type
-    description: The identity type.
+  - name: actionsRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
     types:
-    - uid: ResourceIdentityType
-- name: ProvisioningState
-  description: Provisioning state.
+    - uid: string
+- name: PrivateEndpointConnectionProvisioningState
+  description: The current provisioning state.
   kind: enum
   properties:
   - name: Succeeded
     types:
     - uid: string
-  - name: Deleted
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Canceled
-    types:
-    - uid: string
-  - name: Accepted
-    types:
-    - uid: string
   - name: Creating
     types:
     - uid: string
-- name: PublicNetworkAccess
-  description: Whether or not public network access is allowed for the container registry.
-  kind: enum
-  properties:
-  - name: Enabled
+  - name: Deleting
     types:
     - uid: string
-  - name: Disabled
+  - name: Failed
     types:
     - uid: string
 - name: systemData
@@ -239,14 +216,17 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: ResourceIdentityType
-  description: The identity type.
+- name: PrivateEndpointServiceConnectionStatus
+  description: The private endpoint connection status.
   kind: enum
   properties:
-  - name: SystemAssigned
+  - name: Pending
     types:
     - uid: string
-  - name: None
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
     types:
     - uid: string
 - name: createdByType
@@ -266,23 +246,28 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Gets list of Accounts
+- name: PrivateEndpointConnectionList
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts?api-version=2020-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/privateEndpointConnections?api-version=2020-03-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "nextLink": "string",
         "value": [
           {
-            "name": "contoso",
-            "location": "westus2",
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso",
-            "type": "Microsoft.DeviceUpdate/accounts",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/privateEndpointConnections/peexample01",
+            "name": "peexample01",
+            "type": "Microsoft.DeviceUpdate/accounts/privateEndpointConnections",
             "properties": {
               "provisioningState": "Succeeded",
-              "hostName": "contoso.api.adu.microsoft.com"
+              "privateEndpoint": {
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/peexample01"
+              },
+              "privateLinkServiceConnectionState": {
+                "status": "Approved",
+                "description": "Auto-Approved",
+                "actionsRequired": "None"
+              }
             }
           }
         ]
@@ -297,5 +282,5 @@ security:
   - name: user_impersonation
     description: Impersonate your user account
 metadata:
-  description: Learn more about Device Update service - Returns list of Accounts.
+  description: Learn more about Device Update service - List all private endpoint connections in a device update account.
 errorCodes: []

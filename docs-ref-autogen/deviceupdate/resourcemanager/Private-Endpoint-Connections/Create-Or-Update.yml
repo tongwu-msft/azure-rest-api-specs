@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.deviceupdate.resourcemanager.instances.create
-name: Create
+uid: management.azure.com.deviceupdate.resourcemanager.privateendpointconnections.createorupdate
+name: Create Or Update
 service: Device Update
-groupName: Instances
+groupName: Private Endpoint Connections
 apiVersion: 2020-03-01-preview
-summary: Creates or updates instance.
+summary: Update the state of specified private endpoint connection associated with the device update account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}/instances/{instanceName}?api-version=2020-03-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2020-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,13 +31,12 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[A-Za-z0-9]+(-[A-Za-z0-9]+)*$
-- name: instanceName
+- name: privateEndpointConnectionName
   in: path
   isRequired: true
-  description: Instance name.
+  description: The name of the private endpoint connection associated with the Azure resource
   types:
   - uid: string
-  pattern: ^[A-Za-z0-9]+(-[A-Za-z0-9]+)*$
 - name: api-version
   in: query
   isRequired: true
@@ -46,9 +45,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
-  description: Async operation to create or update Instance was created.
+  description: The request was successful; the operation will complete asynchronously.
   types:
-  - uid: Instance
+  - uid: PrivateEndpointConnection
 - name: Other Status Codes
   description: Error response describing the reason for operation failure.
   types:
@@ -56,48 +55,42 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.iotHubs
+  - name: properties.privateEndpoint
     in: body
-    description: List of IoT Hubs associated with the account.
+    description: The resource of private end point.
     types:
-    - uid: IotHubSettings
-      isArray: true
-  - name: properties.enableDiagnostics
-    in: body
-    description: Enables or Disables the diagnostic logs collection
-    types:
-    - uid: boolean
-  - name: tags
-    in: body
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: location
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
     in: body
     isRequired: true
-    description: The geo-location where the resource lives
+    description: A collection of information about the state of the connection between service consumer and provider.
     types:
-    - uid: string
+    - uid: PrivateLinkServiceConnectionState
 requestHeader: []
 definitions:
-- name: IotHubSettings
-  description: Device Update account integration with IoT Hub settings.
+- name: PrivateEndpoint
+  description: The Private Endpoint resource.
   kind: object
   properties:
-  - name: resourceId
-    description: IoTHub resource ID
+  - name: id
+    isReadyOnly: true
+    description: The ARM identifier for Private Endpoint
     types:
     - uid: string
-  - name: ioTHubConnectionString
-    description: IoTHub connection string.
+- name: PrivateLinkServiceConnectionState
+  description: A collection of information about the state of the connection between service consumer and provider.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+    types:
+    - uid: PrivateEndpointServiceConnectionStatus
+  - name: description
+    description: The reason for approval/rejection of the connection.
     types:
     - uid: string
-  - name: eventHubConnectionString
-    description: EventHub connection string.
+  - name: actionsRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
     types:
     - uid: string
 - name: systemData
@@ -128,41 +121,23 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: Instance
-  description: Device Update instance details.
+- name: PrivateEndpointConnection
+  description: The Private Endpoint Connection resource.
   kind: object
   properties:
+  - name: properties.privateEndpoint
+    description: The resource of private end point.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
+    types:
+    - uid: PrivateLinkServiceConnectionState
   - name: properties.provisioningState
     isReadyOnly: true
-    description: Provisioning state.
+    description: The provisioning state of the private endpoint connection resource.
     types:
-    - uid: ProvisioningState
-  - name: properties.accountName
-    isReadyOnly: true
-    description: Parent Device Update Account name which Instance belongs to.
-    types:
-    - uid: string
-  - name: properties.iotHubs
-    description: List of IoT Hubs associated with the account.
-    types:
-    - uid: IotHubSettings
-      isArray: true
-  - name: properties.enableDiagnostics
-    description: Enables or Disables the diagnostic logs collection
-    types:
-    - uid: boolean
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: location
-    description: The geo-location where the resource lives
-    types:
-    - uid: string
+    - uid: PrivateEndpointConnectionProvisioningState
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -191,6 +166,19 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: PrivateEndpointServiceConnectionStatus
+  description: The private endpoint connection status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -207,26 +195,20 @@ definitions:
   - name: Key
     types:
     - uid: string
-- name: ProvisioningState
-  description: Provisioning state.
+- name: PrivateEndpointConnectionProvisioningState
+  description: The current provisioning state.
   kind: enum
   properties:
   - name: Succeeded
     types:
     - uid: string
-  - name: Deleted
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
     types:
     - uid: string
   - name: Failed
-    types:
-    - uid: string
-  - name: Canceled
-    types:
-    - uid: string
-  - name: Accepted
-    types:
-    - uid: string
-  - name: Creating
     types:
     - uid: string
 - name: ErrorDetail
@@ -275,40 +257,35 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Creates or updates Instance
+- name: PrivateEndpointConnectionCreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue?api-version=2020-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/privateEndpointConnections/peexample01?api-version=2020-03-01-preview
     body: >-
       {
-        "location": "westus2",
         "properties": {
-          "iotHubs": [
-            {
-              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/blue-contoso-hub",
-              "ioTHubConnectionString": "string",
-              "eventHubConnectionString": "string"
-            }
-          ],
-          "enableDiagnostics": false
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Auto-Approved"
+          }
         }
       }
   responses:
   - statusCode: "201"
     body: >-
       {
-        "name": "blue",
-        "location": "westus2",
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue",
-        "type": "Microsoft.DeviceUpdate/accounts/instances",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/privateEndpointConnections/peexample01",
+        "name": "peexample01",
+        "type": "Microsoft.DeviceUpdate/accounts/privateEndpointConnections",
         "properties": {
-          "provisioningState": "Accepted",
-          "accountName": "contoso",
-          "iotHubs": [
-            {
-              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/blue-contoso-hub"
-            }
-          ],
-          "enableDiagnostics": false
+          "provisioningState": "Succeeded",
+          "privateEndpoint": {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/peexample01"
+          },
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Auto-Approved",
+            "actionsRequired": "None"
+          }
         }
       }
 security:
@@ -321,5 +298,5 @@ security:
   - name: user_impersonation
     description: Impersonate your user account
 metadata:
-  description: Learn more about Device Update service - Creates or updates instance.
+  description: Learn more about Device Update service - Update the state of specified private endpoint connection associated with the device update account.
 errorCodes: []

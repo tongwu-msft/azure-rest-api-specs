@@ -8194,6 +8194,16 @@
 ### Operations
 #### [Overview](deviceupdate/resourcemanager/Operations.yml)
 #### [List](deviceupdate/resourcemanager/Operations/List.yml)
+### Private Endpoint Connections
+#### [Overview](deviceupdate/resourcemanager/Private-Endpoint-Connections.yml)
+#### [Create Or Update](deviceupdate/resourcemanager/Private-Endpoint-Connections/Create-Or-Update.yml)
+#### [Delete](deviceupdate/resourcemanager/Private-Endpoint-Connections/Delete.yml)
+#### [Get](deviceupdate/resourcemanager/Private-Endpoint-Connections/Get.yml)
+#### [List By Account](deviceupdate/resourcemanager/Private-Endpoint-Connections/List-By-Account.yml)
+### Private Link Resources
+#### [Overview](deviceupdate/resourcemanager/Private-Link-Resources.yml)
+#### [Get](deviceupdate/resourcemanager/Private-Link-Resources/Get.yml)
+#### [List By Account](deviceupdate/resourcemanager/Private-Link-Resources/List-By-Account.yml)
 # DNS
 ## [Overview](../docs-ref-conceptual/dns/index.md)
 ## Dns Resource Reference
