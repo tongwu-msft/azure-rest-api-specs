@@ -3,13 +3,13 @@ uid: management.azure.com.synapse.workspaces.get
 name: Get
 service: Synapse
 groupName: Workspaces
-apiVersion: 2021-03-01
+apiVersion: 2021-06-01
 summary: Gets a workspace
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -135,6 +135,23 @@ definitions:
     description: Enable or Disable public network access to workspace
     types:
     - uid: WorkspacePublicNetworkAccess
+  - name: properties.cspWorkspaceAdminProperties
+    description: Initial workspace AAD admin properties for a CSP subscription
+    types:
+    - uid: CspWorkspaceAdminProperties
+  - name: properties.settings
+    isReadyOnly: true
+    description: Workspace settings
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.azureADOnlyAuthentication
+    description: Enable or Disable AzureADOnlyAuthentication on All Workspace subresource
+    types:
+    - uid: boolean
   - name: tags
     description: Resource tags.
     types:
@@ -188,6 +205,14 @@ definitions:
     description: The type of managed identity for the workspace
     types:
     - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: The user assigned managed identities.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedManagedIdentity
 - name: DataLakeStorageAccountDetails
   description: Details of the data lake storage account associated with the workspace
   kind: object
@@ -200,6 +225,14 @@ definitions:
     description: Filesystem name
     types:
     - uid: string
+  - name: resourceId
+    description: ARM resource Id of this storage account
+    types:
+    - uid: string
+  - name: createManagedPrivateEndpoint
+    description: Create managed private endpoint to this storage account or not
+    types:
+    - uid: boolean
 - name: VirtualNetworkProfile
   description: Virtual Network Profile
   kind: object
@@ -328,6 +361,14 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: CspWorkspaceAdminProperties
+  description: Initial workspace AAD admin properties for a CSP subscription
+  kind: object
+  properties:
+  - name: initialWorkspaceAdminObjectId
+    description: AAD object ID of initial workspace admin
+    types:
+    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -369,6 +410,23 @@ definitions:
   - name: SystemAssigned
     types:
     - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedManagedIdentity
+  description: User Assigned Managed Identity
+  kind: object
+  properties:
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID.
+    types:
+    - uid: string
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID.
+    types:
+    - uid: string
 - name: PrivateEndpoint
   description: Private endpoint details
   kind: object
@@ -408,6 +466,10 @@ definitions:
     description: The key object of the workspace
     types:
     - uid: WorkspaceKeyDetails
+  - name: kekIdentity
+    description: Key encryption key
+    types:
+    - uid: KekIdentityProperties
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -434,10 +496,22 @@ definitions:
     description: Workspace Key sub-resource key vault url
     types:
     - uid: string
+- name: KekIdentityProperties
+  description: Key encryption key properties
+  kind: object
+  properties:
+  - name: userAssignedIdentity
+    description: User assigned identity resource Id
+    types:
+    - uid: string
+  - name: useSystemAssignedIdentity
+    description: Boolean specifying whether to use system assigned identity or not
+    types:
+    - {}
 examples:
 - name: Get a workspace
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup1/providers/Microsoft.Synapse/workspaces/workspace1?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup1/providers/Microsoft.Synapse/workspaces/workspace1?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -496,6 +570,9 @@ examples:
             }
           ],
           "workspaceUID": "999b999q-b888-4b44-bacd-2c222cc2222d",
+          "cspWorkspaceAdminProperties": {
+            "initialWorkspaceAdminObjectId": "6c20646f-8050-49ec-b3b1-80a0e58e454d"
+          },
           "extraProperties": {
             "IsScopeEnabled": "false",
             "WorkspaceType": "Normal"

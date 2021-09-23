@@ -8194,6 +8194,16 @@
 ### Operations
 #### [Overview](deviceupdate/resourcemanager/Operations.yml)
 #### [List](deviceupdate/resourcemanager/Operations/List.yml)
+### Private Endpoint Connections
+#### [Overview](deviceupdate/resourcemanager/Private-Endpoint-Connections.yml)
+#### [Create Or Update](deviceupdate/resourcemanager/Private-Endpoint-Connections/Create-Or-Update.yml)
+#### [Delete](deviceupdate/resourcemanager/Private-Endpoint-Connections/Delete.yml)
+#### [Get](deviceupdate/resourcemanager/Private-Endpoint-Connections/Get.yml)
+#### [List By Account](deviceupdate/resourcemanager/Private-Endpoint-Connections/List-By-Account.yml)
+### Private Link Resources
+#### [Overview](deviceupdate/resourcemanager/Private-Link-Resources.yml)
+#### [Get](deviceupdate/resourcemanager/Private-Link-Resources/Get.yml)
+#### [List By Account](deviceupdate/resourcemanager/Private-Link-Resources/List-By-Account.yml)
 # DNS
 ## [Overview](../docs-ref-conceptual/dns/index.md)
 ## Dns Resource Reference
@@ -12293,6 +12303,15 @@
 #### [Get Type Definition By Name](purview/catalogdataplane/Types/Get-Type-Definition-By-Name.yml)
 #### [List Type Definition Headers](purview/catalogdataplane/Types/List-Type-Definition-Headers.yml)
 #### [Update Atlas Type Definitions](purview/catalogdataplane/Types/Update-Atlas-Type-Definitions.yml)
+## MetadataPolicy Data Plane
+### Metadata Policy
+#### [Overview](purview/metadatapolicydataplane/Metadata-Policy.yml)
+#### [Get](purview/metadatapolicydataplane/Metadata-Policy/Get.yml)
+#### [List All](purview/metadatapolicydataplane/Metadata-Policy/List-All.yml)
+#### [Update](purview/metadatapolicydataplane/Metadata-Policy/Update.yml)
+### Metadata Roles
+#### [Overview](purview/metadatapolicydataplane/Metadata-Roles.yml)
+#### [List](purview/metadatapolicydataplane/Metadata-Roles/List.yml)
 ## Scanning Data Plane
 ### Classification Rules
 #### [Overview](purview/scanningdataplane/Classification-Rules.yml)
@@ -19494,6 +19513,11 @@
 #### [Update](support/Support-Tickets/Update.yml)
 # Synapse
 ## [Overview](../docs-ref-conceptual/synapse/index.md)
+## Azure AD Only Authentications
+### [Overview](synapse/Azure-AD-Only-Authentications.yml)
+### [Create](synapse/Azure-AD-Only-Authentications/Create.yml)
+### [Get](synapse/Azure-AD-Only-Authentications/Get.yml)
+### [List](synapse/Azure-AD-Only-Authentications/List.yml)
 ## Big Data Pools
 ### [Overview](synapse/Big-Data-Pools.yml)
 ### [Create Or Update](synapse/Big-Data-Pools/Create-Or-Update.yml)
@@ -19569,6 +19593,12 @@
 ### [Delete](synapse/Keys/Delete.yml)
 ### [Get](synapse/Keys/Get.yml)
 ### [List By Workspace](synapse/Keys/List-By-Workspace.yml)
+## Libraries
+### [Overview](synapse/Libraries.yml)
+### [List By Workspace](synapse/Libraries/List-By-Workspace.yml)
+## Library
+### [Overview](synapse/Library.yml)
+### [Get](synapse/Library/Get.yml)
 ## Operations
 ### [Overview](synapse/Operations.yml)
 ### [Check Name Availability](synapse/Operations/Check-Name-Availability.yml)
@@ -19585,6 +19615,7 @@
 ### [List](synapse/Private-Endpoint-Connections/List.yml)
 ## Private Endpoint Connections Private Link Hub
 ### [Overview](synapse/Private-Endpoint-Connections-Private-Link-Hub.yml)
+### [Get](synapse/Private-Endpoint-Connections-Private-Link-Hub/Get.yml)
 ### [List](synapse/Private-Endpoint-Connections-Private-Link-Hub/List.yml)
 ## Private Link Hub Private Link Resources
 ### [Overview](synapse/Private-Link-Hub-Private-Link-Resources.yml)
@@ -20034,6 +20065,7 @@
 ### [Get](virtualnetwork/Bastion-Hosts/Get.yml)
 ### [List](virtualnetwork/Bastion-Hosts/List.yml)
 ### [List By Resource Group](virtualnetwork/Bastion-Hosts/List-By-Resource-Group.yml)
+### [Update Tags](virtualnetwork/Bastion-Hosts/Update-Tags.yml)
 ## Check Dns Name Availability
 ### [Overview](virtualnetwork/Check-Dns-Name-Availability.yml)
 ### [Check Dns Name Availability](virtualnetwork/Check-Dns-Name-Availability/Check-Dns-Name-Availability.yml)
@@ -20279,6 +20311,9 @@
 ## Service Association Links
 ### [Overview](virtualnetwork/Service-Association-Links.yml)
 ### [List](virtualnetwork/Service-Association-Links/List.yml)
+## Service Tag Information
+### [Overview](virtualnetwork/Service-Tag-Information.yml)
+### [List](virtualnetwork/Service-Tag-Information/List.yml)
 ## Service Tags
 ### [Overview](virtualnetwork/Service-Tags.yml)
 ### [List](virtualnetwork/Service-Tags/List.yml)

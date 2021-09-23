@@ -1,0 +1,249 @@
+### YamlMime:RESTOperation
+uid: policystore.purview.metadatapolicydataplane.metadataroles.list
+name: List
+service: Purview
+groupName: Metadata Roles
+apiVersion: 2021-07-01
+summary: Lists roles for Purview Account
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/policyStore/metadataRoles?api-version=2021-07-01
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The endpoint of your Purview account. Example: https://{accountName}.purview.azure.com.'
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version to use.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: MetadataRoleList
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the Metadata Policy Service
+  types:
+  - uid: ErrorResponseModel
+requestHeader: []
+definitions:
+- name: MetadataRoleList
+  description: List of Metadata roles
+  kind: object
+  properties:
+  - name: values
+    description: ''
+    types:
+    - uid: MetadataRole
+      isArray: true
+  - name: nextLink
+    description: ''
+    types:
+    - uid: string
+- name: ErrorResponseModel
+  description: The error response model for metadata policy
+  kind: object
+  properties:
+  - name: error
+    description: The error model for metadata policy
+    types:
+    - uid: ErrorModel
+- name: MetadataRole
+  kind: object
+  properties:
+  - name: id
+    description: The Id of role
+    types:
+    - uid: string
+  - name: name
+    description: The name of role
+    types:
+    - uid: string
+  - name: type
+    description: The type of role
+    types:
+    - uid: string
+  - name: properties
+    description: ''
+    types:
+    - uid: MetadataRoleProperties
+- name: ErrorModel
+  description: The error model for metadata policy
+  kind: object
+  properties:
+  - name: code
+    description: The error code
+    types:
+    - uid: string
+  - name: message
+    description: The error message
+    types:
+    - uid: string
+  - name: target
+    description: The error target
+    types:
+    - uid: string
+  - name: details
+    description: The error details
+    types:
+    - uid: ErrorModel
+      isArray: true
+- name: MetadataRoleProperties
+  kind: object
+  properties:
+  - name: provisioningState
+    description: The provisioningState of role
+    types:
+    - uid: string
+  - name: roleType
+    description: The type of role
+    types:
+    - uid: string
+  - name: friendlyName
+    description: The friendly name of role
+    types:
+    - uid: string
+  - name: description
+    description: The description of role
+    types:
+    - uid: string
+  - name: cnfCondition
+    description: The cnf Condition for a rule
+    types:
+    - uid: array
+      isArray: true
+  - name: dnfCondition
+    description: The dnf Condition for a rule
+    types:
+    - uid: array
+      isArray: true
+  - name: version
+    description: The version of role
+    types:
+    - uid: integer
+examples:
+- name: MetadataRoles_List
+  request:
+    uri: GET {Endpoint}/policyStore/metadataRoles?api-version=2021-07-01
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: x-ms-request-id
+      value: 8e58266a-de42-40d5-b3c4-c6a7e159cfba
+    body: >-
+      {
+        "values": [
+          {
+            "id": "purviewmetadatarole_builtin_data-source-administrator",
+            "name": "data-source-administrator",
+            "type": "Microsoft.Purview/role",
+            "properties": {
+              "provisioningState": "Provisioned",
+              "roleType": "BuiltIn",
+              "friendlyName": "Data Source Administrator",
+              "cnfCondition": [
+                [
+                  {
+                    "attributeName": "request.azure.dataAction",
+                    "attributeValueIncludedIn": [
+                      "Microsoft.Purview/accounts/scan/read",
+                      "Microsoft.Purview/accounts/scan/write",
+                      "Microsoft.Purview/accounts/collection/read"
+                    ]
+                  }
+                ]
+              ],
+              "version": 1
+            }
+          },
+          {
+            "id": "purviewmetadatarole_builtin_collection-administrator",
+            "name": "collection-administrator",
+            "type": "Microsoft.Purview/role",
+            "properties": {
+              "provisioningState": "Provisioned",
+              "roleType": "BuiltIn",
+              "friendlyName": "Collection Administrator",
+              "cnfCondition": [
+                [
+                  {
+                    "attributeName": "request.azure.dataAction",
+                    "attributeValueIncludedIn": [
+                      "Microsoft.Purview/accounts/collection/read",
+                      "Microsoft.Purview/accounts/collection/write"
+                    ]
+                  }
+                ]
+              ],
+              "version": 1
+            }
+          },
+          {
+            "id": "purviewmetadatarole_builtin_purview-reader",
+            "name": "purview-reader",
+            "type": "Microsoft.Purview/role",
+            "properties": {
+              "provisioningState": "Provisioned",
+              "roleType": "BuiltIn",
+              "friendlyName": "Purview Reader",
+              "cnfCondition": [
+                [
+                  {
+                    "attributeName": "request.azure.dataAction",
+                    "attributeValueIncludedIn": [
+                      "Microsoft.Purview/accounts/data/read",
+                      "Microsoft.Purview/accounts/collection/read"
+                    ]
+                  }
+                ]
+              ],
+              "version": 1
+            }
+          },
+          {
+            "id": "purviewmetadatarole_builtin_data-curator",
+            "name": "data-curator",
+            "type": "Microsoft.Purview/role",
+            "properties": {
+              "provisioningState": "Provisioned",
+              "roleType": "BuiltIn",
+              "friendlyName": "Data Curator",
+              "cnfCondition": [
+                [
+                  {
+                    "attributeName": "request.azure.dataAction",
+                    "attributeValueIncludedIn": [
+                      "Microsoft.Purview/accounts/data/read",
+                      "Microsoft.Purview/accounts/data/write",
+                      "Microsoft.Purview/accounts/collection/read"
+                    ]
+                  }
+                ]
+              ],
+              "version": 1
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Purview service - Lists roles for Purview Account
+errorCodes: []
