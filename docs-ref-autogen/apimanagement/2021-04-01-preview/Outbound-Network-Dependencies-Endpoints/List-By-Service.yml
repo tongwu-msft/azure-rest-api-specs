@@ -1,0 +1,605 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.2021-04-01-preview.outboundnetworkdependenciesendpoints.listbyservice
+name: List By Service
+service: API Management
+groupName: Outbound Network Dependencies Endpoints
+apiVersion: 2021-04-01-preview
+summary: Gets the network endpoints of all outbound dependencies of a ApiManagement service.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/outboundNetworkDependenciesEndpoints?api-version=2021-04-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: OutboundEnvironmentEndpointList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: OutboundEnvironmentEndpointList
+  description: Collection of Outbound Environment Endpoints
+  kind: object
+  properties:
+  - name: value
+    description: Collection of resources.
+    types:
+    - uid: OutboundEnvironmentEndpoint
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to next page of resources.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: error.message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: OutboundEnvironmentEndpoint
+  description: Endpoints accessed for a common purpose that the Api Management Service requires outbound network access to.
+  kind: object
+  properties:
+  - name: category
+    description: The type of service accessed by the Api Management Service, e.g., Azure Storage, Azure SQL Database, and Azure Active Directory.
+    types:
+    - uid: string
+  - name: endpoints
+    description: The endpoints that the Api Management Service reaches the service at.
+    types:
+    - uid: EndpointDependency
+      isArray: true
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+- name: EndpointDependency
+  description: A domain name that a service is reached at.
+  kind: object
+  properties:
+  - name: domainName
+    description: The domain name of the dependency.
+    types:
+    - uid: string
+  - name: endpointDetails
+    description: The Ports used when connecting to DomainName.
+    types:
+    - uid: EndpointDetail
+      isArray: true
+- name: EndpointDetail
+  description: Current TCP connectivity information from the Api Management Service to a single endpoint.
+  kind: object
+  properties:
+  - name: port
+    description: The port an endpoint is connected to.
+    types:
+    - uid: integer
+  - name: region
+    description: The region of the dependency.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementServiceGetOutboundNetworkDependenciesEndpoints
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/outboundNetworkDependenciesEndpoints?api-version=2021-04-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "category": "Azure SMTP",
+            "endpoints": [
+              {
+                "domainName": "smtpi-ch1.msn.com",
+                "endpointDetails": [
+                  {
+                    "port": 25028,
+                    "region": "West US"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "category": "Azure SQL",
+            "endpoints": [
+              {
+                "domainName": "xxxx1345234.database.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 1433,
+                    "region": "West US"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "category": "Azure Storage",
+            "endpoints": [
+              {
+                "domainName": "xxxx32storagedgfbay.blob.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxxx1362629927xt.blob.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxxx1362629927xt.table.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxxx141483183xt.blob.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxxx141483183xt.table.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxxx1949864718xt.blob.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxxx1949864718xt.table.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxxx3292114122xt.blob.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxxx3292114122xt.table.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxxx32tst4oto8t0mlesawmm.blob.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxxx32tst4oto8t0mlesawmm.file.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 445,
+                    "region": "West US"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxxx32tst4oto8t0mlesawmm.queue.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxxx32tst4oto8t0mlesawmm.table.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "category": "Azure Event Hub",
+            "endpoints": [
+              {
+                "domainName": "xxxx1362629927eh.servicebus.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  },
+                  {
+                    "port": 5671,
+                    "region": "West US"
+                  },
+                  {
+                    "port": 5672,
+                    "region": "West US"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxxx1949864718eh.servicebus.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  },
+                  {
+                    "port": 5671,
+                    "region": "West US"
+                  },
+                  {
+                    "port": 5672,
+                    "region": "West US"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxxx3292114122eh.servicebus.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  },
+                  {
+                    "port": 5671,
+                    "region": "West US"
+                  },
+                  {
+                    "port": 5672,
+                    "region": "West US"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxxx141483183eh.servicebus.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "West US"
+                  },
+                  {
+                    "port": 5671,
+                    "region": "West US"
+                  },
+                  {
+                    "port": 5672,
+                    "region": "West US"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "category": "SSL Certificate Verification",
+            "endpoints": [
+              {
+                "domainName": "ocsp.msocsp.com",
+                "endpointDetails": [
+                  {
+                    "port": 80,
+                    "region": "Global"
+                  },
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "mscrl.microsoft.com",
+                "endpointDetails": [
+                  {
+                    "port": 80,
+                    "region": "Global"
+                  },
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "crl.microsoft.com",
+                "endpointDetails": [
+                  {
+                    "port": 80,
+                    "region": "Global"
+                  },
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "crl3.digicert.com",
+                "endpointDetails": [
+                  {
+                    "port": 80,
+                    "region": "Global"
+                  },
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "ocsp.digicert.com",
+                "endpointDetails": [
+                  {
+                    "port": 80,
+                    "region": "Global"
+                  },
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "cacerts.digicert.com",
+                "endpointDetails": [
+                  {
+                    "port": 80,
+                    "region": "Global"
+                  },
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "category": "Azure Monitor",
+            "endpoints": [
+              {
+                "domainName": "gcs.ppe.monitoring.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "global.prod.microsoftmetrics.com",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxx3.prod.microsoftmetrics.com",
+                "endpointDetails": [
+                  {
+                    "port": 1886,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxx3-red.prod.microsoftmetrics.com",
+                "endpointDetails": [
+                  {
+                    "port": 1886,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "xxx3-black.prod.microsoftmetrics.com",
+                "endpointDetails": [
+                  {
+                    "port": 1886,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "gcs.ppe.warm.ingestion.monitoring.azure.com",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "metrichost23.prod.microsoftmetrics.com",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "metrichost23-red.prod.microsoftmetrics.com",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "metrichost23-black.prod.microsoftmetrics.com",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "category": "Portal Captcha",
+            "endpoints": [
+              {
+                "domainName": "client.xxx.live.com",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "partner.xxx.live.com",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "category": "Azure Active Directory",
+            "endpoints": [
+              {
+                "domainName": "login.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "graph.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              },
+              {
+                "domainName": "login.microsoftonline.com",
+                "endpointDetails": [
+                  {
+                    "port": 443,
+                    "region": "Global"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about API Management service - Gets the network endpoints of all outbound dependencies of a ApiManagement service.
+errorCodes: []
