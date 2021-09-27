@@ -156,7 +156,7 @@ The following tables describe the permissions necessary for an Azure AD user, gr
 | [Set Blob Metadata](set-blob-metadata.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 | [Set Blob Tags](set-blob-tags.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/tags/write |
 | [Get Blob Tags](get-blob-tags.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/tags/read |
-| [Find Blob by Tags](find-blob-by-tags.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/filter/action |
+| [Find Blob by Tags](find-blobs-by-tags.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/filter/action |
 | [Lease Blob](lease-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 | [Snapshot Blob](snapshot-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write or <br/>Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action |
 | [Copy Blob](copy-blob.md) | For destination blob: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write or Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action (when writing a new blob to the destination)<br/>For source blob in the same storage account: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read<br/>For source blob in a different storage account: Available as anonymous, or include valid SAS token |
