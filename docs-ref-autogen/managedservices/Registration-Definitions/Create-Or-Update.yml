@@ -3,26 +3,26 @@ uid: management.azure.com.managedservices.registrationdefinitions.createorupdate
 name: Create Or Update
 service: Managed Services
 groupName: Registration Definitions
-apiVersion: 2019-09-01
+apiVersion: 2020-02-01-preview
 summary: Creates or updates a registration definition.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}?api-version=2019-09-01
+- content: PUT https://management.azure.com/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}?api-version=2020-02-01-preview
 uriParameters:
 - name: scope
   in: path
   isRequired: true
   skipUrlEncoding: true
-  description: Scope of the resource.
+  description: The scope of the resource.
   types:
   - uid: string
 - name: registrationDefinitionId
   in: path
   isRequired: true
-  description: Guid of the registration definition.
+  description: The GUID of the registration definition.
   types:
   - uid: string
 - name: api-version
@@ -41,7 +41,7 @@ responses:
   types:
   - uid: RegistrationDefinition
 - name: Other Status Codes
-  description: Error response describing why the operation failed.
+  description: The error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestBody:
@@ -49,92 +49,97 @@ requestBody:
   parameters:
   - name: properties
     in: body
-    description: Properties of a registration definition.
+    description: The properties of a registration definition.
     types:
     - uid: RegistrationDefinitionProperties
   - name: plan
     in: body
-    description: Plan details for the managed services.
+    description: The details for the Managed Services offer’s plan in Azure Marketplace.
     types:
     - uid: Plan
 requestHeader: []
 definitions:
 - name: RegistrationDefinitionProperties
-  description: Properties of a registration definition.
+  description: The properties of a registration definition.
   kind: object
   properties:
   - name: description
-    description: Description of the registration definition.
+    description: The description of the registration definition.
     types:
     - uid: string
   - name: authorizations
-    description: Authorization tuple containing principal id of the user/security group or service principal and id of the build-in role.
+    description: The collection of authorization objects describing the access Azure Active Directory principals in the managedBy tenant will receive on the delegated resource in the managed tenant.
     types:
     - uid: Authorization
       isArray: true
+  - name: eligibleAuthorizations
+    description: The collection of eligible authorization objects describing the just-in-time access Azure Active Directory principals in the managedBy tenant will receive on the delegated resource in the managed tenant.
+    types:
+    - uid: EligibleAuthorization
+      isArray: true
   - name: registrationDefinitionName
-    description: Name of the registration definition.
+    description: The name of the registration definition.
     types:
     - uid: string
   - name: managedByTenantId
-    description: Id of the managedBy tenant.
+    description: The identifier of the managedBy tenant.
     types:
     - uid: string
   - name: provisioningState
     isReadyOnly: true
-    description: Current state of the registration definition.
+    description: The current provisioning state of the registration definition.
     types:
     - uid: ProvisioningState
   - name: managedByTenantName
     isReadyOnly: true
-    description: Name of the managedBy tenant.
+    description: The name of the managedBy tenant.
     types:
     - uid: string
 - name: Plan
-  description: Plan details for the managed services.
+  description: The details for the Managed Services offer’s plan in Azure Marketplace.
   kind: object
   properties:
   - name: name
-    description: The plan name.
+    description: Azure Marketplace plan name.
     types:
     - uid: string
   - name: publisher
-    description: The publisher ID.
+    description: Azure Marketplace publisher ID.
     types:
     - uid: string
   - name: product
-    description: The product code.
+    description: Azure Marketplace product code.
     types:
     - uid: string
   - name: version
-    description: The plan's version.
+    description: Azure Marketplace plan's version.
     types:
     - uid: string
 - name: RegistrationDefinition
-  description: Registration definition.
+  description: The registration definition.
   kind: object
   properties:
   - name: properties
-    description: Properties of a registration definition.
+    description: The properties of a registration definition.
     types:
     - uid: RegistrationDefinitionProperties
   - name: plan
-    description: Plan details for the managed services.
+    description: The details for the Managed Services offer’s plan in Azure Marketplace.
     types:
     - uid: Plan
   - name: id
     isReadyOnly: true
-    description: Fully qualified path of the registration definition.
+    description: The fully qualified path of the registration definition.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Type of the resource.
+    description: The type of the Azure resource (Microsoft.ManagedServices/registrationDefinitions).
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Name of the registration definition.
+    description: The name of the registration definition.
     types:
     - uid: string
 - name: ErrorResponse
@@ -146,28 +151,48 @@ definitions:
     types:
     - uid: ErrorDefinition
 - name: Authorization
-  description: Authorization tuple containing principal Id (of user/service principal/security group) and role definition id.
+  description: The Azure Active Directory principal identifier and Azure built-in role that describes the access the principal will receive on the delegated resource in the managed tenant.
   kind: object
   properties:
   - name: principalId
-    description: Principal Id of the security group/service principal/user that would be assigned permissions to the projected subscription
+    description: The identifier of the Azure Active Directory principal.
     types:
     - uid: string
   - name: principalIdDisplayName
-    description: Display name of the principal Id.
+    description: The display name of the Azure Active Directory principal.
     types:
     - uid: string
   - name: roleDefinitionId
-    description: The role definition identifier. This role will define all the permissions that the security group/service principal/user must have on the projected subscription. This role cannot be an owner role.
+    description: The identifier of the Azure built-in role that defines the permissions that the Azure Active Directory principal will have on the projected scope.
     types:
     - uid: string
   - name: delegatedRoleDefinitionIds
-    description: The delegatedRoleDefinitionIds field is required when the roleDefinitionId refers to the User Access Administrator Role. It is the list of role definition ids which define all the permissions that the user in the authorization can assign to other security groups/service principals/users.
+    description: The delegatedRoleDefinitionIds field is required when the roleDefinitionId refers to the User Access Administrator Role. It is the list of role definition ids which define all the permissions that the user in the authorization can assign to other principals.
     types:
     - uid: string
       isArray: true
+- name: EligibleAuthorization
+  description: The Azure Active Directory principal identifier, Azure built-in role, and just-in-time access policy that describes the just-in-time access the principal will receive on the delegated resource in the managed tenant.
+  kind: object
+  properties:
+  - name: principalId
+    description: The identifier of the Azure Active Directory principal.
+    types:
+    - uid: string
+  - name: principalIdDisplayName
+    description: The display name of the Azure Active Directory principal.
+    types:
+    - uid: string
+  - name: roleDefinitionId
+    description: The identifier of the Azure built-in role that defines the permissions that the Azure Active Directory principal will have on the projected scope.
+    types:
+    - uid: string
+  - name: justInTimeAccessPolicy
+    description: The just-in-time access policy setting.
+    types:
+    - uid: JustInTimeAccessPolicy
 - name: ProvisioningState
-  description: Current state of the registration definition.
+  description: The current provisioning state of the registration definition.
   kind: enum
   properties:
   - name: NotSpecified
@@ -207,26 +232,65 @@ definitions:
     types:
     - uid: string
 - name: ErrorDefinition
-  description: Error response indicates Azure Resource Manager is not able to process the incoming request. The reason is provided in the error message.
+  description: The error response indicating why the incoming request wasn’t able to be processed
   kind: object
   properties:
   - name: code
-    description: Error code.
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: Error message indicating why the operation failed.
+    description: The error message indicating why the operation failed.
     types:
     - uid: string
   - name: details
-    description: Internal error details.
+    description: The internal error details.
     types:
     - uid: ErrorDefinition
       isArray: true
+- name: JustInTimeAccessPolicy
+  description: Just-in-time access policy setting.
+  kind: object
+  properties:
+  - name: multiFactorAuthProvider
+    description: The multi-factor authorization provider to be used for just-in-time access requests.
+    types:
+    - uid: MultiFactorAuthProvider
+  - name: maximumActivationDuration
+    description: The maximum access duration in ISO 8601 format for just-in-time access requests.
+    types:
+    - uid: string
+  - name: managedByTenantApprovers
+    description: The list of managedByTenant approvers for the eligible authorization.
+    types:
+    - uid: EligibleApprover
+      isArray: true
+- name: MultiFactorAuthProvider
+  description: The multi-factor authorization provider to be used for just-in-time access requests.
+  kind: enum
+  properties:
+  - name: Azure
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: EligibleApprover
+  description: Defines the Azure Active Directory principal that can approve any just-in-time access requests by the principal defined in the EligibleAuthorization.
+  kind: object
+  properties:
+  - name: principalId
+    description: The identifier of the Azure Active Directory principal.
+    types:
+    - uid: string
+  - name: principalIdDisplayName
+    description: The display name of the Azure Active Directory principal.
+    types:
+    - uid: string
 examples:
 - name: Put Registration Definition
   request:
-    uri: PUT https://management.azure.com/subscription/0afefe50-734e-4610-8a82-a144ahf49dea/providers/Microsoft.ManagedServices/registrationDefinitions/26c128c2-fefa-4340-9bb1-6e081c90ada2?api-version=2019-09-01
+    uri: PUT https://management.azure.com/subscription/0afefe50-734e-4610-8a82-a144ahf49dea/providers/Microsoft.ManagedServices/registrationDefinitions/26c128c2-fefa-4340-9bb1-6e081c90ada2?api-version=2020-02-01-preview
     body: >-
       {
         "properties": {
@@ -246,6 +310,23 @@ examples:
               "delegatedRoleDefinitionIds": [
                 "b24988ac-6180-42a0-ab88-20f7382dd24c"
               ]
+            }
+          ],
+          "eligibleAuthorizations": [
+            {
+              "principalId": "3e0ed8c6-e902-4fc5-863c-e3ddbb2ae2a2",
+              "principalIdDisplayName": "Support User",
+              "roleDefinitionId": "ae349356-3a1b-4a5e-921d-050484c6347e",
+              "justInTimeAccessPolicy": {
+                "multiFactorAuthProvider": "Azure",
+                "maximumActivationDuration": "PT8H",
+                "managedByTenantApprovers": [
+                  {
+                    "principalId": "d9b22cd6-6407-43cc-8c60-07c56df0b51a",
+                    "principalIdDisplayName": "Approver Group"
+                  }
+                ]
+              }
             }
           ]
         },
@@ -277,6 +358,23 @@ examples:
               "delegatedRoleDefinitionIds": [
                 "b24988ac-6180-42a0-ab88-20f7382dd24c"
               ]
+            }
+          ],
+          "eligibleAuthorizations": [
+            {
+              "justInTimeAccessPolicy": {
+                "multiFactorAuthProvider": "Azure",
+                "maximumActivationDuration": "PT8H",
+                "managedByTenantApprovers": [
+                  {
+                    "principalId": "d9b22cd6-6407-43cc-8c60-07c56df0b51a",
+                    "principalIdDisplayName": "Approver Group"
+                  }
+                ]
+              },
+              "principalId": "3e0ed8c6-e902-4fc5-863c-e3ddbb2ae2a2",
+              "principalIdDisplayName": "Support User",
+              "roleDefinitionId": "ae349356-3a1b-4a5e-921d-050484c6347e"
             }
           ],
           "provisioningState": "Succeeded",
@@ -314,6 +412,23 @@ examples:
               ]
             }
           ],
+          "eligibleAuthorizations": [
+            {
+              "justInTimeAccessPolicy": {
+                "multiFactorAuthProvider": "Azure",
+                "maximumActivationDuration": "PT8H",
+                "managedByTenantApprovers": [
+                  {
+                    "principalId": "d9b22cd6-6407-43cc-8c60-07c56df0b51a",
+                    "principalIdDisplayName": "Approver Group"
+                  }
+                ]
+              },
+              "principalId": "3e0ed8c6-e902-4fc5-863c-e3ddbb2ae2a2",
+              "principalIdDisplayName": "Support User",
+              "roleDefinitionId": "ae349356-3a1b-4a5e-921d-050484c6347e"
+            }
+          ],
           "provisioningState": "Succeeded",
           "managedByTenantName": "Test Tenant"
         },
@@ -330,7 +445,7 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow
+  description: The Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
