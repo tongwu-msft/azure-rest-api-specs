@@ -3,7 +3,7 @@ title: Authorize with Azure Active Directory (REST API) - Azure Storage
 description: Azure Storage provides integration with Azure Active Directory (Azure AD) for identity-based authorization of requests to the Blob, Queue and Table services. With Azure AD, you can use role-based access control (RBAC) to grant access to your Azure Storage resources to users, groups, or applications.
 author: tamram
 
-ms.date: 07/08/2021
+ms.date: 09/27/2021
 ms.author: tamram
 ms.service: storage
 ms.topic: reference
@@ -154,6 +154,9 @@ The following tables describe the permissions necessary for an Azure AD user, gr
 | [Set Blob Properties](set-blob-properties.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 | [Get Blob Metadata](get-blob-metadata.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read |
 | [Set Blob Metadata](set-blob-metadata.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
+| [Set Blob Tags](set-blob-tags.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/tags/write |
+| [Get Blob Tags](get-blob-tags.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/tags/read |
+| [Find Blob by Tags](find-blob-by-tags.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/filter/action |
 | [Lease Blob](lease-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 | [Snapshot Blob](snapshot-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write or <br/>Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action |
 | [Copy Blob](copy-blob.md) | For destination blob: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write or Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action (when writing a new blob to the destination)<br/>For source blob in the same storage account: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read<br/>For source blob in a different storage account: Available as anonymous, or include valid SAS token |
