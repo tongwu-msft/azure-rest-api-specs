@@ -3,8 +3,8 @@ title: Azure Retail Prices REST API overview
 description: Provides operations to programmatically get Azure service retail prices.
 author: bandersmsft
 ms.author: banders
-ms.reviewer: mumami
-ms.date: 04/07/2021
+ms.reviewer: minminx
+ms.date: 09/27/2021
 ms.topic: reference
 ms.service: cost-management-billing
 ms.subservice: cost-management
@@ -137,6 +137,13 @@ Here's a sample response with a non-USD currency.
 }
 ```
 
+## API response pagination
+
+The API response provides pagination. For each API request, a maximum of 100 records are returned. At the end of the API response, it has the link to next page. For example: 
+
+```json
+"NextPageLink": https://prices.azure.com:443/api/retail/prices?$fliter=serviceName%20eq%20%27Virtual%20Machines%27&$skip=100
+```
 
 ## API property details
 
