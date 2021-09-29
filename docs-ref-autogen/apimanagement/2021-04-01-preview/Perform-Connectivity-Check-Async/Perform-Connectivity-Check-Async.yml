@@ -1,0 +1,526 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.2021-04-01-preview.performconnectivitycheckasync.performconnectivitycheckasync
+name: Perform Connectivity Check Async
+service: API Management
+groupName: Perform Connectivity Check Async
+apiVersion: 2021-04-01-preview
+summary: Performs a connectivity check between the API Management service and a given destination, and returns metrics for the connection, as well as errors encountered while trying to establish it.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/connectivityCheck?api-version=2021-04-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Request was accepted and is currently running. Location header contains the URL where the status of the long running operation can be checked and the result eventually retrieved.
+- name: 200 OK
+  description: Connectivity Check Request was completed.
+  types:
+  - uid: ConnectivityCheckResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: source
+    in: body
+    isRequired: true
+    description: Definitions about the connectivity check origin.
+    types:
+    - uid: Source
+  - name: destination
+    in: body
+    isRequired: true
+    description: The connectivity check operation destination.
+    types:
+    - uid: Destination
+  - name: preferredIPVersion
+    in: body
+    description: The IP version to be used. Only IPv4 is supported for now.
+    types:
+    - uid: PreferredIPVersion
+  - name: protocol
+    in: body
+    description: The request's protocol. Specific protocol configuration can be available based on this selection. The specified destination address must be coherent with this value.
+    types:
+    - uid: ConnectivityCheckProtocol
+  - name: protocolConfiguration
+    in: body
+    description: Protocol-specific configuration.
+    types:
+    - uid: ProtocolConfiguration
+requestHeader: []
+definitions:
+- name: Source
+  description: Definitions about the connectivity check origin.
+  kind: object
+  properties:
+  - name: region
+    description: The API Management service region from where to start the connectivity check operation.
+    types:
+    - uid: string
+  - name: instance
+    description: The particular VMSS instance from which to fire the request.
+    types:
+    - uid: integer
+- name: Destination
+  description: The connectivity check operation destination.
+  kind: object
+  properties:
+  - name: address
+    description: Destination address. Can either be an IP address or a FQDN.
+    types:
+    - uid: string
+  - name: port
+    description: Destination port.
+    types:
+    - uid: integer
+- name: ProtocolConfiguration
+  description: Protocol-specific configuration.
+  kind: object
+  properties:
+  - name: HTTPConfiguration
+    description: Configuration for HTTP or HTTPS requests.
+    types:
+    - uid: HTTPConfiguration
+- name: ConnectivityCheckResponse
+  description: Information on the connectivity status.
+  kind: object
+  properties:
+  - name: hops
+    isReadyOnly: true
+    description: List of hops between the source and the destination.
+    types:
+    - uid: ConnectivityHop
+      isArray: true
+  - name: connectionStatus
+    isReadyOnly: true
+    description: The connection status.
+    types:
+    - uid: ConnectionStatus
+  - name: avgLatencyInMs
+    isReadyOnly: true
+    description: Average latency in milliseconds.
+    types:
+    - uid: integer
+  - name: minLatencyInMs
+    isReadyOnly: true
+    description: Minimum latency in milliseconds.
+    types:
+    - uid: integer
+  - name: maxLatencyInMs
+    isReadyOnly: true
+    description: Maximum latency in milliseconds.
+    types:
+    - uid: integer
+  - name: probesSent
+    isReadyOnly: true
+    description: Total number of probes sent.
+    types:
+    - uid: integer
+  - name: probesFailed
+    isReadyOnly: true
+    description: Number of failed probes.
+    types:
+    - uid: integer
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: error.message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: ConnectivityCheckRequest
+  description: A request to perform the connectivity check operation on a API Management service.
+  kind: object
+  properties:
+  - name: source
+    description: Definitions about the connectivity check origin.
+    types:
+    - uid: Source
+  - name: destination
+    description: The connectivity check operation destination.
+    types:
+    - uid: Destination
+  - name: preferredIPVersion
+    description: The IP version to be used. Only IPv4 is supported for now.
+    types:
+    - uid: PreferredIPVersion
+  - name: protocol
+    description: The request's protocol. Specific protocol configuration can be available based on this selection. The specified destination address must be coherent with this value.
+    types:
+    - uid: ConnectivityCheckProtocol
+  - name: protocolConfiguration
+    description: Protocol-specific configuration.
+    types:
+    - uid: ProtocolConfiguration
+- name: HTTPConfiguration
+  description: Configuration for HTTP or HTTPS requests.
+  kind: object
+  properties:
+  - name: method
+    description: The HTTP method to be used.
+    types:
+    - uid: Method
+  - name: validStatusCodes
+    description: List of HTTP status codes considered valid for the request response.
+    types:
+    - uid: integer
+      isArray: true
+  - name: headers
+    description: List of headers to be included in the request.
+    types:
+    - uid: HTTPHeader
+      isArray: true
+- name: ConnectivityHop
+  description: Information about a hop between the source and the destination.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of the hop.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The ID of the hop.
+    types:
+    - uid: string
+  - name: address
+    isReadyOnly: true
+    description: The IP address of the hop.
+    types:
+    - uid: string
+  - name: resourceId
+    isReadyOnly: true
+    description: The ID of the resource corresponding to this hop.
+    types:
+    - uid: string
+  - name: nextHopIds
+    isReadyOnly: true
+    description: List of next hop identifiers.
+    types:
+    - uid: string
+      isArray: true
+  - name: issues
+    isReadyOnly: true
+    description: List of issues.
+    types:
+    - uid: ConnectivityIssue
+      isArray: true
+- name: ConnectionStatus
+  description: The connection status.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Connected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+  - name: Degraded
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+- name: PreferredIPVersion
+  description: The IP version to be used. Only IPv4 is supported for now.
+  kind: enum
+  properties:
+  - name: IPv4
+    types:
+    - uid: string
+- name: ConnectivityCheckProtocol
+  description: The request's protocol. Specific protocol configuration can be available based on this selection. The specified destination address must be coherent with this value.
+  kind: enum
+  properties:
+  - name: TCP
+    types:
+    - uid: string
+  - name: HTTP
+    types:
+    - uid: string
+  - name: HTTPS
+    types:
+    - uid: string
+- name: Method
+  description: The HTTP method to be used.
+  kind: enum
+  properties:
+  - name: GET
+    types:
+    - uid: string
+  - name: POST
+    types:
+    - uid: string
+- name: HTTPHeader
+  description: HTTP header and it's value.
+  kind: object
+  properties:
+  - name: name
+    description: Header name.
+    types:
+    - uid: string
+  - name: value
+    description: Header value.
+    types:
+    - uid: string
+- name: ConnectivityIssue
+  description: Information about an issue encountered in the process of checking for connectivity.
+  kind: object
+  properties:
+  - name: origin
+    isReadyOnly: true
+    description: The origin of the issue.
+    types:
+    - uid: Origin
+  - name: severity
+    isReadyOnly: true
+    description: The severity of the issue.
+    types:
+    - uid: Severity
+  - name: type
+    isReadyOnly: true
+    description: The type of issue.
+    types:
+    - uid: IssueType
+  - name: context
+    isReadyOnly: true
+    description: Provides additional context on the issue.
+    types:
+    - uid: object
+      isArray: true
+- name: Origin
+  description: The origin of the issue.
+  kind: enum
+  properties:
+  - name: Local
+    types:
+    - uid: string
+  - name: Inbound
+    types:
+    - uid: string
+  - name: Outbound
+    types:
+    - uid: string
+- name: Severity
+  description: The severity of the issue.
+  kind: enum
+  properties:
+  - name: Error
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+- name: IssueType
+  description: The type of issue.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: AgentStopped
+    types:
+    - uid: string
+  - name: GuestFirewall
+    types:
+    - uid: string
+  - name: DnsResolution
+    types:
+    - uid: string
+  - name: SocketBind
+    types:
+    - uid: string
+  - name: NetworkSecurityRule
+    types:
+    - uid: string
+  - name: UserDefinedRoute
+    types:
+    - uid: string
+  - name: PortThrottled
+    types:
+    - uid: string
+  - name: Platform
+    types:
+    - uid: string
+examples:
+- name: TCP Connectivity Check
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/connectivityCheck?api-version=2021-04-01-preview
+    body: >-
+      {
+        "source": {
+          "region": "northeurope"
+        },
+        "destination": {
+          "address": "8.8.8.8",
+          "port": 53
+        },
+        "preferredIPVersion": "IPv4"
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/connectivityCheck/operationresults/bmljb2xhLW5ldHdvcmt3YXRjaGVyNF9Db25uZWN0aXRpdml0eUNoZWNrXzE2MmExNmZl?api-version=2021-04-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "hops": [
+          {
+            "type": "Source",
+            "id": "7dbbe7aa-60ba-4650-831e-63d775d38e9e",
+            "address": "10.1.1.4",
+            "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+            "nextHopIds": [
+              "75c8d819-b208-4584-a311-1aa45ce753f9"
+            ],
+            "issues": []
+          },
+          {
+            "type": "Internet",
+            "id": "75c8d819-b208-4584-a311-1aa45ce753f9",
+            "address": "8.8.8.8",
+            "nextHopIds": [],
+            "issues": []
+          }
+        ],
+        "connectionStatus": "Connected",
+        "avgLatencyInMs": 1,
+        "minLatencyInMs": 1,
+        "maxLatencyInMs": 4,
+        "probesSent": 100,
+        "probesFailed": 0
+      }
+- name: HTTP Connectivity Check
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/connectivityCheck?api-version=2021-04-01-preview
+    body: >-
+      {
+        "source": {
+          "region": "northeurope"
+        },
+        "destination": {
+          "address": "https://microsoft.com",
+          "port": 3306
+        },
+        "protocol": "HTTPS",
+        "protocolConfiguration": {
+          "HTTPConfiguration": {
+            "method": "GET",
+            "validStatusCodes": [
+              200,
+              204
+            ],
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "Bearer myPreciousToken"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/connectivityCheck/operationresults/bmljb2xhLW5ldHdvcmt3YXRjaGVyNF9Db25uZWN0aXRpdml0eUNoZWNrXzE2MmExNmZl?api-version=2021-04-01-preview
+  - statusCode: "200"
+    body: >-
+      {
+        "hops": [
+          {
+            "type": "Source",
+            "id": "c60e2296-5ebc-48cc-80e8-7e6d2981e7b2",
+            "address": "20.82.216.48",
+            "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1",
+            "nextHopIds": [
+              "26aa44e7-04f1-462f-aa5d-5951957b5650"
+            ],
+            "issues": []
+          },
+          {
+            "type": "Internet",
+            "id": "26aa44e7-04f1-462f-aa5d-5951957b5650",
+            "address": "40.113.200.201",
+            "nextHopIds": [],
+            "issues": []
+          }
+        ],
+        "connectionStatus": "Reachable",
+        "avgLatencyInMs": 260,
+        "minLatencyInMs": 250,
+        "maxLatencyInMs": 281,
+        "probesSent": 3,
+        "probesFailed": 0
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Performs a connectivity check between the API Management service and a given destination, and returns metrics for the connection, as well as errors encountered while trying to establish it.
+errorCodes: []
