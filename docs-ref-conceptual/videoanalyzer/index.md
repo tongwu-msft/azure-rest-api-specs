@@ -14,10 +14,12 @@ Azure Video Analyzer provides a platform to build intelligent video applications
 
 |Operation Group | Description |
 |----------------|-------------|
-| [Access Policies](xref:management.azure.com.videoanalyzers.accesspolicies) | Operations for managing Access Policies on video resources. |
-| [Edge Modules](xref:management.azure.com.videoanalyzers.edgemodules) | Operations for managing edge modules associated with a Video Analyzer account. |
-| [Video Analyzers](xref:management.azure.com.videoanalyzers.videoanalyzers) | Operations for managing a Video Analyzer account. |
-| [Videos](xref:management.azure.com.videoanalyzers.videos) | Operations for managing video resources. |
+| [Access Policies](/rest/api/videoanalyzer/access-policies) | Operations for managing Access Policies on video resources. |
+| [Edge Modules](/rest/api/videoanalyzer/edge-modules) | Operations for managing edge modules associated with a Video Analyzer account. |
+| [Locations](/rest/api/videoanalyzer/locations) | Operations for checking the Video Analyzer resource name. |
+| [Operations](/rest/api/videoanalyzer/operations) | Operations for managing list all the Media operations. |
+| [Video Analyzers](/rest/api/videoanalyzer/video-analyzers) | Operations for managing a Video Analyzer account. |
+| [Videos](/rest/api/videoanalyzer/videos) | Operations for managing video resources. |
 
 ## See Also
 
