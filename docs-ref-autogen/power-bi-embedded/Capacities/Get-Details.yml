@@ -3,14 +3,14 @@ uid: management.azure.com.power-bi-embedded.capacities.getdetails
 name: Get Details
 service: Power BI Embedded
 groupName: Capacities
-apiVersion: 2017-10-01
+apiVersion: 2021-01-01
 summary: Gets details about the specified dedicated capacity.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}?api-version=2017-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -53,6 +53,10 @@ definitions:
   description: Represents an instance of a Dedicated Capacity resource.
   kind: object
   properties:
+  - name: sku
+    description: The SKU of the PowerBI Dedicated capacity resource.
+    types:
+    - uid: CapacitySku
   - name: properties.state
     isReadyOnly: true
     description: The current state of PowerBI Dedicated resource. The state is to indicate more states outside of resource provisioning.
@@ -62,7 +66,7 @@ definitions:
     isReadyOnly: true
     description: The current deployment state of PowerBI Dedicated resource. The provisioningState is to indicate states for resource provisioning.
     types:
-    - uid: ProvisioningState
+    - uid: CapacityProvisioningState
   - name: id
     isReadyOnly: true
     description: An identifier that represents the PowerBI Dedicated resource.
@@ -82,10 +86,6 @@ definitions:
     description: Location of the PowerBI Dedicated resource.
     types:
     - uid: string
-  - name: sku
-    description: The SKU of the PowerBI Dedicated resource.
-    types:
-    - uid: ResourceSku
   - name: tags
     description: Key-value pairs of additional resource provisioning properties.
     types:
@@ -94,15 +94,18 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: systemData
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
   - name: properties.administration
     description: A collection of Dedicated capacity administrators
     types:
     - uid: DedicatedCapacityAdministrators
   - name: properties.mode
-    isReadyOnly: true
     description: The capacity mode.
     types:
-    - uid: string
+    - uid: Mode
 - name: ErrorResponse
   description: Describes the format of Error response.
   kind: object
@@ -111,6 +114,18 @@ definitions:
     description: The error object
     types:
     - uid: Error
+- name: CapacitySku
+  description: Represents the SKU name and Azure pricing tier for PowerBI Dedicated capacity resource.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the SKU level.
+    types:
+    - uid: string
+  - name: tier
+    description: The name of the Azure pricing tier to which the SKU applies.
+    types:
+    - uid: CapacitySkuTier
 - name: State
   description: The current state of PowerBI Dedicated resource. The state is to indicate more states outside of resource provisioning.
   kind: enum
@@ -151,7 +166,7 @@ definitions:
   - name: Scaling
     types:
     - uid: string
-- name: ProvisioningState
+- name: CapacityProvisioningState
   description: The current deployment state of PowerBI Dedicated resource. The provisioningState is to indicate states for resource provisioning.
   kind: enum
   properties:
@@ -191,18 +206,34 @@ definitions:
   - name: Scaling
     types:
     - uid: string
-- name: ResourceSku
-  description: Represents the SKU name and Azure pricing tier for PowerBI Dedicated resource.
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
   kind: object
   properties:
-  - name: name
-    description: Name of the SKU level.
+  - name: createdBy
+    description: An identifier for the identity that created the resource
     types:
     - uid: string
-  - name: tier
-    description: The name of the Azure pricing tier to which the SKU applies.
+  - name: createdByType
+    description: The type of identity that created the resource
     types:
-    - uid: SkuTier
+    - uid: IdentityType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC)
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: An identifier for the identity that last modified the resource
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource
+    types:
+    - uid: IdentityType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: DedicatedCapacityAdministrators
   description: An array of administrator user identities
   kind: object
@@ -212,6 +243,16 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: Mode
+  description: The capacity mode.
+  kind: enum
+  properties:
+  - name: Gen1
+    types:
+    - uid: string
+  - name: Gen2
+    types:
+    - uid: string
 - name: Error
   description: The error object
   kind: object
@@ -224,17 +265,39 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-- name: SkuTier
+- name: CapacitySkuTier
   description: The name of the Azure pricing tier to which the SKU applies.
   kind: enum
   properties:
   - name: PBIE_Azure
     types:
     - uid: string
+  - name: Premium
+    types:
+    - uid: string
+  - name: AutoPremiumHost
+    types:
+    - uid: string
+- name: IdentityType
+  description: The type of identity that created/modified the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: Get details of a capacity
   request:
-    uri: GET https://management.azure.com/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.PowerBIDedicated/capacities/azsdktest?api-version=2017-10-01
+    uri: GET https://management.azure.com/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.PowerBIDedicated/capacities/azsdktest?api-version=2021-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -255,7 +318,15 @@ examples:
           "name": "A1",
           "tier": "PBIE_Azure"
         },
-        "tags": {}
+        "tags": {},
+        "systemData": {
+          "createdBy": "user1",
+          "createdByType": "User",
+          "createdAt": "2021-01-01T00:00:19.1234567Z",
+          "lastModifiedBy": "user2",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-01-01T00:00:19.1234567Z"
+        }
       }
 security:
 - name: azure_auth
