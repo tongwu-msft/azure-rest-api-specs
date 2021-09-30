@@ -1,0 +1,236 @@
+### YamlMime:RESTOperation
+uid: quantum.azure.com.azurequantum.dataplane.providers.getstatus
+name: Get Status
+service: Azure Quantum
+groupName: Providers
+apiVersion: 2021-05-06-preview
+summary: Get provider status.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://quantum.azure.com/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/providerStatus
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure resource group.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: Name of the workspace.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: ProviderStatusList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: RestError
+requestHeader: []
+definitions:
+- name: ProviderStatusList
+  description: Providers status.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Providers status.
+    types:
+    - uid: ProviderStatus
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to the next page of results.
+    types:
+    - uid: string
+- name: RestError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Azure.
+    types:
+    - uid: ErrorData
+- name: ProviderStatus
+  description: Providers status.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Provider id.
+    types:
+    - uid: string
+  - name: currentAvailability
+    isReadyOnly: true
+    description: Provider availability.
+    types:
+    - uid: ProviderAvailability
+  - name: targets
+    isReadyOnly: true
+    description: Target status.
+    types:
+    - uid: TargetStatus
+      isArray: true
+- name: ErrorData
+  description: An error response from Azure.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for displaying in a user interface.
+    types:
+    - uid: string
+- name: ProviderAvailability
+  description: Provider availability.
+  kind: enum
+  properties:
+  - name: Available
+    types:
+    - uid: string
+  - name: Degraded
+    types:
+    - uid: string
+  - name: Unavailable
+    types:
+    - uid: string
+- name: TargetStatus
+  description: Target status.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Target id.
+    types:
+    - uid: string
+  - name: currentAvailability
+    isReadyOnly: true
+    description: Target availability.
+    types:
+    - uid: TargetAvailability
+  - name: averageQueueTime
+    isReadyOnly: true
+    description: Average queue time in seconds.
+    types:
+    - uid: integer
+  - name: statusPage
+    isReadyOnly: true
+    description: A page with detailed status of the provider.
+    types:
+    - uid: string
+- name: TargetAvailability
+  description: Target availability.
+  kind: enum
+  properties:
+  - name: Available
+    types:
+    - uid: string
+  - name: Degraded
+    types:
+    - uid: string
+  - name: Unavailable
+    types:
+    - uid: string
+examples:
+- name: Get list of of providers and their status for a Quantum Workspace
+  request:
+    uri: GET https://quantum.azure.com/v1.0/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/quantumResourcegroup/providers/Microsoft.Quantum/workspaces/quantumworkspace1/providerStatus
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "Microsoft",
+            "currentAvailability": "Available",
+            "targets": [
+              {
+                "id": "microsoft.paralleltempering-parameterfree.cpu",
+                "currentAvailability": "Available",
+                "averageQueueTime": 0,
+                "statusPage": null
+              },
+              {
+                "id": "microsoft.paralleltempering.cpu",
+                "currentAvailability": "Available",
+                "averageQueueTime": 0,
+                "statusPage": null
+              },
+              {
+                "id": "microsoft.simulatedannealing-parameterfree.cpu",
+                "currentAvailability": "Available",
+                "averageQueueTime": 0,
+                "statusPage": null
+              },
+              {
+                "id": "microsoft.simulatedannealing.cpu",
+                "currentAvailability": "Available",
+                "averageQueueTime": 0,
+                "statusPage": null
+              },
+              {
+                "id": "microsoft.tabu-parameterfree.cpu",
+                "currentAvailability": "Available",
+                "averageQueueTime": 0,
+                "statusPage": null
+              },
+              {
+                "id": "microsoft.tabu.cpu",
+                "currentAvailability": "Available",
+                "averageQueueTime": 0,
+                "statusPage": null
+              },
+              {
+                "id": "microsoft.simulatedannealing-parameterfree.fpga",
+                "currentAvailability": "Available",
+                "averageQueueTime": 0,
+                "statusPage": null
+              },
+              {
+                "id": "microsoft.simulatedannealing.fpga",
+                "currentAvailability": "Available",
+                "averageQueueTime": 0,
+                "statusPage": null
+              }
+            ]
+          },
+          {
+            "id": "ionq",
+            "currentAvailability": "Available",
+            "targets": [
+              {
+                "id": "ionq.qpu",
+                "currentAvailability": "Available",
+                "averageQueueTime": 1679,
+                "statusPage": "https://status.ionq.co"
+              },
+              {
+                "id": "ionq.simulator",
+                "currentAvailability": "Available",
+                "averageQueueTime": 0,
+                "statusPage": "https://status.ionq.co"
+              }
+            ]
+          }
+        ],
+        "nextLink": null
+      }
+security: []
+metadata:
+  description: Learn more about Azure Quantum service - Get provider status.
+errorCodes: []

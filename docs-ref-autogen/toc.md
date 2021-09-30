@@ -3322,6 +3322,43 @@
 ### [Resync Replication](netapp/Volumes/Resync-Replication.yml)
 ### [Revert](netapp/Volumes/Revert.yml)
 ### [Update](netapp/Volumes/Update.yml)
+# Azure Quantum
+## [Overview](../docs-ref-conceptual/azurequantum/index.md)
+## Data Plane
+### Jobs
+#### [Overview](azurequantum/dataplane/Jobs.yml)
+#### [Cancel](azurequantum/dataplane/Jobs/Cancel.yml)
+#### [Create](azurequantum/dataplane/Jobs/Create.yml)
+#### [Get](azurequantum/dataplane/Jobs/Get.yml)
+#### [List](azurequantum/dataplane/Jobs/List.yml)
+#### [Patch](azurequantum/dataplane/Jobs/Patch.yml)
+### Providers
+#### [Overview](azurequantum/dataplane/Providers.yml)
+#### [Get Status](azurequantum/dataplane/Providers/Get-Status.yml)
+### Quotas
+#### [Overview](azurequantum/dataplane/Quotas.yml)
+#### [List](azurequantum/dataplane/Quotas/List.yml)
+### Storage
+#### [Overview](azurequantum/dataplane/Storage.yml)
+#### [Sas Uri](azurequantum/dataplane/Storage/Sas-Uri.yml)
+## Resource Manager
+### Offerings
+#### [Overview](azurequantum/resourcemanager/Offerings.yml)
+#### [List](azurequantum/resourcemanager/Offerings/List.yml)
+### Operations
+#### [Overview](azurequantum/resourcemanager/Operations.yml)
+#### [List](azurequantum/resourcemanager/Operations/List.yml)
+### Workspace
+#### [Overview](azurequantum/resourcemanager/Workspace.yml)
+#### [Check Name Availability](azurequantum/resourcemanager/Workspace/Check-Name-Availability.yml)
+### Workspaces
+#### [Overview](azurequantum/resourcemanager/Workspaces.yml)
+#### [Create Or Update](azurequantum/resourcemanager/Workspaces/Create-Or-Update.yml)
+#### [Delete](azurequantum/resourcemanager/Workspaces/Delete.yml)
+#### [Get](azurequantum/resourcemanager/Workspaces/Get.yml)
+#### [List By Resource Group](azurequantum/resourcemanager/Workspaces/List-By-Resource-Group.yml)
+#### [List By Subscription](azurequantum/resourcemanager/Workspaces/List-By-Subscription.yml)
+#### [Update Tags](azurequantum/resourcemanager/Workspaces/Update-Tags.yml)
 # Azure Resource Graph
 ## [Overview](../docs-ref-conceptual/azure-resourcegraph/index.md)
 ## Resource Graph(2020-04-01-preview)

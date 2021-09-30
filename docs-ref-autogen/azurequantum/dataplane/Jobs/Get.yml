@@ -1,0 +1,213 @@
+### YamlMime:RESTOperation
+uid: quantum.azure.com.azurequantum.dataplane.jobs.get
+name: Get
+service: Azure Quantum
+groupName: Jobs
+apiVersion: 2021-05-06-preview
+summary: Get job by id
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://quantum.azure.com/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/jobs/{jobId}
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure resource group.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: Name of the workspace.
+  types:
+  - uid: string
+- name: jobId
+  in: path
+  isRequired: true
+  description: Id of the job.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: JobDetails
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: RestError
+requestHeader: []
+definitions:
+- name: JobDetails
+  description: Job details.
+  kind: object
+  properties:
+  - name: id
+    description: The job id.
+    types:
+    - uid: string
+  - name: name
+    description: The job name. Is not required for the name to be unique and it's only used for display purposes.
+    types:
+    - uid: string
+  - name: containerUri
+    description: The blob container SAS uri, the container is used to host job data.
+    types:
+    - uid: string
+  - name: inputDataUri
+    description: The input blob SAS uri, if specified, it will override the default input blob in the container.
+    types:
+    - uid: string
+  - name: inputDataFormat
+    description: The format of the input data.
+    types:
+    - uid: string
+  - name: inputParams
+    description: The input parameters for the job. JSON object used by the target solver. It is expected that the size of this object is small and only used to specify parameters for the execution target, not the input data.
+    types:
+    - uid: object
+  - name: providerId
+    description: The unique identifier for the provider.
+    types:
+    - uid: string
+  - name: target
+    description: The target identifier to run the job.
+    types:
+    - uid: string
+  - name: metadata
+    description: The job metadata. Metadata provides client the ability to store client-specific information
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: outputDataUri
+    description: The output blob SAS uri. When a job finishes successfully, results will be uploaded to this blob.
+    types:
+    - uid: string
+  - name: outputDataFormat
+    description: The format of the output data.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: The job status.
+    types:
+    - uid: JobStatus
+  - name: creationTime
+    isReadyOnly: true
+    description: The creation time of the job.
+    types:
+    - uid: string
+  - name: beginExecutionTime
+    isReadyOnly: true
+    description: The time when the job began execution.
+    types:
+    - uid: string
+  - name: endExecutionTime
+    isReadyOnly: true
+    description: The time when the job finished execution.
+    types:
+    - uid: string
+  - name: cancellationTime
+    isReadyOnly: true
+    description: The time when a job was successfully cancelled.
+    types:
+    - uid: string
+  - name: errorData
+    isReadyOnly: true
+    description: The error data for the job. This is expected only when Status 'Failed'.
+    types:
+    - uid: ErrorData
+  - name: tags
+    description: List of user-supplied tags associated with the job.
+    types:
+    - uid: string
+      isArray: true
+- name: RestError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Azure.
+    types:
+    - uid: ErrorData
+- name: JobStatus
+  description: The job status.
+  kind: enum
+  properties:
+  - name: Waiting
+    types:
+    - uid: string
+  - name: Executing
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+- name: ErrorData
+  description: An error response from Azure.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for displaying in a user interface.
+    types:
+    - uid: string
+examples:
+- name: Get a job's metadata
+  request:
+    uri: GET https://quantum.azure.com/v1.0/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/quantumResourcegroup/providers/Microsoft.Quantum/workspaces/quantumworkspace1/jobs/a0f7adb6-0378-11eb-9463-2816a847b9a3
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "tabu-demo",
+        "id": "a0f7adb6-0378-11eb-9463-2816a847b9a3",
+        "beginExecutionTime": "2020-09-30T23:57:11.5659691Z",
+        "cancellationTime": null,
+        "containerUri": "https://storage.blob.core.windows.net/job-a0f7adb6-0378-11eb-9463-2816a847b9a3?sv=2019-02-02&sr=c&sig=mhbf4fluypvLtgXwN5a7iWMygL6b9ojM4EnCC%2F8BZBg%3D&se=2020-10-01T11%3A57%3A01Z&sp=rcw",
+        "creationTime": "2020-09-30T23:57:02.3737928+00:00",
+        "endExecutionTime": "2020-09-30T23:57:11.6180743Z",
+        "errorData": null,
+        "inputDataFormat": "microsoft.qio.v2",
+        "inputDataUri": "https://storage.blob.core.windows.net/job-a0f7adb6-0378-11eb-9463-2816a847b9a3/inputData?sv=2019-02-02&sr=b&sig=MtgxZEmrCv%2FmeQWFUe6%2Bx9tViSrhxSxYr6euGGHtWnw%3D&se=2020-10-01T11%3A57%3A01Z&sp=rcw",
+        "inputParams": {
+          "params": {
+            "sweeps": 300
+          }
+        },
+        "metadata": null,
+        "outputDataFormat": "microsoft.qio-results.v2",
+        "outputDataUri": "https://storage.blob.core.windows.net/job-a0f7adb6-0378-11eb-9463-2816a847b9a3/rawOutputData?sv=2019-02-02&sr=c&sig=mhbf4fluypvLtgXwN5a7iWMygL6b9ojM4EnCC%2F8BZBg%3D&se=2020-10-01T11%3A57%3A01Z&sp=rcw",
+        "providerId": "microsoft",
+        "status": "Succeeded",
+        "target": "microsoft.tabu.cpu",
+        "tags": [
+          "tag1",
+          "new"
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about Azure Quantum service - Get job by id
+errorCodes: []

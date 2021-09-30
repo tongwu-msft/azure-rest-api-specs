@@ -1,0 +1,191 @@
+### YamlMime:RESTOperation
+uid: quantum.azure.com.azurequantum.dataplane.quotas.list
+name: List
+service: Azure Quantum
+groupName: Quotas
+apiVersion: 2021-05-06-preview
+summary: List quotas for the given workspace.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://quantum.azure.com/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/quotas
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure resource group.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: Name of the workspace.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: QuotaList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: RestError
+requestHeader: []
+definitions:
+- name: QuotaList
+  description: List of quotas.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Quota information.
+    types:
+    - uid: Quota
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to the next page of results.
+    types:
+    - uid: string
+- name: RestError
+  description: Error information returned by the API
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Azure.
+    types:
+    - uid: ErrorData
+- name: Quota
+  description: Quota information.
+  kind: object
+  properties:
+  - name: dimension
+    description: The name of the dimension associated with the quota.
+    types:
+    - uid: string
+  - name: scope
+    description: The scope at which the quota is applied.
+    types:
+    - uid: DimensionScope
+  - name: providerId
+    description: The unique identifier for the provider.
+    types:
+    - uid: string
+  - name: utilization
+    description: The amount of the usage that has been applied for the current period.
+    types:
+    - uid: number
+  - name: holds
+    description: The amount of the usage that has been reserved but not applied for the current period.
+    types:
+    - uid: number
+  - name: limit
+    description: The maximum amount of usage allowed for the current period.
+    types:
+    - uid: number
+  - name: period
+    description: The time period in which the quota's underlying meter is accumulated. Based on calendar year. 'None' is used for concurrent quotas.
+    types:
+    - uid: MeterPeriod
+- name: ErrorData
+  description: An error response from Azure.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for displaying in a user interface.
+    types:
+    - uid: string
+- name: DimensionScope
+  description: The scope at which the quota is applied.
+  kind: enum
+  properties:
+  - name: Workspace
+    types:
+    - uid: string
+  - name: Subscription
+    types:
+    - uid: string
+- name: MeterPeriod
+  description: The time period in which the quota's underlying meter is accumulated. Based on calendar year. 'None' is used for concurrent quotas.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Monthly
+    types:
+    - uid: string
+examples:
+- name: Get a list of quotas for a particular quantum workspace.
+  request:
+    uri: GET https://quantum.azure.com/v1.0/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/quantumResourcegroup/providers/Microsoft.Quantum/workspaces/quantumworkspace1/quotas
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "dimension": "free_combined_job_hours",
+            "scope": "Subscription",
+            "providerId": "Microsoft",
+            "utilization": 0.0017561203333333331,
+            "holds": 0.016666666666666666,
+            "limit": 15,
+            "period": "Monthly"
+          },
+          {
+            "dimension": "free_fpga_job_hours",
+            "scope": "Workspace",
+            "providerId": "Microsoft",
+            "utilization": 0,
+            "holds": 0,
+            "limit": 0.25,
+            "period": "Monthly"
+          },
+          {
+            "dimension": "free_combined_job_hours",
+            "scope": "Workspace",
+            "providerId": "Microsoft",
+            "utilization": 0.0017561203333333335,
+            "holds": 0,
+            "limit": 1,
+            "period": "Monthly"
+          },
+          {
+            "dimension": "concurrent_cpu_jobs",
+            "scope": "Workspace",
+            "providerId": "Microsoft",
+            "utilization": 0,
+            "holds": 0,
+            "limit": 10,
+            "period": "None"
+          },
+          {
+            "dimension": "concurrent_fpga_jobs",
+            "scope": "Workspace",
+            "providerId": "Microsoft",
+            "utilization": 0,
+            "holds": 0,
+            "limit": 1,
+            "period": "None"
+          }
+        ],
+        "nextLink": null
+      }
+security: []
+metadata:
+  description: Learn more about Azure Quantum service - List quotas for the given workspace.
+errorCodes: []
