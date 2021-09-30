@@ -3322,6 +3322,43 @@
 ### [Resync Replication](netapp/Volumes/Resync-Replication.yml)
 ### [Revert](netapp/Volumes/Revert.yml)
 ### [Update](netapp/Volumes/Update.yml)
+# Azure Quantum
+## [Overview](../docs-ref-conceptual/azurequantum/index.md)
+## Data Plane
+### Jobs
+#### [Overview](azurequantum/dataplane/Jobs.yml)
+#### [Cancel](azurequantum/dataplane/Jobs/Cancel.yml)
+#### [Create](azurequantum/dataplane/Jobs/Create.yml)
+#### [Get](azurequantum/dataplane/Jobs/Get.yml)
+#### [List](azurequantum/dataplane/Jobs/List.yml)
+#### [Patch](azurequantum/dataplane/Jobs/Patch.yml)
+### Providers
+#### [Overview](azurequantum/dataplane/Providers.yml)
+#### [Get Status](azurequantum/dataplane/Providers/Get-Status.yml)
+### Quotas
+#### [Overview](azurequantum/dataplane/Quotas.yml)
+#### [List](azurequantum/dataplane/Quotas/List.yml)
+### Storage
+#### [Overview](azurequantum/dataplane/Storage.yml)
+#### [Sas Uri](azurequantum/dataplane/Storage/Sas-Uri.yml)
+## Resource Manager
+### Offerings
+#### [Overview](azurequantum/resourcemanager/Offerings.yml)
+#### [List](azurequantum/resourcemanager/Offerings/List.yml)
+### Operations
+#### [Overview](azurequantum/resourcemanager/Operations.yml)
+#### [List](azurequantum/resourcemanager/Operations/List.yml)
+### Workspace
+#### [Overview](azurequantum/resourcemanager/Workspace.yml)
+#### [Check Name Availability](azurequantum/resourcemanager/Workspace/Check-Name-Availability.yml)
+### Workspaces
+#### [Overview](azurequantum/resourcemanager/Workspaces.yml)
+#### [Create Or Update](azurequantum/resourcemanager/Workspaces/Create-Or-Update.yml)
+#### [Delete](azurequantum/resourcemanager/Workspaces/Delete.yml)
+#### [Get](azurequantum/resourcemanager/Workspaces/Get.yml)
+#### [List By Resource Group](azurequantum/resourcemanager/Workspaces/List-By-Resource-Group.yml)
+#### [List By Subscription](azurequantum/resourcemanager/Workspaces/List-By-Subscription.yml)
+#### [Update Tags](azurequantum/resourcemanager/Workspaces/Update-Tags.yml)
 # Azure Resource Graph
 ## [Overview](../docs-ref-conceptual/azure-resourcegraph/index.md)
 ## Resource Graph(2020-04-01-preview)
@@ -7825,6 +7862,86 @@
 #### [Delete](datashare/2020-09-01/Triggers/Delete.yml)
 #### [Get](datashare/2020-09-01/Triggers/Get.yml)
 #### [List By Share Subscription](datashare/2020-09-01/Triggers/List-By-Share-Subscription.yml)
+## 2021-08-01
+### Accounts
+#### [Overview](datashare/2021-08-01/Accounts.yml)
+#### [Create](datashare/2021-08-01/Accounts/Create.yml)
+#### [Delete](datashare/2021-08-01/Accounts/Delete.yml)
+#### [Get](datashare/2021-08-01/Accounts/Get.yml)
+#### [List By Resource Group](datashare/2021-08-01/Accounts/List-By-Resource-Group.yml)
+#### [List By Subscription](datashare/2021-08-01/Accounts/List-By-Subscription.yml)
+#### [Update](datashare/2021-08-01/Accounts/Update.yml)
+### Consumer Invitations
+#### [Overview](datashare/2021-08-01/Consumer-Invitations.yml)
+#### [Get](datashare/2021-08-01/Consumer-Invitations/Get.yml)
+#### [List Invitations](datashare/2021-08-01/Consumer-Invitations/List-Invitations.yml)
+#### [Reject Invitation](datashare/2021-08-01/Consumer-Invitations/Reject-Invitation.yml)
+### Consumer Source Data Sets
+#### [Overview](datashare/2021-08-01/Consumer-Source-Data-Sets.yml)
+#### [List By Share Subscription](datashare/2021-08-01/Consumer-Source-Data-Sets/List-By-Share-Subscription.yml)
+### Data Set Mappings
+#### [Overview](datashare/2021-08-01/Data-Set-Mappings.yml)
+#### [Create](datashare/2021-08-01/Data-Set-Mappings/Create.yml)
+#### [Delete](datashare/2021-08-01/Data-Set-Mappings/Delete.yml)
+#### [Get](datashare/2021-08-01/Data-Set-Mappings/Get.yml)
+#### [List By Share Subscription](datashare/2021-08-01/Data-Set-Mappings/List-By-Share-Subscription.yml)
+### Data Sets
+#### [Overview](datashare/2021-08-01/Data-Sets.yml)
+#### [Create](datashare/2021-08-01/Data-Sets/Create.yml)
+#### [Delete](datashare/2021-08-01/Data-Sets/Delete.yml)
+#### [Get](datashare/2021-08-01/Data-Sets/Get.yml)
+#### [List By Share](datashare/2021-08-01/Data-Sets/List-By-Share.yml)
+### Email Registrations
+#### [Overview](datashare/2021-08-01/Email-Registrations.yml)
+#### [Activate Email](datashare/2021-08-01/Email-Registrations/Activate-Email.yml)
+#### [Register Email](datashare/2021-08-01/Email-Registrations/Register-Email.yml)
+### Invitations
+#### [Overview](datashare/2021-08-01/Invitations.yml)
+#### [Create](datashare/2021-08-01/Invitations/Create.yml)
+#### [Delete](datashare/2021-08-01/Invitations/Delete.yml)
+#### [Get](datashare/2021-08-01/Invitations/Get.yml)
+#### [List By Share](datashare/2021-08-01/Invitations/List-By-Share.yml)
+### Operations
+#### [Overview](datashare/2021-08-01/Operations.yml)
+#### [List](datashare/2021-08-01/Operations/List.yml)
+### Provider Share Subscriptions
+#### [Overview](datashare/2021-08-01/Provider-Share-Subscriptions.yml)
+#### [Adjust](datashare/2021-08-01/Provider-Share-Subscriptions/Adjust.yml)
+#### [Get By Share](datashare/2021-08-01/Provider-Share-Subscriptions/Get-By-Share.yml)
+#### [List By Share](datashare/2021-08-01/Provider-Share-Subscriptions/List-By-Share.yml)
+#### [Reinstate](datashare/2021-08-01/Provider-Share-Subscriptions/Reinstate.yml)
+#### [Revoke](datashare/2021-08-01/Provider-Share-Subscriptions/Revoke.yml)
+### Share Subscriptions
+#### [Overview](datashare/2021-08-01/Share-Subscriptions.yml)
+#### [Cancel Synchronization](datashare/2021-08-01/Share-Subscriptions/Cancel-Synchronization.yml)
+#### [Create](datashare/2021-08-01/Share-Subscriptions/Create.yml)
+#### [Delete](datashare/2021-08-01/Share-Subscriptions/Delete.yml)
+#### [Get](datashare/2021-08-01/Share-Subscriptions/Get.yml)
+#### [List By Account](datashare/2021-08-01/Share-Subscriptions/List-By-Account.yml)
+#### [List Source Share Synchronization Settings](datashare/2021-08-01/Share-Subscriptions/List-Source-Share-Synchronization-Settings.yml)
+#### [List Synchronization Details](datashare/2021-08-01/Share-Subscriptions/List-Synchronization-Details.yml)
+#### [List Synchronizations](datashare/2021-08-01/Share-Subscriptions/List-Synchronizations.yml)
+#### [Synchronize](datashare/2021-08-01/Share-Subscriptions/Synchronize.yml)
+### Shares
+#### [Overview](datashare/2021-08-01/Shares.yml)
+#### [Create](datashare/2021-08-01/Shares/Create.yml)
+#### [Delete](datashare/2021-08-01/Shares/Delete.yml)
+#### [Get](datashare/2021-08-01/Shares/Get.yml)
+#### [List By Account](datashare/2021-08-01/Shares/List-By-Account.yml)
+#### [List Synchronization Details](datashare/2021-08-01/Shares/List-Synchronization-Details.yml)
+#### [List Synchronizations](datashare/2021-08-01/Shares/List-Synchronizations.yml)
+### Synchronization Settings
+#### [Overview](datashare/2021-08-01/Synchronization-Settings.yml)
+#### [Create](datashare/2021-08-01/Synchronization-Settings/Create.yml)
+#### [Delete](datashare/2021-08-01/Synchronization-Settings/Delete.yml)
+#### [Get](datashare/2021-08-01/Synchronization-Settings/Get.yml)
+#### [List By Share](datashare/2021-08-01/Synchronization-Settings/List-By-Share.yml)
+### Triggers
+#### [Overview](datashare/2021-08-01/Triggers.yml)
+#### [Create](datashare/2021-08-01/Triggers/Create.yml)
+#### [Delete](datashare/2021-08-01/Triggers/Delete.yml)
+#### [Get](datashare/2021-08-01/Triggers/Get.yml)
+#### [List By Share Subscription](datashare/2021-08-01/Triggers/List-By-Share-Subscription.yml)
 # Databricks
 ## [Overview](../docs-ref-conceptual/databricks/index.md)
 ## Operations
