@@ -21,7 +21,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-
     api-key: [admin key]
 ```
 
-To specify an analyzer used during indexing and query execution, set the analyzer property on string fields in the index. Likewise, to specify a normalizer, set the normalizer property on the string field in the index. More details can be found in the [Create Index API docs](create-or-update-index.md).
+To specify an analyzer used during indexing and query execution, set the analyzer property on string fields in the index. Likewise, to specify a normalizer, set the normalizer property on the string field in the index. More details can be found in [Create or Update Index (Preview REST API)](create-or-update-index.md).
 
 ## URI Parameters
 
