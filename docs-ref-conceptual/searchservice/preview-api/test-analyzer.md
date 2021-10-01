@@ -29,7 +29,7 @@ To specify an analyzer used during indexing and query execution, set the analyze
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required. The request URI specifies the name of the index that contains the field you want to analyze.   |
-| api-version | Required. The current version is `api-version=2021-04-30-Preview` See [API versions](search-service-api-versions.md) for more versions. |
+| api-version | Required. The current version is `api-version=2021-04-30-Preview` See [API versions](../search-service-api-versions.md) for more versions. |
 
 ## Request Headers
 
