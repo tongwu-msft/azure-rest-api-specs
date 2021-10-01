@@ -8,16 +8,18 @@ ms.manager: kfile
 ms.assetid: 37b1c530-8ef4-49d5-8dd2-48220e980d3e
 ---
 
-# Azure HDInsight REST API
+# Azure HDInsight: REST API Reference
 
-Use these APIs to create and manage HDInsight resources through Azure Resource Manager. All task operations conform to the HTTP/1.1 protocol specification and each operation returns an x-ms-request-id header that can be used to obtain information about the request. Ensure that requests made to these resources are secure. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
+[Azure HDInsight](/Azure/HDInsight/hdinsight-overview) is a managed, full-spectrum, open-source analytics service in the cloud for enterprises. You can use open-source frameworks such as Hadoop, Apache Spark, Apache Hive, LLAP, Apache Kafka, Apache Storm, R, and more.  You can use the most popular open-source frameworks to enable a broad rane of scenarios such as extract, transform, and load (ETL), data warehousing, machine learning, and IoT.  
+
+Use these APIs to create and manage HDInsight resources through Azure Resource Manager. To performa operations on Azure HDInsight resources, you send HTTPS request with a supported method: `GET`, `POST`, `PUT`, or `DELETE` to an endpoint that targets a specific resource.  All task operations conform to the HTTP/1.1 protocol specification and each operation returns an x-ms-request-id header that can be used to obtain information about the request. Ensure that requests made to these resources are secure. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
   
- These APIs allow you to create and manage an HDInsight cluster.
+These APIs allow you to create and manage an HDInsight cluster.
 
 ##  <a name="bk_common"></a> Common parameters and headers  
  The following information is common to all tasks related to clusters that you might do:  
   
--   Replace {api-version} with 2015-03-01-preview  
+-   Replace {api-version} with 2018-06-01-preview  
   
 -   Replace {subscription-id} with your subscription identifier in the URI.  
   
@@ -52,3 +54,21 @@ The following information is common to all tasks related to clusters that you mi
   
 -   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx). 
 
+## Supported REST API Versions
+The following table lists the supported REST API versions by the Azure HDInsight service. The version must be specified via the `x-ms-version` header in every request. If not specified, the service defaults to the latest version `2018-06-01-preview`.
+
+|Version|Change introduced|Retirement date|  
+|-------------|---------------------|-----------------------|  
+|2018-06-01-preview||2024-10-15 planned retirement
+|2021-06-01| New version, simplified and with 3 breaking changes
+
+## Upcomming breaking changes in new 2021-06-01 API version
+
+
+
+## See Also  
+* [Azure HDInsight](/Azure/HDInsight/hdinsight-overview)
+* [Create clusters using the REST API](azure/hdinsight/hdinsight-hadoop-create-linux-clusters-curl-rest)
+* [Manage HDInsight clusers using the Apacke Ambari REST API](/azure/hdinsight/hdinsight-hadoop-manage-ambari-rest-api)
+* [Azure HDInsight Spark - remote job submission REST API](/rest/api/hdinsightspark/)
+* [Interact with HDInsight Kafka clusters in Azure HDInsight using a REST proxy](/azure/hdinsight/kafka/rest-proxy)
