@@ -7,13 +7,18 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
-ms.manager: nitinme
+author: dereklegenzoff
+ms.author: delegenz
+ms.manager: beloh
 ---
-# Analyze Text (2021-04-30-Preview)
+# Analyze Text (Preview REST API)
 
-The **Analyze API** shows how an analyzer breaks text into tokens and how a normalizer pre-proceses text. It's intended for interactive testing so that you can see how a given analyzer/normalizer will process a string input.
+**API Version: 2021-04-30-Preview**
+
+> [!Important]
+> The Analyze Text API is now extended to support testing normalizers which pre-process content for filterable, facetable, or sortable fields.
+
+The **Analyze Text API** shows how an analyzer breaks text into tokens and how a normalizer pre-proceses text. It's intended for interactive testing so that you can see how a given analyzer or normalizer will process a string input.
 
 ```http
 POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-version=[api-version]
@@ -68,10 +73,15 @@ or
   "normalizer": "normalizer_name"
 }
 ```
- 
-The `analyzer_name`, `tokenizer_name`, `token_filter_name` and `char_filter_name` need to be valid names of predefined or custom analyzers, tokenizers, token filters, and char filters for the index. To learn more about the process of lexical analysis, see [Analysis in Azure Cognitive Search](https://aka.ms/azsanalysis).
 
-The `normalizer_name` also needs to be a valid name of a predefined or custom normalizer for the index. To learn more about normalizers, see [Text normalization for filtering, faceting, and sorting](/azure/search/search-normalizers).
+| Property	  | Description  | 
+|-------------|--------------|
+| text | Required. The text to be analyzed or normalized. |
+| analyzer  | The analyzer used to break the text into tokens. This property needs to be the name of a [built-in analyzer](/azure/search/index-add-custom-analyzers#built-in-analyzers), the name of a [language analyzer](/azure/search/index-add-language-analyzers#supported-language-analyzers), or the name of [custom analyzer](/azure/search/index-add-custom-analyzers#create-a-custom-analyzer) in the index definition. To learn more about the process of lexical analysis, see [Analysis in Azure Cognitive Search](https://aka.ms/azsanalysis).|
+| tokenizer | The tokenizer used to break the text into tokens. This property needs to be the name of a [predefined tokenizer](/azure/search/index-add-custom-analyzers#tokenizers) or the name of a custom tokenizer in the index definition.|
+| tokenFilters | A collection of token filters used to process the text. The values of the collection need to be the names of [predefined token filters](/azure/search/index-add-custom-analyzers#token-filters) or the names of custom token filters in the index definition. For testing analyzers, this property must be used alongisde the tokenizer property. For testing normalizers, this property can be used independently.|
+| charFilters | A collection of character filters used to process the text. The values of the collection need to be the names of [predefined character filters](/azure/search/index-add-custom-analyzers#character-filters) or the names of custom character filters in the index definition. For testing analyzers, this property must be used alongisde the tokenizer property. For testing normalizers, this property can be used independently.|
+| normalizer | The normalizer used to process the text. This property needs to be the name of a [predefined normalizer](/azure/search/search-normalizers#predefined-normalizers) or the name of [custom normalizer](/azure/search/search-normalizers#custom-normalizer-example) in the index definition. To learn more about normalizers, see [Text normalization for filtering, faceting, and sorting](/azure/search/search-normalizers.md). |
 
 ## Response  
 
