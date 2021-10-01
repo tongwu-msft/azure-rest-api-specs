@@ -74,6 +74,8 @@ or
 }
 ```
 
+Request contains the following properties:
+
 | Property	  | Description  | 
 |-------------|--------------|
 | text | Required. The text to be analyzed or normalized. |
