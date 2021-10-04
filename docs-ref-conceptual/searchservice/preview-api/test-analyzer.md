@@ -1,5 +1,5 @@
 ---
-title: Analyze Text (2021-04-30-Preview)
+title: Analyze Text (2021-04-30-Preview Rest API)
 description: Test predefined and custom analyzers/normalizers used for preprocessing text during Azure Cognitive Search indexing.
 ms.date: 09/30/2021
 
