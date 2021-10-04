@@ -7,6 +7,7 @@
 # Reference (Preview)
 ## [Introduction](index-preview.md)
 ## Indexes
+### [Analyze Text](preview-api/test-analyzer.md)
 ### [Create or Update Index](preview-api/create-or-update-index.md)
 ## Documents
 ### [Reset Documents](preview-api/reset-documents.md)

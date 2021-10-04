@@ -13476,6 +13476,7 @@
 ## Reference (Preview)
 ### [Introduction](../docs-ref-conceptual/searchservice/index-preview.md)
 ### Indexes
+#### [Analyze Text](../docs-ref-conceptual/searchservice/preview-api/test-analyzer.md)
 #### [Create or Update Index](../docs-ref-conceptual/searchservice/preview-api/create-or-update-index.md)
 ### Documents
 #### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
