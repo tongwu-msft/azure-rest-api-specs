@@ -3,14 +3,14 @@ uid: management.azure.com.media.mediaservices.list
 name: List
 service: Media Services
 groupName: Mediaservices
-apiVersion: 2020-05-01
+apiVersion: 2021-06-01
 summary: List Media Services accounts in the resource group
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices?api-version=2020-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,7 +38,7 @@ responses:
 - name: Other Status Codes
   description: Detailed error information.
   types:
-  - uid: ApiError
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: MediaServiceCollection
@@ -54,14 +54,14 @@ definitions:
     description: A link to the next page of the collection (when the collection contains too many results to return in one response).
     types:
     - uid: string
-- name: ApiError
-  description: The API error.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: The error properties.
+    description: The error object.
     types:
-    - uid: ODataError
+    - uid: ErrorDetail
 - name: MediaService
   description: A Media Services account.
   kind: object
@@ -93,6 +93,14 @@ definitions:
     description: The account encryption properties.
     types:
     - uid: AccountEncryption
+  - name: properties.keyDelivery
+    description: The Key Delivery properties for Media Services account.
+    types:
+    - uid: KeyDelivery
+  - name: properties.publicNetworkAccess
+    description: Whether or not public network access is allowed for resources under the Media Services account.
+    types:
+    - uid: PublicNetworkAccess
   - name: tags
     description: Resource tags.
     types:
@@ -120,26 +128,36 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: ODataError
-  description: Information about an error.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
-    description: A language-independent error name.
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: The error message.
     types:
     - uid: string
   - name: target
-    description: The target of the error (for example, the name of the property in error).
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
+    isReadyOnly: true
     description: The error details.
     types:
-    - uid: ODataError
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
       isArray: true
 - name: MediaServiceIdentity
   kind: object
@@ -147,7 +165,7 @@ definitions:
   - name: type
     description: The identity type.
     types:
-    - uid: ManagedIdentityType
+    - uid: string
   - name: principalId
     isReadyOnly: true
     description: The Principal ID of the identity.
@@ -158,6 +176,14 @@ definitions:
     description: The Tenant ID of the identity.
     types:
     - uid: string
+  - name: userAssignedIdentities
+    description: The user assigned managed identities.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedManagedIdentity
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -198,6 +224,15 @@ definitions:
     description: The type of the storage account.
     types:
     - uid: StorageAccountType
+  - name: identity
+    description: The storage account identity.
+    types:
+    - uid: ResourceIdentity
+  - name: status
+    isReadyOnly: true
+    description: The current status of the storage account mapping.
+    types:
+    - uid: string
 - name: StorageAuthentication
   kind: enum
   properties:
@@ -220,16 +255,59 @@ definitions:
     description: The properties of the key used to encrypt the account.
     types:
     - uid: KeyVaultProperties
-- name: ManagedIdentityType
-  description: The identity type.
-  kind: enum
-  properties:
-  - name: SystemAssigned
-    description: A system-assigned managed identity.
+  - name: identity
+    description: The Key Vault identity.
+    types:
+    - uid: ResourceIdentity
+  - name: status
+    isReadyOnly: true
+    description: The current status of the Key Vault mapping.
     types:
     - uid: string
-  - name: None
-    description: No managed identity.
+- name: KeyDelivery
+  kind: object
+  properties:
+  - name: accessControl
+    description: The access control properties for Key Delivery.
+    types:
+    - uid: AccessControl
+- name: PublicNetworkAccess
+  description: Whether or not public network access is allowed for resources under the Media Services account.
+  kind: enum
+  properties:
+  - name: Enabled
+    description: Public network access is enabled.
+    types:
+    - uid: string
+  - name: Disabled
+    description: Public network access is disabled.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: UserAssignedManagedIdentity
+  kind: object
+  properties:
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID.
+    types:
+    - uid: string
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID.
     types:
     - uid: string
 - name: createdByType
@@ -260,6 +338,17 @@ definitions:
     description: A secondary storage account for the Media Services account.
     types:
     - uid: string
+- name: ResourceIdentity
+  kind: object
+  properties:
+  - name: userAssignedIdentity
+    description: The user assigned managed identity's ARM ID to use when accessing a resource.
+    types:
+    - uid: string
+  - name: useSystemAssignedIdentity
+    description: Indicates whether to use System Assigned Managed Identity. Mutual exclusive with User Assigned Managed Identity.
+    types:
+    - uid: boolean
 - name: AccountEncryptionKeyType
   description: The type of key used to encrypt the Account Key.
   kind: enum
@@ -284,10 +373,34 @@ definitions:
     description: The current key used to encrypt the Media Services account, including the key version.
     types:
     - uid: string
+- name: AccessControl
+  kind: object
+  properties:
+  - name: defaultAction
+    description: The behavior for IP access control in Key Delivery.
+    types:
+    - uid: DefaultAction
+  - name: ipAllowList
+    description: The IP allow list for access control in Key Delivery. If the default action is set to 'Allow', the IP allow list must be empty.
+    types:
+    - uid: string
+      isArray: true
+- name: DefaultAction
+  description: The behavior for IP access control in Key Delivery.
+  kind: enum
+  properties:
+  - name: Allow
+    description: All public IP addresses are allowed.
+    types:
+    - uid: string
+  - name: Deny
+    description: Public IP addresses are blocked.
+    types:
+    - uid: string
 examples:
 - name: List all Media Services accounts
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices?api-version=2020-05-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-
