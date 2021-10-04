@@ -11166,7 +11166,6 @@
 #### [Create Or Update](media/Mediaservices/Create-Or-Update.yml)
 #### [Delete](media/Mediaservices/Delete.yml)
 #### [Get](media/Mediaservices/Get.yml)
-#### [Get By Subscription](media/Mediaservices/Get-By-Subscription.yml)
 #### [List](media/Mediaservices/List.yml)
 #### [List By Subscription](media/Mediaservices/List-By-Subscription.yml)
 #### [List Edge Policies](media/Mediaservices/List-Edge-Policies.yml)
