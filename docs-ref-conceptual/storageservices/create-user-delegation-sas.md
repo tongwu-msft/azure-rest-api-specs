@@ -283,7 +283,7 @@ User Delegation SAS supports an optional correlation ID carried in the scid para
 
 User Delegation SAS supports an optional encryption scope in the `ses` parameter when the authentication version (`sv`) is 2020-12-06 or higher. It enables the customer to specify the encryption scope the client application can use and enforce the server-side encryption with the given encryption scope when uploading blobs (PUT) with the SAS token.
 
-If the `ses` is added pior the supported version, the service returns error response code 403 (Forbidden).
+If the `ses` is added prior the supported version, the service returns error response code 403 (Forbidden).
 
 If the default encryption scope is set for the container or filesystem, the `ses` query parameter will respect the container encryption policy. If there is a mismatch between the `ses` query parameter and `x-ms-default-encryption-scope` header, and the `x-ms-deny-encryption-scope-override` header is set to `true`, the service returns error response code 403 (Forbidden).
 
