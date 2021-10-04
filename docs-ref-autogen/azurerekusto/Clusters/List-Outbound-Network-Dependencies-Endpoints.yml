@@ -1,0 +1,360 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurerekusto.clusters.listoutboundnetworkdependenciesendpoints
+name: List Outbound Network Dependencies Endpoints
+service: Azure Kusto
+groupName: Clusters
+apiVersion: 2021-08-27
+summary: Gets the network endpoints of all outbound dependencies of a Kusto cluster
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/outboundNetworkDependenciesEndpoints?api-version=2021-08-27
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group containing the Kusto cluster.
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: The name of the Kusto cluster.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: OutboundNetworkDependenciesEndpointListResult
+- name: Other Status Codes
+  description: Error from the RP
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: OutboundNetworkDependenciesEndpointListResult
+  description: Collection of Outbound Environment Endpoints
+  kind: object
+  properties:
+  - name: value
+    description: Collection of resources.
+    types:
+    - uid: OutboundNetworkDependenciesEndpoint
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to next page of resources.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from Kusto.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Kusto.
+    types:
+    - uid: CloudErrorBody
+- name: OutboundNetworkDependenciesEndpoint
+  description: Endpoints accessed for a common purpose that the Kusto Service Environment requires outbound network access to.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.category
+    description: The type of service accessed by the Kusto Service Environment, e.g., Azure Storage, Azure SQL Database, and Azure Active Directory.
+    types:
+    - uid: string
+  - name: properties.endpoints
+    description: The endpoints that the Kusto Service Environment reaches the service at.
+    types:
+    - uid: EndpointDependency
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioned state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from Kusto.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for displaying in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: EndpointDependency
+  description: A domain name that a service is reached at, including details of the current connection status.
+  kind: object
+  properties:
+  - name: domainName
+    description: The domain name of the dependency.
+    types:
+    - uid: string
+  - name: endpointDetails
+    description: The ports used when connecting to DomainName.
+    types:
+    - uid: EndpointDetail
+      isArray: true
+- name: ProvisioningState
+  description: The provisioned state of the resource.
+  kind: enum
+  properties:
+  - name: Running
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Moving
+    types:
+    - uid: string
+- name: EndpointDetail
+  description: Current TCP connectivity information from the Kusto cluster to a single endpoint.
+  kind: object
+  properties:
+  - name: port
+    description: The port an endpoint is connected to.
+    types:
+    - uid: integer
+examples:
+- name: Get Kusto cluster outbound network dependencies
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest/outboundNetworkDependenciesEndpoints?api-version=2021-08-27
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoclusterrptest/OutboundNetworkDependenciesEndpoints/AzureActiveDirectory",
+            "name": "kustoclusterrptest/AzureActiveDirectory",
+            "type": "Microsoft.Kusto/Clusters/OutboundNetworkDependenciesEndpoints",
+            "properties": {
+              "category": "Azure Active Directory",
+              "endpoints": [
+                {
+                  "domainName": "login.microsoftonline.com",
+                  "endpointDetails": [
+                    {
+                      "port": 443
+                    }
+                  ]
+                },
+                {
+                  "domainName": "graph.windows.net",
+                  "endpointDetails": [
+                    {
+                      "port": 443
+                    }
+                  ]
+                },
+                {
+                  "domainName": "graph.microsoft.com",
+                  "endpointDetails": [
+                    {
+                      "port": 443
+                    }
+                  ]
+                },
+                {
+                  "domainName": "graph.microsoft-ppe.com",
+                  "endpointDetails": [
+                    {
+                      "port": 443
+                    }
+                  ]
+                }
+              ],
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoclusterrptest/OutboundNetworkDependenciesEndpoints/AzureMonitor",
+            "name": "kustoclusterrptest/AzureMonitor",
+            "type": "Microsoft.Kusto/Clusters/OutboundNetworkDependenciesEndpoints",
+            "properties": {
+              "category": "Azure Monitor",
+              "endpoints": [
+                {
+                  "domainName": "prod.warmpath.msftcloudes.com",
+                  "endpointDetails": [
+                    {
+                      "port": 443
+                    }
+                  ]
+                },
+                {
+                  "domainName": "gcs.prod.monitoring.core.windows.net",
+                  "endpointDetails": [
+                    {
+                      "port": 443
+                    }
+                  ]
+                },
+                {
+                  "domainName": "production.diagnostics.monitoring.core.windows.net",
+                  "endpointDetails": [
+                    {
+                      "port": 443
+                    }
+                  ]
+                },
+                {
+                  "domainName": "shoebox2.metrics.nsatc.net:443",
+                  "endpointDetails": [
+                    {
+                      "port": 443
+                    }
+                  ]
+                }
+              ],
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoclusterrptest/OutboundNetworkDependenciesEndpoints/CertificateAuthority",
+            "name": "kustoclusterrptest/CertificateAuthority",
+            "type": "Microsoft.Kusto/Clusters/OutboundNetworkDependenciesEndpoints",
+            "properties": {
+              "category": "Certificate Authority",
+              "endpoints": [
+                {
+                  "domainName": "ocsp.msocsp.com",
+                  "endpointDetails": [
+                    {
+                      "port": 80
+                    }
+                  ]
+                },
+                {
+                  "domainName": "ocsp.digicert.com",
+                  "endpointDetails": [
+                    {
+                      "port": 80
+                    }
+                  ]
+                },
+                {
+                  "domainName": "crl3.digicert.com",
+                  "endpointDetails": [
+                    {
+                      "port": 80
+                    }
+                  ]
+                },
+                {
+                  "domainName": "crl.microsoft.com",
+                  "endpointDetails": [
+                    {
+                      "port": 80
+                    }
+                  ]
+                },
+                {
+                  "domainName": "www.microsoft.com",
+                  "endpointDetails": [
+                    {
+                      "port": 80
+                    }
+                  ]
+                }
+              ],
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoclusterrptest/OutboundNetworkDependenciesEndpoints/AzureStorage",
+            "name": "kustoclusterrptest/AzureStorage",
+            "type": "Microsoft.Kusto/Clusters/OutboundNetworkDependenciesEndpoints",
+            "properties": {
+              "category": "Azure Storage",
+              "endpoints": [
+                {
+                  "domainName": "clusterinternalsa.blob.core.windows.net",
+                  "endpointDetails": [
+                    {
+                      "port": 443
+                    }
+                  ]
+                },
+                {
+                  "domainName": "clusterinternalsa.queue.core.windows.net",
+                  "endpointDetails": [
+                    {
+                      "port": 443
+                    }
+                  ]
+                },
+                {
+                  "domainName": "clusterinternalsa.table.core.windows.net",
+                  "endpointDetails": [
+                    {
+                      "port": 443
+                    }
+                  ]
+                }
+              ],
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about Azure Kusto service - Gets the network endpoints of all outbound dependencies of a Kusto cluster
+errorCodes: []

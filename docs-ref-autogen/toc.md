@@ -2987,6 +2987,7 @@
 ## [Overview](../docs-ref-conceptual/azurerekusto/index.md)
 ## Attached Database Configurations
 ### [Overview](azurerekusto/Attached-Database-Configurations.yml)
+### [Check Name Availability](azurerekusto/Attached-Database-Configurations/Check-Name-Availability.yml)
 ### [Create Or Update](azurerekusto/Attached-Database-Configurations/Create-Or-Update.yml)
 ### [Delete](azurerekusto/Attached-Database-Configurations/Delete.yml)
 ### [Get](azurerekusto/Attached-Database-Configurations/Get.yml)
@@ -3011,6 +3012,7 @@
 ### [List By Resource Group](azurerekusto/Clusters/List-By-Resource-Group.yml)
 ### [List Follower Databases](azurerekusto/Clusters/List-Follower-Databases.yml)
 ### [List Language Extensions](azurerekusto/Clusters/List-Language-Extensions.yml)
+### [List Outbound Network Dependencies Endpoints](azurerekusto/Clusters/List-Outbound-Network-Dependencies-Endpoints.yml)
 ### [List Skus](azurerekusto/Clusters/List-Skus.yml)
 ### [List Skus By Resource](azurerekusto/Clusters/List-Skus-By-Resource.yml)
 ### [Remove Language Extensions](azurerekusto/Clusters/Remove-Language-Extensions.yml)
@@ -3044,12 +3046,30 @@
 ### [List Principals](azurerekusto/Databases/List-Principals.yml)
 ### [Remove Principals](azurerekusto/Databases/Remove-Principals.yml)
 ### [Update](azurerekusto/Databases/Update.yml)
+## Managed Private Endpoints
+### [Overview](azurerekusto/Managed-Private-Endpoints.yml)
+### [Check Name Availability](azurerekusto/Managed-Private-Endpoints/Check-Name-Availability.yml)
+### [Create Or Update](azurerekusto/Managed-Private-Endpoints/Create-Or-Update.yml)
+### [Delete](azurerekusto/Managed-Private-Endpoints/Delete.yml)
+### [Get](azurerekusto/Managed-Private-Endpoints/Get.yml)
+### [List](azurerekusto/Managed-Private-Endpoints/List.yml)
+### [Update](azurerekusto/Managed-Private-Endpoints/Update.yml)
 ## Operations
 ### [Overview](azurerekusto/Operations.yml)
 ### [List](azurerekusto/Operations/List.yml)
 ## Operations Results
 ### [Overview](azurerekusto/Operations-Results.yml)
 ### [Get](azurerekusto/Operations-Results/Get.yml)
+## Private Endpoint Connections
+### [Overview](azurerekusto/Private-Endpoint-Connections.yml)
+### [Create Or Update](azurerekusto/Private-Endpoint-Connections/Create-Or-Update.yml)
+### [Delete](azurerekusto/Private-Endpoint-Connections/Delete.yml)
+### [Get](azurerekusto/Private-Endpoint-Connections/Get.yml)
+### [List](azurerekusto/Private-Endpoint-Connections/List.yml)
+## Private Link Resources
+### [Overview](azurerekusto/Private-Link-Resources.yml)
+### [Get](azurerekusto/Private-Link-Resources/Get.yml)
+### [List](azurerekusto/Private-Link-Resources/List.yml)
 ## Scripts
 ### [Overview](azurerekusto/Scripts.yml)
 ### [Check Name Availability](azurerekusto/Scripts/Check-Name-Availability.yml)

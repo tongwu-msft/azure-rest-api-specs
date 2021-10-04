@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.clusters.listbyresourcegroup
 name: List By Resource Group
 service: Azure Kusto
 groupName: Clusters
-apiVersion: 2021-01-01
+apiVersion: 2021-08-27
 summary: Lists all Kusto clusters within a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters?api-version=2021-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters?api-version=2021-08-27
 uriParameters:
 - name: subscriptionId
   in: path
@@ -66,6 +66,11 @@ definitions:
     description: The SKU of the cluster.
     types:
     - uid: AzureSku
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: zones
     description: The availability zones of the cluster.
     types:
@@ -143,10 +148,37 @@ definitions:
     description: A boolean value that indicates if double encryption is enabled.
     types:
     - uid: boolean
+  - name: properties.publicNetworkAccess
+    description: Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.allowedIpRangeList
+    description: The list of ips in the format of CIDR allowed to connect to the cluster.
+    types:
+    - uid: string
+      isArray: true
   - name: properties.engineType
     description: The engine type
     types:
     - uid: EngineType
+  - name: properties.acceptedAudiences
+    description: The cluster's accepted audiences.
+    types:
+    - uid: AcceptedAudiences
+      isArray: true
+  - name: properties.enableAutoStop
+    description: A boolean value that indicates if the cluster could be automatically stopped (due to lack of data or no activity for many days).
+    types:
+    - uid: boolean
+  - name: properties.restrictOutboundNetworkAccess
+    description: Whether or not to restrict outbound network access.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+    types:
+    - uid: ClusterNetworkAccessFlag
+  - name: properties.allowedFqdnList
+    description: List of allowed FQDNs(Fully Qualified Domain Name) for egress from Cluster.
+    types:
+    - uid: string
+      isArray: true
   - name: tags
     description: Resource tags.
     types:
@@ -211,6 +243,34 @@ definitions:
     description: SKU tier.
     types:
     - uid: AzureSkuTier
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: Identity
   description: Identity for the resource.
   kind: object
@@ -359,6 +419,16 @@ definitions:
     types:
     - uid: LanguageExtension
       isArray: true
+- name: PublicNetworkAccess
+  description: Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 - name: EngineType
   description: The engine type
   kind: enum
@@ -367,6 +437,24 @@ definitions:
     types:
     - uid: string
   - name: V3
+    types:
+    - uid: string
+- name: AcceptedAudiences
+  description: Represents an accepted audience trusted by the cluster.
+  kind: object
+  properties:
+  - name: value
+    description: GUID or valid URL representing an accepted audience.
+    types:
+    - uid: string
+- name: ClusterNetworkAccessFlag
+  description: Whether or not to restrict outbound network access.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: AzureSkuName
@@ -458,6 +546,22 @@ definitions:
   - name: Standard
     types:
     - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: IdentityType
   description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove all identities.
   kind: enum
@@ -503,7 +607,7 @@ definitions:
 examples:
 - name: KustoClustersListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters?api-version=2021-01-01
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters?api-version=2021-08-27
   responses:
   - statusCode: "200"
     body: >-
@@ -523,7 +627,12 @@ examples:
                 "keyName": "keyName",
                 "keyVersion": "keyVersion"
               },
-              "engineType": "V2"
+              "engineType": "V2",
+              "publicNetworkAccess": "Enabled",
+              "allowedIpRangeList": [],
+              "allowedFqdnList": [
+                "my-stroage.blob.core.windows.net"
+              ]
             },
             "sku": {
               "name": "Standard_L8s",
@@ -541,7 +650,12 @@ examples:
               "enableDiskEncryption": true,
               "enableStreamingIngest": true,
               "engineType": "V3",
-              "provisioningState": "Succeeded"
+              "publicNetworkAccess": "Enabled",
+              "allowedIpRangeList": [
+                "0.0.0.0/0"
+              ],
+              "provisioningState": "Succeeded",
+              "restrictOutboundNetworkAccess": "Disabled"
             },
             "sku": {
               "name": "Standard_L8s",
