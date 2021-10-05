@@ -10776,7 +10776,7 @@
 ### [Post Data For Polyline](maps/Elevation/Post-Data-For-Polyline.yml)
 ## Geolocation
 ### [Overview](maps/Geolocation.yml)
-### [Get IP To Location Preview](maps/Geolocation/Get-IP-To-Location-Preview.yml)
+### [Get IP To Location](maps/Geolocation/Get-IP-To-Location.yml)
 ## Mobility
 ### [Overview](maps/Mobility.yml)
 ### [Get Metro Area Info Preview](maps/Mobility/Get-Metro-Area-Info-Preview.yml)
@@ -11166,7 +11166,6 @@
 #### [Create Or Update](media/Mediaservices/Create-Or-Update.yml)
 #### [Delete](media/Mediaservices/Delete.yml)
 #### [Get](media/Mediaservices/Get.yml)
-#### [Get By Subscription](media/Mediaservices/Get-By-Subscription.yml)
 #### [List](media/Mediaservices/List.yml)
 #### [List By Subscription](media/Mediaservices/List-By-Subscription.yml)
 #### [List Edge Policies](media/Mediaservices/List-Edge-Policies.yml)
@@ -13476,6 +13475,7 @@
 ## Reference (Preview)
 ### [Introduction](../docs-ref-conceptual/searchservice/index-preview.md)
 ### Indexes
+#### [Analyze Text](../docs-ref-conceptual/searchservice/preview-api/test-analyzer.md)
 #### [Create or Update Index](../docs-ref-conceptual/searchservice/preview-api/create-or-update-index.md)
 ### Documents
 #### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
