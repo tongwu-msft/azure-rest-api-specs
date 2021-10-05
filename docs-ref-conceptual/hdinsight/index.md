@@ -59,10 +59,9 @@ Shortly we will be releasing a new version of the HDInsight REST API.  This new 
 1. One property {location}, previously optional, will be required.
 2. Two existing properties will be removed from the Locations API, {vmsizes} and {vmsize_filters}.  These properties remain in another part of the api, BillingSpecs.  We are moving to a single source (BillingSpecs) for these two properties.
 3. Two existing properties will be renamed, to match camelCase style.
-
-* {cores_used} will be renamed to {coresUsed}
-* {max_cores_allowed} will be renamed to {maxCoresAllowed}
-* {regionName} has been renamed to {regionName}
+   1. {cores_used} will be renamed to {coresUsed}
+   1. {max_cores_allowed} will be renamed to {maxCoresAllowed}
+   1. {regionName} has been renamed to {regionName}
 
 ## See Also
 
