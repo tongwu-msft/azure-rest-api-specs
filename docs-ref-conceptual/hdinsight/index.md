@@ -2,13 +2,13 @@
 ms.assetid: 37b1c530-8ef4-49d5-8dd2-48220e980d3e
 ms.title: Azure HDInsight REST API Reference
 title: Azure HDInsight REST API Reference
-services: hdinsight
 ms.service: hdinsight
 description: Azure HDInsight REST API reference
 author: guyhay
 ms.author: guyhay
-ms.manager: kfile
 ms.date: 10/4/2021
+ms.topic: reference
+MS.devlang: rest-api
 ---
 
 # Azure HDInsight: REST APIs
