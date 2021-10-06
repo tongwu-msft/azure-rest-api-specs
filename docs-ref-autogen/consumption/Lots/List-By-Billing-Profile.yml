@@ -1,28 +1,33 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.consumption.lots.list
-name: List
+uid: management.azure.com.consumption.lots.listbybillingprofile
+name: List By Billing Profile
 service: Consumption
 groupName: Lots
-apiVersion: 2019-10-01
-summary: Lists the lots by billingAccountId and billingProfileId.
+apiVersion: 2021-10-01
+summary: Lists all Azure credits and Microsoft Azure consumption commitments for a billing account or a billing profile. Microsoft Azure consumption commitments are only supported for the billing account scope.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/lots?api-version=2019-10-01
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/lots?api-version=2021-10-01
 uriParameters:
-- name: scope
+- name: billingAccountId
   in: path
   isRequired: true
-  skipUrlEncoding: true
-  description: The scope associated with Lots operations. This includes '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfile/{billingProfileId}' for Billing Profile scope, and 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for partners.
+  description: BillingAccount ID
+  types:
+  - uid: string
+- name: billingProfileId
+  in: path
+  isRequired: true
+  description: Azure Billing Profile ID.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2019-10-01.
+  description: Version of the API to be used with the client request. The current version is 2021-10-01.
   types:
   - uid: string
 responses:
@@ -63,69 +68,84 @@ definitions:
   description: A lot summary resource.
   kind: object
   properties:
-  - name: properties.creditCurrency
-    isReadyOnly: true
-    description: Credit Currency
-    types:
-    - uid: string
-  - name: properties.billingCurrency
-    isReadyOnly: true
-    description: Billing Currency.
-    types:
-    - uid: string
   - name: properties.originalAmount
     isReadyOnly: true
-    description: Original amount.
+    description: The original amount of a lot.
     types:
     - uid: amount
-  - name: properties.originalAmountInBillingCurrency
-    isReadyOnly: true
-    description: Current balance.
-    types:
-    - uid: AmountWithExchangeRate
   - name: properties.closedBalance
     isReadyOnly: true
-    description: Closed balance.
+    description: The balance as of the last invoice.
     types:
     - uid: amount
-  - name: properties.closedBalanceInBillingCurrency
-    isReadyOnly: true
-    description: Current balance.
-    types:
-    - uid: AmountWithExchangeRate
   - name: properties.source
     isReadyOnly: true
-    description: Lot source.
+    description: The source of the lot.
     types:
     - uid: LotSource
   - name: properties.startDate
     isReadyOnly: true
-    description: Start date.
+    description: The date when the lot became effective.
     types:
     - uid: string
   - name: properties.expirationDate
     isReadyOnly: true
-    description: Expiration date.
+    description: The expiration date of a lot.
     types:
     - uid: string
   - name: properties.poNumber
     isReadyOnly: true
-    description: PO number.
+    description: The po number of the invoice on which the lot was added. This property is not available for ConsumptionCommitment lots.
     types:
     - uid: string
+  - name: properties.purchasedDate
+    isReadyOnly: true
+    description: The date when the lot was added.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: The status of the lot.
+    types:
+    - uid: Status
+  - name: properties.creditCurrency
+    isReadyOnly: true
+    description: The currency of the lot.
+    types:
+    - uid: string
+  - name: properties.billingCurrency
+    isReadyOnly: true
+    description: The billing currency of the lot.
+    types:
+    - uid: string
+  - name: properties.originalAmountInBillingCurrency
+    isReadyOnly: true
+    description: The original amount of a lot in billing currency.
+    types:
+    - uid: AmountWithExchangeRate
+  - name: properties.closedBalanceInBillingCurrency
+    isReadyOnly: true
+    description: The balance as of the last invoice in billing currency.
+    types:
+    - uid: AmountWithExchangeRate
   - name: properties.reseller
     isReadyOnly: true
-    description: Reseller details.
+    description: The reseller of the lot.
     types:
     - uid: Reseller
+  - name: properties.eTag
+    isReadyOnly: true
+    description: The eTag for the resource.
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
-    description: Resource Id.
+    description: The full qualified ARM ID of an event.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name.
+    description: 'The ID that uniquely identifies an event. '
     types:
     - uid: string
   - name: type
@@ -135,7 +155,7 @@ definitions:
     - uid: string
   - name: etag
     isReadyOnly: true
-    description: Resource etag.
+    description: The etag for the resource.
     types:
     - uid: string
   - name: tags
@@ -175,20 +195,55 @@ definitions:
     description: Amount.
     types:
     - uid: number
+- name: LotSource
+  description: The source of the lot.
+  kind: enum
+  properties:
+  - name: PurchasedCredit
+    types:
+    - uid: string
+  - name: PromotionalCredit
+    types:
+    - uid: string
+  - name: ConsumptionCommitment
+    types:
+    - uid: string
+- name: Status
+  description: The status of the lot.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Active
+    types:
+    - uid: string
+  - name: Inactive
+    types:
+    - uid: string
+  - name: Expired
+    types:
+    - uid: string
+  - name: Complete
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
 - name: AmountWithExchangeRate
-  description: Reseller details
+  description: The amount with exchange rate.
   kind: object
   properties:
   - name: exchangeRate
     isReadyOnly: true
-    description: Exchange Rate.
+    description: The exchange rate.
     types:
     - uid: number
   - name: exchangeRateMonth
     isReadyOnly: true
-    description: Exchange rate month.
+    description: The exchange rate month.
     types:
-    - uid: number
+    - uid: integer
   - name: currency
     isReadyOnly: true
     description: Amount currency.
@@ -199,34 +254,24 @@ definitions:
     description: Amount.
     types:
     - uid: number
-- name: LotSource
-  description: Lot source.
-  kind: enum
-  properties:
-  - name: PurchasedCredit
-    types:
-    - uid: string
-  - name: PromotionalCredit
-    types:
-    - uid: string
 - name: Reseller
-  description: Reseller details
+  description: The reseller properties.
   kind: object
   properties:
   - name: resellerId
     isReadyOnly: true
-    description: Reseller id.
+    description: The reseller property ID.
     types:
     - uid: string
   - name: resellerDescription
     isReadyOnly: true
-    description: Reseller Description.
+    description: The reseller property description.
     types:
     - uid: string
 examples:
 - name: LotsListByBillingProfile
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/2468/providers/Microsoft.Consumption/lots?api-version=2019-10-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/2468/providers/Microsoft.Consumption/lots?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -237,17 +282,31 @@ examples:
             "name": "lot1",
             "type": "Microsoft.Consumption/lots",
             "properties": {
+              "creditCurrency": "USD",
+              "billingCurrency": "USD",
               "originalAmount": {
                 "currency": "USD",
                 "value": 5000
+              },
+              "originalAmountInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
               },
               "closedBalance": {
                 "currency": "USD",
                 "value": 60.9
               },
+              "closedBalanceInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "reseller": {
+                "resellerId": "/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/2468/providers/Microsoft.Consumption/reseller/reseller1",
+                "resellerDescription": "Reseller information."
+              },
               "source": "PurchasedCredit",
-              "startDate": "2019-10-01T00:00:00Z",
-              "expirationDate": "2019-11-01T00:00:00Z",
+              "startDate": "2021-10-01T00:00:00Z",
+              "expirationDate": "2021-10-01T00:00:00Z",
               "poNumber": "3524"
             }
           },
@@ -256,88 +315,30 @@ examples:
             "name": "lot2",
             "type": "Microsoft.Consumption/lots",
             "properties": {
-              "originalAmount": {
-                "currency": "USD",
-                "value": 6000
-              },
-              "closedBalance": {
-                "currency": "USD",
-                "value": 80.9
-              },
-              "source": "PurchasedCredit",
-              "startDate": "2019-11-01T00:00:00Z",
-              "expirationDate": "2019-12-31T00:00:00Z",
-              "poNumber": "31224"
-            }
-          }
-        ]
-      }
-- name: LotsList-Modern
-  request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:5678/customers/2468/providers/Microsoft.Consumption/lots?api-version=2019-10-01
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "value": [
-          {
-            "id": "/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProficustomersles/2468/providers/Microsoft.Consumption/lots/lot1",
-            "name": "lot1",
-            "type": "Microsoft.Consumption/lots",
-            "properties": {
-              "originalAmount": {
-                "currency": "USD",
-                "value": 5000
-              },
-              "originalAmountInBillingCurrency": {
-                "exchangeRate": 73.422500000000269,
-                "exchangeRateMonth": 202101,
-                "currency": "",
-                "value": 7342.2500000000264
-              },
-              "closedBalance": {
-                "currency": "USD",
-                "value": 60.9
-              },
-              "closedBalanceInBillingCurrency": {
-                "exchangeRate": 73.422500000000269,
-                "exchangeRateMonth": 202101,
-                "currency": "",
-                "value": 7342.2500000000264
-              },
-              "source": "PurchasedCredit",
-              "startDate": "2019-10-01T00:00:00Z",
-              "expirationDate": "2019-11-01T00:00:00Z",
-              "poNumber": "3524"
-            }
-          },
-          {
-            "id": "/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/2468/providers/Microsoft.Consumption/lots/lot2",
-            "name": "lot2",
-            "type": "Microsoft.Consumption/lots",
-            "properties": {
+              "creditCurrency": "USD",
+              "billingCurrency": "USD",
               "originalAmount": {
                 "currency": "USD",
                 "value": 6000
               },
               "originalAmountInBillingCurrency": {
-                "exchangeRate": 73.422500000000269,
-                "exchangeRateMonth": 202101,
-                "currency": "",
-                "value": 7342.2500000000264
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
               },
               "closedBalance": {
                 "currency": "USD",
                 "value": 80.9
               },
               "closedBalanceInBillingCurrency": {
-                "exchangeRate": 73.422500000000269,
-                "exchangeRateMonth": 202101,
-                "currency": "",
-                "value": 7342.2500000000264
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "reseller": {
+                "resellerId": "/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/2468/providers/Microsoft.Consumption/reseller/reseller2",
+                "resellerDescription": "Reseller information."
               },
               "source": "PurchasedCredit",
-              "startDate": "2019-11-01T00:00:00Z",
+              "startDate": "2021-10-01T00:00:00Z",
               "expirationDate": "2019-12-31T00:00:00Z",
               "poNumber": "31224"
             }
@@ -354,5 +355,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Consumption service - Lists the lots by billingAccountId and billingProfileId.
+  description: Lists all Azure credits and Microsoft Azure consumption commitments for a billing account or a billing profile.
 errorCodes: []

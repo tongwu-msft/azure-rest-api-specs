@@ -3,15 +3,15 @@ uid: management.azure.com.cost-management.forecast.usage
 name: Usage
 service: Cost Management
 groupName: Forecast
-apiVersion: 2019-11-01
+apiVersion: 2021-10-01
 summary: Lists the forecast charges for scope defined.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/{scope}/providers/Microsoft.CostManagement/forecast?api-version=2019-11-01
-- content: POST https://management.azure.com/{scope}/providers/Microsoft.CostManagement/forecast?$filter={$filter}&api-version=2019-11-01
+- content: POST https://management.azure.com/{scope}/providers/Microsoft.CostManagement/forecast?api-version=2021-10-01
+- content: POST https://management.azure.com/{scope}/providers/Microsoft.CostManagement/forecast?$filter={$filter}&api-version=2021-10-01
   isOptional: true
 uriParameters:
 - name: scope
@@ -29,7 +29,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2019-11-01.
+  description: Version of the API to be used with the client request.
   types:
   - uid: string
 responses:
@@ -37,8 +37,6 @@ responses:
   description: OK. The request has succeeded.
   types:
   - uid: QueryResult
-- name: 204 No Content
-  description: An empty response is sent when there is no information available within the selected scope.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -68,7 +66,7 @@ requestBody:
     isRequired: true
     description: Has definition for data in this forecast.
     types:
-    - uid: QueryDataset
+    - uid: ForecastDataset
   - name: includeActualCost
     in: body
     description: a boolean determining if actualCost will be included
@@ -93,12 +91,12 @@ definitions:
     description: The end date to pull data to.
     types:
     - uid: string
-- name: QueryDataset
-  description: The definition of data present in the query.
+- name: ForecastDataset
+  description: The definition of data present in the forecast.
   kind: object
   properties:
   - name: granularity
-    description: The granularity of rows in the query.
+    description: The granularity of rows in the forecast.
     types:
     - uid: GranularityType
   - name: configuration
@@ -106,40 +104,21 @@ definitions:
     types:
     - uid: QueryDatasetConfiguration
   - name: aggregation
-    description: Dictionary of aggregation expression to use in the query. The key of each item in the dictionary is the alias for the aggregated column. Query can have up to 2 aggregation clauses.
+    description: Dictionary of aggregation expression to use in the forecast. The key of each item in the dictionary is the alias for the aggregated column. forecast can have up to 2 aggregation clauses.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: QueryAggregation
-  - name: grouping
-    description: Array of group by expression to use in the query. Query can have up to 2 group by clauses.
-    types:
-    - uid: QueryGrouping
-      isArray: true
   - name: filter
-    description: The filter expression to use in the query. Please reference our Query API REST documentation for how to properly format the filter.
+    description: Has filter expression to use in the forecast.
     types:
     - uid: QueryFilter
 - name: QueryResult
   description: Result of query. It contains all columns listed under groupings and aggregation.
   kind: object
   properties:
-  - name: eTag
-    description: eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not.
-    types:
-    - uid: string
-  - name: location
-    isReadyOnly: true
-    description: Resource location
-    types:
-    - uid: string
-  - name: sku
-    isReadyOnly: true
-    description: Resource SKU
-    types:
-    - uid: string
   - name: properties.nextLink
     description: The link (url) to the next page of results.
     types:
@@ -205,7 +184,7 @@ definitions:
   - name: dataset
     description: Has definition for data in this forecast.
     types:
-    - uid: QueryDataset
+    - uid: ForecastDataset
   - name: includeActualCost
     description: a boolean determining if actualCost will be included
     types:
@@ -215,7 +194,7 @@ definitions:
     types:
     - uid: boolean
 - name: GranularityType
-  description: The granularity of rows in the query.
+  description: The granularity of rows in the forecast.
   kind: enum
   properties:
   - name: Daily
@@ -242,18 +221,6 @@ definitions:
     description: The name of the aggregation function to use.
     types:
     - uid: FunctionType
-- name: QueryGrouping
-  description: The group by expression to be used in the query.
-  kind: object
-  properties:
-  - name: type
-    description: Has type of the column to group.
-    types:
-    - uid: QueryColumnType
-  - name: name
-    description: The name of the column to group.
-    types:
-    - uid: string
 - name: QueryFilter
   description: The filter expression to be used in the export.
   kind: object
@@ -268,15 +235,20 @@ definitions:
     types:
     - uid: QueryFilter
       isArray: true
-  - name: dimensions
+  - name: not
+    description: The logical "NOT" expression.
+    types:
+    - uid: QueryFilter
+  - name: dimension
     description: Has comparison expression for a dimension
     types:
     - uid: QueryComparisonExpression
-  - name: tags
+  - name: tag
     description: Has comparison expression for a tag
     types:
     - uid: QueryComparisonExpression
 - name: QueryColumn
+  description: QueryColumn properties
   kind: object
   properties:
   - name: name
@@ -340,26 +312,7 @@ definitions:
   description: The name of the aggregation function to use.
   kind: enum
   properties:
-  - name: Avg
-    types:
-    - uid: string
-  - name: Max
-    types:
-    - uid: string
-  - name: Min
-    types:
-    - uid: string
   - name: Sum
-    types:
-    - uid: string
-- name: QueryColumnType
-  description: The type of the column in the export.
-  kind: enum
-  properties:
-  - name: Tag
-    types:
-    - uid: string
-  - name: Dimension
     types:
     - uid: string
 - name: QueryComparisonExpression
@@ -373,26 +326,23 @@ definitions:
   - name: operator
     description: The operator to use for comparison.
     types:
-    - uid: OperatorType
+    - uid: QueryOperatorType
   - name: values
     description: Array of values to use for comparison
     types:
     - uid: string
       isArray: true
-- name: OperatorType
+- name: QueryOperatorType
   description: The operator to use for comparison.
   kind: enum
   properties:
   - name: In
     types:
     - uid: string
-  - name: Contains
-    types:
-    - uid: string
 examples:
 - name: BillingAccountForecast
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/providers/Microsoft.CostManagement/forecast?api-version=2019-11-01
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/providers/Microsoft.CostManagement/forecast?api-version=2021-10-01
     body: >-
       {
         "type": "Usage",
@@ -404,7 +354,7 @@ examples:
               {
                 "or": [
                   {
-                    "dimensions": {
+                    "dimension": {
                       "name": "ResourceLocation",
                       "operator": "In",
                       "values": [
@@ -414,7 +364,7 @@ examples:
                     }
                   },
                   {
-                    "tags": {
+                    "tag": {
                       "name": "Environment",
                       "operator": "In",
                       "values": [
@@ -426,7 +376,7 @@ examples:
                 ]
               },
               {
-                "dimensions": {
+                "dimension": {
                   "name": "ResourceGroup",
                   "operator": "In",
                   "values": [
@@ -447,11 +397,8 @@ examples:
         "id": "providers/Microsoft.Billing/billingAccounts/12345:6789/providers/Microsoft.CostManagement/query/ad67fd91-c131-4bda-9ba9-7187ecb1cebd",
         "name": "ad67fd91-c131-4bda-9ba9-7187ecb1cebd",
         "type": "microsoft.costmanagement/Query",
-        "location": "useast",
-        "sku": "Standard_DS1_v2",
-        "eTag": "1d695cdcb6a8a50",
         "properties": {
-          "nextLink": "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/providers/Microsoft.CostManagement/Forecast?api-version=2019-10-01&$skiptoken=AQAAAA%3D%3D",
+          "nextLink": "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/providers/Microsoft.CostManagement/Forecast?api-version=2021-10-01&$skiptoken=AQAAAA%3D%3D",
           "columns": [
             {
               "name": "PreTaxCost",
@@ -506,10 +453,9 @@ examples:
           ]
         }
       }
-  - statusCode: "204"
 - name: BillingProfileForecast
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/providers/Microsoft.CostManagement/forecast?api-version=2019-11-01
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/providers/Microsoft.CostManagement/forecast?api-version=2021-10-01
     body: >-
       {
         "type": "Usage",
@@ -521,7 +467,7 @@ examples:
               {
                 "or": [
                   {
-                    "dimensions": {
+                    "dimension": {
                       "name": "ResourceLocation",
                       "operator": "In",
                       "values": [
@@ -531,7 +477,7 @@ examples:
                     }
                   },
                   {
-                    "tags": {
+                    "tag": {
                       "name": "Environment",
                       "operator": "In",
                       "values": [
@@ -543,7 +489,7 @@ examples:
                 ]
               },
               {
-                "dimensions": {
+                "dimension": {
                   "name": "ResourceGroup",
                   "operator": "In",
                   "values": [
@@ -564,9 +510,6 @@ examples:
         "id": "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/providers/Microsoft.CostManagement/query/ad67fd91-c131-4bda-9ba9-7187ecb1cebd",
         "name": "ad67fd91-c131-4bda-9ba9-7187ecb1cebd",
         "type": "microsoft.costmanagement/Query",
-        "location": "useast",
-        "sku": "Standard_DS1_v2",
-        "eTag": "1d695cdcb6a8a50",
         "properties": {
           "nextLink": "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/providers/Microsoft.CostManagement/Forecast?api-version=2019-10-01&$skiptoken=AQAAAA%3D%3D",
           "columns": [
@@ -623,10 +566,9 @@ examples:
           ]
         }
       }
-  - statusCode: "204"
 - name: InvoiceSectionForecast
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/invoiceSections/9876/providers/Microsoft.CostManagement/forecast?api-version=2019-11-01
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/invoiceSections/9876/providers/Microsoft.CostManagement/forecast?api-version=2021-10-01
     body: >-
       {
         "type": "Usage",
@@ -638,7 +580,7 @@ examples:
               {
                 "or": [
                   {
-                    "dimensions": {
+                    "dimension": {
                       "name": "ResourceLocation",
                       "operator": "In",
                       "values": [
@@ -648,7 +590,7 @@ examples:
                     }
                   },
                   {
-                    "tags": {
+                    "tag": {
                       "name": "Environment",
                       "operator": "In",
                       "values": [
@@ -660,7 +602,7 @@ examples:
                 ]
               },
               {
-                "dimensions": {
+                "dimension": {
                   "name": "ResourceGroup",
                   "operator": "In",
                   "values": [
@@ -681,9 +623,6 @@ examples:
         "id": "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/invoiceSections/9876/providers/Microsoft.CostManagement/query/ad67fd91-c131-4bda-9ba9-7187ecb1cebd",
         "name": "ad67fd91-c131-4bda-9ba9-7187ecb1cebd",
         "type": "microsoft.costmanagement/Query",
-        "location": "useast",
-        "sku": "Standard_DS1_v2",
-        "eTag": "1d695cdcb6a8a50",
         "properties": {
           "nextLink": "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/invoiceSections/9876/providers/Microsoft.CostManagement/Forecast?api-version=2019-10-01&$skiptoken=AQAAAA%3D%3D",
           "columns": [
@@ -740,10 +679,9 @@ examples:
           ]
         }
       }
-  - statusCode: "204"
 - name: EnrollmentAccountForecast
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/enrollmentAccounts/456/providers/Microsoft.CostManagement/forecast?api-version=2019-11-01
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/enrollmentAccounts/456/providers/Microsoft.CostManagement/forecast?api-version=2021-10-01
     body: >-
       {
         "type": "Usage",
@@ -755,7 +693,7 @@ examples:
               {
                 "or": [
                   {
-                    "dimensions": {
+                    "dimension": {
                       "name": "ResourceLocation",
                       "operator": "In",
                       "values": [
@@ -765,7 +703,7 @@ examples:
                     }
                   },
                   {
-                    "tags": {
+                    "tag": {
                       "name": "Environment",
                       "operator": "In",
                       "values": [
@@ -777,7 +715,7 @@ examples:
                 ]
               },
               {
-                "dimensions": {
+                "dimension": {
                   "name": "ResourceGroup",
                   "operator": "In",
                   "values": [
@@ -798,11 +736,8 @@ examples:
         "id": "providers/Microsoft.Billing/billingAccounts/12345:6789/enrollmentAccounts/456/providers/Microsoft.CostManagement/query/ad67fd91-c131-4bda-9ba9-7187ecb1cebd",
         "name": "ad67fd91-c131-4bda-9ba9-7187ecb1cebd",
         "type": "microsoft.costmanagement/Query",
-        "location": "useast",
-        "sku": "Standard_DS1_v2",
-        "eTag": "1d695cdcb6a8a50",
         "properties": {
-          "nextLink": "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/enrollmentAccounts/456/providers/Microsoft.CostManagement/Forecast?api-version=2019-10-01&$skiptoken=AQAAAA%3D%3D",
+          "nextLink": "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/enrollmentAccounts/456/providers/Microsoft.CostManagement/Forecast?api-version=2021-10-01&$skiptoken=AQAAAA%3D%3D",
           "columns": [
             {
               "name": "PreTaxCost",
@@ -857,10 +792,9 @@ examples:
           ]
         }
       }
-  - statusCode: "204"
 - name: DepartmentForecast
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/departments/123/providers/Microsoft.CostManagement/forecast?api-version=2019-11-01
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/departments/123/providers/Microsoft.CostManagement/forecast?api-version=2021-10-01
     body: >-
       {
         "type": "Usage",
@@ -872,7 +806,7 @@ examples:
               {
                 "or": [
                   {
-                    "dimensions": {
+                    "dimension": {
                       "name": "ResourceLocation",
                       "operator": "In",
                       "values": [
@@ -882,7 +816,7 @@ examples:
                     }
                   },
                   {
-                    "tags": {
+                    "tag": {
                       "name": "Environment",
                       "operator": "In",
                       "values": [
@@ -894,7 +828,7 @@ examples:
                 ]
               },
               {
-                "dimensions": {
+                "dimension": {
                   "name": "ResourceGroup",
                   "operator": "In",
                   "values": [
@@ -915,11 +849,8 @@ examples:
         "id": "providers/Microsoft.Billing/billingAccounts/12345:6789/departments/123/providers/Microsoft.CostManagement/query/ad67fd91-c131-4bda-9ba9-7187ecb1cebd",
         "name": "ad67fd91-c131-4bda-9ba9-7187ecb1cebd",
         "type": "microsoft.costmanagement/Query",
-        "location": "useast",
-        "sku": "Standard_DS1_v2",
-        "eTag": "1d695cdcb6a8a50",
         "properties": {
-          "nextLink": "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/departments/123/providers/Microsoft.CostManagement/Forecast?api-version=2019-10-01&$skiptoken=AQAAAA%3D%3D",
+          "nextLink": "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/departments/123/providers/Microsoft.CostManagement/Forecast?api-version=2021-10-01&$skiptoken=AQAAAA%3D%3D",
           "columns": [
             {
               "name": "PreTaxCost",
@@ -974,10 +905,9 @@ examples:
           ]
         }
       }
-  - statusCode: "204"
 - name: SubscriptionForecast
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/forecast?api-version=2019-11-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/forecast?api-version=2021-10-01
     body: >-
       {
         "type": "Usage",
@@ -989,7 +919,7 @@ examples:
               {
                 "or": [
                   {
-                    "dimensions": {
+                    "dimension": {
                       "name": "ResourceLocation",
                       "operator": "In",
                       "values": [
@@ -999,7 +929,7 @@ examples:
                     }
                   },
                   {
-                    "tags": {
+                    "tag": {
                       "name": "Environment",
                       "operator": "In",
                       "values": [
@@ -1011,7 +941,7 @@ examples:
                 ]
               },
               {
-                "dimensions": {
+                "dimension": {
                   "name": "ResourceGroup",
                   "operator": "In",
                   "values": [
@@ -1032,9 +962,6 @@ examples:
         "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/query/00000000-0000-0000-0000-000000000000",
         "name": "55312978-ba1b-415c-9304-cfd9c43c0481",
         "type": "microsoft.costmanagement/Query",
-        "location": "useast",
-        "sku": "Standard_DS1_v2",
-        "eTag": "1d695cdcb6a8a50",
         "properties": {
           "nextLink": null,
           "columns": [
@@ -1091,10 +1018,9 @@ examples:
           ]
         }
       }
-  - statusCode: "204"
 - name: ResourceGroupForecast
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ScreenSharingTest-peer/providers/Microsoft.CostManagement/forecast?api-version=2019-11-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ScreenSharingTest-peer/providers/Microsoft.CostManagement/forecast?api-version=2021-10-01
     body: >-
       {
         "type": "Usage",
@@ -1106,7 +1032,7 @@ examples:
               {
                 "or": [
                   {
-                    "dimensions": {
+                    "dimension": {
                       "name": "ResourceLocation",
                       "operator": "In",
                       "values": [
@@ -1116,7 +1042,7 @@ examples:
                     }
                   },
                   {
-                    "tags": {
+                    "tag": {
                       "name": "Environment",
                       "operator": "In",
                       "values": [
@@ -1128,7 +1054,7 @@ examples:
                 ]
               },
               {
-                "dimensions": {
+                "dimension": {
                   "name": "ResourceGroup",
                   "operator": "In",
                   "values": [
@@ -1149,9 +1075,6 @@ examples:
         "id": "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ScreenSharingTest-peer/providers/Microsoft.CostManagement/query/00000000-0000-0000-0000-000000000000",
         "name": "55312978-ba1b-415c-9304-cfd9c43c0481",
         "type": "microsoft.costmanagement/Query",
-        "location": "useast",
-        "sku": "Standard_DS1_v2",
-        "eTag": "1d695cdcb6a8a50",
         "properties": {
           "nextLink": null,
           "columns": [
@@ -1187,7 +1110,6 @@ examples:
           ]
         }
       }
-  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2

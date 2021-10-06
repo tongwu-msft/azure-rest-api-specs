@@ -1,0 +1,579 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.consumption.events.listbybillingprofile
+name: List By Billing Profile
+service: Consumption
+groupName: Events
+apiVersion: 2021-10-01
+summary: Lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/events?api-version=2021-10-01&startDate={startDate}&endDate={endDate}
+uriParameters:
+- name: billingAccountId
+  in: path
+  isRequired: true
+  description: BillingAccount ID
+  types:
+  - uid: string
+- name: billingProfileId
+  in: path
+  isRequired: true
+  description: Azure Billing Profile ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2021-10-01.
+  types:
+  - uid: string
+- name: startDate
+  in: query
+  isRequired: true
+  description: Start date
+  types:
+  - uid: string
+- name: endDate
+  in: query
+  isRequired: true
+  description: End date
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: Events
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: Events
+  description: Result of listing event summary.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of event summary.
+    types:
+    - uid: EventSummary
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: "Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header."
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: EventSummary
+  description: An event summary resource.
+  kind: object
+  properties:
+  - name: properties.transactionDate
+    isReadyOnly: true
+    description: The date of the event.
+    types:
+    - uid: string
+  - name: properties.description
+    isReadyOnly: true
+    description: The description of the event.
+    types:
+    - uid: string
+  - name: properties.newCredit
+    isReadyOnly: true
+    description: The amount of new credit or commitment for NewCredit or SettleCharges event.
+    types:
+    - uid: amount
+  - name: properties.adjustments
+    isReadyOnly: true
+    description: The amount of balance adjustment. The property is not available for ConsumptionCommitment lots.
+    types:
+    - uid: amount
+  - name: properties.creditExpired
+    isReadyOnly: true
+    description: The amount of expired credit or commitment for NewCredit or SettleCharges event.
+    types:
+    - uid: amount
+  - name: properties.charges
+    isReadyOnly: true
+    description: 'The amount of charges for events of type SettleCharges and PendingEligibleCharges. '
+    types:
+    - uid: amount
+  - name: properties.closedBalance
+    isReadyOnly: true
+    description: 'The balance after the event. '
+    types:
+    - uid: amount
+  - name: properties.eventType
+    description: Identifies the type of the event.
+    types:
+    - uid: EventType
+  - name: properties.invoiceNumber
+    isReadyOnly: true
+    description: The number which uniquely identifies the invoice on which the event was billed. This will be empty for unbilled events.
+    types:
+    - uid: string
+  - name: properties.billingProfileId
+    isReadyOnly: true
+    description: 'The ID that uniquely identifies the billing profile for which the event happened. The property is only available for billing account of type MicrosoftCustomerAgreement. '
+    types:
+    - uid: string
+  - name: properties.billingProfileDisplayName
+    isReadyOnly: true
+    description: The display name of the billing profile for which the event happened. The property is only available for billing account of type MicrosoftCustomerAgreement.
+    types:
+    - uid: string
+  - name: properties.lotId
+    isReadyOnly: true
+    description: The ID that uniquely identifies the lot for which the event happened.
+    types:
+    - uid: string
+  - name: properties.lotSource
+    isReadyOnly: true
+    description: 'Identifies the source of the lot for which the event happened. '
+    types:
+    - uid: string
+  - name: properties.canceledCredit
+    isReadyOnly: true
+    description: Amount of canceled credit.
+    types:
+    - uid: amount
+  - name: properties.creditCurrency
+    isReadyOnly: true
+    description: The credit currency of the event.
+    types:
+    - uid: string
+  - name: properties.billingCurrency
+    isReadyOnly: true
+    description: The billing currency of the event.
+    types:
+    - uid: string
+  - name: properties.reseller
+    isReadyOnly: true
+    description: The reseller of the event.
+    types:
+    - uid: Reseller
+  - name: properties.creditExpiredInBillingCurrency
+    isReadyOnly: true
+    description: The amount of expired credit or commitment for NewCredit or SettleCharges event in billing currency.
+    types:
+    - uid: AmountWithExchangeRate
+  - name: properties.newCreditInBillingCurrency
+    isReadyOnly: true
+    description: The amount of new credit or commitment for NewCredit or SettleCharges event in billing currency.
+    types:
+    - uid: AmountWithExchangeRate
+  - name: properties.adjustmentsInBillingCurrency
+    isReadyOnly: true
+    description: The amount of balance adjustment in billing currency.
+    types:
+    - uid: AmountWithExchangeRate
+  - name: properties.chargesInBillingCurrency
+    isReadyOnly: true
+    description: The amount of charges for events of type SettleCharges and PendingEligibleCharges in billing currency.
+    types:
+    - uid: AmountWithExchangeRate
+  - name: properties.closedBalanceInBillingCurrency
+    isReadyOnly: true
+    description: The balance in billing currency after the event.
+    types:
+    - uid: AmountWithExchangeRate
+  - name: properties.eTag
+    isReadyOnly: true
+    description: The eTag for the resource.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The full qualified ARM ID of an event.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: 'The ID that uniquely identifies an event. '
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: The etag for the resource.
+    types:
+    - uid: string
+  - name: tags
+    isReadyOnly: true
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: amount
+  description: The amount plus currency .
+  kind: object
+  properties:
+  - name: currency
+    isReadyOnly: true
+    description: Amount currency.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: Amount.
+    types:
+    - uid: number
+- name: EventType
+  description: Identifies the type of the event.
+  kind: enum
+  properties:
+  - name: SettledCharges
+    types:
+    - uid: string
+  - name: PendingCharges
+    types:
+    - uid: string
+  - name: PendingAdjustments
+    types:
+    - uid: string
+  - name: PendingNewCredit
+    types:
+    - uid: string
+  - name: PendingExpiredCredit
+    types:
+    - uid: string
+  - name: UnKnown
+    types:
+    - uid: string
+  - name: NewCredit
+    types:
+    - uid: string
+- name: Reseller
+  description: The reseller properties.
+  kind: object
+  properties:
+  - name: resellerId
+    isReadyOnly: true
+    description: The reseller property ID.
+    types:
+    - uid: string
+  - name: resellerDescription
+    isReadyOnly: true
+    description: The reseller property description.
+    types:
+    - uid: string
+- name: AmountWithExchangeRate
+  description: The amount with exchange rate.
+  kind: object
+  properties:
+  - name: exchangeRate
+    isReadyOnly: true
+    description: The exchange rate.
+    types:
+    - uid: number
+  - name: exchangeRateMonth
+    isReadyOnly: true
+    description: The exchange rate month.
+    types:
+    - uid: integer
+  - name: currency
+    isReadyOnly: true
+    description: Amount currency.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: Amount.
+    types:
+    - uid: number
+examples:
+- name: EventsListByBillingProfile
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/4268/providers/Microsoft.Consumption/events?api-version=2021-10-01&startDate=2019-09-01&endDate=2019-10-31
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/4268/providers/Microsoft.Consumption/events/event1",
+            "name": "event1",
+            "type": "Microsoft.Consumption/events",
+            "properties": {
+              "transactionDate": "2019-07-01T00:00:00Z",
+              "description": "Settled invoice #312033",
+              "creditCurrency": "USD",
+              "reseller": {
+                "resellerId": "/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/2468/providers/Microsoft.Consumption/reseller/reseller1",
+                "resellerDescription": "Reseller information"
+              },
+              "billingCurrency": "USD",
+              "newCredit": {
+                "currency": "USD",
+                "value": 0
+              },
+              "newCreditInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "adjustments": {
+                "currency": "USD",
+                "value": 0
+              },
+              "adjustmentsInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "creditExpired": {
+                "currency": "USD",
+                "value": 0
+              },
+              "creditExpiredInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "charges": {
+                "currency": "USD",
+                "value": 500
+              },
+              "chargesInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "closedBalance": {
+                "currency": "USD",
+                "value": 500
+              },
+              "closedBalanceInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "eventType": "SettledCharges",
+              "invoiceNumber": "3301"
+            }
+          },
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/4268/providers/Microsoft.Consumption/events/event2",
+            "name": "event2",
+            "type": "Microsoft.Consumption/events",
+            "properties": {
+              "transactionDate": "2019-08-01T00:00:00Z",
+              "description": "New credits added",
+              "creditCurrency": "USD",
+              "reseller": {
+                "resellerId": "/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/2468/providers/Microsoft.Consumption/reseller/reseller1",
+                "resellerDescription": "Reseller information"
+              },
+              "billingCurrency": "USD",
+              "newCredit": {
+                "currency": "USD",
+                "value": 400
+              },
+              "newCreditInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "canceledCredit": {
+                "currency": "USD",
+                "value": 5000
+              },
+              "adjustments": {
+                "currency": "USD",
+                "value": 0
+              },
+              "adjustmentsInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "creditExpired": {
+                "currency": "USD",
+                "value": 0
+              },
+              "creditExpiredInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "charges": {
+                "currency": "USD",
+                "value": 0
+              },
+              "chargesInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "closedBalance": {
+                "currency": "USD",
+                "value": 900
+              },
+              "closedBalanceInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "eventType": "NewCredit",
+              "invoiceNumber": "3302"
+            }
+          },
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/4268/providers/Microsoft.Consumption/events/event3",
+            "name": "event3",
+            "type": "Microsoft.Consumption/events",
+            "properties": {
+              "transactionDate": "2019-09-01T00:00:00Z",
+              "description": "Credits Expired",
+              "creditCurrency": "USD",
+              "reseller": {
+                "resellerId": "/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/2468/providers/Microsoft.Consumption/reseller/reseller1",
+                "resellerDescription": "Reseller information"
+              },
+              "billingCurrency": "USD",
+              "newCredit": {
+                "currency": "USD",
+                "value": 0
+              },
+              "newCreditInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "canceledCredit": {
+                "currency": "USD",
+                "value": 5000
+              },
+              "adjustments": {
+                "currency": "USD",
+                "value": 0
+              },
+              "adjustmentsInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "creditExpired": {
+                "currency": "USD",
+                "value": 300
+              },
+              "creditExpiredInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "charges": {
+                "currency": "USD",
+                "value": 0
+              },
+              "chargesInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "closedBalance": {
+                "currency": "USD",
+                "value": 600
+              },
+              "closedBalanceInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "eventType": "ExpiredCredit",
+              "invoiceNumber": ""
+            }
+          },
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/4268/providers/Microsoft.Consumption/events/event4",
+            "name": "event4",
+            "type": "Microsoft.Consumption/events",
+            "properties": {
+              "transactionDate": "2021-10-01T00:00:00Z",
+              "description": "Settled invoice #212033",
+              "creditCurrency": "USD",
+              "reseller": {
+                "resellerId": "/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/2468/providers/Microsoft.Consumption/reseller/reseller1",
+                "resellerDescription": "Reseller information"
+              },
+              "billingCurrency": "USD",
+              "newCredit": {
+                "currency": "USD",
+                "value": 300
+              },
+              "newCreditInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "canceledCredit": {
+                "currency": "USD",
+                "value": 5000
+              },
+              "adjustments": {
+                "currency": "USD",
+                "value": -200
+              },
+              "adjustmentsInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "creditExpired": {
+                "currency": "USD",
+                "value": 100
+              },
+              "creditExpiredInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "charges": {
+                "currency": "USD",
+                "value": 300
+              },
+              "chargesInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "closedBalance": {
+                "currency": "USD",
+                "value": 700
+              },
+              "closedBalanceInBillingCurrency": {
+                "exchangeRate": 5000,
+                "exchangeRateMonth": 1
+              },
+              "eventType": "SettledCharges",
+              "invoiceNumber": "3303"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
+errorCodes: []

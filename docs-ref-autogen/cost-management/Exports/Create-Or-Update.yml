@@ -3,14 +3,14 @@ uid: management.azure.com.cost-management.exports.createorupdate
 name: Create Or Update
 service: Cost Management
 groupName: Exports
-apiVersion: 2020-06-01
+apiVersion: 2021-10-01
 summary: The operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{scope}/providers/Microsoft.CostManagement/exports/{exportName}?api-version=2020-06-01
+- content: PUT https://management.azure.com/{scope}/providers/Microsoft.CostManagement/exports/{exportName}?api-version=2021-10-01
 uriParameters:
 - name: scope
   in: path
@@ -28,7 +28,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2020-06-01.
+  description: Version of the API to be used with the client request.
   types:
   - uid: string
 responses:
@@ -79,6 +79,11 @@ requestBody:
     description: If requested, has the most recent execution history for the export.
     types:
     - uid: ExportExecutionListResult
+  - name: properties.partitionData
+    in: body
+    description: 'If set to true, exported data will be partitioned by size and placed in a blob directory together with a manifest file. Note: this option is currently available only for modern commerce scopes.'
+    types:
+    - uid: boolean
 requestHeader: []
 definitions:
 - name: ExportSchedule
@@ -178,6 +183,10 @@ definitions:
     description: If requested, has the most recent execution history for the export.
     types:
     - uid: ExportExecutionListResult
+  - name: properties.partitionData
+    description: 'If set to true, exported data will be partitioned by size and placed in a blob directory together with a manifest file. Note: this option is currently available only for modern commerce scopes.'
+    types:
+    - uid: boolean
   - name: properties.nextRunTimeEstimate
     isReadyOnly: true
     description: If the export has an active schedule, provides an estimate of the next execution time.
@@ -230,19 +239,27 @@ definitions:
     types:
     - uid: string
 - name: ExportDeliveryDestination
-  description: The destination information for the delivery of the export. To allow access to a storage account, you must register the account's subscription with the Microsoft.CostManagementExports resource provider. This is required once per subscription. When creating an export in the Azure portal, it is done automatically, however API users need to register the subscription. For more information see https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-supported-services .
+  description: This represents the blob storage account location where exports of costs will be delivered. There are two ways to configure the destination. The approach recommended for most customers is to specify the resourceId of the storage account. This requires a one-time registration of the account's subscription with the Microsoft.CostManagementExports resource provider in order to give Azure Cost Management services access to the storage. When creating an export in the Azure portal this registration is performed automatically but API users may need to register the subscription explicitly (for more information see https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-supported-services ). Another way to configure the destination is available ONLY to Partners with a Microsoft Partner Agreement plan who are global admins of their billing account. These Partners, instead of specifying the resourceId of a storage account, can specify the storage account name along with a SAS token for the account. This allows exports of costs to a storage account in any tenant. The SAS token should be created for the blob service with Service/Container/Object resource types and with Read/Write/Delete/List/Add/Create permissions (for more information see https://docs.microsoft.com/en-us/azure/cost-management-billing/costs/export-cost-data-storage-account-sas-key ).
   kind: object
   properties:
   - name: resourceId
-    description: The resource id of the storage account where exports will be delivered.
+    description: The resource id of the storage account where exports will be delivered. This is not required if a sasToken and storageAccount are specified.
     types:
     - uid: string
   - name: container
-    description: The name of the container where exports will be uploaded.
+    description: The name of the container where exports will be uploaded. If the container does not exist it will be created.
     types:
     - uid: string
   - name: rootFolderPath
     description: The name of the directory where exports will be uploaded.
+    types:
+    - uid: string
+  - name: sasToken
+    description: 'A SAS token for the storage account. For a restricted set of Azure customers this together with storageAccount can be specified instead of resourceId. Note: the value returned by the API for this property will always be obfuscated. Returning this same obfuscated value will not result in the SAS token being updated. To update this value a new SAS token must be specified.'
+    types:
+    - uid: string
+  - name: storageAccount
+    description: The storage account where exports will be uploaded. For a restricted set of Azure customers this together with sasToken can be specified instead of resourceId.
     types:
     - uid: string
 - name: ExportType
@@ -455,6 +472,10 @@ definitions:
     description: If requested, has the most recent execution history for the export.
     types:
     - uid: ExportExecutionListResult
+  - name: partitionData
+    description: 'If set to true, exported data will be partitioned by size and placed in a blob directory together with a manifest file. Note: this option is currently available only for modern commerce scopes.'
+    types:
+    - uid: boolean
   - name: nextRunTimeEstimate
     isReadyOnly: true
     description: If the export has an active schedule, provides an estimate of the next execution time.
@@ -463,7 +484,7 @@ definitions:
 examples:
 - name: ExportCreateOrUpdateBySubscription
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/exports/TestExport?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/exports/TestExport?api-version=2021-10-01
     body: >-
       {
         "properties": {
@@ -586,7 +607,7 @@ examples:
       }
 - name: ExportCreateOrUpdateByResourceGroup
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.CostManagement/exports/TestExport?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.CostManagement/exports/TestExport?api-version=2021-10-01
     body: >-
       {
         "properties": {
@@ -709,7 +730,7 @@ examples:
       }
 - name: ExportCreateOrUpdateByBillingAccount
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/123456/providers/Microsoft.CostManagement/exports/TestExport?api-version=2020-06-01
+    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/123456/providers/Microsoft.CostManagement/exports/TestExport?api-version=2021-10-01
     body: >-
       {
         "properties": {
@@ -832,7 +853,7 @@ examples:
       }
 - name: ExportCreateOrUpdateByDepartment
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12/departments/1234/providers/Microsoft.CostManagement/exports/TestExport?api-version=2020-06-01
+    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12/departments/1234/providers/Microsoft.CostManagement/exports/TestExport?api-version=2021-10-01
     body: >-
       {
         "properties": {
@@ -955,7 +976,7 @@ examples:
       }
 - name: ExportCreateOrUpdateByEnrollmentAccount
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456/providers/Microsoft.CostManagement/exports/TestExport?api-version=2020-06-01
+    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456/providers/Microsoft.CostManagement/exports/TestExport?api-version=2021-10-01
     body: >-
       {
         "properties": {
@@ -1078,7 +1099,7 @@ examples:
       }
 - name: ExportCreateOrUpdateByManagementGroup
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/TestMG/providers/Microsoft.CostManagement/exports/TestExport?api-version=2020-06-01
+    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/TestMG/providers/Microsoft.CostManagement/exports/TestExport?api-version=2021-10-01
     body: >-
       {
         "properties": {

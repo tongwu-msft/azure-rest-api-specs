@@ -6442,13 +6442,12 @@
 ### [Get](consumption/Credits/Get.yml)
 ## Events
 ### [Overview](consumption/Events.yml)
-### [List](consumption/Events/List.yml)
-## Forecasts
-### [Overview](consumption/Forecasts.yml)
-### [List](consumption/Forecasts/List.yml)
+### [List By Billing Account](consumption/Events/List-By-Billing-Account.yml)
+### [List By Billing Profile](consumption/Events/List-By-Billing-Profile.yml)
 ## Lots
 ### [Overview](consumption/Lots.yml)
-### [List](consumption/Lots/List.yml)
+### [List By Billing Account](consumption/Lots/List-By-Billing-Account.yml)
+### [List By Billing Profile](consumption/Lots/List-By-Billing-Profile.yml)
 ## Marketplaces
 ### [Overview](consumption/Marketplaces.yml)
 ### [List](consumption/Marketplaces/List.yml)
@@ -7147,10 +7146,6 @@
 #### [Overview](cost-management/Forecast.yml)
 #### [External Cloud Provider Usage](cost-management/Forecast/External-Cloud-Provider-Usage.yml)
 #### [Usage](cost-management/Forecast/Usage.yml)
-### Generate Reservation Details Report
-#### [Overview](cost-management/Generate-Reservation-Details-Report.yml)
-#### [By Billing Account Id](cost-management/Generate-Reservation-Details-Report/By-Billing-Account-Id.yml)
-#### [By Billing Profile Id](cost-management/Generate-Reservation-Details-Report/By-Billing-Profile-Id.yml)
 ### Operations
 #### [Overview](cost-management/Operations.yml)
 #### [List](cost-management/Operations/List.yml)
@@ -7158,12 +7153,6 @@
 #### [Overview](cost-management/Query.yml)
 #### [Usage](cost-management/Query/Usage.yml)
 #### [Usage By External Cloud Provider Type](cost-management/Query/Usage-By-External-Cloud-Provider-Type.yml)
-### Settings
-#### [Overview](cost-management/Settings.yml)
-#### [Create Or Update](cost-management/Settings/Create-Or-Update.yml)
-#### [Delete](cost-management/Settings/Delete.yml)
-#### [Get](cost-management/Settings/Get.yml)
-#### [List](cost-management/Settings/List.yml)
 ### Views
 #### [Overview](cost-management/Views.yml)
 #### [Create Or Update](cost-management/Views/Create-Or-Update.yml)

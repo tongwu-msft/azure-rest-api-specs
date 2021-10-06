@@ -3,14 +3,14 @@ uid: management.azure.com.cost-management.views.getbyscope
 name: Get By Scope
 service: Cost Management
 groupName: Views
-apiVersion: 2019-11-01
+apiVersion: 2021-10-01
 summary: Gets the view for the defined scope by view name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.CostManagement/views/{viewName}?api-version=2019-11-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.CostManagement/views/{viewName}?api-version=2021-10-01
 uriParameters:
 - name: scope
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2019-11-01.
+  description: Version of the API to be used with the client request.
   types:
   - uid: string
 responses:
@@ -61,16 +61,6 @@ definitions:
   - name: properties.modifiedOn
     isReadyOnly: true
     description: Date when the user last modified this view.
-    types:
-    - uid: string
-  - name: properties.dateRange
-    isReadyOnly: true
-    description: Selected date range for viewing cost in.
-    types:
-    - uid: string
-  - name: properties.currency
-    isReadyOnly: true
-    description: Selected currency.
     types:
     - uid: string
   - name: properties.chart
@@ -107,15 +97,10 @@ definitions:
     description: Has time period for pulling data for the report.
     types:
     - uid: ReportConfigTimePeriod
-  - name: properties.query.dataSet
+  - name: properties.query.dataset
     description: Has definition for data in this report config.
     types:
     - uid: ReportConfigDataset
-  - name: properties.query.includeMonetaryCommitment
-    isReadyOnly: true
-    description: Include monetary commitment
-    types:
-    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -387,35 +372,22 @@ definitions:
     types:
     - uid: ReportConfigFilter
       isArray: true
-  - name: dimensions
+  - name: not
+    description: The logical "NOT" expression.
+    types:
+    - uid: ReportConfigFilter
+  - name: dimension
     description: Has comparison expression for a dimension
     types:
     - uid: ReportConfigComparisonExpression
-  - name: tags
+  - name: tag
     description: Has comparison expression for a tag
-    types:
-    - uid: ReportConfigComparisonExpression
-  - name: tagKey
-    description: Has comparison expression for a tag key
-    types:
-    - uid: ReportConfigComparisonExpression
-  - name: tagValue
-    description: Has comparison expression for a tag value
     types:
     - uid: ReportConfigComparisonExpression
 - name: FunctionType
   description: The name of the aggregation function to use.
   kind: enum
   properties:
-  - name: Avg
-    types:
-    - uid: string
-  - name: Max
-    types:
-    - uid: string
-  - name: Min
-    types:
-    - uid: string
   - name: Sum
     types:
     - uid: string
@@ -459,7 +431,7 @@ definitions:
 examples:
 - name: ResourceGroupView
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.CostManagement/views/swaggerExample?api-version=2019-11-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.CostManagement/views/swaggerExample?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -474,7 +446,7 @@ examples:
           "query": {
             "type": "Usage",
             "timeframe": "MonthToDate",
-            "dataSet": {
+            "dataset": {
               "granularity": "Daily",
               "aggregation": {
                 "totalCost": {
@@ -489,8 +461,7 @@ examples:
                   "name": "UsageDate"
                 }
               ]
-            },
-            "includeMonetaryCommitment": false
+            }
           },
           "chart": "Table",
           "accumulated": "true",
