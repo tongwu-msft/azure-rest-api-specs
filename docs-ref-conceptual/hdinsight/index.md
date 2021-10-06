@@ -42,7 +42,7 @@ Use these APIs to create and manage HDInsight resources through Azure Resource M
 |[Application](hdinsight-application.md)| Provides operations to create, remove, and retrieve HDInsight clusters with applications. |
 |[Cluster](hdinsight-cluster.md) | Provides operations to work with HDInsight clusters. |  
 
-## Supported REST API Versions
+## Supported REST API versions
 
 The following table lists the supported REST API versions by the Azure HDInsight service. The version must be specified via the `x-ms-version` header in every request. If not specified, the service defaults to the latest version `2018-06-01-preview`.
 
@@ -63,7 +63,7 @@ Shortly we will be releasing a new version of the HDInsight REST API.  This new 
    1. {max_cores_allowed} will be renamed to {maxCoresAllowed}
    1. {regionName} has been renamed to {regionName}
 
-## See Also
+## See also
 
 * [Azure HDInsight](/Azure/HDInsight/hdinsight-overview)
 
