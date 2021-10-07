@@ -19,10 +19,10 @@ All Azure Resource Manager REST calls require a valid authorization token in the
 
 | Operation Group | Description |
 |-----------------|-------------|
-|[Accounts](/rest/api/purview/accounts)| Provides operations to manage purview accounts including account name avaialblity, creating or updating account resources and listing accounts by resource group or subscription. |
+|[Accounts](/rest/api/purview/accounts)| Provides operations to manage purview accounts including account name availability, creating or updating account resources and listing accounts by resource group or subscription. |
 |[Default Accounts](/rest/api/purview/defaultaccounts)| Provides operations to manage default account for a scope (tenant). |
 |[Operations](/rest/api/purview/operations)| Provides operations to manage Azure Purview resource. |
-|[Private Endpoint connections](/rest/api/purview/privateendpointconnections)| Provides operations to manage Private end point connections for Azure Purivew accounts including approving or rejcting private end point connection request. |
+|[Private Endpoint connections](/rest/api/purview/privateendpointconnections)| Provides operations to manage Private endpoint connections for Azure Purview accounts including approving or rejecting private endpoint connection request. |
 |[Private Link Resources](/rest/api/purview/privatelinkresources)| Provides operations to manage private link resources for Azure Purview. |
 
 ## See Also
