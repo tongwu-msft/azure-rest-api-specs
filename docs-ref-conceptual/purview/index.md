@@ -1,7 +1,7 @@
 ---
 title: "Azure Purview Resource Provider Rest API"
 description: Learn how to run Azure Purview Resource Provider Rest APIs.
-ms.date: "03/30/2021"
+ms.date: "10/07/2021"
 ms.service: purview
 author: nayenama
 ms.author: nayenama
@@ -9,7 +9,7 @@ ms.author: nayenama
 
 # Azure Purview Resource Provider Rest API
 
-[Azure Purview](https://azure.microsoft.com/services/purview/) Azure Purview is a unified data governance service that helps you manage and govern your on-premises, multi-cloud, and software-as-a-service (SaaS) data. Easily create a holistic, up-to-date map of your data landscape with automated data discovery, sensitive data classification, and end-to-end data lineage. Empower data consumers to find valuable, trustworthy data. The latest version is 2020-12-01-preview.
+[Azure Purview](https://azure.microsoft.com/services/purview/) Azure Purview is a unified data governance service that helps you manage and govern your on-premises, multi-cloud, and software-as-a-service (SaaS) data. Easily create a holistic, up-to-date map of your data landscape with automated data discovery, sensitive data classification, and end-to-end data lineage. Empower data consumers to find valuable, trustworthy data. The latest version is 2021-07-01.
 
 ## Authorization Token
 
