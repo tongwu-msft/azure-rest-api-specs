@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceplans.update
 name: Update
 service: App Service
 groupName: App Service Plans
-apiVersion: 2019-08-01
+apiVersion: 2021-02-01
 summary: Description for Creates or updates an App Service Plan.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}?api-version=2019-08-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -71,6 +71,11 @@ requestBody:
       If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
     types:
     - uid: boolean
+  - name: properties.elasticScaleEnabled
+    in: body
+    description: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku
+    types:
+    - uid: boolean
   - name: properties.maximumElasticWorkerCount
     in: body
     description: Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan
@@ -93,7 +98,7 @@ requestBody:
     - uid: string
   - name: properties.reserved
     in: body
-    description: This needs to set to <code>true</code> when creating a Linux App Service Plan, along with <code>kind</code> set to <code>Linux</code>. It should be <code>false</code> otherwise.
+    description: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
     types:
     - uid: boolean
   - name: properties.isXenon
@@ -116,6 +121,19 @@ requestBody:
     description: Scaling worker size ID.
     types:
     - uid: integer
+  - name: properties.kubeEnvironmentProfile
+    in: body
+    description: Specification for the Kubernetes Environment to use for the App Service plan.
+    types:
+    - uid: KubeEnvironmentProfile
+  - name: properties.zoneRedundant
+    in: body
+    description: >-
+      If <code>true</code>, this App Service Plan will perform availability zone balancing.
+
+      If <code>false</code>, this App Service Plan will not perform availability zone balancing.
+    types:
+    - uid: boolean
   - name: kind
     in: body
     description: Kind of resource.
@@ -141,6 +159,24 @@ definitions:
     description: Resource type of the App Service Environment.
     types:
     - uid: string
+- name: KubeEnvironmentProfile
+  description: Specification for a Kubernetes Environment to use for this resource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID of the Kubernetes Environment.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the Kubernetes Environment.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type of the Kubernetes Environment.
+    types:
+    - uid: string
 - name: AppServicePlan
   description: App Service plan.
   kind: object
@@ -149,6 +185,10 @@ definitions:
     description: Description of a SKU for a scalable resource.
     types:
     - uid: SkuDescription
+  - name: extendedLocation
+    description: Extended Location.
+    types:
+    - uid: ExtendedLocation
   - name: properties.workerTierName
     description: Target worker tier assigned to the App Service plan.
     types:
@@ -182,6 +222,10 @@ definitions:
       If <code>true</code>, apps assigned to this App Service plan can be scaled independently.
 
       If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
+    types:
+    - uid: boolean
+  - name: properties.elasticScaleEnabled
+    description: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku
     types:
     - uid: boolean
   - name: properties.maximumElasticWorkerCount
@@ -232,9 +276,20 @@ definitions:
     - uid: integer
   - name: properties.provisioningState
     isReadyOnly: true
-    description: Provisioning state of the App Service Environment.
+    description: Provisioning state of the App Service Plan.
     types:
     - uid: ProvisioningState
+  - name: properties.kubeEnvironmentProfile
+    description: Specification for the Kubernetes Environment to use for the App Service plan.
+    types:
+    - uid: KubeEnvironmentProfile
+  - name: properties.zoneRedundant
+    description: >-
+      If <code>true</code>, this App Service Plan will perform availability zone balancing.
+
+      If <code>false</code>, this App Service Plan will not perform availability zone balancing.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -314,6 +369,10 @@ definitions:
       If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
     types:
     - uid: boolean
+  - name: properties.elasticScaleEnabled
+    description: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku
+    types:
+    - uid: boolean
   - name: properties.maximumElasticWorkerCount
     description: Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan
     types:
@@ -341,7 +400,7 @@ definitions:
     types:
     - uid: string
   - name: properties.reserved
-    description: This needs to set to <code>true</code> when creating a Linux App Service Plan, along with <code>kind</code> set to <code>Linux</code>. It should be <code>false</code> otherwise.
+    description: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
     types:
     - uid: boolean
   - name: properties.isXenon
@@ -362,9 +421,20 @@ definitions:
     - uid: integer
   - name: properties.provisioningState
     isReadyOnly: true
-    description: Provisioning state of the App Service Environment.
+    description: Provisioning state of the App Service Plan.
     types:
     - uid: ProvisioningState
+  - name: properties.kubeEnvironmentProfile
+    description: Specification for the Kubernetes Environment to use for the App Service plan.
+    types:
+    - uid: KubeEnvironmentProfile
+  - name: properties.zoneRedundant
+    description: >-
+      If <code>true</code>, this App Service Plan will perform availability zone balancing.
+
+      If <code>false</code>, this App Service Plan will not perform availability zone balancing.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -422,6 +492,19 @@ definitions:
     types:
     - uid: Capability
       isArray: true
+- name: ExtendedLocation
+  description: Extended Location.
+  kind: object
+  properties:
+  - name: name
+    description: Name of extended location.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of extended location.
+    types:
+    - uid: string
 - name: StatusOptions
   description: App Service plan status.
   kind: enum
@@ -436,7 +519,7 @@ definitions:
     types:
     - uid: string
 - name: ProvisioningState
-  description: Provisioning state of the App Service Environment.
+  description: Provisioning state of the App Service Plan.
   kind: enum
   properties:
   - name: Succeeded
@@ -495,6 +578,10 @@ definitions:
     description: Maximum number of workers for this App Service plan SKU.
     types:
     - uid: integer
+  - name: elasticMaximum
+    description: Maximum number of Elastic workers for this App Service plan SKU.
+    types:
+    - uid: integer
   - name: default
     description: Default number of workers for this App Service plan SKU.
     types:
@@ -540,7 +627,7 @@ definitions:
 examples:
 - name: Patch Service plan
   request:
-    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141?api-version=2019-08-01
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141?api-version=2021-02-01
     body: >-
       {
         "kind": "app",

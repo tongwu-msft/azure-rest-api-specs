@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceenvironments.listappserviceplans
 name: List App Service Plans
 service: App Service
 groupName: App Service Environments
-apiVersion: 2019-08-01
+apiVersion: 2021-02-01
 summary: Description for Get all App Service plans in an App Service Environment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/serverfarms?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/serverfarms?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -79,6 +79,10 @@ definitions:
     description: Description of a SKU for a scalable resource.
     types:
     - uid: SkuDescription
+  - name: extendedLocation
+    description: Extended Location.
+    types:
+    - uid: ExtendedLocation
   - name: properties.workerTierName
     description: Target worker tier assigned to the App Service plan.
     types:
@@ -112,6 +116,10 @@ definitions:
       If <code>true</code>, apps assigned to this App Service plan can be scaled independently.
 
       If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
+    types:
+    - uid: boolean
+  - name: properties.elasticScaleEnabled
+    description: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku
     types:
     - uid: boolean
   - name: properties.maximumElasticWorkerCount
@@ -162,9 +170,20 @@ definitions:
     - uid: integer
   - name: properties.provisioningState
     isReadyOnly: true
-    description: Provisioning state of the App Service Environment.
+    description: Provisioning state of the App Service Plan.
     types:
     - uid: ProvisioningState
+  - name: properties.kubeEnvironmentProfile
+    description: Specification for the Kubernetes Environment to use for the App Service plan.
+    types:
+    - uid: KubeEnvironmentProfile
+  - name: properties.zoneRedundant
+    description: >-
+      If <code>true</code>, this App Service Plan will perform availability zone balancing.
+
+      If <code>false</code>, this App Service Plan will not perform availability zone balancing.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -263,6 +282,19 @@ definitions:
     types:
     - uid: Capability
       isArray: true
+- name: ExtendedLocation
+  description: Extended Location.
+  kind: object
+  properties:
+  - name: name
+    description: Name of extended location.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of extended location.
+    types:
+    - uid: string
 - name: StatusOptions
   description: App Service plan status.
   kind: enum
@@ -313,6 +345,24 @@ definitions:
   - name: Deleting
     types:
     - uid: string
+- name: KubeEnvironmentProfile
+  description: Specification for a Kubernetes Environment to use for this resource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID of the Kubernetes Environment.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the Kubernetes Environment.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type of the Kubernetes Environment.
+    types:
+    - uid: string
 - name: Details
   kind: object
   properties:
@@ -341,6 +391,10 @@ definitions:
     - uid: integer
   - name: maximum
     description: Maximum number of workers for this App Service plan SKU.
+    types:
+    - uid: integer
+  - name: elasticMaximum
+    description: Maximum number of Elastic workers for this App Service plan SKU.
     types:
     - uid: integer
   - name: default

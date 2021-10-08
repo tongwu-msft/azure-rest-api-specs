@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.appservice.webapps.getbasicpublishingcredentialspolicies
-name: Get Basic Publishing Credentials Policies
+uid: management.azure.com.appservice.staticsites.liststaticsitecustomdomains
+name: List Static Site Custom Domains
 service: App Service
-groupName: Web Apps
-apiVersion: 2019-08-01
-summary: Description for Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site.
+groupName: Static Sites
+apiVersion: 2021-02-01
+summary: Description for Gets all static site custom domains for a particular static site.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/basicPublishingCredentialsPolicies?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -28,7 +28,7 @@ uriParameters:
 - name: name
   in: path
   isRequired: true
-  description: Name of the app.
+  description: Name of the static site resource to search in.
   types:
   - uid: string
 - name: api-version
@@ -41,42 +41,25 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: CsmPublishingCredentialsPoliciesCollection
+  - uid: StaticSiteCustomDomainOverviewCollection
 - name: Other Status Codes
   description: App Service error response.
   types:
   - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
-- name: CsmPublishingCredentialsPoliciesCollection
-  description: Publishing Credentials Policies collection.
+- name: StaticSiteCustomDomainOverviewCollection
+  description: Collection of static site custom domains.
   kind: object
   properties:
-  - name: properties.ftp
-    description: Whether FTP is allowed.
+  - name: value
+    description: Collection of resources.
     types:
-    - uid: CsmPublishingCredentialsPoliciesEntity
-  - name: properties.scm
-    description: Whether Scm Basic Auth is allowed.
-    types:
-    - uid: CsmPublishingCredentialsPoliciesEntity
-  - name: id
+    - uid: StaticSiteCustomDomainOverviewARMResource
+      isArray: true
+  - name: nextLink
     isReadyOnly: true
-    description: Resource Id.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource Name.
-    types:
-    - uid: string
-  - name: kind
-    description: Kind of resource.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
+    description: Link to next page of resources.
     types:
     - uid: string
 - name: DefaultErrorResponse
@@ -88,14 +71,35 @@ definitions:
     description: Error model.
     types:
     - uid: Error
-- name: CsmPublishingCredentialsPoliciesEntity
-  description: Publishing Credentials Policies parameters.
+- name: StaticSiteCustomDomainOverviewARMResource
+  description: Static Site Custom Domain Overview ARM resource.
   kind: object
   properties:
-  - name: properties.allow
-    description: <code>true</code> to allow access to a publishing method; otherwise, <code>false</code>.
+  - name: properties.domainName
+    isReadyOnly: true
+    description: The domain name for the static site custom domain.
     types:
-    - uid: boolean
+    - uid: string
+  - name: properties.createdOn
+    isReadyOnly: true
+    description: The date and time on which the custom domain was created for the static site.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: The status of the custom domain
+    types:
+    - uid: CustomDomainStatus
+  - name: properties.validationToken
+    isReadyOnly: true
+    description: The TXT record validation token
+    types:
+    - uid: string
+  - name: properties.errorMessage
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -144,6 +148,28 @@ definitions:
     description: More information to debug error.
     types:
     - uid: string
+- name: CustomDomainStatus
+  description: The status of the custom domain
+  kind: enum
+  properties:
+  - name: RetrievingValidationToken
+    types:
+    - uid: string
+  - name: Validating
+    types:
+    - uid: string
+  - name: Adding
+    types:
+    - uid: string
+  - name: Ready
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
 - name: Details
   kind: object
   properties:
@@ -163,25 +189,22 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List Publishing Credentials Policies
+- name: List custom domains for a static site
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/sites/testSite/basicPublishingCredentialsPolicies?api-version=2019-08-01
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/customDomains?api-version=2021-02-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "properties": {
-          "ftp": {
+        "value": [
+          {
             "properties": {
-              "allow": false
-            }
-          },
-          "scm": {
-            "properties": {
-              "allow": false
+              "domainName": "custom.domain.net",
+              "createdOn": "2020-03-04T17:33:11.641Z"
             }
           }
-        }
+        ],
+        "nextLink": null
       }
 security:
 - name: azure_auth
@@ -193,5 +216,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Description for Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site.
+  description: Learn more about App Service service - Description for Gets all static site custom domains for a particular static site.
 errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.listinstanceidentifiersslot
 name: List Instance Identifiers Slot
 service: App Service
 groupName: Web Apps
-apiVersion: 2019-08-01
+apiVersion: 2021-02-01
 summary: Description for Gets all scale-out instances of an app.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,21 +47,21 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: WebAppInstanceCollection
+  - uid: WebAppInstanceStatusCollection
 - name: Other Status Codes
   description: App Service error response.
   types:
   - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
-- name: WebAppInstanceCollection
+- name: WebAppInstanceStatusCollection
   description: Collection of app instances.
   kind: object
   properties:
   - name: value
     description: Collection of resources.
     types:
-    - uid: SiteInstance
+    - uid: WebSiteInstanceStatus
       isArray: true
   - name: nextLink
     isReadyOnly: true
@@ -77,15 +77,37 @@ definitions:
     description: Error model.
     types:
     - uid: Error
-- name: SiteInstance
-  description: Instance of an app.
+- name: WebSiteInstanceStatus
   kind: object
   properties:
-  - name: properties.siteInstanceName
-    isReadyOnly: true
-    description: Name of instance.
+  - name: properties.state
+    description: ''
+    types:
+    - uid: SiteRuntimeState
+  - name: properties.statusUrl
+    description: Link to the GetStatusApi in Kudu
     types:
     - uid: string
+  - name: properties.detectorUrl
+    description: Link to the Diagnose and Solve Portal
+    types:
+    - uid: string
+  - name: properties.consoleUrl
+    description: Link to the console to web app instance
+    types:
+    - uid: string
+  - name: properties.healthCheckUrl
+    description: Link to the console to web app instance
+    types:
+    - uid: string
+  - name: properties.containers
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ContainerInfo
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -134,6 +156,53 @@ definitions:
     description: More information to debug error.
     types:
     - uid: string
+- name: SiteRuntimeState
+  kind: enum
+  properties:
+  - name: READY
+    types:
+    - uid: string
+  - name: STOPPED
+    types:
+    - uid: string
+  - name: UNKNOWN
+    types:
+    - uid: string
+- name: ContainerInfo
+  kind: object
+  properties:
+  - name: currentTimeStamp
+    description: ''
+    types:
+    - uid: string
+  - name: previousTimeStamp
+    description: ''
+    types:
+    - uid: string
+  - name: currentCpuStats
+    description: ''
+    types:
+    - uid: ContainerCpuStatistics
+  - name: previousCpuStats
+    description: ''
+    types:
+    - uid: ContainerCpuStatistics
+  - name: memoryStats
+    description: ''
+    types:
+    - uid: ContainerMemoryStatistics
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: id
+    description: ''
+    types:
+    - uid: string
+  - name: eth0
+    description: ''
+    types:
+    - uid: ContainerNetworkInterfaceStatistics
 - name: Details
   kind: object
   properties:
@@ -152,6 +221,110 @@ definitions:
     description: Detailed error description and debugging information.
     types:
     - uid: string
+- name: ContainerCpuStatistics
+  kind: object
+  properties:
+  - name: cpuUsage
+    description: ''
+    types:
+    - uid: ContainerCpuUsage
+  - name: systemCpuUsage
+    description: ''
+    types:
+    - uid: integer
+  - name: onlineCpuCount
+    description: ''
+    types:
+    - uid: integer
+  - name: throttlingData
+    description: ''
+    types:
+    - uid: ContainerThrottlingData
+- name: ContainerMemoryStatistics
+  kind: object
+  properties:
+  - name: usage
+    description: ''
+    types:
+    - uid: integer
+  - name: maxUsage
+    description: ''
+    types:
+    - uid: integer
+  - name: limit
+    description: ''
+    types:
+    - uid: integer
+- name: ContainerNetworkInterfaceStatistics
+  kind: object
+  properties:
+  - name: rxBytes
+    description: ''
+    types:
+    - uid: integer
+  - name: rxPackets
+    description: ''
+    types:
+    - uid: integer
+  - name: rxErrors
+    description: ''
+    types:
+    - uid: integer
+  - name: rxDropped
+    description: ''
+    types:
+    - uid: integer
+  - name: txBytes
+    description: ''
+    types:
+    - uid: integer
+  - name: txPackets
+    description: ''
+    types:
+    - uid: integer
+  - name: txErrors
+    description: ''
+    types:
+    - uid: integer
+  - name: txDropped
+    description: ''
+    types:
+    - uid: integer
+- name: ContainerCpuUsage
+  kind: object
+  properties:
+  - name: totalUsage
+    description: ''
+    types:
+    - uid: integer
+  - name: perCpuUsage
+    description: ''
+    types:
+    - uid: integer
+      isArray: true
+  - name: kernelModeUsage
+    description: ''
+    types:
+    - uid: integer
+  - name: userModeUsage
+    description: ''
+    types:
+    - uid: integer
+- name: ContainerThrottlingData
+  kind: object
+  properties:
+  - name: periods
+    description: ''
+    types:
+    - uid: integer
+  - name: throttledPeriods
+    description: ''
+    types:
+    - uid: integer
+  - name: throttledTime
+    description: ''
+    types:
+    - uid: integer
 examples: []
 security:
 - name: azure_auth

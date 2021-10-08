@@ -3,15 +3,15 @@ uid: management.azure.com.appservice.provider.getavailablestacksonprem
 name: Get Available Stacks On Prem
 service: App Service
 groupName: Provider
-apiVersion: 2019-08-01
+apiVersion: 2021-02-01
 summary: Description for Get available application frameworks and their versions
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/availableStacks?api-version=2019-08-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/availableStacks?osTypeSelected={osTypeSelected}&api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/availableStacks?api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/availableStacks?osTypeSelected={osTypeSelected}&api-version=2021-02-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -87,6 +87,11 @@ definitions:
       isArray: true
   - name: properties.frameworks
     description: List of frameworks associated with application stack.
+    types:
+    - uid: ApplicationStack
+      isArray: true
+  - name: properties.isDeprecated
+    description: <code>true</code> if this is the stack is deprecated; otherwise, <code>false</code>.
     types:
     - uid: ApplicationStack
       isArray: true
@@ -175,6 +180,30 @@ definitions:
     description: <code>true</code> if this stack should be hidden for new customers on portal, otherwise <code>false</code>.
     types:
     - uid: boolean
+  - name: appSettingsDictionary
+    description: >-
+      <appSettings>
+       <appSetting name="FUNCTIONS_WORKER_RUNTIME" value="dotnet" />
+      </appSettings>
+       Example: All the function apps need AppSetting: "FUNCTIONS_WORKER_RUNTIME" to be set stack name
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: siteConfigPropertiesDictionary
+    description: >-
+      <siteConfigProperties>
+       <siteConfigProperty name="Use32BitWorkerProcess" value="false" />
+      </siteConfigProperties>
+       Example: All Linux Function Apps, need Use32BitWorkerProcess to be set to 0
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
 - name: ApplicationStack
   description: Application stack.
   kind: object
@@ -198,6 +227,11 @@ definitions:
       isArray: true
   - name: frameworks
     description: List of frameworks associated with application stack.
+    types:
+    - uid: ApplicationStack
+      isArray: true
+  - name: isDeprecated
+    description: <code>true</code> if this is the stack is deprecated; otherwise, <code>false</code>.
     types:
     - uid: ApplicationStack
       isArray: true
