@@ -8873,6 +8873,18 @@
 ### [Delete](expressroute/Service-Endpoint-Policy-Definitions/Delete.yml)
 ### [Get](expressroute/Service-Endpoint-Policy-Definitions/Get.yml)
 ### [List By Resource Group](expressroute/Service-Endpoint-Policy-Definitions/List-By-Resource-Group.yml)
+# Extended Location
+## [Overview](../docs-ref-conceptual/extendedlocation/index.md)
+## Custom Locations
+### [Overview](extendedlocation/Custom-Locations.yml)
+### [Create Or Update](extendedlocation/Custom-Locations/Create-Or-Update.yml)
+### [Delete](extendedlocation/Custom-Locations/Delete.yml)
+### [Get](extendedlocation/Custom-Locations/Get.yml)
+### [List By Resource Group](extendedlocation/Custom-Locations/List-By-Resource-Group.yml)
+### [List By Subscription](extendedlocation/Custom-Locations/List-By-Subscription.yml)
+### [List Enabled Resource Types](extendedlocation/Custom-Locations/List-Enabled-Resource-Types.yml)
+### [List Operations](extendedlocation/Custom-Locations/List-Operations.yml)
+### [Update](extendedlocation/Custom-Locations/Update.yml)
 # Firewall
 ## [Overview](../docs-ref-conceptual/firewall/index.md)
 ## Azure Firewall Fqdn Tags
