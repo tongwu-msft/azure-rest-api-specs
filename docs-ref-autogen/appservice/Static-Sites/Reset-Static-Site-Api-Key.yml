@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.appservice.webapps.createorupdateswiftvirtualnetworkconnection
-name: Create Or Update Swift Virtual Network Connection
+uid: management.azure.com.appservice.staticsites.resetstaticsiteapikey
+name: Reset Static Site Api Key
 service: App Service
-groupName: Web Apps
-apiVersion: 2019-08-01
-summary: "Integrates this Web App with a Virtual Network. This requires that 1) \"swiftSupported\" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not\nin use by another App Service Plan other than the one this App is in.  \nDescription for Integrates this Web App with a Virtual Network. This requires that 1) \"swiftSupported\" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not\nin use by another App Service Plan other than the one this App is in."
+groupName: Static Sites
+apiVersion: 2021-02-01
+summary: Description for Resets the api key for an existing static site.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork?api-version=2019-08-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/resetapikey?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -28,7 +28,7 @@ uriParameters:
 - name: name
   in: path
   isRequired: true
-  description: Name of the app.
+  description: Name of the static site.
   types:
   - uid: string
 - name: api-version
@@ -39,9 +39,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
-  types:
-  - uid: SwiftVirtualNetwork
+  description: OK.
 - name: Other Status Codes
   description: App Service error response.
   types:
@@ -49,14 +47,14 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.subnetResourceId
+  - name: properties.repositoryToken
     in: body
-    description: The Virtual Network subnet's resource ID. This is the subnet that this Web App will join. This subnet must have a delegation to Microsoft.Web/serverFarms defined first.
+    description: The token which proves admin privileges to the repository.
     types:
     - uid: string
-  - name: properties.swiftSupported
+  - name: properties.shouldUpdateRepository
     in: body
-    description: A flag that specifies if the scale unit this Web App is on supports Swift integration.
+    description: Determines whether the repository should be updated with the new properties.
     types:
     - uid: boolean
   - name: kind
@@ -66,16 +64,25 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
-- name: SwiftVirtualNetwork
-  description: Swift Virtual Network Contract. This is used to enable the new Swift way of doing virtual network integration.
+- name: DefaultErrorResponse
+  description: App Service error response.
   kind: object
   properties:
-  - name: properties.subnetResourceId
-    description: The Virtual Network subnet's resource ID. This is the subnet that this Web App will join. This subnet must have a delegation to Microsoft.Web/serverFarms defined first.
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: StaticSiteResetPropertiesARMResource
+  description: Static Site Reset Properties ARM resource.
+  kind: object
+  properties:
+  - name: properties.repositoryToken
+    description: The token which proves admin privileges to the repository.
     types:
     - uid: string
-  - name: properties.swiftSupported
-    description: A flag that specifies if the scale unit this Web App is on supports Swift integration.
+  - name: properties.shouldUpdateRepository
+    description: Determines whether the repository should be updated with the new properties.
     types:
     - uid: boolean
   - name: id
@@ -97,15 +104,6 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-- name: DefaultErrorResponse
-  description: App Service error response.
-  kind: object
-  properties:
-  - name: error
-    isReadyOnly: true
-    description: Error model.
-    types:
-    - uid: Error
 - name: Error
   description: Error model.
   kind: object
@@ -153,7 +151,19 @@ definitions:
     description: Detailed error description and debugging information.
     types:
     - uid: string
-examples: []
+examples:
+- name: Reset the api key for a static site
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/resetapikey?api-version=2021-02-01
+    body: >-
+      {
+        "properties": {
+          "shouldUpdateRepository": true,
+          "repositoryToken": "repoToken123"
+        }
+      }
+  responses:
+  - statusCode: "200"
 security:
 - name: azure_auth
   type: oauth2
@@ -164,8 +174,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: >-
-    Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is not
-
-    in use by another App Service Plan other than the one this App is in.
+  description: Learn more about App Service service - Description for Resets the api key for an existing static site.
 errorCodes: []

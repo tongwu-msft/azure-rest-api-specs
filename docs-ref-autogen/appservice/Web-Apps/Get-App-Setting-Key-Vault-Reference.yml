@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.getappsettingkeyvaultreference
 name: Get App Setting Key Vault Reference
 service: App Service
 groupName: Web Apps
-apiVersion: 2019-08-01
+apiVersion: 2021-02-01
 summary: Description for Gets the config reference and status of an app
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/appsettings/{appSettingKey}?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/appsettings/{appSettingKey}?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,15 +47,15 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: KeyVaultReferenceResource
+  - uid: ApiKVReference
 - name: Other Status Codes
   description: App Service error response.
   types:
   - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
-- name: KeyVaultReferenceResource
-  description: Web app key vault reference and status ARM resource.
+- name: ApiKVReference
+  description: Description of site key vault references.
   kind: object
   properties:
   - name: properties.reference
@@ -79,9 +79,9 @@ definitions:
     types:
     - uid: string
   - name: properties.identityType
-    description: ''
+    description: Managed service identity.
     types:
-    - uid: ManagedServiceIdentityType
+    - uid: ManagedServiceIdentity
   - name: properties.details
     description: ''
     types:
@@ -90,10 +90,10 @@ definitions:
     description: ''
     types:
     - uid: ConfigReferenceSource
-  - name: properties.location
+  - name: properties.activeVersion
     description: ''
     types:
-    - uid: ConfigReferenceLocation
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -152,31 +152,42 @@ definitions:
   - name: OtherReasons
     types:
     - uid: string
-- name: ManagedServiceIdentityType
-  kind: enum
+  - name: FetchTimedOut
+    types:
+    - uid: string
+  - name: UnauthorizedClient
+    types:
+    - uid: string
+- name: ManagedServiceIdentity
+  description: Managed service identity.
+  kind: object
   properties:
-  - name: SystemAssigned
+  - name: type
+    description: Type of managed service identity.
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: tenantId
+    isReadyOnly: true
+    description: Tenant of managed service identity.
     types:
     - uid: string
-  - name: UserAssigned
+  - name: principalId
+    isReadyOnly: true
+    description: Principal Id of managed service identity.
     types:
     - uid: string
-  - name: SystemAssigned, UserAssigned
+  - name: userAssignedIdentities
+    description: "The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}"
     types:
-    - uid: string
-  - name: None
-    types:
-    - uid: string
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: userAssignedIdentity
 - name: ConfigReferenceSource
   kind: enum
   properties:
   - name: KeyVault
-    types:
-    - uid: string
-- name: ConfigReferenceLocation
-  kind: enum
-  properties:
-  - name: ApplicationSetting
     types:
     - uid: string
 - name: Error
@@ -208,6 +219,36 @@ definitions:
     description: More information to debug error.
     types:
     - uid: string
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: userAssignedIdentity
+  description: User Assigned identity.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: Principal Id of user assigned identity
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: Client Id of user assigned identity
+    types:
+    - uid: string
 - name: Details
   kind: object
   properties:
@@ -229,24 +270,15 @@ definitions:
 examples:
 - name: Get Azure Key Vault app setting reference
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/sites/tests346/config/configreferences/appsettings/ref1?api-version=2019-08-01
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/sites/testc6282/config/configreferences/appsettings/setting?api-version=2021-02-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/sites/tests346/config/configreferences/appsettings/ref1",
-        "name": "testc6282",
-        "type": "Microsoft.Web/sites/config/appsettings",
         "properties": {
-          "reference": "referenceName",
-          "status": "Resolved",
-          "vaultName": "testkv124",
-          "secretName": "testsec579",
-          "secretVersion": "239",
-          "identityType": "None",
-          "details": "Some Details",
-          "source": "KeyVault",
-          "location": "ApplicationSetting"
+          "vaultName": "keyVaultName",
+          "secretName": "secretName",
+          "secretVersion": "secretVersion"
         }
       }
 security:
