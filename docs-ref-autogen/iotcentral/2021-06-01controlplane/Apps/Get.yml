@@ -55,6 +55,10 @@ definitions:
     description: A valid instance SKU.
     types:
     - uid: AppSkuInfo
+  - name: identity
+    description: The managed identities for the IoT Central application.
+    types:
+    - uid: SystemAssignedServiceIdentity
   - name: properties.applicationId
     isReadyOnly: true
     description: The ID of the application.
@@ -136,6 +140,24 @@ definitions:
     description: The name of the SKU.
     types:
     - uid: AppSku
+- name: SystemAssignedServiceIdentity
+  description: Managed service identity (either system assigned, or none)
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: Type of managed service identity (either system assigned, or none).
+    types:
+    - uid: SystemAssignedServiceIdentityType
 - name: AppState
   description: The current state of the application.
   kind: enum
@@ -183,6 +205,16 @@ definitions:
   - name: ST2
     types:
     - uid: string
+- name: SystemAssignedServiceIdentityType
+  description: Type of managed service identity (either system assigned, or none).
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
 examples:
 - name: Apps_Get
   request:
@@ -210,6 +242,11 @@ examples:
         },
         "sku": {
           "name": "F1"
+        },
+        "identity": {
+          "type": "SystemAssigned",
+          "tenantId": "f686d426-8d16-42db-81b7-ab578e110ccd",
+          "principalId": "8988ab15-3e7a-4586-8a1c-ed07a73a53e9"
         }
       }
   - statusCode: default

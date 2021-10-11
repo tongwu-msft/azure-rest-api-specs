@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.verifyhostingenvironmentvnet.verifyhostinge
 name: Verify Hosting Environment Vnet
 service: App Service
 groupName: Verify Hosting Environment Vnet
-apiVersion: 2019-08-01
+apiVersion: 2021-02-01
 summary: Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/verifyHostingEnvironmentVnet?api-version=2019-08-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/verifyHostingEnvironmentVnet?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,6 +51,11 @@ requestBody:
     description: The subnet name to be validated
     types:
     - uid: string
+  - name: properties.subnetResourceId
+    in: body
+    description: The ARM Resource ID of the subnet to validate
+    types:
+    - uid: string
   - name: kind
     in: body
     description: Kind of resource.
@@ -62,12 +67,21 @@ definitions:
   description: A class that describes the reason for a validation failure.
   kind: object
   properties:
+  - name: properties.message
+    description: Text describing the validation outcome.
+    types:
+    - uid: string
   - name: properties.failed
     description: A flag describing whether or not validation failed.
     types:
     - uid: boolean
   - name: properties.failedTests
     description: A list of tests that failed in the validation.
+    types:
+    - uid: VnetValidationTestFailure
+      isArray: true
+  - name: properties.warnings
+    description: A list of warnings generated during validation.
     types:
     - uid: VnetValidationTestFailure
       isArray: true
@@ -113,6 +127,10 @@ definitions:
     - uid: string
   - name: properties.vnetSubnetName
     description: The subnet name to be validated
+    types:
+    - uid: string
+  - name: properties.subnetResourceId
+    description: The ARM Resource ID of the subnet to validate
     types:
     - uid: string
   - name: id
@@ -215,7 +233,7 @@ definitions:
 examples:
 - name: VerifyHostingEnvironmentVnet
   request:
-    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Web/verifyHostingEnvironmentVnet?api-version=2019-08-01
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Web/verifyHostingEnvironmentVnet?api-version=2021-02-01
     body: >-
       {
         "properties": {

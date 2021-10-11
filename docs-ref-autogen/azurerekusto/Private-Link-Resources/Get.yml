@@ -1,0 +1,204 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurerekusto.privatelinkresources.get
+name: Get
+service: Azure Kusto
+groupName: Private Link Resources
+apiVersion: 2021-08-27
+summary: Gets a private link resource.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/privateLinkResources/{privateLinkResourceName}?api-version=2021-08-27
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group containing the Kusto cluster.
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: The name of the Kusto cluster.
+  types:
+  - uid: string
+- name: privateLinkResourceName
+  in: path
+  isRequired: true
+  description: The name of the private link resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved a specified private link resource.
+  types:
+  - uid: PrivateLinkResource
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: PrivateLinkResource
+  description: A private link resource
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: properties.groupId
+    isReadyOnly: true
+    description: The private link resource group id.
+    types:
+    - uid: string
+  - name: properties.requiredMembers
+    isReadyOnly: true
+    description: The private link resource required member names.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.requiredZoneNames
+    isReadyOnly: true
+    description: The private link resource required zone names.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from Kusto.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Kusto.
+    types:
+    - uid: CloudErrorBody
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from Kusto.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for displaying in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: Gets private endpoint connection.
+  request:
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/privateLinkResources/cluster?api-version=2021-08-27
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest4/privateLinkResources/cluster",
+        "name": "cluster",
+        "type": "Microsoft.Kusto/clusters/PrivateLinkResources",
+        "properties": {
+          "groupId": "cluster",
+          "requiredMembers": [
+            "Engine",
+            "DataManagement",
+            "blob-ne3kstrldKustoClusterRPTest400",
+            "queue-ne3kstrldKustoClusterRPTest400",
+            "table-ne3kstrldKustoClusterRPTest400",
+            "blob-qmukstrldKustoClusterRPTest401",
+            "queue-qmukstrldKustoClusterRPTest401",
+            "table-qmukstrldKustoClusterRPTest401"
+          ],
+          "requiredZoneNames": [
+            "privatelink.westus2.kusto.windows.net",
+            "privatelink.blob.core.windows.net",
+            "privatelink.queue.core.windows.net",
+            "privatelink.table.core.windows.net"
+          ]
+        }
+      }
+security: []
+metadata:
+  description: Learn more about Azure Kusto service - Gets a private link resource.
+errorCodes: []

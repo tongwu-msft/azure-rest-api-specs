@@ -3,15 +3,15 @@ uid: management.azure.com.consumption.usagedetails.list
 name: List
 service: Consumption
 groupName: Usage Details
-apiVersion: 2019-10-01
-summary: 'Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later. For more information on using this API, including how to specify a date range, please see: https://docs.microsoft.com/en-us/azure/cost-management-billing/costs/manage-automation'
+apiVersion: 2021-10-01
+summary: Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&api-version=2019-10-01&metric={metric}
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/usageDetails?$expand={$expand}&$filter={$filter}&$skiptoken={$skiptoken}&$top={$top}&api-version=2021-10-01&metric={metric}
   isOptional: true
 uriParameters:
 - name: scope
@@ -28,7 +28,7 @@ uriParameters:
   - uid: string
 - name: $filter
   in: query
-  description: May be used to filter usageDetails by properties/resourceGroup, properties/instanceName, properties/resourceId, properties/chargeType, properties/reservationId, properties/publisherType or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:). PublisherType Filter accepts two values azure and marketplace and it is currently supported for Web Direct Offer Type
+  description: May be used to filter usageDetails by properties/resourceGroup, properties/resourceName, properties/resourceId, properties/chargeType, properties/reservationId, properties/publisherType or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:). PublisherType Filter accepts two values azure and marketplace and it is currently supported for Web Direct Offer Type
   types:
   - uid: string
 - name: $skiptoken
@@ -45,7 +45,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2019-10-01.
+  description: Version of the API to be used with the client request. The current version is 2021-10-01.
   types:
   - uid: string
 - name: metric
@@ -236,7 +236,7 @@ definitions:
     - uid: string
   - name: properties.resourceId
     isReadyOnly: true
-    description: Azure resource manager resource identifier.
+    description: Unique identifier of the Azure Resource Manager usage detail resource.
     types:
     - uid: string
   - name: properties.resourceName
@@ -246,12 +246,12 @@ definitions:
     - uid: string
   - name: properties.serviceInfo1
     isReadyOnly: true
-    description: Service Info 1.
+    description: Service-specific metadata.
     types:
     - uid: string
   - name: properties.serviceInfo2
     isReadyOnly: true
-    description: Service Info 2.
+    description: Legacy field with optional service-specific metadata.
     types:
     - uid: string
   - name: properties.additionalInfo
@@ -334,6 +334,16 @@ definitions:
     description: Indicates how frequently this charge will occur. OneTime for purchases which only happen once, Monthly for fees which recur every month, and UsageBased for charges based on how much a service is used.
     types:
     - uid: string
+  - name: properties.payGPrice
+    isReadyOnly: true
+    description: Retail price for the resource.
+    types:
+    - uid: number
+  - name: properties.pricingModel
+    isReadyOnly: true
+    description: Identifier that indicates how the meter is priced.
+    types:
+    - uid: pricingModelType
   - name: kind
     description: Specifies the kind of usage details.
     types:
@@ -341,12 +351,12 @@ definitions:
     typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Resource Id.
+    description: The full qualified ARM ID of an event.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name.
+    description: 'The ID that uniquely identifies an event. '
     types:
     - uid: string
   - name: type
@@ -356,7 +366,7 @@ definitions:
     - uid: string
   - name: etag
     isReadyOnly: true
-    description: Resource etag.
+    description: The etag for the resource.
     types:
     - uid: string
   - name: tags
@@ -377,6 +387,16 @@ definitions:
     description: Billing Account identifier.
     types:
     - uid: string
+  - name: properties.effectivePrice
+    isReadyOnly: true
+    description: Effective Price that's charged for the usage.
+    types:
+    - uid: number
+  - name: properties.pricingModel
+    isReadyOnly: true
+    description: Identifier that indicates how the meter is priced
+    types:
+    - uid: pricingModelType
   - name: properties.billingAccountName
     isReadyOnly: true
     description: Name of the Billing Account.
@@ -494,12 +514,12 @@ definitions:
     - uid: string
   - name: properties.serviceInfo1
     isReadyOnly: true
-    description: Service Info 1.
+    description: Service-specific metadata.
     types:
     - uid: string
   - name: properties.serviceInfo2
     isReadyOnly: true
-    description: Service Info 2.
+    description: Legacy field with optional service-specific metadata.
     types:
     - uid: string
   - name: properties.additionalInfo
@@ -702,6 +722,26 @@ definitions:
     description: Retail price for the resource.
     types:
     - uid: number
+  - name: properties.benefitId
+    isReadyOnly: true
+    description: Unique identifier for the applicable benefit.
+    types:
+    - uid: string
+  - name: properties.benefitName
+    isReadyOnly: true
+    description: Name of the applicable benefit.
+    types:
+    - uid: string
+  - name: properties.provider
+    isReadyOnly: true
+    description: Identifier for Product Category or Line Of Business, Ex - Azure, Microsoft 365, AWS e.t.c
+    types:
+    - uid: string
+  - name: properties.costAllocationRuleName
+    isReadyOnly: true
+    description: Name for Cost Allocation Rule.
+    types:
+    - uid: string
   - name: kind
     description: Specifies the kind of usage details.
     types:
@@ -709,12 +749,12 @@ definitions:
     typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Resource Id.
+    description: The full qualified ARM ID of an event.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name.
+    description: 'The ID that uniquely identifies an event. '
     types:
     - uid: string
   - name: type
@@ -724,7 +764,7 @@ definitions:
     - uid: string
   - name: etag
     isReadyOnly: true
-    description: Resource etag.
+    description: The etag for the resource.
     types:
     - uid: string
   - name: tags
@@ -765,10 +805,23 @@ definitions:
     description: The service family.
     types:
     - uid: string
+- name: pricingModelType
+  description: Identifier that indicates how the meter is priced.
+  kind: enum
+  properties:
+  - name: On Demand
+    types:
+    - uid: string
+  - name: Reservation
+    types:
+    - uid: string
+  - name: Spot
+    types:
+    - uid: string
 examples:
 - name: UsageDetailsList-Legacy
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -820,7 +873,7 @@ examples:
       }
 - name: UsageDetailsListFilterByTag-Legacy
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?$filter=tags eq 'dev:tools'&api-version=2019-10-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?$filter=tags eq 'dev:tools'&api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -870,7 +923,7 @@ examples:
       }
 - name: UsageDetailsListForBillingPeriod-Legacy
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -921,7 +974,7 @@ examples:
       }
 - name: UsageDetailsExpand-Legacy
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?$expand=meterDetails,additionalInfo&$filter=tags eq 'dev:tools'&$top=1&api-version=2019-10-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?$expand=meterDetails,additionalInfo&$filter=tags eq 'dev:tools'&$top=1&api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -980,7 +1033,7 @@ examples:
       }
 - name: UsageDetailsListByMetricActualCost-Legacy
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01&metric=actualcost
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01&metric=actualcost
   responses:
   - statusCode: "200"
     body: >-
@@ -1031,7 +1084,7 @@ examples:
       }
 - name: UsageDetailsListByMetricAmortizedCost-Legacy
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01&metric=amortizedcost
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01&metric=amortizedcost
   responses:
   - statusCode: "200"
     body: >-
@@ -1083,7 +1136,7 @@ examples:
       }
 - name: UsageDetailsListByMetricUsage-Legacy
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01&metric=usage
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01&metric=usage
   responses:
   - statusCode: "200"
     body: >-
@@ -1134,7 +1187,7 @@ examples:
       }
 - name: BillingAccountUsageDetailsList-Legacy
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1185,7 +1238,7 @@ examples:
       }
 - name: BillingAccountUsageDetailsListForBillingPeriod-Legacy
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1236,7 +1289,7 @@ examples:
       }
 - name: DepartmentUsageDetailsList-Legacy
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1287,7 +1340,7 @@ examples:
       }
 - name: DepartmentUsageDetailsListForBillingPeriod-Legacy
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/Departments/1234/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1338,7 +1391,7 @@ examples:
       }
 - name: EnrollmentAccountUsageDetailsList-Legacy
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1389,7 +1442,7 @@ examples:
       }
 - name: EnrollmentAccountUsageDetailsListForBillingPeriod-Legacy
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/EnrollmentAccounts/1234/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1440,7 +1493,7 @@ examples:
       }
 - name: ManagementGroupUsageDetailsList-Legacy
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1532,7 +1585,7 @@ examples:
       }
 - name: ManagementGroupUsageDetailsListForBillingPeriod-Legacy
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1624,7 +1677,7 @@ examples:
       }
 - name: BillingAccountUsageDetailsList-Modern
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234:56789/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234:56789/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1642,7 +1695,7 @@ examples:
             "properties": {
               "billingAccountId": "1234:56789",
               "billingAccountName": "Account Name 1",
-              "billingPeriodStartDate": "2019-10-01T00:00:00.0000000Z",
+              "billingPeriodStartDate": "2021-10-01T00:00:00.0000000Z",
               "billingPeriodEndDate": "2019-10-31T00:00:00.0000000Z",
               "billingProfileId": "2468",
               "billingProfileName": "Account Name 1",
@@ -1666,7 +1719,7 @@ examples:
               "costInBillingCurrency": 1.84763819095477,
               "costInPricingCurrency": 1.84763819095477,
               "exchangeRate": "1",
-              "exchangeRateDate": "2019-10-01T00:00:00Z",
+              "exchangeRateDate": "2021-10-01T00:00:00Z",
               "invoiceId": "",
               "previousInvoiceId": "",
               "pricingCurrencyCode": "USD",
@@ -1675,12 +1728,12 @@ examples:
               "productOrderId": "a3db7880-70eb-4b4c-6a79-1425a058df5a",
               "productOrderName": "Azure plan",
               "publisherName": "Microsoft",
-              "publisherType": "1PP",
+              "publisherType": "Microsoft",
               "resourceLocationNormalized": "US East",
               "serviceInfo1": "",
               "serviceInfo2": "Windows Client BYOL",
               "servicePeriodEndDate": "2019-12-01T00:00:00Z",
-              "servicePeriodStartDate": "2019-10-01T00:00:00Z",
+              "servicePeriodStartDate": "2021-10-01T00:00:00Z",
               "customerTenantId": "00000000-0000-0000-0000-000000000000",
               "customerName": "Modern Azure Customer 1",
               "partnerTenantId": "00000000-0000-0000-0000-000000000000",
@@ -1698,14 +1751,16 @@ examples:
               "paygCostInUSD": 1.848,
               "exchangeRatePricingToBilling": 0.077,
               "partnerEarnedCreditRate": 0.077,
-              "partnerEarnedCreditApplied": "0"
+              "partnerEarnedCreditApplied": "0",
+              "benefitId": "00000000-0000-0000-0000-000000000000",
+              "benefitName": "Reservation_purchase_03-09-2018_10-59"
             }
           }
         ]
       }
 - name: BillingProfileUsageDetailsList-Modern
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234:56789/billingProfiles/2468/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234:56789/billingProfiles/2468/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1723,7 +1778,7 @@ examples:
             "properties": {
               "billingAccountId": "1234:56789",
               "billingAccountName": "Account Name 1",
-              "billingPeriodStartDate": "2019-10-01T00:00:00.0000000Z",
+              "billingPeriodStartDate": "2021-10-01T00:00:00.0000000Z",
               "billingPeriodEndDate": "2019-10-31T00:00:00.0000000Z",
               "billingProfileId": "2468",
               "billingProfileName": "Account Name 1",
@@ -1747,7 +1802,7 @@ examples:
               "costInBillingCurrency": 1.84763819095477,
               "costInPricingCurrency": 1.84763819095477,
               "exchangeRate": "1",
-              "exchangeRateDate": "2019-10-01T00:00:00Z",
+              "exchangeRateDate": "2021-10-01T00:00:00Z",
               "invoiceId": "",
               "previousInvoiceId": "",
               "pricingCurrencyCode": "USD",
@@ -1756,12 +1811,12 @@ examples:
               "productOrderId": "a3db7880-70eb-4b4c-6a79-1425a058df5a",
               "productOrderName": "Azure plan",
               "publisherName": "Microsoft",
-              "publisherType": "1PP",
+              "publisherType": "Microsoft",
               "resourceLocationNormalized": "US East",
               "serviceInfo1": "",
               "serviceInfo2": "Windows Client BYOL",
               "servicePeriodEndDate": "2019-12-01T00:00:00Z",
-              "servicePeriodStartDate": "2019-10-01T00:00:00Z",
+              "servicePeriodStartDate": "2021-10-01T00:00:00Z",
               "customerTenantId": "00000000-0000-0000-0000-000000000000",
               "customerName": "Modern Azure Customer 1",
               "partnerTenantId": "00000000-0000-0000-0000-000000000000",
@@ -1779,14 +1834,16 @@ examples:
               "paygCostInUSD": 1.848,
               "exchangeRatePricingToBilling": 0.077,
               "partnerEarnedCreditRate": 0.077,
-              "partnerEarnedCreditApplied": "0"
+              "partnerEarnedCreditApplied": "0",
+              "benefitId": "00000000-0000-0000-0000-000000000000",
+              "benefitName": "Reservation_purchase_03-09-2018_10-59"
             }
           }
         ]
       }
 - name: InvoiceSectionUsageDetailsList-Modern
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234:56789/invoiceSections/98765/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234:56789/invoiceSections/98765/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1804,7 +1861,7 @@ examples:
             "properties": {
               "billingAccountId": "1234:56789",
               "billingAccountName": "Account Name 1",
-              "billingPeriodStartDate": "2019-10-01T00:00:00.0000000Z",
+              "billingPeriodStartDate": "2021-10-01T00:00:00.0000000Z",
               "billingPeriodEndDate": "2019-10-31T00:00:00.0000000Z",
               "billingProfileId": "2468",
               "billingProfileName": "Account Name 1",
@@ -1828,7 +1885,7 @@ examples:
               "costInBillingCurrency": 1.84763819095477,
               "costInPricingCurrency": 1.84763819095477,
               "exchangeRate": "1",
-              "exchangeRateDate": "2019-10-01T00:00:00Z",
+              "exchangeRateDate": "2021-10-01T00:00:00Z",
               "invoiceId": "",
               "previousInvoiceId": "",
               "pricingCurrencyCode": "USD",
@@ -1837,12 +1894,12 @@ examples:
               "productOrderId": "a3db7880-70eb-4b4c-6a79-1425a058df5a",
               "productOrderName": "Azure plan",
               "publisherName": "Microsoft",
-              "publisherType": "1PP",
+              "publisherType": "Microsoft",
               "resourceLocationNormalized": "US East",
               "serviceInfo1": "",
               "serviceInfo2": "Windows Client BYOL",
               "servicePeriodEndDate": "2019-12-01T00:00:00Z",
-              "servicePeriodStartDate": "2019-10-01T00:00:00Z",
+              "servicePeriodStartDate": "2021-10-01T00:00:00Z",
               "customerTenantId": "00000000-0000-0000-0000-000000000000",
               "customerName": "Modern Azure Customer 1",
               "partnerTenantId": "00000000-0000-0000-0000-000000000000",
@@ -1860,14 +1917,16 @@ examples:
               "paygCostInUSD": 1.848,
               "exchangeRatePricingToBilling": 0.077,
               "partnerEarnedCreditRate": 0.077,
-              "partnerEarnedCreditApplied": "0"
+              "partnerEarnedCreditApplied": "0",
+              "benefitId": "00000000-0000-0000-0000-000000000000",
+              "benefitName": "Reservation_purchase_03-09-2018_10-59"
             }
           }
         ]
       }
 - name: CustomerUsageDetailsList-Modern
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234:56789/customers/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2019-10-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/BillingAccounts/1234:56789/customers/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/usageDetails?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1885,7 +1944,7 @@ examples:
             "properties": {
               "billingAccountId": "1234:56789",
               "billingAccountName": "Account Name 1",
-              "billingPeriodStartDate": "2019-10-01T00:00:00.0000000Z",
+              "billingPeriodStartDate": "2021-10-01T00:00:00.0000000Z",
               "billingPeriodEndDate": "2019-10-31T00:00:00.0000000Z",
               "billingProfileId": "2468",
               "billingProfileName": "Account Name 1",
@@ -1909,7 +1968,7 @@ examples:
               "costInBillingCurrency": 1.84763819095477,
               "costInPricingCurrency": 1.84763819095477,
               "exchangeRate": "1",
-              "exchangeRateDate": "2019-10-01T00:00:00Z",
+              "exchangeRateDate": "2021-10-01T00:00:00Z",
               "invoiceId": "",
               "previousInvoiceId": "",
               "pricingCurrencyCode": "USD",
@@ -1918,12 +1977,12 @@ examples:
               "productOrderId": "a3db7880-70eb-4b4c-6a79-1425a058df5a",
               "productOrderName": "Azure plan",
               "publisherName": "Microsoft",
-              "publisherType": "1PP",
+              "publisherType": "Microsoft",
               "resourceLocationNormalized": "US East",
               "serviceInfo1": "",
               "serviceInfo2": "Windows Client BYOL",
               "servicePeriodEndDate": "2019-12-01T00:00:00Z",
-              "servicePeriodStartDate": "2019-10-01T00:00:00Z",
+              "servicePeriodStartDate": "2021-10-01T00:00:00Z",
               "customerTenantId": "00000000-0000-0000-0000-000000000000",
               "customerName": "Modern Azure Customer 1",
               "partnerTenantId": "00000000-0000-0000-0000-000000000000",
@@ -1941,7 +2000,9 @@ examples:
               "paygCostInUSD": 1.848,
               "exchangeRatePricingToBilling": 0.077,
               "partnerEarnedCreditRate": 0.077,
-              "partnerEarnedCreditApplied": "0"
+              "partnerEarnedCreditApplied": "0",
+              "benefitId": "00000000-0000-0000-0000-000000000000",
+              "benefitName": "Reservation_purchase_03-09-2018_10-59"
             }
           }
         ]

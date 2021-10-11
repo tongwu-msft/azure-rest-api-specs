@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.getconfiguration
 name: Get Configuration
 service: App Service
 groupName: Web Apps
-apiVersion: 2019-08-01
+apiVersion: 2021-02-01
 summary: Description for Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/web?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/web?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -222,6 +222,14 @@ definitions:
     description: Virtual Network name.
     types:
     - uid: string
+  - name: properties.vnetRouteAllEnabled
+    description: Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied.
+    types:
+    - uid: boolean
+  - name: properties.vnetPrivatePortsCount
+    description: The number of private ports assigned to this app. These will be assigned dynamically on runtime.
+    types:
+    - uid: integer
   - name: properties.cors
     description: Cross-Origin Resource Sharing (CORS) settings.
     types:
@@ -254,6 +262,10 @@ definitions:
     description: Explicit Managed Service Identity Id
     types:
     - uid: integer
+  - name: properties.keyVaultReferenceIdentity
+    description: Identity to use for Key Vault Reference authentication.
+    types:
+    - uid: string
   - name: properties.ipSecurityRestrictions
     description: IP security restrictions for main.
     types:
@@ -276,6 +288,10 @@ definitions:
     description: 'MinTlsVersion: configures the minimum version of TLS required for SSL requests'
     types:
     - uid: SupportedTlsVersions
+  - name: properties.scmMinTlsVersion
+    description: 'ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site'
+    types:
+    - uid: SupportedTlsVersions
   - name: properties.ftpsState
     description: State of FTP / FTPS service
     types:
@@ -287,8 +303,47 @@ definitions:
       This setting only applies to the Consumption and Elastic Plans
     types:
     - uid: integer
+  - name: properties.functionAppScaleLimit
+    description: >-
+      Maximum number of workers that a site can scale out to.
+
+      This setting only applies to the Consumption and Elastic Premium Plans
+    types:
+    - uid: integer
   - name: properties.healthCheckPath
     description: Health check path
+    types:
+    - uid: string
+  - name: properties.functionsRuntimeScaleMonitoringEnabled
+    description: >-
+      Gets or sets a value indicating whether functions runtime scale monitoring is enabled. When enabled,
+
+      the ScaleController will not monitor event sources directly, but will instead call to the
+
+      runtime to get scale status.
+    types:
+    - uid: boolean
+  - name: properties.websiteTimeZone
+    description: Sets the time zone a site uses for generating timestamps. Compatible with Linux and Windows App Service. Setting the WEBSITE_TIME_ZONE app setting takes precedence over this config. For Linux, expects tz database values https://www.iana.org/time-zones (for a quick reference see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For Windows, expects one of the time zones listed under HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones
+    types:
+    - uid: string
+  - name: properties.minimumElasticInstanceCount
+    description: >-
+      Number of minimum instance count for a site
+
+      This setting only applies to the Elastic Plans
+    types:
+    - uid: integer
+  - name: properties.azureStorageAccounts
+    description: List of Azure Storage Accounts.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AzureStorageInfoValue
+  - name: properties.publicNetworkAccess
+    description: Property to allow or block all public traffic.
     types:
     - uid: string
   - name: id
@@ -479,6 +534,9 @@ definitions:
   - name: RequestHash
     types:
     - uid: string
+  - name: PerSiteRoundRobin
+    types:
+    - uid: string
 - name: Experiments
   description: Routing rules in production experiments.
   kind: object
@@ -638,6 +696,14 @@ definitions:
     description: IP restriction rule description.
     types:
     - uid: string
+  - name: headers
+    description: "IP restriction rule headers.\nX-Forwarded-Host (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host#Examples). \nThe matching logic is ..\n- If the property is null or empty (default), all hosts(or lack of) are allowed.\n- A value is compared using ordinal-ignore-case (excluding port number).\n- Subdomain wildcards are permitted but don't match the root domain. For example, *.contoso.com matches the subdomain foo.contoso.com\n but not the root domain contoso.com or multi-level foo.bar.contoso.com\n- Unicode host names are allowed but are converted to Punycode for matching.\n\nX-Forwarded-For (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#Examples).\nThe matching logic is ..\n- If the property is null or empty (default), any forwarded-for chains (or lack of) are allowed.\n- If any address (excluding port number) in the chain (comma separated) matches the CIDR defined by the property.\n\nX-Azure-FDID and X-FD-HealthProbe.\nThe matching logic is exact match."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
 - name: SupportedTlsVersions
   description: 'MinTlsVersion: configures the minimum version of TLS required for SSL requests'
   kind: enum
@@ -664,6 +730,35 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: AzureStorageInfoValue
+  description: Azure Files or Blob Storage access information value for dictionary storage.
+  kind: object
+  properties:
+  - name: type
+    description: Type of storage.
+    types:
+    - uid: AzureStorageType
+  - name: accountName
+    description: Name of the storage account.
+    types:
+    - uid: string
+  - name: shareName
+    description: Name of the file share (container name, for Blob storage).
+    types:
+    - uid: string
+  - name: accessKey
+    description: Access key for the storage account.
+    types:
+    - uid: string
+  - name: mountPath
+    description: Path to mount the storage within the site's runtime environment.
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: State of the storage account.
+    types:
+    - uid: AzureStorageState
 - name: Error
   description: Error model.
   kind: object
@@ -802,6 +897,16 @@ definitions:
     description: A rule based on request execution time.
     types:
     - uid: SlowRequestsBasedTrigger
+  - name: slowRequestsWithPath
+    description: A rule based on multiple Slow Requests Rule with path
+    types:
+    - uid: SlowRequestsBasedTrigger
+      isArray: true
+  - name: statusCodesRange
+    description: A rule based on status codes ranges.
+    types:
+    - uid: StatusCodesRangeBasedTrigger
+      isArray: true
 - name: AutoHealActions
   description: Actions which to take by the auto-heal module when a rule is triggered.
   kind: object
@@ -829,6 +934,35 @@ definitions:
     types:
     - uid: string
   - name: XffProxy
+    types:
+    - uid: string
+  - name: ServiceTag
+    types:
+    - uid: string
+- name: AzureStorageType
+  description: Type of storage.
+  kind: enum
+  properties:
+  - name: AzureFiles
+    types:
+    - uid: string
+  - name: AzureBlob
+    types:
+    - uid: string
+- name: AzureStorageState
+  description: State of the storage account.
+  kind: enum
+  properties:
+  - name: Ok
+    types:
+    - uid: string
+  - name: InvalidCredentials
+    types:
+    - uid: string
+  - name: InvalidShare
+    types:
+    - uid: string
+  - name: NotValidated
     types:
     - uid: string
 - name: Details
@@ -885,12 +1019,40 @@ definitions:
     description: Time interval.
     types:
     - uid: string
+  - name: path
+    description: Request Path
+    types:
+    - uid: string
 - name: SlowRequestsBasedTrigger
   description: Trigger based on request execution time.
   kind: object
   properties:
   - name: timeTaken
     description: Time taken.
+    types:
+    - uid: string
+  - name: path
+    description: Request Path.
+    types:
+    - uid: string
+  - name: count
+    description: Request Count.
+    types:
+    - uid: integer
+  - name: timeInterval
+    description: Time interval.
+    types:
+    - uid: string
+- name: StatusCodesRangeBasedTrigger
+  description: Trigger based on range of status codes.
+  kind: object
+  properties:
+  - name: statusCodes
+    description: HTTP status code.
+    types:
+    - uid: string
+  - name: path
+    description: ''
     types:
     - uid: string
   - name: count

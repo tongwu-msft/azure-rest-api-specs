@@ -55,7 +55,7 @@ definitions:
   - name: identity
     description: The type of identity used for the resource.
     types:
-    - uid: Identity
+    - uid: ManagedServiceIdentity
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state.
@@ -110,24 +110,32 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: Identity
-  description: Identity for the resource.
+- name: ManagedServiceIdentity
+  description: Managed service identity (system assigned and/or user assigned identities)
   kind: object
   properties:
   - name: principalId
     isReadyOnly: true
-    description: The principal ID of resource identity.
+    description: The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
     types:
     - uid: string
   - name: tenantId
     isReadyOnly: true
-    description: The tenant ID of resource.
+    description: The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
     types:
     - uid: string
   - name: type
-    description: The identity type.
+    description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
     types:
-    - uid: ResourceIdentityType
+    - uid: ManagedServiceIdentityType
+  - name: userAssignedIdentities
+    description: "User-Assigned Identities  \nThe set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
 - name: ProvisioningState
   description: Provisioning state.
   kind: enum
@@ -219,14 +227,34 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: ResourceIdentityType
-  description: The identity type.
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
   kind: enum
   properties:
+  - name: None
+    types:
+    - uid: string
   - name: SystemAssigned
     types:
     - uid: string
-  - name: None
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentity
+  description: User assigned identity properties
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the assigned identity.
     types:
     - uid: string
 - name: createdByType

@@ -3,14 +3,14 @@ uid: management.azure.com.cost-management.query.usagebyexternalcloudprovidertype
 name: Usage By External Cloud Provider Type
 service: Cost Management
 groupName: Query
-apiVersion: 2019-11-01
+apiVersion: 2021-10-01
 summary: Query the usage data for external cloud provider type defined.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/query?api-version=2019-11-01
+- content: POST https://management.azure.com/providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/query?api-version=2021-10-01
 uriParameters:
 - name: externalCloudProviderType
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2019-11-01.
+  description: Version of the API to be used with the client request.
   types:
   - uid: string
 responses:
@@ -122,20 +122,6 @@ definitions:
   description: Result of query. It contains all columns listed under groupings and aggregation.
   kind: object
   properties:
-  - name: eTag
-    description: eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not.
-    types:
-    - uid: string
-  - name: location
-    isReadyOnly: true
-    description: Resource location
-    types:
-    - uid: string
-  - name: sku
-    isReadyOnly: true
-    description: Resource SKU
-    types:
-    - uid: string
   - name: properties.nextLink
     description: The link (url) to the next page of results.
     types:
@@ -203,7 +189,7 @@ definitions:
     types:
     - uid: QueryDataset
 - name: GranularityType
-  description: The granularity of rows in the query.
+  description: The granularity of rows in the forecast.
   kind: enum
   properties:
   - name: Daily
@@ -256,15 +242,20 @@ definitions:
     types:
     - uid: QueryFilter
       isArray: true
-  - name: dimensions
+  - name: not
+    description: The logical "NOT" expression.
+    types:
+    - uid: QueryFilter
+  - name: dimension
     description: Has comparison expression for a dimension
     types:
     - uid: QueryComparisonExpression
-  - name: tags
+  - name: tag
     description: Has comparison expression for a tag
     types:
     - uid: QueryComparisonExpression
 - name: QueryColumn
+  description: QueryColumn properties
   kind: object
   properties:
   - name: name
@@ -328,15 +319,6 @@ definitions:
   description: The name of the aggregation function to use.
   kind: enum
   properties:
-  - name: Avg
-    types:
-    - uid: string
-  - name: Max
-    types:
-    - uid: string
-  - name: Min
-    types:
-    - uid: string
   - name: Sum
     types:
     - uid: string
@@ -361,26 +343,23 @@ definitions:
   - name: operator
     description: The operator to use for comparison.
     types:
-    - uid: OperatorType
+    - uid: QueryOperatorType
   - name: values
     description: Array of values to use for comparison
     types:
     - uid: string
       isArray: true
-- name: OperatorType
+- name: QueryOperatorType
   description: The operator to use for comparison.
   kind: enum
   properties:
   - name: In
     types:
     - uid: string
-  - name: Contains
-    types:
-    - uid: string
 examples:
 - name: ExternalBillingAccountQueryList
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.CostManagement/externalBillingAccounts/100/query?api-version=2019-11-01
+    uri: POST https://management.azure.com/providers/Microsoft.CostManagement/externalBillingAccounts/100/query?api-version=2021-10-01
     body: >-
       {
         "type": "Usage",
@@ -392,7 +371,7 @@ examples:
               {
                 "or": [
                   {
-                    "dimensions": {
+                    "dimension": {
                       "name": "ResourceLocation",
                       "operator": "In",
                       "values": [
@@ -402,7 +381,7 @@ examples:
                     }
                   },
                   {
-                    "tags": {
+                    "tag": {
                       "name": "Environment",
                       "operator": "In",
                       "values": [
@@ -414,7 +393,7 @@ examples:
                 ]
               },
               {
-                "dimensions": {
+                "dimension": {
                   "name": "ResourceGroup",
                   "operator": "In",
                   "values": [
@@ -433,9 +412,6 @@ examples:
         "id": "providers/Microsoft.CostManagement/externalBillingAccounts/100/query/6dc7b06a-d90a-4df5-b655-ce6cf1c0814d",
         "name": "6dc7b06a-d90a-4df5-b655-ce6cf1c0814d",
         "type": "Microsoft.CostManagement/query",
-        "location": "useast",
-        "sku": "Standard_DS1_v2",
-        "eTag": "1d695cdcb6a8a50",
         "properties": {
           "nextLink": null,
           "columns": [
@@ -478,7 +454,7 @@ examples:
       }
 - name: ExternalSubscriptionsQuery
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.CostManagement/externalSubscriptions/100/query?api-version=2019-11-01
+    uri: POST https://management.azure.com/providers/Microsoft.CostManagement/externalSubscriptions/100/query?api-version=2021-10-01
     body: >-
       {
         "type": "Usage",
@@ -490,7 +466,7 @@ examples:
               {
                 "or": [
                   {
-                    "dimensions": {
+                    "dimension": {
                       "name": "ResourceLocation",
                       "operator": "In",
                       "values": [
@@ -500,7 +476,7 @@ examples:
                     }
                   },
                   {
-                    "tags": {
+                    "tag": {
                       "name": "Environment",
                       "operator": "In",
                       "values": [
@@ -512,7 +488,7 @@ examples:
                 ]
               },
               {
-                "dimensions": {
+                "dimension": {
                   "name": "ResourceGroup",
                   "operator": "In",
                   "values": [
@@ -531,9 +507,6 @@ examples:
         "id": "providers/Microsoft.CostManagement/externalSubscriptions/100/query/d99477af-7510-40ee-aca2-e59bdca0d10d",
         "name": "d99477af-7510-40ee-aca2-e59bdca0d10d",
         "type": "Microsoft.CostManagement/query",
-        "location": "useast",
-        "sku": "Standard_DS1_v2",
-        "eTag": "1d695cdcb6a8a50",
         "properties": {
           "nextLink": null,
           "columns": [

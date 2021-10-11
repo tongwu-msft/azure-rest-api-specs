@@ -1,0 +1,256 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurerekusto.privateendpointconnections.createorupdate
+name: Create Or Update
+service: Azure Kusto
+groupName: Private Endpoint Connections
+apiVersion: 2021-08-27
+summary: Approve or reject a private endpoint connection with a given name.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2021-08-27
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group containing the Kusto cluster.
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: The name of the Kusto cluster.
+  types:
+  - uid: string
+- name: privateEndpointConnectionName
+  in: path
+  isRequired: true
+  description: The name of the private endpoint connection.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully approved or rejected private endpoint connection.
+  types:
+  - uid: PrivateEndpointConnection
+- name: 201 Created
+  description: Accepted. The private endpoint connection update will complete asynchronously.
+  types:
+  - uid: PrivateEndpointConnection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.privateLinkServiceConnectionState
+    in: body
+    isRequired: true
+    description: Connection State of the Private Endpoint Connection.
+    types:
+    - uid: PrivateLinkServiceConnectionStateProperty
+requestHeader: []
+definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: PrivateEndpointProperty
+  description: Private endpoint which the connection belongs to.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource id of the private endpoint.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStateProperty
+  description: Connection State of the Private Endpoint Connection.
+  kind: object
+  properties:
+  - name: status
+    description: The private link service connection status.
+    types:
+    - uid: string
+  - name: description
+    description: The private link service connection description.
+    types:
+    - uid: string
+  - name: actionsRequired
+    isReadyOnly: true
+    description: Any action that is required beyond basic workflow (approve/ reject/ disconnect)
+    types:
+    - uid: string
+- name: PrivateEndpointConnection
+  description: A private endpoint connection
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: properties.privateEndpoint
+    isReadyOnly: true
+    description: Private endpoint which the connection belongs to.
+    types:
+    - uid: PrivateEndpointProperty
+  - name: properties.privateLinkServiceConnectionState
+    description: Connection State of the Private Endpoint Connection.
+    types:
+    - uid: PrivateLinkServiceConnectionStateProperty
+  - name: properties.groupId
+    isReadyOnly: true
+    description: Group id of the private endpoint.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the private endpoint.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from Kusto.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Kusto.
+    types:
+    - uid: CloudErrorBody
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from Kusto.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for displaying in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Approve or reject a private endpoint connection with a given name.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/privateEndpointConnections/privateEndpointConnectionName?api-version=2021-08-27
+    body: >-
+      {
+        "properties": {
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Approved by johndoe@contoso.com"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest4/privateEndpointConnections/privateEndpointConnectionName",
+        "name": "privateEndpointConnectionName",
+        "type": "Microsoft.Kusto/clusters/privateEndpointConnections",
+        "properties": {
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Approved by johndoe@contoso.com",
+            "actionsRequired": "None"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest4/privateEndpointConnections/privateEndpointConnectionName",
+        "name": "privateEndpointConnectionName",
+        "type": "Microsoft.Kusto/clusters/privateEndpointConnections",
+        "properties": {
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Approved by johndoe@contoso.com",
+            "actionsRequired": "None"
+          }
+        }
+      }
+security: []
+metadata:
+  description: Learn more about Azure Kusto service - Approve or reject a private endpoint connection with a given name.
+errorCodes: []

@@ -1,0 +1,854 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.staticsites.updatestaticsite
+name: Update Static Site
+service: App Service
+groupName: Static Sites
+apiVersion: 2021-02-01
+summary: Description for Creates a new static site in an existing resource group, or updates an existing static site.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}?api-version=2021-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the static site to create or update.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: StaticSiteARMResource
+- name: 202 Accepted
+  description: Asynchronous operation in progress.
+  types:
+  - uid: StaticSiteARMResource
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.repositoryUrl
+    in: body
+    description: URL for the repository of the static site.
+    types:
+    - uid: string
+  - name: properties.branch
+    in: body
+    description: The target branch in the repository.
+    types:
+    - uid: string
+  - name: properties.repositoryToken
+    in: body
+    description: A user's github repository token. This is used to setup the Github Actions workflow file and API secrets.
+    types:
+    - uid: string
+  - name: properties.buildProperties
+    in: body
+    description: Build properties to configure on the repository.
+    types:
+    - uid: StaticSiteBuildProperties
+  - name: properties.stagingEnvironmentPolicy
+    in: body
+    description: State indicating whether staging environments are allowed or not allowed for a static web app.
+    types:
+    - uid: StagingEnvironmentPolicy
+  - name: properties.allowConfigFileUpdates
+    in: body
+    description: <code>false</code> if config file is locked for this static web app; otherwise, <code>true</code>.
+    types:
+    - uid: boolean
+  - name: properties.templateProperties
+    in: body
+    description: Template options for generating a new repository.
+    types:
+    - uid: StaticSiteTemplateOptions
+  - name: kind
+    in: body
+    description: Kind of resource.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: StaticSiteBuildProperties
+  description: Build properties for the static site.
+  kind: object
+  properties:
+  - name: appLocation
+    description: The path to the app code within the repository.
+    types:
+    - uid: string
+  - name: apiLocation
+    description: The path to the api code within the repository.
+    types:
+    - uid: string
+  - name: appArtifactLocation
+    description: 'Deprecated: The path of the app artifacts after building (deprecated in favor of OutputLocation)'
+    types:
+    - uid: string
+  - name: outputLocation
+    description: The output path of the app after building.
+    types:
+    - uid: string
+  - name: appBuildCommand
+    description: A custom command to run during deployment of the static content application.
+    types:
+    - uid: string
+  - name: apiBuildCommand
+    description: A custom command to run during deployment of the Azure Functions API application.
+    types:
+    - uid: string
+  - name: skipGithubActionWorkflowGeneration
+    description: Skip Github Action workflow generation.
+    types:
+    - uid: boolean
+  - name: githubActionSecretNameOverride
+    description: Github Action secret name override.
+    types:
+    - uid: string
+- name: ResponseMessageEnvelope[RemotePrivateEndpointConnection]
+  description: Message envelope that contains the common Azure resource manager properties and the resource provider specific content.
+  kind: object
+  properties:
+  - name: id
+    description: >-
+      Resource Id. Typically ID is populated only for responses to GET requests. Caller is responsible for passing in this
+
+      value for GET requests only.
+
+      For example: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupId}/providers/Microsoft.Web/sites/{sitename}
+    types:
+    - uid: string
+  - name: name
+    description: Name of resource.
+    types:
+    - uid: string
+  - name: type
+    description: Type of resource e.g "Microsoft.Web/sites".
+    types:
+    - uid: string
+  - name: location
+    description: Geographical region resource belongs to e.g. SouthCentralUS, SouthEastAsia.
+    types:
+    - uid: string
+  - name: tags
+    description: Tags associated with resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: plan
+    description: Azure resource manager plan.
+    types:
+    - uid: ArmPlan
+  - name: properties
+    description: Resource specific properties.
+    types:
+    - uid: RemotePrivateEndpointConnection
+  - name: sku
+    description: SKU description of the resource.
+    types:
+    - uid: SkuDescription
+  - name: status
+    description: Azure-AsyncOperation Status info.
+    types:
+    - uid: string
+  - name: error
+    description: Azure-AsyncOperation Error info.
+    types:
+    - uid: ErrorEntity
+  - name: identity
+    description: MSI resource
+    types:
+    - uid: ManagedServiceIdentity
+  - name: zones
+    description: Logical Availability Zones the service is hosted in
+    types:
+    - uid: string
+      isArray: true
+- name: StaticSiteTemplateOptions
+  description: Template Options for the static site.
+  kind: object
+  properties:
+  - name: templateRepositoryUrl
+    description: URL of the template repository. The newly generated repository will be based on this one.
+    types:
+    - uid: string
+  - name: owner
+    description: Owner of the newly generated repository.
+    types:
+    - uid: string
+  - name: repositoryName
+    description: Name of the newly generated repository.
+    types:
+    - uid: string
+  - name: description
+    description: Description of the newly generated repository.
+    types:
+    - uid: string
+  - name: isPrivate
+    description: Whether or not the newly generated repository is a private repository. Defaults to false (i.e. public).
+    types:
+    - uid: boolean
+- name: StaticSiteUserProvidedFunctionApp
+  description: A static site user provided function.
+  kind: object
+  properties:
+  - name: properties.functionAppResourceId
+    description: The resource id of the function app registered with the static site
+    types:
+    - uid: string
+  - name: properties.functionAppRegion
+    description: The region of the function app registered with the static site
+    types:
+    - uid: string
+  - name: properties.createdOn
+    isReadyOnly: true
+    description: The date and time on which the function app was registered with the static site.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: StaticSiteARMResource
+  description: Static Site ARM resource.
+  kind: object
+  properties:
+  - name: sku
+    description: Description of a SKU for a scalable resource.
+    types:
+    - uid: SkuDescription
+  - name: identity
+    description: Managed service identity.
+    types:
+    - uid: ManagedServiceIdentity
+  - name: properties.defaultHostname
+    isReadyOnly: true
+    description: The default autogenerated hostname for the static site.
+    types:
+    - uid: string
+  - name: properties.repositoryUrl
+    description: URL for the repository of the static site.
+    types:
+    - uid: string
+  - name: properties.branch
+    description: The target branch in the repository.
+    types:
+    - uid: string
+  - name: properties.customDomains
+    isReadyOnly: true
+    description: The custom domains associated with this static site.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.repositoryToken
+    description: A user's github repository token. This is used to setup the Github Actions workflow file and API secrets.
+    types:
+    - uid: string
+  - name: properties.buildProperties
+    description: Build properties to configure on the repository.
+    types:
+    - uid: StaticSiteBuildProperties
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: Private endpoint connections
+    types:
+    - uid: ResponseMessageEnvelope[RemotePrivateEndpointConnection]
+      isArray: true
+  - name: properties.stagingEnvironmentPolicy
+    description: State indicating whether staging environments are allowed or not allowed for a static web app.
+    types:
+    - uid: StagingEnvironmentPolicy
+  - name: properties.allowConfigFileUpdates
+    description: <code>false</code> if config file is locked for this static web app; otherwise, <code>true</code>.
+    types:
+    - uid: boolean
+  - name: properties.templateProperties
+    description: Template options for generating a new repository.
+    types:
+    - uid: StaticSiteTemplateOptions
+  - name: properties.contentDistributionEndpoint
+    isReadyOnly: true
+    description: The content distribution endpoint for the static site.
+    types:
+    - uid: string
+  - name: properties.keyVaultReferenceIdentity
+    isReadyOnly: true
+    description: Identity to use for Key Vault Reference authentication.
+    types:
+    - uid: string
+  - name: properties.userProvidedFunctionApps
+    isReadyOnly: true
+    description: User provided function apps registered with the static site
+    types:
+    - uid: StaticSiteUserProvidedFunctionApp
+      isArray: true
+  - name: properties.provider
+    isReadyOnly: true
+    description: The provider that submitted the last deployment to the primary environment of the static site.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: location
+    description: Resource Location.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: StaticSitePatchResource
+  description: ARM resource for a static site when patching
+  kind: object
+  properties:
+  - name: properties.defaultHostname
+    isReadyOnly: true
+    description: The default autogenerated hostname for the static site.
+    types:
+    - uid: string
+  - name: properties.repositoryUrl
+    description: URL for the repository of the static site.
+    types:
+    - uid: string
+  - name: properties.branch
+    description: The target branch in the repository.
+    types:
+    - uid: string
+  - name: properties.customDomains
+    isReadyOnly: true
+    description: The custom domains associated with this static site.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.repositoryToken
+    description: A user's github repository token. This is used to setup the Github Actions workflow file and API secrets.
+    types:
+    - uid: string
+  - name: properties.buildProperties
+    description: Build properties to configure on the repository.
+    types:
+    - uid: StaticSiteBuildProperties
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: Private endpoint connections
+    types:
+    - uid: ResponseMessageEnvelope[RemotePrivateEndpointConnection]
+      isArray: true
+  - name: properties.stagingEnvironmentPolicy
+    description: State indicating whether staging environments are allowed or not allowed for a static web app.
+    types:
+    - uid: StagingEnvironmentPolicy
+  - name: properties.allowConfigFileUpdates
+    description: <code>false</code> if config file is locked for this static web app; otherwise, <code>true</code>.
+    types:
+    - uid: boolean
+  - name: properties.templateProperties
+    description: Template options for generating a new repository.
+    types:
+    - uid: StaticSiteTemplateOptions
+  - name: properties.contentDistributionEndpoint
+    isReadyOnly: true
+    description: The content distribution endpoint for the static site.
+    types:
+    - uid: string
+  - name: properties.keyVaultReferenceIdentity
+    isReadyOnly: true
+    description: Identity to use for Key Vault Reference authentication.
+    types:
+    - uid: string
+  - name: properties.userProvidedFunctionApps
+    isReadyOnly: true
+    description: User provided function apps registered with the static site
+    types:
+    - uid: StaticSiteUserProvidedFunctionApp
+      isArray: true
+  - name: properties.provider
+    isReadyOnly: true
+    description: The provider that submitted the last deployment to the primary environment of the static site.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ArmPlan
+  description: The plan object in Azure Resource Manager, represents a marketplace plan.
+  kind: object
+  properties:
+  - name: name
+    description: The name.
+    types:
+    - uid: string
+  - name: publisher
+    description: The publisher.
+    types:
+    - uid: string
+  - name: product
+    description: The product.
+    types:
+    - uid: string
+  - name: promotionCode
+    description: The promotion code.
+    types:
+    - uid: string
+  - name: version
+    description: Version of product.
+    types:
+    - uid: string
+- name: RemotePrivateEndpointConnection
+  description: A remote private endpoint connection
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: properties.privateEndpoint
+    description: PrivateEndpoint of a remote private endpoint connection
+    types:
+    - uid: ArmIdWrapper
+  - name: properties.privateLinkServiceConnectionState
+    description: The state of a private link connection
+    types:
+    - uid: PrivateLinkConnectionState
+  - name: properties.ipAddresses
+    description: Private IPAddresses mapped to the remote private endpoint
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: SkuDescription
+  description: Description of a SKU for a scalable resource.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the resource SKU.
+    types:
+    - uid: string
+  - name: tier
+    description: Service tier of the resource SKU.
+    types:
+    - uid: string
+  - name: size
+    description: Size specifier of the resource SKU.
+    types:
+    - uid: string
+  - name: family
+    description: Family code of the resource SKU.
+    types:
+    - uid: string
+  - name: capacity
+    description: Current number of instances assigned to the resource.
+    types:
+    - uid: integer
+  - name: skuCapacity
+    description: Min, max, and default scale values of the SKU.
+    types:
+    - uid: SkuCapacity
+  - name: locations
+    description: Locations of the SKU.
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Capabilities of the SKU, e.g., is traffic manager enabled?
+    types:
+    - uid: Capability
+      isArray: true
+- name: ErrorEntity
+  description: Body of the error response returned from the API.
+  kind: object
+  properties:
+  - name: extendedCode
+    description: Type of error.
+    types:
+    - uid: string
+  - name: messageTemplate
+    description: Message template.
+    types:
+    - uid: string
+  - name: parameters
+    description: Parameters for the template.
+    types:
+    - uid: string
+      isArray: true
+  - name: innerErrors
+    description: Inner errors.
+    types:
+    - uid: ErrorEntity
+      isArray: true
+  - name: details
+    description: Error Details.
+    types:
+    - uid: ErrorEntity
+      isArray: true
+  - name: target
+    description: The error target.
+    types:
+    - uid: string
+  - name: code
+    description: Basic error code.
+    types:
+    - uid: string
+  - name: message
+    description: Any details of the error.
+    types:
+    - uid: string
+- name: ManagedServiceIdentity
+  description: Managed service identity.
+  kind: object
+  properties:
+  - name: type
+    description: Type of managed service identity.
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: tenantId
+    isReadyOnly: true
+    description: Tenant of managed service identity.
+    types:
+    - uid: string
+  - name: principalId
+    isReadyOnly: true
+    description: Principal Id of managed service identity.
+    types:
+    - uid: string
+  - name: userAssignedIdentities
+    description: "The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: userAssignedIdentity
+- name: StagingEnvironmentPolicy
+  description: State indicating whether staging environments are allowed or not allowed for a static web app.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: ArmIdWrapper
+  description: A wrapper for an ARM resource id
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: PrivateLinkConnectionState
+  description: The state of a private link connection
+  kind: object
+  properties:
+  - name: status
+    description: Status of a private link connection
+    types:
+    - uid: string
+  - name: description
+    description: Description of a private link connection
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: ActionsRequired for a private link connection
+    types:
+    - uid: string
+- name: SkuCapacity
+  description: Description of the App Service plan scale options.
+  kind: object
+  properties:
+  - name: minimum
+    description: Minimum number of workers for this App Service plan SKU.
+    types:
+    - uid: integer
+  - name: maximum
+    description: Maximum number of workers for this App Service plan SKU.
+    types:
+    - uid: integer
+  - name: elasticMaximum
+    description: Maximum number of Elastic workers for this App Service plan SKU.
+    types:
+    - uid: integer
+  - name: default
+    description: Default number of workers for this App Service plan SKU.
+    types:
+    - uid: integer
+  - name: scaleType
+    description: Available scale configurations for an App Service plan.
+    types:
+    - uid: string
+- name: Capability
+  description: Describes the capabilities/features allowed for a specific SKU.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the SKU capability.
+    types:
+    - uid: string
+  - name: value
+    description: Value of the SKU capability.
+    types:
+    - uid: string
+  - name: reason
+    description: Reason of the SKU capability.
+    types:
+    - uid: string
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: userAssignedIdentity
+  description: User Assigned identity.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: Principal Id of user assigned identity
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: Client Id of user assigned identity
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+examples:
+- name: Patch a static site
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0?api-version=2021-02-01
+    body: >-
+      {
+        "properties": {}
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0",
+        "name": "testStaticSite0",
+        "type": "Microsoft.Web/staticSites",
+        "location": "West US 2",
+        "properties": {
+          "defaultHostname": "happy-sea-15afae3e.azurestaticwebsites.net",
+          "repositoryUrl": "https://github.com/username/RepoName",
+          "branch": "demo",
+          "customDomains": [],
+          "privateEndpointConnections": [],
+          "contentDistributionEndpoint": "",
+          "keyVaultReferenceIdentity": "SystemAssigned",
+          "userProvidedFunctionApps": [],
+          "stagingEnvironmentPolicy": "Enabled",
+          "allowConfigFileUpdates": true
+        },
+        "sku": {
+          "name": "Basic",
+          "tier": "Basic"
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Web/locations/westus2/operationResults/62e4d893-d233-4005-988e-a428d9f77076?api-version=2019-01-01
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0",
+        "name": "testStaticSite0",
+        "type": "Microsoft.Web/staticSites",
+        "location": "West US 2",
+        "properties": {
+          "defaultHostname": "happy-sea-15afae3e.azurestaticwebsites.net",
+          "repositoryUrl": "https://github.com/username/RepoName",
+          "branch": "demo",
+          "customDomains": [],
+          "privateEndpointConnections": [],
+          "contentDistributionEndpoint": "",
+          "keyVaultReferenceIdentity": "SystemAssigned",
+          "userProvidedFunctionApps": [],
+          "stagingEnvironmentPolicy": "Enabled",
+          "allowConfigFileUpdates": true
+        },
+        "sku": {
+          "name": "Basic",
+          "tier": "Basic"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Description for Creates a new static site in an existing resource group, or updates an existing static site.
+errorCodes: []
