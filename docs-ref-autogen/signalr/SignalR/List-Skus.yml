@@ -1,0 +1,297 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.signalr.signalr.listskus
+name: List Skus
+service: SignalR Service
+groupName: SignalR
+apiVersion: 2021-09-01-preview
+summary: List all available skus of the resource.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/skus?api-version=2021-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription Id which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The response describes all available skus of the resource.
+  types:
+  - uid: SkuList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: SkuList
+  description: The list skus operation response
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of skus available for the resource.
+    types:
+    - uid: Sku
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: >-
+      The URL the client should use to fetch the next page (per server side paging).
+
+      It's null for now, added for future use.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: Sku
+  description: Describes an available sku."
+  kind: object
+  properties:
+  - name: resourceType
+    isReadyOnly: true
+    description: The resource type that this object applies to
+    types:
+    - uid: string
+  - name: sku
+    isReadyOnly: true
+    description: The exact set of keys that define this sku.
+    types:
+    - uid: ResourceSku
+  - name: capacity
+    isReadyOnly: true
+    description: Specifies the unit of the resource.
+    types:
+    - uid: SkuCapacity
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ResourceSku
+  description: The billing information of the resource.
+  kind: object
+  properties:
+  - name: name
+    description: >-
+      The name of the SKU. Required.
+
+
+      Allowed values: Standard_S1, Free_F1
+    types:
+    - uid: string
+  - name: tier
+    description: "Optional tier of this particular SKU. 'Standard' or 'Free'. \n\n`Basic` is deprecated, use `Standard` instead."
+    types:
+    - uid: SignalRSkuTier
+  - name: size
+    isReadyOnly: true
+    description: Not used. Retained for future use.
+    types:
+    - uid: string
+  - name: family
+    isReadyOnly: true
+    description: Not used. Retained for future use.
+    types:
+    - uid: string
+  - name: capacity
+    description: >-
+      Optional, integer. The unit count of the resource. 1 by default.
+
+
+      If present, following values are allowed:
+          Free: 1
+          Standard: 1,2,5,10,20,50,100
+    types:
+    - uid: integer
+- name: SkuCapacity
+  description: Describes scaling information of a sku.
+  kind: object
+  properties:
+  - name: minimum
+    isReadyOnly: true
+    description: The lowest permitted capacity for this resource
+    types:
+    - uid: integer
+  - name: maximum
+    isReadyOnly: true
+    description: The highest permitted capacity for this resource
+    types:
+    - uid: integer
+  - name: default
+    isReadyOnly: true
+    description: The default capacity.
+    types:
+    - uid: integer
+  - name: allowedValues
+    isReadyOnly: true
+    description: Allows capacity value list.
+    types:
+    - uid: integer
+      isArray: true
+  - name: scaleType
+    isReadyOnly: true
+    description: The scale type applicable to the sku.
+    types:
+    - uid: ScaleType
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: SignalRSkuTier
+  description: "Optional tier of this particular SKU. 'Standard' or 'Free'. \r\n\r\n`Basic` is deprecated, use `Standard` instead."
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+- name: ScaleType
+  description: The scale type applicable to the sku.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Manual
+    types:
+    - uid: string
+  - name: Automatic
+    types:
+    - uid: string
+examples:
+- name: SignalR_ListSkus
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/signalR/mySignalRService/skus?api-version=2021-09-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "resourceType": "Microsoft.SignalRService/SignalR",
+            "sku": {
+              "name": "Free_F1",
+              "tier": "Free"
+            },
+            "capacity": {
+              "minimum": 0,
+              "maximum": 1,
+              "default": 1,
+              "allowedValues": [
+                0,
+                1
+              ],
+              "scaleType": "Manual"
+            }
+          },
+          {
+            "resourceType": "Microsoft.SignalRService/SignalR",
+            "sku": {
+              "name": "Standard_S1",
+              "tier": "Standard"
+            },
+            "capacity": {
+              "minimum": 0,
+              "maximum": 100,
+              "default": 1,
+              "allowedValues": [
+                0,
+                1,
+                2,
+                5,
+                10,
+                20,
+                50,
+                100
+              ],
+              "scaleType": "Automatic"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about SignalR Service service - List all available skus of the resource.
+errorCodes: []

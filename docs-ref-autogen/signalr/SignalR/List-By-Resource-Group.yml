@@ -3,14 +3,14 @@ uid: management.azure.com.signalr.signalr.listbyresourcegroup
 name: List By Resource Group
 service: SignalR Service
 groupName: SignalR
-apiVersion: 2020-05-01
+apiVersion: 2021-09-01-preview
 summary: Handles requests to list all resources in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR?api-version=2020-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -32,21 +32,21 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Success. The response describes the list of SignalR services in a resourceGroup.
+  description: Success. The response describes the list of resources in a resourceGroup.
   types:
   - uid: SignalRResourceList
 - name: Other Status Codes
-  description: An unexpected error occurred during the operation.
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: SignalRResourceList
-  description: Object that includes an array of SignalR services and a possible link for next set.
+  description: Object that includes an array of resources and a possible link for next set.
   kind: object
   properties:
   - name: value
-    description: List of SignalR services
+    description: List of the resources
     types:
     - uid: SignalRResource
       isArray: true
@@ -58,15 +58,15 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Contains information about an API error.
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: Describes a particular API error with an error code and a message.
+    description: The error object.
     types:
-    - uid: ErrorResponseBody
+    - uid: ErrorDetail
 - name: SignalRResource
-  description: A class represent a SignalR service resource.
+  description: A class represent a resource.
   kind: object
   properties:
   - name: sku
@@ -74,9 +74,18 @@ definitions:
     types:
     - uid: ResourceSku
   - name: kind
-    description: The kind of the service - e.g. "SignalR", or "RawWebSockets" for "Microsoft.SignalRService/SignalR"
+    description: The kind of the service - e.g. "SignalR" for "Microsoft.SignalRService/SignalR"
     types:
     - uid: ServiceKind
+  - name: identity
+    description: The managed identity response
+    types:
+    - uid: ManagedIdentity
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the resource.
@@ -84,37 +93,96 @@ definitions:
     - uid: ProvisioningState
   - name: properties.externalIP
     isReadyOnly: true
-    description: The publicly accessible IP of the SignalR service.
+    description: The publicly accessible IP of the resource.
     types:
     - uid: string
   - name: properties.hostName
     isReadyOnly: true
-    description: 'FQDN of the SignalR service instance. Format: xxx.service.signalr.net'
+    description: FQDN of the service instance.
     types:
     - uid: string
   - name: properties.publicPort
     isReadyOnly: true
-    description: The publicly accessible port of the SignalR service which is designed for browser/client side usage.
+    description: The publicly accessible port of the resource which is designed for browser/client side usage.
     types:
     - uid: integer
   - name: properties.serverPort
     isReadyOnly: true
-    description: The publicly accessible port of the SignalR service which is designed for customer server side usage.
+    description: The publicly accessible port of the resource which is designed for customer server side usage.
     types:
     - uid: integer
   - name: properties.version
     isReadyOnly: true
-    description: Version of the SignalR resource. Probably you need the same or higher version of client SDKs.
+    description: Version of the resource. Probably you need the same or higher version of client SDKs.
     types:
     - uid: string
   - name: properties.privateEndpointConnections
     isReadyOnly: true
-    description: Private endpoint connections to the SignalR resource.
+    description: Private endpoint connections to the resource.
     types:
     - uid: PrivateEndpointConnection
       isArray: true
+  - name: properties.sharedPrivateLinkResources
+    isReadyOnly: true
+    description: The list of shared private link resources.
+    types:
+    - uid: SharedPrivateLinkResource
+      isArray: true
+  - name: properties.tls
+    description: TLS settings.
+    types:
+    - uid: SignalRTlsSettings
+  - name: properties.hostNamePrefix
+    isReadyOnly: true
+    description: Deprecated.
+    types:
+    - uid: string
+  - name: properties.features
+    description: "List of the featureFlags.\n\nFeatureFlags that are not included in the parameters for the update operation will not be modified.\nAnd the response will only include featureFlags that are explicitly set. \nWhen a featureFlag is not explicitly set, its globally default value will be used\nBut keep in mind, the default value doesn't mean \"false\". It varies in terms of different FeatureFlags."
+    types:
+    - uid: SignalRFeature
+      isArray: true
+  - name: properties.cors
+    description: Cross-Origin Resource Sharing (CORS) settings.
+    types:
+    - uid: SignalRCorsSettings
+  - name: properties.upstream
+    description: Upstream settings when the service is in server-less mode.
+    types:
+    - uid: ServerlessUpstreamSettings
+  - name: properties.networkACLs
+    description: Network ACLs
+    types:
+    - uid: SignalRNetworkACLs
+  - name: properties.publicNetworkAccess
+    description: >-
+      Enable or disable public network access. Default to "Enabled".
+
+      When it's Enabled, network ACLs still apply.
+
+      When it's Disabled, public network access is always disabled no matter what you set in network ACLs.
+    types:
+    - uid: string
+  - name: properties.disableLocalAuth
+    description: >-
+      DisableLocalAuth
+
+      Enable or disable local auth with AccessKey
+
+      When set as true, connection with AccessKey=xxx won't work.
+    types:
+    - uid: boolean
+  - name: properties.disableAadAuth
+    description: >-
+      DisableLocalAuth
+
+      Enable or disable aad auth
+
+      When set as true, connection with AuthType=aad won't work.
+    types:
+    - uid: boolean
   - name: location
-    description: The GEO location of the SignalR service. e.g. West US | East US | North Central US | South Central US.
+    description: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.
     types:
     - uid: string
   - name: tags
@@ -140,54 +208,39 @@ definitions:
     description: The type of the resource - e.g. "Microsoft.SignalRService/SignalR"
     types:
     - uid: string
-  - name: properties.hostNamePrefix
-    isReadyOnly: true
-    description: >-
-      Prefix for the hostName of the SignalR service. Retained for future use.
-
-      The hostname will be of format: &lt;hostNamePrefix&gt;.service.signalr.net.
-    types:
-    - uid: string
-  - name: properties.features
-    description: "List of SignalR featureFlags. e.g. ServiceMode.\n\nFeatureFlags that are not included in the parameters for the update operation will not be modified.\nAnd the response will only include featureFlags that are explicitly set. \nWhen a featureFlag is not explicitly set, SignalR service will use its globally default value. \nBut keep in mind, the default value doesn't mean \"false\". It varies in terms of different FeatureFlags."
-    types:
-    - uid: SignalRFeature
-      isArray: true
-  - name: properties.cors
-    description: Cross-Origin Resource Sharing (CORS) settings.
-    types:
-    - uid: SignalRCorsSettings
-  - name: properties.upstream
-    description: Upstream settings when the Azure SignalR is in server-less mode.
-    types:
-    - uid: ServerlessUpstreamSettings
-  - name: properties.networkACLs
-    description: Network ACLs
-    types:
-    - uid: SignalRNetworkACLs
-- name: ErrorResponseBody
-  description: Describes a particular API error with an error code and a message.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
-    description: "An error code that describes the error condition more precisely than an HTTP status code. \nCan be used to programmatically handle specific error cases."
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: A message that describes the error in detail and provides debugging information.
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: The target of the particular error (for example, the name of the property in error).
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: Contains nested errors that are related to this error.
+    isReadyOnly: true
+    description: The error details.
     types:
-    - uid: ErrorResponseBody
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
       isArray: true
 - name: ResourceSku
-  description: The billing information of the SignalR resource.
+  description: The billing information of the resource.
   kind: object
   properties:
   - name: name
@@ -214,7 +267,7 @@ definitions:
     - uid: string
   - name: capacity
     description: >-
-      Optional, integer. The unit count of SignalR resource. 1 by default.
+      Optional, integer. The unit count of the resource. 1 by default.
 
 
       If present, following values are allowed:
@@ -223,13 +276,73 @@ definitions:
     types:
     - uid: integer
 - name: ServiceKind
-  description: The kind of the service - e.g. "SignalR", or "RawWebSockets" for "Microsoft.SignalRService/SignalR"
+  description: The kind of the service - e.g. "SignalR" for "Microsoft.SignalRService/SignalR"
   kind: enum
   properties:
   - name: SignalR
     types:
     - uid: string
   - name: RawWebSockets
+    types:
+    - uid: string
+- name: ManagedIdentity
+  description: A class represent managed identities used for request and response
+  kind: object
+  properties:
+  - name: type
+    description: 'Represent the identity type: systemAssigned, userAssigned, None'
+    types:
+    - uid: ManagedIdentityType
+  - name: userAssignedIdentities
+    description: Get or set the user assigned identities
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentityProperty
+  - name: principalId
+    isReadyOnly: true
+    description: >-
+      Get the principal id for the system assigned identity.
+
+      Only be used in response.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: >-
+      Get the tenant id for the system assigned identity.
+
+      Only be used in response
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: ProvisioningState
@@ -264,9 +377,14 @@ definitions:
     types:
     - uid: string
 - name: PrivateEndpointConnection
-  description: A private endpoint connection to SignalR resource
+  description: A private endpoint connection to an azure resource
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the private endpoint connection
@@ -295,8 +413,62 @@ definitions:
     description: The type of the resource - e.g. "Microsoft.SignalRService/SignalR"
     types:
     - uid: string
+- name: SharedPrivateLinkResource
+  description: Describes a Shared Private Link Resource
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: properties.groupId
+    description: The group id from the provider of resource the shared private link resource is for
+    types:
+    - uid: string
+  - name: properties.privateLinkResourceId
+    description: The resource id of the resource the shared private link resource is for
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the shared private link resource
+    types:
+    - uid: ProvisioningState
+  - name: properties.requestMessage
+    description: The request message for requesting approval of the shared private link resource
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: Status of the shared private link resource
+    types:
+    - uid: SharedPrivateLinkResourceStatus
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource - e.g. "Microsoft.SignalRService/SignalR"
+    types:
+    - uid: string
+- name: SignalRTlsSettings
+  description: TLS settings for the resource
+  kind: object
+  properties:
+  - name: clientCertEnabled
+    description: Request client certificate during TLS handshake if enabled
+    types:
+    - uid: boolean
 - name: SignalRFeature
-  description: Feature of a SignalR resource, which controls the SignalR runtime behavior.
+  description: Feature of a resource, which controls the runtime behavior.
   kind: object
   properties:
   - name: flag
@@ -306,6 +478,10 @@ definitions:
       - ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended; "PredefinedOnly": for future use.
 
       - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category respectively.
+
+      - EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log category respectively.
+
+      - EnableLiveTrace: Live Trace allows you to know what's happening inside Azure SignalR service, it will give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged. Values allowed: "true"/"false", to enable/disable live trace feature.
     types:
     - uid: FeatureFlags
   - name: value
@@ -330,7 +506,7 @@ definitions:
     - uid: string
       isArray: true
 - name: ServerlessUpstreamSettings
-  description: The settings for the Upstream when the Azure SignalR is in server-less mode.
+  description: The settings for the Upstream when the service is in server-less mode.
   kind: object
   properties:
   - name: templates
@@ -339,7 +515,7 @@ definitions:
     - uid: UpstreamTemplate
       isArray: true
 - name: SignalRNetworkACLs
-  description: Network ACLs for SignalR
+  description: Network ACLs for the resource
   kind: object
   properties:
   - name: defaultAction
@@ -355,6 +531,20 @@ definitions:
     types:
     - uid: PrivateEndpointACL
       isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 - name: SignalRSkuTier
   description: "Optional tier of this particular SKU. 'Standard' or 'Free'. \r\n\r\n`Basic` is deprecated, use `Standard` instead."
   kind: enum
@@ -369,6 +559,49 @@ definitions:
     types:
     - uid: string
   - name: Premium
+    types:
+    - uid: string
+- name: ManagedIdentityType
+  description: 'Represent the identity type: systemAssigned, userAssigned, None'
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentityProperty
+  description: Properties of user assigned identity.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: Get the principal id for the user assigned identity
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: Get the client id for the user assigned identity
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
     types:
     - uid: string
 - name: PrivateEndpoint
@@ -395,6 +628,25 @@ definitions:
     description: A message indicating if changes on the service provider require any updates on the consumer.
     types:
     - uid: string
+- name: SharedPrivateLinkResourceStatus
+  description: Status of the shared private link resource
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
 - name: FeatureFlags
   description: >-
     FeatureFlags is the supported features of Azure SignalR service.
@@ -402,6 +654,10 @@ definitions:
     - ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended; "PredefinedOnly": for future use.
 
     - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category respectively.
+
+    - EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log category respectively.
+
+    - EnableLiveTrace: Live Trace allows you to know what's happening inside Azure SignalR service, it will give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged. Values allowed: "true"/"false", to enable/disable live trace feature.
   kind: enum
   properties:
   - name: ServiceMode
@@ -411,6 +667,9 @@ definitions:
     types:
     - uid: string
   - name: EnableMessagingLogs
+    types:
+    - uid: string
+  - name: EnableLiveTrace
     types:
     - uid: string
 - name: UpstreamTemplate
@@ -457,6 +716,10 @@ definitions:
       For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with a client request from hub `chat` connects, it will first POST to this URL: `http://example.com/chat/api/connect`.
     types:
     - uid: string
+  - name: auth
+    description: Gets or sets the auth settings for an upstream. If not set, no auth is used for upstream messages.
+    types:
+    - uid: UpstreamAuthSettings
 - name: ACLAction
   description: Default action when no other rule matches
   kind: enum
@@ -515,10 +778,43 @@ definitions:
   - name: Disconnected
     types:
     - uid: string
+- name: UpstreamAuthSettings
+  description: Upstream auth settings.
+  kind: object
+  properties:
+  - name: type
+    description: Gets or sets the type of auth. None or ManagedIdentity is supported now.
+    types:
+    - uid: UpstreamAuthType
+  - name: managedIdentity
+    description: Gets or sets the managed identity settings. It's required if the auth type is set to ManagedIdentity.
+    types:
+    - uid: ManagedIdentitySettings
+- name: UpstreamAuthType
+  description: Gets or sets the type of auth. None or ManagedIdentity is supported now.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+- name: ManagedIdentitySettings
+  description: Managed identity settings for upstream.
+  kind: object
+  properties:
+  - name: resource
+    description: >-
+      The Resource indicating the App ID URI of the target resource.
+
+      It also appears in the aud (audience) claim of the issued token.
+    types:
+    - uid: string
 examples:
 - name: SignalR_ListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/signalR?api-version=2020-05-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/signalR?api-version=2021-09-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -540,6 +836,14 @@ examples:
               "version": "1.0",
               "privateEndpointConnections": [
                 {
+                  "systemData": {
+                    "createdBy": "string",
+                    "createdByType": "User",
+                    "createdAt": "2015-02-03T04:05:06Z",
+                    "lastModifiedBy": "string",
+                    "lastModifiedByType": "User",
+                    "lastModifiedAt": "2015-02-03T04:05:06Z"
+                  },
                   "properties": {
                     "provisioningState": "Succeeded",
                     "privateEndpoint": {
@@ -547,16 +851,17 @@ examples:
                     },
                     "privateLinkServiceConnectionState": {
                       "status": "Approved",
-                      "description": null,
                       "actionsRequired": "None"
                     }
                   },
-                  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/SignalR/mySignalRService/privateEndpointConnections/mySignalRService.1fa229cd-bf3f-47f0-8c49-afb36723997e",
-                  "name": "mySignalRService.1fa229cd-bf3f-47f0-8c49-afb36723997e",
+                  "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/SignalR/mySignalRService/privateEndpointConnections/mysignalrservice.1fa229cd-bf3f-47f0-8c49-afb36723997e",
+                  "name": "mysignalrservice.1fa229cd-bf3f-47f0-8c49-afb36723997e",
                   "type": "Microsoft.SignalRService/SignalR/privateEndpointConnections"
                 }
               ],
-              "hostNamePrefix": "mysignalrservice",
+              "tls": {
+                "clientCertEnabled": true
+              },
               "features": [
                 {
                   "flag": "ServiceMode",
@@ -572,6 +877,11 @@ examples:
                   "flag": "EnableMessagingLogs",
                   "value": "False",
                   "properties": {}
+                },
+                {
+                  "flag": "EnableLiveTrace",
+                  "value": "False",
+                  "properties": {}
                 }
               ],
               "cors": {
@@ -583,9 +893,6 @@ examples:
               "upstream": {
                 "templates": [
                   {
-                    "hubPattern": null,
-                    "eventPattern": null,
-                    "categoryPattern": null,
                     "urlTemplate": "http://foo.com"
                   }
                 ]
@@ -595,21 +902,35 @@ examples:
                 "publicNetwork": {
                   "allow": [
                     "ClientConnection"
-                  ],
-                  "deny": null
+                  ]
                 },
                 "privateEndpoints": [
                   {
-                    "name": "mySignalRService.1fa229cd-bf3f-47f0-8c49-afb36723997e",
+                    "name": "mysignalrservice.1fa229cd-bf3f-47f0-8c49-afb36723997e",
                     "allow": [
                       "ServerConnection"
-                    ],
-                    "deny": null
+                    ]
                   }
                 ]
-              }
+              },
+              "publicNetworkAccess": "Enabled",
+              "disableLocalAuth": false,
+              "disableAadAuth": false
             },
             "kind": "SignalR",
+            "identity": {
+              "type": "SystemAssigned",
+              "principalId": "00000000-0000-0000-0000-000000000000",
+              "tenantId": "00000000-0000-0000-0000-000000000000"
+            },
+            "systemData": {
+              "createdBy": "string",
+              "createdByType": "User",
+              "createdAt": "2015-02-03T04:05:06Z",
+              "lastModifiedBy": "string",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2015-02-03T04:05:06Z"
+            },
             "location": "eastus",
             "tags": {
               "key1": "value1"

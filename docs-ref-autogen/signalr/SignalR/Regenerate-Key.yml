@@ -3,14 +3,14 @@ uid: management.azure.com.signalr.signalr.regeneratekey
 name: Regenerate Key
 service: SignalR Service
 groupName: SignalR
-apiVersion: 2020-05-01
-summary: Regenerate SignalR service access key. PrimaryKey and SecondaryKey cannot be regenerated at the same time.
+apiVersion: 2021-09-01-preview
+summary: Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the same time.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/regenerateKey?api-version=2020-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/regenerateKey?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: resourceName
   in: path
   isRequired: true
-  description: The name of the SignalR resource.
+  description: The name of the resource.
   types:
   - uid: string
 - name: api-version
@@ -37,12 +37,12 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 201 Created
-  description: Created and an async operation is executing in background to make the new key to take effect. The response contains new keys and a Location header to query the async operation result.
+- name: 202 Accepted
+  description: Accepted and an async operation is executing in background to make the new key to take effect. The response contains new access keys and a Location header to query the async operation result.
   types:
   - uid: SignalRKeys
 - name: Other Status Codes
-  description: An unexpected error occurred during the operation.
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestBody:
@@ -56,7 +56,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: SignalRKeys
-  description: A class represents the access keys of SignalR service.
+  description: A class represents the access keys of the resource.
   kind: object
   properties:
   - name: primaryKey
@@ -68,21 +68,21 @@ definitions:
     types:
     - uid: string
   - name: primaryConnectionString
-    description: SignalR connection string constructed via the primaryKey
+    description: Connection string constructed via the primaryKey
     types:
     - uid: string
   - name: secondaryConnectionString
-    description: SignalR connection string constructed via the secondaryKey
+    description: Connection string constructed via the secondaryKey
     types:
     - uid: string
 - name: ErrorResponse
-  description: Contains information about an API error.
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: Describes a particular API error with an error code and a message.
+    description: The error object.
     types:
-    - uid: ErrorResponseBody
+    - uid: ErrorDetail
 - name: RegenerateKeyParameters
   description: Parameters describes the request to regenerate access keys
   kind: object
@@ -91,26 +91,36 @@ definitions:
     description: The keyType to regenerate. Must be either 'primary' or 'secondary'(case-insensitive).
     types:
     - uid: KeyType
-- name: ErrorResponseBody
-  description: Describes a particular API error with an error code and a message.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
-    description: "An error code that describes the error condition more precisely than an HTTP status code. \nCan be used to programmatically handle specific error cases."
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: A message that describes the error in detail and provides debugging information.
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: The target of the particular error (for example, the name of the property in error).
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: Contains nested errors that are related to this error.
+    isReadyOnly: true
+    description: The error details.
     types:
-    - uid: ErrorResponseBody
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
       isArray: true
 - name: KeyType
   description: The keyType to regenerate. Must be either 'primary' or 'secondary'(case-insensitive).
@@ -122,28 +132,39 @@ definitions:
   - name: Secondary
     types:
     - uid: string
+  - name: Salt
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: SignalR_RegenerateKey
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/signalR/mySignalRService/regenerateKey?api-version=2020-05-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/signalR/mySignalRService/regenerateKey?api-version=2021-09-01-preview
     body: >-
       {
         "keyType": "Primary"
       }
   responses:
-  - statusCode: "201"
+  - statusCode: "202"
     headers:
     - name: Location
       value: https://management.azure.com/subscriptions/subid/providers/Microsoft.SignalRService/...pathToOperationResult...
     - name: Azure-AsyncOperation
       value: https://management.azure.com/subscriptions/subid/providers/Microsoft.SignalRService/...pathToOperationStatus...
-    body: >-
-      {
-        "primaryKey": "primaryAccessKey",
-        "secondaryKey": "secondaryAccessKey",
-        "primaryConnectionString": "Endpoint=https://yourServiceName.service.signalr.net;AccessKey=primaryAccessKey;Version=1.0;",
-        "secondaryConnectionString": "Endpoint=https://yourServiceName.service.signalr.net;AccessKey=secondaryAccessKey;Version=1.0;"
-      }
+    body: '{}'
 security:
 - name: azure_auth
   type: oauth2
@@ -154,5 +175,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Regenerate SignalR service access key. PrimaryKey and SecondaryKey cannot be regenerated at the same time.
+  description: Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the same time.
 errorCodes: []

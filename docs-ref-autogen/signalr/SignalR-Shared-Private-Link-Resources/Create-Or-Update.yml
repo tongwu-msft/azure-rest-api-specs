@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.signalr.signalrprivateendpointconnections.update
-name: Update
+uid: management.azure.com.signalr.signalrsharedprivatelinkresources.createorupdate
+name: Create Or Update
 service: SignalR Service
-groupName: SignalR Private Endpoint Connections
+groupName: SignalR Shared Private Link Resources
 apiVersion: 2021-09-01-preview
-summary: Update the state of specified private endpoint connection
+summary: Create or update a shared private link resource
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2021-09-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,10 +30,10 @@ uriParameters:
   description: The name of the resource.
   types:
   - uid: string
-- name: privateEndpointConnectionName
+- name: sharedPrivateLinkResourceName
   in: path
   isRequired: true
-  description: The name of the private endpoint connection
+  description: The name of the shared private link resource
   types:
   - uid: string
 - name: api-version
@@ -44,9 +44,13 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK. The response indicates the private endpoint connection is updated successfully.
+  description: OK. The response indicates the shared private link resource is updated.
   types:
-  - uid: PrivateEndpointConnection
+  - uid: SharedPrivateLinkResource
+- name: 201 Created
+  description: Created. The response indicates the shared private link resource is created.
+  types:
+  - uid: SharedPrivateLinkResource
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -54,16 +58,23 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.privateEndpoint
+  - name: properties.groupId
     in: body
-    description: Private endpoint associated with the private endpoint connection
+    isRequired: true
+    description: The group id from the provider of resource the shared private link resource is for
     types:
-    - uid: PrivateEndpoint
-  - name: properties.privateLinkServiceConnectionState
+    - uid: string
+  - name: properties.privateLinkResourceId
     in: body
-    description: Connection state
+    isRequired: true
+    description: The resource id of the resource the shared private link resource is for
     types:
-    - uid: PrivateLinkServiceConnectionState
+    - uid: string
+  - name: properties.requestMessage
+    in: body
+    description: The request message for requesting approval of the shared private link resource
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: systemData
@@ -94,32 +105,8 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: PrivateEndpoint
-  description: Private endpoint
-  kind: object
-  properties:
-  - name: id
-    description: Full qualified Id of the private endpoint
-    types:
-    - uid: string
-- name: PrivateLinkServiceConnectionState
-  description: Connection state of the private endpoint connection
-  kind: object
-  properties:
-  - name: status
-    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-    types:
-    - uid: PrivateLinkServiceConnectionStatus
-  - name: description
-    description: The reason for approval/rejection of the connection.
-    types:
-    - uid: string
-  - name: actionsRequired
-    description: A message indicating if changes on the service provider require any updates on the consumer.
-    types:
-    - uid: string
-- name: PrivateEndpointConnection
-  description: A private endpoint connection to an azure resource
+- name: SharedPrivateLinkResource
+  description: Describes a Shared Private Link Resource
   kind: object
   properties:
   - name: systemData
@@ -127,19 +114,28 @@ definitions:
     description: Metadata pertaining to creation and last modification of the resource.
     types:
     - uid: systemData
+  - name: properties.groupId
+    description: The group id from the provider of resource the shared private link resource is for
+    types:
+    - uid: string
+  - name: properties.privateLinkResourceId
+    description: The resource id of the resource the shared private link resource is for
+    types:
+    - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: Provisioning state of the private endpoint connection
+    description: Provisioning state of the shared private link resource
     types:
     - uid: ProvisioningState
-  - name: properties.privateEndpoint
-    description: Private endpoint associated with the private endpoint connection
+  - name: properties.requestMessage
+    description: The request message for requesting approval of the shared private link resource
     types:
-    - uid: PrivateEndpoint
-  - name: properties.privateLinkServiceConnectionState
-    description: Connection state
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: Status of the shared private link resource
     types:
-    - uid: PrivateLinkServiceConnectionState
+    - uid: SharedPrivateLinkResourceStatus
   - name: id
     isReadyOnly: true
     description: Fully qualified resource Id for the resource.
@@ -179,22 +175,6 @@ definitions:
   - name: Key
     types:
     - uid: string
-- name: PrivateLinkServiceConnectionStatus
-  description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-  kind: enum
-  properties:
-  - name: Pending
-    types:
-    - uid: string
-  - name: Approved
-    types:
-    - uid: string
-  - name: Rejected
-    types:
-    - uid: string
-  - name: Disconnected
-    types:
-    - uid: string
 - name: ProvisioningState
   description: Provisioning state of the resource.
   kind: enum
@@ -224,6 +204,25 @@ definitions:
     types:
     - uid: string
   - name: Moving
+    types:
+    - uid: string
+- name: SharedPrivateLinkResourceStatus
+  description: Status of the shared private link resource
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+  - name: Timeout
     types:
     - uid: string
 - name: ErrorDetail
@@ -272,23 +271,33 @@ definitions:
     types:
     - uid: object
 examples:
-- name: SignalRPrivateEndpointConnections_Update
+- name: SignalRSharedPrivateLinkResources_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/signalR/mySignalRService/privateEndpointConnections/mysignalrservice.1fa229cd-bf3f-47f0-8c49-afb36723997e?api-version=2021-09-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/signalR/mySignalRService/sharedPrivateLinkResources/upstream?api-version=2021-09-01-preview
     body: >-
       {
         "properties": {
-          "privateEndpoint": {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Network/privateEndpoints/myPrivateEndpoint"
-          },
-          "privateLinkServiceConnectionState": {
-            "status": "Approved",
-            "actionsRequired": "None"
-          }
+          "groupId": "sites",
+          "privateLinkResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp",
+          "requestMessage": "Please approve"
         }
       }
   responses:
   - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "groupId": "sites",
+          "privateLinkResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp",
+          "provisioningState": "Succeeded",
+          "requestMessage": "Please approve",
+          "status": "Approved"
+        },
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/SignalR/mySignalRService/privateEndpointConnections/upstream",
+        "name": "upstream",
+        "type": "Microsoft.SignalRService/SignalR/privateEndpointConnections"
+      }
+  - statusCode: "201"
     headers:
     - name: Location
       value: https://management.azure.com/subscriptions/subid/providers/Microsoft.SignalRService/...pathToOperationResult...
@@ -296,26 +305,15 @@ examples:
       value: https://management.azure.com/subscriptions/subid/providers/Microsoft.SignalRService/...pathToOperationStatus...
     body: >-
       {
-        "systemData": {
-          "createdBy": "string",
-          "createdByType": "User",
-          "createdAt": "2015-02-03T04:05:06Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User",
-          "lastModifiedAt": "2015-02-03T04:05:06Z"
-        },
         "properties": {
+          "groupId": "sites",
+          "privateLinkResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp",
           "provisioningState": "Succeeded",
-          "privateEndpoint": {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Network/privateEndpoints/myPrivateEndpoint"
-          },
-          "privateLinkServiceConnectionState": {
-            "status": "Approved",
-            "actionsRequired": "None"
-          }
+          "requestMessage": "Please approve",
+          "status": "Approved"
         },
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/SignalR/mySignalRService/privateEndpointConnections/mysignalrservice.1fa229cd-bf3f-47f0-8c49-afb36723997e",
-        "name": "mysignalrservice.1fa229cd-bf3f-47f0-8c49-afb36723997e",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/SignalR/mySignalRService/privateEndpointConnections/upstream",
+        "name": "upstream",
         "type": "Microsoft.SignalRService/SignalR/privateEndpointConnections"
       }
 security:
@@ -328,5 +326,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about SignalR Service service - Update the state of specified private endpoint connection
+  description: Learn more about SignalR Service service - Create or update a shared private link resource
 errorCodes: []
