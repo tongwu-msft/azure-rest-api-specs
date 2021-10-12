@@ -20508,14 +20508,6 @@
 ### [List All](virtualnetwork/Network-Interfaces/List-All.yml)
 ### [List Effective Network Security Groups](virtualnetwork/Network-Interfaces/List-Effective-Network-Security-Groups.yml)
 ### [Update Tags](virtualnetwork/Network-Interfaces/Update-Tags.yml)
-## Network Profiles
-### [Overview](virtualnetwork/Network-Profiles.yml)
-### [Create Or Update](virtualnetwork/Network-Profiles/Create-Or-Update.yml)
-### [Delete](virtualnetwork/Network-Profiles/Delete.yml)
-### [Get](virtualnetwork/Network-Profiles/Get.yml)
-### [List](virtualnetwork/Network-Profiles/List.yml)
-### [List All](virtualnetwork/Network-Profiles/List-All.yml)
-### [Update Tags](virtualnetwork/Network-Profiles/Update-Tags.yml)
 ## Network Security Groups
 ### [Overview](virtualnetwork/Network-Security-Groups.yml)
 ### [Create Or Update](virtualnetwork/Network-Security-Groups/Create-Or-Update.yml)
