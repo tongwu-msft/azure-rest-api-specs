@@ -591,6 +591,7 @@ The "(preview)" designation indicates that validation testing across all feature
 | Gujarati | gu-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Hebrew | he-IL (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Hindi [HI] | HI, HI-IN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Hungarian [HU] | HU, HU-HU (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Icelandic [IS] | IS, IS-IS (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Indonesian [ID] | ID, ID-ID (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Irish | ga-IE (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
@@ -602,6 +603,7 @@ The "(preview)" designation indicates that validation testing across all feature
 | Malaysian [MS]  | MS, MS-MY (default), MS-BN  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Marathi | mr-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Norwegian [NO] | NO, NO-NO (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Norwegian Bokmål [NB] | NB, NB-NO (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Persian | fa-AE (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Polish [PL]  | PL, PL-PL (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Punjabi | pa-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
