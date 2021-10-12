@@ -1,0 +1,328 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.mysql.flexibleserver.backups.listbyserver
+name: List By Server
+service: MySQL
+groupName: Backups
+apiVersion: 2021-05-01
+summary: List all the backups for a given server.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/backups?api-version=2021-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ServerBackupListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ServerBackupListResult
+  description: A list of server backups.
+  kind: object
+  properties:
+  - name: value
+    description: The list of backups of a server.
+    types:
+    - uid: ServerBackup
+      isArray: true
+  - name: nextLink
+    description: The link used to get the next page of operations.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nThe resource management error response."
+    types:
+    - uid: ErrorResponse
+- name: ServerBackup
+  description: Server backup properties
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata relating to this resource.
+    types:
+    - uid: systemData
+  - name: properties.backupType
+    description: Backup type.
+    types:
+    - uid: string
+  - name: properties.completedTime
+    description: Backup completed time (ISO8601 format).
+    types:
+    - uid: string
+  - name: properties.source
+    description: Backup source
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: List backups for a server
+  request:
+    uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver/backups?api-version=2021-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "backupType": "FULL",
+              "source": "Automatic",
+              "completedTime": "2021-06-15T16:05:19.902522+00:00"
+            },
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver/backups/daily_20210615T160516",
+            "name": "daily_20210615T160516",
+            "type": "Microsoft.DBforMySQL/flexibleServers/backups"
+          },
+          {
+            "properties": {
+              "backupType": "FULL",
+              "source": "Automatic",
+              "completedTime": "2021-06-16T16:05:23.9243453+00:00"
+            },
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver/backups/daily_20210616T160520",
+            "name": "daily_20210616T160520",
+            "type": "Microsoft.DBforMySQL/flexibleServers/backups"
+          },
+          {
+            "properties": {
+              "backupType": "FULL",
+              "source": "Automatic",
+              "completedTime": "2021-06-17T16:05:28.1247488+00:00"
+            },
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver/backups/daily_20210617T160525",
+            "name": "daily_20210617T160525",
+            "type": "Microsoft.DBforMySQL/flexibleServers/backups"
+          },
+          {
+            "properties": {
+              "backupType": "FULL",
+              "source": "Automatic",
+              "completedTime": "2021-06-18T16:05:32.2736701+00:00"
+            },
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver/backups/daily_20210618T160529",
+            "name": "daily_20210618T160529",
+            "type": "Microsoft.DBforMySQL/flexibleServers/backups"
+          },
+          {
+            "properties": {
+              "backupType": "FULL",
+              "source": "Automatic",
+              "completedTime": "2021-06-19T16:05:36.8603354+00:00"
+            },
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver/backups/daily_20210619T160533",
+            "name": "daily_20210619T160533",
+            "type": "Microsoft.DBforMySQL/flexibleServers/backups"
+          },
+          {
+            "properties": {
+              "backupType": "FULL",
+              "source": "Automatic",
+              "completedTime": "2021-06-20T16:05:41.9200138+00:00"
+            },
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver/backups/daily_20210620T160538",
+            "name": "daily_20210620T160538",
+            "type": "Microsoft.DBforMySQL/flexibleServers/backups"
+          },
+          {
+            "properties": {
+              "backupType": "FULL",
+              "source": "Automatic",
+              "completedTime": "2021-06-21T16:05:48.8528447+00:00"
+            },
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver/backups/daily_20210621T160543",
+            "name": "daily_20210621T160543",
+            "type": "Microsoft.DBforMySQL/flexibleServers/backups"
+          },
+          {
+            "properties": {
+              "backupType": "FULL",
+              "source": "Automatic",
+              "completedTime": "2021-06-22T16:08:06.3121688+00:00"
+            },
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver/backups/daily_20210622T160803",
+            "name": "daily_20210622T160803",
+            "type": "Microsoft.DBforMySQL/flexibleServers/backups"
+          },
+          {
+            "properties": {
+              "backupType": "FULL",
+              "source": "Automatic",
+              "completedTime": "2021-06-22T21:08:10.5057354+00:00"
+            },
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver/backups/daily_20210622T210807",
+            "name": "daily_20210622T210807",
+            "type": "Microsoft.DBforMySQL/flexibleServers/backups"
+          },
+          {
+            "properties": {
+              "backupType": "FULL",
+              "source": "Automatic",
+              "completedTime": "2021-06-23T21:24:16.9401531+00:00"
+            },
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver/backups/daily_20210623T212413",
+            "name": "daily_20210623T212413",
+            "type": "Microsoft.DBforMySQL/flexibleServers/backups"
+          },
+          {
+            "properties": {
+              "backupType": "FULL",
+              "source": "Automatic",
+              "completedTime": "2021-06-24T06:13:31.4962137+00:00"
+            },
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver/backups/daily_20210624T061328",
+            "name": "daily_20210624T061328",
+            "type": "Microsoft.DBforMySQL/flexibleServers/backups"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about MySQL service - List all the backups for a given server.
+errorCodes: []
