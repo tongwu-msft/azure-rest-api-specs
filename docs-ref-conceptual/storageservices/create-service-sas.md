@@ -253,7 +253,7 @@ The `signedEncryptionScope` field on the URI enables the customer to specify the
 |----------------|---------------------|-----------------|  
 |`signedEncryptionScope`|`ses`|Optional. Indicates the encryption scope to use to encrypt the request contents.| 
 
-This field is supported with version 2020-12-06 or later. If the `ses` is added prior the supported version, the service returns error response code 403 (Forbidden).
+This field is supported with version 2020-12-06 or later. If the `ses` is added prior to the supported version, the service returns error response code 403 (Forbidden).
 
 If the default encryption scope is set for the container or filesystem, the `ses` query parameter will respect the container encryption policy. If there is a mismatch between the `ses` query parameter and `x-ms-default-encryption-scope` header, and the `x-ms-deny-encryption-scope-override` header is set to `true`, the service returns error response code 403 (Forbidden).
 
