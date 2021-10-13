@@ -232,7 +232,7 @@ Specifying the object ID in the `saoid` or `suoid` field also restricts operatio
   - The value specified for the object ID must be owner of the directory or blob.
   - The value of the `signedPermissions` (`sp`) field must include the `Ownership` (`o`) permission in addition to the `Permissions` (`p`) permission.
 
-The object ID specified in the the `saoid` or `suoid` field is included in diagnostic logs when a request is made using the SAS token.
+The object ID specified in the `saoid` or `suoid` field is included in diagnostic logs when a request is made using the SAS token.
 
 The `saoid` or `suoid` field is supported only if the `signedVersion` (`sv`) field is set to version 2020-02-10 or later. Only one of these fields may be included on the SAS token.
 
@@ -268,7 +268,7 @@ If you create a shared access signature that specifies response headers as query
 
 ### Specify the user OID
 
-User Delegation SAS supports an optional user OID carried in either the Signed Authorized User Object Id (`saoid`) or Signed Unauthorized User Object Id (`suoid`) parameter when the authentication version (sv) is 2020-02-10 or higher:
+User Delegation SAS supports an optional user OID carried in either the Signed Authorized User Object ID (`saoid`) or Signed Unauthorized User Object ID (`suoid`) parameter when the authentication version (sv) is 2020-02-10 or higher:
 
 - The user delegating access (skoid) must have **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action** or **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/manageOwnership/action** RBAC permission when using a SAS with an optional user OID.
 - If the sticky bit is set on the parent folder and the operation is delete or rename, then the owner of the parent folder or the owner of the resource must match the value specified by the optional user OID.
