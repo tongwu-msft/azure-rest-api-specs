@@ -20,7 +20,7 @@ ms.manager: jennmar
 > [!Important]
 > This preview API adds the ability to flag specific documents for reprocessing by an indexer. Document identifiers passed in the request are processed in full on the next run. The entire API is a preview feature. This preview feature is also supported in 2020-06-30-Preview. For more information, see [Reset and run an indexer](/azure/search/search-howto-run-reset-indexers). 
 
-The Reset Documents API allows you to selectively reprocess documents from your data source. The API accepts document keys (keys of documents in search index) or datasource document ids (keys of documents in datasources) as input, and prioritizes the processing of those documents ahead of other documents from the same data source. This API works for all indexers (with or without a skillset). If the call succeeds, customers will always get a 204 NoContent response.
+The Reset Documents API allows you to selectively reprocess documents from your data source. The API accepts two types of document identifiers as input. They are document keys (keys that uniquely identify documents in a search index) and datasource document ids (keys that uniquely identify documents in a data source). Reset Documents API prioritizes the processing of those documents ahead of other documents from the same data source.
 
 * For indexers with a skillset and incremental enrichment enabled, Reset Documents will clear the cache and re-run the full skillset.
 * For indexers without a skillset, Reset Documents will simply read the source document from the data source and update/insert the contents into the index.
@@ -37,7 +37,7 @@ POST https://[service name].search.windows.net/indexers/[indexer name]/resetdocs
     api-key: [admin key]  
 ``` 
 
-Reset Documents is an asynchronous API. Invoking the API adds the document keys or data  source document ids to be reset to the indexer metadata. On the next scheduled or on demand run of the indexer, the indexer prioritizes processing the reset documents before indexing any new or updated documents in the data source.
+Reset Documents is an asynchronous API. Invoking the API adds the document keys or data source document ids to be reset to the indexer metadata. On the next scheduled or on demand run of the indexer, the indexer prioritizes processing the reset documents before indexing any new or updated documents in the data source.
 
 ## URI Parameters
 
