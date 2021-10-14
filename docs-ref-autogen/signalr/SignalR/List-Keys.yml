@@ -3,14 +3,14 @@ uid: management.azure.com.signalr.signalr.listkeys
 name: List Keys
 service: SignalR Service
 groupName: SignalR
-apiVersion: 2020-05-01
-summary: Get the access keys of the SignalR resource.
+apiVersion: 2021-09-01-preview
+summary: Get the access keys of the resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/listKeys?api-version=2020-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/listKeys?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: resourceName
   in: path
   isRequired: true
-  description: The name of the SignalR resource.
+  description: The name of the resource.
   types:
   - uid: string
 - name: api-version
@@ -38,17 +38,17 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Success. The response describes SignalR service access keys.
+  description: Success. The response describes access keys of the resource.
   types:
   - uid: SignalRKeys
 - name: Other Status Codes
-  description: An unexpected error occurred during the operation.
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: SignalRKeys
-  description: A class represents the access keys of SignalR service.
+  description: A class represents the access keys of the resource.
   kind: object
   properties:
   - name: primaryKey
@@ -60,55 +60,73 @@ definitions:
     types:
     - uid: string
   - name: primaryConnectionString
-    description: SignalR connection string constructed via the primaryKey
+    description: Connection string constructed via the primaryKey
     types:
     - uid: string
   - name: secondaryConnectionString
-    description: SignalR connection string constructed via the secondaryKey
+    description: Connection string constructed via the secondaryKey
     types:
     - uid: string
 - name: ErrorResponse
-  description: Contains information about an API error.
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: Describes a particular API error with an error code and a message.
+    description: The error object.
     types:
-    - uid: ErrorResponseBody
-- name: ErrorResponseBody
-  description: Describes a particular API error with an error code and a message.
+    - uid: ErrorDetail
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
-    description: "An error code that describes the error condition more precisely than an HTTP status code. \nCan be used to programmatically handle specific error cases."
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: A message that describes the error in detail and provides debugging information.
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: The target of the particular error (for example, the name of the property in error).
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: Contains nested errors that are related to this error.
+    isReadyOnly: true
+    description: The error details.
     types:
-    - uid: ErrorResponseBody
+    - uid: ErrorDetail
       isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: SignalR_ListKeys
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/signalR/mySignalRService/listKeys?api-version=2020-05-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/signalR/mySignalRService/listKeys?api-version=2021-09-01-preview
   responses:
   - statusCode: "200"
-    body: >-
-      {
-        "primaryKey": "primaryAccessKey",
-        "secondaryKey": "secondaryAccessKey",
-        "primaryConnectionString": "Endpoint=https://yourServiceName.service.signalr.net;AccessKey=primaryAccessKey;Version=1.0",
-        "secondaryConnectionString": "Endpoint=https://yourServiceName.service.signalr.net;AccessKey=secondaryAccessKey;Version=1.0"
-      }
+    body: '{}'
 security:
 - name: azure_auth
   type: oauth2
@@ -119,5 +137,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about SignalR Service service - Get the access keys of the SignalR resource.
+  description: Learn more about SignalR Service service - Get the access keys of the resource.
 errorCodes: []

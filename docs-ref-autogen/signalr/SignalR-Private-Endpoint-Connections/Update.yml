@@ -3,14 +3,14 @@ uid: management.azure.com.signalr.signalrprivateendpointconnections.update
 name: Update
 service: SignalR Service
 groupName: SignalR Private Endpoint Connections
-apiVersion: 2020-05-01
-summary: Update the state of specified private endpoint connection associated with a SignalR resource.
+apiVersion: 2021-09-01-preview
+summary: Update the state of specified private endpoint connection
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2020-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,13 +27,13 @@ uriParameters:
 - name: resourceName
   in: path
   isRequired: true
-  description: The name of the SignalR resource.
+  description: The name of the resource.
   types:
   - uid: string
 - name: privateEndpointConnectionName
   in: path
   isRequired: true
-  description: The name of the private endpoint connection associated with the SignalR resource.
+  description: The name of the private endpoint connection
   types:
   - uid: string
 - name: api-version
@@ -48,7 +48,7 @@ responses:
   types:
   - uid: PrivateEndpointConnection
 - name: Other Status Codes
-  description: An unexpected error occurred during the operation.
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestBody:
@@ -66,6 +66,34 @@ requestBody:
     - uid: PrivateLinkServiceConnectionState
 requestHeader: []
 definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: PrivateEndpoint
   description: Private endpoint
   kind: object
@@ -91,9 +119,14 @@ definitions:
     types:
     - uid: string
 - name: PrivateEndpointConnection
-  description: A private endpoint connection to SignalR resource
+  description: A private endpoint connection to an azure resource
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the private endpoint connection
@@ -123,13 +156,29 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Contains information about an API error.
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: Describes a particular API error with an error code and a message.
+    description: The error object.
     types:
-    - uid: ErrorResponseBody
+    - uid: ErrorDetail
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: PrivateLinkServiceConnectionStatus
   description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
   kind: enum
@@ -177,31 +226,55 @@ definitions:
   - name: Moving
     types:
     - uid: string
-- name: ErrorResponseBody
-  description: Describes a particular API error with an error code and a message.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
-    description: "An error code that describes the error condition more precisely than an HTTP status code. \nCan be used to programmatically handle specific error cases."
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: A message that describes the error in detail and provides debugging information.
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: The target of the particular error (for example, the name of the property in error).
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: Contains nested errors that are related to this error.
+    isReadyOnly: true
+    description: The error details.
     types:
-    - uid: ErrorResponseBody
+    - uid: ErrorDetail
       isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: SignalRPrivateEndpointConnections_Update
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/signalR/mySignalRService/privateEndpointConnections/mySignalRService.1fa229cd-bf3f-47f0-8c49-afb36723997e?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/signalR/mySignalRService/privateEndpointConnections/mysignalrservice.1fa229cd-bf3f-47f0-8c49-afb36723997e?api-version=2021-09-01-preview
     body: >-
       {
         "properties": {
@@ -210,7 +283,6 @@ examples:
           },
           "privateLinkServiceConnectionState": {
             "status": "Approved",
-            "description": null,
             "actionsRequired": "None"
           }
         }
@@ -224,6 +296,14 @@ examples:
       value: https://management.azure.com/subscriptions/subid/providers/Microsoft.SignalRService/...pathToOperationStatus...
     body: >-
       {
+        "systemData": {
+          "createdBy": "string",
+          "createdByType": "User",
+          "createdAt": "2015-02-03T04:05:06Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2015-02-03T04:05:06Z"
+        },
         "properties": {
           "provisioningState": "Succeeded",
           "privateEndpoint": {
@@ -231,12 +311,11 @@ examples:
           },
           "privateLinkServiceConnectionState": {
             "status": "Approved",
-            "description": null,
             "actionsRequired": "None"
           }
         },
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/SignalR/mySignalRService/privateEndpointConnections/mySignalRService.1fa229cd-bf3f-47f0-8c49-afb36723997e",
-        "name": "mySignalRService.1fa229cd-bf3f-47f0-8c49-afb36723997e",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/SignalR/mySignalRService/privateEndpointConnections/mysignalrservice.1fa229cd-bf3f-47f0-8c49-afb36723997e",
+        "name": "mysignalrservice.1fa229cd-bf3f-47f0-8c49-afb36723997e",
         "type": "Microsoft.SignalRService/SignalR/privateEndpointConnections"
       }
 security:
@@ -249,5 +328,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about SignalR Service service - Update the state of specified private endpoint connection associated with a SignalR resource.
+  description: Learn more about SignalR Service service - Update the state of specified private endpoint connection
 errorCodes: []

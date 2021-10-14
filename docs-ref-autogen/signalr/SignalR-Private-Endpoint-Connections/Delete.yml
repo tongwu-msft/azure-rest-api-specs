@@ -3,14 +3,14 @@ uid: management.azure.com.signalr.signalrprivateendpointconnections.delete
 name: Delete
 service: SignalR Service
 groupName: SignalR Private Endpoint Connections
-apiVersion: 2020-05-01
-summary: Delete the specified private endpoint connection associated with a SignalR resource.
+apiVersion: 2021-09-01-preview
+summary: Delete the specified private endpoint connection
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2020-05-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,13 +27,13 @@ uriParameters:
 - name: resourceName
   in: path
   isRequired: true
-  description: The name of the SignalR resource.
+  description: The name of the resource.
   types:
   - uid: string
 - name: privateEndpointConnectionName
   in: path
   isRequired: true
-  description: The name of the private endpoint connection associated with the SignalR resource.
+  description: The name of the private endpoint connection
   types:
   - uid: string
 - name: api-version
@@ -43,50 +43,77 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 200 OK
+  description: Success. The response indicates the resource is already deleted.
 - name: 202 Accepted
-  description: Success
+  description: Accepted. The response indicates the delete operation is performed in the background.
 - name: 204 No Content
   description: Success. The response indicates the private endpoint connection is already deleted.
 - name: Other Status Codes
-  description: An unexpected error occurred during the operation.
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: ErrorResponse
-  description: Contains information about an API error.
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: Describes a particular API error with an error code and a message.
+    description: The error object.
     types:
-    - uid: ErrorResponseBody
-- name: ErrorResponseBody
-  description: Describes a particular API error with an error code and a message.
+    - uid: ErrorDetail
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
-    description: "An error code that describes the error condition more precisely than an HTTP status code. \nCan be used to programmatically handle specific error cases."
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: A message that describes the error in detail and provides debugging information.
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: The target of the particular error (for example, the name of the property in error).
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: Contains nested errors that are related to this error.
+    isReadyOnly: true
+    description: The error details.
     types:
-    - uid: ErrorResponseBody
+    - uid: ErrorDetail
       isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: SignalRPrivateEndpointConnections_Delete
   request:
-    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/signalR/mySignalRService/privateEndpointConnections/mySignalRService.1fa229cd-bf3f-47f0-8c49-afb36723997e?api-version=2020-05-01
+    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/signalR/mySignalRService/privateEndpointConnections/mysignalrservice.1fa229cd-bf3f-47f0-8c49-afb36723997e?api-version=2021-09-01-preview
   responses:
+  - statusCode: "200"
   - statusCode: "202"
     headers:
     - name: Location
@@ -104,5 +131,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about SignalR Service service - Delete the specified private endpoint connection associated with a SignalR resource.
+  description: Learn more about SignalR Service service - Delete the specified private endpoint connection
 errorCodes: []

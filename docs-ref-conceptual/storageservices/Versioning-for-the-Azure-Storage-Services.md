@@ -3,7 +3,7 @@ title: Versioning for the Azure Storage services
 description: The Azure Storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.
 author: seanmcc-msft
 
-ms.date: 07/06/2021
+ms.date: 10/04/2021
 ms.service: storage
 ms.topic: reference
 ms.author: seanmcc
@@ -15,13 +15,12 @@ The Microsoft Azure storage services support multiple versions. To make a reques
   
 The current version of the Azure storage services is 2020-10-02, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
 
-## Version 2020-10-02
+## Version 2020-12-06
   
-The 2020-10-02 service version includes the following features:
-- The ability to delete root blobs with versions.  For more information, see [Delete Blob](Delete-Blob.md).
-- Added ability to utilize OAuth for source authorization on synchronous copies.  For more information, see [Put Blob from URL](put-blob-from-url.md), [Copy Blob](Copy-Blob.md), [Put Block from URL](put-block-from-url.md), [Put Page from URL](put-page-from-url.md), [Append Block from URL](append-block-from-url.md), and [Put Range from URL](put-range-from-url.md).
-- File-Id is now returned unconditionally in the response body for [List Directories and Files](List-Directories-and-Files.md).
-- Directory-Id is now returned in the response body for [List Directories and Files](List-Directories-and-Files.md).
+The 2020-12-06 service version includes the following features:
+
+- The ability to specify the `x-ms-encryption-scope` request header on [Copy Blob from URL](copy-blob-from-url.md).
+- The ability to specify the `Signed Encryption Scope (ses)` SAS parameter for [Account SAS](create-account-sas.md), [Service SAS](create-service-sas.md), and [User Delegation SAS](create-user-delegation-sas.md).
 
 ## Specifying service versions in requests  
 
