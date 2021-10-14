@@ -602,8 +602,7 @@ The "(preview)" designation indicates that validation testing across all feature
 | Malayalam | ml-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Malaysian [ms]  | ms, ms-MY (default), ms-BN  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Marathi | mr-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Norwegian [no] | no, no-NO (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Norwegian Bokmål | nb-NO (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Norwegian [no] | no, no-NO (default), nb-NO  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Persian | fa-AE (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Polish [pl]  | pl, pl-PL (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Punjabi | pa-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
