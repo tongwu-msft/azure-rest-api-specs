@@ -16589,6 +16589,7 @@
 ### [List By Resource Group](signalr/SignalR/List-By-Resource-Group.yml)
 ### [List By Subscription](signalr/SignalR/List-By-Subscription.yml)
 ### [List Keys](signalr/SignalR/List-Keys.yml)
+### [List Skus](signalr/SignalR/List-Skus.yml)
 ### [Regenerate Key](signalr/SignalR/Regenerate-Key.yml)
 ### [Restart](signalr/SignalR/Restart.yml)
 ### [Update](signalr/SignalR/Update.yml)
@@ -16596,10 +16597,17 @@
 ### [Overview](signalr/SignalR-Private-Endpoint-Connections.yml)
 ### [Delete](signalr/SignalR-Private-Endpoint-Connections/Delete.yml)
 ### [Get](signalr/SignalR-Private-Endpoint-Connections/Get.yml)
+### [List](signalr/SignalR-Private-Endpoint-Connections/List.yml)
 ### [Update](signalr/SignalR-Private-Endpoint-Connections/Update.yml)
 ## SignalR Private Link Resources
 ### [Overview](signalr/SignalR-Private-Link-Resources.yml)
 ### [List](signalr/SignalR-Private-Link-Resources/List.yml)
+## SignalR Shared Private Link Resources
+### [Overview](signalr/SignalR-Shared-Private-Link-Resources.yml)
+### [Create Or Update](signalr/SignalR-Shared-Private-Link-Resources/Create-Or-Update.yml)
+### [Delete](signalr/SignalR-Shared-Private-Link-Resources/Delete.yml)
+### [Get](signalr/SignalR-Shared-Private-Link-Resources/Get.yml)
+### [List](signalr/SignalR-Shared-Private-Link-Resources/List.yml)
 ## Usages
 ### [Overview](signalr/Usages.yml)
 ### [List](signalr/Usages/List.yml)
