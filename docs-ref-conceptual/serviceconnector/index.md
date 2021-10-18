@@ -17,5 +17,5 @@ The Service Connector service is an extension resource provider that helps you c
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Operations](xref:management.azure.com.servicelinker.operations)  | Lists all available REST APIs for Service Connector service. |
-| [Linker](xref:management.azure.com.servicelinker.linker) | Provides operations for creating and managing Service Connector instances (service connections) such as create, update, delete and validate connections. |
+| [Operations](/rest/api/serviceconnector/operations)  | Lists all available REST APIs for Service Connector service. |
+| [Linker](/rest/api/serviceconnector/linker) | Provides operations for creating and managing Service Connector instances (service connections) such as create, update, delete and validate connections. |
