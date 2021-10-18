@@ -3,7 +3,7 @@ title: Copy Blob (REST API) - Azure Storage
 description: The Copy Blob operation copies a blob to a destination within the storage account.
 author: pemari-msft
 
-ms.date: 07/06/2020
+ms.date: 10/18/2021
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -225,11 +225,11 @@ If the destination blob has an active infinite lease, you must specify its lease
   
 When a source blob is copied, any snapshots or versions of the source blob are not copied to the destination. When a destination blob is overwritten with a copy, any snapshots or versions associated with the destination blob stay intact under its name.  
   
-You can perform a copy operation to promote a snapshot blob over its base blob. In this way you can restore an earlier version of a blob. The snapshot remains, but its destination is overwritten with a copy that can be both read and written.  
+You can perform a copy operation to promote a snapshot over its base blob, as long as it is in an online tier (hot or cool). In this way you can restore an earlier version of a blob. The snapshot remains, but its destination is overwritten with a copy that can be both read and written.  
   
 **Copying Versions**    
   
-You can perform a copy operation to promote a version blob over its base blob. In this way you can restore an earlier version of a blob. The version remains, but its destination is overwritten with a copy that can be both read and written.  
+You can perform a copy operation to promote a version over its base blob, as long as it is in an online tier (hot or cool). In this way you can restore an earlier version of a blob. The version remains, but its destination is overwritten with a copy that can be both read and written.  
 
 **Copying Archived Blob (version 2018-11-09 and newer)**  
 
