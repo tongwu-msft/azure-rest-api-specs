@@ -99,7 +99,6 @@ The following table summarizes the fields supported for a user delegation SAS to
 | `signedUnauthorizedObjectId` | `suoid` | Optional | 2020-02-10 or later | Specifies the object ID for an Azure AD security principal when a hierarchical namespace is enabled. Azure Storage performs a POSIX ACL check against the object ID before authorizing the operation. |
 | `signedCorrelationId` | `scid` | Optional | 2020-02-10 or later | Correlate the storage audit logs with the audit logs used by the principal generating and distributing SAS. |
 | `signedDirectoryDepth` | `sdd` | Required when `sr=d` | 2020-02-10 or later | Indicates the number of directories beneath the root folder of the directory specified in the `canonicalizedResource` field of the string-to-sign. |
-| `signedEncryptionScope` | `ses` | Optional | 2020-12-06 or later | Indicates the encryption scope to use to encrypt the request contents. |
 | `signature` | `sig` | Required | All | The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding. |
 | `Cache-Control` response header | `rscc` | Optional | 2013-08-15 or later | Azure Storage sets the `Cache-Control` response header to the value specified on the SAS token. |
 | `Content-Disposition` response header | `rscd` | Optional | 2013-08-15 or later | Azure Storage sets the `Content-Disposition` response header to the value specified on the SAS token. |
@@ -232,7 +231,7 @@ Specifying the object ID in the `saoid` or `suoid` field also restricts operatio
   - The value specified for the object ID must be owner of the directory or blob.
   - The value of the `signedPermissions` (`sp`) field must include the `Ownership` (`o`) permission in addition to the `Permissions` (`p`) permission.
 
-The object ID specified in the `saoid` or `suoid` field is included in diagnostic logs when a request is made using the SAS token.
+The object ID specified in the the `saoid` or `suoid` field is included in diagnostic logs when a request is made using the SAS token.
 
 The `saoid` or `suoid` field is supported only if the `signedVersion` (`sv`) field is set to version 2020-02-10 or later. Only one of these fields may be included on the SAS token.
 
@@ -268,7 +267,7 @@ If you create a shared access signature that specifies response headers as query
 
 ### Specify the user OID
 
-User Delegation SAS supports an optional user OID carried in either the Signed Authorized User Object ID (`saoid`) or Signed Unauthorized User Object ID (`suoid`) parameter when the authentication version (sv) is 2020-02-10 or higher:
+User Delegation SAS supports an optional user OID carried in either the Signed Authorized User Object Id (`saoid`) or Signed Unauthorized User Object Id (`suoid`) parameter when the authentication version (sv) is 2020-02-10 or higher:
 
 - The user delegating access (skoid) must have **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action** or **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/manageOwnership/action** RBAC permission when using a SAS with an optional user OID.
 - If the sticky bit is set on the parent folder and the operation is delete or rename, then the owner of the parent folder or the owner of the resource must match the value specified by the optional user OID.
@@ -278,16 +277,6 @@ User Delegation SAS supports an optional user OID carried in either the Signed A
 ### Specify the correlation ID
 
 User Delegation SAS supports an optional correlation ID carried in the scid parameter when the authentication version (sv) is 2020-02-10 or higher. This is a GUID value that will be logged in the storage diagnostic logs and can be used to correlate SAS generation with storage resource access.
-
-### Specifying the encryption scope
-
-User Delegation SAS supports an optional encryption scope in the `ses` parameter when the authentication version (`sv`) is 2020-12-06 or higher. It enables the customer to specify the encryption scope the client application can use and enforce the server-side encryption with the given encryption scope when uploading blobs (PUT) with the SAS token.
-
-If the `ses` is added prior the supported version, the service returns error response code 403 (Forbidden).
-
-If the default encryption scope is set for the container or filesystem, the `ses` query parameter will respect the container encryption policy. If there is a mismatch between the `ses` query parameter and `x-ms-default-encryption-scope` header, and the `x-ms-deny-encryption-scope-override` header is set to `true`, the service returns error response code 403 (Forbidden).
-
-When the `x-ms-encryption-scope` header and the `ses` query parameter are both provided in the PUT request, the service returns error response code 400 (Bad Request) if there is a mismatch.
 
 ### Specify the signature
 
@@ -341,35 +330,6 @@ StringToSign = signedPermissions + "\n" +
                    signedVersion + "\n" +
                    signedResource + "\n" +
                    signedSnapshotTime + "\n" +
-                   rscc + "\n" +
-                   rscd + "\n" +
-                   rsce + "\n" +
-                   rscl + "\n" +
-                   rsct
-```
-
-The string-to-sign for authentication version 2020-12-06 or higher has the following format:
-
-```
-StringToSign = signedPermissions + "\n" +
-                   signedStart + "\n" +
-                   signedExpiry + "\n" +
-                   canonicalizedResource + "\n" +
-                   signedKeyObjectId + "\n" +
-                   signedKeyTenantId + "\n" +
-                   signedKeyStart + "\n" +
-                   signedKeyExpiry  + "\n" +
-                   signedKeyService + "\n" +
-                   signedKeyVersion + "\n" +
-                   signedAuthorizedUserObjectId + "\n" +
-                   signedUnauthorizedUserObjectId + "\n" +
-                   signedCorrelationId + "\n" +
-                   signedIP + "\n" +
-                   signedProtocol + "\n" +
-                   signedVersion + "\n" +
-                   signedResource + "\n" +
-                   signedSnapshotTime + "\n" +
-                   signedEncryptionScope + "\n" +
                    rscc + "\n" +
                    rscd + "\n" +
                    rsce + "\n" +
