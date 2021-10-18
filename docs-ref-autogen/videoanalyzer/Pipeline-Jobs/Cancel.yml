@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.videoanalyzer.videos.liststreamingtoken
-name: List Streaming Token
+uid: management.azure.com.videoanalyzer.pipelinejobs.cancel
+name: Cancel
 service: Azure Video Analyzer
-groupName: Videos
-apiVersion: 2021-05-01-preview
-summary: "Generates a streaming token for video playback.  \nGenerates a streaming token used for authenticating video playback."
+groupName: Pipeline Jobs
+apiVersion: 2021-11-01-preview
+summary: Cancels a pipeline job with the given name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/videos/{videoName}/listStreamingToken?api-version=2021-05-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/pipelineJobs/{pipelineJobName}/cancel?api-version=2021-11-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,10 +30,10 @@ uriParameters:
   description: The Azure Video Analyzer account name.
   types:
   - uid: string
-- name: videoName
+- name: pipelineJobName
   in: path
   isRequired: true
-  description: The name of the video to generate a token for playback.
+  description: The pipeline job name.
   types:
   - uid: string
 - name: api-version
@@ -43,30 +43,16 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 202 Accepted
+  description: Request to cancel the pipeline job was accepted, and is being processed.
 - name: 200 OK
-  description: OK
-  types:
-  - uid: VideoStreamingToken
+  description: The pipeline job was cancelled successfully.
 - name: Other Status Codes
   description: Detailed error information.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: VideoStreamingToken
-  description: Video streaming token grants access to the video streaming URLs which can be used by an compatible HLS or DASH player.
-  kind: object
-  properties:
-  - name: expirationDate
-    isReadyOnly: true
-    description: The streaming token expiration date in ISO8601 format (eg. 2021-01-01T00:00:00Z).
-    types:
-    - uid: string
-  - name: token
-    isReadyOnly: true
-    description: The streaming token value to be added to the video streaming URL as the value for a "token" query string parameter. The token is specific to a single video.
-    types:
-    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -121,17 +107,13 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Generate a streaming token for media endpoint authorization.
+- name: Cancels a pipeline job
   request:
-    uri: POST https://management.azure.com/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/videos/video3/listStreamingToken?api-version=2021-05-01-preview
+    uri: POST https://management.azure.com/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/pipelineJobs/pipelineJob1/cancel?api-version=2021-11-01-preview
   responses:
+  - statusCode: "202"
   - statusCode: "200"
-    body: >-
-      {
-        "expirationDate": "3021-01-23T11:04:49.0526841-08:00",
-        "token": "testtoken"
-      }
 security: []
 metadata:
-  description: "Generates a streaming token for video playback.  \nGenerates a streaming token used for authenticating video playback."
+  description: Learn more about Azure Video Analyzer service - Cancels a pipeline job with the given name.
 errorCodes: []

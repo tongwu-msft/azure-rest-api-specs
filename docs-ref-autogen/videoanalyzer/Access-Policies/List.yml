@@ -3,15 +3,15 @@ uid: management.azure.com.videoanalyzer.accesspolicies.list
 name: List
 service: Azure Video Analyzer
 groupName: Access Policies
-apiVersion: 2021-05-01-preview
-summary: "List access policy resources.  \nList all existing access policy resources for the specified account."
+apiVersion: 2021-11-01-preview
+summary: "List all existing access policy resources.  \nRetrieves all existing access policy resources, along with their JSON representations."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/accessPolicies?api-version=2021-05-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/accessPolicies?api-version=2021-05-01-preview&$top={$top}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/accessPolicies?api-version=2021-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/accessPolicies?api-version=2021-11-01-preview&$top={$top}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -77,14 +77,9 @@ definitions:
     types:
     - uid: ErrorDetail
 - name: AccessPolicyEntity
-  description: Policy that determines how a video can be accessed.
+  description: Access policies help define the authentication rules, and control access to specific video resources.
   kind: object
   properties:
-  - name: systemData
-    isReadyOnly: true
-    description: The system metadata relating to this resource.
-    types:
-    - uid: systemData
   - name: properties.role
     description: Defines the access level granted by this policy.
     types:
@@ -109,6 +104,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -140,6 +140,14 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: AccessPolicyRole
+  description: Defines the access level granted by this policy.
+  kind: enum
+  properties:
+  - name: Reader
+    description: Reader role allows for read-only operations to be performed through the client APIs.
+    types:
+    - uid: string
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -168,14 +176,6 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: AccessPolicyRole
-  description: Defines the access level granted by this policy.
-  kind: enum
-  properties:
-  - name: Reader
-    description: Reader role allows for read-only operations to be performed through the client APIs.
-    types:
-    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -190,22 +190,6 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: createdByType
-  description: The type of identity that created the resource.
-  kind: enum
-  properties:
-  - name: User
-    types:
-    - uid: string
-  - name: Application
-    types:
-    - uid: string
-  - name: ManagedIdentity
-    types:
-    - uid: string
-  - name: Key
-    types:
-    - uid: string
 - name: JwtAuthentication
   description: Properties for access validation based on JSON Web Tokens (JWT).
   kind: object
@@ -238,6 +222,22 @@ definitions:
     types:
     - uid: '#Microsoft.VideoAnalyzer.JwtAuthentication'
     typesTitle: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: TokenClaim
   description: Properties for expected token claims.
   kind: object
@@ -335,7 +335,7 @@ definitions:
 examples:
 - name: Lists access policy entities.
   request:
-    uri: GET https://management.azure.com/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/accessPolicies?api-version=2021-05-01-preview&$top=2
+    uri: GET https://management.azure.com/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/accessPolicies?api-version=2021-11-01-preview&$top=2
   responses:
   - statusCode: "200"
     body: >-
@@ -384,7 +384,14 @@ examples:
                 ]
               }
             },
-            "systemData": {}
+            "systemData": {
+              "createdBy": "user@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "0001-01-01T00:00:00Z",
+              "lastModifiedBy": "user@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "0001-01-01T00:00:00Z"
+            }
           },
           {
             "name": "accessPolicyName2",
@@ -429,11 +436,18 @@ examples:
                 ]
               }
             },
-            "systemData": {}
+            "systemData": {
+              "createdBy": "user@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "0001-01-01T00:00:00Z",
+              "lastModifiedBy": "user@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "0001-01-01T00:00:00Z"
+            }
           }
         ]
       }
 security: []
 metadata:
-  description: "Learn more about Azure Video Analyzer service - List access policy resources.  \nList all existing access policy resources for the specified account."
+  description: "List all existing access policy resources.  \nRetrieves all existing access policy resources, along with their JSON representations."
 errorCodes: []

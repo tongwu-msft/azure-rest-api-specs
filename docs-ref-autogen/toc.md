@@ -3982,12 +3982,64 @@
 ### [Get](videoanalyzer/Edge-Modules/Get.yml)
 ### [List](videoanalyzer/Edge-Modules/List.yml)
 ### [List Provisioning Token](videoanalyzer/Edge-Modules/List-Provisioning-Token.yml)
+## Live Pipeline Operation Statuses
+### [Overview](videoanalyzer/Live-Pipeline-Operation-Statuses.yml)
+### [Get](videoanalyzer/Live-Pipeline-Operation-Statuses/Get.yml)
+## Live Pipelines
+### [Overview](videoanalyzer/Live-Pipelines.yml)
+### [Activate](videoanalyzer/Live-Pipelines/Activate.yml)
+### [Create Or Update](videoanalyzer/Live-Pipelines/Create-Or-Update.yml)
+### [Deactivate](videoanalyzer/Live-Pipelines/Deactivate.yml)
+### [Delete](videoanalyzer/Live-Pipelines/Delete.yml)
+### [Get](videoanalyzer/Live-Pipelines/Get.yml)
+### [List](videoanalyzer/Live-Pipelines/List.yml)
+### [Update](videoanalyzer/Live-Pipelines/Update.yml)
 ## Locations
 ### [Overview](videoanalyzer/Locations.yml)
 ### [Check Name Availability](videoanalyzer/Locations/Check-Name-Availability.yml)
+## Operation Results
+### [Overview](videoanalyzer/Operation-Results.yml)
+### [Get](videoanalyzer/Operation-Results/Get.yml)
+## Operation Statuses
+### [Overview](videoanalyzer/Operation-Statuses.yml)
+### [Get](videoanalyzer/Operation-Statuses/Get.yml)
 ## Operations
 ### [Overview](videoanalyzer/Operations.yml)
 ### [List](videoanalyzer/Operations/List.yml)
+## Pipeline Job Operation Statuses
+### [Overview](videoanalyzer/Pipeline-Job-Operation-Statuses.yml)
+### [Get](videoanalyzer/Pipeline-Job-Operation-Statuses/Get.yml)
+## Pipeline Jobs
+### [Overview](videoanalyzer/Pipeline-Jobs.yml)
+### [Cancel](videoanalyzer/Pipeline-Jobs/Cancel.yml)
+### [Create Or Update](videoanalyzer/Pipeline-Jobs/Create-Or-Update.yml)
+### [Delete](videoanalyzer/Pipeline-Jobs/Delete.yml)
+### [Get](videoanalyzer/Pipeline-Jobs/Get.yml)
+### [List](videoanalyzer/Pipeline-Jobs/List.yml)
+### [Update](videoanalyzer/Pipeline-Jobs/Update.yml)
+## Pipeline Topologies
+### [Overview](videoanalyzer/Pipeline-Topologies.yml)
+### [Create Or Update](videoanalyzer/Pipeline-Topologies/Create-Or-Update.yml)
+### [Delete](videoanalyzer/Pipeline-Topologies/Delete.yml)
+### [Get](videoanalyzer/Pipeline-Topologies/Get.yml)
+### [List](videoanalyzer/Pipeline-Topologies/List.yml)
+### [Update](videoanalyzer/Pipeline-Topologies/Update.yml)
+## Private Endpoint Connections
+### [Overview](videoanalyzer/Private-Endpoint-Connections.yml)
+### [Create Or Update](videoanalyzer/Private-Endpoint-Connections/Create-Or-Update.yml)
+### [Delete](videoanalyzer/Private-Endpoint-Connections/Delete.yml)
+### [Get](videoanalyzer/Private-Endpoint-Connections/Get.yml)
+### [List](videoanalyzer/Private-Endpoint-Connections/List.yml)
+## Private Link Resources
+### [Overview](videoanalyzer/Private-Link-Resources.yml)
+### [Get](videoanalyzer/Private-Link-Resources/Get.yml)
+### [List](videoanalyzer/Private-Link-Resources/List.yml)
+## Video Analyzer Operation Results
+### [Overview](videoanalyzer/Video-Analyzer-Operation-Results.yml)
+### [Get](videoanalyzer/Video-Analyzer-Operation-Results/Get.yml)
+## Video Analyzer Operation Statuses
+### [Overview](videoanalyzer/Video-Analyzer-Operation-Statuses.yml)
+### [Get](videoanalyzer/Video-Analyzer-Operation-Statuses/Get.yml)
 ## Video Analyzers
 ### [Overview](videoanalyzer/Video-Analyzers.yml)
 ### [Create Or Update](videoanalyzer/Video-Analyzers/Create-Or-Update.yml)
@@ -3995,7 +4047,6 @@
 ### [Get](videoanalyzer/Video-Analyzers/Get.yml)
 ### [List](videoanalyzer/Video-Analyzers/List.yml)
 ### [List By Subscription](videoanalyzer/Video-Analyzers/List-By-Subscription.yml)
-### [Sync Storage Keys](videoanalyzer/Video-Analyzers/Sync-Storage-Keys.yml)
 ### [Update](videoanalyzer/Video-Analyzers/Update.yml)
 ## Videos
 ### [Overview](videoanalyzer/Videos.yml)
@@ -4003,7 +4054,7 @@
 ### [Delete](videoanalyzer/Videos/Delete.yml)
 ### [Get](videoanalyzer/Videos/Get.yml)
 ### [List](videoanalyzer/Videos/List.yml)
-### [List Streaming Token](videoanalyzer/Videos/List-Streaming-Token.yml)
+### [List Content Token](videoanalyzer/Videos/List-Content-Token.yml)
 ### [Update](videoanalyzer/Videos/Update.yml)
 # Azure Web PubSub Service
 ## [Overview](../docs-ref-conceptual/webpubsub/index.md)
