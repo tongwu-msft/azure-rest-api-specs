@@ -19211,7 +19211,6 @@
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### Previous Azure Storage services versions
 #### [Overview](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
-#### [Version 2020-10-02](../docs-ref-conceptual/storageservices/version-2020-10-02.md)
 #### [Version 2020-08-04](../docs-ref-conceptual/storageservices/version-2020-08-04.md)
 #### [Version 2020-06-12](../docs-ref-conceptual/storageservices/version-2020-06-12.md)
 #### [Version 2020-04-08](../docs-ref-conceptual/storageservices/version-2020-04-08.md)
