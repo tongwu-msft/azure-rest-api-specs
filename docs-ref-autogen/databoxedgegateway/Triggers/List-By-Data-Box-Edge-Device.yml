@@ -3,15 +3,15 @@ uid: management.azure.com.databoxedgegateway.triggers.listbydataboxedgedevice
 name: List By Data Box Edge Device
 service: Data Box Edge/Data Box Gateway
 groupName: Triggers
-apiVersion: 2019-08-01
+apiVersion: 2021-02-01
 summary: Lists all the triggers configured in the device.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggers?api-version=2019-08-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggers?api-version=2019-08-01&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggers?api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggers?api-version=2021-02-01&$filter={$filter}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -128,6 +128,11 @@ definitions:
     description: A custom context tag typically used to correlate the trigger against its usage. For example, if a periodic timer trigger is intended for certain specific IoT modules in the device, the tag can be the name or the image URL of the module.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Trigger in DataBoxEdge Resource
+    types:
+    - uid: SystemData
   - name: kind
     description: Trigger Kind.
     types:
@@ -164,6 +169,11 @@ definitions:
     description: A custom context tag typically used to correlate the trigger against its usage. For example, if a periodic timer trigger is intended for certain specific IoT modules in the device, the tag can be the name or the image URL of the module.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Trigger in DataBoxEdge Resource
+    types:
+    - uid: SystemData
   - name: kind
     description: Trigger Kind.
     types:
@@ -185,6 +195,34 @@ definitions:
     description: Compute role ID.
     types:
     - uid: string
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: string
 - name: PeriodicTimerSourceInfo
   description: Periodic timer event source.
   kind: object
@@ -201,10 +239,26 @@ definitions:
     description: Topic where periodic events are published to IoT device.
     types:
     - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: TriggerGetAllInDevice
   request:
-    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/triggers?api-version=2019-08-01
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/triggers?api-version=2021-02-01
   responses:
   - statusCode: "200"
     body: >-
@@ -230,12 +284,12 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow.
+  description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
-    description: impersonate your user account.
+    description: impersonate your user account
 metadata:
   description: Learn more about Data Box Edge/Data Box Gateway service - Lists all the triggers configured in the device.
 errorCodes: []

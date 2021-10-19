@@ -7300,10 +7300,19 @@
 ### [List](customproviders/Operations/List.yml)
 # Data Box Edge/Data Box Gateway
 ## [Overview](../docs-ref-conceptual/databoxedgegateway/index.md)
+## Addons
+### [Overview](databoxedgegateway/Addons.yml)
+### [Create Or Update](databoxedgegateway/Addons/Create-Or-Update.yml)
+### [Delete](databoxedgegateway/Addons/Delete.yml)
+### [Get](databoxedgegateway/Addons/Get.yml)
+### [List By Role](databoxedgegateway/Addons/List-By-Role.yml)
 ## Alerts
 ### [Overview](databoxedgegateway/Alerts.yml)
 ### [Get](databoxedgegateway/Alerts/Get.yml)
 ### [List By Data Box Edge Device](databoxedgegateway/Alerts/List-By-Data-Box-Edge-Device.yml)
+## Available Skus
+### [Overview](databoxedgegateway/Available-Skus.yml)
+### [List](databoxedgegateway/Available-Skus/List.yml)
 ## Bandwidth Schedules
 ### [Overview](databoxedgegateway/Bandwidth-Schedules.yml)
 ### [Create Or Update](databoxedgegateway/Bandwidth-Schedules/Create-Or-Update.yml)
@@ -7323,6 +7332,7 @@
 ### [Create Or Update Security Settings](databoxedgegateway/Devices/Create-Or-Update-Security-Settings.yml)
 ### [Delete](databoxedgegateway/Devices/Delete.yml)
 ### [Download Updates](databoxedgegateway/Devices/Download-Updates.yml)
+### [Generate Certificate](databoxedgegateway/Devices/Generate-Certificate.yml)
 ### [Get](databoxedgegateway/Devices/Get.yml)
 ### [Get Extended Information](databoxedgegateway/Devices/Get-Extended-Information.yml)
 ### [Get Network Settings](databoxedgegateway/Devices/Get-Network-Settings.yml)
@@ -7332,10 +7342,23 @@
 ### [List By Subscription](databoxedgegateway/Devices/List-By-Subscription.yml)
 ### [Scan For Updates](databoxedgegateway/Devices/Scan-For-Updates.yml)
 ### [Update](databoxedgegateway/Devices/Update.yml)
+### [Update Extended Information](databoxedgegateway/Devices/Update-Extended-Information.yml)
 ### [Upload Certificate](databoxedgegateway/Devices/Upload-Certificate.yml)
+## Diagnostic Settings
+### [Overview](databoxedgegateway/Diagnostic-Settings.yml)
+### [Get Diagnostic Proactive Log Collection Settings](databoxedgegateway/Diagnostic-Settings/Get-Diagnostic-Proactive-Log-Collection-Settings.yml)
+### [Get Diagnostic Remote Support Settings](databoxedgegateway/Diagnostic-Settings/Get-Diagnostic-Remote-Support-Settings.yml)
+### [Update Diagnostic Proactive Log Collection Settings](databoxedgegateway/Diagnostic-Settings/Update-Diagnostic-Proactive-Log-Collection-Settings.yml)
+### [Update Diagnostic Remote Support Settings](databoxedgegateway/Diagnostic-Settings/Update-Diagnostic-Remote-Support-Settings.yml)
 ## Jobs
 ### [Overview](databoxedgegateway/Jobs.yml)
 ### [Get](databoxedgegateway/Jobs/Get.yml)
+## Monitoring Config
+### [Overview](databoxedgegateway/Monitoring-Config.yml)
+### [Create Or Update](databoxedgegateway/Monitoring-Config/Create-Or-Update.yml)
+### [Delete](databoxedgegateway/Monitoring-Config/Delete.yml)
+### [Get](databoxedgegateway/Monitoring-Config/Get.yml)
+### [List](databoxedgegateway/Monitoring-Config/List.yml)
 ## Nodes
 ### [Overview](databoxedgegateway/Nodes.yml)
 ### [List By Data Box Edge Device](databoxedgegateway/Nodes/List-By-Data-Box-Edge-Device.yml)
@@ -7351,6 +7374,7 @@
 ### [Delete](databoxedgegateway/Orders/Delete.yml)
 ### [Get](databoxedgegateway/Orders/Get.yml)
 ### [List By Data Box Edge Device](databoxedgegateway/Orders/List-By-Data-Box-Edge-Device.yml)
+### [List DC Access Code](databoxedgegateway/Orders/List-DC-Access-Code.yml)
 ## Roles
 ### [Overview](databoxedgegateway/Roles.yml)
 ### [Create Or Update](databoxedgegateway/Roles/Create-Or-Update.yml)
@@ -7364,9 +7388,6 @@
 ### [Get](databoxedgegateway/Shares/Get.yml)
 ### [List By Data Box Edge Device](databoxedgegateway/Shares/List-By-Data-Box-Edge-Device.yml)
 ### [Refresh](databoxedgegateway/Shares/Refresh.yml)
-## Skus
-### [Overview](databoxedgegateway/Skus.yml)
-### [List](databoxedgegateway/Skus/List.yml)
 ## Storage Account Credentials
 ### [Overview](databoxedgegateway/Storage-Account-Credentials.yml)
 ### [Create Or Update](databoxedgegateway/Storage-Account-Credentials/Create-Or-Update.yml)
@@ -7379,6 +7400,9 @@
 ### [Delete](databoxedgegateway/Storage-Accounts/Delete.yml)
 ### [Get](databoxedgegateway/Storage-Accounts/Get.yml)
 ### [List By Data Box Edge Device](databoxedgegateway/Storage-Accounts/List-By-Data-Box-Edge-Device.yml)
+## Support Packages
+### [Overview](databoxedgegateway/Support-Packages.yml)
+### [Trigger Support Package](databoxedgegateway/Support-Packages/Trigger-Support-Package.yml)
 ## Triggers
 ### [Overview](databoxedgegateway/Triggers.yml)
 ### [Create Or Update](databoxedgegateway/Triggers/Create-Or-Update.yml)

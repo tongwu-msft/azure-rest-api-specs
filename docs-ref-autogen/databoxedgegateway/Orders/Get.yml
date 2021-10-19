@@ -3,14 +3,14 @@ uid: management.azure.com.databoxedgegateway.orders.get
 name: Get
 service: Data Box Edge/Data Box Gateway
 groupName: Orders
-apiVersion: 2019-08-01
+apiVersion: 2021-02-01
 summary: Gets a specific order by name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,6 +51,11 @@ definitions:
   description: The order details.
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Order configured on ASE resource
+    types:
+    - uid: SystemData
   - name: properties.contactInformation
     description: The contact details.
     types:
@@ -60,6 +65,7 @@ definitions:
     types:
     - uid: Address
   - name: properties.currentStatus
+    isReadyOnly: true
     description: Current status of the order.
     types:
     - uid: OrderStatus
@@ -86,6 +92,10 @@ definitions:
     types:
     - uid: TrackingInfo
       isArray: true
+  - name: properties.shipmentType
+    description: ShipmentType of the order
+    types:
+    - uid: ShipmentType
   - name: id
     isReadyOnly: true
     description: The path ID that uniquely identifies the object.
@@ -109,6 +119,34 @@ definitions:
     description: The error details.
     types:
     - uid: CloudErrorBody
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: string
 - name: ContactDetails
   description: Contains all the contact details of the customer.
   kind: object
@@ -179,6 +217,11 @@ definitions:
     description: Comments related to this status change.
     types:
     - uid: string
+  - name: trackingInformation
+    isReadyOnly: true
+    description: Tracking information related to the state in the ordering flow
+    types:
+    - uid: TrackingInfo
   - name: additionalOrderDetails
     isReadyOnly: true
     description: >-
@@ -211,6 +254,19 @@ definitions:
     description: Tracking URL of the shipment.
     types:
     - uid: string
+- name: ShipmentType
+  description: ShipmentType of the order
+  kind: enum
+  properties:
+  - name: NotApplicable
+    types:
+    - uid: string
+  - name: ShippedToCustomer
+    types:
+    - uid: string
+  - name: SelfPickup
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -228,6 +284,22 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: OrderState
   description: Status of the order as per the allowed status types.
   kind: enum
@@ -235,7 +307,7 @@ definitions:
   - name: Untracked
     types:
     - uid: string
-  - name: AwaitingFulfilment
+  - name: AwaitingFulfillment
     types:
     - uid: string
   - name: AwaitingPreparation
@@ -274,10 +346,19 @@ definitions:
   - name: CollectedAtMicrosoft
     types:
     - uid: string
+  - name: AwaitingPickup
+    types:
+    - uid: string
+  - name: PickupCompleted
+    types:
+    - uid: string
+  - name: AwaitingDrop
+    types:
+    - uid: string
 examples:
 - name: OrderGet
   request:
-    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/orders/default?api-version=2019-08-01
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/orders/default?api-version=2021-02-01
   responses:
   - statusCode: "200"
     body: >-
@@ -323,12 +404,12 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow.
+  description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
-    description: impersonate your user account.
+    description: impersonate your user account
 metadata:
   description: Learn more about Data Box Edge/Data Box Gateway service - Gets a specific order by name.
 errorCodes: []
