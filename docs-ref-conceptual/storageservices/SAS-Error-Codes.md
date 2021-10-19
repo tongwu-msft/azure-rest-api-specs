@@ -22,10 +22,6 @@ Beginning with version 2015-04-05, Azure Storage returns several new error codes
 |Unauthorized signed resource type|`AuthorizationResourceTypeMismatch`|N/A|403 (Forbidden)|This request is not authorized to perform this operation using this resource type.|Account SAS<br /><br /> Service SAS|  
 |Other authorization errors (for example, attempting  to modify an ACL or calling another unsupported SAS API)|`AuthorizationFailure`|404 (Not Found)|403 (Forbidden)|This request is not authorized to perform this operation.|Account SAS<br /><br /> Service SAS|  
 |Stored access policy for file or blob relies on Create or Add permission, and Get ACL is called using a version prior to 2015-04-05|`FeatureVersionMismatch`|N/A|409 (Conflict)|Stored access policy contains a permission that is not supported by this version.|Service SAS|  
-| Mismatch between the `ses` query parameter and `x-ms-default-encryption-scope` header, and the `x-ms-deny-encryption-scope-override` header is set to `true` after version 2020-12-06 |`RequestForbiddenByContainerEncryptionPolicy`|N/A|403 (Forbidden)|The request is forbidden by the container encryption policy. |Account SAS<br /><br /> Service SAS|  
-| Mismatch between the `ses` query parameter and `x-ms-encryption-scope` header after version 2020-12-06 |`InvalidHeaderValue`|N/A|400 (BadRequest)|The value for one of the HTTP headers is not in the correct format. |Account SAS<br /><br /> Service SAS|  
-
-
   
 ## See Also  
  [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)   
