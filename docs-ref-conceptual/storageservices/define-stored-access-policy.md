@@ -3,7 +3,7 @@ title: Define a stored access policy - Azure Storage
 description: A stored access policy provides an additional level of control over service-level shared access signatures (SAS) on the server side. You can use a stored access policy to change the start time, expiry time, or permissions for a signature, or to revoke it after it has been issued.
 author: tamram
 
-ms.date: 07/29/2019
+ms.date: 10/18/2021
 ms.author: tamram
 ms.service: storage
 ms.topic: reference
@@ -23,7 +23,7 @@ A stored access policy provides an additional level of control over service-leve
 > [!NOTE]
 > Note that a stored access policy on a container can be associated with a shared access signature granting permissions to the container itself or to the blobs it contains. Similarly, a stored access policy on a file share can be associated with a shared access signature granting permissions to the share itself or to the files it contains.  
 >
->  Stored access policies are not supported for the user delegation SAS or the account SAS..  
+> Stored access policies are not supported for the user delegation SAS or the account SAS..  
   
 ## Creating or modifying a stored access policy
   
@@ -48,7 +48,7 @@ To create or modify a stored access policy, call the Set ACL operation for the r
 A maximum of five access policies may be set on a container, table, queue, or share at any given time. Each `SignedIdentifier` field, with its unique `Id` field, corresponds to one access policy. Attempting to set more than five access policies at one time results in the service returning status code 400 (Bad Request).  
 
 > [!NOTE]
->  When you establish a stored access policy on a container, table, queue, or share, it may take up to 30 seconds to take effect. During this interval, requests against a shared access signature that is associated with the stored access policy may fail with status code 403 (Forbidden), until the access policy becomes active.  
+> When you create or update a stored access policy on a container, table, queue, or share, the change may take up to 30 seconds to take effect. During this interval, requests against a shared access signature that is associated with the stored access policy may fail with status code 403 (Forbidden), until the access policy becomes active.  
 >
 > Table entity range restrictions (`startpk`, `startrk`, `endpk`, and `endrk`) cannot be specified in a stored access policy.  
 
