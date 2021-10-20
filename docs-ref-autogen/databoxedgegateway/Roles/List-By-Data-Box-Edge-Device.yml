@@ -3,14 +3,14 @@ uid: management.azure.com.databoxedgegateway.roles.listbydataboxedgedevice
 name: List By Data Box Edge Device
 service: Data Box Edge/Data Box Gateway
 groupName: Roles
-apiVersion: 2019-08-01
+apiVersion: 2021-02-01
 summary: Lists all the roles configured in a Data Box Edge/Data Box Gateway device.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -55,7 +55,13 @@ definitions:
     isReadyOnly: true
     description: The Value.
     types:
+    - uid: CloudEdgeManagementRole
+      isArray: true
     - uid: IoTRole
+      isArray: true
+    - uid: KubernetesRole
+      isArray: true
+    - uid: MECRole
       isArray: true
     typesTitle: Role[]
   - name: nextLink
@@ -88,6 +94,49 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: CloudEdgeManagementRole
+  description: "The preview of Virtual Machine Cloud Management from the Azure supports deploying and managing VMs on your Azure Stack Edge device from Azure Portal. \r\nFor more information, refer to: https://docs.microsoft.com/en-us/azure/databox-online/azure-stack-edge-gpu-virtual-machine-overview\r\nBy using this feature, you agree to the preview legal terms. See the https://azure.microsoft.com/en-us/support/legal/preview-supplemental-terms/ for additional details."
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The object name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+  - name: properties.localManagementStatus
+    isReadyOnly: true
+    description: Local Edge Management Status
+    types:
+    - uid: RoleStatus
+  - name: properties.edgeProfile
+    isReadyOnly: true
+    description: Edge Profile of the resource
+    types:
+    - uid: EdgeProfile
+  - name: properties.roleStatus
+    description: Role status.
+    types:
+    - uid: RoleStatus
+  - name: kind
+    description: Role type.
+    types:
+    - uid: CloudEdgeManagement
+    typesTitle: string
+  - name: systemData
+    isReadyOnly: true
+    description: Role configured on ASE resource
+    types:
+    - uid: SystemData
 - name: IoTRole
   description: Compute role.
   kind: object
@@ -124,6 +173,19 @@ definitions:
     types:
     - uid: MountPointMap
       isArray: true
+  - name: properties.ioTEdgeAgentInfo
+    description: Iot edge agent details to download the agent and bootstrap iot runtime.
+    types:
+    - uid: IoTEdgeAgentInfo
+  - name: properties.hostPlatformType
+    isReadyOnly: true
+    description: Platform where the Iot runtime is hosted.
+    types:
+    - uid: HostPlatformType
+  - name: properties.computeResource
+    description: Resource allocation
+    types:
+    - uid: ComputeResource
   - name: properties.roleStatus
     description: Role status.
     types:
@@ -133,8 +195,184 @@ definitions:
     types:
     - uid: IOT
     typesTitle: string
+  - name: systemData
+    isReadyOnly: true
+    description: Role configured on ASE resource
+    types:
+    - uid: SystemData
+- name: KubernetesRole
+  description: "The limited preview of Kubernetes Cluster Management from the Azure supports:\r\n1. Using a simple turn-key option in Azure Portal, deploy a Kubernetes cluster on your Azure Stack Edge device. \r\n2. Configure Kubernetes cluster running on your device with Arc enabled Kubernetes with a click of a button in the Azure Portal. \r\n Azure Arc enables organizations to view, manage, and govern their on-premises Kubernetes clusters using the Azure Portal, command line tools, and APIs.\r\n3. Easily configure Persistent Volumes using SMB and NFS shares for storing container data. \r\n For more information, refer to the document here: https://databoxupdatepackages.blob.core.windows.net/documentation/Microsoft-Azure-Stack-Edge-K8-Cloud-Management-20210323.pdf \r\n Or Demo: https://databoxupdatepackages.blob.core.windows.net/documentation/Microsoft-Azure-Stack-Edge-K8S-Cloud-Management-20210323.mp4\r\n By using this feature, you agree to the preview legal terms. See the https://azure.microsoft.com/en-us/support/legal/preview-supplemental-terms/"
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The object name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+  - name: properties.hostPlatform
+    description: Host OS supported by the Kubernetes role.
+    types:
+    - uid: PlatformType
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: State of Kubernetes deployment
+    types:
+    - uid: KubernetesState
+  - name: properties.hostPlatformType
+    isReadyOnly: true
+    description: Platform where the runtime is hosted.
+    types:
+    - uid: HostPlatformType
+  - name: properties.kubernetesClusterInfo
+    description: Kubernetes cluster configuration
+    types:
+    - uid: KubernetesClusterInfo
+  - name: properties.kubernetesRoleResources
+    description: Kubernetes role resources
+    types:
+    - uid: KubernetesRoleResources
+  - name: properties.roleStatus
+    description: Role status.
+    types:
+    - uid: RoleStatus
+  - name: kind
+    description: Role type.
+    types:
+    - uid: Kubernetes
+    typesTitle: string
+  - name: systemData
+    isReadyOnly: true
+    description: Role configured on ASE resource
+    types:
+    - uid: SystemData
+- name: MECRole
+  description: MEC role.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The object name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+  - name: properties.connectionString
+    description: Activation key of the MEC.
+    types:
+    - uid: AsymmetricEncryptedSecret
+  - name: properties.controllerEndpoint
+    description: Controller Endpoint.
+    types:
+    - uid: string
+  - name: properties.resourceUniqueId
+    description: Unique Id of the Resource.
+    types:
+    - uid: string
+  - name: properties.roleStatus
+    description: Role status.
+    types:
+    - uid: RoleStatus
+  - name: kind
+    description: Role type.
+    types:
+    - uid: MEC
+    typesTitle: string
+  - name: systemData
+    isReadyOnly: true
+    description: Role configured on ASE resource
+    types:
+    - uid: SystemData
+- name: RoleStatus
+  description: Local Edge Management Status
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: EdgeProfile
+  description: Details about Edge Profile for the resource
+  kind: object
+  properties:
+  - name: subscription
+    description: Edge Profile Subscription
+    types:
+    - uid: EdgeProfileSubscription
+- name: RoleTypes
+  description: Role type.
+  kind: enum
+  properties:
+  - name: IOT
+    types:
+    - uid: string
+  - name: ASA
+    types:
+    - uid: string
+  - name: Functions
+    types:
+    - uid: string
+  - name: Cognitive
+    types:
+    - uid: string
+  - name: MEC
+    types:
+    - uid: string
+  - name: CloudEdgeManagement
+    types:
+    - uid: string
+  - name: Kubernetes
+    types:
+    - uid: string
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: string
 - name: PlatformType
-  description: Host OS supported by the IoT role.
+  description: Host OS supported by the Arc addon.
   kind: enum
   properties:
   - name: Windows
@@ -160,7 +398,7 @@ definitions:
     types:
     - uid: string
   - name: authentication
-    description: IoT device authentication info.
+    description: Encrypted IoT device/IoT edge device connection string.
     types:
     - uid: Authentication
 - name: MountPointMap
@@ -181,53 +419,115 @@ definitions:
     description: Mount point for the share.
     types:
     - uid: string
+  - name: mountType
+    isReadyOnly: true
+    description: Mounting type.
+    types:
+    - uid: MountType
   - name: roleType
     isReadyOnly: true
     description: Role type.
     types:
     - uid: RoleTypes
-- name: RoleStatus
-  description: Role status.
-  kind: enum
-  properties:
-  - name: Enabled
-    types:
-    - uid: string
-  - name: Disabled
-    types:
-    - uid: string
-- name: RoleTypes
-  description: Role type.
-  kind: enum
-  properties:
-  - name: IOT
-    types:
-    - uid: string
-  - name: ASA
-    types:
-    - uid: string
-  - name: Functions
-    types:
-    - uid: string
-  - name: Cognitive
-    types:
-    - uid: string
-- name: Authentication
-  description: Authentication mechanism for IoT devices.
+- name: IoTEdgeAgentInfo
+  description: IoT edge agent details is optional, this will be used for download system Agent module while bootstrapping IoT Role if specified.
   kind: object
   properties:
-  - name: symmetricKey
-    description: Symmetric key for authentication.
+  - name: imageName
+    description: Name of the IoT edge agent image.
     types:
-    - uid: SymmetricKey
-- name: SymmetricKey
-  description: Symmetric key for authentication.
+    - uid: string
+  - name: tag
+    description: Image Tag.
+    types:
+    - uid: string
+  - name: imageRepository
+    description: Image repository details.
+    types:
+    - uid: ImageRepositoryCredential
+- name: HostPlatformType
+  description: Platform where the runtime is hosted.
+  kind: enum
+  properties:
+  - name: KubernetesCluster
+    types:
+    - uid: string
+  - name: LinuxVM
+    types:
+    - uid: string
+- name: ComputeResource
+  description: Compute infrastructure Resource
   kind: object
   properties:
-  - name: connectionString
-    description: Connection string based on the symmetric key.
+  - name: processorCount
+    description: Processor count
     types:
-    - uid: AsymmetricEncryptedSecret
+    - uid: integer
+  - name: memoryInGB
+    description: Memory in GB
+    types:
+    - uid: integer
+- name: KubernetesState
+  description: State of Kubernetes deployment
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Created
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Reconfiguring
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+- name: KubernetesClusterInfo
+  description: Kubernetes cluster configuration
+  kind: object
+  properties:
+  - name: etcdInfo
+    isReadyOnly: true
+    description: Etcd configuration
+    types:
+    - uid: EtcdInfo
+  - name: nodes
+    isReadyOnly: true
+    description: Kubernetes cluster nodes
+    types:
+    - uid: NodeInfo
+      isArray: true
+  - name: version
+    description: Kubernetes cluster version
+    types:
+    - uid: string
+- name: KubernetesRoleResources
+  description: Kubernetes role resources
+  kind: object
+  properties:
+  - name: storage
+    description: Kubernetes role storage resource
+    types:
+    - uid: KubernetesRoleStorage
+  - name: compute
+    description: Kubernetes role compute resource
+    types:
+    - uid: KubernetesRoleCompute
+  - name: network
+    isReadyOnly: true
+    description: Kubernetes role network resource
+    types:
+    - uid: KubernetesRoleNetwork
 - name: AsymmetricEncryptedSecret
   description: Represent the secrets intended for encryption with asymmetric key pair.
   kind: object
@@ -244,6 +544,181 @@ definitions:
     description: The algorithm used to encrypt "Value".
     types:
     - uid: EncryptionAlgorithm
+- name: EdgeProfileSubscription
+  description: Subscription details for the Edge Profile
+  kind: object
+  properties:
+  - name: registrationId
+    description: Edge Subscription Registration ID
+    types:
+    - uid: string
+  - name: id
+    description: ARM ID of the subscription
+    types:
+    - uid: string
+  - name: state
+    description: ''
+    types:
+    - uid: SubscriptionState
+  - name: registrationDate
+    description: ''
+    types:
+    - uid: string
+  - name: subscriptionId
+    description: ''
+    types:
+    - uid: string
+  - name: properties.tenantId
+    description: ''
+    types:
+    - uid: string
+  - name: properties.locationPlacementId
+    description: ''
+    types:
+    - uid: string
+  - name: properties.quotaId
+    description: ''
+    types:
+    - uid: string
+  - name: properties.serializedDetails
+    description: ''
+    types:
+    - uid: string
+  - name: properties.registeredFeatures
+    description: ''
+    types:
+    - uid: SubscriptionRegisteredFeatures
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: Authentication
+  description: Authentication mechanism for IoT devices.
+  kind: object
+  properties:
+  - name: symmetricKey
+    description: Symmetric key for authentication.
+    types:
+    - uid: SymmetricKey
+- name: MountType
+  description: Mounting type.
+  kind: enum
+  properties:
+  - name: Volume
+    types:
+    - uid: string
+  - name: HostPath
+    types:
+    - uid: string
+- name: ImageRepositoryCredential
+  description: Image repository credential.
+  kind: object
+  properties:
+  - name: imageRepositoryUrl
+    description: 'Image repository url (e.g.: mcr.microsoft.com).'
+    types:
+    - uid: string
+  - name: userName
+    description: Repository user name.
+    types:
+    - uid: string
+  - name: password
+    description: Repository user password.
+    types:
+    - uid: AsymmetricEncryptedSecret
+- name: EtcdInfo
+  description: Etcd configuration
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: Etcd type
+    types:
+    - uid: string
+  - name: version
+    isReadyOnly: true
+    description: Etcd version
+    types:
+    - uid: string
+- name: NodeInfo
+  description: Kubernetes node info
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Node name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Node type - Master/Worker
+    types:
+    - uid: KubernetesNodeType
+  - name: ipConfiguration
+    description: IP Configuration of the Kubernetes node.
+    types:
+    - uid: KubernetesIPConfiguration
+      isArray: true
+- name: KubernetesRoleStorage
+  description: Kubernetes role storage resource
+  kind: object
+  properties:
+  - name: storageClasses
+    isReadyOnly: true
+    description: Kubernetes storage class info.
+    types:
+    - uid: KubernetesRoleStorageClassInfo
+      isArray: true
+  - name: endpoints
+    description: Mount points of shares in role(s).
+    types:
+    - uid: MountPointMap
+      isArray: true
+- name: KubernetesRoleCompute
+  description: Kubernetes role compute resource
+  kind: object
+  properties:
+  - name: vmProfile
+    description: VM profile
+    types:
+    - uid: string
+  - name: memoryInBytes
+    isReadyOnly: true
+    description: Memory in bytes
+    types:
+    - uid: integer
+  - name: processorCount
+    isReadyOnly: true
+    description: Processor count
+    types:
+    - uid: integer
+- name: KubernetesRoleNetwork
+  description: Kubernetes role network resource
+  kind: object
+  properties:
+  - name: cniConfig
+    isReadyOnly: true
+    description: Cni configuration
+    types:
+    - uid: CniConfig
+  - name: loadBalancerConfig
+    isReadyOnly: true
+    description: Load balancer configuration
+    types:
+    - uid: LoadBalancerConfig
 - name: EncryptionAlgorithm
   description: The algorithm used to encrypt "Value".
   kind: enum
@@ -257,10 +732,143 @@ definitions:
   - name: RSAES_PKCS1_v_1_5
     types:
     - uid: string
+- name: SubscriptionState
+  kind: enum
+  properties:
+  - name: Registered
+    types:
+    - uid: string
+  - name: Warned
+    types:
+    - uid: string
+  - name: Suspended
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+  - name: Unregistered
+    types:
+    - uid: string
+- name: SubscriptionRegisteredFeatures
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: state
+    description: ''
+    types:
+    - uid: string
+- name: SymmetricKey
+  description: Symmetric key for authentication.
+  kind: object
+  properties:
+  - name: connectionString
+    description: Connection string based on the symmetric key.
+    types:
+    - uid: AsymmetricEncryptedSecret
+- name: KubernetesNodeType
+  description: Node type - Master/Worker
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Master
+    types:
+    - uid: string
+  - name: Worker
+    types:
+    - uid: string
+- name: KubernetesIPConfiguration
+  description: Kubernetes node IP configuration
+  kind: object
+  properties:
+  - name: port
+    isReadyOnly: true
+    description: Port of the Kubernetes node.
+    types:
+    - uid: string
+  - name: ipAddress
+    description: IP address of the Kubernetes node.
+    types:
+    - uid: string
+- name: KubernetesRoleStorageClassInfo
+  description: Kubernetes storage class info.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Storage class name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Storage class type.
+    types:
+    - uid: string
+  - name: posixCompliant
+    isReadyOnly: true
+    description: If provisioned storage is posix compliant.
+    types:
+    - uid: PosixComplianceStatus
+- name: CniConfig
+  description: Cni configuration
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: Cni type
+    types:
+    - uid: string
+  - name: version
+    isReadyOnly: true
+    description: Cni version
+    types:
+    - uid: string
+  - name: podSubnet
+    isReadyOnly: true
+    description: Pod Subnet
+    types:
+    - uid: string
+  - name: serviceSubnet
+    isReadyOnly: true
+    description: Service subnet
+    types:
+    - uid: string
+- name: LoadBalancerConfig
+  description: Load balancer configuration
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: Load balancer type
+    types:
+    - uid: string
+  - name: version
+    isReadyOnly: true
+    description: Load balancer version
+    types:
+    - uid: string
+- name: PosixComplianceStatus
+  description: If provisioned storage is posix compliant.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 examples:
 - name: RoleGetAllInDevice
   request:
-    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/roles?api-version=2019-08-01
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/roles?api-version=2021-02-01
   responses:
   - statusCode: "200"
     body: >-
@@ -296,12 +904,12 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow.
+  description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
-    description: impersonate your user account.
+    description: impersonate your user account
 metadata:
   description: Learn more about Data Box Edge/Data Box Gateway service - Lists all the roles configured in a Data Box Edge/Data Box Gateway device.
 errorCodes: []

@@ -7300,10 +7300,19 @@
 ### [List](customproviders/Operations/List.yml)
 # Data Box Edge/Data Box Gateway
 ## [Overview](../docs-ref-conceptual/databoxedgegateway/index.md)
+## Addons
+### [Overview](databoxedgegateway/Addons.yml)
+### [Create Or Update](databoxedgegateway/Addons/Create-Or-Update.yml)
+### [Delete](databoxedgegateway/Addons/Delete.yml)
+### [Get](databoxedgegateway/Addons/Get.yml)
+### [List By Role](databoxedgegateway/Addons/List-By-Role.yml)
 ## Alerts
 ### [Overview](databoxedgegateway/Alerts.yml)
 ### [Get](databoxedgegateway/Alerts/Get.yml)
 ### [List By Data Box Edge Device](databoxedgegateway/Alerts/List-By-Data-Box-Edge-Device.yml)
+## Available Skus
+### [Overview](databoxedgegateway/Available-Skus.yml)
+### [List](databoxedgegateway/Available-Skus/List.yml)
 ## Bandwidth Schedules
 ### [Overview](databoxedgegateway/Bandwidth-Schedules.yml)
 ### [Create Or Update](databoxedgegateway/Bandwidth-Schedules/Create-Or-Update.yml)
@@ -7323,6 +7332,7 @@
 ### [Create Or Update Security Settings](databoxedgegateway/Devices/Create-Or-Update-Security-Settings.yml)
 ### [Delete](databoxedgegateway/Devices/Delete.yml)
 ### [Download Updates](databoxedgegateway/Devices/Download-Updates.yml)
+### [Generate Certificate](databoxedgegateway/Devices/Generate-Certificate.yml)
 ### [Get](databoxedgegateway/Devices/Get.yml)
 ### [Get Extended Information](databoxedgegateway/Devices/Get-Extended-Information.yml)
 ### [Get Network Settings](databoxedgegateway/Devices/Get-Network-Settings.yml)
@@ -7332,10 +7342,23 @@
 ### [List By Subscription](databoxedgegateway/Devices/List-By-Subscription.yml)
 ### [Scan For Updates](databoxedgegateway/Devices/Scan-For-Updates.yml)
 ### [Update](databoxedgegateway/Devices/Update.yml)
+### [Update Extended Information](databoxedgegateway/Devices/Update-Extended-Information.yml)
 ### [Upload Certificate](databoxedgegateway/Devices/Upload-Certificate.yml)
+## Diagnostic Settings
+### [Overview](databoxedgegateway/Diagnostic-Settings.yml)
+### [Get Diagnostic Proactive Log Collection Settings](databoxedgegateway/Diagnostic-Settings/Get-Diagnostic-Proactive-Log-Collection-Settings.yml)
+### [Get Diagnostic Remote Support Settings](databoxedgegateway/Diagnostic-Settings/Get-Diagnostic-Remote-Support-Settings.yml)
+### [Update Diagnostic Proactive Log Collection Settings](databoxedgegateway/Diagnostic-Settings/Update-Diagnostic-Proactive-Log-Collection-Settings.yml)
+### [Update Diagnostic Remote Support Settings](databoxedgegateway/Diagnostic-Settings/Update-Diagnostic-Remote-Support-Settings.yml)
 ## Jobs
 ### [Overview](databoxedgegateway/Jobs.yml)
 ### [Get](databoxedgegateway/Jobs/Get.yml)
+## Monitoring Config
+### [Overview](databoxedgegateway/Monitoring-Config.yml)
+### [Create Or Update](databoxedgegateway/Monitoring-Config/Create-Or-Update.yml)
+### [Delete](databoxedgegateway/Monitoring-Config/Delete.yml)
+### [Get](databoxedgegateway/Monitoring-Config/Get.yml)
+### [List](databoxedgegateway/Monitoring-Config/List.yml)
 ## Nodes
 ### [Overview](databoxedgegateway/Nodes.yml)
 ### [List By Data Box Edge Device](databoxedgegateway/Nodes/List-By-Data-Box-Edge-Device.yml)
@@ -7351,6 +7374,7 @@
 ### [Delete](databoxedgegateway/Orders/Delete.yml)
 ### [Get](databoxedgegateway/Orders/Get.yml)
 ### [List By Data Box Edge Device](databoxedgegateway/Orders/List-By-Data-Box-Edge-Device.yml)
+### [List DC Access Code](databoxedgegateway/Orders/List-DC-Access-Code.yml)
 ## Roles
 ### [Overview](databoxedgegateway/Roles.yml)
 ### [Create Or Update](databoxedgegateway/Roles/Create-Or-Update.yml)
@@ -7364,9 +7388,6 @@
 ### [Get](databoxedgegateway/Shares/Get.yml)
 ### [List By Data Box Edge Device](databoxedgegateway/Shares/List-By-Data-Box-Edge-Device.yml)
 ### [Refresh](databoxedgegateway/Shares/Refresh.yml)
-## Skus
-### [Overview](databoxedgegateway/Skus.yml)
-### [List](databoxedgegateway/Skus/List.yml)
 ## Storage Account Credentials
 ### [Overview](databoxedgegateway/Storage-Account-Credentials.yml)
 ### [Create Or Update](databoxedgegateway/Storage-Account-Credentials/Create-Or-Update.yml)
@@ -7379,6 +7400,9 @@
 ### [Delete](databoxedgegateway/Storage-Accounts/Delete.yml)
 ### [Get](databoxedgegateway/Storage-Accounts/Get.yml)
 ### [List By Data Box Edge Device](databoxedgegateway/Storage-Accounts/List-By-Data-Box-Edge-Device.yml)
+## Support Packages
+### [Overview](databoxedgegateway/Support-Packages.yml)
+### [Trigger Support Package](databoxedgegateway/Support-Packages/Trigger-Support-Package.yml)
 ## Triggers
 ### [Overview](databoxedgegateway/Triggers.yml)
 ### [Create Or Update](databoxedgegateway/Triggers/Create-Or-Update.yml)
@@ -11749,57 +11773,59 @@
 ##### [List](monitor/vmhealth/Operations/List.yml)
 # MySQL
 ## [Overview](../docs-ref-conceptual/mysql/index.md)
-## Flexible Server (Preview)
+## Flexible Server
+### Backups
+#### [Overview](mysql/flexibleserver/Backups.yml)
+#### [Get](mysql/flexibleserver/Backups/Get.yml)
+#### [List By Server](mysql/flexibleserver/Backups/List-By-Server.yml)
 ### Check Name Availability
-#### [Overview](mysql/flexibleserver(preview)/Check-Name-Availability.yml)
-#### [Execute](mysql/flexibleserver(preview)/Check-Name-Availability/Execute.yml)
+#### [Overview](mysql/flexibleserver/Check-Name-Availability.yml)
+#### [Execute](mysql/flexibleserver/Check-Name-Availability/Execute.yml)
 ### Check Virtual Network Subnet Usage
-#### [Overview](mysql/flexibleserver(preview)/Check-Virtual-Network-Subnet-Usage.yml)
-#### [Execute](mysql/flexibleserver(preview)/Check-Virtual-Network-Subnet-Usage/Execute.yml)
+#### [Overview](mysql/flexibleserver/Check-Virtual-Network-Subnet-Usage.yml)
+#### [Execute](mysql/flexibleserver/Check-Virtual-Network-Subnet-Usage/Execute.yml)
 ### Configurations
-#### [Overview](mysql/flexibleserver(preview)/Configurations.yml)
-#### [Batch Update](mysql/flexibleserver(preview)/Configurations/Batch-Update.yml)
-#### [Get](mysql/flexibleserver(preview)/Configurations/Get.yml)
-#### [List By Server](mysql/flexibleserver(preview)/Configurations/List-By-Server.yml)
-#### [Update](mysql/flexibleserver(preview)/Configurations/Update.yml)
+#### [Overview](mysql/flexibleserver/Configurations.yml)
+#### [Batch Update](mysql/flexibleserver/Configurations/Batch-Update.yml)
+#### [Get](mysql/flexibleserver/Configurations/Get.yml)
+#### [List By Server](mysql/flexibleserver/Configurations/List-By-Server.yml)
+#### [Update](mysql/flexibleserver/Configurations/Update.yml)
 ### Databases
-#### [Overview](mysql/flexibleserver(preview)/Databases.yml)
-#### [Create Or Update](mysql/flexibleserver(preview)/Databases/Create-Or-Update.yml)
-#### [Delete](mysql/flexibleserver(preview)/Databases/Delete.yml)
-#### [Get](mysql/flexibleserver(preview)/Databases/Get.yml)
-#### [List By Server](mysql/flexibleserver(preview)/Databases/List-By-Server.yml)
+#### [Overview](mysql/flexibleserver/Databases.yml)
+#### [Create Or Update](mysql/flexibleserver/Databases/Create-Or-Update.yml)
+#### [Delete](mysql/flexibleserver/Databases/Delete.yml)
+#### [Get](mysql/flexibleserver/Databases/Get.yml)
+#### [List By Server](mysql/flexibleserver/Databases/List-By-Server.yml)
 ### Firewall Rules
-#### [Overview](mysql/flexibleserver(preview)/Firewall-Rules.yml)
-#### [Create Or Update](mysql/flexibleserver(preview)/Firewall-Rules/Create-Or-Update.yml)
-#### [Delete](mysql/flexibleserver(preview)/Firewall-Rules/Delete.yml)
-#### [Get](mysql/flexibleserver(preview)/Firewall-Rules/Get.yml)
-#### [List By Server](mysql/flexibleserver(preview)/Firewall-Rules/List-By-Server.yml)
+#### [Overview](mysql/flexibleserver/Firewall-Rules.yml)
+#### [Create Or Update](mysql/flexibleserver/Firewall-Rules/Create-Or-Update.yml)
+#### [Delete](mysql/flexibleserver/Firewall-Rules/Delete.yml)
+#### [Get](mysql/flexibleserver/Firewall-Rules/Get.yml)
+#### [List By Server](mysql/flexibleserver/Firewall-Rules/List-By-Server.yml)
+### Get Private Dns Zone Suffix
+#### [Overview](mysql/flexibleserver/Get-Private-Dns-Zone-Suffix.yml)
+#### [Execute](mysql/flexibleserver/Get-Private-Dns-Zone-Suffix/Execute.yml)
 ### Location Based Capabilities
-#### [Overview](mysql/flexibleserver(preview)/Location-Based-Capabilities.yml)
-#### [List](mysql/flexibleserver(preview)/Location-Based-Capabilities/List.yml)
+#### [Overview](mysql/flexibleserver/Location-Based-Capabilities.yml)
+#### [List](mysql/flexibleserver/Location-Based-Capabilities/List.yml)
 ### Operations
-#### [Overview](mysql/flexibleserver(preview)/Operations.yml)
-#### [List](mysql/flexibleserver(preview)/Operations/List.yml)
+#### [Overview](mysql/flexibleserver/Operations.yml)
+#### [List](mysql/flexibleserver/Operations/List.yml)
 ### Replicas
-#### [Overview](mysql/flexibleserver(preview)/Replicas.yml)
-#### [List By Server](mysql/flexibleserver(preview)/Replicas/List-By-Server.yml)
-### Server Keys
-#### [Overview](mysql/flexibleserver(preview)/Server-Keys.yml)
-#### [Create Or Update](mysql/flexibleserver(preview)/Server-Keys/Create-Or-Update.yml)
-#### [Delete](mysql/flexibleserver(preview)/Server-Keys/Delete.yml)
-#### [Get](mysql/flexibleserver(preview)/Server-Keys/Get.yml)
-#### [List By Server](mysql/flexibleserver(preview)/Server-Keys/List-By-Server.yml)
+#### [Overview](mysql/flexibleserver/Replicas.yml)
+#### [List By Server](mysql/flexibleserver/Replicas/List-By-Server.yml)
 ### Servers
-#### [Overview](mysql/flexibleserver(preview)/Servers.yml)
-#### [Create](mysql/flexibleserver(preview)/Servers/Create.yml)
-#### [Delete](mysql/flexibleserver(preview)/Servers/Delete.yml)
-#### [Get](mysql/flexibleserver(preview)/Servers/Get.yml)
-#### [List](mysql/flexibleserver(preview)/Servers/List.yml)
-#### [List By Resource Group](mysql/flexibleserver(preview)/Servers/List-By-Resource-Group.yml)
-#### [Restart](mysql/flexibleserver(preview)/Servers/Restart.yml)
-#### [Start](mysql/flexibleserver(preview)/Servers/Start.yml)
-#### [Stop](mysql/flexibleserver(preview)/Servers/Stop.yml)
-#### [Update](mysql/flexibleserver(preview)/Servers/Update.yml)
+#### [Overview](mysql/flexibleserver/Servers.yml)
+#### [Create](mysql/flexibleserver/Servers/Create.yml)
+#### [Delete](mysql/flexibleserver/Servers/Delete.yml)
+#### [Failover](mysql/flexibleserver/Servers/Failover.yml)
+#### [Get](mysql/flexibleserver/Servers/Get.yml)
+#### [List](mysql/flexibleserver/Servers/List.yml)
+#### [List By Resource Group](mysql/flexibleserver/Servers/List-By-Resource-Group.yml)
+#### [Restart](mysql/flexibleserver/Servers/Restart.yml)
+#### [Start](mysql/flexibleserver/Servers/Start.yml)
+#### [Stop](mysql/flexibleserver/Servers/Stop.yml)
+#### [Update](mysql/flexibleserver/Servers/Update.yml)
 ## Single Server
 ### Advisors
 #### [Overview](mysql/singleserver/Advisors.yml)
@@ -14311,6 +14337,20 @@
 ##### [List Authorization Rules](servicebus/stable/Topics%20–%20Authorization%20Rules/List-Authorization-Rules.yml)
 ##### [List Keys](servicebus/stable/Topics%20–%20Authorization%20Rules/List-Keys.yml)
 ##### [Regenerate Keys](servicebus/stable/Topics%20–%20Authorization%20Rules/Regenerate-Keys.yml)
+# Service Connector
+## [Overview](../docs-ref-conceptual/serviceconnector/index.md)
+## Linker
+### [Overview](serviceconnector/Linker.yml)
+### [Create Or Update](serviceconnector/Linker/Create-Or-Update.yml)
+### [Delete](serviceconnector/Linker/Delete.yml)
+### [Get](serviceconnector/Linker/Get.yml)
+### [List](serviceconnector/Linker/List.yml)
+### [List Configurations](serviceconnector/Linker/List-Configurations.yml)
+### [Update](serviceconnector/Linker/Update.yml)
+### [Validate](serviceconnector/Linker/Validate.yml)
+## Operations
+### [Overview](serviceconnector/Operations.yml)
+### [List](serviceconnector/Operations/List.yml)
 # Service Fabric
 ## [Overview](../docs-ref-conceptual/servicefabric/index.md)
 ## Azure Service Fabric Mesh Resource Manager APIs

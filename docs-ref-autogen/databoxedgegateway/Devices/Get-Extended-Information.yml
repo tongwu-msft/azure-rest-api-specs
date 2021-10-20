@@ -3,14 +3,14 @@ uid: management.azure.com.databoxedgegateway.devices.getextendedinformation
 name: Get Extended Information
 service: Data Box Edge/Data Box Gateway
 groupName: Devices
-apiVersion: 2019-08-01
-summary: Gets additional information for the specified Data Box Edge/Data Box Gateway device.
+apiVersion: 2021-02-01
+summary: Gets additional information for the specified Azure Stack Edge/Data Box Gateway device.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/getExtendedInformation?api-version=2019-08-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/getExtendedInformation?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -64,6 +64,35 @@ definitions:
     description: The Resource ID of the Resource.
     types:
     - uid: string
+  - name: properties.clientSecretStoreId
+    description: The Key Vault ARM Id for client secrets
+    types:
+    - uid: string
+  - name: properties.clientSecretStoreUrl
+    description: The url to access the Client Key Vault
+    types:
+    - uid: string
+  - name: properties.channelIntegrityKeyName
+    description: The name of Channel Integrity Key stored in the Client Key Vault
+    types:
+    - uid: string
+  - name: properties.channelIntegrityKeyVersion
+    description: The version of Channel Integrity Key stored in the Client Key Vault
+    types:
+    - uid: string
+  - name: properties.keyVaultSyncStatus
+    description: Key vault sync status
+    types:
+    - uid: KeyVaultSyncStatus
+  - name: properties.deviceSecrets
+    isReadyOnly: true
+    description: Device secrets, will be returned only with ODataFilter $expand=deviceSecrets
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: Secret
   - name: id
     isReadyOnly: true
     description: The path ID that uniquely identifies the object.
@@ -87,6 +116,40 @@ definitions:
     description: The error details.
     types:
     - uid: CloudErrorBody
+- name: KeyVaultSyncStatus
+  description: Key vault sync status
+  kind: enum
+  properties:
+  - name: KeyVaultSynced
+    types:
+    - uid: string
+  - name: KeyVaultSyncFailed
+    types:
+    - uid: string
+  - name: KeyVaultNotConfigured
+    types:
+    - uid: string
+  - name: KeyVaultSyncPending
+    types:
+    - uid: string
+  - name: KeyVaultSyncing
+    types:
+    - uid: string
+  - name: KeyVaultNotSynced
+    types:
+    - uid: string
+- name: Secret
+  description: Holds device secret either as a KeyVault reference or as an encrypted value.
+  kind: object
+  properties:
+  - name: encryptedSecret
+    description: Encrypted (using device public key) secret value.
+    types:
+    - uid: AsymmetricEncryptedSecret
+  - name: keyVaultId
+    description: 'Id of the Key-Vault where secret is stored (ex: secrets/AuthClientSecret/82ef4346187a4033a10d629cde07d740).'
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -104,10 +167,39 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: AsymmetricEncryptedSecret
+  description: Represent the secrets intended for encryption with asymmetric key pair.
+  kind: object
+  properties:
+  - name: value
+    description: The value of the secret.
+    types:
+    - uid: string
+  - name: encryptionCertThumbprint
+    description: Thumbprint certificate used to encrypt \"Value\". If the value is unencrypted, it will be null.
+    types:
+    - uid: string
+  - name: encryptionAlgorithm
+    description: The algorithm used to encrypt "Value".
+    types:
+    - uid: EncryptionAlgorithm
+- name: EncryptionAlgorithm
+  description: The algorithm used to encrypt "Value".
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: AES256
+    types:
+    - uid: string
+  - name: RSAES_PKCS1_v_1_5
+    types:
+    - uid: string
 examples:
 - name: ExtendedInfoPost
   request:
-    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/getExtendedInformation?api-version=2019-08-01
+    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/getExtendedInformation?api-version=2021-02-01
   responses:
   - statusCode: "200"
     body: >-
@@ -124,12 +216,12 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow.
+  description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
-    description: impersonate your user account.
+    description: impersonate your user account
 metadata:
-  description: Learn more about Data Box Edge/Data Box Gateway service - Gets additional information for the specified Data Box Edge/Data Box Gateway device.
+  description: Learn more about Data Box Edge/Data Box Gateway service - Gets additional information for the specified Azure Stack Edge/Data Box Gateway device.
 errorCodes: []
