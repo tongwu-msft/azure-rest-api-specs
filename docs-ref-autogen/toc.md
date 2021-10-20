@@ -14311,6 +14311,20 @@
 ##### [List Authorization Rules](servicebus/stable/Topics%20–%20Authorization%20Rules/List-Authorization-Rules.yml)
 ##### [List Keys](servicebus/stable/Topics%20–%20Authorization%20Rules/List-Keys.yml)
 ##### [Regenerate Keys](servicebus/stable/Topics%20–%20Authorization%20Rules/Regenerate-Keys.yml)
+# Service Connector
+## [Overview](../docs-ref-conceptual/serviceconnector/index.md)
+## Linker
+### [Overview](serviceconnector/Linker.yml)
+### [Create Or Update](serviceconnector/Linker/Create-Or-Update.yml)
+### [Delete](serviceconnector/Linker/Delete.yml)
+### [Get](serviceconnector/Linker/Get.yml)
+### [List](serviceconnector/Linker/List.yml)
+### [List Configurations](serviceconnector/Linker/List-Configurations.yml)
+### [Update](serviceconnector/Linker/Update.yml)
+### [Validate](serviceconnector/Linker/Validate.yml)
+## Operations
+### [Overview](serviceconnector/Operations.yml)
+### [List](serviceconnector/Operations/List.yml)
 # Service Fabric
 ## [Overview](../docs-ref-conceptual/servicefabric/index.md)
 ## Azure Service Fabric Mesh Resource Manager APIs
