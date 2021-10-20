@@ -4639,6 +4639,44 @@
 ## Validate Probe
 ### [Overview](cdn/Validate-Probe.yml)
 ### [Validate Probe](cdn/Validate-Probe/Validate-Probe.yml)
+# Chaos Studio
+## [Overview](../docs-ref-conceptual/chaosstudio/index.md)
+## Capabilities
+### [Overview](chaosstudio/Capabilities.yml)
+### [Create Or Update](chaosstudio/Capabilities/Create-Or-Update.yml)
+### [Delete](chaosstudio/Capabilities/Delete.yml)
+### [Get](chaosstudio/Capabilities/Get.yml)
+### [List](chaosstudio/Capabilities/List.yml)
+## Capability Types
+### [Overview](chaosstudio/Capability-Types.yml)
+### [Get](chaosstudio/Capability-Types/Get.yml)
+### [List](chaosstudio/Capability-Types/List.yml)
+## Experiments
+### [Overview](chaosstudio/Experiments.yml)
+### [Cancel](chaosstudio/Experiments/Cancel.yml)
+### [Create Or Update](chaosstudio/Experiments/Create-Or-Update.yml)
+### [Delete](chaosstudio/Experiments/Delete.yml)
+### [Get](chaosstudio/Experiments/Get.yml)
+### [Get Execution Details](chaosstudio/Experiments/Get-Execution-Details.yml)
+### [Get Status](chaosstudio/Experiments/Get-Status.yml)
+### [List](chaosstudio/Experiments/List.yml)
+### [List All](chaosstudio/Experiments/List-All.yml)
+### [List All Statuses](chaosstudio/Experiments/List-All-Statuses.yml)
+### [List Execution Details](chaosstudio/Experiments/List-Execution-Details.yml)
+### [Start](chaosstudio/Experiments/Start.yml)
+## Operations
+### [Overview](chaosstudio/Operations.yml)
+### [List All](chaosstudio/Operations/List-All.yml)
+## Target Types
+### [Overview](chaosstudio/Target-Types.yml)
+### [Get](chaosstudio/Target-Types/Get.yml)
+### [List](chaosstudio/Target-Types/List.yml)
+## Targets
+### [Overview](chaosstudio/Targets.yml)
+### [Create Or Update](chaosstudio/Targets/Create-Or-Update.yml)
+### [Delete](chaosstudio/Targets/Delete.yml)
+### [Get](chaosstudio/Targets/Get.yml)
+### [List](chaosstudio/Targets/List.yml)
 # Cognitive Services
 ## [Overview](../docs-ref-conceptual/cognitiveservices/index.md)
 ## Account Management
