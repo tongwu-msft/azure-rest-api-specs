@@ -1,0 +1,120 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.databoxedgegateway.devices.generatecertificate
+name: Generate Certificate
+service: Data Box Edge/Data Box Gateway
+groupName: Devices
+apiVersion: 2021-02-01
+summary: Generates certificate for activation key.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/generateCertificate?api-version=2021-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: deviceName
+  in: path
+  isRequired: true
+  description: The device name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully generated self signed certificate.
+  types:
+  - uid: GenerateCertResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: GenerateCertResponse
+  description: Used in activation key generation flow.
+  kind: object
+  properties:
+  - name: publicKey
+    description: >-
+      Gets or sets base64 encoded certificate raw data,
+
+      this is the public part needed to be uploaded to cert vault
+    types:
+    - uid: string
+  - name: privateKey
+    description: >-
+      Gets or sets base64 encoded private part of the certificate,
+
+      needed to form the activation key
+    types:
+    - uid: string
+  - name: expiryTimeInUTC
+    description: Gets or sets expiry time in UTC
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: GenerateCertificate
+  request:
+    uri: POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/generateCertificate?api-version=2021-02-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "publicKey": "MIIEDjCCAnagAwIBAgIQEW4wrxj9+JdA4kFLDgegTTANBgkqhkiG9w0BAQUFADBDMUEwPwYDVQQDHjgAQwBCAF8AUABvAHIAdABhAGwAXwA2ADMANwA0ADEAMwA1ADkAMQA4ADAAMAA3ADAAOQAxADcANTAeFw0yMDExMTkwNDU2MjBaFw0yMDExMjIwNTA2MjBaMEMxQTA/BgNVBAMeOABDAEIAXwBQAG8AcgB0AGEAbABfADYAMwA3ADQAMQAzADUAOQAxADgAMAAwADcAMAA5ADEANwA1MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAqG617KAUc4gOoht527o6FGE/c97W/wZIXqKbx4G8vifljXWw3NGDDuSQfidE3MqSMMJ/AAlDhBH/Deo/PAgUWuWB2WgM+KFWrDS0oDBvLVeIIeiMx4LOsbz4J8IbcKrGWf+ulQyum7dE/yBLzPXcPTjhJP0oMfhGOMlVVWbiKaP78/WZk2PmBQaVv7PxAQnJAPqETH2qAyuc9bd0TaMlIER56WhX9+nzsoI0u7RmBEs8+BaudVroiiK/GpEczy73TCRlpVXGChdBHg+NvYRYz91ltCV9Ijo1bdvcUjdgDJZ4Tz7G8XVCQmxbd9ml6OBLgxQUpd9HSGTcIfFiv+rTUwHR7YkY+1UGHsDPOYnBVDTXs3RFm+c5uNnCKvtyTExDJgabT+FTNb3eyD/BSYsy6b/YZBRqPiO8BRFUsIhWhXtPaUjWOEx6XMeZRnGeF4Hi8iH8TR79kEJhfYy3piSPAc3JrhgoglpyyfZOgyPOje+8tAWS9FHUNyVXKKeksDoZAgMBAAEwDQYJKoZIhvcNAQEFBQADggGBACpfQt34mgr+WlFtY0tqaPAoF6XnVzyKB6XsVAoj1uKFTSCQnr0mWvUMWKSRFTu1bV1VdDokV5I+h92kBcO4ddtHhWtkt16j9XFDsGdDvoUWJeqecZVr9fBPC69wF/9R/2E6iJporR46Pui7gcilYGqb3IjJlh8RT/XBPamQrfDbS7G8eTe91ST5cHr89R6EtDwfyhyTZr2sRrvQrxY2AjEmdH5Zcl9q2Xf8DholZhZ9vwnuYBFfl6VCXWaDAzQWiPdxo1wgXxEpNNDstGFWJKnsnz9UCohNAiPf47B+csPqxjcTLVMhcGLdU/lwpzzkEOciijpYILscvPoU3IM6DmFROgU2z6CForpgwHPDJktyWU1MC7lFdfrSzwu/5b3ZAEQhnJf7rvrybULoYBQWJEuj26Is1S6kXpNUaHAc5HIyIoc2V2eRjasbPIqsU0smjPLS/1egjHxtw9u+v4qDDvDuOjhFJtC3NkPl06TfNgO9+5LgiB1JppXnkLyCQ9RQgw==",
+        "privateKey": null,
+        "expiryTimeInUTC": "2020-11-22T05:06:20.000Z"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Data Box Edge/Data Box Gateway service - Generates certificate for activation key.
+errorCodes: []

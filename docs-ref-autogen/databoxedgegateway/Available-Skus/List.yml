@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.databoxedgegateway.skus.list
+uid: management.azure.com.databoxedgegateway.availableskus.list
 name: List
 service: Data Box Edge/Data Box Gateway
-groupName: Skus
-apiVersion: 2019-08-01
-summary: List all the available Skus in the region and information related to them
+groupName: Available Skus
+apiVersion: 2021-02-01
+summary: List all the available Skus and information related to them.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataBoxEdge/skus?api-version=2019-08-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataBoxEdge/skus?api-version=2019-08-01&$filter={$filter}
-  isOptional: true
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataBoxEdge/availableSkus?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -26,31 +24,26 @@ uriParameters:
   description: The API version.
   types:
   - uid: string
-- name: $filter
-  in: query
-  description: Specify $filter='location eq <location>' to filter on location.
-  types:
-  - uid: string
 responses:
 - name: 200 OK
   description: Lists the available Skus and information related to them.
   types:
-  - uid: SkuInformationList
+  - uid: DataBoxEdgeSkuList
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: SkuInformationList
-  description: List of SKU Information objects
+- name: DataBoxEdgeSkuList
+  description: List of SKU Information objects.
   kind: object
   properties:
   - name: value
     isReadyOnly: true
     description: List of ResourceType Sku
     types:
-    - uid: ResourceTypeSku
+    - uid: DataBoxEdgeSku
       isArray: true
   - name: nextLink
     isReadyOnly: true
@@ -65,50 +58,55 @@ definitions:
     description: The error details.
     types:
     - uid: CloudErrorBody
-- name: ResourceTypeSku
-  description: SkuInformation object
+- name: DataBoxEdgeSku
+  description: The Sku information.
   kind: object
   properties:
   - name: resourceType
     isReadyOnly: true
-    description: The type of the resource
+    description: The type of the resource.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The Sku name
+    description: The Sku name.
     types:
     - uid: SkuName
   - name: kind
     isReadyOnly: true
-    description: The Sku kind
+    description: The Sku kind.
     types:
     - uid: string
   - name: tier
     isReadyOnly: true
-    description: The Sku tier
+    description: The Sku tier.
     types:
     - uid: SkuTier
+  - name: size
+    isReadyOnly: true
+    description: The Sku kind.
+    types:
+    - uid: string
   - name: family
     isReadyOnly: true
-    description: The Sku family
+    description: The Sku family.
     types:
     - uid: string
   - name: locations
     isReadyOnly: true
-    description: Availability of the SKU for the region
+    description: Availability of the Sku for the region.
     types:
     - uid: string
       isArray: true
   - name: apiVersions
     isReadyOnly: true
-    description: The API versions in which SKU is available
+    description: The API versions in which Sku is available.
     types:
     - uid: string
       isArray: true
   - name: locationInfo
     isReadyOnly: true
-    description: Availability of the SKU for the location/zone
+    description: Availability of the Sku for the location/zone/site.
     types:
     - uid: SkuLocationInfo
       isArray: true
@@ -118,11 +116,32 @@ definitions:
     types:
     - uid: SkuCost
       isArray: true
-  - name: restrictions
+  - name: signupOption
     isReadyOnly: true
-    description: Restrictions of the SKU availability.
+    description: Sku can be signed up by customer or not.
     types:
-    - uid: SkuRestriction
+    - uid: SkuSignupOption
+  - name: version
+    isReadyOnly: true
+    description: Availability of the Sku as preview/stable.
+    types:
+    - uid: SkuVersion
+  - name: availability
+    isReadyOnly: true
+    description: Links to the next set of results
+    types:
+    - uid: SkuAvailability
+  - name: shipmentTypes
+    isReadyOnly: true
+    description: List of Shipment Types supported by this SKU
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    isReadyOnly: true
+    description: The capability info of the SKU.
+    types:
+    - uid: SkuCapability
       isArray: true
 - name: CloudErrorBody
   description: An error response from the service.
@@ -172,6 +191,54 @@ definitions:
   - name: TMA
     types:
     - uid: string
+  - name: TDC
+    types:
+    - uid: string
+  - name: TCA_Small
+    types:
+    - uid: string
+  - name: GPU
+    types:
+    - uid: string
+  - name: TCA_Large
+    types:
+    - uid: string
+  - name: EdgeP_Base
+    types:
+    - uid: string
+  - name: EdgeP_High
+    types:
+    - uid: string
+  - name: EdgePR_Base
+    types:
+    - uid: string
+  - name: EdgePR_Base_UPS
+    types:
+    - uid: string
+  - name: EP2_64_1VPU_W
+    types:
+    - uid: string
+  - name: EP2_128_1T4_Mx1_W
+    types:
+    - uid: string
+  - name: EP2_256_2T4_W
+    types:
+    - uid: string
+  - name: EdgeMR_Mini
+    types:
+    - uid: string
+  - name: RCA_Small
+    types:
+    - uid: string
+  - name: RCA_Large
+    types:
+    - uid: string
+  - name: RDC
+    types:
+    - uid: string
+  - name: Management
+    types:
+    - uid: string
 - name: SkuTier
   description: The SKU tier. This is based on the SKU name.
   kind: enum
@@ -216,96 +283,76 @@ definitions:
     - uid: integer
   - name: extendedUnit
     isReadyOnly: true
-    description: Restriction of the SKU for the location/zone
+    description: The extended unit.
     types:
     - uid: string
-- name: SkuRestriction
-  description: The restrictions because of which SKU cannot be used.
-  kind: object
-  properties:
-  - name: type
-    isReadyOnly: true
-    description: The type of the restriction.
-    types:
-    - uid: string
-  - name: values
-    isReadyOnly: true
-    description: The locations where sku is restricted.
-    types:
-    - uid: string
-      isArray: true
-  - name: reasonCode
-    isReadyOnly: true
-    description: The SKU restriction reason.
-    types:
-    - uid: SkuRestrictionReasonCode
-  - name: restrictionInfo
-    isReadyOnly: true
-    description: Restriction of the SKU for the location/zone
-    types:
-    - uid: SkuRestrictionInfo
-- name: SkuRestrictionReasonCode
-  description: The SKU restriction reason.
+- name: SkuSignupOption
+  description: Sku can be signed up by customer or not.
   kind: enum
   properties:
-  - name: NotAvailableForSubscription
+  - name: None
     types:
     - uid: string
-  - name: QuotaId
+  - name: Available
     types:
     - uid: string
-- name: SkuRestrictionInfo
-  description: The restriction info with locations and zones.
+- name: SkuVersion
+  description: Availability of the Sku as preview/stable.
+  kind: enum
+  properties:
+  - name: Stable
+    types:
+    - uid: string
+  - name: Preview
+    types:
+    - uid: string
+- name: SkuAvailability
+  description: Links to the next set of results
+  kind: enum
+  properties:
+  - name: Available
+    types:
+    - uid: string
+  - name: Unavailable
+    types:
+    - uid: string
+- name: SkuCapability
+  description: The metadata to describe the capability.
   kind: object
   properties:
-  - name: locations
+  - name: name
     isReadyOnly: true
-    description: The locations.
+    description: An invariant to describe the feature.
     types:
     - uid: string
-      isArray: true
-  - name: zones
+  - name: value
     isReadyOnly: true
-    description: The zones.
+    description: An invariant if the feature is measured by quantity.
     types:
     - uid: string
-      isArray: true
 examples:
-- name: ListSkus
+- name: AvailableSkus
   request:
-    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/providers/Microsoft.DataBoxEdge/skus?api-version=2019-08-01
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/providers/Microsoft.DataBoxEdge/availableSkus?api-version=2021-02-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "resourceType": "dataBoxEdeDevices",
+            "resourceType": "dataBoxEdgeDevices",
             "name": "Gateway",
+            "availability": "Available",
             "tier": "Standard",
+            "kind": "AzureDataBoxGateway",
+            "version": "Stable",
+            "signupOption": "Available",
             "locations": [
               "West US"
             ],
             "locationInfo": [
               {
                 "location": "West US"
-              }
-            ],
-            "apiVersions": [
-              "2019-08-01"
-            ],
-            "restrictions": [
-              {
-                "type": "location",
-                "values": [
-                  "East US"
-                ],
-                "restrictionInfo": {
-                  "locations": [
-                    "East US"
-                  ]
-                },
-                "reasonCode": "NotAvailableForSubscription"
               }
             ]
           }
@@ -314,12 +361,12 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow.
+  description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
-    description: impersonate your user account.
+    description: impersonate your user account
 metadata:
-  description: Learn more about Data Box Edge/Data Box Gateway service - List all the available Skus in the region and information related to them
+  description: Learn more about Data Box Edge/Data Box Gateway service - List all the available Skus and information related to them.
 errorCodes: []

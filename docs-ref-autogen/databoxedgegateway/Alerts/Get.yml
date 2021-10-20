@@ -3,14 +3,14 @@ uid: management.azure.com.databoxedgegateway.alerts.get
 name: Get
 service: Data Box Edge/Data Box Gateway
 groupName: Alerts
-apiVersion: 2019-08-01
+apiVersion: 2021-02-01
 summary: Gets an alert by name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/alerts/{name}?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/alerts/{name}?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -57,6 +57,11 @@ definitions:
   description: Alert on the data box edge/gateway device.
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Alert generated in the resource
+    types:
+    - uid: SystemData
   - name: properties.title
     isReadyOnly: true
     description: Alert title.
@@ -119,6 +124,34 @@ definitions:
     description: The error details.
     types:
     - uid: CloudErrorBody
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: string
 - name: AlertSeverity
   description: Severity of the alert.
   kind: enum
@@ -168,10 +201,26 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: AlertGet
   request:
-    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/alerts/159a00c7-8543-4343-9435-263ac87df3bb?api-version=2019-08-01
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/alerts/159a00c7-8543-4343-9435-263ac87df3bb?api-version=2021-02-01
   responses:
   - statusCode: "200"
     body: >-
@@ -196,12 +245,12 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow.
+  description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
   - name: user_impersonation
-    description: impersonate your user account.
+    description: impersonate your user account
 metadata:
   description: Learn more about Data Box Edge/Data Box Gateway service - Gets an alert by name.
 errorCodes: []
