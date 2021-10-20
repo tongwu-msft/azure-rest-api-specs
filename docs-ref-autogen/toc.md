@@ -11983,6 +11983,102 @@
 ### [List All](network-gateway/Virtual-Network-Taps/List-All.yml)
 ### [List By Resource Group](network-gateway/Virtual-Network-Taps/List-By-Resource-Group.yml)
 ### [Update Tags](network-gateway/Virtual-Network-Taps/Update-Tags.yml)
+# Network Manager
+## [Overview](../docs-ref-conceptual/networkmanager/index.md)
+## Active Connectivity Configurations
+### [Overview](networkmanager/Active-Connectivity-Configurations.yml)
+### [List](networkmanager/Active-Connectivity-Configurations/List.yml)
+## Active Security Admin Rules
+### [Overview](networkmanager/Active-Security-Admin-Rules.yml)
+### [List](networkmanager/Active-Security-Admin-Rules/List.yml)
+## Active Security User Rules
+### [Overview](networkmanager/Active-Security-User-Rules.yml)
+### [List](networkmanager/Active-Security-User-Rules/List.yml)
+## Admin Rule Collections
+### [Overview](networkmanager/Admin-Rule-Collections.yml)
+### [Create Or Update](networkmanager/Admin-Rule-Collections/Create-Or-Update.yml)
+### [Delete](networkmanager/Admin-Rule-Collections/Delete.yml)
+### [Get](networkmanager/Admin-Rule-Collections/Get.yml)
+### [List](networkmanager/Admin-Rule-Collections/List.yml)
+## Admin Rules
+### [Overview](networkmanager/Admin-Rules.yml)
+### [Create Or Update](networkmanager/Admin-Rules/Create-Or-Update.yml)
+### [Delete](networkmanager/Admin-Rules/Delete.yml)
+### [Get](networkmanager/Admin-Rules/Get.yml)
+### [List](networkmanager/Admin-Rules/List.yml)
+## Connectivity Configurations
+### [Overview](networkmanager/Connectivity-Configurations.yml)
+### [Create Or Update](networkmanager/Connectivity-Configurations/Create-Or-Update.yml)
+### [Delete](networkmanager/Connectivity-Configurations/Delete.yml)
+### [Get](networkmanager/Connectivity-Configurations/Get.yml)
+### [List](networkmanager/Connectivity-Configurations/List.yml)
+## Effective Connectivity Configurations
+### [Overview](networkmanager/Effective-Connectivity-Configurations.yml)
+### [List](networkmanager/Effective-Connectivity-Configurations/List.yml)
+## Effective Virtual Networks
+### [Overview](networkmanager/Effective-Virtual-Networks.yml)
+### [List By Network Manager](networkmanager/Effective-Virtual-Networks/List-By-Network-Manager.yml)
+## Network Manager Commits
+### [Overview](networkmanager/Network-Manager-Commits.yml)
+### [Post](networkmanager/Network-Manager-Commits/Post.yml)
+## Network Manager Deployment Status
+### [Overview](networkmanager/Network-Manager-Deployment-Status.yml)
+### [List](networkmanager/Network-Manager-Deployment-Status/List.yml)
+## Network Manager Effective Security Admin Rules
+### [Overview](networkmanager/Network-Manager-Effective-Security-Admin-Rules.yml)
+### [List](networkmanager/Network-Manager-Effective-Security-Admin-Rules/List.yml)
+## Network Managers
+### [Overview](networkmanager/Network-Managers.yml)
+### [Create Or Update](networkmanager/Network-Managers/Create-Or-Update.yml)
+### [Delete](networkmanager/Network-Managers/Delete.yml)
+### [Get](networkmanager/Network-Managers/Get.yml)
+### [List](networkmanager/Network-Managers/List.yml)
+### [List By Subscription](networkmanager/Network-Managers/List-By-Subscription.yml)
+### [Patch Tags](networkmanager/Network-Managers/Patch-Tags.yml)
+## Network Security Perimeters
+### [Overview](networkmanager/Network-Security-Perimeters.yml)
+### [Create Or Update](networkmanager/Network-Security-Perimeters/Create-Or-Update.yml)
+### [Delete](networkmanager/Network-Security-Perimeters/Delete.yml)
+### [Get](networkmanager/Network-Security-Perimeters/Get.yml)
+### [List](networkmanager/Network-Security-Perimeters/List.yml)
+### [List By Subscription](networkmanager/Network-Security-Perimeters/List-By-Subscription.yml)
+## Perimeter Associable Resource Types
+### [Overview](networkmanager/Perimeter-Associable-Resource-Types.yml)
+### [Get](networkmanager/Perimeter-Associable-Resource-Types/Get.yml)
+## Security Admin Configurations
+### [Overview](networkmanager/Security-Admin-Configurations.yml)
+### [Create Or Update](networkmanager/Security-Admin-Configurations/Create-Or-Update.yml)
+### [Delete](networkmanager/Security-Admin-Configurations/Delete.yml)
+### [Get](networkmanager/Security-Admin-Configurations/Get.yml)
+### [List](networkmanager/Security-Admin-Configurations/List.yml)
+## Security User Configurations
+### [Overview](networkmanager/Security-User-Configurations.yml)
+### [Create Or Update](networkmanager/Security-User-Configurations/Create-Or-Update.yml)
+### [Delete](networkmanager/Security-User-Configurations/Delete.yml)
+### [Get](networkmanager/Security-User-Configurations/Get.yml)
+### [List](networkmanager/Security-User-Configurations/List.yml)
+## User Rule Collections
+### [Overview](networkmanager/User-Rule-Collections.yml)
+### [Create Or Update](networkmanager/User-Rule-Collections/Create-Or-Update.yml)
+### [Delete](networkmanager/User-Rule-Collections/Delete.yml)
+### [Get](networkmanager/User-Rule-Collections/Get.yml)
+### [List](networkmanager/User-Rule-Collections/List.yml)
+## User Rules
+### [Overview](networkmanager/User-Rules.yml)
+### [Create Or Update](networkmanager/User-Rules/Create-Or-Update.yml)
+### [Delete](networkmanager/User-Rules/Delete.yml)
+### [Get](networkmanager/User-Rules/Get.yml)
+### [List](networkmanager/User-Rules/List.yml)
+## Network Manager Group
+### Effective Virtual Networks
+#### [Overview](networkmanager/networkmanagergroup/Effective-Virtual-Networks.yml)
+#### [List By Network Group](networkmanager/networkmanagergroup/Effective-Virtual-Networks/List-By-Network-Group.yml)
+### Network Groups
+#### [Overview](networkmanager/networkmanagergroup/Network-Groups.yml)
+#### [Create Or Update](networkmanager/networkmanagergroup/Network-Groups/Create-Or-Update.yml)
+#### [Delete](networkmanager/networkmanagergroup/Network-Groups/Delete.yml)
+#### [Get](networkmanager/networkmanagergroup/Network-Groups/Get.yml)
+#### [List](networkmanager/networkmanagergroup/Network-Groups/List.yml)
 # Network Watcher
 ## [Overview](../docs-ref-conceptual/network-watcher/index.md)
 ## Connection Monitors
