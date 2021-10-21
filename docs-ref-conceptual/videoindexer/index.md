@@ -22,9 +22,9 @@ To start extracting insights with Video Analyzer for Media, you need to create a
 
 | Operation group | Description |
 |-------------------------------|-----------------------------------------------------------------------------------------|
-| [Accounts](xref:management.azure.com.videoindexer.operations) | Provides operations for working with Azure Video Analyzer for Media accounts |
-| [Generate](xref:management.azure.com.videoindexer.operations) | Provides operations for working with Azure Video Analyzer for Media access tokens |
-| [Operations](xref:management.azure.com.videoindexer.operations) | Lists available operations for the Microsoft.VideoIndexer provider. |
+| [Accounts](/rest/api/videoindexer/accounts) | Provides operations for working with Azure Video Analyzer for Media accounts |
+| [Generate](/rest/api/videoindexer/generate) | Provides operations for working with Azure Video Analyzer for Media access tokens |
+| [Operations](/rest/api/videoindexer/operations) | Lists available operations for the Microsoft.VideoIndexer provider. |
 
 
 ## See also
