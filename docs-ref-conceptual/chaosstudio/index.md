@@ -13,7 +13,8 @@ ms.devlang: rest-api
 
 Azure Chaos Studio is a managed service for improving resilience by injecting faults into your Azure applications. Running controlled fault injection experiments against your applications, a practice known as chaos engineering, helps you to measure, understand, and improve resilience against real-world incidents, such as a region outages or application failures causing high CPU utilization on a VM.
 
-## REST operation groups
+**REST operation groups**
+
 
 | Operation group | Description |
 |-----------------|-------------|
