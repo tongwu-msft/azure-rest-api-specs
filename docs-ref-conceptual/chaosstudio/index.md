@@ -1,5 +1,6 @@
 ---
 title: Azure Chaos Studio REST API reference
+description: REST API documentation reference for Azure Chaos Studio
 author: johnkemnetz
 ms.author: johnkem
 ms.date: 11/01/2021
