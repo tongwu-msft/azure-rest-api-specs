@@ -1,0 +1,245 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.networkmanager.networkmanagerdeploymentstatus.list
+name: List
+service: Network Manager
+groupName: Network Manager Deployment Status
+apiVersion: 2021-02-01-preview
+summary: Post to List of Network Manager Deployment Status.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listDeploymentStatus?api-version=2021-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: networkManagerName
+  in: path
+  isRequired: true
+  description: The name of the network manager.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns a list of deployment status.
+  types:
+  - uid: NetworkManagerDeploymentStatusListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: regions
+    in: body
+    description: List of locations.
+    types:
+    - uid: string
+      isArray: true
+  - name: deploymentTypes
+    in: body
+    description: List of deployment types.
+    types:
+    - uid: string
+      isArray: true
+  - name: skipToken
+    in: body
+    description: Continuation token for pagination, capturing the next page size and offset, as well as the context of the query.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: NetworkManagerDeploymentStatusListResult
+  description: A list of Network Manager Deployment Status
+  kind: object
+  properties:
+  - name: value
+    description: Gets a page of Network Manager Deployment Status
+    types:
+    - uid: NetworkManagerDeploymentStatus
+      isArray: true
+  - name: skipToken
+    description: When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: NetworkManagerDeploymentStatusParameter
+  description: Network Manager Deployment Status Parameter.
+  kind: object
+  properties:
+  - name: regions
+    description: List of locations.
+    types:
+    - uid: string
+      isArray: true
+  - name: deploymentTypes
+    description: List of deployment types.
+    types:
+    - uid: string
+      isArray: true
+  - name: skipToken
+    description: Continuation token for pagination, capturing the next page size and offset, as well as the context of the query.
+    types:
+    - uid: string
+- name: NetworkManagerDeploymentStatus
+  description: Network Manager Deployment Status.
+  kind: object
+  properties:
+  - name: commitTime
+    description: Commit Time.
+    types:
+    - uid: string
+  - name: region
+    description: Region Name.
+    types:
+    - uid: string
+  - name: deploymentStatus
+    description: Deployment Status.
+    types:
+    - uid: DeploymentStatus
+  - name: configurationIds
+    description: List of configuration ids.
+    types:
+    - uid: string
+      isArray: true
+  - name: deploymentType
+    description: Configuration Deployment Type.
+    types:
+    - uid: ConfigurationType
+  - name: errorMessage
+    description: Error Message.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: DeploymentStatus
+  description: Deployment Status.
+  kind: enum
+  properties:
+  - name: NotStarted
+    types:
+    - uid: string
+  - name: Deploying
+    types:
+    - uid: string
+  - name: Deployed
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: ConfigurationType
+  description: Configuration Deployment Type.
+  kind: enum
+  properties:
+  - name: SecurityAdmin
+    types:
+    - uid: string
+  - name: SecurityUser
+    types:
+    - uid: string
+  - name: Connectivity
+    types:
+    - uid: string
+examples:
+- name: NetworkManagerDeploymentStatusList
+  request:
+    uri: POST https://management.azure.com/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/listDeploymentStatus?api-version=2021-02-01-preview
+    body: >-
+      {
+        "regions": [
+          "eastus",
+          "westus"
+        ],
+        "deploymentTypes": [
+          "Connectivity",
+          "AdminPolicy"
+        ],
+        "skipToken": "FakeSkipTokenCode"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "deploymentType": "AdminPolicy",
+            "configurationIds": [
+              "SecConfig1",
+              "SecConfig2"
+            ],
+            "commitTime": "2021-01-26T06:58:50.883Z",
+            "region": "eastus",
+            "deploymentStatus": "Deploying",
+            "errorMessage": ""
+          },
+          {
+            "deploymentType": "Connectivity",
+            "configurationIds": [
+              "ConnConfig1",
+              "ConnConfig2"
+            ],
+            "commitTime": "2021-01-26T06:58:50.883Z",
+            "region": "eastus",
+            "deploymentStatus": "Deployed",
+            "errorMessage": ""
+          }
+        ],
+        "skipToken": "NextFakeSkipTokenCode"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Network Manager service - Post to List of Network Manager Deployment Status.
+errorCodes: []
