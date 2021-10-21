@@ -1,7 +1,7 @@
 ---
 title: "ComposeDeploymentUpgradeProgressInfo"
 description: "ComposeDeploymentUpgradeProgressInfo"
-ms.date: "10/21/2020"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -126,7 +126,7 @@ __Default__: `UnmonitoredAuto` <br/>
 <br/>
 
 
-The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored.
+The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, Monitored, and UnmonitoredDeferred.
 
 Possible values are: 
 
@@ -134,6 +134,7 @@ Possible values are:
   - `UnmonitoredAuto` - The upgrade will proceed automatically without performing any health monitoring. The value is 1
   - `UnmonitoredManual` - The upgrade will stop after completing each upgrade domain, giving the opportunity to manually monitor health before proceeding. The value is 2
   - `Monitored` - The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. The value is 3
+  - `UnmonitoredDeferred` - Perform a node-by-node upgrade. No action is performed when upgrade starts; upgrade is applied on each node when it is deactivated with intent restart or higher. The value is 4
 
 
 
@@ -199,7 +200,7 @@ ____
 __Type__: [CurrentUpgradeDomainProgressInfo](sfclient-model-currentupgradedomainprogressinfo.md) <br/>
 __Required__: No<br/>
 <br/>
-Information about the current in-progress upgrade domain.
+Information about the current in-progress upgrade domain. Not applicable to node-by-node upgrades.
 
 ____
 ### `StartTimestampUtc`

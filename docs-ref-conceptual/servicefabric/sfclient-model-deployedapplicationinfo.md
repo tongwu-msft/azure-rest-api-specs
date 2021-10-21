@@ -1,7 +1,7 @@
 ---
 title: "DeployedApplicationInfo"
 description: "DeployedApplicationInfo"
-ms.date: "10/21/2020"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -37,6 +37,7 @@ Information about application deployed on the node.
 | [`Id`](#id) | string | No |
 | [`Name`](#name) | string | No |
 | [`TypeName`](#typename) | string | No |
+| [`TypeVersion`](#typeversion) | string | No |
 | [`Status`](#status) | string (enum) | No |
 | [`WorkDirectory`](#workdirectory) | string | No |
 | [`LogDirectory`](#logdirectory) | string | No |
@@ -66,6 +67,13 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The application type name as defined in the application manifest.
+
+____
+### `TypeVersion`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+The version of the application type as defined in the application manifest.
 
 ____
 ### `Status`

@@ -1,7 +1,7 @@
 ---
 title: "ClusterUpgradeProgressObject"
 description: "ClusterUpgradeProgressObject"
-ms.date: "10/21/2020"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -37,6 +37,7 @@ Information about a cluster upgrade.
 | [`CodeVersion`](#codeversion) | string | No |
 | [`ConfigVersion`](#configversion) | string | No |
 | [`UpgradeDomains`](#upgradedomains) | array of [UpgradeDomainInfo](sfclient-model-upgradedomaininfo.md) | No |
+| [`UpgradeUnits`](#upgradeunits) | array of [UpgradeUnitInfo](sfclient-model-upgradeunitinfo.md) | No |
 | [`UpgradeState`](#upgradestate) | string (enum) | No |
 | [`NextUpgradeDomain`](#nextupgradedomain) | string | No |
 | [`RollingUpgradeMode`](#rollingupgrademode) | string (enum) | No |
@@ -45,10 +46,12 @@ Information about a cluster upgrade.
 | [`UpgradeDomainDurationInMilliseconds`](#upgradedomaindurationinmilliseconds) | string | No |
 | [`UnhealthyEvaluations`](#unhealthyevaluations) | array of [HealthEvaluationWrapper](sfclient-model-healthevaluationwrapper.md) | No |
 | [`CurrentUpgradeDomainProgress`](#currentupgradedomainprogress) | [CurrentUpgradeDomainProgressInfo](sfclient-model-currentupgradedomainprogressinfo.md) | No |
+| [`CurrentUpgradeUnitsProgress`](#currentupgradeunitsprogress) | [CurrentUpgradeUnitsProgressInfo](sfclient-model-currentupgradeunitsprogressinfo.md) | No |
 | [`StartTimestampUtc`](#starttimestamputc) | string | No |
 | [`FailureTimestampUtc`](#failuretimestamputc) | string | No |
 | [`FailureReason`](#failurereason) | string (enum) | No |
 | [`UpgradeDomainProgressAtFailure`](#upgradedomainprogressatfailure) | [FailedUpgradeDomainProgressObject](sfclient-model-failedupgradedomainprogressobject.md) | No |
+| [`IsNodeByNode`](#isnodebynode) | boolean | No |
 
 ____
 ### `CodeVersion`
@@ -69,7 +72,14 @@ ____
 __Type__: array of [UpgradeDomainInfo](sfclient-model-upgradedomaininfo.md) <br/>
 __Required__: No<br/>
 <br/>
-List of upgrade domains and their statuses.
+List of upgrade domains and their statuses. Not applicable to node-by-node upgrades.
+
+____
+### `UpgradeUnits`
+__Type__: array of [UpgradeUnitInfo](sfclient-model-upgradeunitinfo.md) <br/>
+__Required__: No<br/>
+<br/>
+List of upgrade units and their statuses.
 
 ____
 ### `UpgradeState`
@@ -97,7 +107,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The name of the next upgrade domain to be processed.
+The name of the next upgrade domain to be processed. Not applicable to node-by-node upgrades.
 
 ____
 ### `RollingUpgradeMode`
@@ -107,7 +117,7 @@ __Default__: `UnmonitoredAuto` <br/>
 <br/>
 
 
-The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored.
+The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, Monitored, and UnmonitoredDeferred.
 
 Possible values are: 
 
@@ -115,6 +125,7 @@ Possible values are:
   - `UnmonitoredAuto` - The upgrade will proceed automatically without performing any health monitoring. The value is 1
   - `UnmonitoredManual` - The upgrade will stop after completing each upgrade domain, giving the opportunity to manually monitor health before proceeding. The value is 2
   - `Monitored` - The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. The value is 3
+  - `UnmonitoredDeferred` - Perform a node-by-node upgrade. No action is performed when upgrade starts; upgrade is applied on each node when it is deactivated with intent restart or higher. The value is 4
 
 
 
@@ -137,7 +148,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The estimated elapsed time spent processing the current upgrade domain.
+The estimated elapsed time spent processing the current upgrade domain. Not applicable to node-by-node upgrades.
 
 ____
 ### `UnhealthyEvaluations`
@@ -151,7 +162,14 @@ ____
 __Type__: [CurrentUpgradeDomainProgressInfo](sfclient-model-currentupgradedomainprogressinfo.md) <br/>
 __Required__: No<br/>
 <br/>
-Information about the current in-progress upgrade domain.
+Information about the current in-progress upgrade domain. Not applicable to node-by-node upgrades.
+
+____
+### `CurrentUpgradeUnitsProgress`
+__Type__: [CurrentUpgradeUnitsProgressInfo](sfclient-model-currentupgradeunitsprogressinfo.md) <br/>
+__Required__: No<br/>
+<br/>
+Information about the current in-progress upgrade units.
 
 ____
 ### `StartTimestampUtc`
@@ -191,4 +209,12 @@ ____
 __Type__: [FailedUpgradeDomainProgressObject](sfclient-model-failedupgradedomainprogressobject.md) <br/>
 __Required__: No<br/>
 <br/>
-The detailed upgrade progress for nodes in the current upgrade domain at the point of failure.
+The detailed upgrade progress for nodes in the current upgrade domain at the point of failure. Not applicable to node-by-node upgrades.
+
+____
+### `IsNodeByNode`
+__Type__: boolean <br/>
+__Required__: No<br/>
+__Default__: `false` <br/>
+<br/>
+Indicates whether this upgrade is node-by-node.

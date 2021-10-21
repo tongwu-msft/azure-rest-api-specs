@@ -1,7 +1,7 @@
 ---
-title: "StatefulServiceUpdateDescription v8.1"
+title: "StatefulServiceUpdateDescription"
 description: "StatefulServiceUpdateDescription"
-ms.date: "07/13/2021"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatefulServiceUpdateDescription v8.1
+# StatefulServiceUpdateDescription
 
 Describes an update for a stateful service.
 
@@ -217,7 +217,7 @@ ____
 __Type__: [ReplicaLifecycleDescription](sfclient-model-replicalifecycledescription.md) <br/>
 __Required__: No<br/>
 <br/>
-Defines how replicas of this service will behave during their lifecycle.
+Defines how replicas of this service will behave during ther lifecycle.
 
 ____
 ### `AuxiliaryReplicaCount`

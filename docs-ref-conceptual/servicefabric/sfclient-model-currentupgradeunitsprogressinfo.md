@@ -1,6 +1,6 @@
 ---
-title: "CurrentUpgradeDomainProgressInfo"
-description: "CurrentUpgradeDomainProgressInfo"
+title: "CurrentUpgradeUnitsProgressInfo"
+description: "CurrentUpgradeUnitsProgressInfo"
 ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,9 +27,9 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# CurrentUpgradeDomainProgressInfo
+# CurrentUpgradeUnitsProgressInfo
 
-Information about the current in-progress upgrade domain. Not applicable to node-by-node upgrades.
+Information about the current in-progress upgrade units.
 
 ## Properties
 | Name | Type | Required |
@@ -42,7 +42,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The name of the upgrade domain
+The name of the upgrade domain. Not applicable to node-by-node upgrades.
 
 ____
 ### `NodeUpgradeProgressList`
