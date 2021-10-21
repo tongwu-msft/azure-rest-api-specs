@@ -8454,6 +8454,13 @@
 ### Operations
 #### [Overview](deviceupdate/resourcemanager/Operations.yml)
 #### [List](deviceupdate/resourcemanager/Operations/List.yml)
+### Private Endpoint Connection Proxies
+#### [Overview](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies.yml)
+#### [Create Or Update](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies/Create-Or-Update.yml)
+#### [Delete](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies/Delete.yml)
+#### [Get](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies/Get.yml)
+#### [List By Account](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies/List-By-Account.yml)
+#### [Validate](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies/Validate.yml)
 ### Private Endpoint Connections
 #### [Overview](deviceupdate/resourcemanager/Private-Endpoint-Connections.yml)
 #### [Create Or Update](deviceupdate/resourcemanager/Private-Endpoint-Connections/Create-Or-Update.yml)
