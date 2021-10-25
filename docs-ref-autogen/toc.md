@@ -3982,12 +3982,64 @@
 ### [Get](videoanalyzer/Edge-Modules/Get.yml)
 ### [List](videoanalyzer/Edge-Modules/List.yml)
 ### [List Provisioning Token](videoanalyzer/Edge-Modules/List-Provisioning-Token.yml)
+## Live Pipeline Operation Statuses
+### [Overview](videoanalyzer/Live-Pipeline-Operation-Statuses.yml)
+### [Get](videoanalyzer/Live-Pipeline-Operation-Statuses/Get.yml)
+## Live Pipelines
+### [Overview](videoanalyzer/Live-Pipelines.yml)
+### [Activate](videoanalyzer/Live-Pipelines/Activate.yml)
+### [Create Or Update](videoanalyzer/Live-Pipelines/Create-Or-Update.yml)
+### [Deactivate](videoanalyzer/Live-Pipelines/Deactivate.yml)
+### [Delete](videoanalyzer/Live-Pipelines/Delete.yml)
+### [Get](videoanalyzer/Live-Pipelines/Get.yml)
+### [List](videoanalyzer/Live-Pipelines/List.yml)
+### [Update](videoanalyzer/Live-Pipelines/Update.yml)
 ## Locations
 ### [Overview](videoanalyzer/Locations.yml)
 ### [Check Name Availability](videoanalyzer/Locations/Check-Name-Availability.yml)
+## Operation Results
+### [Overview](videoanalyzer/Operation-Results.yml)
+### [Get](videoanalyzer/Operation-Results/Get.yml)
+## Operation Statuses
+### [Overview](videoanalyzer/Operation-Statuses.yml)
+### [Get](videoanalyzer/Operation-Statuses/Get.yml)
 ## Operations
 ### [Overview](videoanalyzer/Operations.yml)
 ### [List](videoanalyzer/Operations/List.yml)
+## Pipeline Job Operation Statuses
+### [Overview](videoanalyzer/Pipeline-Job-Operation-Statuses.yml)
+### [Get](videoanalyzer/Pipeline-Job-Operation-Statuses/Get.yml)
+## Pipeline Jobs
+### [Overview](videoanalyzer/Pipeline-Jobs.yml)
+### [Cancel](videoanalyzer/Pipeline-Jobs/Cancel.yml)
+### [Create Or Update](videoanalyzer/Pipeline-Jobs/Create-Or-Update.yml)
+### [Delete](videoanalyzer/Pipeline-Jobs/Delete.yml)
+### [Get](videoanalyzer/Pipeline-Jobs/Get.yml)
+### [List](videoanalyzer/Pipeline-Jobs/List.yml)
+### [Update](videoanalyzer/Pipeline-Jobs/Update.yml)
+## Pipeline Topologies
+### [Overview](videoanalyzer/Pipeline-Topologies.yml)
+### [Create Or Update](videoanalyzer/Pipeline-Topologies/Create-Or-Update.yml)
+### [Delete](videoanalyzer/Pipeline-Topologies/Delete.yml)
+### [Get](videoanalyzer/Pipeline-Topologies/Get.yml)
+### [List](videoanalyzer/Pipeline-Topologies/List.yml)
+### [Update](videoanalyzer/Pipeline-Topologies/Update.yml)
+## Private Endpoint Connections
+### [Overview](videoanalyzer/Private-Endpoint-Connections.yml)
+### [Create Or Update](videoanalyzer/Private-Endpoint-Connections/Create-Or-Update.yml)
+### [Delete](videoanalyzer/Private-Endpoint-Connections/Delete.yml)
+### [Get](videoanalyzer/Private-Endpoint-Connections/Get.yml)
+### [List](videoanalyzer/Private-Endpoint-Connections/List.yml)
+## Private Link Resources
+### [Overview](videoanalyzer/Private-Link-Resources.yml)
+### [Get](videoanalyzer/Private-Link-Resources/Get.yml)
+### [List](videoanalyzer/Private-Link-Resources/List.yml)
+## Video Analyzer Operation Results
+### [Overview](videoanalyzer/Video-Analyzer-Operation-Results.yml)
+### [Get](videoanalyzer/Video-Analyzer-Operation-Results/Get.yml)
+## Video Analyzer Operation Statuses
+### [Overview](videoanalyzer/Video-Analyzer-Operation-Statuses.yml)
+### [Get](videoanalyzer/Video-Analyzer-Operation-Statuses/Get.yml)
 ## Video Analyzers
 ### [Overview](videoanalyzer/Video-Analyzers.yml)
 ### [Create Or Update](videoanalyzer/Video-Analyzers/Create-Or-Update.yml)
@@ -3995,7 +4047,6 @@
 ### [Get](videoanalyzer/Video-Analyzers/Get.yml)
 ### [List](videoanalyzer/Video-Analyzers/List.yml)
 ### [List By Subscription](videoanalyzer/Video-Analyzers/List-By-Subscription.yml)
-### [Sync Storage Keys](videoanalyzer/Video-Analyzers/Sync-Storage-Keys.yml)
 ### [Update](videoanalyzer/Video-Analyzers/Update.yml)
 ## Videos
 ### [Overview](videoanalyzer/Videos.yml)
@@ -4003,8 +4054,25 @@
 ### [Delete](videoanalyzer/Videos/Delete.yml)
 ### [Get](videoanalyzer/Videos/Get.yml)
 ### [List](videoanalyzer/Videos/List.yml)
-### [List Streaming Token](videoanalyzer/Videos/List-Streaming-Token.yml)
+### [List Content Token](videoanalyzer/Videos/List-Content-Token.yml)
 ### [Update](videoanalyzer/Videos/Update.yml)
+# Azure Video Analyzer for Media
+## [Overview](../docs-ref-conceptual/videoindexer/index.md)
+## Accounts
+### [Overview](videoindexer/Accounts.yml)
+### [Check Name Availability](videoindexer/Accounts/Check-Name-Availability.yml)
+### [Create Or Update](videoindexer/Accounts/Create-Or-Update.yml)
+### [Delete](videoindexer/Accounts/Delete.yml)
+### [Get](videoindexer/Accounts/Get.yml)
+### [List](videoindexer/Accounts/List.yml)
+### [List By Resource Group](videoindexer/Accounts/List-By-Resource-Group.yml)
+### [Update](videoindexer/Accounts/Update.yml)
+## Generate
+### [Overview](videoindexer/Generate.yml)
+### [Access Token](videoindexer/Generate/Access-Token.yml)
+## Operations
+### [Overview](videoindexer/Operations.yml)
+### [List](videoindexer/Operations/List.yml)
 # Azure Web PubSub Service
 ## [Overview](../docs-ref-conceptual/webpubsub/index.md)
 ## Health Api
@@ -4639,6 +4707,44 @@
 ## Validate Probe
 ### [Overview](cdn/Validate-Probe.yml)
 ### [Validate Probe](cdn/Validate-Probe/Validate-Probe.yml)
+# Chaos Studio
+## [Overview](../docs-ref-conceptual/chaosstudio/index.md)
+## Capabilities
+### [Overview](chaosstudio/Capabilities.yml)
+### [Create Or Update](chaosstudio/Capabilities/Create-Or-Update.yml)
+### [Delete](chaosstudio/Capabilities/Delete.yml)
+### [Get](chaosstudio/Capabilities/Get.yml)
+### [List](chaosstudio/Capabilities/List.yml)
+## Capability Types
+### [Overview](chaosstudio/Capability-Types.yml)
+### [Get](chaosstudio/Capability-Types/Get.yml)
+### [List](chaosstudio/Capability-Types/List.yml)
+## Experiments
+### [Overview](chaosstudio/Experiments.yml)
+### [Cancel](chaosstudio/Experiments/Cancel.yml)
+### [Create Or Update](chaosstudio/Experiments/Create-Or-Update.yml)
+### [Delete](chaosstudio/Experiments/Delete.yml)
+### [Get](chaosstudio/Experiments/Get.yml)
+### [Get Execution Details](chaosstudio/Experiments/Get-Execution-Details.yml)
+### [Get Status](chaosstudio/Experiments/Get-Status.yml)
+### [List](chaosstudio/Experiments/List.yml)
+### [List All](chaosstudio/Experiments/List-All.yml)
+### [List All Statuses](chaosstudio/Experiments/List-All-Statuses.yml)
+### [List Execution Details](chaosstudio/Experiments/List-Execution-Details.yml)
+### [Start](chaosstudio/Experiments/Start.yml)
+## Operations
+### [Overview](chaosstudio/Operations.yml)
+### [List All](chaosstudio/Operations/List-All.yml)
+## Target Types
+### [Overview](chaosstudio/Target-Types.yml)
+### [Get](chaosstudio/Target-Types/Get.yml)
+### [List](chaosstudio/Target-Types/List.yml)
+## Targets
+### [Overview](chaosstudio/Targets.yml)
+### [Create Or Update](chaosstudio/Targets/Create-Or-Update.yml)
+### [Delete](chaosstudio/Targets/Delete.yml)
+### [Get](chaosstudio/Targets/Get.yml)
+### [List](chaosstudio/Targets/List.yml)
 # Cognitive Services
 ## [Overview](../docs-ref-conceptual/cognitiveservices/index.md)
 ## Account Management
@@ -12016,6 +12122,102 @@
 ### [List All](network-gateway/Virtual-Network-Taps/List-All.yml)
 ### [List By Resource Group](network-gateway/Virtual-Network-Taps/List-By-Resource-Group.yml)
 ### [Update Tags](network-gateway/Virtual-Network-Taps/Update-Tags.yml)
+# Network Manager
+## [Overview](../docs-ref-conceptual/networkmanager/index.md)
+## Active Connectivity Configurations
+### [Overview](networkmanager/Active-Connectivity-Configurations.yml)
+### [List](networkmanager/Active-Connectivity-Configurations/List.yml)
+## Active Security Admin Rules
+### [Overview](networkmanager/Active-Security-Admin-Rules.yml)
+### [List](networkmanager/Active-Security-Admin-Rules/List.yml)
+## Active Security User Rules
+### [Overview](networkmanager/Active-Security-User-Rules.yml)
+### [List](networkmanager/Active-Security-User-Rules/List.yml)
+## Admin Rule Collections
+### [Overview](networkmanager/Admin-Rule-Collections.yml)
+### [Create Or Update](networkmanager/Admin-Rule-Collections/Create-Or-Update.yml)
+### [Delete](networkmanager/Admin-Rule-Collections/Delete.yml)
+### [Get](networkmanager/Admin-Rule-Collections/Get.yml)
+### [List](networkmanager/Admin-Rule-Collections/List.yml)
+## Admin Rules
+### [Overview](networkmanager/Admin-Rules.yml)
+### [Create Or Update](networkmanager/Admin-Rules/Create-Or-Update.yml)
+### [Delete](networkmanager/Admin-Rules/Delete.yml)
+### [Get](networkmanager/Admin-Rules/Get.yml)
+### [List](networkmanager/Admin-Rules/List.yml)
+## Connectivity Configurations
+### [Overview](networkmanager/Connectivity-Configurations.yml)
+### [Create Or Update](networkmanager/Connectivity-Configurations/Create-Or-Update.yml)
+### [Delete](networkmanager/Connectivity-Configurations/Delete.yml)
+### [Get](networkmanager/Connectivity-Configurations/Get.yml)
+### [List](networkmanager/Connectivity-Configurations/List.yml)
+## Effective Connectivity Configurations
+### [Overview](networkmanager/Effective-Connectivity-Configurations.yml)
+### [List](networkmanager/Effective-Connectivity-Configurations/List.yml)
+## Effective Virtual Networks
+### [Overview](networkmanager/Effective-Virtual-Networks.yml)
+### [List By Network Manager](networkmanager/Effective-Virtual-Networks/List-By-Network-Manager.yml)
+## Network Manager Commits
+### [Overview](networkmanager/Network-Manager-Commits.yml)
+### [Post](networkmanager/Network-Manager-Commits/Post.yml)
+## Network Manager Deployment Status
+### [Overview](networkmanager/Network-Manager-Deployment-Status.yml)
+### [List](networkmanager/Network-Manager-Deployment-Status/List.yml)
+## Network Manager Effective Security Admin Rules
+### [Overview](networkmanager/Network-Manager-Effective-Security-Admin-Rules.yml)
+### [List](networkmanager/Network-Manager-Effective-Security-Admin-Rules/List.yml)
+## Network Managers
+### [Overview](networkmanager/Network-Managers.yml)
+### [Create Or Update](networkmanager/Network-Managers/Create-Or-Update.yml)
+### [Delete](networkmanager/Network-Managers/Delete.yml)
+### [Get](networkmanager/Network-Managers/Get.yml)
+### [List](networkmanager/Network-Managers/List.yml)
+### [List By Subscription](networkmanager/Network-Managers/List-By-Subscription.yml)
+### [Patch Tags](networkmanager/Network-Managers/Patch-Tags.yml)
+## Network Security Perimeters
+### [Overview](networkmanager/Network-Security-Perimeters.yml)
+### [Create Or Update](networkmanager/Network-Security-Perimeters/Create-Or-Update.yml)
+### [Delete](networkmanager/Network-Security-Perimeters/Delete.yml)
+### [Get](networkmanager/Network-Security-Perimeters/Get.yml)
+### [List](networkmanager/Network-Security-Perimeters/List.yml)
+### [List By Subscription](networkmanager/Network-Security-Perimeters/List-By-Subscription.yml)
+## Perimeter Associable Resource Types
+### [Overview](networkmanager/Perimeter-Associable-Resource-Types.yml)
+### [Get](networkmanager/Perimeter-Associable-Resource-Types/Get.yml)
+## Security Admin Configurations
+### [Overview](networkmanager/Security-Admin-Configurations.yml)
+### [Create Or Update](networkmanager/Security-Admin-Configurations/Create-Or-Update.yml)
+### [Delete](networkmanager/Security-Admin-Configurations/Delete.yml)
+### [Get](networkmanager/Security-Admin-Configurations/Get.yml)
+### [List](networkmanager/Security-Admin-Configurations/List.yml)
+## Security User Configurations
+### [Overview](networkmanager/Security-User-Configurations.yml)
+### [Create Or Update](networkmanager/Security-User-Configurations/Create-Or-Update.yml)
+### [Delete](networkmanager/Security-User-Configurations/Delete.yml)
+### [Get](networkmanager/Security-User-Configurations/Get.yml)
+### [List](networkmanager/Security-User-Configurations/List.yml)
+## User Rule Collections
+### [Overview](networkmanager/User-Rule-Collections.yml)
+### [Create Or Update](networkmanager/User-Rule-Collections/Create-Or-Update.yml)
+### [Delete](networkmanager/User-Rule-Collections/Delete.yml)
+### [Get](networkmanager/User-Rule-Collections/Get.yml)
+### [List](networkmanager/User-Rule-Collections/List.yml)
+## User Rules
+### [Overview](networkmanager/User-Rules.yml)
+### [Create Or Update](networkmanager/User-Rules/Create-Or-Update.yml)
+### [Delete](networkmanager/User-Rules/Delete.yml)
+### [Get](networkmanager/User-Rules/Get.yml)
+### [List](networkmanager/User-Rules/List.yml)
+## Network Manager Group
+### Effective Virtual Networks
+#### [Overview](networkmanager/networkmanagergroup/Effective-Virtual-Networks.yml)
+#### [List By Network Group](networkmanager/networkmanagergroup/Effective-Virtual-Networks/List-By-Network-Group.yml)
+### Network Groups
+#### [Overview](networkmanager/networkmanagergroup/Network-Groups.yml)
+#### [Create Or Update](networkmanager/networkmanagergroup/Network-Groups/Create-Or-Update.yml)
+#### [Delete](networkmanager/networkmanagergroup/Network-Groups/Delete.yml)
+#### [Get](networkmanager/networkmanagergroup/Network-Groups/Get.yml)
+#### [List](networkmanager/networkmanagergroup/Network-Groups/List.yml)
 # Network Watcher
 ## [Overview](../docs-ref-conceptual/network-watcher/index.md)
 ## Connection Monitors
