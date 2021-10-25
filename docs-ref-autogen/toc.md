@@ -4056,6 +4056,23 @@
 ### [List](videoanalyzer/Videos/List.yml)
 ### [List Content Token](videoanalyzer/Videos/List-Content-Token.yml)
 ### [Update](videoanalyzer/Videos/Update.yml)
+# Azure Video Analyzer for Media
+## [Overview](../docs-ref-conceptual/videoindexer/index.md)
+## Accounts
+### [Overview](videoindexer/Accounts.yml)
+### [Check Name Availability](videoindexer/Accounts/Check-Name-Availability.yml)
+### [Create Or Update](videoindexer/Accounts/Create-Or-Update.yml)
+### [Delete](videoindexer/Accounts/Delete.yml)
+### [Get](videoindexer/Accounts/Get.yml)
+### [List](videoindexer/Accounts/List.yml)
+### [List By Resource Group](videoindexer/Accounts/List-By-Resource-Group.yml)
+### [Update](videoindexer/Accounts/Update.yml)
+## Generate
+### [Overview](videoindexer/Generate.yml)
+### [Access Token](videoindexer/Generate/Access-Token.yml)
+## Operations
+### [Overview](videoindexer/Operations.yml)
+### [List](videoindexer/Operations/List.yml)
 # Azure Web PubSub Service
 ## [Overview](../docs-ref-conceptual/webpubsub/index.md)
 ## Health Api
@@ -20692,23 +20709,6 @@
 ### [Create Or Update](trafficmanager/Traffic-Manager-User-Metrics-Keys/Create-Or-Update.yml)
 ### [Delete](trafficmanager/Traffic-Manager-User-Metrics-Keys/Delete.yml)
 ### [Get](trafficmanager/Traffic-Manager-User-Metrics-Keys/Get.yml)
-# Video Indexer
-## [Overview](../docs-ref-conceptual/videoindexer/index.md)
-## Accounts
-### [Overview](videoindexer/Accounts.yml)
-### [Check Name Availability](videoindexer/Accounts/Check-Name-Availability.yml)
-### [Create Or Update](videoindexer/Accounts/Create-Or-Update.yml)
-### [Delete](videoindexer/Accounts/Delete.yml)
-### [Get](videoindexer/Accounts/Get.yml)
-### [List](videoindexer/Accounts/List.yml)
-### [List By Resource Group](videoindexer/Accounts/List-By-Resource-Group.yml)
-### [Update](videoindexer/Accounts/Update.yml)
-## Generate
-### [Overview](videoindexer/Generate.yml)
-### [Access Token](videoindexer/Generate/Access-Token.yml)
-## Operations
-### [Overview](videoindexer/Operations.yml)
-### [List](videoindexer/Operations/List.yml)
 # Virtual Networks
 ## [Overview](../docs-ref-conceptual/virtual-network/index.md)
 ## Application Security Groups
