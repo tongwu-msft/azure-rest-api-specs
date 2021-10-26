@@ -1,0 +1,298 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.webpubsub.controlplane.webpubsubhubs.get
+name: Get
+service: Azure Web PubSub Service
+groupName: Web Pub Sub Hubs
+apiVersion: 2021-10-01
+summary: Get a hub setting.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/hubs/{hubName}?api-version=2021-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription Id which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the resource.
+  types:
+  - uid: string
+- name: hubName
+  in: path
+  isRequired: true
+  description: The hub name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The response describe the corresponding hub setting.
+  types:
+  - uid: WebPubSubHub
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: WebPubSubHub
+  description: A hub setting
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: properties
+    description: Properties of the hub setting.
+    types:
+    - uid: WebPubSubHubProperties
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource - e.g. "Microsoft.SignalRService/SignalR"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: WebPubSubHubProperties
+  description: Properties of a hub.
+  kind: object
+  properties:
+  - name: eventHandlers
+    description: Event handler of a hub.
+    types:
+    - uid: EventHandler
+      isArray: true
+  - name: anonymousConnectPolicy
+    description: 'The settings for configuring if anonymous connections are allowed for this hub: "allow" or "deny". Default to "deny".'
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: EventHandler
+  description: Properties of event handler.
+  kind: object
+  properties:
+  - name: urlTemplate
+    description: >-
+      Gets or sets the EventHandler URL template. You can use a predefined parameter {hub} and {event} inside the template, the value of the EventHandler URL is dynamically calculated when the client request comes in.
+
+      For example, UrlTemplate can be `http://example.com/api/{hub}/{event}`. The host part can't contains parameters.
+    types:
+    - uid: string
+  - name: userEventPattern
+    description: >-
+      Gets or sets the matching pattern for event names.
+
+      There are 3 kind of patterns supported:
+          1. "*", it to matches any event name
+          2. Combine multiple events with ",", for example "event1,event2", it matches event "event1" and "event2"
+          3. The single event name, for example, "event1", it matches "event1"
+    types:
+    - uid: string
+  - name: systemEvents
+    description: Gets ot sets the list of system events.
+    types:
+    - uid: string
+      isArray: true
+  - name: auth
+    description: Gets or sets the auth settings for an event handler. If not set, no auth is used.
+    types:
+    - uid: UpstreamAuthSettings
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: UpstreamAuthSettings
+  description: Upstream auth settings.
+  kind: object
+  properties:
+  - name: type
+    description: Gets or sets the type of auth. None or ManagedIdentity is supported now.
+    types:
+    - uid: UpstreamAuthType
+  - name: managedIdentity
+    description: Gets or sets the managed identity settings. It's required if the auth type is set to ManagedIdentity.
+    types:
+    - uid: ManagedIdentitySettings
+- name: UpstreamAuthType
+  description: Gets or sets the type of auth. None or ManagedIdentity is supported now.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+- name: ManagedIdentitySettings
+  description: Managed identity settings for upstream.
+  kind: object
+  properties:
+  - name: resource
+    description: >-
+      The Resource indicating the App ID URI of the target resource.
+
+      It also appears in the aud (audience) claim of the issued token.
+    types:
+    - uid: string
+examples:
+- name: WebPubSubHubs_Get
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/hubs/exampleHub?api-version=2021-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "eventHandlers": [
+            {
+              "urlTemplate": "http://host.com",
+              "userEventPattern": "*",
+              "systemEvents": [
+                "connect",
+                "connected"
+              ],
+              "auth": {
+                "type": "ManagedIdentity",
+                "managedIdentity": {
+                  "resource": "abc"
+                }
+              }
+            }
+          ]
+        },
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/hubs/exampleHub",
+        "name": "exampleHub",
+        "type": "Microsoft.SignalRService/WebPubSub/hubs"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Azure Web PubSub Service service - Get a hub setting.
+errorCodes: []
