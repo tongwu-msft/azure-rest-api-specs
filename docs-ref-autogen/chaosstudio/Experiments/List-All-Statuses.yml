@@ -1,0 +1,189 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.chaosstudio.experiments.listallstatuses
+name: List All Statuses
+service: Chaos Studio
+groupName: Experiments
+apiVersion: 2021-09-15-preview
+summary: Get a list of statuses of a Experiment resource.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/statuses?api-version=2021-09-15-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: GUID that represents an Azure subscription ID.
+  types:
+  - uid: string
+  pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: String that represents an Azure resource group.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_\-\.\(\)]*[a-zA-Z0-9_\-\(\)]$
+- name: experimentName
+  in: path
+  isRequired: true
+  description: String that represents a Experiment resource name.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_\-\.]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: String that sets the API version.
+  types:
+  - uid: string
+  pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}(|-preview)$
+responses:
+- name: 200 OK
+  description: List of statuses returned if request was successful.
+  types:
+  - uid: experimentStatusListResult
+- name: Other Status Codes
+  description: Error response returned if request was unsuccessful.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: experimentStatusListResult
+  description: Model that represents a list of Experiment statuses and a link for pagination.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of Experiment statuses.
+    types:
+    - uid: experimentStatus
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URL to retrieve the next page of Experiment statuses.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: experimentStatus
+  description: Model that represents the status of a Experiment.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: String of the resource type.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: String of the fully qualified resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: String of the resource name.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: String that represents the status of a Experiment.
+    types:
+    - uid: string
+  - name: properties.createdDateUtc
+    isReadyOnly: true
+    description: String that represents the created date time of a Experiment.
+    types:
+    - uid: string
+  - name: properties.endDateUtc
+    isReadyOnly: true
+    description: String that represents the end date time of a Experiment.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: List all statuses of a Experiment.
+  request:
+    uri: GET https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment/statuses?api-version=2021-09-15-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment/statuses/50734542-2e64-4e08-814c-cc0e7475f7e4",
+            "type": "Microsoft.Chaos/experiments/statuses",
+            "name": "50734542-2e64-4e08-814c-cc0e7475f7e4",
+            "properties": {
+              "status": "Successful",
+              "createdDateUtc": "2021-07-01T00:00:00.0Z",
+              "endDateUtc": "2021-07-01T01:00:00.0Z"
+            }
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment/statuses?continuationToken=&api-version=2021-09-15-preview"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+metadata:
+  description: Learn more about Chaos Studio service - Get a list of statuses of a Experiment resource.
+errorCodes: []

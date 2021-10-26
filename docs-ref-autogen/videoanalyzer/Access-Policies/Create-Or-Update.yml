@@ -3,14 +3,14 @@ uid: management.azure.com.videoanalyzer.accesspolicies.createorupdate
 name: Create Or Update
 service: Azure Video Analyzer
 groupName: Access Policies
-apiVersion: 2021-05-01-preview
-summary: "Creates or updates an access policy.  \nCreates a new access policy resource or updates an existing one."
+apiVersion: 2021-11-01-preview
+summary: Creates a new access policy resource or updates an existing one with the given name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/accessPolicies/{accessPolicyName}?api-version=2021-05-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/accessPolicies/{accessPolicyName}?api-version=2021-11-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,7 +33,7 @@ uriParameters:
 - name: accessPolicyName
   in: path
   isRequired: true
-  description: The name of the access policy to create or update.
+  description: The Access Policy name.
   types:
   - uid: string
 - name: api-version
@@ -100,14 +100,9 @@ definitions:
     types:
     - uid: string
 - name: AccessPolicyEntity
-  description: Policy that determines how a video can be accessed.
+  description: Access policies help define the authentication rules, and control access to specific video resources.
   kind: object
   properties:
-  - name: systemData
-    isReadyOnly: true
-    description: The system metadata relating to this resource.
-    types:
-    - uid: systemData
   - name: properties.role
     description: Defines the access level granted by this policy.
     types:
@@ -132,6 +127,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -140,22 +140,6 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: createdByType
-  description: The type of identity that created the resource.
-  kind: enum
-  properties:
-  - name: User
-    types:
-    - uid: string
-  - name: Application
-    types:
-    - uid: string
-  - name: ManagedIdentity
-    types:
-    - uid: string
-  - name: Key
-    types:
-    - uid: string
 - name: JwtAuthentication
   description: Properties for access validation based on JSON Web Tokens (JWT).
   kind: object
@@ -188,6 +172,22 @@ definitions:
     types:
     - uid: '#Microsoft.VideoAnalyzer.JwtAuthentication'
     typesTitle: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: AccessPolicyRole
   description: Defines the access level granted by this policy.
   kind: enum
@@ -338,11 +338,10 @@ definitions:
 examples:
 - name: Register access policy entity.
   request:
-    uri: PUT https://management.azure.com/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/accessPolicies/accessPolicyName1?api-version=2021-05-01-preview
+    uri: PUT https://management.azure.com/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/accessPolicies/accessPolicyName1?api-version=2021-11-01-preview
     body: >-
       {
         "properties": {
-          "role": "Reader",
           "authentication": {
             "@type": "#Microsoft.VideoAnalyzer.JwtAuthentication",
             "issuers": [
@@ -382,6 +381,60 @@ examples:
         }
       }
   responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "accessPolicyName2",
+        "id": "/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/accesspolicies/accessPolicyName2",
+        "type": "Microsoft.Media/videoAnalyzers/accesspolicies",
+        "properties": {
+          "role": "Reader",
+          "authentication": {
+            "@type": "#Microsoft.VideoAnalyzer.JwtAuthentication",
+            "issuers": [
+              "issuer1",
+              "issuer2"
+            ],
+            "audiences": [
+              "audience1"
+            ],
+            "claims": [
+              {
+                "name": "claimname1",
+                "value": "claimvalue1"
+              },
+              {
+                "name": "claimname2",
+                "value": "claimvalue2"
+              }
+            ],
+            "keys": [
+              {
+                "@type": "#Microsoft.VideoAnalyzer.RsaTokenKey",
+                "kid": "123",
+                "alg": "RS256",
+                "n": "YmFzZTY0IQ==",
+                "e": "ZLFzZTY0IQ=="
+              },
+              {
+                "@type": "#Microsoft.VideoAnalyzer.EccTokenKey",
+                "kid": "124",
+                "alg": "ES256",
+                "x": "XX==",
+                "y": "YY=="
+              }
+            ]
+          }
+        },
+        "systemData": {
+          "createdBy": "user@microsoft.com",
+          "createdByType": "User",
+          "createdAt": "0001-01-01T00:00:00Z",
+          "lastModifiedBy": "user@microsoft.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "0001-01-01T00:00:00Z"
+        }
+      }
   - statusCode: "200"
     body: >-
       {
@@ -397,54 +450,7 @@ examples:
               "issuer2"
             ],
             "audiences": [
-              "audience"
-            ],
-            "claims": [
-              {
-                "name": "claimname1",
-                "value": "claimvalue1"
-              },
-              {
-                "name": "claimname2",
-                "value": "claimvalue2"
-              }
-            ],
-            "keys": [
-              {
-                "@type": "#Microsoft.VideoAnalyzer.RsaTokenKey",
-                "alg": "RS256",
-                "kid": "123",
-                "n": "YmFzZTY0IQ==",
-                "e": "ZLFzZTY0IQ=="
-              },
-              {
-                "@type": "#Microsoft.VideoAnalyzer.EccTokenKey",
-                "alg": "ES256",
-                "kid": "124",
-                "x": "XX==",
-                "y": "YY=="
-              }
-            ]
-          }
-        },
-        "systemData": {}
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "name": "accessPolicyName1",
-        "id": "/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/accesspolicies/accessPolicyName1",
-        "type": "Microsoft.Media/videoAnalyzers/accesspolicies",
-        "properties": {
-          "role": "Reader",
-          "authentication": {
-            "@type": "#Microsoft.VideoAnalyzer.JwtAuthentication",
-            "issuers": [
-              "issuer1",
-              "issuer2"
-            ],
-            "audiences": [
-              "audience"
+              "audience1"
             ],
             "claims": [
               {
@@ -474,9 +480,16 @@ examples:
             ]
           }
         },
-        "systemData": {}
+        "systemData": {
+          "createdBy": "user@microsoft.com",
+          "createdByType": "User",
+          "createdAt": "0001-01-01T00:00:00Z",
+          "lastModifiedBy": "user@microsoft.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "0001-01-01T00:00:00Z"
+        }
       }
 security: []
 metadata:
-  description: "Creates or updates an access policy.  \nCreates a new access policy resource or updates an existing one."
+  description: Learn more about Azure Video Analyzer service - Creates a new access policy resource or updates an existing one with the given name.
 errorCodes: []
