@@ -1,0 +1,789 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.videoanalyzer.pipelinetopologies.get
+name: Get
+service: Azure Video Analyzer
+groupName: Pipeline Topologies
+apiVersion: 2021-11-01-preview
+summary: Retrieves a specific pipeline topology by name. If a topology with that name has been previously created, the call will return the JSON representation of that topology.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/pipelineTopologies/{pipelineTopologyName}?api-version=2021-11-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Video Analyzer account name.
+  types:
+  - uid: string
+- name: pipelineTopologyName
+  in: path
+  isRequired: true
+  description: Pipeline topology unique identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Pipeline topology was retrieved successfully.
+  types:
+  - uid: PipelineTopology
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PipelineTopology
+  description: >-
+    Pipeline topology describes the processing steps to be applied when processing content for a particular outcome. The topology should be defined according to the scenario to be achieved and can be reused across many pipeline instances which share the same processing characteristics. For instance, a pipeline topology which captures content from a RTSP camera and archives the content can be reused across many different cameras, as long as the same processing is to be applied across all the cameras. Individual instance properties can be defined through the use of user-defined parameters, which allow for a topology to be parameterized. This allows  individual pipelines refer to different values, such as individual cameras' RTSP endpoints and credentials. Overall a topology is composed of the following:
+
+
+
+      - Parameters: list of user defined parameters that can be references across the topology nodes.
+
+      - Sources: list of one or more data sources nodes such as an RTSP source which allows for content to be ingested from cameras.
+
+      - Processors: list of nodes which perform data analysis or transformations.
+
+      - Sinks: list of one or more data sinks which allow for data to be stored or exported to other destinations.
+  kind: object
+  properties:
+  - name: kind
+    description: Topology kind.
+    types:
+    - uid: Kind
+  - name: sku
+    description: Describes the properties of a SKU.
+    types:
+    - uid: Sku
+  - name: properties.description
+    description: An optional description of the pipeline topology. It is recommended that the expected use of the topology to be described here.
+    types:
+    - uid: string
+  - name: properties.parameters
+    description: List of the topology parameter declarations. Parameters declared here can be referenced throughout the topology nodes through the use of "${PARAMETER_NAME}" string pattern. Parameters can have optional default values and can later be defined in individual instances of the pipeline.
+    types:
+    - uid: ParameterDeclaration
+      isArray: true
+  - name: properties.sources
+    description: List of the topology source nodes. Source nodes enable external data to be ingested by the pipeline.
+    types:
+    - uid: RtspSource
+      isArray: true
+    - uid: VideoSource
+      isArray: true
+    typesTitle: SourceNodeBase[]
+  - name: properties.processors
+    description: List of the topology processor nodes. Processor nodes enable pipeline data to be analyzed, processed or transformed.
+    types:
+    - uid: EncoderProcessor
+      isArray: true
+    typesTitle: ProcessorNodeBase[]
+  - name: properties.sinks
+    description: List of the topology sink nodes. Sink nodes allow pipeline data to be stored or exported.
+    types:
+    - uid: VideoSink
+      isArray: true
+    typesTitle: SinkNodeBase[]
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: Kind
+  description: Topology kind.
+  kind: enum
+  properties:
+  - name: Live
+    description: Live pipeline topology resource.
+    types:
+    - uid: string
+  - name: Batch
+    description: Batch pipeline topology resource.
+    types:
+    - uid: string
+- name: Sku
+  description: The SKU details.
+  kind: object
+  properties:
+  - name: name
+    description: The SKU name.
+    types:
+    - uid: SkuName
+  - name: tier
+    isReadyOnly: true
+    description: The SKU tier.
+    types:
+    - uid: SkuTier
+- name: ParameterDeclaration
+  description: Single topology parameter declaration. Declared parameters can and must be referenced throughout the topology and can optionally have default values to be used when they are not defined in the pipelines.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the parameter.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the parameter.
+    types:
+    - uid: ParameterType
+  - name: description
+    description: Description of the parameter.
+    types:
+    - uid: string
+  - name: default
+    description: The default value for the parameter to be used if the pipeline does not specify a value.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: SkuName
+  description: The SKU name.
+  kind: enum
+  properties:
+  - name: Live_S1
+    description: Represents the Live S1 SKU name. Using this SKU you can create live pipelines to capture, record, and stream live video from RTSP-capable cameras at bitrate settings from 0.5 Kbps to 3000 Kbps.
+    types:
+    - uid: string
+  - name: Batch_S1
+    description: Represents the Batch S1 SKU name. Using this SKU you can create pipeline jobs to process recorded content.
+    types:
+    - uid: string
+- name: SkuTier
+  description: The SKU tier.
+  kind: enum
+  properties:
+  - name: Standard
+    description: Standard tier.
+    types:
+    - uid: string
+- name: ParameterType
+  description: Type of the parameter.
+  kind: enum
+  properties:
+  - name: String
+    description: The parameter's value is a string.
+    types:
+    - uid: string
+  - name: SecretString
+    description: The parameter's value is a string that holds sensitive information.
+    types:
+    - uid: string
+  - name: Int
+    description: The parameter's value is a 32-bit signed integer.
+    types:
+    - uid: string
+  - name: Double
+    description: The parameter's value is a 64-bit double-precision floating point.
+    types:
+    - uid: string
+  - name: Bool
+    description: The parameter's value is a boolean value that is either true or false.
+    types:
+    - uid: string
+- name: RtspSource
+  description: RTSP source allows for media from an RTSP camera or generic RTSP server to be ingested into a pipeline.
+  kind: object
+  properties:
+  - name: transport
+    description: 'Network transport utilized by the RTSP and RTP exchange: TCP or HTTP. When using TCP, the RTP packets are interleaved on the TCP RTSP connection. When using HTTP, the RTSP messages are exchanged through long lived HTTP connections, and the RTP packages are interleaved in the HTTP connections alongside the RTSP messages.'
+    types:
+    - uid: RtspTransport
+  - name: endpoint
+    description: RTSP endpoint information for Video Analyzer to connect to. This contains the required information for Video Analyzer to connect to RTSP cameras and/or generic RTSP servers.
+    types:
+    - uid: UnsecuredEndpoint
+    - uid: TlsEndpoint
+    typesTitle: EndpointBase
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.RtspSource'
+    typesTitle: string
+  - name: name
+    description: Node name. Must be unique within the topology.
+    types:
+    - uid: string
+- name: VideoSource
+  description: Video source allows for content from a Video Analyzer video resource to be ingested into a pipeline. Currently supported only with batch pipelines.
+  kind: object
+  properties:
+  - name: videoName
+    description: Name of the Video Analyzer video resource to be used as the source.
+    types:
+    - uid: string
+  - name: timeSequences
+    description: Describes a sequence of datetime ranges. The video source only picks up recorded media within these ranges.
+    types:
+    - uid: VideoSequenceAbsoluteTimeMarkers
+    typesTitle: TimeSequenceBase
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.VideoSource'
+    typesTitle: string
+  - name: name
+    description: Node name. Must be unique within the topology.
+    types:
+    - uid: string
+- name: EncoderProcessor
+  description: Encoder processor allows for encoding of the input content. For example, it can used to change the resolution from 4K to 1280x720.
+  kind: object
+  properties:
+  - name: preset
+    description: The encoder preset, which defines the recipe or instructions on how the input content should be processed.
+    types:
+    - uid: EncoderSystemPreset
+    - uid: EncoderCustomPreset
+    typesTitle: EncoderPresetBase
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.EncoderProcessor'
+    typesTitle: string
+  - name: inputs
+    description: An array of upstream node references within the topology to be used as inputs for this node.
+    types:
+    - uid: NodeInput
+      isArray: true
+  - name: name
+    description: Node name. Must be unique within the topology.
+    types:
+    - uid: string
+- name: VideoSink
+  description: Video sink in a live topology allows for video and audio to be captured, optionally archived, and published via a video resource. If archiving is enabled, this results in a video of type 'archive'. If used in a batch topology, this allows for video and audio to be stored as a file, and published via a video resource of type 'file'
+  kind: object
+  properties:
+  - name: videoName
+    description: 'Name of a new or existing video resource used to capture and publish content. Note: if downstream of RTSP source, and if disableArchive is set to true, then no content is archived.'
+    types:
+    - uid: string
+  - name: videoCreationProperties
+    description: Optional video properties to be used in case a new video resource needs to be created on the service.
+    types:
+    - uid: VideoCreationProperties
+  - name: videoPublishingOptions
+    description: Options to change how the video sink publishes content via the video resource. This property is only allowed for topologies where "kind" is set to "live".
+    types:
+    - uid: VideoPublishingOptions
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.VideoSink'
+    typesTitle: string
+  - name: inputs
+    description: An array of upstream node references within the topology to be used as inputs for this node.
+    types:
+    - uid: NodeInput
+      isArray: true
+  - name: name
+    description: Node name. Must be unique within the topology.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: RtspTransport
+  description: 'Network transport utilized by the RTSP and RTP exchange: TCP or HTTP. When using TCP, the RTP packets are interleaved on the TCP RTSP connection. When using HTTP, the RTSP messages are exchanged through long lived HTTP connections, and the RTP packages are interleaved in the HTTP connections alongside the RTSP messages.'
+  kind: enum
+  properties:
+  - name: Http
+    description: HTTP transport. RTSP messages are exchanged over long running HTTP requests and RTP packets are interleaved within the HTTP channel.
+    types:
+    - uid: string
+  - name: Tcp
+    description: TCP transport. RTSP is used directly over TCP and RTP packets are interleaved within the TCP channel.
+    types:
+    - uid: string
+- name: NodeInput
+  description: Describes an input signal to be used on a pipeline node.
+  kind: object
+  properties:
+  - name: nodeName
+    description: The name of the upstream node in the pipeline which output is used as input of the current node.
+    types:
+    - uid: string
+- name: VideoCreationProperties
+  description: Optional properties to be used in case a new video resource needs to be created on the service. These will not take effect if the video already exists.
+  kind: object
+  properties:
+  - name: title
+    description: Optional title provided by the user. Value can be up to 256 characters long.
+    types:
+    - uid: string
+  - name: description
+    description: Optional description provided by the user. Value can be up to 2048 characters long.
+    types:
+    - uid: string
+  - name: segmentLength
+    description: Segment length indicates the length of individual content files (segments) which are persisted to storage. Smaller segments provide lower archive playback latency but generate larger volume of storage transactions. Larger segments reduce the amount of storage transactions while increasing the archive playback latency. Value must be specified in ISO8601 duration format (i.e. "PT30S" equals 30 seconds) and can vary between 30 seconds to 5 minutes, in 30 seconds increments. Changing this value after the initial call to create the video resource can lead to errors when uploading content to the archive. Default value is 30 seconds. This property is only allowed for topologies where "kind" is set to "live".
+    types:
+    - uid: string
+  - name: retentionPeriod
+    description: Video retention period indicates how long the video is kept in storage. Value must be specified in ISO8601 duration format (i.e. "P1D" equals 1 day) and can vary between 1 day to 10 years, in 1 day increments. When absent (null), all video content is retained indefinitely. This property is only allowed for topologies where "kind" is set to "live".
+    types:
+    - uid: string
+- name: VideoPublishingOptions
+  description: Optional flags used to change how video is published. These are only allowed for topologies where "kind" is set to "live".
+  kind: object
+  properties:
+  - name: disableArchive
+    description: When set to 'true' content will not be archived or recorded. This is used, for example, when the topology is used only for low latency video streaming. Default is 'false'.  If set to 'true', then "disableRtspPublishing" must be set to 'false'.
+    types:
+    - uid: string
+  - name: disableRtspPublishing
+    description: When set to 'true' the RTSP playback URL will not be published, disabling low latency streaming. This is used, for example, when the topology is used only for archiving content. Default is 'false'.  If set to 'true', then "disableArchive" must be set to 'false'.
+    types:
+    - uid: string
+- name: UnsecuredEndpoint
+  description: Unsecured endpoint describes an endpoint that the pipeline can connect to over clear transport (no encryption in transit).
+  kind: object
+  properties:
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.UnsecuredEndpoint'
+    typesTitle: string
+  - name: credentials
+    description: Credentials to be presented to the endpoint.
+    types:
+    - uid: UsernamePasswordCredentials
+    typesTitle: CredentialsBase
+  - name: url
+    description: The endpoint URL for Video Analyzer to connect to.
+    types:
+    - uid: string
+  - name: tunnel
+    description: Describes the tunnel through which Video Analyzer can connect to the endpoint URL. This is an optional property, typically used when the endpoint is behind a firewall.
+    types:
+    - uid: SecureIotDeviceRemoteTunnel
+    typesTitle: TunnelBase
+- name: TlsEndpoint
+  description: TLS endpoint describes an endpoint that the pipeline can connect to over TLS transport (data is encrypted in transit).
+  kind: object
+  properties:
+  - name: trustedCertificates
+    description: List of trusted certificate authorities when authenticating a TLS connection. A null list designates that Azure Video Analyzer's list of trusted authorities should be used.
+    types:
+    - uid: PemCertificateList
+    typesTitle: CertificateSource
+  - name: validationOptions
+    description: Validation options to use when authenticating a TLS connection. By default, strict validation is used.
+    types:
+    - uid: TlsValidationOptions
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.TlsEndpoint'
+    typesTitle: string
+  - name: credentials
+    description: Credentials to be presented to the endpoint.
+    types:
+    - uid: UsernamePasswordCredentials
+    typesTitle: CredentialsBase
+  - name: url
+    description: The endpoint URL for Video Analyzer to connect to.
+    types:
+    - uid: string
+  - name: tunnel
+    description: Describes the tunnel through which Video Analyzer can connect to the endpoint URL. This is an optional property, typically used when the endpoint is behind a firewall.
+    types:
+    - uid: SecureIotDeviceRemoteTunnel
+    typesTitle: TunnelBase
+- name: VideoSequenceAbsoluteTimeMarkers
+  description: A sequence of absolute datetime ranges as a string. The datetime values should follow IS08601, and the sum of the ranges should add up to 24 hours or less. Currently, there can be only one range specified in the sequence.
+  kind: object
+  properties:
+  - name: ranges
+    description: "The sequence of datetime ranges. Example: '[[\"2021-10-05T03:30:00Z\", \"2021-10-05T03:40:00Z\"]]'."
+    types:
+    - uid: string
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.VideoSequenceAbsoluteTimeMarkers'
+    typesTitle: string
+- name: EncoderSystemPreset
+  description: Describes a built-in preset for encoding the input content using the encoder processor.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the built-in encoding preset.
+    types:
+    - uid: EncoderSystemPresetType
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.EncoderSystemPreset'
+    typesTitle: string
+- name: EncoderCustomPreset
+  description: Describes a custom preset for encoding the input content using the encoder processor.
+  kind: object
+  properties:
+  - name: audioEncoder
+    description: Describes a custom preset for encoding audio.
+    types:
+    - uid: AudioEncoderAac
+    typesTitle: AudioEncoderBase
+  - name: videoEncoder
+    description: Describes a custom preset for encoding video.
+    types:
+    - uid: VideoEncoderH264
+    typesTitle: VideoEncoderBase
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.EncoderCustomPreset'
+    typesTitle: string
+- name: TlsValidationOptions
+  description: Options for controlling the validation of TLS endpoints.
+  kind: object
+  properties:
+  - name: ignoreHostname
+    description: When set to 'true' causes the certificate subject name validation to be skipped. Default is 'false'.
+    types:
+    - uid: string
+  - name: ignoreSignature
+    description: When set to 'true' causes the certificate chain trust validation to be skipped. Default is 'false'.
+    types:
+    - uid: string
+- name: EncoderSystemPresetType
+  description: Name of the built-in encoding preset.
+  kind: enum
+  properties:
+  - name: SingleLayer_540p_H264_AAC
+    description: Produces an MP4 file where the video is encoded with H.264 codec at a picture height of 540 pixels, and at a maximum bitrate of 2000 Kbps. Encoded video has the same average frame rate as the input. The aspect ratio of the input is preserved. If the input content has audio, then it is encoded with AAC-LC codec at 96 Kbps
+    types:
+    - uid: string
+  - name: SingleLayer_720p_H264_AAC
+    description: Produces an MP4 file where the video is encoded with H.264 codec at a picture height of 720 pixels, and at a maximum bitrate of 3500 Kbps. Encoded video has the same average frame rate as the input. The aspect ratio of the input is preserved. If the input content has audio, then it is encoded with AAC-LC codec at 96 Kbps
+    types:
+    - uid: string
+  - name: SingleLayer_1080p_H264_AAC
+    description: Produces an MP4 file where the video is encoded with H.264 codec at a picture height of 1080 pixels, and at a maximum bitrate of 6000 Kbps. Encoded video has the same average frame rate as the input. The aspect ratio of the input is preserved. If the input content has audio, then it is encoded with AAC-LC codec at 128 Kbps
+    types:
+    - uid: string
+  - name: SingleLayer_2160p_H264_AAC
+    description: Produces an MP4 file where the video is encoded with H.264 codec at a picture height of 2160 pixels, and at a maximum bitrate of 16000 Kbps. Encoded video has the same average frame rate as the input. The aspect ratio of the input is preserved. If the input content has audio, then it is encoded with AAC-LC codec at 128 Kbps
+    types:
+    - uid: string
+- name: UsernamePasswordCredentials
+  description: Username and password credentials.
+  kind: object
+  properties:
+  - name: username
+    description: Username to be presented as part of the credentials.
+    types:
+    - uid: string
+  - name: password
+    description: Password to be presented as part of the credentials. It is recommended that this value is parameterized as a secret string in order to prevent this value to be returned as part of the resource on API requests.
+    types:
+    - uid: string
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.UsernamePasswordCredentials'
+    typesTitle: string
+- name: SecureIotDeviceRemoteTunnel
+  description: A remote tunnel securely established using IoT Hub device information.
+  kind: object
+  properties:
+  - name: iotHubName
+    description: Name of the IoT Hub.
+    types:
+    - uid: string
+  - name: deviceId
+    description: The IoT device id to use when establishing the remote tunnel. This string is case-sensitive.
+    types:
+    - uid: string
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.SecureIotDeviceRemoteTunnel'
+    typesTitle: string
+- name: PemCertificateList
+  description: A list of PEM formatted certificates.
+  kind: object
+  properties:
+  - name: certificates
+    description: PEM formatted public certificates. One certificate per entry.
+    types:
+    - uid: string
+      isArray: true
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.PemCertificateList'
+    typesTitle: string
+- name: AudioEncoderAac
+  description: A custom preset for encoding audio with the AAC codec.
+  kind: object
+  properties:
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.AudioEncoderAac'
+    typesTitle: string
+  - name: bitrateKbps
+    description: Bitrate, in kilobits per second or Kbps, at which audio should be encoded (2-channel stereo audio at a sampling rate of 48 kHz). Allowed values are 96, 112, 128, 160, 192, 224, and 256. If omitted, the bitrate of the input audio is used.
+    types:
+    - uid: string
+- name: VideoEncoderH264
+  description: A custom preset for encoding video with the H.264 (AVC) codec.
+  kind: object
+  properties:
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.VideoEncoderH264'
+    typesTitle: string
+  - name: bitrateKbps
+    description: The maximum bitrate, in kilobits per second or Kbps, at which video should be encoded. If omitted, encoder sets it automatically to try and match the quality of the input video.
+    types:
+    - uid: string
+  - name: frameRate
+    description: The frame rate (in frames per second) of the encoded video. The value must be greater than zero, and less than or equal to 300. If omitted, the encoder uses the average frame rate of the input video.
+    types:
+    - uid: string
+  - name: scale
+    description: Describes the resolution of the encoded video. If omitted, the encoder uses the resolution of the input video.
+    types:
+    - uid: VideoScale
+- name: VideoScale
+  description: The video scaling information.
+  kind: object
+  properties:
+  - name: height
+    description: The desired output video height.
+    types:
+    - uid: string
+  - name: width
+    description: The desired output video width.
+    types:
+    - uid: string
+  - name: mode
+    description: Describes the video scaling mode to be applied. Default mode is 'Pad'. If the mode is 'Pad' or 'Stretch' then both width and height must be specified. Else if the mode is 'PreserveAspectRatio' then only one of width or height need be provided.
+    types:
+    - uid: VideoScaleMode
+- name: VideoScaleMode
+  description: Describes the video scaling mode to be applied. Default mode is 'Pad'. If the mode is 'Pad' or 'Stretch' then both width and height must be specified. Else if the mode is 'PreserveAspectRatio' then only one of width or height need be provided.
+  kind: enum
+  properties:
+  - name: Pad
+    description: Pads the video with black horizontal stripes (letterbox) or black vertical stripes (pillar-box) so the video is resized to the specified dimensions while not altering the content aspect ratio.
+    types:
+    - uid: string
+  - name: PreserveAspectRatio
+    description: Preserves the same aspect ratio as the input video. If only one video dimension is provided, the second dimension is calculated based on the input video aspect ratio. When 2 dimensions are provided, the video is resized to fit the most constraining dimension, considering the input video size and aspect ratio.
+    types:
+    - uid: string
+  - name: Stretch
+    description: Stretches the original video so it resized to the specified dimensions.
+    types:
+    - uid: string
+examples:
+- name: Get a pipeline topology by name
+  request:
+    uri: GET https://management.azure.com/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/pipelineTopologies/pipelineTopology1?api-version=2021-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "pipelineTopology1",
+        "id": "/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/pipelineTopologies/pipelineTopology1",
+        "type": "Microsoft.Media/videoAnalyzers/pipelineTopologies",
+        "kind": "Live",
+        "properties": {
+          "description": "Pipeline Topology 1 Description",
+          "parameters": [
+            {
+              "name": "rtspUrlParameter",
+              "type": "String",
+              "description": "rtspUrlParameter declaration",
+              "default": "rtsp://microsoft.com/video.mp4"
+            },
+            {
+              "name": "rtspPasswordParameter",
+              "type": "SecretString",
+              "description": "rtspPasswordParameter declaration",
+              "default": "password"
+            }
+          ],
+          "sources": [
+            {
+              "@type": "#Microsoft.VideoAnalyzer.RtspSource",
+              "name": "rtspSource",
+              "transport": "Http",
+              "endpoint": {
+                "url": "${rtspUrlParameter}",
+                "credentials": {
+                  "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials",
+                  "username": "username",
+                  "password": "${rtspPasswordParameter}"
+                }
+              }
+            }
+          ],
+          "processors": [],
+          "sinks": [
+            {
+              "@type": "#Microsoft.VideoAnalyzer.VideoSink",
+              "name": "videoSink",
+              "videoName": "camera001",
+              "inputs": [
+                {
+                  "nodeName": "rtspSource"
+                }
+              ],
+              "videoCreationProperties": {
+                "title": "Parking Lot (Camera 1)",
+                "description": "Parking lot south entrance",
+                "segmentLength": "PT30S"
+              }
+            }
+          ]
+        },
+        "systemData": {
+          "createdBy": "user@microsoft.com",
+          "createdByType": "User",
+          "createdAt": "0001-01-01T00:00:00Z",
+          "lastModifiedBy": "user@microsoft.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "0001-01-01T00:00:00Z"
+        },
+        "sku": {
+          "name": "Live_S1",
+          "tier": "Standard"
+        }
+      }
+security: []
+metadata:
+  description: Retrieves a specific pipeline topology by name. If a topology with that name has been previously created, the call will return the JSON representation of that topology.
+errorCodes: []

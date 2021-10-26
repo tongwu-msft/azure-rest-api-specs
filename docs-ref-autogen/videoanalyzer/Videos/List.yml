@@ -3,15 +3,15 @@ uid: management.azure.com.videoanalyzer.videos.list
 name: List
 service: Azure Video Analyzer
 groupName: Videos
-apiVersion: 2021-05-01-preview
-summary: List all existing video resources in the specified account.
+apiVersion: 2021-11-01-preview
+summary: "Retrieves all existing video resources.  \nRetrieves a list of video resources that have been created, along with their JSON representations."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/videos?api-version=2021-05-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/videos?api-version=2021-05-01-preview&$top={$top}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/videos?api-version=2021-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/videos?api-version=2021-11-01-preview&$top={$top}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -77,14 +77,9 @@ definitions:
     types:
     - uid: ErrorDetail
 - name: VideoEntity
-  description: The representation of a single video in a Video Analyzer account.
+  description: Represents a video resource within Azure Video Analyzer. Videos can be ingested from RTSP cameras through live pipelines or can be created by exporting sequences from existing captured video through a pipeline job. Videos ingested through live pipelines can be streamed through Azure Video Analyzer Player Widget or compatible players. Exported videos can be downloaded as MP4 files.
   kind: object
   properties:
-  - name: systemData
-    isReadyOnly: true
-    description: The system metadata relating to this resource.
-    types:
-    - uid: systemData
   - name: properties.title
     description: Optional video title provided by the user. Value can be up to 256 characters long.
     types:
@@ -95,7 +90,7 @@ definitions:
     - uid: string
   - name: properties.type
     isReadyOnly: true
-    description: Type of the video archive. Different archive formats provide different capabilities.
+    description: Video content type. Different content types are suitable for different applications and scenarios.
     types:
     - uid: VideoType
   - name: properties.flags
@@ -103,16 +98,19 @@ definitions:
     description: Video flags contain information about the available video actions and its dynamic properties based on the current video state.
     types:
     - uid: VideoFlags
-  - name: properties.streaming
+  - name: properties.contentUrls
     isReadyOnly: true
-    description: Video streaming holds information about video streaming URLs.
+    description: Set of URLs to the video content.
     types:
-    - uid: VideoStreaming
+    - uid: VideoContentUrls
   - name: properties.mediaInfo
-    isReadyOnly: true
     description: Contains information about the video and audio content.
     types:
     - uid: VideoMediaInfo
+  - name: properties.archival
+    description: Video archival properties.
+    types:
+    - uid: VideoArchival
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -128,6 +126,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -159,6 +162,77 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: VideoType
+  description: Video content type. Different content types are suitable for different applications and scenarios.
+  kind: enum
+  properties:
+  - name: Archive
+    description: Archive is flexible format that represents a video stream associated with wall-clock time. The video archive can either be continuous or discontinuous. An archive is discontinuous when there are gaps in the recording due to various reasons, such as the live pipeline being stopped, camera being disconnected or due to the use of event based recordings through the use of a signal gate. There is no limit to the archive duration and new video data can be appended to the existing archive at any time, as long as the same video codec and codec parameters are being used. Videos of this type are suitable for appending and long term archival.
+    types:
+    - uid: string
+  - name: File
+    description: File represents a video which is stored as a single media file, such as MP4. Videos of this type are suitable to be downloaded for external consumption.
+    types:
+    - uid: string
+- name: VideoFlags
+  description: Video flags contain information about the available video actions and its dynamic properties based on the current video state.
+  kind: object
+  properties:
+  - name: canStream
+    description: Value indicating whether or not the video can be streamed. Only "archive" type videos can be streamed.
+    types:
+    - uid: boolean
+  - name: hasData
+    description: Value indicating whether or not there has ever been data recorded or uploaded into the video. Newly created videos have this value set to false.
+    types:
+    - uid: boolean
+  - name: isInUse
+    description: Value indicating whether or not the video is currently being referenced be an active pipeline. The fact that is being referenced, doesn't necessarily indicate that data is being received. For example, video recording may be gated on events or camera may not be accessible at the time.
+    types:
+    - uid: boolean
+- name: VideoContentUrls
+  description: Set of URLs to the video content.
+  kind: object
+  properties:
+  - name: downloadUrl
+    description: Video file download URL. This URL can be used in conjunction with the video content authorization token to download the video MP4 file. The resulting MP4 file can be played on any standard media player. It is available when the video type is 'file' and video file is available for consumption.
+    types:
+    - uid: string
+  - name: archiveBaseUrl
+    description: >-
+      Video archive streaming base URL. The archived content can be automatically played by the Azure Video Analyzer player widget. Alternatively, this URL can be used in conjunction with the video content authorization token on any compatible DASH or HLS players by appending the following to the base URL:
+
+          - HLSv4:     /manifest(format=m3u8-aapl).m3u8
+          - HLS CMAF:  /manifest(format=m3u8-cmaf)
+          - DASH CMAF: /manifest(format=mpd-time-cmaf)
+
+          Moreover, an ongoing video recording can be played in "live mode" with latencies which are approximately double of the chosen video segment length. It is available when the video type is 'archive' and video archiving is enabled.
+    types:
+    - uid: string
+  - name: rtspTunnelUrl
+    description: Video low-latency streaming URL. The live content can be automatically played by the Azure Video Analyzer player widget. Alternatively, this URL can be used in conjunction with the video content authorization token to expose a WebSocket tunneled RTSP stream. It is available when the video type is 'archive' and a live, low-latency feed is available from the source.
+    types:
+    - uid: string
+  - name: previewImageUrls
+    description: Video preview image URLs. These URLs can be used in conjunction with the video content authorization token to download the most recent still image from the video archive in different resolutions. They are available when the video type is 'archive' and preview images are enabled.
+    types:
+    - uid: VideoPreviewImageUrls
+- name: VideoMediaInfo
+  description: Contains information about the video and audio content.
+  kind: object
+  properties:
+  - name: segmentLength
+    description: Video segment length indicates the length of individual video files (segments) which are persisted to storage. Smaller segments provide lower archive playback latency but generate larger volume of storage transactions. Larger segments reduce the amount of storage transactions while increasing the archive playback latency. Value must be specified in ISO8601 duration format (i.e. "PT30S" equals 30 seconds) and can vary between 30 seconds to 5 minutes, in 30 seconds increments.
+    types:
+    - uid: string
+- name: VideoArchival
+  description: Video archival properties.
+  kind: object
+  properties:
+  - name: retentionPeriod
+    description: Video retention period indicates the maximum age of the video archive segments which are intended to be kept in storage. It must be provided in the ISO8601 duration format in the granularity of days, up to a maximum of 10 years. For example, if this is set to P30D (30 days), content older than 30 days will be periodically deleted. This value can be updated at any time and the new desired retention period will be effective within 24 hours.
+    types:
+    - uid: string
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -187,54 +261,6 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: VideoType
-  description: Type of the video archive. Different archive formats provide different capabilities.
-  kind: enum
-  properties:
-  - name: Archive
-    description: Archive is flexible format that represents a video stream associated with wall-clock time. The video archive can either be continuous or discontinuous. An archive is discontinuous when there are gaps in the recording due to various reasons, such as the live pipeline being stopped, camera being disconnected or due to the use of event based recordings through the use of a signal gate. Finally, there is no limit to the archive duration and new video data can be appended to the existing archive at any time, as long as the same video codec and codec parameters are being used.
-    types:
-    - uid: string
-- name: VideoFlags
-  description: Video flags contain information about the available video actions and its dynamic properties based on the current video state.
-  kind: object
-  properties:
-  - name: canStream
-    description: Value indicating whether or not the video can be streamed. Only "archive" type videos can be streamed.
-    types:
-    - uid: boolean
-  - name: hasData
-    description: Value indicating whether or not there has ever been data recorded or uploaded into the video. Newly created videos have this value set to false.
-    types:
-    - uid: boolean
-  - name: isRecording
-    description: Value indicating whether or not the video is currently being referenced be an active live pipeline. The fact that is being referenced, doesn't necessarily indicate that data is being received. For example, video recording may be gated on events or camera may not be accessible at the time.
-    types:
-    - uid: boolean
-- name: VideoStreaming
-  description: Video streaming holds information about video streaming URLs.
-  kind: object
-  properties:
-  - name: archiveBaseUrl
-    description: >-
-      Video streaming base URL for the video archive. When present, archived video can be played through the Azure Video Analyzer player. Alternatively, this URL can be used with compatible DASH or HLS players by appending the following to the base URL:
-
-        - HLSv4:     /manifest(format=m3u8-aapl).m3u8
-        - HLS CMAF:  /manifest(format=m3u8-cmaf)
-        - DASH CMAF: /manifest(format=mpd-time-cmaf)
-
-      Moreover, an ongoing video recording can be played in "live mode" with latencies which are approximately double of the chosen video segment length.
-    types:
-    - uid: string
-- name: VideoMediaInfo
-  description: Contains information about the video and audio content.
-  kind: object
-  properties:
-  - name: segmentLength
-    isReadyOnly: true
-    description: Video segment length indicates the length of individual video files (segments) which are persisted to storage. Smaller segments provide lower archive playback latency but generate larger volume of storage transactions. Larger segments reduce the amount of storage transactions while increasing the archive playback latency. Value must be specified in ISO8601 duration format (i.e. "PT30S" equals 30 seconds) and can vary between 30 seconds to 5 minutes, in 30 seconds increments.
-    types:
-    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -249,6 +275,22 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: VideoPreviewImageUrls
+  description: Video preview image URLs. These URLs can be used in conjunction with the video content authorization token to download the most recent still image from the video archive in different resolutions. They are available when the video type is 'archive' and preview images are enabled.
+  kind: object
+  properties:
+  - name: small
+    description: Low resolution preview image URL.
+    types:
+    - uid: string
+  - name: medium
+    description: Medium resolution preview image URL.
+    types:
+    - uid: string
+  - name: large
+    description: High resolution preview image URL.
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -268,7 +310,7 @@ definitions:
 examples:
 - name: Lists video entities.
   request:
-    uri: GET https://management.azure.com/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/videos?api-version=2021-05-01-preview&$top=2
+    uri: GET https://management.azure.com/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/videos?api-version=2021-11-01-preview&$top=2
   responses:
   - statusCode: "200"
     body: >-
@@ -283,12 +325,35 @@ examples:
               "description": "Sample Description 1",
               "type": "Archive",
               "flags": {
-                "canStream": false,
-                "hasData": false,
-                "isRecording": false
+                "canStream": true,
+                "hasData": true,
+                "isInUse": false
+              },
+              "contentUrls": {
+                "downloadUrl": "https://591e76c33e9744db879c3e2b12961b62.streaming.westus.videoanalyzer.net/591e76c33e9744db879c3e2b12961b62/content.mp4",
+                "archiveBaseUrl": "https://591e76c33e9744db879c3e2b12961b62.streaming.westus.videoanalyzer.net/591e76c33e9744db879c3e2b12961b62/content.ism",
+                "rtspTunnelUrl": "https://591e76c33e9744db879c3e2b12961b62.streaming.westus.videoanalyzer.net/591e76c33e9744db879c3e2b12961b62",
+                "previewImageUrls": {
+                  "small": "https://591e76c33e9744db879c3e2b12961b62.streaming.westus.videoanalyzer.net/591e76c33e9744db879c3e2b12961b62/images/latest/small.jpg",
+                  "medium": "https://591e76c33e9744db879c3e2b12961b62.streaming.westus.videoanalyzer.net/591e76c33e9744db879c3e2b12961b62/images/latest/medium.jpg",
+                  "large": "https://591e76c33e9744db879c3e2b12961b62.streaming.westus.videoanalyzer.net/591e76c33e9744db879c3e2b12961b62/images/latest/large.jpg"
+                }
+              },
+              "mediaInfo": {
+                "segmentLength": "PT30S"
+              },
+              "archival": {
+                "retentionPeriod": "P2D"
               }
             },
-            "systemData": {}
+            "systemData": {
+              "createdBy": "user@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "0001-01-01T00:00:00Z",
+              "lastModifiedBy": "user@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "0001-01-01T00:00:00Z"
+            }
           },
           {
             "name": "video2",
@@ -297,18 +362,25 @@ examples:
             "properties": {
               "title": "Sample Title 2",
               "description": "Sample Description 2",
-              "type": "Archive",
+              "type": "File",
               "flags": {
                 "canStream": false,
                 "hasData": false,
-                "isRecording": false
+                "isInUse": false
               }
             },
-            "systemData": {}
+            "systemData": {
+              "createdBy": "user@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "0001-01-01T00:00:00Z",
+              "lastModifiedBy": "user@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "0001-01-01T00:00:00Z"
+            }
           }
         ]
       }
 security: []
 metadata:
-  description: Learn more about Azure Video Analyzer service - List all existing video resources in the specified account.
+  description: "Retrieves all existing video resources.  \nRetrieves a list of video resources that have been created, along with their JSON representations."
 errorCodes: []
