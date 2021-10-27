@@ -3,14 +3,14 @@ uid: management.azure.com.avs.datastores.get
 name: Get
 service: AVS
 groupName: Datastores
-apiVersion: 2021-06-01
+apiVersion: 2021-12-01
 summary: Get a datastore in a private cloud cluster
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/datastores/{datastoreName}?api-version=2021-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/datastores/{datastoreName}?api-version=2021-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -76,6 +76,11 @@ definitions:
     description: An iSCSI volume
     types:
     - uid: DiskPoolVolume
+  - name: properties.status
+    isReadyOnly: true
+    description: The operational status of the datastore
+    types:
+    - uid: DatastoreStatus
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -153,6 +158,31 @@ definitions:
     description: Device path
     types:
     - uid: string
+- name: DatastoreStatus
+  description: The operational status of the datastore
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Accessible
+    types:
+    - uid: string
+  - name: Inaccessible
+    types:
+    - uid: string
+  - name: Attached
+    types:
+    - uid: string
+  - name: Detached
+    types:
+    - uid: string
+  - name: LostCommunication
+    types:
+    - uid: string
+  - name: DeadOrError
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -211,7 +241,7 @@ definitions:
 examples:
 - name: Datastores_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/datastores/datastore1?api-version=2021-06-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/datastores/datastore1?api-version=2021-12-01
   responses:
   - statusCode: "200"
     body: >-
@@ -222,7 +252,8 @@ examples:
           "netAppVolume": {
             "id": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/ResourceGroup1/providers/Microsoft.NetApp/netAppAccounts/NetAppAccount1/capacityPools/CapacityPool1/volumes/NFSVol1"
           },
-          "provisioningState": "Succeeded"
+          "provisioningState": "Succeeded",
+          "status": "Accessible"
         },
         "type": "Microsoft.AVS/privateClouds/clusters/datastores"
       }
