@@ -16,19 +16,19 @@ Azure Video Analyzer provides a platform to build intelligent video applications
 |----------------|-------------|
 | [Access Policies](/rest/api/videoanalyzer/access-policies) | Operations for managing Access Policies on video resources. |
 | [Edge Modules](/rest/api/videoanalyzer/edge-modules) | Operations for managing edge modules associated with a Video Analyzer account. |
-| [Live Pipeline Operation Statuses](/rest/api/videoanalyzer/live-pipeline-operation-statuses) |  |
-| [Live Pipelines](/rest/api/videoanalyzer/live-pipelines) |  |
+| [Live Pipeline Operation Statuses](/rest/api/videoanalyzer/live-pipeline-operation-statuses) | Operations for checking status of operations on live pipelines. |
+| [Live Pipelines](/rest/api/videoanalyzer/live-pipelines) | Operations for managing live pipelines. |
 | [Locations](/rest/api/videoanalyzer/locations) | Operations for checking the Video Analyzer resource name. |
-| [Operation Results](/rest/api/videoanalyzer/operations-results) |  |
-| [Operation Statuses](/rest/api/videoanalyzer/operations-statuses) |  |
+| [Operation Results](/rest/api/videoanalyzer/operations-results) | Operations for checking results of operations such as private endpoint connection. |
+| [Operation Statuses](/rest/api/videoanalyzer/operations-statuses) | Operations for checking status for operations such as private endpoint connection. |
 | [Operations](/rest/api/videoanalyzer/operations) | Operations for managing list all the Media operations. |
-| [Pipeline Job Operation Statuses](/rest/api/videoanalyzer/pipeline-job-operation-statuses)||
-| [Pipeline Jobs](/rest/api/videoanalyzer/pipeline-jobs)||
-| [Pipeline Topologies](/rest/api/videoanalyzer/pipeline-topologies)||
-| [Private Endpoint Connections](/private-endpoint-connections)||
-| [Private Link Resources](/rest/api/videoanalyzer/private-link-resources)||
-| [Video Analyzer Operation Results](/rest/api/videoanalyzer/video-analyzer-operation-results) ||
-| [Video Analyzer Operation Statuses](/rest/api/videoanalyzer/video-analyzer-operation-statuses) ||
+| [Pipeline Job Operation Statuses](/rest/api/videoanalyzer/pipeline-job-operation-statuses)| Operations for checking status on pipeline job operations.|
+| [Pipeline Jobs](/rest/api/videoanalyzer/pipeline-jobs)| Operations for managing pipeline jobs.|
+| [Pipeline Topologies](/rest/api/videoanalyzer/pipeline-topologies)| Operations for managing pipeline topologies.| 
+| [Private Endpoint Connections](/private-endpoint-connections)| Operations for managing private endpoint connections.|
+| [Private Link Resources](/rest/api/videoanalyzer/private-link-resources)| Operations for managing private endpoint connections at a group level.|
+| [Video Analyzer Operation Results](/rest/api/videoanalyzer/video-analyzer-operation-results) | Operations for checking results of operations on Video Analyzer account.|
+| [Video Analyzer Operation Statuses](/rest/api/videoanalyzer/video-analyzer-operation-statuses) | Operations for checking status of operations on Video Analyzer account.|
 | [Video Analyzers](/rest/api/videoanalyzer/video-analyzers) | Operations for managing a Video Analyzer account. |
 | [Videos](/rest/api/videoanalyzer/videos) | Operations for managing video resources. |
 
