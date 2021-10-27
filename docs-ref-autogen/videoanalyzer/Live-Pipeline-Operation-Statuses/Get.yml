@@ -1,0 +1,158 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.videoanalyzer.livepipelineoperationstatuses.get
+name: Get
+service: Azure Video Analyzer
+groupName: Live Pipeline Operation Statuses
+apiVersion: 2021-11-01-preview
+summary: Get the operation status of a live pipeline.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/livePipelines/{livePipelineName}/operationStatuses/{operationId}?api-version=2021-11-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Video Analyzer account name.
+  types:
+  - uid: string
+- name: livePipelineName
+  in: path
+  isRequired: true
+  description: Live pipeline unique identifier.
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: The operation ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Live pipeline operation status was retrieved successfully.
+  types:
+  - uid: LivePipelineOperationStatus
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: LivePipelineOperationStatus
+  description: Used for tracking the status of an operation on the live pipeline.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The name of the live pipeline operation.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: The status of the live pipeline operation.
+    types:
+    - uid: string
+  - name: error
+    isReadyOnly: true
+    description: The error details for the live pipeline operation.
+    types:
+    - uid: ErrorDetail
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Get the live pipeline operation status.
+  request:
+    uri: GET https://management.azure.com/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/livePipelines/livePipeline1/operationStatuses/00000000-0000-0000-0000-000000000001?api-version=2021-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "00000000-0000-0000-0000-000000000001",
+        "status": "Failed",
+        "error": {
+          "code": "Conflict",
+          "message": "A conflict was encountered when processing the request",
+          "details": [
+            {
+              "code": "VideoIsInUse",
+              "message": "The video video1 is used by another pipeline."
+            }
+          ]
+        }
+      }
+security: []
+metadata:
+  description: Learn more about Azure Video Analyzer service - Get the operation status of a live pipeline.
+errorCodes: []

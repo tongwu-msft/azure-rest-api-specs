@@ -1,0 +1,179 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.webpubsub.controlplane.webpubsub.regeneratekey
+name: Regenerate Key
+service: Azure Web PubSub Service
+groupName: Web Pub Sub
+apiVersion: 2021-10-01
+summary: Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the same time.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/regenerateKey?api-version=2021-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription Id which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted and an async operation is executing in background to make the new key to take effect. The response contains new access keys and a Location header to query the async operation result.
+  types:
+  - uid: WebPubSubKeys
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: keyType
+    in: body
+    description: The keyType to regenerate. Must be either 'primary' or 'secondary'(case-insensitive).
+    types:
+    - uid: KeyType
+requestHeader: []
+definitions:
+- name: WebPubSubKeys
+  description: A class represents the access keys of the resource.
+  kind: object
+  properties:
+  - name: primaryKey
+    description: The primary access key.
+    types:
+    - uid: string
+  - name: secondaryKey
+    description: The secondary access key.
+    types:
+    - uid: string
+  - name: primaryConnectionString
+    description: Connection string constructed via the primaryKey
+    types:
+    - uid: string
+  - name: secondaryConnectionString
+    description: Connection string constructed via the secondaryKey
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: RegenerateKeyParameters
+  description: Parameters describes the request to regenerate access keys
+  kind: object
+  properties:
+  - name: keyType
+    description: The keyType to regenerate. Must be either 'primary' or 'secondary'(case-insensitive).
+    types:
+    - uid: KeyType
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: KeyType
+  description: The keyType to regenerate. Must be either 'primary' or 'secondary'(case-insensitive).
+  kind: enum
+  properties:
+  - name: Primary
+    types:
+    - uid: string
+  - name: Secondary
+    types:
+    - uid: string
+  - name: Salt
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: WebPubSub_RegenerateKey
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/regenerateKey?api-version=2021-10-01
+    body: >-
+      {
+        "keyType": "Primary"
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.SignalRService/...pathToOperationResult...
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.SignalRService/...pathToOperationStatus...
+    body: '{}'
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the same time.
+errorCodes: []
