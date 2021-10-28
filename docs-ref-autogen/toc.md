@@ -11042,16 +11042,6 @@
 ## Geolocation
 ### [Overview](maps/Geolocation.yml)
 ### [Get IP To Location](maps/Geolocation/Get-IP-To-Location.yml)
-## Mobility
-### [Overview](maps/Mobility.yml)
-### [Get Metro Area Info Preview](maps/Mobility/Get-Metro-Area-Info-Preview.yml)
-### [Get Metro Area Preview](maps/Mobility/Get-Metro-Area-Preview.yml)
-### [Get Nearby Transit Preview](maps/Mobility/Get-Nearby-Transit-Preview.yml)
-### [Get Real Time Arrivals Preview](maps/Mobility/Get-Real-Time-Arrivals-Preview.yml)
-### [Get Transit Itinerary Preview](maps/Mobility/Get-Transit-Itinerary-Preview.yml)
-### [Get Transit Line Info Preview](maps/Mobility/Get-Transit-Line-Info-Preview.yml)
-### [Get Transit Route Preview](maps/Mobility/Get-Transit-Route-Preview.yml)
-### [Get Transit Stop Info Preview](maps/Mobility/Get-Transit-Stop-Info-Preview.yml)
 ## Render
 ### [Overview](maps/Render.yml)
 ### [Get Copyright Caption](maps/Render/Get-Copyright-Caption.yml)
@@ -16881,6 +16871,7 @@
 #### [Delete Profile](speakerrecognition/identification/Text-Independent/Delete-Profile.yml)
 #### [Get Profile](speakerrecognition/identification/Text-Independent/Get-Profile.yml)
 #### [Identify Single Speaker](speakerrecognition/identification/Text-Independent/Identify-Single-Speaker.yml)
+#### [List Activation Phrases](speakerrecognition/identification/Text-Independent/List-Activation-Phrases.yml)
 #### [List Profiles](speakerrecognition/identification/Text-Independent/List-Profiles.yml)
 #### [Reset Profile](speakerrecognition/identification/Text-Independent/Reset-Profile.yml)
 ## Verification
@@ -16900,6 +16891,7 @@
 #### [Create Profile](speakerrecognition/verification/Text-Independent/Create-Profile.yml)
 #### [Delete Profile](speakerrecognition/verification/Text-Independent/Delete-Profile.yml)
 #### [Get Profile](speakerrecognition/verification/Text-Independent/Get-Profile.yml)
+#### [List Activation Phrases](speakerrecognition/verification/Text-Independent/List-Activation-Phrases.yml)
 #### [List Profiles](speakerrecognition/verification/Text-Independent/List-Profiles.yml)
 #### [Reset Profile](speakerrecognition/verification/Text-Independent/Reset-Profile.yml)
 #### [Verify Profile](speakerrecognition/verification/Text-Independent/Verify-Profile.yml)
