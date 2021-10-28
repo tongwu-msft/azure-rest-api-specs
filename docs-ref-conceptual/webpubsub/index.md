@@ -11,11 +11,11 @@ service_description: Azure Web PubSub enables you to build real-time messaging w
 
 # Azure Web PubSub
 
-[Azure Web PubSub](https://aka.ms/awps/doc) is a service that enables you to build real-time messaging web applications using WebSockets and the publish-subscribe pattern. Any platform supporting WebSocket APIs can connect to the service easily, e.g. web pages, mobile applications, edge devices, etc. The service manages the WebSocket connections for you and allows up to 100K concurrent connections. It provides powerful APIs for you to manage these clients and deliver real-time messages.
+[Azure Web PubSub](https://aka.ms/awps/doc) is a service that enables you to build real-time messaging web applications using WebSockets and the publish-subscribe pattern. Any platform supporting WebSocket APIs can connect to the service easily, for example. web pages, mobile applications, edge devices, and so on. The service manages the WebSocket connections for you and allows up to 100K concurrent connections. It provides powerful APIs for you to manage these clients and deliver real-time messages.
 
 ## Control plane
 
-[Control plane REST APIs](/rest/api/webpubsub/controlplane/web-pub-sub) enable you to manage the service and its sub-resources.
+[Control plane REST APIs](/rest/api/webpubsub/controlplane/web-pub-sub) enable you to manage the service and its subresources.
 
 ## Data plane
 
