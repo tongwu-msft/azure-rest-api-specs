@@ -3,7 +3,7 @@ title: Set File Service Properties (FileREST API) - Azure Files
 description: Set properties for the FileService resource using the FileREST API.
 author: wmgries
 
-ms.date: 06/06/2021
+ms.date: 10/28/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries

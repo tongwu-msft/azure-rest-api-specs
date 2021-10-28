@@ -3,7 +3,7 @@ title: Set Table Service Properties (REST API) - Azure Storage
 description: The Set Table Service Properties operation sets properties for a storage account’s Table service endpoint.
 author: pemari-msft
 
-ms.date: 08/15/2019
+ms.date: 10/28/2021
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
