@@ -3,7 +3,7 @@ title: Cross-Origin Resource Sharing (CORS) support for Azure Storage
 description: CORS is an HTTP feature that enables a web application running under one domain to access resources in another domain. You can set CORS rules individually for each of the Azure Storage services. When CORS rules are set, then a properly authorized request made against the service from a different domain will be evaluated to determine whether it is allowed according to the rules you have specified.
 author: tamram
 
-ms.date: 05/10/2021
+ms.date: 10/27/2021
 ms.author: tamram
 ms.service: storage
 ms.topic: reference
@@ -12,7 +12,7 @@ ms.topic: reference
 # Cross-Origin Resource Sharing (CORS) support for Azure Storage
 
 Beginning with version 2013-08-15, the Azure storage services support Cross-Origin Resource Sharing (CORS) for the Blob, Table, and Queue services. The File service supports CORS beginning with version 2015-02-21.  
-  
+
 CORS is an HTTP feature that enables a web application running under one domain to access resources in another domain. Web browsers implement a security restriction known as [same-origin policy](https://www.w3.org/Security/wiki/Same_Origin_Policy) that prevents a web page from calling APIs in a different domain; CORS provides a secure way to allow one domain (the origin domain) to call APIs in another domain. See [the CORS specification](https://www.w3.org/TR/cors/) for details on CORS.  
   
 You can set CORS rules individually for each of the Azure Storage services, by calling [Set Blob Service Properties](Set-Blob-Service-Properties.md), [Set File Service Properties](Set-File-Service-Properties.md), [Set Queue Service Properties](Set-Queue-Service-Properties.md), and [Set Table Service Properties](Set-Table-Service-Properties.md). Once you set the CORS rules for the service, then a properly authorized request made against the service from a different domain will be evaluated to determine whether it is allowed according to the rules you have specified.  
@@ -40,7 +40,7 @@ If CORS is not enabled for the service or no CORS rule matches the preflight req
   
 If the OPTIONS request doesn’t contain the required CORS headers (the Origin and Access-Control-Request-Method headers), the service will respond with status code 400 (Bad request).  
   
-Note that a preflight request is evaluated against the service (Blob, File, Queue, or Table) and not against the requested resource. The account owner must have enabled CORS as part of the account service properties in order for the request to succeed.  
+Note that a preflight request is evaluated against the service (Blob, File, Queue, or Table) and not against the requested resource. The account owner must have enabled CORS by setting the appropriate account service properties in order for the request to succeed.  
   
 ### Actual request
   
@@ -57,7 +57,7 @@ Here is a sample of a single CORS rule, specified via a `Set Service Properties`
 ```xml  
 <Cors>
     <CorsRule>  
-        <AllowedOrigins>http://www.contoso.com, http://www.fabrikam.com</AllowedOrigins>  
+        <AllowedOrigins>http://*.contoso.com, http://www.fabrikam.com</AllowedOrigins>  
         <AllowedMethods>PUT,GET</AllowedMethods>  
         <AllowedHeaders>x-ms-meta-data*,x-ms-meta-target*,x-ms-meta-abc</AllowedHeaders>  
         <ExposedHeaders>x-ms-meta-*</ExposedHeaders>  
@@ -69,7 +69,9 @@ Here is a sample of a single CORS rule, specified via a `Set Service Properties`
   
 Each element included in the CORS rule is described below:  
   
-- **AllowedOrigins**: The origin domains that are permitted to make a request against the storage service via CORS. The origin domain is the domain from which the request originates. Note that the origin must be an exact case-sensitive match with the origin that the user age sends to the service. You can also use the wildcard character '*' to allow all origin domains to make requests via CORS. In the example above, the domains http://www.contoso.com and http://www.fabrikam.com can make requests against the service using CORS.  
+- **AllowedOrigins**: The origin domains that are permitted to make a request against the storage service via CORS. The origin domain is the domain from which the request originates. Note that the origin must be an exact case-sensitive match with the origin that the user age sends to the service.
+
+    You can use the wildcard character '*' in lieu of a specified domain to allow all origin domains to make requests via CORS. You can also use the wildcard character in lieu of a subdomain to allow all subdomains of a given domain to make requests via CORS. In the example above, all subdomains of `contoso.com` can make requests via CORS, while only requests from the `www` subdomain of `fabrikam.com` are permitted via CORS.  
   
 - **AllowedMethods**: The methods (HTTP request verbs) that the origin domain may use for a CORS request. In the example above, only PUT and GET requests are permitted.  
   
