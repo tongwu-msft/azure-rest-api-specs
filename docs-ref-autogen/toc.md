@@ -4904,17 +4904,6 @@
 #### [Overview](cognitiveservices/personalizer/Rank.yml)
 #### [Rank](cognitiveservices/personalizer/Rank/Rank.yml)
 ## Translator
-### Document Translation
-#### [Overview](cognitiveservices/translator/Document-Translation.yml)
-#### [Cancel Translation](cognitiveservices/translator/Document-Translation/Cancel-Translation.yml)
-#### [Get Document Status](cognitiveservices/translator/Document-Translation/Get-Document-Status.yml)
-#### [Get Documents Status](cognitiveservices/translator/Document-Translation/Get-Documents-Status.yml)
-#### [Get Supported Document Formats](cognitiveservices/translator/Document-Translation/Get-Supported-Document-Formats.yml)
-#### [Get Supported Glossary Formats](cognitiveservices/translator/Document-Translation/Get-Supported-Glossary-Formats.yml)
-#### [Get Supported Storage Sources](cognitiveservices/translator/Document-Translation/Get-Supported-Storage-Sources.yml)
-#### [Get Translation Status](cognitiveservices/translator/Document-Translation/Get-Translation-Status.yml)
-#### [Get Translations Status](cognitiveservices/translator/Document-Translation/Get-Translations-Status.yml)
-#### [Start Translation](cognitiveservices/translator/Document-Translation/Start-Translation.yml)
 ### Translator
 #### [Overview](cognitiveservices/translator/Translator.yml)
 #### [Break Sentence](cognitiveservices/translator/Translator/Break-Sentence.yml)
