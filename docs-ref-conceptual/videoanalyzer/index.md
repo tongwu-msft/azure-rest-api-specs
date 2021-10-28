@@ -2,6 +2,7 @@
 title: Azure Video Analyzer API Management and Operations
 ms.service: azure-video-analyzer 
 author: bennage
+description: Azure Video Analyzer provides a platform to build intelligent video applications that span the edge and the cloud.
 ms.author: christb
 service_description: Azure Video Analyzer provides a platform to build intelligent video applications that span the edge and the cloud.
 ---
