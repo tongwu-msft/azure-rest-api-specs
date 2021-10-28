@@ -3,7 +3,7 @@ title: Set Blob Service Properties (REST API) - Azure Storage
 description: The Set Blob Service Properties operation sets properties for a storage account’s Blob service endpoint.
 author: pemari-msft
 
-ms.date: 10/06/2020
+ms.date: 10/28/2021
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -320,7 +320,7 @@ See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS-
 |**DefaultServiceVersion**|Optional. To set **DefaultServiceVersion**, you must call `Set Blob Service Properties` using version 2011-08-18 or later. **DefaultServiceVersion** indicates the default version to use for requests to the Blob service if an incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions. For more information on applicable versions, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).<br /><br /> Applies only to the Blob service.|  
 |**Cors**|Optional. The **Cors** element is supported for version 2013-08-15 or later. Groups all CORS rules.<br /><br /> Omitting this element group will not overwrite existing CORS settings.|  
 |**CorsRule**|Optional. Specifies a CORS rule for the Blob service. You can include up to five **CorsRule** elements in the request. If no **CorsRule** elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Blob service.|  
-|**AllowedOrigins**|Required if **CorsRule** element is present. A comma-separated list of origin domains that will be allowed via CORS, or "*" to allow all domains. Limited to 64 origin domains. Each allowed origin can have up to 256 characters.|  
+|**AllowedOrigins**|Required if **CorsRule** element is present. A comma-separated list of origin domains that will be allowed via CORS, or "*" to allow all domains. An origin domain may also include a wildcard character in the subdomain to permit requests via CORS for all subdomains of a domain. Limited to 64 origin domains. Each allowed origin can have up to 256 characters.|  
 |**ExposedHeaders**|Required if **CorsRule** element is present. A comma-separated list of response headers to expose to CORS clients. Limited to 64 defined headers and two prefixed headers. Each header can be up to 256 characters.|  
 |**MaxAgeInSeconds**|Required if **CorsRule** element is present. The number of seconds that the client/browser should cache a preflight response.|  
 |**AllowedHeaders**|Required if **CorsRule** element exists. A comma-separated list of headers allowed to be part of the cross-origin request. Limited to 64 defined headers and 2 prefixed headers. Each header can be up to 256 characters.|  

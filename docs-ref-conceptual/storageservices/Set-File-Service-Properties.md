@@ -3,7 +3,7 @@ title: Set File Service Properties (FileREST API) - Azure Files
 description: Set properties for the FileService resource using the FileREST API.
 author: wmgries
 
-ms.date: 06/06/2021
+ms.date: 10/28/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -116,7 +116,7 @@ The following table describes the elements of the request body:
 | `RetentionPolicy/Days` | Required only if a retention policy is enabled. Indicates the number of days that metrics data should be retained. All data older than this value will be deleted. The minimum value you can specify is `1`; the largest value is `365` (one year). Metrics data is deleted on a best-effort basis after the retention period expires. |
 | `Cors` | Optional. The `Cors` element is supported for version 2015-02-21 or later. Groups all CORS rules. Omitting this element group will not overwrite existing CORS settings. |
 | `CorsRule` | Optional. Specifies a CORS rule for the File service. You can include up to five `CorsRule` elements in the request. If no `CorsRule` elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the File service. |
-| `AllowedOrigins` | Required if `CorsRule` element is present. A comma-separated list of origin domains that will be allowed via CORS, or "*" to allow all domains. Limited to 64 origin domains. Each allowed origin can have up to 256 characters. |
+| `AllowedOrigins` | Required if `CorsRule` element is present. A comma-separated list of origin domains that will be allowed via CORS, or "*" to allow all domains. An origin domain may also include a wildcard character in the subdomain to permit requests via CORS for all subdomains of a domain. Limited to 64 origin domains. Each allowed origin can have up to 256 characters. |
 | `ExposedHeaders` | Required if `CorsRule` element is present. A comma-separated list of response headers to expose to CORS clients. Limited to 64 defined headers and two prefixed headers. Each header can be up to 256 characters. |
 | `MaxAgeInSeconds` | Required if `CorsRule` element is present. The number of seconds that the client/browser should cache a preflight response. |
 | `AllowedHeaders` | Required if `CorsRule` element exists. A comma-separated list of headers allowed to be part of the cross-origin request. Limited to 64 defined headers and 2 prefixed headers. Each header can be up to 256 characters. |
