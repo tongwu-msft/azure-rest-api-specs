@@ -6,7 +6,7 @@ ms.service: hdinsight
 description: Azure HDInsight REST API reference
 author: guyhay
 ms.author: guyhay
-ms.date: 10/4/2021
+ms.date: 10/29/2021
 ms.topic: reference
 MS.devlang: rest-api
 ---
@@ -23,7 +23,7 @@ Use these APIs to create and manage HDInsight resources through Azure Resource M
 
  The following information is common to all tasks related to clusters that you might do:  
   
-* Replace {api-version} with 2018-06-01-preview
+* Replace {api-version} with `2018-06-01-preview`
   
 * Replace {subscription-id} with your subscription identifier in the URI.  
   
@@ -33,7 +33,7 @@ Use these APIs to create and manage HDInsight resources through Azure Resource M
   
 * Set the Content-Type header to **application/json**.  
   
-* Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx). 
+* Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).
 
 ## REST Operation Groups
 
@@ -44,17 +44,17 @@ Use these APIs to create and manage HDInsight resources through Azure Resource M
 
 ## Supported REST API versions
 
-The following table lists the supported REST API versions by the Azure HDInsight service. The version must be specified via the `x-ms-version` header in every request. If not specified, the service defaults to the latest version `2018-06-01-preview`.
+The following table lists the supported REST API versions by the Azure HDInsight service. The version must be specified via the `x-ms-version` header in every request. If not specified, the service defaults to the latest version `2021-06-01`.
 
 |Version|Change introduced|Retirement date|  
 |-------------|---------------------|-----------------------|
-|2015-03-01-preview || 2024-10-15 planned retirement
-|2018-06-01-preview || 2024-10-15 planned retirement
-|2021-06-01| New version, simplified and with 3 breaking changes
+|`2015-03-01-preview` || 2024-10-15 planned retirement
+|`2018-06-01-preview` || 2024-10-15 planned retirement
+|`2021-06-01`| New version, simplified and with 3 updates
 
-## Upcoming breaking changes in new 2021-06-01 API version
+## Upcoming Updates in the new 2021-06-01 API version
 
-Shortly we will be releasing a new version of the HDInsight REST API.  This new version will start the deprecation path for the 2018-06-01-preview version in 3 years, and will introduce some scoped breaking changes.
+We have released a new version of the HDInsight REST API `2021-06-01`.  This new version replaces `2018-06-01-preview` version which will retire on 2024-10-15.  With the latest `2021-06-01` API, please note the following changes.
 
 1. One property {location}, previously optional, will be required.
 2. Two existing properties will be removed from the Locations API, {vmsizes} and {vmsize_filters}.  These properties remain in another part of the api, BillingSpecs.  We are moving to a single source (BillingSpecs) for these two properties.
