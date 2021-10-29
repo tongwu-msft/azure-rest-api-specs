@@ -48,8 +48,8 @@ The following table lists the supported REST API versions by the Azure HDInsight
 
 |Version|Change introduced|Retirement date|  
 |-------------|---------------------|-----------------------|
-|2015-03-01-preview || retirement date TBD
-|2018-06-01-preview||2024-10-15 planned retirement
+|2015-03-01-preview || 2024-10-15 planned retirement
+|2018-06-01-preview || 2024-10-15 planned retirement
 |2021-06-01| New version, simplified and with 3 breaking changes
 
 ## Upcoming breaking changes in new 2021-06-01 API version
