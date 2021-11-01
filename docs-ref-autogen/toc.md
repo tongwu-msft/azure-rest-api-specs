@@ -6240,6 +6240,10 @@
 ##### [Send Typing Notification](communication/chat/Chat-Thread/Send-Typing-Notification.yml)
 ##### [Update Chat Message](communication/chat/Chat-Thread/Update-Chat-Message.yml)
 ##### [Update Chat Thread Properties](communication/chat/Chat-Thread/Update-Chat-Thread-Properties.yml)
+### Network Traversal
+#### Communication Network Traversal
+##### [Overview](communication/networktraversal/Communication-Network-Traversal.yml)
+##### [Issue Relay Configuration](communication/networktraversal/Communication-Network-Traversal/Issue-Relay-Configuration.yml)
 # Compute
 ## [Overview](../docs-ref-conceptual/compute/index.md)
 ## Cloud Services (classic)
