@@ -2,12 +2,12 @@
 title: Azure Billing Enterprise APIs - Usage Details
 description: Learn about the Usage Details API, which is used to provide insights into Azure resource consumption and trends.
 author: bandersmsft
-ms.reviewer: prkumar
+ms.reviewer: adwise
 tags: billing
 ms.service: cost-management-billing
 ms.subservice: enterprise
 ms.topic: article
-ms.date: 09/15/2021
+ms.date: 11/11/2021
 ms.author: banders
 
 ---
@@ -16,6 +16,8 @@ ms.author: banders
 > [!Note]
 > Microsoft no longer updates the Enterprise Reporting APIs. Instead, you should use [Azure Consumption](/rest/api/consumption) APIs.
 > The Azure Billing - Usage Details API is replaced by the [Azure Consumption - Usage Details API](/rest/api/consumption/usagedetails).
+
+This API only supports usage records with up to 400 tag characters for a given resource. The API might fail if you have records exceeding the maximum number of tags. If you experience this problem,  migrate to [Exports](/azure/cost-management-billing/costs/tutorial-export-acm-data) or the [Exports API](/rest/api/cost-management/exports/create-or-update).
 
 The Usage Detail API offers a daily breakdown of consumed quantities and estimated charges by an Enrollment. The result also includes information on instances, meters, and departments. The API can be queried by Billing period or by a specified start and end date.
 
