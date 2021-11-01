@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.azurestack.backuplocations.update
-name: Update
+uid: management.azure.com.azurestack.backuplocations.set
+name: Set
 service: Azure Stack Admin
 groupName: Backup Locations
 apiVersion: 2021-09-01
-summary: Patch update a backup location.
+summary: Put update a backup location.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Backup.Admin/backupLocations/{location}?api-version=2021-09-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Backup.Admin/backupLocations/{location}?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -254,9 +254,9 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Patch update new fileshare backup location.
+- name: Put update new fileshare backup location.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/System.local/providers/Microsoft.Backup.Admin/backupLocations/local?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/System.local/providers/Microsoft.Backup.Admin/backupLocations/local?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -265,7 +265,9 @@ examples:
             "userName": "azurestack\\azurestackadmin",
             "password": "password",
             "encryptionCertBase64": "encryptioncert",
-            "backupFrequencyInHours": 12
+            "backupFrequencyInHours": 10,
+            "isBackupSchedulerEnabled": false,
+            "backupRetentionPeriodInDays": 6
           }
         },
         "location": "local",
@@ -289,7 +291,7 @@ examples:
             "blobStorageKey": null,
             "encryptionCertBase64": null,
             "encryptionCertThumbprint": "BDB07F879C1F1A05B74EB43AEAF5E5B5F84DCEA8",
-            "backupFrequencyInHours": 12,
+            "backupFrequencyInHours": 10,
             "availableCapacity": "29.6 TB",
             "isBackupSchedulerEnabled": false,
             "nextBackupTime": "2018-08-28T17:26:00.9454387Z",
@@ -315,7 +317,7 @@ examples:
             "blobStorageKey": null,
             "encryptionCertBase64": null,
             "encryptionCertThumbprint": "BDB07F879C1F1A05B74EB43AEAF5E5B5F84DCEA8",
-            "backupFrequencyInHours": 12,
+            "backupFrequencyInHours": 10,
             "availableCapacity": "29.6 TB",
             "isBackupSchedulerEnabled": false,
             "nextBackupTime": "2018-08-28T17:26:00.9454387Z",
@@ -324,9 +326,9 @@ examples:
           }
         }
       }
-- name: Patch update new blob backup location.
+- name: Put update new blob backup location.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/System.local/providers/Microsoft.Backup.Admin/backupLocations/local?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/System.local/providers/Microsoft.Backup.Admin/backupLocations/local?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -395,6 +397,80 @@ examples:
           }
         }
       }
+- name: Blank put clear backup location.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/System.local/providers/Microsoft.Backup.Admin/backupLocations/local?api-version=2021-09-01
+    body: >-
+      {
+        "properties": {
+          "externalStoreDefault": {
+            "path": "",
+            "userName": "",
+            "password": "",
+            "blobStorageUrl": "",
+            "blobStorageKey": "",
+            "encryptionCertBase64": "",
+            "backupFrequencyInHours": null,
+            "isBackupSchedulerEnabled": null,
+            "backupRetentionPeriodInDays": null
+          }
+        },
+        "location": "local",
+        "tags": {}
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/System.local/providers/Microsoft.Backup.Admin/backupLocations/local",
+        "name": "local",
+        "type": "Microsoft.Backup.Admin/backupLocations",
+        "location": "local",
+        "tags": {},
+        "properties": {
+          "externalStoreDefault": {
+            "path": "",
+            "userName": "",
+            "password": null,
+            "blobStorageUrl": null,
+            "blobStorageKey": null,
+            "encryptionCertBase64": null,
+            "encryptionCertThumbprint": null,
+            "backupFrequencyInHours": 12,
+            "availableCapacity": null,
+            "isBackupSchedulerEnabled": null,
+            "nextBackupTime": null,
+            "lastBackupTime": null,
+            "backupRetentionPeriodInDays": 7
+          }
+        }
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/System.local/providers/Microsoft.Backup.Admin/backupLocations/local",
+        "name": "local",
+        "type": "Microsoft.Backup.Admin/backupLocations",
+        "location": "local",
+        "tags": {},
+        "properties": {
+          "externalStoreDefault": {
+            "path": "",
+            "userName": "",
+            "password": null,
+            "blobStorageUrl": "",
+            "blobStorageKey": null,
+            "encryptionCertBase64": null,
+            "encryptionCertThumbprint": null,
+            "backupFrequencyInHours": 12,
+            "availableCapacity": null,
+            "isBackupSchedulerEnabled": null,
+            "nextBackupTime": null,
+            "lastBackupTime": null,
+            "backupRetentionPeriodInDays": 7
+          }
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -405,5 +481,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Stack Admin service - Patch update a backup location.
+  description: Learn more about Azure Stack Admin service - Put update a backup location.
 errorCodes: []
