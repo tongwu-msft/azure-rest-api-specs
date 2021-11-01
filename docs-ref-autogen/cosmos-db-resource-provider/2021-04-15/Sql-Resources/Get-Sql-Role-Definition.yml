@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cosmos-db-resource-provider.2021-04-15.sqlresources2.createupdatesqlroledefinition
-name: Create Update Sql Role Definition
+uid: management.azure.com.cosmos-db-resource-provider.2021-04-15.sqlresources.getsqlroledefinition
+name: Get Sql Role Definition
 service: Cosmos DB Resource Provider
-groupName: SqlResources2
+groupName: Sql Resources
 apiVersion: 2021-04-15
-summary: Creates or updates an Azure Cosmos DB SQL Role Definition.
+summary: Retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}?api-version=2021-04-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}?api-version=2021-04-15
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,56 +45,15 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The Role Definition create or update operation was completed successfully.
+  description: The Role Definition was successfully retrieved.
   types:
   - uid: SqlRoleDefinitionGetResults
-- name: 202 Accepted
-  description: The Role Definition create or update request was accepted and will complete asynchronously.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-requestBody:
-- name: default
-  parameters:
-  - name: properties.roleName
-    in: body
-    description: A user-friendly name for the Role Definition. Must be unique for the database account.
-    types:
-    - uid: string
-  - name: properties.type
-    in: body
-    description: Indicates whether the Role Definition was built-in or user created.
-    types:
-    - uid: RoleDefinitionType
-  - name: properties.assignableScopes
-    in: body
-    description: A set of fully qualified Scopes at or below which Role Assignments may be created using this Role Definition. This will allow application of this Role Definition on the entire database account or any underlying Database / Collection. Must have at least one element. Scopes higher than Database account are not enforceable as assignable Scopes. Note that resources referenced in assignable Scopes need not exist.
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.permissions
-    in: body
-    description: The set of operations allowed through this Role Definition.
-    types:
-    - uid: Permission
-      isArray: true
 requestHeader: []
 definitions:
-- name: Permission
-  description: The set of data plane operations permitted through this Role Definition.
-  kind: object
-  properties:
-  - name: dataActions
-    description: An array of data actions that are allowed.
-    types:
-    - uid: string
-      isArray: true
-  - name: notDataActions
-    description: An array of data actions that are denied.
-    types:
-    - uid: string
-      isArray: true
 - name: SqlRoleDefinitionGetResults
   description: An Azure Cosmos DB SQL Role Definition.
   kind: object
@@ -140,28 +99,6 @@ definitions:
     description: Error Response.
     types:
     - uid: ErrorResponse
-- name: SqlRoleDefinitionCreateUpdateParameters
-  description: Parameters to create and update an Azure Cosmos DB SQL Role Definition.
-  kind: object
-  properties:
-  - name: properties.roleName
-    description: A user-friendly name for the Role Definition. Must be unique for the database account.
-    types:
-    - uid: string
-  - name: properties.type
-    description: Indicates whether the Role Definition was built-in or user created.
-    types:
-    - uid: RoleDefinitionType
-  - name: properties.assignableScopes
-    description: A set of fully qualified Scopes at or below which Role Assignments may be created using this Role Definition. This will allow application of this Role Definition on the entire database account or any underlying Database / Collection. Must have at least one element. Scopes higher than Database account are not enforceable as assignable Scopes. Note that resources referenced in assignable Scopes need not exist.
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.permissions
-    description: The set of operations allowed through this Role Definition.
-    types:
-    - uid: Permission
-      isArray: true
 - name: RoleDefinitionType
   description: Indicates whether the Role Definition was built-in or user created.
   kind: enum
@@ -172,6 +109,20 @@ definitions:
   - name: CustomRole
     types:
     - uid: string
+- name: Permission
+  description: The set of data plane operations permitted through this Role Definition.
+  kind: object
+  properties:
+  - name: dataActions
+    description: An array of data actions that are allowed.
+    types:
+    - uid: string
+      isArray: true
+  - name: notDataActions
+    description: An array of data actions that are denied.
+    types:
+    - uid: string
+      isArray: true
 - name: ErrorResponse
   description: Error Response.
   kind: object
@@ -185,29 +136,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: CosmosDBSqlRoleDefinitionCreateUpdate
+- name: CosmosDBSqlRoleDefinitionGet
   request:
-    uri: PUT https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/sqlRoleDefinitions/myRoleDefinitionId?api-version=2021-04-15
-    body: >-
-      {
-        "properties": {
-          "roleName": "myRoleName",
-          "type": "CustomRole",
-          "assignableScopes": [
-            "/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/sales",
-            "/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/purchases"
-          ],
-          "permissions": [
-            {
-              "dataActions": [
-                "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/create",
-                "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/read"
-              ],
-              "notDataActions": []
-            }
-          ]
-        }
-      }
+    uri: GET https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/sqlRoleDefinitions/myRoleDefinitionId?api-version=2021-04-15
   responses:
   - statusCode: "200"
     body: >-
@@ -227,12 +158,12 @@ examples:
               "dataActions": [
                 "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/create",
                 "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/read"
-              ]
+              ],
+              "notDataActions": []
             }
           ]
         }
       }
-  - statusCode: "202"
 security:
 - name: azure_auth
   type: oauth2
@@ -243,5 +174,5 @@ security:
   - name: user_impersonation
     description: Impersonate your user account
 metadata:
-  description: Learn more about Cosmos DB Resource Provider service - Creates or updates an Azure Cosmos DB SQL Role Definition.
+  description: Learn more about Cosmos DB Resource Provider service - Retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
 errorCodes: []
