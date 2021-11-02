@@ -13766,6 +13766,13 @@
 ### [Update](resources/Resources/Update.yml)
 ### [Update By Id](resources/Resources/Update-By-Id.yml)
 ### [Validate Move Resources](resources/Resources/Validate-Move-Resources.yml)
+## Subscription Feature Registrations
+### [Overview](resources/Subscription-Feature-Registrations.yml)
+### [Create Or Update](resources/Subscription-Feature-Registrations/Create-Or-Update.yml)
+### [Delete](resources/Subscription-Feature-Registrations/Delete.yml)
+### [Get](resources/Subscription-Feature-Registrations/Get.yml)
+### [List All By Subscription](resources/Subscription-Feature-Registrations/List-All-By-Subscription.yml)
+### [List By Subscription](resources/Subscription-Feature-Registrations/List-By-Subscription.yml)
 ## Subscriptions
 ### [Overview](resources/Subscriptions.yml)
 ### [Get](resources/Subscriptions/Get.yml)
