@@ -53,13 +53,41 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.remotePrivateEndpoint
+  - name: remotePrivateEndpoint
     in: body
     description: Remote private endpoint details.
     types:
     - uid: RemotePrivateEndpoint
 requestHeader: []
 definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: RemotePrivateEndpoint
   description: Remote private endpoint details.
   kind: object
@@ -93,34 +121,6 @@ definitions:
     types:
     - uid: ConnectionDetails
       isArray: true
-- name: systemData
-  description: Metadata pertaining to creation and last modification of the resource.
-  kind: object
-  properties:
-  - name: createdBy
-    description: The identity that created the resource.
-    types:
-    - uid: string
-  - name: createdByType
-    description: The type of identity that created the resource.
-    types:
-    - uid: createdByType
-  - name: createdAt
-    description: The timestamp of resource creation (UTC).
-    types:
-    - uid: string
-  - name: lastModifiedBy
-    description: The identity that last modified the resource.
-    types:
-    - uid: string
-  - name: lastModifiedByType
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: createdByType
-  - name: lastModifiedAt
-    description: The timestamp of resource last modification (UTC)
-    types:
-    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -133,20 +133,6 @@ definitions:
   description: Private endpoint connection proxy details.
   kind: object
   properties:
-  - name: properties.eTag
-    isReadyOnly: true
-    description: ETag from NRP.
-    types:
-    - uid: string
-  - name: properties.remotePrivateEndpoint
-    description: Remote private endpoint details.
-    types:
-    - uid: RemotePrivateEndpoint
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the private endpoint connection proxy resource.
-    types:
-    - uid: PrivateEndpointConnectionProxyProvisioningState
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -167,6 +153,36 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
+  - name: eTag
+    isReadyOnly: true
+    description: ETag from NRP.
+    types:
+    - uid: string
+  - name: remotePrivateEndpoint
+    description: Remote private endpoint details.
+    types:
+    - uid: RemotePrivateEndpoint
+  - name: provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private endpoint connection proxy resource.
+    types:
+    - uid: PrivateEndpointConnectionProxyProvisioningState
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: PrivateLinkServiceConnection
   description: Private link service connection details.
   kind: object
@@ -232,22 +248,6 @@ definitions:
   - name: memberName
     isReadyOnly: true
     description: Member name.
-    types:
-    - uid: string
-- name: createdByType
-  description: The type of identity that created the resource.
-  kind: enum
-  properties:
-  - name: User
-    types:
-    - uid: string
-  - name: Application
-    types:
-    - uid: string
-  - name: ManagedIdentity
-    types:
-    - uid: string
-  - name: Key
     types:
     - uid: string
 - name: ErrorDetail
@@ -379,25 +379,23 @@ examples:
     uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/privateEndpointConnectionProxies/peexample01/validate?api-version=2020-03-01-preview
     body: >-
       {
-        "properties": {
-          "remotePrivateEndpoint": {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{privateEndpointConnectionProxyId}",
-            "manualPrivateLinkServiceConnections": [
-              {
-                "name": "{privateEndpointConnectionProxyId}",
-                "groupIds": [
-                  "DeviceUpdate"
-                ],
-                "requestMessage": "Please approve my connection, thanks."
-              }
-            ],
-            "privateLinkServiceProxies": [
-              {
-                "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{privateEndpointConnectionProxyId}/privateLinkServiceProxies/{privateEndpointConnectionProxyId}",
-                "groupConnectivityInformation": []
-              }
-            ]
-          }
+        "remotePrivateEndpoint": {
+          "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{privateEndpointConnectionProxyId}",
+          "manualPrivateLinkServiceConnections": [
+            {
+              "name": "{privateEndpointConnectionProxyId}",
+              "groupIds": [
+                "DeviceUpdate"
+              ],
+              "requestMessage": "Please approve my connection, thanks."
+            }
+          ],
+          "privateLinkServiceProxies": [
+            {
+              "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{privateEndpointConnectionProxyId}/privateLinkServiceProxies/{privateEndpointConnectionProxyId}",
+              "groupConnectivityInformation": []
+            }
+          ]
         }
       }
   responses:
