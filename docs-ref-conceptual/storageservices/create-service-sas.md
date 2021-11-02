@@ -245,6 +245,20 @@ The following table describes how to refer to a signed identifier on the URI.
   
 A stored access policy includes a signed identifier, a value up to 64 characters long that is unique within the resource. The value of this signed identifier can be specified for the `signedidentifier` field in the URI for the shared access signature. Specifying a signed identifier on the URI associates the signature with the stored access policy. To establish a container-level access policy using the REST API, see [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md).  
 
+### Specifying the encryption scope
+
+The `signedEncryptionScope` field on the URI enables the customer to specify the encryption scope the client application can use. It enforces the server-side encryption with the given encryption scope when uploading blobs (PUT) with the SAS token. The GET and HEAD will not be restricted and performed as before. The following table describes how to refer to a signed encryption scope on the URI.
+
+|Field name|Query parameter|Description|  
+|----------------|---------------------|-----------------|  
+|`signedEncryptionScope`|`ses`|Optional. Indicates the encryption scope to use to encrypt the request contents.| 
+
+This field is supported with version 2020-12-06 or later. If the `ses` is added prior to the supported version, the service returns error response code 403 (Forbidden).
+
+If the default encryption scope is set for the container or filesystem, the `ses` query parameter will respect the container encryption policy. If there is a mismatch between the `ses` query parameter and `x-ms-default-encryption-scope` header, and the `x-ms-deny-encryption-scope-override` header is set to `true`, the service returns error response code 403 (Forbidden).
+
+When the `x-ms-encryption-scope` header and the `ses` query parameter are provided in the PUT request, the service returns error response code 400 (Bad Request) if there is a mismatch.
+
 ### Specifying the signature  
 
 The signature part of the URI is used to authorize the request made with the shared access signature. Azure Storage uses a Shared Key authorization scheme to authorize a service SAS. The following table describes how to specify the signature on the URI.  
@@ -256,6 +270,28 @@ The signature part of the URI is used to authorize the request made with the sha
 #### Constructing the signature string  
 
 To construct the signature string of a shared access signature, first construct the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Note that fields included in the string-to-sign must be URL-decoded.  
+
+##### Version 2020-12-06 and later
+
+Version 2020-12-06 adds support for the signed encryption scope field. To construct the string-to-sign for Blob service resources, use the following format:  
+
+``` 
+StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
+               signedIP + "\n" +  
+               signedProtocol + "\n" +  
+               signedVersion + "\n" +  
+               signedResource + "\n" +
+               signedSnapshotTime + "\n" +
+               signedEncryptionScope + "\n" +
+               rscc + "\n" +  
+               rscd + "\n" +  
+               rsce + "\n" +  
+               rscl + "\n" +  
+```
 
 ##### Version 2018-11-09 and later
   
