@@ -3,16 +3,16 @@ uid: speakerrecognition.verification.textdependent.resetprofile
 name: Reset Profile
 service: Speaker Recognition
 groupName: Text Dependent
-apiVersion: "2.0"
+apiVersion: 2021-09-05
 summary: "Reset Profile  \nResets existing profile to its original creation state. The reset operation does the following:\n* Updates enrollmentStatus to Enrolling.\n* Updates lastUpdatedDateTime.\n* Updates enrollmentsCount to 0.\n* Updates enrollmentsLength to 0.\n* Updates enrollmentsSpeechLength to 0.\n* Updates remainingEnrollmentsCount to the initial required number.\n* Removes all associated enrollments from storage.\n* Removes chosen passphrase association.\n* Resets value of modelVersion."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {Endpoint}/speaker/verification/v2.0/text-dependent/profiles/{profileId}/reset
+- content: POST {endpoint}/speaker-recognition/verification/text-dependent/profiles/{profileId}:reset?api-version=2021-09-05
 uriParameters:
-- name: Endpoint
+- name: endpoint
   in: path
   isRequired: true
   skipUrlEncoding: true
@@ -25,27 +25,28 @@ uriParameters:
   description: Unique identifier for profile id (guid).
   types:
   - uid: string
-  pattern: ^([0-9a-fA-F]){8}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){12}$
   format: uuid
+- name: api-version
+  in: query
+  isRequired: true
+  description: Specifies the version of the operation to use for this request.
+  types:
+  - uid: string
 responses:
-- name: 204 No Content
-  description: OK
-- name: 401 Unauthorized
-  description: Request is not authorized. Make sure subscription key is included and valid.
+- name: 200 OK
+  headers:
+  - name: Location
+    value: string
+  description: Speaker profile reset successfully. Profile is returned with reset values.
   types:
-  - uid: Error
-- name: 404 Not Found
-  description: NotFound - Requested profile doesn't exist
-  types:
-  - uid: Error
+  - uid: TdProfileInfo
 - name: Other Status Codes
-  description: Rate limit is exceeded.
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Failure
   types:
-  - uid: Error
-- name: 500 Internal Server Error
-  description: Internal Server Error.
-  types:
-  - uid: Error
+  - uid: SpeakerErrorInfo
 requestHeader:
 - name: Ocp-Apim-Subscription-Key
   in: header
@@ -53,7 +54,58 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: Error
+- name: TdProfileInfo
+  description: Text-Dependent Speaker profile info
+  kind: object
+  properties:
+  - name: profileId
+    description: Unique identifier for profile id (guid).
+    types:
+    - uid: string
+  - name: locale
+    description: Language identifier consisting of a combination of language code and country code.
+    types:
+    - uid: string
+  - name: enrollmentStatus
+    description: >-
+      Status representing the current state of the profile. Available values are:
+
+      * Enrolling: profile has no voice print and not ready for recognition requests.
+
+      * Training: voice print of profile is being created and can’t be used for recognition at the moment.
+
+      * Enrolled: profile has a voice print and ready for recognition requests.
+    types:
+    - uid: TrainingStatusType
+  - name: createdDateTime
+    description: Profile creation datetime.
+    types:
+    - uid: string
+  - name: lastUpdatedDateTime
+    description: Last datetime when the profile was updated.
+    types:
+    - uid: string
+  - name: enrollmentsCount
+    description: Number of enrollment audios accepted for this profile.
+    types:
+    - uid: integer
+  - name: enrollmentsLengthInSec
+    description: Total length of enrollment audios accepted for this profile in seconds.
+    types:
+    - uid: number
+  - name: enrollmentsSpeechLengthInSec
+    description: Summation of pure speech (which is the amount of audio after removing silence and non-speech segments) across all profile enrollments in seconds.
+    types:
+    - uid: number
+  - name: remainingEnrollmentsCount
+    description: Number of enrollment audios needed to complete profile enrollment.
+    types:
+    - uid: integer
+  - name: modelVersion
+    description: Date specifying the model assigned to this profile. Format is yyyy-mm-dd. If profile has no enrollments, this value will be empty.
+    types:
+    - uid: string
+- name: SpeakerErrorInfo
   description: Speaker error message
   kind: object
   properties:
@@ -61,60 +113,73 @@ definitions:
     description: ''
     types:
     - uid: Error
+- name: TrainingStatusType
+  description: >-
+    Status representing the current state of the profile. Available values are:
+
+    * Enrolling: profile has no voice print and not ready for recognition requests.
+
+    * Training: voice print of profile is being created and can’t be used for recognition at the moment.
+
+    * Enrolled: profile has a voice print and ready for recognition requests.
+  kind: enum
+  properties:
+  - name: Enrolling
+    types:
+    - uid: string
+  - name: Training
+    types:
+    - uid: string
+  - name: Enrolled
+    types:
+    - uid: string
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
 examples:
 - name: Successful Query
   request:
-    uri: POST {Endpoint}/speaker/verification/v2.0/text-dependent/profiles/49a36324-fc4b-4387-aa06-090cfbf0064f/reset
+    uri: POST https://westus.api.cognitive.microsoft.com/speaker-recognition/verification/text-dependent/profiles/49a36324-fc4b-4387-aa06-090cfbf0064f:reset?api-version=2021-09-05
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
   responses:
-  - statusCode: "204"
-    headers:
-    - name: Content-Type
-      value: application/json
-  - statusCode: "401"
+  - statusCode: "200"
     headers:
     - name: Content-Type
       value: application/json
     body: >-
       {
-        "error": {
-          "code": "Unauthorized",
-          "message": "Request is not authorized. Make sure subscription key is included and valid."
-        }
+        "profileId": "49a36324-fc4b-4387-aa06-090cfbf0064f",
+        "locale": "en-US",
+        "enrollmentStatus": "Enrolling",
+        "createdDateTime": "2015-04-23T18:25:43.41Z",
+        "lastUpdatedDateTime": "2015-04-23T18:25:43.41Z",
+        "enrollmentsCount": 0,
+        "enrollmentsLengthInSec": 0,
+        "enrollmentsSpeechLengthInSec": 0,
+        "remainingEnrollmentsCount": 3,
+        "modelVersion": "2019-12-05"
       }
-  - statusCode: "404"
+  - statusCode: default
     headers:
     - name: Content-Type
       value: application/json
+    - name: x-ms-error-code
+      value: Error Code
     body: >-
       {
         "error": {
-          "code": "Not Found",
-          "message": "Requested profile doesn't exist"
-        }
-      }
-  - statusCode: "429"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "RateLimit",
-          "message": "Rate limit is exceeded."
-        }
-      }
-  - statusCode: "500"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "InternalServerError",
-          "message": "Internal Server Error."
+          "code": "Error Code",
+          "message": "Erro Messae"
         }
       }
 security:

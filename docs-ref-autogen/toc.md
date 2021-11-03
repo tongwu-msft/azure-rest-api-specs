@@ -11819,14 +11819,6 @@
 ### Metrics (Data plane)
 #### [Overview](monitor/Metrics%20(Data%20plane).yml)
 #### [Create](monitor/Metrics%20(Data%20plane)/Create.yml)
-### Scheduled Query Rules
-#### [Overview](monitor/Scheduled-Query-Rules.yml)
-#### [Create Or Update](monitor/Scheduled-Query-Rules/Create-Or-Update.yml)
-#### [Delete](monitor/Scheduled-Query-Rules/Delete.yml)
-#### [Get](monitor/Scheduled-Query-Rules/Get.yml)
-#### [List By Resource Group](monitor/Scheduled-Query-Rules/List-By-Resource-Group.yml)
-#### [List By Subscription](monitor/Scheduled-Query-Rules/List-By-Subscription.yml)
-#### [Update](monitor/Scheduled-Query-Rules/Update.yml)
 ### Smart Detector Alert Rules
 #### [Overview](monitor/Smart-Detector-Alert-Rules.yml)
 #### [Create Or Update](monitor/Smart-Detector-Alert-Rules/Create-Or-Update.yml)
@@ -11918,15 +11910,24 @@
 ##### [List](monitor/querypacks(preview)/Query%20Packs%20(Preview)/List.yml)
 ##### [List By Resource Group](monitor/querypacks(preview)/Query%20Packs%20(Preview)/List-By-Resource-Group.yml)
 ##### [Update Tags](monitor/querypacks(preview)/Query%20Packs%20(Preview)/Update-Tags.yml)
-### Scheduled Query Rule-Preview
+### Scheduled Query Rule - 2018-04-16
 #### Scheduled Query Rules
-##### [Overview](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules.yml)
-##### [Create Or Update](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/Create-Or-Update.yml)
-##### [Delete](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/Delete.yml)
-##### [Get](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/Get.yml)
-##### [List By Resource Group](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/List-By-Resource-Group.yml)
-##### [List By Subscription](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/List-By-Subscription.yml)
-##### [Update](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/Update.yml)
+##### [Overview](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules.yml)
+##### [Create Or Update](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/Create-Or-Update.yml)
+##### [Delete](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/Delete.yml)
+##### [Get](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/Get.yml)
+##### [List By Resource Group](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/List-By-Resource-Group.yml)
+##### [List By Subscription](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/List-By-Subscription.yml)
+##### [Update](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/Update.yml)
+### Scheduled Query Rule - 2021-02-01-preview
+#### Scheduled Query Rules
+##### [Overview](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules.yml)
+##### [Create Or Update](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/Create-Or-Update.yml)
+##### [Delete](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/Delete.yml)
+##### [Get](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/Get.yml)
+##### [List By Resource Group](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/List-By-Resource-Group.yml)
+##### [List By Subscription](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/List-By-Subscription.yml)
+##### [Update](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/Update.yml)
 ### VM Health
 #### Health Monitors
 ##### [Overview](monitor/vmhealth/Health-Monitors.yml)
@@ -13769,6 +13770,13 @@
 ### [Update](resources/Resources/Update.yml)
 ### [Update By Id](resources/Resources/Update-By-Id.yml)
 ### [Validate Move Resources](resources/Resources/Validate-Move-Resources.yml)
+## Subscription Feature Registrations
+### [Overview](resources/Subscription-Feature-Registrations.yml)
+### [Create Or Update](resources/Subscription-Feature-Registrations/Create-Or-Update.yml)
+### [Delete](resources/Subscription-Feature-Registrations/Delete.yml)
+### [Get](resources/Subscription-Feature-Registrations/Get.yml)
+### [List All By Subscription](resources/Subscription-Feature-Registrations/List-All-By-Subscription.yml)
+### [List By Subscription](resources/Subscription-Feature-Registrations/List-By-Subscription.yml)
 ## Subscriptions
 ### [Overview](resources/Subscriptions.yml)
 ### [Get](resources/Subscriptions/Get.yml)
@@ -16117,6 +16125,7 @@
 #### [Delete Profile](speakerrecognition/identification/Text-Independent/Delete-Profile.yml)
 #### [Get Profile](speakerrecognition/identification/Text-Independent/Get-Profile.yml)
 #### [Identify Single Speaker](speakerrecognition/identification/Text-Independent/Identify-Single-Speaker.yml)
+#### [List Activation Phrases](speakerrecognition/identification/Text-Independent/List-Activation-Phrases.yml)
 #### [List Profiles](speakerrecognition/identification/Text-Independent/List-Profiles.yml)
 #### [Reset Profile](speakerrecognition/identification/Text-Independent/Reset-Profile.yml)
 ## Verification
@@ -16136,6 +16145,7 @@
 #### [Create Profile](speakerrecognition/verification/Text-Independent/Create-Profile.yml)
 #### [Delete Profile](speakerrecognition/verification/Text-Independent/Delete-Profile.yml)
 #### [Get Profile](speakerrecognition/verification/Text-Independent/Get-Profile.yml)
+#### [List Activation Phrases](speakerrecognition/verification/Text-Independent/List-Activation-Phrases.yml)
 #### [List Profiles](speakerrecognition/verification/Text-Independent/List-Profiles.yml)
 #### [Reset Profile](speakerrecognition/verification/Text-Independent/Reset-Profile.yml)
 #### [Verify Profile](speakerrecognition/verification/Text-Independent/Verify-Profile.yml)
@@ -18628,6 +18638,7 @@
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### Previous Azure Storage services versions
 #### [Overview](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
+#### [Version 2020-10-02](../docs-ref-conceptual/storageservices/version-2020-10-02.md)
 #### [Version 2020-08-04](../docs-ref-conceptual/storageservices/version-2020-08-04.md)
 #### [Version 2020-06-12](../docs-ref-conceptual/storageservices/version-2020-06-12.md)
 #### [Version 2020-04-08](../docs-ref-conceptual/storageservices/version-2020-04-08.md)

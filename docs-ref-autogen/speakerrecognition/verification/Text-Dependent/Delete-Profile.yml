@@ -3,16 +3,16 @@ uid: speakerrecognition.verification.textdependent.deleteprofile
 name: Delete Profile
 service: Speaker Recognition
 groupName: Text Dependent
-apiVersion: "2.0"
+apiVersion: 2021-09-05
 summary: "Delete Profile  \nDeletes an existing profile."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE {Endpoint}/speaker/verification/v2.0/text-dependent/profiles/{profileId}
+- content: DELETE {endpoint}/speaker-recognition/verification/text-dependent/profiles/{profileId}?api-version=2021-09-05
 uriParameters:
-- name: Endpoint
+- name: endpoint
   in: path
   isRequired: true
   skipUrlEncoding: true
@@ -25,23 +25,23 @@ uriParameters:
   description: Unique identifier for profile id (guid).
   types:
   - uid: string
-  pattern: ^([0-9a-fA-F]){8}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){12}$
   format: uuid
+- name: api-version
+  in: query
+  isRequired: true
+  description: Specifies the version of the operation to use for this request.
+  types:
+  - uid: string
 responses:
 - name: 204 No Content
   description: OK
-- name: 401 Unauthorized
-  description: Request is not authorized. Make sure subscription key is included and valid.
-  types:
-  - uid: Error
 - name: Other Status Codes
-  description: Rate limit is exceeded.
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Failure
   types:
-  - uid: Error
-- name: 500 Internal Server Error
-  description: Internal Server Error.
-  types:
-  - uid: Error
+  - uid: SpeakerErrorInfo
 requestHeader:
 - name: Ocp-Apim-Subscription-Key
   in: header
@@ -49,7 +49,7 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: Error
+- name: SpeakerErrorInfo
   description: Speaker error message
   kind: object
   properties:
@@ -57,10 +57,21 @@ definitions:
     description: ''
     types:
     - uid: Error
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
 examples:
 - name: Successful Query
   request:
-    uri: DELETE {Endpoint}/speaker/verification/v2.0/text-dependent/profiles/49a36324-fc4b-4387-aa06-090cfbf0064f
+    uri: DELETE https://westus.api.cognitive.microsoft.com/speaker-recognition/verification/text-dependent/profiles/49a36324-fc4b-4387-aa06-090cfbf0064f?api-version=2021-09-05
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
@@ -69,37 +80,17 @@ examples:
     headers:
     - name: Content-Type
       value: application/json
-  - statusCode: "401"
+  - statusCode: default
     headers:
     - name: Content-Type
       value: application/json
+    - name: x-ms-error-code
+      value: Error Code
     body: >-
       {
         "error": {
-          "code": "Unauthorized",
-          "message": "Request is not authorized. Make sure subscription key is included and valid."
-        }
-      }
-  - statusCode: "429"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "RateLimit",
-          "message": "Rate limit is exceeded."
-        }
-      }
-  - statusCode: "500"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "InternalServerError",
-          "message": "Internal Server Error."
+          "code": "Error Code",
+          "message": "Erro Messae"
         }
       }
 security:

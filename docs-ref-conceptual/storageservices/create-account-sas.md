@@ -54,6 +54,7 @@ The following table describes the required and optional parameters for the SAS t
 |`SignedExpiry (se)`|Required. The time at which the shared access signature becomes invalid, expressed in one of the accepted ISO 8601 UTC formats. For more information about accepted UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).|  
 |`SignedIP (sip)`|Optional. Specifies an IP address or a range of IP addresses from which to accept requests. When specifying a range, note that the range is inclusive.<br /><br /> For example, `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70`.|  
 |`SignedProtocol (spr)`|Optional. Specifies the protocol permitted for a request made with the account SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`).  The default value is `https,http`.<br /><br /> Note that HTTP only is not a permitted value.|  
+|`SignedEncryptionScope (ses)`|Optional. Indicates the encryption scope to use to encrypt the request contents. This field is supported with version 2020-12-06 or later.|
 |`Signature (sig)`|Required.  The signature part of the URI is used to authorize the request made with the shared access signature.<br /><br /> The string-to-sign is a unique string constructed from the fields that must be verified in order to authorize the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.|  
   
 ### Constructing the signature string
@@ -73,7 +74,23 @@ StringToSign = accountname + "\n" +
     signedProtocol + "\n" +  
     signedversion + "\n"  
   
+```
+
+Version 2020-12-06 adds support for the signed encryption scope field. To construct the string-to-sign for an account SAS, use the following format: 
+
 ```  
+StringToSign = accountname + "\n" +  
+    signedpermissions + "\n" +  
+    signedservice + "\n" +  
+    signedresourcetype + "\n" +  
+    signedstart + "\n" +  
+    signedexpiry + "\n" +  
+    signedIP + "\n" +  
+    signedProtocol + "\n" +  
+    signedversion + "\n" +
+    signedEncryptionScope + "\n"  
+  
+``` 
   
 ## Account sas permissions by operation
 

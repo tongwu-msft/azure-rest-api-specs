@@ -1,0 +1,128 @@
+### YamlMime:RESTOperation
+uid: speakerrecognition.identification.textindependent.listactivationphrases
+name: List Activation Phrases
+service: Speaker Recognition
+groupName: Text Independent
+apiVersion: 2021-09-05
+summary: "Activation Phrases  \nRetrieves list of supported passphrases for a specific locale."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/speaker-recognition/identification/text-independent/phrases/{locale}?api-version=2021-09-05
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: locale
+  in: path
+  isRequired: true
+  description: A combination of language code and country code.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z]{2}-?[a-zA-Z]{2}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Specifies the version of the operation to use for this request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ActivationPhraseInfo
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Failure
+  types:
+  - uid: SpeakerErrorInfo
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: ActivationPhraseInfo
+  description: Activation phrase list
+  kind: object
+  properties:
+  - name: value
+    description: ''
+    types:
+    - uid: Value
+      isArray: true
+- name: SpeakerErrorInfo
+  description: Speaker error message
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: Error
+- name: Value
+  kind: object
+  properties:
+  - name: activationPhrase
+    description: Activation phrases available to activate a profile.
+    types:
+    - uid: string
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Successful Query
+  request:
+    uri: GET https://westus.api.cognitive.microsoft.com/speaker-recognition/identification/text-independent/phrases/en-US?api-version=2021-09-05
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Content-Type
+      value: application/json
+    body: >-
+      {
+        "value": [
+          {
+            "activationPhrase": "this is my activation phrase to identify me"
+          }
+        ]
+      }
+  - statusCode: default
+    headers:
+    - name: Content-Type
+      value: application/json
+    - name: x-ms-error-code
+      value: Error Code
+    body: >-
+      {
+        "error": {
+          "code": "Error Code",
+          "message": "Erro Messae"
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+metadata:
+  description: "Learn more about Speaker Recognition service - Activation Phrases  \nRetrieves list of supported passphrases for a specific locale."
+errorCodes: []
