@@ -11816,14 +11816,6 @@
 ### Metrics (Data plane)
 #### [Overview](monitor/Metrics%20(Data%20plane).yml)
 #### [Create](monitor/Metrics%20(Data%20plane)/Create.yml)
-### Scheduled Query Rules
-#### [Overview](monitor/Scheduled-Query-Rules.yml)
-#### [Create Or Update](monitor/Scheduled-Query-Rules/Create-Or-Update.yml)
-#### [Delete](monitor/Scheduled-Query-Rules/Delete.yml)
-#### [Get](monitor/Scheduled-Query-Rules/Get.yml)
-#### [List By Resource Group](monitor/Scheduled-Query-Rules/List-By-Resource-Group.yml)
-#### [List By Subscription](monitor/Scheduled-Query-Rules/List-By-Subscription.yml)
-#### [Update](monitor/Scheduled-Query-Rules/Update.yml)
 ### Smart Detector Alert Rules
 #### [Overview](monitor/Smart-Detector-Alert-Rules.yml)
 #### [Create Or Update](monitor/Smart-Detector-Alert-Rules/Create-Or-Update.yml)
@@ -11915,15 +11907,24 @@
 ##### [List](monitor/querypacks(preview)/Query%20Packs%20(Preview)/List.yml)
 ##### [List By Resource Group](monitor/querypacks(preview)/Query%20Packs%20(Preview)/List-By-Resource-Group.yml)
 ##### [Update Tags](monitor/querypacks(preview)/Query%20Packs%20(Preview)/Update-Tags.yml)
-### Scheduled Query Rule-Preview
+### Scheduled Query Rule - 2018-04-16
 #### Scheduled Query Rules
-##### [Overview](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules.yml)
-##### [Create Or Update](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/Create-Or-Update.yml)
-##### [Delete](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/Delete.yml)
-##### [Get](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/Get.yml)
-##### [List By Resource Group](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/List-By-Resource-Group.yml)
-##### [List By Subscription](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/List-By-Subscription.yml)
-##### [Update](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/Update.yml)
+##### [Overview](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules.yml)
+##### [Create Or Update](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/Create-Or-Update.yml)
+##### [Delete](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/Delete.yml)
+##### [Get](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/Get.yml)
+##### [List By Resource Group](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/List-By-Resource-Group.yml)
+##### [List By Subscription](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/List-By-Subscription.yml)
+##### [Update](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/Update.yml)
+### Scheduled Query Rule - 2021-02-01-preview
+#### Scheduled Query Rules
+##### [Overview](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules.yml)
+##### [Create Or Update](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/Create-Or-Update.yml)
+##### [Delete](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/Delete.yml)
+##### [Get](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/Get.yml)
+##### [List By Resource Group](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/List-By-Resource-Group.yml)
+##### [List By Subscription](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/List-By-Subscription.yml)
+##### [Update](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/Update.yml)
 ### VM Health
 #### Health Monitors
 ##### [Overview](monitor/vmhealth/Health-Monitors.yml)
