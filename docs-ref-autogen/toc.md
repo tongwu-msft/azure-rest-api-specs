@@ -6170,6 +6170,9 @@
 #### [Delete](communication/Communication-Identity/Delete.yml)
 #### [Issue Access Token](communication/Communication-Identity/Issue-Access-Token.yml)
 #### [Revoke Access Tokens](communication/Communication-Identity/Revoke-Access-Tokens.yml)
+### Communication Network Traversal
+#### [Overview](communication/Communication-Network-Traversal.yml)
+#### [Issue Relay Configuration](communication/Communication-Network-Traversal/Issue-Relay-Configuration.yml)
 ### Communication Service
 #### [Overview](communication/Communication-Service.yml)
 #### [Check Name Availability](communication/Communication-Service/Check-Name-Availability.yml)
