@@ -2,7 +2,6 @@
 title: "Send a Windows Push Notification Services (WNS) native notification"
 ms.custom: ""
 ms.date: 04/05/2019
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "notification-hubs"
 ms.suite: ""

@@ -1,0 +1,168 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.videoindexer.accounts.checknameavailability
+name: Check Name Availability
+service: Azure Video Analyzer for Media
+groupName: Accounts
+apiVersion: 2021-10-18-preview
+summary: Checks that the Video Indexer account name is valid and is not already in use.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.VideoIndexer/checkNameAvailability?api-version=2021-10-18-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Operation to check the Video Indexer account name availability was successful. Ok does not indicate the name is available, the body of the response does.
+  types:
+  - uid: CheckNameAvailabilityResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    isRequired: true
+    description: The VideoIndexer account name.
+    types:
+    - uid: string
+  - name: type
+    in: body
+    isRequired: true
+    description: The type of resource, Microsoft.VideoIndexer/accounts
+    types:
+    - uid: Type
+requestHeader: []
+definitions:
+- name: CheckNameAvailabilityResult
+  description: The CheckNameAvailability operation response.
+  kind: object
+  properties:
+  - name: nameAvailable
+    isReadyOnly: true
+    description: Gets a boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already been taken.
+    types:
+    - uid: boolean
+  - name: reason
+    isReadyOnly: true
+    description: Gets the reason that a Video Indexer account name could not be used. The Reason element is only returned if NameAvailable is false.
+    types:
+    - uid: Reason
+  - name: message
+    isReadyOnly: true
+    description: Gets an error message explaining the Reason value in more detail.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+- name: AccountCheckNameAvailabilityParameters
+  description: The parameters used to check the availability of the Video Indexer account name.
+  kind: object
+  properties:
+  - name: name
+    description: The VideoIndexer account name.
+    types:
+    - uid: string
+  - name: type
+    description: The type of resource, Microsoft.VideoIndexer/accounts
+    types:
+    - uid: Type
+- name: Reason
+  description: Gets the reason that a Video Indexer account name could not be used. The Reason element is only returned if NameAvailable is false.
+  kind: enum
+  properties:
+  - name: AlreadyExists
+    types:
+    - uid: string
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Internal error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
+- name: Type
+  description: The type of resource, Microsoft.VideoIndexer/accounts
+  kind: enum
+  properties:
+  - name: Microsoft.VideoIndexer/accounts
+    types:
+    - uid: string
+examples:
+- name: Check free account name availability
+  request:
+    uri: POST https://management.azure.com/subscriptions/586d4f48-8f08-4a4e-96b7-e1892d6dba9e/providers/Microsoft.VideoIndexer/checkNameAvailability?api-version=2021-10-18-preview
+    body: >-
+      {
+        "name": "vi1",
+        "type": "Microsoft.VideoIndexer/accounts"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": true
+      }
+- name: Check taken account name availability
+  request:
+    uri: POST https://management.azure.com/subscriptions/586d4f48-8f08-4a4e-96b7-e1892d6dba9e/providers/Microsoft.VideoIndexer/checkNameAvailability?api-version=2021-10-18-preview
+    body: >-
+      {
+        "name": "vi1",
+        "type": "Microsoft.VideoIndexer/accounts"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": false,
+        "reason": "AlreadyExists",
+        "message": "Resource name already exists"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Azure Video Analyzer for Media service - Checks that the Video Indexer account name is valid and is not already in use.
+errorCodes: []

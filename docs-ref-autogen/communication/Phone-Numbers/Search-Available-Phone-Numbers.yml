@@ -1,0 +1,297 @@
+### YamlMime:RESTOperation
+uid: communication.phonenumbers.searchavailablephonenumbers
+name: Search Available Phone Numbers
+service: Communication
+groupName: Phone Numbers
+apiVersion: 2021-03-07
+summary: Search for available phone numbers to purchase.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/availablePhoneNumbers/countries/{countryCode}/:search?api-version=2021-03-07
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The communication resource, for example https://resourcename.communication.azure.com.
+  types:
+  - uid: string
+- name: countryCode
+  in: path
+  isRequired: true
+  description: The ISO 3166-2 country code, e.g. US.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  - name: Operation-Location
+    value: string
+  - name: operation-id
+    value: string
+  - name: search-id
+    value: string
+  description: The service has accepted the request and will start processing later. It will return 'Accepted' immediately and include an 'Operation-Location' and 'Location' headers. Client side should further query the operation status using the URL specified in 'Operation-Location' header. When operation completes successfully query final result using URL specified in 'Location' header.
+  types:
+  - uid: PhoneNumberSearchResult
+- name: Other Status Codes
+  description: Failure
+  types:
+  - uid: CommunicationErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: phoneNumberType
+    in: body
+    isRequired: true
+    description: The type of phone numbers to search for, e.g. geographic, or tollFree.
+    types:
+    - uid: PhoneNumberType
+  - name: assignmentType
+    in: body
+    isRequired: true
+    description: The assignment type of the phone numbers to search for. A phone number can be assigned to a person, or to an application.
+    types:
+    - uid: PhoneNumberAssignmentType
+  - name: capabilities
+    in: body
+    isRequired: true
+    description: Capabilities of a phone number.
+    types:
+    - uid: PhoneNumberCapabilities
+  - name: areaCode
+    in: body
+    description: The area code of the desired phone number, e.g. 425.
+    types:
+    - uid: string
+  - name: quantity
+    in: body
+    description: The quantity of desired phone numbers. The default value is 1.
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: PhoneNumberCapabilities
+  description: Capabilities of a phone number.
+  kind: object
+  properties:
+  - name: calling
+    description: Capability value for calling.
+    types:
+    - uid: PhoneNumberCapabilityType
+  - name: sms
+    description: Capability value for SMS.
+    types:
+    - uid: PhoneNumberCapabilityType
+- name: PhoneNumberSearchResult
+  description: The result of a phone number search operation.
+  kind: object
+  properties:
+  - name: searchId
+    description: The search id.
+    types:
+    - uid: string
+  - name: phoneNumbers
+    description: The phone numbers that are available. Can be fewer than the desired search quantity.
+    types:
+    - uid: string
+      isArray: true
+  - name: phoneNumberType
+    description: The phone number's type, e.g. geographic, or tollFree.
+    types:
+    - uid: PhoneNumberType
+  - name: assignmentType
+    description: Phone number's assignment type.
+    types:
+    - uid: PhoneNumberAssignmentType
+  - name: capabilities
+    description: Capabilities of a phone number.
+    types:
+    - uid: PhoneNumberCapabilities
+  - name: cost
+    description: The incurred cost for a single phone number.
+    types:
+    - uid: PhoneNumberCost
+  - name: searchExpiresBy
+    description: The date that this search result expires and phone numbers are no longer on hold. A search result expires in less than 15min, e.g. 2020-11-19T16:31:49.048Z.
+    types:
+    - uid: string
+- name: CommunicationErrorResponse
+  description: The Communication Services error.
+  kind: object
+  properties:
+  - name: error
+    description: The Communication Services error.
+    types:
+    - uid: CommunicationError
+- name: PhoneNumberSearchRequest
+  description: Represents a phone number search request to find phone numbers. Found phone numbers are temporarily held for a following purchase.
+  kind: object
+  properties:
+  - name: phoneNumberType
+    description: The type of phone numbers to search for, e.g. geographic, or tollFree.
+    types:
+    - uid: PhoneNumberType
+  - name: assignmentType
+    description: The assignment type of the phone numbers to search for. A phone number can be assigned to a person, or to an application.
+    types:
+    - uid: PhoneNumberAssignmentType
+  - name: capabilities
+    description: Capabilities of a phone number.
+    types:
+    - uid: PhoneNumberCapabilities
+  - name: areaCode
+    description: The area code of the desired phone number, e.g. 425.
+    types:
+    - uid: string
+  - name: quantity
+    description: The quantity of desired phone numbers. The default value is 1.
+    types:
+    - uid: integer
+- name: PhoneNumberCapabilityType
+  description: Capability value for calling.
+  kind: enum
+  properties:
+  - name: none
+    types:
+    - uid: string
+  - name: inbound
+    types:
+    - uid: string
+  - name: outbound
+    types:
+    - uid: string
+  - name: inbound+outbound
+    types:
+    - uid: string
+- name: PhoneNumberType
+  description: The type of phone numbers to search for, e.g. geographic, or tollFree.
+  kind: enum
+  properties:
+  - name: geographic
+    types:
+    - uid: string
+  - name: tollFree
+    types:
+    - uid: string
+- name: PhoneNumberAssignmentType
+  description: The assignment type of the phone numbers to search for. A phone number can be assigned to a person, or to an application.
+  kind: enum
+  properties:
+  - name: person
+    types:
+    - uid: string
+  - name: application
+    types:
+    - uid: string
+- name: PhoneNumberCost
+  description: The incurred cost for a single phone number.
+  kind: object
+  properties:
+  - name: amount
+    description: The cost amount.
+    types:
+    - uid: number
+  - name: currencyCode
+    description: The ISO 4217 currency code for the cost amount, e.g. USD.
+    types:
+    - uid: string
+  - name: billingFrequency
+    description: The frequency with which the cost gets billed.
+    types:
+    - uid: BillingFrequency
+- name: CommunicationError
+  description: The Communication Services error.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Further details about specific errors that led to this error.
+    types:
+    - uid: CommunicationError
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: The inner error if any.
+    types:
+    - uid: CommunicationError
+- name: BillingFrequency
+  description: The frequency with which the cost gets billed.
+  kind: enum
+  properties:
+  - name: monthly
+    types:
+    - uid: string
+examples:
+- name: Search for phone numbers
+  request:
+    uri: POST https://resourcename.communication.azure.com//availablePhoneNumbers/countries/US/:search?api-version=2021-03-07
+    body: >-
+      {
+        "phoneNumberType": "tollFree",
+        "assignmentType": "application",
+        "capabilities": {
+          "sms": "inbound+outbound",
+          "calling": "none"
+        },
+        "areaCode": "425",
+        "quantity": 1
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Operation-Location
+      value: /phoneNumbers/operations/search_378ddf60-81be-452a-ba4f-613198ea6c28
+    - name: Location
+      value: /availablePhoneNumbers/searchResults/378ddf60-81be-452a-ba4f-613198ea6c28
+    - name: operation-id
+      value: search_378ddf60-81be-452a-ba4f-613198ea6c28
+    - name: search-id
+      value: 378ddf60-81be-452a-ba4f-613198ea6c28
+    body: >-
+      {
+        "searchId": "378ddf60-81be-452a-ba4f-613198ea6c28",
+        "phoneNumbers": [
+          "+18001212121"
+        ],
+        "phoneNumberType": "tollFree",
+        "assignmentType": "application",
+        "capabilities": {
+          "sms": "inbound+outbound",
+          "calling": "none"
+        },
+        "cost": {
+          "amount": 1.2,
+          "currencyCode": "USD",
+          "billingFrequency": "monthly"
+        },
+        "searchExpiresBy": "2020-11-19T16:31:49.048Z"
+      }
+security: []
+metadata:
+  description: Learn more about Communication service - Search for available phone numbers to purchase.
+errorCodes: []

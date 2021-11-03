@@ -1,0 +1,269 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.monitor.vmhealth.healthmonitors.get
+name: Get
+service: Monitor
+groupName: Health Monitors
+apiVersion: 2020-01-13-preview
+summary: "Get the current health status of a monitor of a virtual machine. Optional parameter: $expand (retrieve the monitor's evidence and configuration)."
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{providerName}/{resourceCollectionName}/{resourceName}/providers/Microsoft.WorkloadMonitor/monitors/{monitorId}?api-version=2020-01-13-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{providerName}/{resourceCollectionName}/{resourceName}/providers/Microsoft.WorkloadMonitor/monitors/{monitorId}?api-version=2020-01-13-preview&$expand={$expand}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id of the virtual machine.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group of the virtual machine.
+  types:
+  - uid: string
+- name: providerName
+  in: path
+  isRequired: true
+  description: 'The provider name (ex: Microsoft.Compute for virtual machines).'
+  types:
+  - uid: string
+- name: resourceCollectionName
+  in: path
+  isRequired: true
+  description: 'The resource collection name (ex: virtualMachines for virtual machines).'
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the virtual machine.
+  types:
+  - uid: string
+- name: monitorId
+  in: path
+  isRequired: true
+  description: The monitor Id of the virtual machine.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the operation.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: 'Optionally expand the monitor’s evidence and/or configuration. Example: $expand=evidence,configuration.'
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The health monitor matching the specified criteria.
+  types:
+  - uid: HealthMonitor
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: HealthMonitor
+  description: Information about the monitor’s current health status.
+  kind: object
+  properties:
+  - name: properties.monitorName
+    description: Human-readable name of the monitor.
+    types:
+    - uid: string
+  - name: properties.monitorType
+    description: Type of the monitor.
+    types:
+    - uid: string
+  - name: properties.monitoredObject
+    description: Dynamic monitored object of the monitor.
+    types:
+    - uid: string
+  - name: properties.parentMonitorName
+    description: Name of the parent monitor.
+    types:
+    - uid: string
+  - name: properties.previousMonitorState
+    isReadyOnly: true
+    description: "One of health states - healthy, critical, warning, unknown, none, disabled.  \nPrevious health state of the monitor."
+    types:
+    - uid: HealthState
+  - name: properties.currentMonitorState
+    isReadyOnly: true
+    description: "One of health states - healthy, critical, warning, unknown, none, disabled.  \nCurrent health state of the monitor."
+    types:
+    - uid: HealthState
+  - name: properties.evaluationTimestamp
+    description: Timestamp of the monitor's last health evaluation.
+    types:
+    - uid: string
+  - name: properties.currentStateFirstObservedTimestamp
+    description: Timestamp of the monitor's last health state change.
+    types:
+    - uid: string
+  - name: properties.lastReportedTimestamp
+    description: Timestamp of the monitor's last reported health state.
+    types:
+    - uid: string
+  - name: properties.evidence
+    description: Evidence validating the monitor's current health state.
+    types:
+    - uid: object
+  - name: properties.monitorConfiguration
+    description: The configuration settings at the time of the monitor's health evaluation.
+    types:
+    - uid: object
+  - name: id
+    isReadyOnly: true
+    description: The resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: Error info.
+    types:
+    - uid: Error
+- name: HealthState
+  description: One of health states - healthy, critical, warning, unknown, none, disabled.
+  kind: enum
+  properties:
+  - name: Healthy
+    types:
+    - uid: string
+  - name: Critical
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: Error
+  description: Error info.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: ErrorDetails
+      isArray: true
+- name: ErrorDetails
+  description: Error details
+  kind: object
+  properties:
+  - name: code
+    description: Error code identifying the specific error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable error message.
+    types:
+    - uid: string
+examples:
+- name: Get monitor with default values
+  request:
+    uri: GET https://management.azure.com/subscriptions/bc27da3b-3ba2-4e00-a6ec-1fde64aa1e21/resourceGroups/tugamidiAlerts/providers/Microsoft.Compute/virtualMachines/linuxEUS/providers/Microsoft.WorkloadMonitor/monitors/logical-disks|C@3A|free-space?api-version=2020-01-13-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/bc27da3b-3ba2-4e00-a6ec-1fde64aa1e21/resourceGroups/tugamidiAlerts/providers/Microsoft.Compute/virtualMachines/linuxEUS/providers/Microsoft.WorkloadMonitor/monitors/logical-disks|C@3A|free-space",
+        "name": "logical-disks|C@3A|free-space",
+        "type": "Microsoft.WorkloadMonitor/monitors",
+        "properties": {
+          "monitorName": "logical-disks|C:|free-space",
+          "monitorType": "logical-disks|*|free-space",
+          "monitoredObject": "C:",
+          "parentMonitorName": "logical-disks|C:",
+          "evaluationTimestamp": "2020-02-15T20:20:18.5765757Z",
+          "currentStateFirstObservedTimestamp": "2020-02-15T20:20:1.5765757Z",
+          "lastReportedTimestamp": "2020-02-15T20:20:18.5765757Z",
+          "previousMonitorState": "Healthy",
+          "currentMonitorState": "Warning"
+        }
+      }
+- name: Get monitor with expanded values
+  request:
+    uri: GET https://management.azure.com/subscriptions/bc27da3b-3ba2-4e00-a6ec-1fde64aa1e21/resourceGroups/tugamidiAlerts/providers/Microsoft.Compute/virtualMachines/linuxEUS/providers/Microsoft.WorkloadMonitor/monitors/logical-disks|C@3A|free-space?api-version=2020-01-13-preview&$expand=evidence
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/bc27da3b-3ba2-4e00-a6ec-1fde64aa1e21/resourceGroups/tugamidiAlerts/providers/Microsoft.Compute/virtualMachines/linuxEUS/providers/Microsoft.WorkloadMonitor/monitors/logical-disks|C@3A|free-space",
+        "name": "logical-disks|C@3A|free-space",
+        "type": "Microsoft.WorkloadMonitor/monitors",
+        "properties": {
+          "monitorName": "logical-disks|C:|free-space",
+          "monitorType": "logical-disks|*|free-space",
+          "monitoredObject": "C:",
+          "parentMonitorName": "logical-disks|C:",
+          "evaluationTimestamp": "2020-02-15T20:20:18.5765757Z",
+          "currentStateFirstObservedTimestamp": "2020-02-15T20:20:1.5765757Z",
+          "lastReportedTimestamp": "2020-02-15T20:20:18.5765757Z",
+          "previousMonitorState": "Healthy",
+          "currentMonitorState": "Warning",
+          "evidence": {
+            "reason": {
+              "code": 2200,
+              "message": "Collected samples met warning condition for this monitor."
+            },
+            "samples": [
+              {
+                "value": 7.019,
+                "timestamp": "2020-03-24T20:51:00.6058242Z"
+              },
+              {
+                "value": 6.019,
+                "timestamp": "2020-03-24T21:51:00.6058242Z"
+              }
+            ]
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: "Get the current health status of a monitor of a virtual machine. Optional parameter: $expand (retrieve the monitor's evidence and configuration)."
+errorCodes: []

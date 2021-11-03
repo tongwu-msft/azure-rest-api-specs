@@ -1,0 +1,156 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.devices.getgroupbestupdates
+name: Get Group Best Updates
+service: Device Update
+groupName: Devices
+apiVersion: 2020-09-01
+summary: Get the best available updates for a group and a count of how many devices need each update.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{accountEndpoint}/deviceupdate/{instanceId}/v2/management/groups/{groupId}/bestUpdates
+- content: GET https://{accountEndpoint}/deviceupdate/{instanceId}/v2/management/groups/{groupId}/bestUpdates?$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: accountEndpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account endpoint.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account instance identifier.
+  types:
+  - uid: string
+- name: groupId
+  in: path
+  isRequired: true
+  description: Group identifier.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: Restricts the set of bestUpdates returned. You can filter on update Provider, Name and Version property.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The best available updates for a group and a count of how many devices need each update.
+  types:
+  - uid: PageableListOfUpdatableDevices
+- name: 404 Not Found
+  description: Not found.
+requestHeader: []
+definitions:
+- name: PageableListOfUpdatableDevices
+  description: The list of updatable devices.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of pageable items.
+    types:
+    - uid: UpdatableDevices
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of items.
+    types:
+    - uid: string
+- name: UpdatableDevices
+  description: Update identifier and the number of devices for which the update is applicable.
+  kind: object
+  properties:
+  - name: updateId
+    description: Update identity.
+    types:
+    - uid: UpdateId
+  - name: deviceCount
+    description: Total number of devices for which the update is applicable.
+    types:
+    - uid: integer
+- name: UpdateId
+  description: Update identifier.
+  kind: object
+  properties:
+  - name: provider
+    description: Update provider.
+    types:
+    - uid: string
+  - name: name
+    description: Update name.
+    types:
+    - uid: string
+  - name: version
+    description: Update version.
+    types:
+    - uid: string
+examples:
+- name: Devices_GetGroupBestUpdates
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceupdate/blue/v2/management/groups/group1/bestUpdates
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "updateId": {
+              "provider": "provider1",
+              "name": "name1",
+              "version": "1.0.0.0"
+            },
+            "deviceCount": 100
+          },
+          {
+            "updateId": {
+              "provider": "provider2",
+              "name": "name2",
+              "version": "2.0.0.0"
+            },
+            "deviceCount": 200
+          }
+        ]
+      }
+  - statusCode: "404"
+security:
+- name: azure_auth_implicit
+  type: oauth2
+  description: Azure Active Directory OAuth2 Implicit Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+- name: azure_auth_code
+  type: oauth2
+  description: Azure Active Directory OAuth2 AccessCode Flow
+  flow: accessCode
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+  tokenUrl: https://login.microsoftonline.com/common/oauth2/v2.0/token
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+- name: azure_auth_application
+  type: oauth2
+  description: Azure Active Directory OAuth2 Application Flow
+  flow: application
+  tokenUrl: https://login.microsoftonline.com/common/oauth2/v2.0/token
+  scopes:
+  - name: .default
+    description: client credential scope
+- name: azure_auth_password
+  type: oauth2
+  description: Azure Active Directory OAuth2 Password Flow
+  flow: password
+  tokenUrl: https://login.microsoftonline.com/common/oauth2/v2.0/token
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Device Update service - Get the best available updates for a group and a count of how many devices need each update.
+errorCodes: []

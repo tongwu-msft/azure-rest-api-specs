@@ -1,8 +1,7 @@
 ---
 title: "Create Subscription"
 ms.custom: ""
-ms.date: "05/15/2015"
-ms.prod: "azure"
+ms.date: "07/08/2020"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -10,9 +9,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 7fbbf52f-67f1-4cae-95b3-1c6e1234fd7f
 caps.latest.revision: 9
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -26,6 +25,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Subscription
+
+> [!IMPORTANT]
+> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+
 Creates a new subscription. Once created, the subscription resource manifest is immutable. This operation is not idempotent. Repeating the create call after a subscription with same name (under same topic and namespace) has been created successfully, results in a 409 Conflict error message.  
   
  If you create a subscription with a name that contains special or encoded characters (for example, "test?Name=value&", which gets encoded to "test%3FName%3Dvalue%26"), a (401) Unauthorized exception is generated.  

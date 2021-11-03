@@ -1,12 +1,13 @@
 ---
 title: Azure Billing Enterprise APIs - PriceSheet
-description: Learn about the Reporting APIs that enable Enterprise Azure customers to pull consumption data programmatically.
+description: Learn about the Price Sheet APIs to get consumption data programmatically.
 author: bandersmsft
 ms.reviewer: prkumar
 tags: billing
 ms.service: cost-management-billing
+ms.subservice: enterprise
 ms.topic: article
-ms.date: 06/22/2020
+ms.date: 09/15/2021
 ms.author: banders
 
 ---
@@ -19,7 +20,7 @@ ms.author: banders
 The Price Sheet API provides the applicable rate for each Meter for the given Enrollment and Billing Period.
 
 ## Request
-Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article. If a billing period isn't specified, then data for the current billing period is returned.
+Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](/azure/billing/billing-enterprise-api) article. If a billing period isn't specified, then data for the current billing period is returned.
 
 |Method | Request URI|
 |-|-|
@@ -31,7 +32,7 @@ Common header properties that need to be added are specified in the [Overview of
 
 ## Response
 
-
+```json
           [
             {
                   "id": "enrollments/57354989/billingperiods/201601/products/343/pricesheets",
@@ -57,11 +58,10 @@ Common header properties that need to be added are specified in the [Overview of
             },
             ...
         ]
-
+```
 
 > [!Note]
 >If you are using the Preview API, meterId field isn't available.
->
 
 **Response property definitions**
 

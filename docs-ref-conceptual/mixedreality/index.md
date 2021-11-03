@@ -8,7 +8,7 @@ caps.latest.revision: 01
 author: "XiangyuL-Microsoft"
 ms.author: "xiangyul"
 manager: "dgriff"
-translation.priority.mt: 
+translation.priority.mt:
   - "de-de"
   - "es-es"
   - "fr-fr"
@@ -22,26 +22,29 @@ translation.priority.mt:
 service_description: 'The common control plane shared by a series of Mixed Reality cloud service: Azure Spatial Anchors, Azure Remote Rendering, etc.'
 ---
 
-# Azure Mixed Reality Resource Management REST API Reference
+# Azure Mixed Reality REST API Reference
 Microsoft provides a series of Azure services to empower Mixed Reality devices and applications. Currently such services are provided:
 
 * [Azure Spatial Anchors](https://azure.microsoft.com/services/spatial-anchors/)
 * [Azure Remote Rendering](https://azure.microsoft.com/services/remote-rendering/)
 
-The Azure Mixed Reality Resource Management REST API provides programmatic access to create, query, and delete Azure Mixed Reality resources. To perform operations on Azure Mixed Reality resources, you send HTTPS requests with a supported method: `GET`, `POST`, `PUT`, or `DELETE` to an endpoint that targets a resource collection or a specific resource. This section explains how to work with resources by using the REST API. 
+The Azure Mixed Reality REST API provides programmatic access to create, query, and delete Azure Mixed Reality resources. To perform operations on Azure Mixed Reality resources, you send HTTPS requests with a supported method: `GET`, `POST`, `PUT`, `PATCH` or `DELETE` to an endpoint that targets a resource collection or a specific resource. This section explains how to work with resources by using the REST API.
 
 ## Supported REST API Versions
-The following table lists the supported REST API versions by the Azure Mixed Reality services. The version must be specified as a query `api-version` in URI of every request. If not specified, the service defaults to the latest version `2019-02-28-preview`.
+The following table lists the supported REST API versions by the Azure Mixed Reality services. The version must be specified as a query `api-version` in URI of every request.
 
-|Version|Change introduced|Retirement date|  
-|-------------|---------------------|-----------------------|  
+|Version|Change introduced|Retirement date|
+|-------------|---------------------|-----------------------|
 |2019-02-28-preview|Public Preview of Spatial Anchors||
+|2021-01-01-preview|Public Preview of Remote Rendering||
+|2021-01-01|General Availability of Remote Rendering||
 
 ## Azure Mixed Reality Resources
-The following articles describe the supported REST APIs for each resource type.  
-  
+The following articles describe the supported REST APIs for each resource type.
+
 * [Spatial Anchors Accounts](xref:management.azure.com.mixedreality.spatialanchorsaccounts)
 
 ## See Also
 * [Azure Mixed Reality](https://azure.microsoft.com/topic/mixed-reality/)
 * [Azure Spatial Anchors](https://azure.microsoft.com/services/spatial-anchors/)
+* [Azure Remote Rendering](https://azure.microsoft.com/services/remote-rendering/)

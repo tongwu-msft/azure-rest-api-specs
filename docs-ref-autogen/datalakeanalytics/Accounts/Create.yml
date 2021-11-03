@@ -45,6 +45,10 @@ responses:
   description: Successfully initiated creation of the specified account.
   types:
   - uid: DataLakeAnalyticsAccount
+- name: Other Status Codes
+  description: ''
+  types:
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -219,6 +223,11 @@ definitions:
     types:
     - uid: DataLakeStoreAccountInformation
       isArray: true
+  - name: properties.publicDataLakeStoreAccounts
+    description: The list of Data Lake Store accounts associated with this account.
+    types:
+    - uid: DataLakeStoreAccountInformation
+      isArray: true
   - name: properties.storageAccounts
     isReadyOnly: true
     description: The list of Azure Blob Storage accounts associated with this account.
@@ -231,6 +240,18 @@ definitions:
     types:
     - uid: ComputePolicy
       isArray: true
+  - name: properties.hiveMetastores
+    isReadyOnly: true
+    description: The list of hiveMetastores associated with this account.
+    types:
+    - uid: HiveMetastore
+      isArray: true
+  - name: properties.virtualNetworkRules
+    isReadyOnly: true
+    description: The list of virtualNetwork rules associated with this account.
+    types:
+    - uid: VirtualNetworkRule
+      isArray: true
   - name: properties.firewallRules
     isReadyOnly: true
     description: The list of firewall rules associated with this account.
@@ -238,17 +259,14 @@ definitions:
     - uid: FirewallRule
       isArray: true
   - name: properties.firewallState
-    isReadyOnly: true
     description: The current state of the IP address firewall for this account.
     types:
     - uid: FirewallState
   - name: properties.firewallAllowAzureIps
-    isReadyOnly: true
     description: The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced.
     types:
     - uid: FirewallAllowAzureIpsState
   - name: properties.newTier
-    isReadyOnly: true
     description: The commitment tier for the next month.
     types:
     - uid: TierType
@@ -258,8 +276,22 @@ definitions:
     types:
     - uid: TierType
   - name: properties.maxJobCount
-    isReadyOnly: true
     description: The maximum supported jobs running under the account at the same time.
+    types:
+    - uid: integer
+  - name: properties.maxActiveJobCountPerUser
+    isReadyOnly: true
+    description: The maximum supported active jobs under the account at the same time.
+    types:
+    - uid: integer
+  - name: properties.maxQueuedJobCountPerUser
+    isReadyOnly: true
+    description: The maximum supported jobs queued under the account at the same time.
+    types:
+    - uid: integer
+  - name: properties.maxJobRunningTimeInMin
+    isReadyOnly: true
+    description: The maximum supported active jobs under the account at the same time.
     types:
     - uid: integer
   - name: properties.systemMaxJobCount
@@ -268,7 +300,6 @@ definitions:
     types:
     - uid: integer
   - name: properties.maxDegreeOfParallelism
-    isReadyOnly: true
     description: The maximum supported degree of parallelism for this account.
     types:
     - uid: integer
@@ -278,7 +309,6 @@ definitions:
     types:
     - uid: integer
   - name: properties.maxDegreeOfParallelismPerJob
-    isReadyOnly: true
     description: The maximum supported degree of parallelism per job for this account.
     types:
     - uid: integer
@@ -288,13 +318,17 @@ definitions:
     types:
     - uid: integer
   - name: properties.queryStoreRetention
-    isReadyOnly: true
     description: The number of days that job metadata is retained.
     types:
     - uid: integer
+  - name: properties.debugDataAccessLevel
+    isReadyOnly: true
+    description: The current state of the DebugDataAccessLevel for this account.
+    types:
+    - uid: DebugDataAccessLevel
   - name: id
     isReadyOnly: true
-    description: The resource identifer.
+    description: The resource identifier.
     types:
     - uid: string
   - name: name
@@ -351,6 +385,14 @@ definitions:
     description: The full CName endpoint for this account.
     types:
     - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
 - name: CreateDataLakeAnalyticsAccountParameters
   description: The parameters to use for creating a Data Lake Analytics account.
   kind: object
@@ -523,6 +565,83 @@ definitions:
     description: The resource type.
     types:
     - uid: string
+- name: HiveMetastore
+  kind: object
+  properties:
+  - name: properties.serverUri
+    isReadyOnly: true
+    description: The serverUri for the Hive MetaStore
+    types:
+    - uid: string
+  - name: properties.databaseName
+    isReadyOnly: true
+    description: The databaseName for the Hive MetaStore
+    types:
+    - uid: string
+  - name: properties.runtimeVersion
+    isReadyOnly: true
+    description: The runtimeVersion for the Hive MetaStore
+    types:
+    - uid: string
+  - name: properties.userName
+    isReadyOnly: true
+    description: The userName for the Hive MetaStore
+    types:
+    - uid: string
+  - name: properties.password
+    isReadyOnly: true
+    description: The password for the Hive MetaStore
+    types:
+    - uid: string
+  - name: properties.nestedResourceProvisioningState
+    isReadyOnly: true
+    description: The current state of the NestedResource
+    types:
+    - uid: NestedResourceProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+- name: VirtualNetworkRule
+  description: Data Lake Analytics  VirtualNetwork Rule information.
+  kind: object
+  properties:
+  - name: properties.subnetId
+    isReadyOnly: true
+    description: The resource identifier for the subnet
+    types:
+    - uid: string
+  - name: properties.virtualNetworkRuleState
+    isReadyOnly: true
+    description: The current state of the VirtualNetwork Rule
+    types:
+    - uid: VirtualNetworkRuleState
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
 - name: FirewallRule
   description: Data Lake Analytics firewall rule information.
   kind: object
@@ -603,6 +722,19 @@ definitions:
   - name: Commitment_500000AUHours
     types:
     - uid: string
+- name: DebugDataAccessLevel
+  description: The current state of the DebugDataAccessLevel for this account.
+  kind: enum
+  properties:
+  - name: All
+    types:
+    - uid: string
+  - name: Customer
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
 - name: DataLakeAnalyticsAccountStatus
   description: The provisioning status of the Data Lake Analytics account.
   kind: enum
@@ -650,6 +782,77 @@ definitions:
   - name: Suspended
     types:
     - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: NestedResourceProvisioningState
+  description: The current state of the NestedResourceProvisioning for this account.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: VirtualNetworkRuleState
+  description: The current state of the VirtualNetworkRule for this account.
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: NetworkSourceDeleted
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: Creates the specified Data Lake Analytics account. This supplies the user with computation services for Data Lake Analytics workloads.
   request:
@@ -716,10 +919,6 @@ examples:
         "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rgaba12041/providers/Microsoft.DataLakeAnalytics/accounts/testaba15818",
         "name": "test_account",
         "type": "Microsoft.DataLakeAnalytics/accounts",
-        "location": "eastus2",
-        "tags": {
-          "test_key": "test_value"
-        },
         "properties": {
           "accountId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
           "provisioningState": "Succeeded",
@@ -791,10 +990,6 @@ examples:
         "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rgaba12041/providers/Microsoft.DataLakeAnalytics/accounts/testaba15818",
         "name": "test_account",
         "type": "Microsoft.DataLakeAnalytics/accounts",
-        "location": "eastus2",
-        "tags": {
-          "test_key": "test_value"
-        },
         "properties": {
           "accountId": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
           "provisioningState": "Succeeded",
@@ -869,4 +1064,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Creates the specified Data Lake Analytics account. This supplies the user with computation services for Data Lake Analytics workloads.
 errorCodes: []

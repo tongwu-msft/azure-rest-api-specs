@@ -1,5 +1,6 @@
 ---
 title: "Stored Procedures - Azure Cosmos DB REST API"
+description: Lists the tasks that you can do on Azure Cosmos DB stored procedures using REST API operations.
 ms.date: "02/12/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"

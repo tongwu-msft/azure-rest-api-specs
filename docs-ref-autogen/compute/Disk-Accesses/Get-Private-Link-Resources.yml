@@ -1,0 +1,126 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.diskaccesses.getprivatelinkresources
+name: Get Private Link Resources
+service: Compute
+groupName: Disk Accesses
+apiVersion: 2020-12-01
+summary: Gets the private link resources possible under disk access resource
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateLinkResources?api-version=2020-12-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: diskAccessName
+  in: path
+  isRequired: true
+  description: The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PrivateLinkResourceListResult
+requestHeader: []
+definitions:
+- name: PrivateLinkResourceListResult
+  description: A list of private link resources
+  kind: object
+  properties:
+  - name: value
+    description: Array of private link resources
+    types:
+    - uid: PrivateLinkResource
+      isArray: true
+- name: PrivateLinkResource
+  description: A private link resource
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: private link resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: private link resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: private link resource type
+    types:
+    - uid: string
+  - name: properties.groupId
+    isReadyOnly: true
+    description: The private link resource group id.
+    types:
+    - uid: string
+  - name: properties.requiredMembers
+    isReadyOnly: true
+    description: The private link resource required member names.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.requiredZoneNames
+    description: The private link resource DNS zone name.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: List all possible private link resources under disk access resource.
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/myDiskAccess/privateLinkResources?api-version=2020-12-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/myDiskAccess/privateLinkResources/disks",
+            "name": "disks",
+            "type": "Microsoft.Compute/diskAccesses/privateLinkResources",
+            "properties": {
+              "groupId": "disks",
+              "requiredMembers": [
+                "diskAccess_1"
+              ],
+              "requiredZoneNames": [
+                "privatelink.blob.core.windows.net"
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Compute service - Gets the private link resources possible under disk access resource
+errorCodes: []

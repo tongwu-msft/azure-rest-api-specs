@@ -1,6 +1,7 @@
 ---
 title: "Access Control on Azure Cosmos DB Resources"
-ms.date: "08/15/2017"
+description: Learn how to use REST API to query resource tokens, master keys, authorization header, and how to construct hash tokens.  
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: c3c3324c-9a3f-4cad-8a74-bd73d8b4e40b
@@ -24,7 +25,7 @@ translation.priority.mt:
 Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the SQL API for Azure Cosmos DB. Access to resources in the SQL API is governed by a master key token or a resource token. To access a resource, the selected token is included in the REST authorization header, as part of the authorization string.  
   
 ## Master key tokens  
-The master key token is the all access key token that allows users to have full control of Cosmos DB resources in a particular account. The master key is created during the creation of an account. There are two sets of master keys, the primary key and the secondary key. The administrator of the account can then exercise key rotation using the secondary key. In addition, the account administrator can also regenerate the keys as needed. For instructions on regenerating and rolling keys, see [How to manage an Azure Cosmos DB account](https://docs.microsoft.com/azure/cosmos-db/manage-account).  
+The master key token is the all access key token that allows users to have full control of Cosmos DB resources in a particular account. The master key is created during the creation of an account. There are two sets of master keys, the primary key and the secondary key. The administrator of the account can then exercise key rotation using the secondary key. In addition, the account administrator can also regenerate the keys as needed. For instructions on regenerating and rolling keys, see [Secure access to data in Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/secure-access-to-data).  
   
 ## Resource tokens  
 Resource tokens are created when users in a database are set up with access permissions for precise access control on a resource, also known as a permission resource. A permission resource contains a hash resource token constructed with the information regarding the resource path and access type a user has access to. The permission resource token is time bound and the validity period can be overridden. When a permission resource is acted upon on (POST, GET, PUT), a new resource token is generated. For information on permissions and resource tokens, see [Operations on Cosmos DB Permissions](permissions.md).  
@@ -40,18 +41,17 @@ An authorization string looks like this example:
   
 ```  
 type=master&ver=1.0&sig=5mDuQBYA0kb70WDJoTUzSBMTG3owkC0/cEN4fqa18/s=  
-  
 ```  
   
 The parts enclosed in brackets are as follows:  
   
--   {typeoftoken} denotes the type of token: master or resource.  
+-   {typeoftoken} denotes the type of token: **master**, **resource**, or **aad**(if you are using [Azure Cosmos DB RBAC](/azure/cosmos-db/how-to-setup-rbac)).  
   
--   {tokenversion} denotes the version of the token, currently 1.0.  
+-   {tokenversion} denotes the version of the token, currently **1.0**.  
   
--   {hashsignature} denotes the hashed token signature.  
+-   {hashsignature} denotes the **hashed token** signature or the **oauth token** if you are using [Azure Cosmos DB RBAC](/azure/cosmos-db/how-to-setup-rbac).  
   
- The authorization string should be encoded before adding it to the REST request to ensure that it contains no invalid characters. Ensure that it's Base64 encoded using MIME RFC2045. Also, the master key used in the hashsignature should be decoded using MIME RFC2045 as it's Base64 encoded.  
+ The authorization string should be encoded before adding it to the REST request to ensure that it contains no invalid characters. Ensure that it's Base64 encoded using MIME RFC2045. Also, the master key used in the hashsignature should be decoded using MIME RFC2045 as it's Base64 encoded. If you see any issues with authorization, see how to [Diagnose and troubleshoot unauthorized exceptions.](/azure/cosmos-db/troubleshoot-unauthorized)
   
 ##  <a name="constructkeytoken"></a> Constructing the hashed token signature for a master token  
 The hash signature for the master key token can be constructed from the following parameters: **Verb**, **ResourceType**, **ResourceLink**, and **Date**.  

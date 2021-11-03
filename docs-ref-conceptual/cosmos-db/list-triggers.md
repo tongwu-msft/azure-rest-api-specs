@@ -1,5 +1,6 @@
 ---
 title: "List Triggers - Azure Cosmos DB REST API"
+description: List triggers REST API syntax. Request and response headers, body, status codes and examples.
 ms.date: "02/25/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"

@@ -3,7 +3,7 @@ title: Delete Blob (REST API) - Azure Storage
 description: The Delete Blob operation marks the specified blob or snapshot for deletion. The blob is later deleted during garbage collection. 
 author: pemari-msft
 
-ms.date: 09/23/2019
+ms.date: 02/01/2021
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -18,16 +18,16 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
 ## Request  
  The `Delete Blob` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||DELETE Method Request URI|HTTP Version|  
-|-|-------------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|HTTP/1.1|  
+|DELETE Method Request URI|HTTP Version|  
+|-------------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?versionid=<DateTime>`|HTTP/1.1|  
   
 ### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
-||DELETE Method Request URI|HTTP Version|  
-|-|-------------------------------|------------------|  
-||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob`|HTTP/1.1|  
+|DELETE Method Request URI|HTTP Version|  
+|-------------------------------|------------------|  
+|`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob`|HTTP/1.1|  
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
@@ -36,8 +36,10 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`snapshot`|Optional. The snapshot parameter is an opaque `DateTime` value that, when present, specifies the blob snapshot to delete. For more information on working with blob snapshots, see [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md).|    
+|`snapshot`|Optional. The snapshot parameter is an opaque `DateTime` value that, when present, specifies the blob snapshot to delete. For more information on working with blob snapshots, see [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md).|  
+|`versionid`|Optional, version 2019-12-12 and newer. The versionid parameter is an opaque `DateTime` value that, when present, specifies the Version of the blob to delete.|    
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
+|`deletetype`|Optional, version 2020-02-10 or later. The value of `deletetype` can only be `permanent`. For more information, see Remarks below.
   
 ### Request Headers  
  The following table describes required and optional request headers.  
@@ -49,7 +51,7 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
 |`x-ms-version`|Required for all authorized requests. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease.<br /><br /> To perform this operation on a blob with an active lease, specify the valid lease ID for this header. If a valid lease ID is not specified on the request, the operation will fail with status code 403 (Forbidden).|  
 |`x-ms-delete-snapshots: {include, only}`|Required if the blob has associated snapshots. Specify one of the following two options:<br /><br /> -   `include`: Delete the base blob and all of its snapshots.<br />-   `only`: Delete only the blob's snapshots and not the blob itself.<br /><br /> This header should be specified only for a request against the base blob resource. If this header is specified on a request to delete an individual snapshot, the Blob service returns status code 400 (Bad Request).<br /><br /> If this header is not specified on the request and the blob has associated snapshots, the Blob service returns status code 409 (Conflict).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
  This operation also supports the use of conditional headers to delete the blob only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
@@ -71,7 +73,7 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
 |--------------------|-----------------|  
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and above.|  
-|`x-ms-delete-type-permanent`|For versions 2017-07-29 and newer, Blob Service returns true when blob is permanently deleted.|  
+|`x-ms-delete-type-permanent`|For versions 2017-07-29 and later, the Blob service returns true if the blob has been permanently deleted, and false if the blob has been soft-deleted.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
@@ -100,6 +102,17 @@ After the specified number of days, the blob’s data is removed from the servic
 
  For any other operation on soft deleted blob or snapshot, Blob Service returns error 404 (ResourceNotFound). 
   
+**Permanent Delete**
+
+A feature to permanently delete a snapshot / version has been added into delete blob API with version 2020-02-10 and later. In order to leverage the feature, the storage account needs to have permanent delete enabled. For more for information, see [Set Blob Service Properties](Set-Blob-Service-Properties.md).
+
+Storage accounts with permanent delete enabled can use the `deletetype=permanent` query parameter  to permanently delete a soft-deleted snapshot or deleted blob version. Blob service would return 409 (Conflict) if the query parameter presents with any of the following:
+- The permanent delete is not enabled for the storage account.
+- Neither `versionid` nor `snapshot` are provided.
+- The specified snapshot or version is not (soft) deleted.
+
+Permanent delete also includes a new SAS permission (y) grant permission to permanently delete a blob snapshot or blob version. For more information, see [Create a service SAS](create-service-sas.md).
+
 ## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   

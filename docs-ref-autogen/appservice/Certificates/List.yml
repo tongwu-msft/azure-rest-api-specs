@@ -3,14 +3,16 @@ uid: management.azure.com.appservice.certificates.list
 name: List
 service: App Service
 groupName: Certificates
-apiVersion: 2019-08-01
-summary: "Get all certificates for a subscription.  \nDescription for Get all certificates for a subscription."
+apiVersion: 2021-02-01
+summary: Description for Get all certificates for a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/certificates?api-version=2019-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/certificates?api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/certificates?api-version=2021-02-01&$filter={$filter}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -22,6 +24,11 @@ uriParameters:
   in: query
   isRequired: true
   description: API Version
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: "Return only information specified in the filter (using OData syntax). For example: $filter=KeyVaultId eq 'KeyVaultId'"
   types:
   - uid: string
 responses:
@@ -62,6 +69,10 @@ definitions:
   description: SSL certificate for an app.
   kind: object
   properties:
+  - name: properties.password
+    description: Certificate password.
+    types:
+    - uid: string
   - name: properties.friendlyName
     isReadyOnly: true
     description: Friendly name of the certificate.
@@ -104,10 +115,6 @@ definitions:
   - name: properties.expirationDate
     isReadyOnly: true
     description: Certificate expiration date.
-    types:
-    - uid: string
-  - name: properties.password
-    description: Certificate password.
     types:
     - uid: string
   - name: properties.thumbprint
@@ -154,6 +161,10 @@ definitions:
     - uid: string
   - name: properties.canonicalName
     description: CNAME of the certificate to be issued via free certificate
+    types:
+    - uid: string
+  - name: properties.domainValidationMethod
+    description: Method of domain validation for free cert
     types:
     - uid: string
   - name: id
@@ -292,7 +303,7 @@ definitions:
 examples:
 - name: List Certificates for subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Web/certificates?api-version=2019-08-01
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Web/certificates?api-version=2021-02-01
   responses:
   - statusCode: "200"
     body: >-
@@ -312,8 +323,7 @@ examples:
               "issuer": "CACert",
               "issueDate": "2015-11-12T23:40:25+00:00",
               "expirationDate": "2039-12-31T23:59:59+00:00",
-              "thumbprint": "FE703D7411A44163B6D32B3AD9B03E175886EBFE",
-              "password": "SWsSsd__233$Sdsds#%Sd!"
+              "thumbprint": "FE703D7411A44163B6D32B3AD9B03E175886EBFE"
             }
           },
           {
@@ -330,8 +340,7 @@ examples:
               "issuer": "CACert",
               "issueDate": "2015-12-12T23:40:25+00:00",
               "expirationDate": "2040-12-31T23:59:59+00:00",
-              "thumbprint": "FE703D7411A44163B6D32B3AD9B0490D5886EBFE",
-              "password": "SWsSsd__233$Sdsds#%Sd!"
+              "thumbprint": "FE703D7411A44163B6D32B3AD9B0490D5886EBFE"
             }
           }
         ]
@@ -345,4 +354,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about App Service service - Description for Get all certificates for a subscription.
 errorCodes: []

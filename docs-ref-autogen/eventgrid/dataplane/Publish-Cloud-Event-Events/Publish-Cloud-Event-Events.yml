@@ -1,0 +1,120 @@
+### YamlMime:RESTOperation
+uid: eventgrid.dataplane.publishcloudeventevents.publishcloudeventevents
+name: Publish Cloud Event Events
+service: Event Grid
+groupName: Publish Cloud Event Events
+apiVersion: 2018-01-01
+summary: Publishes a batch of events to an Azure Event Grid topic.
+consumes:
+- application/cloudevents-batch+json; charset=utf-8
+produces:
+- application/json
+paths:
+- content: POST https://{topicHostname}/api/events?overload=cloudEvent&api-version=2018-01-01
+uriParameters:
+- name: topicHostname
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The host name of the topic, e.g. topic1.westus2-1.eventgrid.azure.net
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 Bad Request.
+
+     * 500 Internal Server Error.
+
+     * 429 Too Many Events
+
+     * 404 Not Found.
+requestBody:
+- name: default
+  parameters:
+  - name: events
+    in: body
+    description: An array of events to be published to Event Grid.
+    types:
+    - uid: CloudEventEvent
+      isArray: true
+requestHeader: []
+definitions:
+- name: CloudEventEvent
+  description: Properties of an event published to an Event Grid topic using the CloudEvent 1.0 Schema
+  kind: object
+  properties:
+  - name: id
+    description: An identifier for the event. The combination of id and source must be unique for each distinct event.
+    types:
+    - uid: string
+  - name: source
+    description: Identifies the context in which an event happened. The combination of id and source must be unique for each distinct event.
+    types:
+    - uid: string
+  - name: data
+    description: Event data specific to the event type.
+    types:
+    - uid: object
+  - name: data_base64
+    description: Event data specific to the event type, encoded as a base64 string.
+    types:
+    - uid: string
+  - name: type
+    description: Type of event related to the originating occurrence.
+    types:
+    - uid: string
+  - name: time
+    description: The time (in UTC) the event was generated, in RFC3339 format.
+    types:
+    - uid: string
+  - name: specversion
+    description: The version of the CloudEvents specification which the event uses.
+    types:
+    - uid: string
+  - name: dataschema
+    description: Identifies the schema that data adheres to.
+    types:
+    - uid: string
+  - name: datacontenttype
+    description: Content type of data value.
+    types:
+    - uid: string
+  - name: subject
+    description: This describes the subject of the event in the context of the event producer (identified by source).
+    types:
+    - uid: string
+examples:
+- name: PublishEventsToEventGridTopicAsCloudEvents
+  request:
+    uri: POST https://mytopic.westcentralus-1.eventgrid.azure.net/api/events?overload=cloudEvent&api-version=2018-01-01
+    body: >-
+      [
+        {
+          "id": "b3ccc7e3-c1cb-49bf-b7c8-0d4e60980616",
+          "source": "/microsoft/autorest/examples/eventgrid/cloud-events/publish",
+          "specversion": "1.0",
+          "data": {
+            "Property1": "Value1",
+            "Property2": "Value2"
+          },
+          "type": "Microsoft.Contoso.TestEvent",
+          "time": "2017-12-04T22:06:09.147165Z"
+        }
+      ]
+  responses:
+  - statusCode: "200"
+security: []
+metadata:
+  description: Learn more about Event Grid service - Publishes a batch of events to an Azure Event Grid topic.
+errorCodes: []

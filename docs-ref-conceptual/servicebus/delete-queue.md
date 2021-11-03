@@ -1,8 +1,7 @@
 ---
 title: "Delete Queue"
 ms.custom: ""
-ms.date: "05/14/2015"
-ms.prod: "azure"
+ms.date: "07/08/2020"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -10,9 +9,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: da017387-6fed-41ad-a662-262051e28f10
 caps.latest.revision: 9
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -26,6 +25,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Delete Queue
+
+> [!IMPORTANT]
+> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+
 Deletes an existing queue. This operation removes all associated state, including messages in the queue.  
   
 ## Request  

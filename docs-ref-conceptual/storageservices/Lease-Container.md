@@ -3,7 +3,7 @@ title: Lease Container (REST API) - Azure Storage
 description: The Lease Container operation creates and manages a lock on a container for delete operations.
 author: pemari-msft
 
-ms.date: 09/20/2019
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -26,7 +26,7 @@ The `Lease Container` operation establishes and manages a lock on a container fo
 -   `Break`, to end the lease but ensure that another client cannot acquire a new lease until the current lease period has expired.  
   
 > [!NOTE]
->  The `Lease Container` operation is available in version 2012-02-12 and newer.  
+>  The `Lease Container` operation is available in version 2012-02-12 and newer.
   
 ## Request  
  The `Lease Container` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -67,7 +67,7 @@ The `Lease Container` operation establishes and manages a lock on a container fo
 |`x-ms-lease-duration: -1 &#124; N`|Required for `acquire`. Specifies the duration of the lease, in seconds, or negative one (-1) for a lease that never expires.  A non-infinite lease can be between 15 and 60 seconds. A lease duration cannot be changed using `renew` or `change`.|  
 |`x-ms-proposed-lease-id: <ID>`|Optional for `acquire`, required for `change`. Proposed lease ID, in a GUID string format. The Blob service returns `400 (Invalid request)` if the proposed lease ID is not in the correct format. See [Guid Constructor (String)](https://msdn.microsoft.com/library/96ff78dc.aspx) for a list of valid GUID string formats.|  
 |`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing headers on the response. See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for details.|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
  This operation also supports the use of conditional headers to execute the operation only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
@@ -162,10 +162,10 @@ Date: Thu, 26 Jan 2012 23:30:18 GMT
   
  A lease can be in 5 states, based on whether the lease is locked or unlocked, and whether the lease is renewable in that state. The lease actions above cause state transitions.  
   
-||Locked Lease|Unlocked Lease|  
+|Renewal status|Locked lease|Unlocked lease|  
 |-|------------------|--------------------|  
-|**Renewable Lease**|Leased|Expired|  
-|**Non-renewable Lease**|Breaking|Broken, Available|  
+|Renewable lease|Leased|Expired|  
+|Non-renewable lease|Breaking|Broken, Available|  
   
 -   `Available`, the lease is unlocked and can be acquired. Allowed action: `acquire`.  
   
@@ -185,7 +185,7 @@ Date: Thu, 26 Jan 2012 23:30:18 GMT
   
 ### Outcomes of use attempts on containers by lease state  
   
-||Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
+|Action|Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
 |-|---------------|------------------|--------------------|------------------|-------------------|  
 |Delete using (A)|Fails (412)|Leased (A), delete succeeds|Breaking (A), delete succeeds|Fails (412)|Fails (412)|  
 |Delete using (B)|Fails (412)|Fails (409)|Fails (412)|Fails (412)|Fails (412)|  
@@ -196,7 +196,7 @@ perations, no lease specified|Available, operation succeeds|Leased (A), operatio
   
 ### Outcomes of lease operations on containers by lease state  
   
-||Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
+|Action|Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
 |---|---------------|------------------|--------------------|------------------|-------------------|  
 |`Acquire`, no proposed lease ID|Leased (X)|Fails (409)|Fails (409)|Leased (X)|Leased (X)|  
 |`Acquire` (A)|Leased (A)|Leased (A), new duration|Fails (409)|Leased (A)|Leased (A)|  

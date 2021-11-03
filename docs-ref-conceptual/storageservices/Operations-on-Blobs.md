@@ -31,6 +31,15 @@ Returns all user-defined metadata, standard HTTP properties, and system properti
 [Set Blob Properties](Set-Blob-Properties.md)  
 Sets values for system properties defined for a blob.  
 
+[Get Blob Tags](get-blob-tags.md)  
+Returns all user-defined Blob Index tags for the specified blob, version, or snapshot.
+
+[Set Blob Tags](set-blob-tags.md)  
+Sets user-defined Blob Index tags for the specified blob as one or more key-value pairs.
+
+[Find Blobs By Tags](find-blobs-by-tags.md)  
+Finds all blobs in the storage account whose tags match a given search expression.
+
 [Get Blob Metadata](Get-Blob-Metadata.md)  
 Returns all user-defined metadata for the specified blob.  
 
@@ -47,7 +56,7 @@ Creates a snapshot of a blob.
 Copies a blob to a destination within the storage account.  
 
 [Copy Blob From URL](copy-blob-from-url.md)
-Copies a blob to a destination within the storage account synchronously for source blob sizes up to 256 MB.
+Copies a blob to a destination within the storage account synchronously for source blob sizes up to 256 MiB.
 
 [Abort Copy Blob](Abort-Copy-Blob.md)  
 Aborts a pending `Copy Blob` operation, and leaves a destination blob with zero length and full metadata.  
@@ -77,6 +86,9 @@ Commits a block blob by specifying the set of block IDs that comprise the blob.
 
 [Get Block List](Get-Block-List.md)  
 Retrieves the list of blocks that have been uploaded as part of a block blob.  
+
+[Query Blob Contents](query-blob-contents.md)  
+Applies a simple Structured Query Language (SQL) statement on a blob's contents and returns only the queried subset of the data.
   
 ### Operations on page blobs
 

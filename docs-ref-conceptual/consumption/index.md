@@ -47,6 +47,7 @@ Azure Consumption APIs provide access to:
   [Marketplace Charges](xref:management.azure.com.consumption.marketplaces) | Provides operations to get usage information for marketplace resources on subscription or Enterprise Billing accounts.
   [Usage Details](xref:management.azure.com.consumption.usagedetails) | Provides operations to get usage information on subscription or Enterprise Billing accounts. |
   [Reservation Details](xref:management.azure.com.consumption.reservationsdetails) | Provides operations to get reservation detailed usage for Pay as you go and Enterprise Subscriptions. |
+  [Reservation Details Report](xref:management.azure.com.cost-management.generatereservationdetailsreport) | Provides operations to get reservation detailed usage for Pay as you go and Enterprise Subscriptions in a report format optimized for large data sizes. |
   [Reservation Summaries](xref:management.azure.com.consumption.reservationssummaries) | Provides operations to get reservation summary usage for Pay as you go and Enterprise Subscriptions. |
   [Reservation Recommendations](xref:management.azure.com.consumption.reservationrecommendations) | Provides operations to get reservation recommendations for Pay as you go and Enterprise Subscriptions. |
   [Forecasts](xref:management.azure.com.consumption.forecasts) | Provides operations to get usage forecasts for Enterprise Subscriptions. |

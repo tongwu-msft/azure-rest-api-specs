@@ -60,41 +60,6 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.diskType
-    in: body
-    description: The storage type for the disk (i.e. Standard, Premium).
-    types:
-    - uid: StorageType
-  - name: properties.diskSizeGiB
-    in: body
-    description: The size of the disk in GibiBytes.
-    types:
-    - uid: integer
-  - name: properties.leasedByLabVmId
-    in: body
-    description: The resource ID of the VM to which this disk is leased.
-    types:
-    - uid: string
-  - name: properties.diskBlobName
-    in: body
-    description: When backed by a blob, the name of the VHD blob without extension.
-    types:
-    - uid: string
-  - name: properties.diskUri
-    in: body
-    description: When backed by a blob, the URI of underlying blob.
-    types:
-    - uid: string
-  - name: properties.hostCaching
-    in: body
-    description: The host caching policy of the disk (i.e. None, ReadOnly, ReadWrite).
-    types:
-    - uid: string
-  - name: properties.managedDiskId
-    in: body
-    description: When backed by managed disk, this is the ID of the compute disk resource.
-    types:
-    - uid: string
   - name: tags
     in: body
     description: The tags of the resource.
@@ -115,7 +80,7 @@ definitions:
     types:
     - uid: StorageType
   - name: properties.diskSizeGiB
-    description: The size of the disk in GibiBytes.
+    description: The size of the disk in Gibibytes.
     types:
     - uid: integer
   - name: properties.leasedByLabVmId
@@ -128,6 +93,10 @@ definitions:
     - uid: string
   - name: properties.diskUri
     description: When backed by a blob, the URI of underlying blob.
+    types:
+    - uid: string
+  - name: properties.storageAccountId
+    description: When backed by a blob, the storage account where the blob is.
     types:
     - uid: string
   - name: properties.createdDate
@@ -192,34 +161,6 @@ definitions:
   description: A Disk.
   kind: object
   properties:
-  - name: properties.diskType
-    description: The storage type for the disk (i.e. Standard, Premium).
-    types:
-    - uid: StorageType
-  - name: properties.diskSizeGiB
-    description: The size of the disk in GibiBytes.
-    types:
-    - uid: integer
-  - name: properties.leasedByLabVmId
-    description: The resource ID of the VM to which this disk is leased.
-    types:
-    - uid: string
-  - name: properties.diskBlobName
-    description: When backed by a blob, the name of the VHD blob without extension.
-    types:
-    - uid: string
-  - name: properties.diskUri
-    description: When backed by a blob, the URI of underlying blob.
-    types:
-    - uid: string
-  - name: properties.hostCaching
-    description: The host caching policy of the disk (i.e. None, ReadOnly, ReadWrite).
-    types:
-    - uid: string
-  - name: properties.managedDiskId
-    description: When backed by managed disk, this is the ID of the compute disk resource.
-    types:
-    - uid: string
   - name: tags
     description: The tags of the resource.
     types:
@@ -262,7 +203,37 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-examples: []
+examples:
+- name: Disks_Update
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/users/@me/disks/diskName?api-version=2018-09-15
+    body: >-
+      {
+        "tags": {
+          "tagName1": "tagValue1"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}/users/{user-id}/disks/{diskName}",
+        "name": "{disk-name}",
+        "type": "Microsoft.DevTestLab/labs/users/disks",
+        "properties": {
+          "diskType": "Standard",
+          "diskSizeGiB": 1023,
+          "leasedByLabVmId": "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}/virtualmachines/vmName",
+          "diskUri": "",
+          "createdDate": "2021-01-04T20:21:02.0182357+00:00",
+          "hostCaching": "None",
+          "provisioningState": "Succeeded",
+          "uniqueIdentifier": "b7183ac5-1097-4513-b597-4d9d23e0a820"
+        },
+        "tags": {
+          "tagName1": "tagValue1"
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -272,4 +243,6 @@ security:
   scopes:
   - name: user_impersonation
     description: Access Microsoft Azure
+metadata:
+  description: Learn more about Dev Test Labs service - Allows modifying tags of disks. All other properties will be ignored.
 errorCodes: []

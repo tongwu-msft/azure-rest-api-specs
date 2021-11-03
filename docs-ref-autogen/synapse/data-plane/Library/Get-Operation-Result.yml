@@ -1,0 +1,215 @@
+### YamlMime:RESTOperation
+uid: synapse.data-plane.library.getoperationresult
+name: Get Operation Result
+service: Synapse
+groupName: Library
+apiVersion: 2020-12-01
+summary: Get Operation result for Library
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/libraryOperationResults/{operationId}?api-version=2020-12-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: operation id for which status is requested
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Synapse client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Ok.
+  types:
+  - uid: LibraryResource
+- name: 202 Accepted
+  description: Accepted.
+  types:
+  - uid: OperationResult
+- name: Other Status Codes
+  description: An error response received from the Azure Synapse service.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: LibraryResource
+  description: Library response details
+  kind: object
+  properties:
+  - name: properties
+    description: Library/package properties.
+    types:
+    - uid: LibraryResourceProperties
+  - name: etag
+    isReadyOnly: true
+    description: Resource Etag.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: OperationResult
+  description: Operation status for the operation
+  kind: object
+  properties:
+  - name: status
+    isReadyOnly: true
+    description: Operation status
+    types:
+    - uid: string
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+- name: CloudError
+  description: The object that defines the structure of an Azure Synapse error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+- name: LibraryResourceProperties
+  description: Library/package properties
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the library/package.
+    types:
+    - uid: string
+  - name: path
+    isReadyOnly: true
+    description: Location of library/package in storage account.
+    types:
+    - uid: string
+  - name: containerName
+    isReadyOnly: true
+    description: Container name of the library/package.
+    types:
+    - uid: string
+  - name: uploadedTimestamp
+    isReadyOnly: true
+    description: The last update time of the library/package.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the library/package.
+    types:
+    - uid: string
+  - name: provisioningStatus
+    isReadyOnly: true
+    description: Provisioning status of the library/package.
+    types:
+    - uid: string
+  - name: creatorId
+    isReadyOnly: true
+    description: Creator Id of the library/package.
+    types:
+    - uid: string
+examples:
+- name: Get Operation Result for Library
+  request:
+    uri: GET exampleWorkspace.dev.azuresynapse.net/libraryOperationResults/exampleOperationId?api-version=2020-12-01
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Fri, 23 Oct 2020 08:28:16 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1192"
+    - name: x-ms-request-id
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
+    - name: x-ms-correlation-request-id
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
+    body: >-
+      {
+        "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.Synapse/workspaces/exampleWorkspaceName/libraries/exampleLibraryName.jar",
+        "name": "exampleLibraryName.jar",
+        "type": "Microsoft.Synapse/workspaces/libraries",
+        "properties": {
+          "name": "exampleLibraryName.jar",
+          "path": "exampleWorkspace/libraries/exampleLibraryName.jar",
+          "containerName": "exampleContainer",
+          "type": "jar",
+          "uploadedTimestamp": "2020-10-23T07:59:29.1573546+00:00",
+          "provisioningStatus": "Succeeded",
+          "creatorId": "2222222e-222d-222f-2222-22a2f222d2f2"
+        },
+        "etag": "1500474f-0000-0200-0000-5cbe090d0000"
+      }
+  - statusCode: "202"
+    headers:
+    - name: Date
+      value: Fri, 23 Oct 2020 08:28:16 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1192"
+    - name: x-ms-request-id
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
+    - name: x-ms-correlation-request-id
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
+    body: >-
+      {
+        "status": "InProgress"
+      }
+security: []
+metadata:
+  description: Learn more about Synapse service - Get Operation result for Library
+errorCodes: []

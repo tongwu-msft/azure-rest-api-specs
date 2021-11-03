@@ -2,7 +2,6 @@
 title: "Common concepts"
 ms.custom: ""
 ms.date: 01/30/2020
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "notification-hubs"
 ms.suite: ""

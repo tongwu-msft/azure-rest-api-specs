@@ -1,0 +1,153 @@
+### YamlMime:RESTOperation
+uid: synapse.data-plane.library.delete
+name: Delete
+service: Synapse
+groupName: Library
+apiVersion: 2020-12-01
+summary: Delete Library
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE {endpoint}/libraries/{libraryName}?api-version=2020-12-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
+  types:
+  - uid: string
+- name: libraryName
+  in: path
+  isRequired: true
+  description: file name to upload. Minimum length of the filename should be 1 excluding the extension length.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Synapse client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Ok.
+- name: 202 Accepted
+  description: Accepted.
+  types:
+  - uid: LibraryResourceInfo
+- name: Other Status Codes
+  description: Conflict.
+- name: Other Status Codes
+  description: An error response received from the Azure Synapse service.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: LibraryResourceInfo
+  description: 'Library resource info '
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: recordId
+    isReadyOnly: true
+    description: record Id of the library/package.
+    types:
+    - uid: integer
+  - name: state
+    isReadyOnly: true
+    description: Provisioning status of the library/package.
+    types:
+    - uid: string
+  - name: created
+    isReadyOnly: true
+    description: The creation time of the library/package.
+    types:
+    - uid: string
+  - name: changed
+    isReadyOnly: true
+    description: The last updated time of the library/package.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. LibraryArtifact
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the library/package.
+    types:
+    - uid: string
+  - name: operationId
+    isReadyOnly: true
+    description: Operation Id of the operation performed on library/package.
+    types:
+    - uid: string
+  - name: artifactId
+    isReadyOnly: true
+    description: artifact Id of the library/package.
+    types:
+    - uid: string
+- name: CloudError
+  description: The object that defines the structure of an Azure Synapse error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+examples:
+- name: Delete Library
+  request:
+    uri: DELETE exampleWorkspace.dev.azuresynapse.net/libraries/exampleLibraryName.jar?api-version=2020-12-01
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+    headers:
+    - name: Date
+      value: Fri, 23 Oct 2020 08:28:16 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1192"
+    - name: x-ms-request-id
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
+    - name: x-ms-correlation-request-id
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
+    body: >-
+      {
+        "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.Synapse/workspaces/exampleWorkspaceName/libraries/exampleLibraryName.jar",
+        "recordId": 1234,
+        "state": "Creating",
+        "created": "2020-10-23T07:59:29.1573546+00:00",
+        "changed": "2020-10-23T07:59:29.1573546+00:00",
+        "type": "LibraryArtifact",
+        "name": "exampleLibraryName.jar",
+        "operationId": "1500474f-0000-0200-0000-5cbe090d0000",
+        "artifactId": "2222222e-222d-222f-2222-22a2f222d2f2"
+      }
+  - statusCode: "409"
+security: []
+metadata:
+  description: Learn more about Synapse service - Delete Library
+errorCodes: []

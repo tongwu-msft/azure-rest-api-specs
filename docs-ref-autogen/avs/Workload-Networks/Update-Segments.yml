@@ -1,0 +1,286 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.avs.workloadnetworks.updatesegments
+name: Update Segments
+service: AVS
+groupName: Workload Networks
+apiVersion: 2021-06-01
+summary: Create or update a segment by id in a private cloud workload network.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}?api-version=2021-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: privateCloudName
+  in: path
+  isRequired: true
+  description: Name of the private cloud
+  types:
+  - uid: string
+- name: segmentId
+  in: path
+  isRequired: true
+  description: NSX Segment identifier. Generally the same as the Segment's display name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: successful operation
+  types:
+  - uid: WorkloadNetworkSegment
+- name: 202 Accepted
+  description: Accepted. The patch will complete asynchronously
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.displayName
+    in: body
+    description: Display name of the segment.
+    types:
+    - uid: string
+  - name: properties.connectedGateway
+    in: body
+    description: Gateway which to connect segment to.
+    types:
+    - uid: string
+  - name: properties.subnet
+    in: body
+    description: Subnet which to connect segment to.
+    types:
+    - uid: WorkloadNetworkSegmentSubnet
+  - name: properties.revision
+    in: body
+    description: NSX revision number.
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: WorkloadNetworkSegmentSubnet
+  description: Subnet configuration for segment
+  kind: object
+  properties:
+  - name: dhcpRanges
+    description: DHCP Range assigned for subnet.
+    types:
+    - uid: string
+      isArray: true
+  - name: gatewayAddress
+    description: Gateway address.
+    types:
+    - uid: string
+- name: WorkloadNetworkSegmentPortVif
+  description: Ports and any VIF attached to segment.
+  kind: object
+  properties:
+  - name: portName
+    description: Name of port or VIF attached to segment.
+    types:
+    - uid: string
+- name: WorkloadNetworkSegment
+  description: NSX Segment
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: Display name of the segment.
+    types:
+    - uid: string
+  - name: properties.connectedGateway
+    description: Gateway which to connect segment to.
+    types:
+    - uid: string
+  - name: properties.subnet
+    description: Subnet which to connect segment to.
+    types:
+    - uid: WorkloadNetworkSegmentSubnet
+  - name: properties.portVif
+    isReadyOnly: true
+    description: Port Vif which segment is associated with.
+    types:
+    - uid: WorkloadNetworkSegmentPortVif
+      isArray: true
+  - name: properties.status
+    isReadyOnly: true
+    description: Segment status.
+    types:
+    - uid: SegmentStatusEnum
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state
+    types:
+    - uid: WorkloadNetworkSegmentProvisioningState
+  - name: properties.revision
+    description: NSX revision number.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: CloudError
+  description: API error response
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nAn error returned by the API"
+    types:
+    - uid: ErrorResponse
+- name: SegmentStatusEnum
+  description: Segment status.
+  kind: enum
+  properties:
+  - name: SUCCESS, FAILURE
+    types:
+    - uid: string
+- name: WorkloadNetworkSegmentProvisioningState
+  description: The provisioning state
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Building
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: WorkloadNetworks_UpdateSegments
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/segments/segment1?api-version=2021-06-01
+    body: >-
+      {
+        "properties": {
+          "connectedGateway": "/infra/tier-1s/gateway",
+          "subnet": {
+            "dhcpRanges": [
+              "40.20.0.0-40.20.0.1"
+            ],
+            "gatewayAddress": "40.20.20.20/16"
+          },
+          "revision": 1
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/segments/segment1",
+        "name": "segment1",
+        "properties": {
+          "displayName": "segment1",
+          "connectedGateway": "/infra/tier-1s/gateway",
+          "subnet": {
+            "dhcpRanges": [
+              "40.20.0.0-40.20.0.1"
+            ],
+            "gatewayAddress": "40.20.20.20/16"
+          },
+          "portVif": [
+            {
+              "portName": "vm1"
+            }
+          ],
+          "status": "SUCCESS",
+          "revision": 2
+        },
+        "type": "Microsoft.AVS/privateClouds/workloadNetworks/segments"
+      }
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about AVS service - Create or update a segment by id in a private cloud workload network.
+errorCodes: []

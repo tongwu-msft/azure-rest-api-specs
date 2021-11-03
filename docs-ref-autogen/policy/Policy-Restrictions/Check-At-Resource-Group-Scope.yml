@@ -1,0 +1,476 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.policy.policyrestrictions.checkatresourcegroupscope
+name: Check At Resource Group Scope
+service: Policy
+groupName: Policy Restrictions
+apiVersion: 2020-07-01
+summary: Checks what restrictions Azure Policy will place on a resource within a resource group. Use this when the resource group the resource will be created in is already known.
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/checkPolicyRestrictions?api-version=2020-07-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The restrictions that will be placed on the resource by Azure Policy.
+  types:
+  - uid: CheckRestrictionsResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: resourceDetails
+    in: body
+    isRequired: true
+    description: The information about the resource that will be evaluated.
+    types:
+    - uid: CheckRestrictionsResourceDetails
+  - name: pendingFields
+    in: body
+    description: The list of fields and values that should be evaluated for potential restrictions.
+    types:
+    - uid: PendingField
+      isArray: true
+requestHeader: []
+definitions:
+- name: CheckRestrictionsResourceDetails
+  description: The information about the resource that will be evaluated.
+  kind: object
+  properties:
+  - name: resourceContent
+    description: The resource content. This should include whatever properties are already known and can be a partial set of all resource properties.
+    types:
+    - uid: object
+  - name: apiVersion
+    description: The api-version of the resource content.
+    types:
+    - uid: string
+  - name: scope
+    description: The scope where the resource is being created. For example, if the resource is a child resource this would be the parent resource's resource ID.
+    types:
+    - uid: string
+- name: PendingField
+  description: A field that should be evaluated against Azure Policy to determine restrictions.
+  kind: object
+  properties:
+  - name: field
+    description: The name of the field. This can be a top-level property like 'name' or 'type' or an Azure Policy field alias.
+    types:
+    - uid: string
+  - name: values
+    description: The list of potential values for the field that should be evaluated against Azure Policy.
+    types:
+    - uid: string
+      isArray: true
+- name: CheckRestrictionsResult
+  description: The result of a check policy restrictions evaluation on a resource.
+  kind: object
+  properties:
+  - name: fieldRestrictions
+    isReadyOnly: true
+    description: The restrictions that will be placed on various fields in the resource by policy.
+    types:
+    - uid: FieldRestrictions
+      isArray: true
+  - name: contentEvaluationResult
+    isReadyOnly: true
+    description: Evaluation results for the provided partial resource content.
+    types:
+    - uid: ContentEvaluationResult
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+- name: CheckRestrictionsRequest
+  description: The check policy restrictions parameters describing the resource that is being evaluated.
+  kind: object
+  properties:
+  - name: resourceDetails
+    description: The information about the resource that will be evaluated.
+    types:
+    - uid: CheckRestrictionsResourceDetails
+  - name: pendingFields
+    description: The list of fields and values that should be evaluated for potential restrictions.
+    types:
+    - uid: PendingField
+      isArray: true
+- name: FieldRestrictions
+  description: The restrictions that will be placed on a field in the resource by policy.
+  kind: object
+  properties:
+  - name: field
+    isReadyOnly: true
+    description: The name of the field. This can be a top-level property like 'name' or 'type' or an Azure Policy field alias.
+    types:
+    - uid: string
+  - name: restrictions
+    description: The restrictions placed on that field by policy.
+    types:
+    - uid: FieldRestriction
+      isArray: true
+- name: ContentEvaluationResult
+  description: Evaluation results for the provided partial resource content.
+  kind: object
+  properties:
+  - name: policyEvaluations
+    description: Policy evaluation results against the given resource content. This will indicate if the partial content that was provided will be denied as-is.
+    types:
+    - uid: PolicyEvaluationResult
+      isArray: true
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Internal error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: Additional scenario specific error details.
+    types:
+    - uid: TypedErrorInfo
+      isArray: true
+- name: FieldRestriction
+  description: The restrictions on a field imposed by a specific policy.
+  kind: object
+  properties:
+  - name: result
+    isReadyOnly: true
+    description: The type of restriction that is imposed on the field.
+    types:
+    - uid: FieldRestrictionResult
+  - name: defaultValue
+    isReadyOnly: true
+    description: The value that policy will set for the field if the user does not provide a value.
+    types:
+    - uid: string
+  - name: values
+    isReadyOnly: true
+    description: The values that policy either requires or denies for the field.
+    types:
+    - uid: string
+      isArray: true
+  - name: policy
+    isReadyOnly: true
+    description: The details of the policy that is causing the field restriction.
+    types:
+    - uid: PolicyReference
+- name: PolicyEvaluationResult
+  description: The result of a non-compliant policy evaluation against the given resource content.
+  kind: object
+  properties:
+  - name: policyInfo
+    isReadyOnly: true
+    description: The details of the policy that was evaluated.
+    types:
+    - uid: PolicyReference
+  - name: evaluationResult
+    isReadyOnly: true
+    description: The result of the policy evaluation against the resource. This will typically be 'NonCompliant' but may contain other values if errors were encountered.
+    types:
+    - uid: string
+  - name: evaluationDetails
+    isReadyOnly: true
+    description: The detailed results of the policy expressions and values that were evaluated.
+    types:
+    - uid: PolicyEvaluationDetails
+- name: TypedErrorInfo
+  description: Scenario specific error details.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of included error details.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The scenario specific error details.
+    types:
+    - {}
+- name: FieldRestrictionResult
+  description: The type of restriction that is imposed on the field.
+  kind: enum
+  properties:
+  - name: Required
+    description: The field and/or values are required by policy.
+    types:
+    - uid: string
+  - name: Removed
+    description: The field will be removed by policy.
+    types:
+    - uid: string
+  - name: Deny
+    description: The field and/or values will be denied by policy.
+    types:
+    - uid: string
+- name: PolicyReference
+  description: Resource identifiers for a policy.
+  kind: object
+  properties:
+  - name: policyDefinitionId
+    isReadyOnly: true
+    description: The resource identifier of the policy definition.
+    types:
+    - uid: string
+  - name: policySetDefinitionId
+    isReadyOnly: true
+    description: The resource identifier of the policy set definition.
+    types:
+    - uid: string
+  - name: policyDefinitionReferenceId
+    isReadyOnly: true
+    description: The reference identifier of a specific policy definition within a policy set definition.
+    types:
+    - uid: string
+  - name: policyAssignmentId
+    isReadyOnly: true
+    description: The resource identifier of the policy assignment.
+    types:
+    - uid: string
+- name: PolicyEvaluationDetails
+  description: Policy evaluation details.
+  kind: object
+  properties:
+  - name: evaluatedExpressions
+    description: Details of the evaluated expressions.
+    types:
+    - uid: ExpressionEvaluationDetails
+      isArray: true
+  - name: ifNotExistsDetails
+    description: Evaluation details of IfNotExists effect.
+    types:
+    - uid: IfNotExistsEvaluationDetails
+- name: ExpressionEvaluationDetails
+  description: Evaluation details of policy language expressions.
+  kind: object
+  properties:
+  - name: result
+    description: Evaluation result.
+    types:
+    - uid: string
+  - name: expression
+    description: Expression evaluated.
+    types:
+    - uid: string
+  - name: expressionKind
+    isReadyOnly: true
+    description: The kind of expression that was evaluated.
+    types:
+    - uid: string
+  - name: path
+    description: Property path if the expression is a field or an alias.
+    types:
+    - uid: string
+  - name: expressionValue
+    description: Value of the expression.
+    types:
+    - uid: object
+  - name: targetValue
+    description: Target value to be compared with the expression value.
+    types:
+    - uid: object
+  - name: operator
+    description: Operator to compare the expression value and the target value.
+    types:
+    - uid: string
+- name: IfNotExistsEvaluationDetails
+  description: Evaluation details of IfNotExists effect.
+  kind: object
+  properties:
+  - name: resourceId
+    description: ID of the last evaluated resource for IfNotExists effect.
+    types:
+    - uid: string
+  - name: totalResources
+    description: Total number of resources to which the existence condition is applicable.
+    types:
+    - uid: integer
+examples:
+- name: Check policy restrictions at resource group scope
+  request:
+    uri: POST https://management.azure.com/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourceGroups/vmRg/providers/Microsoft.PolicyInsights/checkPolicyRestrictions?api-version=2020-07-01
+    body: >-
+      {
+        "resourceDetails": {
+          "resourceContent": {
+            "type": "Microsoft.Compute/virtualMachines",
+            "properties": {
+              "priority": "Spot"
+            }
+          },
+          "apiVersion": "2019-12-01"
+        },
+        "pendingFields": [
+          {
+            "field": "name",
+            "values": [
+              "myVMName"
+            ]
+          },
+          {
+            "field": "location",
+            "values": [
+              "eastus",
+              "westus",
+              "westus2",
+              "westeurope"
+            ]
+          },
+          {
+            "field": "tags"
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "fieldRestrictions": [
+          {
+            "field": "tags.newtag",
+            "restrictions": [
+              {
+                "result": "Required",
+                "defaultValue": "defaultVal",
+                "policy": {
+                  "policyDefinitionId": "/subscriptions/d8db6de6-2b96-46af-b825-07aef2033c0b/providers/microsoft.authorization/policyDefinitions/1D0906C3",
+                  "policyAssignmentId": "/subscriptions/d8db6de6-2b96-46af-b825-07aef2033c0b/providers/microsoft.authorization/policyAssignments/57DAC8A0",
+                  "policySetDefinitionId": "/subscriptions/d8db6de6-2b96-46af-b825-07aef2033c0b/providers/microsoft.authorization/policySetDefinitions/05D92080",
+                  "policyDefinitionReferenceId": "DefRef"
+                }
+              }
+            ]
+          },
+          {
+            "field": "tags.environment",
+            "restrictions": [
+              {
+                "result": "Required",
+                "values": [
+                  "Prod",
+                  "Int",
+                  "Test"
+                ],
+                "policy": {
+                  "policyDefinitionId": "/subscriptions/d8db6de6-2b96-46af-b825-07aef2033c0b/providers/microsoft.authorization/policyDefinitions/30BD79F6",
+                  "policyAssignmentId": "/subscriptions/d8db6de6-2b96-46af-b825-07aef2033c0b/providers/microsoft.authorization/policyAssignments/7EB1508A",
+                  "policySetDefinitionId": "/subscriptions/d8db6de6-2b96-46af-b825-07aef2033c0b/providers/microsoft.authorization/policySetDefinitions/735551F1",
+                  "policyDefinitionReferenceId": "DefRef"
+                }
+              }
+            ]
+          },
+          {
+            "field": "location",
+            "restrictions": [
+              {
+                "result": "Deny",
+                "values": [
+                  "west europe"
+                ],
+                "policy": {
+                  "policyDefinitionId": "/subscriptions/d8db6de6-2b96-46af-b825-07aef2033c0b/providers/microsoft.authorization/policyDefinitions/0711CCC1",
+                  "policyAssignmentId": "/subscriptions/d8db6de6-2b96-46af-b825-07aef2033c0b/providers/microsoft.authorization/policyAssignments/1563EBD3",
+                  "policySetDefinitionId": "/subscriptions/d8db6de6-2b96-46af-b825-07aef2033c0b/providers/microsoft.authorization/policySetDefinitions/1E17783A",
+                  "policyDefinitionReferenceId": "DefRef"
+                }
+              },
+              {
+                "result": "Deny",
+                "values": [
+                  "eastus",
+                  "westus"
+                ],
+                "policy": {
+                  "policyDefinitionId": "/subscriptions/d8db6de6-2b96-46af-b825-07aef2033c0b/providers/microsoft.authorization/policyDefinitions/25C9F66B",
+                  "policyAssignmentId": "/subscriptions/d8db6de6-2b96-46af-b825-07aef2033c0b/providers/microsoft.authorization/policyAssignments/5382A69D",
+                  "policySetDefinitionId": "/subscriptions/d8db6de6-2b96-46af-b825-07aef2033c0b/providers/microsoft.authorization/policySetDefinitions/392D107B",
+                  "policyDefinitionReferenceId": "DefRef"
+                }
+              }
+            ]
+          }
+        ],
+        "contentEvaluationResult": {
+          "policyEvaluations": [
+            {
+              "policyInfo": {
+                "policyDefinitionId": "/subscriptions/d8db6de6-2b96-46af-b825-07aef2033c0b/providers/microsoft.authorization/policyDefinitions/435CAE41",
+                "policySetDefinitionId": "/subscriptions/d8db6de6-2b96-46af-b825-07aef2033c0b/providers/microsoft.authorization/policySetDefinitions/2162358E",
+                "policyDefinitionReferenceId": "defref222",
+                "policyAssignmentId": "/subscriptions/d8db6de6-2b96-46af-b825-07aef2033c0b/providers/microsoft.authorization/policyAssignments/2FF66C37"
+              },
+              "evaluationResult": "NonCompliant",
+              "evaluationDetails": {
+                "evaluatedExpressions": [
+                  {
+                    "result": "True",
+                    "expressionKind": "field",
+                    "expression": "type",
+                    "path": "type",
+                    "expressionValue": "microsoft.compute/virtualmachines",
+                    "targetValue": "microsoft.compute/virtualmachines",
+                    "operator": "equals"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Checks what restrictions Azure Policy will place on a resource within a resource group. Use this when the resource group the resource will be created in is already known.
+errorCodes: []

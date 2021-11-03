@@ -1,0 +1,109 @@
+### YamlMime:RESTOperation
+uid: formrecognizer.2.1preview2.analyzewithcustommodel.analyzewithcustommodel
+name: Analyze With Custom Model
+service: Cognitive Services - Form Recognizer
+groupName: Analyze With Custom Model
+apiVersion: 2.1-preview.2
+summary: "Analyze Form  \nExtract key-value pairs, tables, and semantic values from a given document. The input document must be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'. Alternatively, use 'application/json' type to specify the location (Uri or local path) of the document to be analyzed."
+consumes:
+- application/pdf
+- application/json
+- image/jpeg
+- image/png
+- image/tiff
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/formrecognizer/v2.1-preview.2/custom/models/{modelId}/analyze
+- content: POST {endpoint}/formrecognizer/v2.1-preview.2/custom/models/{modelId}/analyze?includeTextDetails={includeTextDetails}
+  isOptional: true
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: modelId
+  in: path
+  isRequired: true
+  description: Model identifier.
+  types:
+  - uid: string
+  format: uuid
+- name: includeTextDetails
+  in: query
+  description: Include text lines and element references in the result.
+  types:
+  - uid: boolean
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Operation-Location
+    value: string
+  description: Request is queued successfully.
+- name: Other Status Codes
+  description: Response entity accompanying non-successful responses containing additional details about the error.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: source
+    in: body
+    description: File source path.
+    types:
+    - uid: string
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: ErrorInformation
+- name: SourcePath
+  description: Uri or local path to source data.
+  kind: object
+  properties:
+  - name: source
+    description: File source path.
+    types:
+    - uid: string
+- name: ErrorInformation
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Analyze form with custom model
+  request:
+    uri: POST {endpoint}/formrecognizer/v2.1-preview.2/custom/models/{modelId}/analyze
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Operation-Location
+      value: '{endpoint}/formrecognizer/v2.1-preview.2/custom/models/{modelId}/analyzeResults/{resultId}'
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+metadata:
+  description: "Analyze Form  \nExtract key-value pairs, tables, and semantic values from a given document. The input document must be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'."
+errorCodes: []

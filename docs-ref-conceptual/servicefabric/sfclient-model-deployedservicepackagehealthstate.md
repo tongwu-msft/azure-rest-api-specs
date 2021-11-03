@@ -1,6 +1,7 @@
 ---
 title: "DeployedServicePackageHealthState"
-ms.date: "04/15/2020"
+description: "DeployedServicePackageHealthState"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

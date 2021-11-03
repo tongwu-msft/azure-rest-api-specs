@@ -29,7 +29,7 @@ The `List Containers` operation returns a list of the containers under the speci
 |------------|-----------------|------------------|  
 |`GET`|`http://127.0.0.1:10000/devstoreaccount1?comp=list`|HTTP/1.1|  
   
- Note that emulated storage only supports blob sizes up to 2 GB.  
+ Note that emulated storage only supports blob sizes up to 2 GiB.  
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator) and [Differences Between the Storage Emulator and Azure Storage Services](/azure/storage/storage-use-emulator#differences-between-the-storage-emulator-and-azure-storage).  
   
@@ -41,7 +41,7 @@ The `List Containers` operation returns a list of the containers under the speci
 |`prefix`|Optional. Filters the results to return only containers whose name begins with the specified prefix.|  
 |`marker`|Optional. A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the `NextMarker` value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The `NextMarker` value can be used as the value for the `marker` parameter in a subsequent call to request the next page of list items.<br /><br /> The marker value is opaque to the client.|  
 |`maxresults`|Optional. Specifies the maximum number of containers to return. If the request does not specify `maxresults`, or specifies a value greater than 5000, the server will return up to 5000 items. <br /><br />Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by `maxresults`, or than the default of 5000. <br /><br />If the parameter is set to a value less than or equal to zero, the server returns status code 400 (Bad Request).|  
-|`include={metadata,system}`|Optional. Specifies one or more datasets to include in the response: <br /><br /> -   `metadata`: Include this parameter to specify that the container's metadata be returned as part of the response body. Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of the Blob service. Beginning with this version, all metadata names must adhere to the naming conventions for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).<br />-`system`: Version 2020-10-02 or newer. Specifies if system containers are to be included in the response. Including this option will list $logs and $changefeed containers.|  
+|`include={metadata,deleted,system}`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -`metadata`: Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of the Blob service. Beginning with this version, all metadata names must adhere to the naming conventions for [C# identifiers](/dotnet/csharp/language-reference).<br /> -`deleted`: Version 2019-12-12 and newer. Specifies that soft deleted containers should be included in the response.<br />-`system`: Version 2020-10-02 or newer. Specifies if system containers are to be included in the response. Including this option will list $logs and $changefeed containers.|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
@@ -52,7 +52,7 @@ The `List Containers` operation returns a list of the containers under the speci
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
  None.  
@@ -88,6 +88,8 @@ The `List Containers` operation returns a list of the containers under the speci
   <Containers>  
     <Container>  
       <Name>container-name</Name>  
+      <Version>container-version</Version>
+      <Deleted>true</Deleted>
       <Properties>  
         <Last-Modified>date/time-value</Last-Modified>  
         <Etag>etag</Etag>  
@@ -97,6 +99,8 @@ The `List Containers` operation returns a list of the containers under the speci
         <PublicAccess>container | blob</PublicAccess>
         <HasImmutabilityPolicy>true | false</HasImmutabilityPolicy>
         <HasLegalHold>true | false</HasLegalHold>
+        <DeletedTime>datetime</DeletedTime>
+        <RemainingRetentionDays>no-of-days</RemainingRetentionDays>
       </Properties>  
       <Metadata>  
         <metadata-name>value</metadata-name>  
@@ -139,6 +143,8 @@ If this property is not specified in the <properties> section, the container is 
 
 > [!NOTE]
 >  Beginning with version 2009-09-19, the response body for `List Containers` returns the container's last modified time in an element named `Last-Modified`. In previous versions, this element was named `LastModified`.  
+
+The `Version`, `Deleted`, `DeletedTime`, and `RemainingRetentiondays` elements only appear in version 2019-12-12 and later if the `deleted` value is specified for the query parameter `include` and the container is soft deleted and eligible to be restored.
   
 ##  <a name="Authorization"></a> Authorization  
  Only the account owner may call this operation.  

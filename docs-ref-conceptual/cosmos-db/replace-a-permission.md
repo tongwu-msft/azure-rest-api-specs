@@ -1,5 +1,6 @@
 ---
 title: "Replace a Permission - Azure Cosmos DB REST API"
+description: Learn how to replace a permission's properties by using a REST API request, the request and response object formats for this operation. 
 ms.date: "02/25/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"
@@ -42,7 +43,7 @@ translation.priority.mt:
 |--------------|--------------|-----------------|  
 |**id**|Required|It is a unique name that identifies the permission, i.e. no two permissions owned by a user can share the same id. The **ID** must not exceed 255 characters|  
 |**permissionMode**|Required|The access mode on the resource for the user: **All** or **Read**. **All** provides read, write, and delete access to a resource. **Read** restricts the user to read access on the resource.|  
-|**resource**|Required|The full addressable path of the resource associated with the permission. For example, dbs/ruJjAA==/colls/ruJjAM9UnAA=/.|  
+|**resource**|Required|The full addressable path of the resource associated with the permission. For example, dbs/volcanodb/colls/volcano1.|  
   
 ```  
 {  

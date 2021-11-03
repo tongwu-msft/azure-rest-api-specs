@@ -54,46 +54,6 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.status
-    in: body
-    description: The status of the schedule (i.e. Enabled, Disabled)
-    types:
-    - uid: EnableStatus
-  - name: properties.taskType
-    in: body
-    description: The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
-    types:
-    - uid: string
-  - name: properties.weeklyRecurrence
-    in: body
-    description: If the schedule will occur only some days of the week, specify the weekly recurrence.
-    types:
-    - uid: WeekDetailsFragment
-  - name: properties.dailyRecurrence
-    in: body
-    description: If the schedule will occur once each day of the week, specify the daily recurrence.
-    types:
-    - uid: DayDetailsFragment
-  - name: properties.hourlyRecurrence
-    in: body
-    description: If the schedule will occur multiple times a day, specify the hourly recurrence.
-    types:
-    - uid: HourDetailsFragment
-  - name: properties.timeZoneId
-    in: body
-    description: The time zone ID (e.g. Pacific Standard time).
-    types:
-    - uid: string
-  - name: properties.notificationSettings
-    in: body
-    description: Notification settings.
-    types:
-    - uid: NotificationSettingsFragment
-  - name: properties.targetResourceId
-    in: body
-    description: The resource ID to which the schedule belongs
-    types:
-    - uid: string
   - name: tags
     in: body
     description: The tags of the resource.
@@ -105,59 +65,6 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: WeekDetailsFragment
-  description: Properties of a weekly schedule.
-  kind: object
-  properties:
-  - name: weekdays
-    description: The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
-    types:
-    - uid: string
-      isArray: true
-  - name: time
-    description: The time of the day the schedule will occur.
-    types:
-    - uid: string
-- name: DayDetailsFragment
-  description: Properties of a daily schedule.
-  kind: object
-  properties:
-  - name: time
-    description: The time of day the schedule will occur.
-    types:
-    - uid: string
-- name: HourDetailsFragment
-  description: Properties of an hourly schedule.
-  kind: object
-  properties:
-  - name: minute
-    description: Minutes of the hour the schedule will run.
-    types:
-    - uid: integer
-- name: NotificationSettingsFragment
-  description: Notification settings for a schedule.
-  kind: object
-  properties:
-  - name: status
-    description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
-    types:
-    - uid: EnableStatus
-  - name: timeInMinutes
-    description: Time in minutes before event at which notification will be sent.
-    types:
-    - uid: integer
-  - name: webhookUrl
-    description: The webhook URL to which the notification will be sent.
-    types:
-    - uid: string
-  - name: emailRecipient
-    description: The email recipient to send notifications to (can be a list of semi-colon separated email addresses).
-    types:
-    - uid: string
-  - name: notificationLocale
-    description: The locale to use when sending a notification (fallback for unsupported languages is EN).
-    types:
-    - uid: string
 - name: Schedule
   description: A schedule.
   kind: object
@@ -248,38 +155,6 @@ definitions:
   description: A schedule.
   kind: object
   properties:
-  - name: properties.status
-    description: The status of the schedule (i.e. Enabled, Disabled)
-    types:
-    - uid: EnableStatus
-  - name: properties.taskType
-    description: The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
-    types:
-    - uid: string
-  - name: properties.weeklyRecurrence
-    description: If the schedule will occur only some days of the week, specify the weekly recurrence.
-    types:
-    - uid: WeekDetailsFragment
-  - name: properties.dailyRecurrence
-    description: If the schedule will occur once each day of the week, specify the daily recurrence.
-    types:
-    - uid: DayDetailsFragment
-  - name: properties.hourlyRecurrence
-    description: If the schedule will occur multiple times a day, specify the hourly recurrence.
-    types:
-    - uid: HourDetailsFragment
-  - name: properties.timeZoneId
-    description: The time zone ID (e.g. Pacific Standard time).
-    types:
-    - uid: string
-  - name: properties.notificationSettings
-    description: Notification settings.
-    types:
-    - uid: NotificationSettingsFragment
-  - name: properties.targetResourceId
-    description: The resource ID to which the schedule belongs
-    types:
-    - uid: string
   - name: tags
     description: The tags of the resource.
     types:
@@ -372,7 +247,58 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-examples: []
+examples:
+- name: Schedules_Update
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{scheduleName}?api-version=2018-09-15
+    body: >-
+      {
+        "tags": {
+          "tagName1": "tagValue1"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "status": "{Enabled|Disabled}",
+          "taskType": "{myLabVmTaskType}",
+          "weeklyRecurrence": {
+            "weekdays": [
+              "Monday",
+              "Wednesday",
+              "Friday"
+            ],
+            "time": "{timeOfTheDayTheScheduleWillOccurOnThoseDays}"
+          },
+          "dailyRecurrence": {
+            "time": "{timeOfTheDayTheScheduleWillOccurEveryDay}"
+          },
+          "hourlyRecurrence": {
+            "minute": 30
+          },
+          "timeZoneId": "Pacific Standard Time",
+          "notificationSettings": {
+            "status": "{Enabled|Disabled}",
+            "timeInMinutes": 15,
+            "webhookUrl": "{webhookUrl}",
+            "emailRecipient": "{email}",
+            "notificationLocale": "EN"
+          },
+          "createdDate": "2018-10-01T18:40:48.1739018-07:00",
+          "targetResourceId": "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}",
+          "provisioningState": "Creating",
+          "uniqueIdentifier": "{uniqueIdentifier}"
+        },
+        "id": "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}/schedules/{scheduleName}",
+        "name": "{scheduleName}",
+        "type": "Microsoft.DevTestLab/labs/schedules",
+        "location": "{location}",
+        "tags": {
+          "tagName1": "tagValue1"
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -382,4 +308,6 @@ security:
   scopes:
   - name: user_impersonation
     description: Access Microsoft Azure
+metadata:
+  description: Learn more about Dev Test Labs service - Allows modifying tags of schedules. All other properties will be ignored.
 errorCodes: []

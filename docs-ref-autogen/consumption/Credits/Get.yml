@@ -3,14 +3,14 @@ uid: management.azure.com.consumption.credits.get
 name: Get
 service: Consumption
 groupName: Credits
-apiVersion: 2019-10-01
+apiVersion: 2021-10-01
 summary: The credit summary by billingAccountId and billingProfileId.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/credits/balanceSummary?api-version=2019-10-01
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/credits/balanceSummary?api-version=2021-10-01
 uriParameters:
 - name: billingAccountId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2019-10-01.
+  description: Version of the API to be used with the client request. The current version is 2021-10-01.
   types:
   - uid: string
 responses:
@@ -35,6 +35,8 @@ responses:
   description: OK. The request has succeeded.
   types:
   - uid: CreditSummary
+- name: 204 No Content
+  description: No Content. The request has succeeded but returned no results.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -65,19 +67,44 @@ definitions:
     description: Pending eligible charges.
     types:
     - uid: amount
+  - name: properties.creditCurrency
+    isReadyOnly: true
+    description: The credit currency.
+    types:
+    - uid: string
+  - name: properties.billingCurrency
+    isReadyOnly: true
+    description: The billing currency.
+    types:
+    - uid: string
+  - name: properties.reseller
+    isReadyOnly: true
+    description: Credit's reseller.
+    types:
+    - uid: Reseller
+  - name: properties.eTag
+    isReadyOnly: true
+    description: The eTag for the resource.
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
-    description: Resource Id.
+    description: The full qualified ARM ID of an event.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name.
+    description: 'The ID that uniquely identifies an event. '
     types:
     - uid: string
   - name: type
     isReadyOnly: true
     description: Resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: The etag for the resource.
     types:
     - uid: string
   - name: tags
@@ -111,6 +138,11 @@ definitions:
     description: Current balance.
     types:
     - uid: amount
+  - name: estimatedBalanceInBillingCurrency
+    isReadyOnly: true
+    description: Estimated balance in billing currency.
+    types:
+    - uid: AmountWithExchangeRate
 - name: amount
   description: The amount plus currency .
   kind: object
@@ -125,6 +157,20 @@ definitions:
     description: Amount.
     types:
     - uid: number
+- name: Reseller
+  description: The reseller properties.
+  kind: object
+  properties:
+  - name: resellerId
+    isReadyOnly: true
+    description: The reseller property ID.
+    types:
+    - uid: string
+  - name: resellerDescription
+    isReadyOnly: true
+    description: The reseller property description.
+    types:
+    - uid: string
 - name: ErrorDetails
   description: The details of the error.
   kind: object
@@ -139,10 +185,34 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
+- name: AmountWithExchangeRate
+  description: The amount with exchange rate.
+  kind: object
+  properties:
+  - name: exchangeRate
+    isReadyOnly: true
+    description: The exchange rate.
+    types:
+    - uid: number
+  - name: exchangeRateMonth
+    isReadyOnly: true
+    description: The exchange rate month.
+    types:
+    - uid: integer
+  - name: currency
+    isReadyOnly: true
+    description: Amount currency.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: Amount.
+    types:
+    - uid: number
 examples:
 - name: CreditSummaryByBillingProfile
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/2468/providers/Microsoft.Consumption/credits/balanceSummary?api-version=2019-10-01
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/2468/providers/Microsoft.Consumption/credits/balanceSummary?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -151,6 +221,8 @@ examples:
         "name": "balanceSummary1",
         "type": "Microsoft.Consumption/credits/balanceSummary",
         "properties": {
+          "creditCurrency": "USD",
+          "billingCurrency": "USD",
           "balanceSummary": {
             "estimatedBalance": {
               "currency": "USD",
@@ -172,9 +244,14 @@ examples:
           "pendingEligibleCharges": {
             "currency": "USD",
             "value": 0
+          },
+          "reseller": {
+            "resellerId": "/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/2468/providers/Microsoft.Consumption/reseller/reseller1",
+            "resellerDescription": "Reseller information."
           }
         }
       }
+  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2
@@ -184,4 +261,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Consumption service - The credit summary by billingAccountId and billingProfileId.
 errorCodes: []

@@ -3,21 +3,21 @@ uid: management.azure.com.resources.providers.get
 name: Get
 service: Resource Management
 groupName: Providers
-apiVersion: 2019-10-01
+apiVersion: 2021-04-01
 summary: Gets the specified resource provider.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}?api-version=2019-10-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}?$expand={$expand}&api-version=2019-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}?$expand={$expand}&api-version=2021-04-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The ID of the target subscription.
+  description: The Microsoft Azure subscription ID.
   types:
   - uid: string
 - name: resourceProviderNamespace
@@ -77,12 +77,16 @@ definitions:
     types:
     - uid: ProviderResourceType
       isArray: true
+  - name: providerAuthorizationConsentState
+    description: The provider authorization consent state.
+    types:
+    - uid: ProviderAuthorizationConsentState
 - name: CloudError
   description: An error response for a resource management request.
   kind: object
   properties:
   - name: error
-    description: The resource management error response.
+    description: "Error Response  \nCommon error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.)"
     types:
     - uid: ErrorResponse
 - name: ProviderResourceType
@@ -98,6 +102,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: locationMappings
+    description: The location mappings that are supported by this resource type.
+    types:
+    - uid: ProviderExtendedLocation
+      isArray: true
   - name: aliases
     description: The aliases that are supported by this resource type.
     types:
@@ -107,6 +116,17 @@ definitions:
     description: The API version.
     types:
     - uid: string
+      isArray: true
+  - name: defaultApiVersion
+    isReadyOnly: true
+    description: The default API version.
+    types:
+    - uid: string
+  - name: apiProfiles
+    isReadyOnly: true
+    description: The API profiles for the resource provider.
+    types:
+    - uid: ApiProfile
       isArray: true
   - name: capabilities
     description: The additional capabilities offered by this resource type.
@@ -120,8 +140,24 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ProviderAuthorizationConsentState
+  description: The provider authorization consent state.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: Required
+    types:
+    - uid: string
+  - name: NotRequired
+    types:
+    - uid: string
+  - name: Consented
+    types:
+    - uid: string
 - name: ErrorResponse
-  description: The resource management error response.
+  description: Error Response
   kind: object
   properties:
   - name: code
@@ -151,6 +187,23 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: ProviderExtendedLocation
+  description: 'The provider extended location. '
+  kind: object
+  properties:
+  - name: location
+    description: The azure location.
+    types:
+    - uid: string
+  - name: type
+    description: The extended location type.
+    types:
+    - uid: string
+  - name: extendedLocations
+    description: The extended locations for the azure location.
+    types:
+    - uid: string
+      isArray: true
 - name: Alias
   description: 'The alias type. '
   kind: object
@@ -176,6 +229,24 @@ definitions:
     description: The default pattern for an alias.
     types:
     - uid: AliasPattern
+  - name: defaultMetadata
+    isReadyOnly: true
+    description: The default alias path metadata. Applies to the default path and to any alias path that doesn't have metadata
+    types:
+    - uid: AliasPathMetadata
+- name: ApiProfile
+  kind: object
+  properties:
+  - name: profileVersion
+    isReadyOnly: true
+    description: The profile version.
+    types:
+    - uid: string
+  - name: apiVersion
+    isReadyOnly: true
+    description: The API version.
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -207,6 +278,11 @@ definitions:
     description: The pattern for an alias path.
     types:
     - uid: AliasPattern
+  - name: metadata
+    isReadyOnly: true
+    description: The metadata of the alias path. If missing, fall back to the default metadata of the alias.
+    types:
+    - uid: AliasPathMetadata
 - name: AliasType
   description: The type of the alias.
   kind: enum
@@ -239,6 +315,19 @@ definitions:
     description: The type of alias pattern
     types:
     - uid: AliasPatternType
+- name: AliasPathMetadata
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of the token that the alias path is referring to.
+    types:
+    - uid: AliasPathTokenType
+  - name: attributes
+    isReadyOnly: true
+    description: The attributes of the token that the alias path is referring to.
+    types:
+    - uid: AliasPathAttributes
 - name: AliasPatternType
   description: The type of alias pattern
   kind: enum
@@ -251,7 +340,101 @@ definitions:
     description: Extract is the only allowed value.
     types:
     - uid: string
-examples: []
+- name: AliasPathTokenType
+  description: The type of the token that the alias path is referring to.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    description: The token type is not specified.
+    types:
+    - uid: string
+  - name: Any
+    description: The token type can be anything.
+    types:
+    - uid: string
+  - name: String
+    description: The token type is string.
+    types:
+    - uid: string
+  - name: Object
+    description: The token type is object.
+    types:
+    - uid: string
+  - name: Array
+    description: The token type is array.
+    types:
+    - uid: string
+  - name: Integer
+    description: The token type is integer.
+    types:
+    - uid: string
+  - name: Number
+    description: The token type is number.
+    types:
+    - uid: string
+  - name: Boolean
+    description: The token type is boolean.
+    types:
+    - uid: string
+- name: AliasPathAttributes
+  description: The attributes of the token that the alias path is referring to.
+  kind: enum
+  properties:
+  - name: None
+    description: The token that the alias path is referring to has no attributes.
+    types:
+    - uid: string
+  - name: Modifiable
+    description: The token that the alias path is referring to is modifiable by policies with 'modify' effect.
+    types:
+    - uid: string
+examples:
+- name: Get provider.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.TestRP1?api-version=2021-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.TestRP1",
+        "namespace": "Microsoft.TestRP1",
+        "registrationState": "Registering",
+        "registrationPolicy": "RegistrationRequired",
+        "resourceTypes": [
+          {
+            "resourceType": "TestResourceType",
+            "locations": [
+              "West US"
+            ],
+            "apiVersions": [
+              "2018-01-01",
+              "2015-05-01"
+            ],
+            "locationMappings": [
+              {
+                "location": "West US",
+                "type": "EdgeZone",
+                "extendedLocations": [
+                  "LosAngeles",
+                  "LosAngeles2"
+                ]
+              }
+            ],
+            "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation"
+          },
+          {
+            "resourceType": "TestResourceTypeSibling",
+            "locations": [
+              "West US"
+            ],
+            "apiVersions": [
+              "2018-01-01",
+              "2015-05-01"
+            ],
+            "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation"
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -261,4 +444,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Resource Management service - Gets the specified resource provider.
 errorCodes: []

@@ -3,7 +3,6 @@ title: "Azure Cloud Services REST - Check Cloud Service Name Availability | Micr
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"
-ms.prod: "azure"
 ms.reviewer: ""
 
 ms.suite: ""

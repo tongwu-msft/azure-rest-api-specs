@@ -1,6 +1,7 @@
 ---
 title: "LoadMetricReport"
-ms.date: "04/15/2020"
+description: "LoadMetricReport"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

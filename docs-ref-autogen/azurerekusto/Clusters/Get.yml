@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.clusters.get
 name: Get
 service: Azure Kusto
 groupName: Clusters
-apiVersion: 2019-01-21
+apiVersion: 2021-08-27
 summary: Gets a Kusto cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}?api-version=2019-01-21
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}?api-version=2021-08-27
 uriParameters:
 - name: subscriptionId
   in: path
@@ -55,6 +55,25 @@ definitions:
     description: The SKU of the cluster.
     types:
     - uid: AzureSku
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: zones
+    description: The availability zones of the cluster.
+    types:
+    - uid: string
+      isArray: true
+  - name: identity
+    description: The identity of the cluster, if configured.
+    types:
+    - uid: Identity
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
   - name: properties.state
     isReadyOnly: true
     description: The state of the resource.
@@ -75,10 +94,79 @@ definitions:
     description: The cluster data ingestion URI.
     types:
     - uid: string
+  - name: properties.stateReason
+    isReadyOnly: true
+    description: The reason for the cluster's current state.
+    types:
+    - uid: string
   - name: properties.trustedExternalTenants
     description: The cluster's external tenants.
     types:
     - uid: TrustedExternalTenant
+      isArray: true
+  - name: properties.optimizedAutoscale
+    description: Optimized auto scale definition.
+    types:
+    - uid: OptimizedAutoscale
+  - name: properties.enableDiskEncryption
+    description: A boolean value that indicates if the cluster's disks are encrypted.
+    types:
+    - uid: boolean
+  - name: properties.enableStreamingIngest
+    description: A boolean value that indicates if the streaming ingest is enabled.
+    types:
+    - uid: boolean
+  - name: properties.virtualNetworkConfiguration
+    description: Virtual network definition.
+    types:
+    - uid: VirtualNetworkConfiguration
+  - name: properties.keyVaultProperties
+    description: KeyVault properties for the cluster encryption.
+    types:
+    - uid: KeyVaultProperties
+  - name: properties.enablePurge
+    description: A boolean value that indicates if the purge operations are enabled.
+    types:
+    - uid: boolean
+  - name: properties.languageExtensions
+    isReadyOnly: true
+    description: List of the cluster's language extensions.
+    types:
+    - uid: LanguageExtensionsList
+  - name: properties.enableDoubleEncryption
+    description: A boolean value that indicates if double encryption is enabled.
+    types:
+    - uid: boolean
+  - name: properties.publicNetworkAccess
+    description: Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.allowedIpRangeList
+    description: The list of ips in the format of CIDR allowed to connect to the cluster.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.engineType
+    description: The engine type
+    types:
+    - uid: EngineType
+  - name: properties.acceptedAudiences
+    description: The cluster's accepted audiences.
+    types:
+    - uid: AcceptedAudiences
+      isArray: true
+  - name: properties.enableAutoStop
+    description: A boolean value that indicates if the cluster could be automatically stopped (due to lack of data or no activity for many days).
+    types:
+    - uid: boolean
+  - name: properties.restrictOutboundNetworkAccess
+    description: Whether or not to restrict outbound network access.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+    types:
+    - uid: ClusterNetworkAccessFlag
+  - name: properties.allowedFqdnList
+    description: List of allowed FQDNs(Fully Qualified Domain Name) for egress from Cluster.
+    types:
+    - uid: string
       isArray: true
   - name: tags
     description: Resource tags.
@@ -94,7 +182,7 @@ definitions:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
@@ -104,7 +192,7 @@ definitions:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
 - name: CloudError
@@ -131,6 +219,56 @@ definitions:
     description: SKU tier.
     types:
     - uid: AzureSkuTier
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: Identity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: type
+    description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove all identities.
+    types:
+    - uid: IdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the Kusto cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
 - name: State
   description: The state of the resource.
   kind: enum
@@ -181,12 +319,118 @@ definitions:
   - name: Failed
     types:
     - uid: string
+  - name: Moving
+    types:
+    - uid: string
 - name: TrustedExternalTenant
   description: Represents a tenant ID that is trusted by the cluster.
   kind: object
   properties:
   - name: value
     description: GUID representing an external tenant.
+    types:
+    - uid: string
+- name: OptimizedAutoscale
+  description: A class that contains the optimized auto scale definition.
+  kind: object
+  properties:
+  - name: version
+    description: The version of the template defined, for instance 1.
+    types:
+    - uid: integer
+  - name: isEnabled
+    description: A boolean value that indicate if the optimized autoscale feature is enabled or not.
+    types:
+    - uid: boolean
+  - name: minimum
+    description: Minimum allowed instances count.
+    types:
+    - uid: integer
+  - name: maximum
+    description: Maximum allowed instances count.
+    types:
+    - uid: integer
+- name: VirtualNetworkConfiguration
+  description: A class that contains virtual network definition.
+  kind: object
+  properties:
+  - name: subnetId
+    description: The subnet resource id.
+    types:
+    - uid: string
+  - name: enginePublicIpId
+    description: Engine service's public IP address resource id.
+    types:
+    - uid: string
+  - name: dataManagementPublicIpId
+    description: Data management's service public IP address resource id.
+    types:
+    - uid: string
+- name: KeyVaultProperties
+  description: Properties of the key vault.
+  kind: object
+  properties:
+  - name: keyName
+    description: The name of the key vault key.
+    types:
+    - uid: string
+  - name: keyVersion
+    description: The version of the key vault key.
+    types:
+    - uid: string
+  - name: keyVaultUri
+    description: The Uri of the key vault.
+    types:
+    - uid: string
+  - name: userIdentity
+    description: The user assigned identity (ARM resource id) that has access to the key.
+    types:
+    - uid: string
+- name: LanguageExtensionsList
+  description: The list of language extension objects.
+  kind: object
+  properties:
+  - name: value
+    description: The list of language extensions.
+    types:
+    - uid: LanguageExtension
+      isArray: true
+- name: PublicNetworkAccess
+  description: Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: EngineType
+  description: The engine type
+  kind: enum
+  properties:
+  - name: V2
+    types:
+    - uid: string
+  - name: V3
+    types:
+    - uid: string
+- name: AcceptedAudiences
+  description: Represents an accepted audience trusted by the cluster.
+  kind: object
+  properties:
+  - name: value
+    description: GUID or valid URL representing an accepted audience.
+    types:
+    - uid: string
+- name: ClusterNetworkAccessFlag
+  description: Whether or not to restrict outbound network access.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: CloudErrorBody
@@ -238,6 +482,12 @@ definitions:
   - name: Standard_L16s
     types:
     - uid: string
+  - name: Standard_L8s_v2
+    types:
+    - uid: string
+  - name: Standard_L16s_v2
+    types:
+    - uid: string
   - name: Standard_D11_v2
     types:
     - uid: string
@@ -250,6 +500,39 @@ definitions:
   - name: Dev(No SLA)_Standard_D11_v2
     types:
     - uid: string
+  - name: Standard_E64i_v3
+    types:
+    - uid: string
+  - name: Standard_E80ids_v4
+    types:
+    - uid: string
+  - name: Standard_E2a_v4
+    types:
+    - uid: string
+  - name: Standard_E4a_v4
+    types:
+    - uid: string
+  - name: Standard_E8a_v4
+    types:
+    - uid: string
+  - name: Standard_E16a_v4
+    types:
+    - uid: string
+  - name: Standard_E8as_v4+1TB_PS
+    types:
+    - uid: string
+  - name: Standard_E8as_v4+2TB_PS
+    types:
+    - uid: string
+  - name: Standard_E16as_v4+3TB_PS
+    types:
+    - uid: string
+  - name: Standard_E16as_v4+4TB_PS
+    types:
+    - uid: string
+  - name: Dev(No SLA)_Standard_E2a_v4
+    types:
+    - uid: string
 - name: AzureSkuTier
   description: SKU tier.
   kind: enum
@@ -260,26 +543,117 @@ definitions:
   - name: Standard
     types:
     - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: IdentityType
+  description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove all identities.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with the Kusto cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+- name: LanguageExtension
+  description: The language extension object.
+  kind: object
+  properties:
+  - name: languageExtensionName
+    description: The language extension name.
+    types:
+    - uid: languageExtensionName
+- name: languageExtensionName
+  description: The language extension name.
+  kind: enum
+  properties:
+  - name: PYTHON
+    types:
+    - uid: string
+  - name: R
+    types:
+    - uid: string
 examples:
 - name: KustoClustersGet
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/KustoClusterRPTest4?api-version=2019-01-21
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4?api-version=2021-08-27
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/KustoClusterRPTest4",
+        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest4",
         "name": "KustoClusterRPTest4",
-        "type": "Microsoft.Kusto/clusters",
+        "type": "Microsoft.Kusto/Clusters",
         "location": "westus",
         "properties": {
-          "provisioningState": "Succeeded"
+          "provisioningState": "Succeeded",
+          "enableDiskEncryption": false,
+          "enableStreamingIngest": true,
+          "enablePurge": false,
+          "keyVaultProperties": {
+            "keyVaultUri": "https://dummy.keyvault.com",
+            "keyName": "keyName",
+            "keyVersion": "keyVersion"
+          },
+          "engineType": "V3",
+          "enableAutoStop": true,
+          "publicNetworkAccess": "Enabled",
+          "allowedIpRangeList": [],
+          "restrictOutboundNetworkAccess": "Enabled",
+          "allowedFqdnList": [
+            "my-stroage.blob.core.windows.net"
+          ]
         },
         "sku": {
-          "name": "L8",
+          "name": "Standard_L8s",
           "capacity": 2,
           "tier": "Standard"
-        }
+        },
+        "systemData": {
+          "createdBy": "user@microsoft.com",
+          "createdByType": "User",
+          "createdAt": "2021-06-29T15:06:54.2757906Z",
+          "lastModifiedBy": "user@microsoft.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-06-29T15:06:54.2757906Z"
+        },
+        "identity": {
+          "type": "SystemAssigned",
+          "tenantId": "b932977f-6277-4ab7-a2cd-5bd21f07aaf4",
+          "principalId": "faabad1f-4876-463c-af9d-6ba2d2d2394c",
+          "userAssignedIdentities": {}
+        },
+        "etag": "abcd123"
       }
 security: []
+metadata:
+  description: Learn more about Azure Kusto service - Gets a Kusto cluster.
 errorCodes: []

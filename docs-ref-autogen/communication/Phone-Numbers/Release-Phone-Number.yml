@@ -1,0 +1,100 @@
+### YamlMime:RESTOperation
+uid: communication.phonenumbers.releasephonenumber
+name: Release Phone Number
+service: Communication
+groupName: Phone Numbers
+apiVersion: 2021-03-07
+summary: Releases a purchased phone number.
+produces:
+- application/json
+paths:
+- content: DELETE {endpoint}/phoneNumbers/{phoneNumber}?api-version=2021-03-07
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The communication resource, for example https://resourcename.communication.azure.com.
+  types:
+  - uid: string
+- name: phoneNumber
+  in: path
+  isRequired: true
+  description: Phone number to be released, e.g. +11234567890.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Operation-Location
+    value: string
+  - name: operation-id
+    value: string
+  - name: release-id
+    value: string
+  description: The service has accepted the request and will start processing later. It will return 'Accepted' immediately and include an 'Operation-Location' and 'Location' headers. Client side should further query the operation status using the URL specified in 'Operation-Location' header. When operation completes successfully query final result using URL specified in 'Location' header.
+- name: Other Status Codes
+  description: Failure
+  types:
+  - uid: CommunicationErrorResponse
+requestHeader: []
+definitions:
+- name: CommunicationErrorResponse
+  description: The Communication Services error.
+  kind: object
+  properties:
+  - name: error
+    description: The Communication Services error.
+    types:
+    - uid: CommunicationError
+- name: CommunicationError
+  description: The Communication Services error.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Further details about specific errors that led to this error.
+    types:
+    - uid: CommunicationError
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: The inner error if any.
+    types:
+    - uid: CommunicationError
+examples:
+- name: Release phone number
+  request:
+    uri: DELETE https://resourcename.communication.azure.com//phoneNumbers/+11234567890?api-version=2021-03-07
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Operation-Location
+      value: /phoneNumbers/operations/release_378ddf60-81be-452a-ba4f-613198ea6c28
+    - name: operation-id
+      value: release_378ddf60-81be-452a-ba4f-613198ea6c28
+    - name: release-id
+      value: 378ddf60-81be-452a-ba4f-613198ea6c28
+security: []
+metadata:
+  description: Learn more about Communication service - Releases a purchased phone number.
+errorCodes: []

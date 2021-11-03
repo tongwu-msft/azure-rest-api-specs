@@ -1,0 +1,270 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.avs.scriptcmdlets.get
+name: Get
+service: AVS
+groupName: Script Cmdlets
+apiVersion: 2021-06-01
+summary: Return information about a script cmdlet resource in a specific package on a private cloud
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages/{scriptPackageName}/scriptCmdlets/{scriptCmdletName}?api-version=2021-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: privateCloudName
+  in: path
+  isRequired: true
+  description: Name of the private cloud
+  types:
+  - uid: string
+- name: scriptPackageName
+  in: path
+  isRequired: true
+  description: Name of the script package in the private cloud
+  types:
+  - uid: string
+- name: scriptCmdletName
+  in: path
+  isRequired: true
+  description: Name of the script cmdlet resource in the script package in the private cloud
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request has succeeded
+  types:
+  - uid: ScriptCmdlet
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ScriptCmdlet
+  description: A cmdlet available for script execution
+  kind: object
+  properties:
+  - name: properties.description
+    isReadyOnly: true
+    description: Description of the scripts functionality
+    types:
+    - uid: string
+  - name: properties.timeout
+    isReadyOnly: true
+    description: Recommended time limit for execution
+    types:
+    - uid: string
+  - name: properties.parameters
+    isReadyOnly: true
+    description: Parameters the script will accept
+    types:
+    - uid: ScriptParameter
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: CloudError
+  description: API error response
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nAn error returned by the API"
+    types:
+    - uid: ErrorResponse
+- name: ScriptParameter
+  description: An parameter that the script will accept
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of parameter the script is expecting. psCredential is a PSCredentialObject
+    types:
+    - uid: ScriptParameterTypes
+  - name: name
+    description: The parameter name that the script will expect a parameter value for
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: User friendly description of the parameter
+    types:
+    - uid: string
+  - name: visibility
+    isReadyOnly: true
+    description: Should this parameter be visible to arm and passed in the parameters argument when executing
+    types:
+    - uid: VisibilityParameterEnum
+  - name: optional
+    isReadyOnly: true
+    description: Is this parameter required or optional
+    types:
+    - uid: OptionalParamEnum
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ScriptParameterTypes
+  description: The type of parameter the script is expecting. psCredential is a PSCredentialObject
+  kind: enum
+  properties:
+  - name: String
+    types:
+    - uid: string
+  - name: SecureString
+    types:
+    - uid: string
+  - name: Credential
+    types:
+    - uid: string
+  - name: Int
+    types:
+    - uid: string
+  - name: Bool
+    types:
+    - uid: string
+  - name: Float
+    types:
+    - uid: string
+- name: VisibilityParameterEnum
+  description: Should this parameter be visible to arm and passed in the parameters argument when executing
+  kind: enum
+  properties:
+  - name: Visible
+    types:
+    - uid: string
+  - name: Hidden
+    types:
+    - uid: string
+- name: OptionalParamEnum
+  description: Is this parameter required or optional
+  kind: enum
+  properties:
+  - name: Optional
+    types:
+    - uid: string
+  - name: Required
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: ScriptCmdlets_Get
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages/{scriptPackageName}/scriptCmdlets/New-ExternalSsoDomain?api-version=2021-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "New-ExternalSsoDomain",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages/{scriptPackageName}/scriptCmdlets/New-ExternalSsoDomain",
+        "properties": {
+          "description": "Add an external Sso domain to their vCenter",
+          "timeout": "P0Y0M0DT0H60M0S",
+          "parameters": [
+            {
+              "name": "DomainName",
+              "description": "Domain name of the Server",
+              "type": "String",
+              "visibility": "Visible",
+              "optional": "Required"
+            },
+            {
+              "name": "BaseUserDN",
+              "description": "Base User DN of the Server",
+              "type": "String",
+              "visibility": "Visible",
+              "optional": "Required"
+            },
+            {
+              "name": "Password",
+              "description": "Password for authenticating to the server",
+              "type": "SecureString",
+              "visibility": "Hidden",
+              "optional": "Required"
+            }
+          ]
+        },
+        "type": "Microsoft.AVS/privateClouds/scriptPackages/scriptCmdlets"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about AVS service - Return information about a script cmdlet resource in a specific package on a private cloud
+errorCodes: []

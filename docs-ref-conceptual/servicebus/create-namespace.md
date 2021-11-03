@@ -1,8 +1,7 @@
 ---
 title: "Create Namespace"
 ms.custom: ""
-ms.date: "05/14/2015"
-ms.prod: "azure"
+ms.date: "07/08/2020"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -10,9 +9,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 9e142123-98c6-4ca5-b8ad-363b113b39fa
 caps.latest.revision: 13
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -26,6 +25,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Namespace
+
+> [!IMPORTANT]
+> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+
 Creates a new service namespace. Once created, this namespace’s resource manifest is immutable. This operation is idempotent.  
   
  The namespace identifier should adhere to the following naming conventions:  

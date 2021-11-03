@@ -64,6 +64,11 @@ requestBody:
     description: Managed service identity of the factory.
     types:
     - uid: FactoryIdentity
+  - name: publicNetworkAccess
+    in: body
+    description: Whether or not public network access is allowed for the data factory.
+    types:
+    - uid: PublicNetworkAccess
 requestHeader: []
 definitions:
 - name: FactoryIdentity
@@ -71,7 +76,7 @@ definitions:
   kind: object
   properties:
   - name: type
-    description: The identity type. Currently the only supported type is 'SystemAssigned'.
+    description: The identity type.
     types:
     - uid: FactoryIdentityType
   - name: principalId
@@ -84,6 +89,14 @@ definitions:
     description: The client tenant id of the identity.
     types:
     - uid: string
+  - name: userAssignedIdentities
+    description: List of user assigned identities for the factory.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentitySpecification
 - name: Factory
   description: Factory resource type.
   kind: object
@@ -121,6 +134,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: GlobalParameterSpecification
+  - name: properties.encryption
+    description: Properties to enable Customer Managed Key for the factory.
+    types:
+    - uid: EncryptionConfiguration
+  - name: properties.publicNetworkAccess
+    description: Whether or not public network access is allowed for the data factory.
+    types:
+    - uid: PublicNetworkAccess
   - name: id
     isReadyOnly: true
     description: The resource identifier.
@@ -190,13 +211,27 @@ definitions:
     description: Managed service identity of the factory.
     types:
     - uid: FactoryIdentity
+  - name: publicNetworkAccess
+    description: Whether or not public network access is allowed for the data factory.
+    types:
+    - uid: PublicNetworkAccess
 - name: FactoryIdentityType
-  description: The identity type. Currently the only supported type is 'SystemAssigned'.
+  description: The identity type.
   kind: enum
   properties:
   - name: SystemAssigned
     types:
     - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentitySpecification
+  description: Definition of a single user assigned identity for a factory.
+  kind: object
+  properties: []
 - name: GlobalParameterSpecification
   description: Definition of a single parameter for an entity.
   kind: object
@@ -209,6 +244,36 @@ definitions:
     description: Value of parameter.
     types:
     - uid: object
+- name: EncryptionConfiguration
+  description: Definition of CMK for the factory.
+  kind: object
+  properties:
+  - name: keyName
+    description: The name of the key in Azure Key Vault to use as Customer Managed Key.
+    types:
+    - uid: string
+  - name: vaultBaseUrl
+    description: The url of the Azure Key Vault used for CMK.
+    types:
+    - uid: string
+  - name: keyVersion
+    description: The version of the key used for CMK. If not provided, latest version will be used.
+    types:
+    - uid: string
+  - name: identity
+    description: User assigned identity to use to authenticate to customer's key vault. If not provided Managed Service Identity will be used.
+    types:
+    - uid: CMKIdentityDefinition
+- name: PublicNetworkAccess
+  description: Whether or not public network access is allowed for the data factory.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 - name: FactoryVSTSConfiguration
   description: Factory's VSTS repo information.
   kind: object
@@ -254,6 +319,14 @@ definitions:
     description: 'GitHub Enterprise host name. For example: https://github.mydomain.com'
     types:
     - uid: string
+  - name: clientId
+    description: GitHub bring your own app client id.
+    types:
+    - uid: string
+  - name: clientSecret
+    description: GitHub bring your own app client secret information.
+    types:
+    - uid: GitHubClientSecret
   - name: type
     description: Type of repo configuration.
     types:
@@ -299,6 +372,26 @@ definitions:
     types:
     - uid: string
   - name: Array
+    types:
+    - uid: string
+- name: CMKIdentityDefinition
+  description: Managed Identity used for CMK.
+  kind: object
+  properties:
+  - name: userAssignedIdentity
+    description: The resource id of the user assigned identity to authenticate to customer's key vault.
+    types:
+    - uid: string
+- name: GitHubClientSecret
+  description: Client secret information for factory's bring your own app repository configuration.
+  kind: object
+  properties:
+  - name: byoaSecretAkvUrl
+    description: Bring your own app client secret AKV URL.
+    types:
+    - uid: string
+  - name: byoaSecretName
+    description: Bring your own app client secret name in AKV.
     types:
     - uid: string
 examples:
@@ -349,4 +442,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Data Factory service - Updates a factory.
 errorCodes: []

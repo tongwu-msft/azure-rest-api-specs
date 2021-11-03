@@ -2,7 +2,6 @@
 title: "Send a Google Cloud Messaging (GCM) native notification"
 ms.custom: ""
 ms.date: 04/05/2019
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "notification-hubs"
 ms.suite: ""
@@ -42,7 +41,7 @@ The following table describes required and optional request headers.
 
 ## Request body
 
-The request body is a JSON object as [specified by GCM](http://developer.android.com/google/gcm/gcm.html) (without a **registration\_ids** property). For example:
+The request body is a JSON object as [specified by Google](https://firebase.google.com/docs/cloud-messaging/http-server-ref) (without a **registration\_ids** property). For example:
 
 ```json
 { "collapse_key": "score_update",

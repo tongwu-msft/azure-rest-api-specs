@@ -2,7 +2,6 @@
 title: "Update an installation"
 ms.custom: ""
 ms.date: 04/05/2019
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "notification-hubs"
 ms.suite: ""
@@ -41,7 +40,7 @@ The following patch operations are allowed:
 | JSON-Patch operation | Installation Property | Description and sample |
 | -------------------- | --------------------- | ---------------------- |
 | add | PushChannel | Update the channel of an installation.<p>`[ { "op": "add", "path": "/pushChannel", "value": "aaaaaaa"} ]`</p><p>Put expiredPushChannel to true if pushChannel is changed.</p>
-| add | User/AppId/AdvertisingId | Update or add user, AppId, AdvId value.<p>`[ { "op": "add", "path": "/user", "value": "elio"} ]`</p> 
+| add | UserId | Update or add user ID value.<p>`[ { "op": "add", "path": "/userId", "value": "Bob"}  ]`</p> 
 | add | Tag | If value is array, add all tags in array to existing tags (even if not present). If value is a string, add tag to current array (or create a new array with single value, if not tags are currently present).<p>`[ { "op": "add", "path": "/tags", "value": "tag"} ]` |
 | add | Template (P2) | Update or add whole template.<p>`[ { "op": "add", "path": "/templates/myTemplate", "value": '{"body": "…", "tags": ["tag"]}'} ]`|
 | add | Template body/header/expiry/tags | Update or add parts of template (note that ‘add’ on headers replaces current headers object). Add on tags has the same semantics as native tags.<p>`[ { "op": "add", "path": "/templates/myTemplate/body", "value": '{"aps": …}'} ]`</p><p>`[ { "op": "add", "path": "/templates/myTemplate/headers", "value": '{"X-WNS-Type": "wns/toast"}'} ]`</p> |
@@ -49,7 +48,7 @@ The following patch operations are allowed:
 | add | secondaryTile tag | Same as tags update but path refers to secondary tile.<p>`[ { "op": "add", "path": "/secondaryTiles/myTile/tags", "value": '["fooTag"]'} ]`</p> |
 | add | secondaryTile template | Same as normal templates but path refers to tileId. |
 | add | secondaryTile template body/header/expiry/tags | Same as normal templates but path refers to tileId. |
-| Remove | As above | Deletes a property or an element of the tags array. If the last tag of the tags property is removed the whole property is removed. <p>`[ { "op": "remove", "path": "/tags/myTag"} ]`</p> |
+| Remove | As above | Deletes a property, such as userID, or an element of the tags array. If the last tag of the tags property is removed the whole property is removed. <p>`[ { "op": "remove", "path": "/tags/myTag"} ]`</p> |
 | Replace | As above | Semantically equivalent to remove+add. |
 
 

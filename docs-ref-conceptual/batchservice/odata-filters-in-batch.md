@@ -2,7 +2,6 @@
 title: "OData filters in Azure Batch | Microsoft Docs"
 ms.custom: ""
 ms.date: "08/27/2018"
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"
 ms.suite: ""

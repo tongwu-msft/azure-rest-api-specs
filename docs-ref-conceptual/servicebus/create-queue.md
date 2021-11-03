@@ -1,8 +1,7 @@
 ---
 title: "Create Queue"
 ms.custom: ""
-ms.date: "05/14/2015"
-ms.prod: "azure"
+ms.date: "07/08/2020"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -10,9 +9,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 403c8a05-b9dd-48a4-a05a-7a7b140c63aa
 caps.latest.revision: 9
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -26,6 +25,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Queue
+
+> [!IMPORTANT]
+> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+
 Creates a new queue. Once created, the queue resource manifest is immutable. This operation is idempotent. Repeating the create call after a queue with same name has been created successfully, results in a 409 Conflict error message.  
   
 ## Request  
@@ -59,7 +62,7 @@ Creates a new queue. Once created, the queue resource manifest is immutable. Thi
 |**RequiresDuplicateDetection**|Boolean|Optional|Settable only at queue creation time.<br /><br /> -   Default for durable queue: **false**.|  
 |**EnableDeadLetteringOnMessageExpiration**|Boolean|Optional|Settable only at queue creation time.<br /><br /> -   Default: **false**.<br /><br /> This field determines how Service Bus handles a message with an expired TTL. If **true** and a message expires, Service Bus moves the message from the queue into the queue’s dead-letter subqueue. If it is **false**, the message is permanently deleted from the queue.|  
 |**DuplicateDetectionHistoryTimeWindow**|Time Span|Optional.|A property that specifies the time span during which Service Bus detects message duplication.<br /><br /> -   Range: 1 second–7 days.<br /><br /> -   Default: 10 minutes.|  
-|**Status**|String|Read-only. Not required at creation.|Can be one of the following values:<br /><br /> -   **Creating**: when still in creation phase.<br />-   **Active**: by default after creation, or when user activates it after last time suspended.<br />-   **Suspended**: when user updates the entity to be suspended.|  
+|**Status**|String|Read-only. Not required at creation.|Can be one of the following values:<br /><br /> <ul><li>Active</li><li>Creating</li><li>Deleting</li><li>ReceiveDisabled</li><li>SendDisabled</li><li>Disabled</li><li>Renaming</li><li>Restoring</li><li>Unknown</li></ul>|  
   
 ## Response  
  The response includes an HTTP status code and a set of response headers.  

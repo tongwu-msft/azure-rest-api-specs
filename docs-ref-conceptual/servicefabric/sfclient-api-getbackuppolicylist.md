@@ -1,6 +1,7 @@
 ---
 title: "Get Backup Policy List"
-ms.date: "04/15/2020"
+description: "Get Backup Policy List"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -96,11 +97,11 @@ The server timeout for performing the operation in seconds. This timeout specifi
 
 ### Limit maximum results
 
-This example shows how to get list of backup policies. The number of results in a page are limited to maximum of two using the MaxResult parameter.
+This example shows how to get list of backup policies. The number of results in a page are limited to maximum of four using the MaxResult parameter.
 
 #### Request
 ```
-GET http://localhost:19080/BackupRestore/BackupPolicies?api-version=6.4&MaxResults=2
+GET http://localhost:19080/BackupRestore/BackupPolicies?api-version=6.4&MaxResults=4
 ```
 
 #### 200 Response
@@ -134,6 +135,55 @@ GET http://localhost:19080/BackupRestore/BackupPolicies?api-version=6.4&MaxResul
       }
     },
     {
+      "Name": "DailyAzureMIBackupPolicy",
+      "AutoRestoreOnDataLoss": false,
+      "MaxIncrementalBackups": "3",
+      "Schedule": {
+        "ScheduleKind": "TimeBased",
+        "ScheduleFrequencyType": "Daily",
+        "RunTimes": [
+          "0001-01-01T09:00:00Z",
+          "0001-01-01T17:00:00Z"
+        ]
+      },
+      "Storage": {
+        "StorageKind": "ManagedIdentityAzureBlobStore",
+        "FriendlyName": "AzureMI_storagesample",
+        "BlobServiceUri": "https://managedidentitytest.blob.core.windows.net/",
+        "ContainerName": "BackupContainer",
+        "ManagedIdentityType": "Cluster"
+      },
+      "RetentionPolicy": {
+        "RetentionPolicyType": "Basic",
+        "MinimumNumberOfBackups": "30",
+        "RetentionDuration": "P29D"
+      }
+    },
+    {
+      "Name": "SampleDsmsBackupPolicy",
+      "AutoRestoreOnDataLoss": false,
+      "MaxIncrementalBackups": "3",
+      "Schedule": {
+        "ScheduleKind": "TimeBased",
+        "ScheduleFrequencyType": "Daily",
+        "RunTimes": [
+          "0001-01-01T09:00:00Z",
+          "0001-01-01T17:00:00Z"
+        ]
+      },
+      "Storage": {
+        "StorageKind": "DsmsAzureBlobStore",
+        "FriendlyName": "DsmsAzure_storagesample",
+        "StorageCredentialsSourceLocation": "https://sample-dsms.dsms.core.winows.net/dsms/samplecredentiallocation/storageaccounts/samplestorageac/servicefabricbackup/samplebackup",
+        "ContainerName": "BackupContainer"
+      },
+      "RetentionPolicy": {
+        "RetentionPolicyType": "Basic",
+        "MinimumNumberOfBackups": "10",
+        "RetentionDuration": "P3M"
+      }
+    },
+    {
       "Name": "FileShare10MinBackupPolicy",
       "AutoRestoreOnDataLoss": false,
       "MaxIncrementalBackups": "3",
@@ -161,11 +211,11 @@ GET http://localhost:19080/BackupRestore/BackupPolicies?api-version=6.4&MaxResul
 
 ### Page using continuation token
 
-This example shows how to get list of backup policies. The number of results in a page are limited to maximum of two using the MaxResult parameter. This example uses the ContinuationToken parameter. The value of this parameter is provided from the previous query; in this case the example shown above. The response contains the remaining results and an empty ContinuationToken. The empty ContinuationToken indicates that additional results are not available.
+This example shows how to get list of backup policies. The number of results in a page are limited to maximum of three using the MaxResult parameter. This example uses the ContinuationToken parameter. The value of this parameter is provided from the previous query; in this case the example shown above. The response contains the remaining results and an empty ContinuationToken. The empty ContinuationToken indicates that additional results are not available.
 
 #### Request
 ```
-GET http://localhost:19080/BackupRestore/BackupPolicies?api-version=6.4&ContinuationToken=FileShare10MinBackupPolicy&MaxResults=2
+GET http://localhost:19080/BackupRestore/BackupPolicies?api-version=6.4&ContinuationToken=FileShare10MinBackupPolicy&MaxResults=3
 ```
 
 #### 200 Response

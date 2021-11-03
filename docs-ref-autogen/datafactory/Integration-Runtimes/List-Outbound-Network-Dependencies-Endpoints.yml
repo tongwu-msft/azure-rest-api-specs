@@ -1,0 +1,230 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.integrationruntimes.listoutboundnetworkdependenciesendpoints
+name: List Outbound Network Dependencies Endpoints
+service: Data Factory
+groupName: Integration Runtimes
+apiVersion: 2018-06-01
+summary: Gets the list of outbound network dependencies for a given Azure-SSIS integration runtime.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/outboundNetworkDependenciesEndpoints?api-version=2018-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: integrationRuntimeName
+  in: path
+  isRequired: true
+  description: The integration runtime name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse
+  description: Azure-SSIS integration runtime outbound network dependency endpoints.
+  kind: object
+  properties:
+  - name: value
+    description: The list of outbound network dependency endpoints.
+    types:
+    - uid: IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint
+      isArray: true
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+- name: IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint
+  description: Azure-SSIS integration runtime outbound network dependency endpoints for one category.
+  kind: object
+  properties:
+  - name: category
+    description: The category of outbound network dependency.
+    types:
+    - uid: string
+  - name: endpoints
+    description: The endpoints for outbound network dependency.
+    types:
+    - uid: IntegrationRuntimeOutboundNetworkDependenciesEndpoint
+      isArray: true
+- name: IntegrationRuntimeOutboundNetworkDependenciesEndpoint
+  description: The endpoint for Azure-SSIS integration runtime outbound network dependency.
+  kind: object
+  properties:
+  - name: domainName
+    description: The domain name of endpoint.
+    types:
+    - uid: string
+  - name: endpointDetails
+    description: The details of endpoint.
+    types:
+    - uid: IntegrationRuntimeOutboundNetworkDependenciesEndpointDetails
+      isArray: true
+- name: IntegrationRuntimeOutboundNetworkDependenciesEndpointDetails
+  description: The details of Azure-SSIS integration runtime outbound network dependency endpoint.
+  kind: object
+  properties:
+  - name: port
+    description: The port of endpoint.
+    types:
+    - uid: integer
+examples:
+- name: IntegrationRuntimes_OutboundNetworkDependenciesEndpoints
+  request:
+    uri: GET https://management.azure.com/subscriptions/7ad7c73b-38b8-4df3-84ee-52ff91092f61/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/integrationRuntimes/exampleIntegrationRuntime/outboundNetworkDependenciesEndpoints?api-version=2018-06-01
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Tue, 06 Jul 2021 04:28:10 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-request-id
+      value: fd8e4223-7e9c-4f32-893f-06c14a8081be
+    - name: x-ms-correlation-request-id
+      value: 1dabf122-e061-4703-ae9e-9edeeef40ee6
+    body: >-
+      {
+        "value": [
+          {
+            "category": "Azure Data Factory (Management)",
+            "endpoints": [
+              {
+                "domainName": "wu.frontend.int.clouddatahub-int.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "category": "Azure Storage (Management)",
+            "endpoints": [
+              {
+                "domainName": "*.blob.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              },
+              {
+                "domainName": "*.table.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "category": "Event Hub (Logging)",
+            "endpoints": [
+              {
+                "domainName": "*.servicebus.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "category": "Microsoft Logging service (Internal Use)",
+            "endpoints": [
+              {
+                "domainName": "gcs.prod.monitoring.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              },
+              {
+                "domainName": "prod.warmpath.msftcloudes.com",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              },
+              {
+                "domainName": "azurewatsonanalysis-prod.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Data Factory service - Gets the list of outbound network dependencies for a given Azure-SSIS integration runtime.
+errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.cognitiveservices.accountmanagement.operations.list
 name: List
 service: Cognitive Services
 groupName: Operations
-apiVersion: 2017-04-18
+apiVersion: 2021-04-30
 summary: Lists all the available Cognitive Services account operations.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.CognitiveServices/operations?api-version=2017-04-18
+- content: GET https://management.azure.com/providers/Microsoft.CognitiveServices/operations?api-version=2021-04-30
 uriParameters:
 - name: api-version
   in: query
@@ -22,66 +22,157 @@ responses:
 - name: 200 OK
   description: OK.
   types:
-  - uid: OperationEntityListResult
+  - uid: OperationListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: OperationEntityListResult
-  description: The list of cognitive services accounts operation response.
+- name: OperationListResult
+  description: A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results.
   kind: object
   properties:
+  - name: value
+    isReadyOnly: true
+    description: List of operations supported by the resource provider
+    types:
+    - uid: Operation
+      isArray: true
   - name: nextLink
-    description: The link used to get the next page of operations.
+    isReadyOnly: true
+    description: URL to get the next set of operation list results (if there are any).
     types:
     - uid: string
-  - name: value
-    description: The list of operations.
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
     types:
-    - uid: OperationEntity
-      isArray: true
-- name: OperationEntity
-  description: The operation supported by Cognitive Services.
+    - uid: ErrorDetail
+- name: Operation
+  description: REST API Operation
   kind: object
   properties:
   - name: name
-    description: 'Operation name: {provider}/{resource}/{operation}.'
+    isReadyOnly: true
+    description: 'The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"'
     types:
     - uid: string
+  - name: isDataAction
+    isReadyOnly: true
+    description: Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+    types:
+    - uid: boolean
   - name: display
-    description: The operation supported by Cognitive Services.
+    description: Localized display information for this particular operation.
     types:
-    - uid: OperationDisplayInfo
+    - uid: Display
   - name: origin
-    description: The origin of the operation.
+    isReadyOnly: true
+    description: The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
     types:
-    - uid: string
-  - name: properties
-    description: Additional properties.
+    - uid: Origin
+  - name: actionType
+    isReadyOnly: true
+    description: Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
     types:
-    - uid: object
-- name: OperationDisplayInfo
-  description: The operation supported by Cognitive Services.
+    - uid: ActionType
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
-  - name: description
-    description: The description of the operation.
+  - name: code
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
-  - name: operation
-    description: The action that users can perform, based on their permission level.
+  - name: message
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: Display
+  description: Localized display information for this particular operation.
+  kind: object
+  properties:
   - name: provider
-    description: 'Service provider: Microsoft Cognitive Services.'
+    isReadyOnly: true
+    description: The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
     types:
     - uid: string
   - name: resource
-    description: Resource on which the operation is performed.
+    isReadyOnly: true
+    description: The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
     types:
     - uid: string
+  - name: operation
+    isReadyOnly: true
+    description: The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+    types:
+    - uid: string
+- name: Origin
+  description: The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: system
+    types:
+    - uid: string
+  - name: user,system
+    types:
+    - uid: string
+- name: ActionType
+  description: Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+  kind: enum
+  properties:
+  - name: Internal
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: Get Operations
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.CognitiveServices/operations?api-version=2017-04-18
+    uri: GET https://management.azure.com/providers/Microsoft.CognitiveServices/operations?api-version=2021-04-30
   responses:
   - statusCode: "200"
     body: >-
@@ -116,277 +207,10 @@ examples:
               "description": "Deletes API accounts"
             },
             "origin": "user,system"
-          },
-          {
-            "name": "Microsoft.CognitiveServices/accounts/listKeys/action",
-            "display": {
-              "provider": "Microsoft Cognitive Services",
-              "resource": "Cognitive Services API Account",
-              "operation": "List Keys",
-              "description": "List Keys"
-            },
-            "origin": "user"
-          },
-          {
-            "name": "Microsoft.CognitiveServices/accounts/regenerateKey/action",
-            "display": {
-              "provider": "Microsoft Cognitive Services",
-              "resource": "Cognitive Services API Account",
-              "operation": "Regenerate Key",
-              "description": "Regenerate Key"
-            },
-            "origin": "user"
-          },
-          {
-            "name": "Microsoft.CognitiveServices/accounts/usages/read",
-            "display": {
-              "provider": "Microsoft Cognitive Services",
-              "resource": "Cognitive Services API Account",
-              "operation": "Get the quota usage for an existing resource",
-              "description": "Get the quota usage for an existing resource."
-            },
-            "origin": "user"
-          },
-          {
-            "name": "Microsoft.CognitiveServices/accounts/skus/read",
-            "display": {
-              "provider": "Microsoft Cognitive Services",
-              "resource": "Cognitive Services API Account",
-              "operation": "Read available SKUs for an existing resource",
-              "description": "Reads available SKUs for an existing resource."
-            },
-            "origin": "user"
-          },
-          {
-            "name": "Microsoft.CognitiveServices/accounts/providers/Microsoft.Insights/diagnosticSettings/read",
-            "display": {
-              "provider": "Microsoft Cognitive Services",
-              "resource": "Cognitive Services API Account",
-              "operation": "Read diagnostic setting",
-              "description": "Gets the diagnostic setting for the resource."
-            },
-            "origin": "system"
-          },
-          {
-            "name": "Microsoft.CognitiveServices/accounts/providers/Microsoft.Insights/diagnosticSettings/write",
-            "display": {
-              "provider": "Microsoft Cognitive Services",
-              "resource": "Cognitive Services API Account",
-              "operation": "Write diagnostic setting",
-              "description": "Creates or updates the diagnostic setting for the resource."
-            },
-            "origin": "system"
-          },
-          {
-            "properties": {
-              "serviceSpecification": {
-                "metricSpecifications": [
-                  {
-                    "name": "TotalCalls",
-                    "displayName": "Total Calls",
-                    "displayDescription": "Total number of calls.",
-                    "unit": "Count",
-                    "aggregationType": "Total",
-                    "availabilities": [
-                      {
-                        "timeGrain": "PT1M",
-                        "blobDuration": "PT1H"
-                      },
-                      {
-                        "timeGrain": "PT1H",
-                        "blobDuration": "P1D"
-                      }
-                    ]
-                  },
-                  {
-                    "name": "SuccessfulCalls",
-                    "displayName": "Successful Calls",
-                    "displayDescription": "Number of successful calls.",
-                    "unit": "Count",
-                    "aggregationType": "Total",
-                    "availabilities": [
-                      {
-                        "timeGrain": "PT1M",
-                        "blobDuration": "PT1H"
-                      },
-                      {
-                        "timeGrain": "PT1H",
-                        "blobDuration": "P1D"
-                      }
-                    ]
-                  },
-                  {
-                    "name": "TotalErrors",
-                    "displayName": "Total Errors",
-                    "displayDescription": "Total number of calls with error response (HTTP response code 4xx or 5xx).",
-                    "unit": "Count",
-                    "aggregationType": "Total",
-                    "availabilities": [
-                      {
-                        "timeGrain": "PT1M",
-                        "blobDuration": "PT1H"
-                      },
-                      {
-                        "timeGrain": "PT1H",
-                        "blobDuration": "P1D"
-                      }
-                    ]
-                  },
-                  {
-                    "name": "BlockedCalls",
-                    "displayName": "Blocked Calls",
-                    "displayDescription": "Number of calls that exceeded rate or quota limit.",
-                    "unit": "Count",
-                    "aggregationType": "Total",
-                    "availabilities": [
-                      {
-                        "timeGrain": "PT1M",
-                        "blobDuration": "PT1H"
-                      },
-                      {
-                        "timeGrain": "PT1H",
-                        "blobDuration": "P1D"
-                      }
-                    ]
-                  },
-                  {
-                    "name": "ServerErrors",
-                    "displayName": "Server Errors",
-                    "displayDescription": "Number of calls with service internal error (HTTP response code 5xx).",
-                    "unit": "Count",
-                    "aggregationType": "Total",
-                    "availabilities": [
-                      {
-                        "timeGrain": "PT1M",
-                        "blobDuration": "PT1H"
-                      },
-                      {
-                        "timeGrain": "PT1H",
-                        "blobDuration": "P1D"
-                      }
-                    ]
-                  },
-                  {
-                    "name": "ClientErrors",
-                    "displayName": "Client Errors",
-                    "displayDescription": "Number of calls with client side error (HTTP response code 4xx).",
-                    "unit": "Count",
-                    "aggregationType": "Total",
-                    "availabilities": [
-                      {
-                        "timeGrain": "PT1M",
-                        "blobDuration": "PT1H"
-                      },
-                      {
-                        "timeGrain": "PT1H",
-                        "blobDuration": "P1D"
-                      }
-                    ]
-                  },
-                  {
-                    "name": "DataIn",
-                    "displayName": "Data In",
-                    "displayDescription": "Size of incoming data in bytes.",
-                    "unit": "Bytes",
-                    "aggregationType": "Total",
-                    "availabilities": [
-                      {
-                        "timeGrain": "PT1M",
-                        "blobDuration": "PT1H"
-                      },
-                      {
-                        "timeGrain": "PT1H",
-                        "blobDuration": "P1D"
-                      }
-                    ]
-                  },
-                  {
-                    "name": "DataOut",
-                    "displayName": "Data Out",
-                    "displayDescription": "Size of outgoing data in bytes.",
-                    "unit": "Bytes",
-                    "aggregationType": "Total",
-                    "availabilities": [
-                      {
-                        "timeGrain": "PT1M",
-                        "blobDuration": "PT1H"
-                      },
-                      {
-                        "timeGrain": "PT1H",
-                        "blobDuration": "P1D"
-                      }
-                    ]
-                  },
-                  {
-                    "name": "Latency",
-                    "displayName": "Latency",
-                    "displayDescription": "Latency in milliseconds.",
-                    "unit": "MilliSeconds",
-                    "aggregationType": "Average",
-                    "availabilities": [
-                      {
-                        "timeGrain": "PT1M",
-                        "blobDuration": "PT1H"
-                      },
-                      {
-                        "timeGrain": "PT1H",
-                        "blobDuration": "P1D"
-                      }
-                    ]
-                  }
-                ]
-              }
-            },
-            "name": "Microsoft.CognitiveServices/accounts/providers/Microsoft.Insights/metricDefinitions/read",
-            "display": {
-              "provider": "Microsoft Cognitive Services",
-              "resource": "The metric definition of Cognitive Services",
-              "operation": "Read Cognitive Services metric definitions",
-              "description": "Gets the available metrics for Cognitive Services."
-            },
-            "origin": "system"
-          },
-          {
-            "name": "Microsoft.CognitiveServices/Operations/read",
-            "display": {
-              "provider": "Resource Provider display name.",
-              "resource": "Resource type display name.",
-              "operation": "Operation display name.",
-              "description": "Description of the operation."
-            },
-            "origin": "user,system"
-          },
-          {
-            "name": "Microsoft.CognitiveServices/checkSkuAvailabilityaction",
-            "display": {
-              "provider": "Microsoft Cognitive Services",
-              "resource": "Cognitive Services API Account",
-              "operation": "Reads avaible SKUs for an subscription.",
-              "description": "Reads avaible SKUs for an subscription."
-            },
-            "origin": "user,system"
-          },
-          {
-            "name": "Microsoft.CognitiveServices/updateAccountsCreationSettingswrite",
-            "display": {
-              "provider": "Microsoft Cognitive Services",
-              "resource": "Cognitive Services API Account",
-              "operation": "Allow to create CognitiveServices account for an given subscription/ApiKind/location.",
-              "description": "Allow to create CognitiveServices account for an given subscription/ApiKind/location."
-            },
-            "origin": "user,system"
-          },
-          {
-            "name": "Microsoft.CognitiveServices/accountsCreationSettingsread",
-            "display": {
-              "provider": "Microsoft Cognitive Services",
-              "resource": "Cognitive Services API Account",
-              "operation": "Get settings for given subscription/ApiKind/location.",
-              "description": "Get settings for given subscription/ApiKind/location."
-            },
-            "origin": "user,system"
           }
         ]
       }
 security: []
+metadata:
+  description: Learn more about Cognitive Services service - Lists all the available Cognitive Services account operations.
 errorCodes: []

@@ -1,0 +1,261 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.avs.workloadnetworks.updatednszone
+name: Update Dns Zone
+service: AVS
+groupName: Workload Networks
+apiVersion: 2021-06-01
+summary: Create or update a DNS zone by id in a private cloud workload network.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones/{dnsZoneId}?api-version=2021-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: privateCloudName
+  in: path
+  isRequired: true
+  description: Name of the private cloud
+  types:
+  - uid: string
+- name: dnsZoneId
+  in: path
+  isRequired: true
+  description: NSX DNS Zone identifier. Generally the same as the DNS Zone's display name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: successful operation
+  types:
+  - uid: WorkloadNetworkDnsZone
+- name: 202 Accepted
+  description: Accepted. The patch will complete asynchronously
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.displayName
+    in: body
+    description: Display name of the DNS Zone.
+    types:
+    - uid: string
+  - name: properties.domain
+    in: body
+    description: Domain names of the DNS Zone.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.dnsServerIps
+    in: body
+    description: DNS Server IP array of the DNS Zone.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.sourceIp
+    in: body
+    description: Source IP of the DNS Zone.
+    types:
+    - uid: string
+  - name: properties.dnsServices
+    in: body
+    description: Number of DNS Services using the DNS zone.
+    types:
+    - uid: integer
+  - name: properties.revision
+    in: body
+    description: NSX revision number.
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: WorkloadNetworkDnsZone
+  description: NSX DNS Zone
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: Display name of the DNS Zone.
+    types:
+    - uid: string
+  - name: properties.domain
+    description: Domain names of the DNS Zone.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.dnsServerIps
+    description: DNS Server IP array of the DNS Zone.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.sourceIp
+    description: Source IP of the DNS Zone.
+    types:
+    - uid: string
+  - name: properties.dnsServices
+    description: Number of DNS Services using the DNS zone.
+    types:
+    - uid: integer
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state
+    types:
+    - uid: WorkloadNetworkDnsZoneProvisioningState
+  - name: properties.revision
+    description: NSX revision number.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: CloudError
+  description: API error response
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nAn error returned by the API"
+    types:
+    - uid: ErrorResponse
+- name: WorkloadNetworkDnsZoneProvisioningState
+  description: The provisioning state
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Building
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: WorkloadNetworks_UpdateDnsZone
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsZones/dnsZone1?api-version=2021-06-01
+    body: >-
+      {
+        "properties": {
+          "displayName": "dnsZone1",
+          "domain": [],
+          "dnsServerIps": [
+            "1.1.1.1"
+          ],
+          "sourceIp": "8.8.8.8",
+          "revision": 1
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsZones/dnsZone1",
+        "name": "dnsZone1",
+        "properties": {
+          "displayName": "dnsZone1",
+          "domain": [],
+          "dnsServerIps": [
+            "1.1.1.1"
+          ],
+          "sourceIp": "8.8.8.8",
+          "dnsServices": 0,
+          "revision": 1
+        },
+        "type": "Microsoft.AVS/privateClouds/workloadNetworks/dnsZones"
+      }
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about AVS service - Create or update a DNS zone by id in a private cloud workload network.
+errorCodes: []

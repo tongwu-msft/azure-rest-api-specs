@@ -3,38 +3,46 @@ title: Azure IoT Central REST API
 description: The Azure IoT Central REST API allows you to develop client and web applications that use REST calls to work with IoT Central. The API surface lets you manage IoT Central applications programmatically. 
 services: iot-central
 ms.service: iot-central
-ms.subservice: core
 ms.topic: reference
 author: avneet723
 ms.author: avneets
-ms.date: 10/28/2019
+ms.date: 09/09/2021
 ---
 
 # Azure IoT Central REST API reference
 
-[Azure IoT Central](https://docs.microsoft.com/azure/iot-central/) is an IoT application platform that reduces the burden and cost of developing, managing, and maintaining enterprise-grade IoT solutions. 
+[Azure IoT Central](/azure/iot-central/) is an IoT application platform that is highly secure, scales with your business as it grows, ensures your investments are repeatable, and integrates with your existing business apps. It reduces the burden and cost of developing, managing, and maintaining enterprise-grade IoT solutions. 
+
+Use IoT Central to connect and manage millions of devices, visualize the data and insights your devices generate, and monitor your devices at scale. The extensibility surface of the platform enables you to act on device insights by extending IoT intelligence into line-of-business applications.
+
+The IoT Central REST API enables you to develop clients that integrate with your application. Use the REST API to build applications and experiences using the power of IoT Central for device provisioning, management, and operations.
 
 > [!Note]
-> Try our [guided learning journey](https://aka.ms/iotcentralapimslearnjourney) to learn about how to use the IoT Central APIs.
+> The IoT Central REST API can be used with IoT Central V3 applications. Learn about [how to check the version of your application](/azure/iot-central/core/howto-get-app-info).
 
-The web UI lets you monitor device conditions, create rules, and manage millions of devices and their data throughout their life cycle. Furthermore, it enables you to act on device insights by extending IoT intelligence into line-of-business applications.
-
-The REST API allows you to develop clients that integrates with the IoT Central service. The IoT Central REST API enables you to build applications and experiences using the power of IoT Central for device provisioning, management, and operations.
+Try our [guided learning journey](/learn/modules/manage-iot-central-apps-with-rest-api/) to learn about how to use the IoT Central APIs.
 
 ## Operation groups
 
-IoT Central REST API provides operations for working with the following resources:
+The IoT Central REST API provides operations for working with the following resources:
 
 | Operation group | Description                                                        | Learn more |
 |-----------------|--------------------------------------------------------------------|------------| 
-| [API Tokens](https://docs.microsoft.com/rest/api/iotcentral/apitokens)  | Provides operations on access tokens used to interact with the IoT Central public APIs| [Authenticating against the API](https://aka.ms/iotcentralapidocsauth)
-| [Applications](https://docs.microsoft.com/rest/api/iotcentral/applications) | Provides operations to retrieve the list of IoT Central applications | [IoT Central Applications](/azure/iot-central/preview/quick-deploy-iot-central)|
-| [Continuous Data Exports](https://docs.microsoft.com/rest/api/iotcentral/continuousdataexports) | Provides operations to set up data exports within your IoT Central application | [Export your data](/azure/iot-central/preview/howto-export-data)|
-| [Device Templates](https://docs.microsoft.com/rest/api/iotcentral/devicetemplates) | Provides operations on device templates within an IoT Central application| [Setup device template](https://docs.microsoft.com/azure/iot-central/core/howto-set-up-template)|
-| [Devices](https://docs.microsoft.com/rest/api/iotcentral/devices) | Provides operations to manage devices in your IoT Central application| [Manage your devices](/azure/iot-central/preview/howto-manage-devices)|
-| [Roles](https://docs.microsoft.com/rest/api/iotcentral/roles)| Provides operations to manage roles within your application | [Manage your roles](/azure/iot-central/preview/howto-manage-users-roles)
+| [API Tokens](https://aka.ms/iotcapi-token)  | Create, read, delete access tokens used to interact with the IoT Central public APIs| [Authenticating against the API](https://aka.ms/iotcentralapidocsauth)
+| [Continuous Data Exports](https://aka.ms/iotcapi-cde) | Manage data exports within your IoT Central application | [Export your data](/azure/iot-central/preview/howto-export-data)|
+| [Device Templates](https://aka.ms/iotcapi-devicetemplates) | Create, read, and delete device templates within an IoT Central application| [Setup device template](/azure/iot-central/core/howto-set-up-template)|
+| [Devices](https://aka.ms/iotcapi-devices) | Get information about and manage devices and IoT Edge modules in your IoT Central application| [Manage your devices](/azure/iot-central/preview/howto-manage-devices)|
+| [Device Groups](https://aka.ms/iotc-devicegroups)| List the set of device groups within your application | [List Device Groups](/azure/iot-central/core/tutorial-use-device-groups) |
+| [File Upload](https://aka.ms/iotcapi-fileupload) | Update, retrieve and delete file upload configurations| [Configure File Upload](/azure/iot-central/core/howto-configure-file-uploads)|
+| [Jobs](https://aka.ms/iotcapi-jobs)|Get information about and manage jobs within your application | [Manage your jobs](/azure/iot-central/core/howto-run-a-job) |
+| [Organizations](/rest/api/iotcentral/1.1-preview/organizations) | Create, read, delete and list organizations within your IoT Central application| [Manage your organizations](/azure/iot-central/core/howto-create-organizations)|
+| [Roles](https://aka.ms/iotcapi-roles)| List roles within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles)|
+| [Users](https://aka.ms/iotcapi-users)| Add, update, and remove users within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles) |
 
 ## Next steps
 
-Learn more about this service:
-* [Azure IoT Central Documentation](https://docs.microsoft.com/azure/iot-central)
+Learn how to authenticate to use the IoT Central API
+* [Authentication and authorization](authentication.md)
+
+Learn more about IoT Central
+* [Azure IoT Central Documentation](/azure/iot-central)

@@ -1,5 +1,6 @@
 ---
 title: "Querying Azure Cosmos DB resources using the REST API"
+description: Learn how to query Azure Cosmos DB resources using REST API. Request and response headers, body, status codes and examples.
 ms.date: "04/18/2019"
 ms.service: "cosmos-db"
 ms.topic: "reference"
@@ -240,7 +241,7 @@ Queries will return from zero up to the maximum specified **x-ms-max-item-count*
   
 Clients can fetch subsequent pages of results by echoing the **x-ms-continuation** header as another request. In order to read all results, clients must repeat this process until an empty **x-ms-continuation** is returned.  
   
-Cosmos DB query executions are stateless at the server side, and can be resumed at any time using the **x-ms-continuation** header. The **x-ms-continuation** value uses the last processed document resource ID (_rid) to track progress of execution. Therefore if documents are deleted and re-inserted between fetching of pages, then it could potentially be excluded from any of the query batches. However, the behavior and format of the **x-ms-continuation** header might change in a future service update.  
+Cosmos DB query executions are stateless at the server side, and can be resumed at any time using the **x-ms-continuation** header. The **x-ms-continuation** value uses the last processed document resource ID (_rid) to track progress of execution. Therefore if documents are deleted and re-inserted between fetching of pages, then the documents could potentially be excluded from any of the query batches. However, the behavior and format of the **x-ms-continuation** header might change in a future service update.  
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 

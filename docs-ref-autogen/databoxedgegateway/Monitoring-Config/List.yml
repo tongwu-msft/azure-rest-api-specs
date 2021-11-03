@@ -1,0 +1,275 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.databoxedgegateway.monitoringconfig.list
+name: List
+service: Data Box Edge/Data Box Gateway
+groupName: Monitoring Config
+apiVersion: 2021-02-01
+summary: Lists metric configurations in a role.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/monitoringConfig?api-version=2021-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: deviceName
+  in: path
+  isRequired: true
+  description: The device name.
+  types:
+  - uid: string
+- name: roleName
+  in: path
+  isRequired: true
+  description: The role name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The monitoring config details.
+  types:
+  - uid: MonitoringMetricConfigurationList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: MonitoringMetricConfigurationList
+  description: Collection of metric configurations.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of metric configurations.
+    types:
+    - uid: MonitoringMetricConfiguration
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+- name: MonitoringMetricConfiguration
+  description: The metric setting details for the role
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: MonitoringConfiguration on ASE device
+    types:
+    - uid: SystemData
+  - name: properties.metricConfigurations
+    description: The metrics configuration details
+    types:
+    - uid: MetricConfiguration
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The object name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: string
+- name: MetricConfiguration
+  description: Metric configuration.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The Resource ID on which the metrics should be pushed.
+    types:
+    - uid: string
+  - name: mdmAccount
+    description: The MDM account to which the counters should be pushed.
+    types:
+    - uid: string
+  - name: metricNameSpace
+    description: The MDM namespace to which the counters should be pushed. This is required if MDMAccount is specified
+    types:
+    - uid: string
+  - name: counterSets
+    description: Host name for the IoT hub associated to the device.
+    types:
+    - uid: MetricCounterSet
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: MetricCounterSet
+  description: The metric counter set
+  kind: object
+  properties:
+  - name: counters
+    description: The counters that should be collected in this set.
+    types:
+    - uid: MetricCounter
+      isArray: true
+- name: MetricCounter
+  description: The metric counter
+  kind: object
+  properties:
+  - name: name
+    description: The counter name.
+    types:
+    - uid: string
+  - name: instance
+    description: The instance from which counter should be collected.
+    types:
+    - uid: string
+  - name: dimensionFilter
+    description: The dimension filter.
+    types:
+    - uid: MetricDimension
+      isArray: true
+  - name: additionalDimensions
+    description: The additional dimensions to be added to metric.
+    types:
+    - uid: MetricDimension
+      isArray: true
+- name: MetricDimension
+  description: The metric dimension
+  kind: object
+  properties:
+  - name: sourceType
+    description: The dimension type.
+    types:
+    - uid: string
+  - name: sourceName
+    description: The dimension value.
+    types:
+    - uid: string
+examples:
+- name: ListMonitoringConfig
+  request:
+    uri: GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/roles/testrole/monitoringConfig?api-version=2021-02-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "metricConfigurations": [
+                {
+                  "resourceId": "test",
+                  "mdmAccount": "test",
+                  "metricNameSpace": "test",
+                  "counterSets": [
+                    {
+                      "counters": [
+                        {
+                          "name": "test"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Data Box Edge/Data Box Gateway service - Lists metric configurations in a role.
+errorCodes: []

@@ -3,7 +3,6 @@ title: "Operations on Cloud Services | Microsoft Docs"
 ms.custom: 
   - "VMClassic"
 ms.date: "08/18/2015"
-ms.prod: "azure"
 ms.reviewer: ""
 
 ms.suite: ""

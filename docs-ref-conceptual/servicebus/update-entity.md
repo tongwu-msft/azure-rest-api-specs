@@ -1,8 +1,7 @@
 ---
 title: "Create or Update Entity"
 ms.custom: ""
-ms.date: "05/15/2015"
-ms.prod: "azure"
+ms.date: "07/08/2020"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -10,9 +9,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: ef56be71-bc51-48a1-838c-13c4a680c5d5
 caps.latest.revision: 10
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"

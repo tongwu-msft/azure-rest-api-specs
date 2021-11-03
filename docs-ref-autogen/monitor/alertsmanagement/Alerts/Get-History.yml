@@ -1,0 +1,201 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.monitor.alertsmanagement.alerts.gethistory
+name: Get History
+service: Monitor
+groupName: Alerts
+apiVersion: 2019-03-01
+summary: "Get the history of an alert, which captures any monitor condition changes (Fired/Resolved), alert state changes (New/Acknowledged/Closed) and applied action rules for that particular alert. If scope is a deleted resource then please use scope as parent resource of the delete resource. For example if my alert id is '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/vm1/providers/Microsoft.AlertsManagement/alerts/{alertId}' and 'vm1' is deleted then if you want to get history of this particular alert then use parent resource of scope. So in this example get history call will look like this: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AlertsManagement/alerts/{alertId}/history'."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.AlertsManagement/alerts/{alertId}/history?api-version=2019-03-01
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: scope here is resourceId for which alert is created.
+  types:
+  - uid: string
+- name: alertId
+  in: path
+  isRequired: true
+  description: Unique ID of an alert instance.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version.
+  types:
+  - uid: api-version
+responses:
+- name: 200 OK
+  description: OK. Returns the history of the specified alert.
+  types:
+  - uid: alertModification
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: AlertsManagementErrorResponse
+requestHeader: []
+definitions:
+- name: api-version
+  description: API version.
+  kind: enum
+  properties:
+  - name: 2018-05-05
+    types:
+    - uid: string
+- name: alertModification
+  description: Alert Modification details
+  kind: object
+  properties:
+  - name: properties
+    description: Properties of the alert modification item.
+    types:
+    - uid: alertModificationProperties
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Azure resource type
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Azure resource name
+    types:
+    - uid: string
+- name: AlertsManagementErrorResponse
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Details of error response.
+    types:
+    - uid: errorResponseBody
+- name: alertModificationProperties
+  description: Properties of the alert modification item.
+  kind: object
+  properties:
+  - name: alertId
+    isReadyOnly: true
+    description: Unique Id of the alert for which the history is being retrieved
+    types:
+    - uid: string
+  - name: modifications
+    description: Modification details
+    types:
+    - uid: alertModificationItem
+      isArray: true
+- name: errorResponseBody
+  description: Details of error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code, intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: Description of the error, intended for display in user interface.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the particular error, for example name of the property.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: errorResponseBody
+      isArray: true
+- name: alertModificationItem
+  description: Alert modification item.
+  kind: object
+  properties:
+  - name: modificationEvent
+    description: Reason for the modification
+    types:
+    - uid: AlertModificationEvent
+  - name: oldValue
+    description: Old value
+    types:
+    - uid: string
+  - name: newValue
+    description: New value
+    types:
+    - uid: string
+  - name: modifiedAt
+    description: Modified date and time
+    types:
+    - uid: string
+  - name: modifiedBy
+    description: Modified user details (Principal client name)
+    types:
+    - uid: string
+  - name: comments
+    description: Modification comments
+    types:
+    - uid: string
+  - name: description
+    description: Description of the modification
+    types:
+    - uid: string
+- name: AlertModificationEvent
+  description: Reason for the modification
+  kind: enum
+  properties:
+  - name: AlertCreated
+    types:
+    - uid: string
+  - name: StateChange
+    types:
+    - uid: string
+  - name: MonitorConditionChange
+    types:
+    - uid: string
+examples:
+- name: Resolve
+  request:
+    uri: GET https://management.azure.com/subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/alerts/66114d64-d9d9-478b-95c9-b789d6502100/history?api-version=2019-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "alertId": "66114d64-d9d9-478b-95c9-b789d6502100",
+          "modifications": [
+            {
+              "modificationEvent": "StateChange",
+              "oldValue": "New",
+              "newValue": "Acknowledged",
+              "modifiedAt": "2018-06-13T06:14:15.7378737Z",
+              "modifiedBy": "vikramm@microsoft.com",
+              "comments": "Acknowledging alert",
+              "description": "State changed from 'New' to 'Acknowledged'"
+            },
+            {
+              "modificationEvent": "AlertCreated",
+              "oldValue": "",
+              "newValue": "",
+              "modifiedAt": "2018-06-13T06:09:01Z",
+              "modifiedBy": "System",
+              "comments": "",
+              "description": "New Alert Object is created"
+            }
+          ]
+        },
+        "id": "/subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a/providers/Microsoft.AlertsManagement/alerts/66114d64-d9d9-478b-95c9-b789d6502100/history/default",
+        "type": "Microsoft.AlertsManagement/alerts",
+        "name": "CPU Alert"
+      }
+security: []
+metadata:
+  description: Get the history of an alert, which captures any monitor condition changes (Fired/Resolved), alert state changes (New/Acknowledged/Closed) and applied action rules for that particular alert.
+errorCodes: []

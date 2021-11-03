@@ -1,0 +1,193 @@
+### YamlMime:RESTOperation
+uid: synapse.data-plane.roleassignments.listroleassignments
+name: List Role Assignments
+service: Synapse
+groupName: Role Assignments
+apiVersion: 2020-12-01
+summary: List role assignments.
+consumes: []
+produces:
+- application/json
+- text/json
+paths:
+- content: GET {endpoint}/roleAssignments?api-version=2020-12-01
+- content: GET {endpoint}/roleAssignments?api-version=2020-12-01&roleId={roleId}&principalId={principalId}&scope={scope}
+  isOptional: true
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Synapse client API Version.
+  types:
+  - uid: string
+- name: roleId
+  in: query
+  description: Synapse Built-In Role Id.
+  types:
+  - uid: string
+- name: principalId
+  in: query
+  description: Object ID of the AAD principal or security-group.
+  types:
+  - uid: string
+- name: scope
+  in: query
+  description: Scope of the Synapse Built-in Role.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-continuation
+    value: string
+  description: Success response.
+  types:
+  - uid: RoleAssignmentDetailsList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorContract
+requestHeader:
+- name: x-ms-continuation
+  in: header
+  description: Continuation token.
+  types:
+  - uid: string
+definitions:
+- name: RoleAssignmentDetailsList
+  description: Role Assignment response details
+  kind: object
+  properties:
+  - name: count
+    description: Number of role assignments
+    types:
+    - uid: integer
+  - name: value
+    description: A list of role assignments
+    types:
+    - uid: RoleAssignmentDetails
+      isArray: true
+- name: ErrorContract
+  description: Error details.
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nThe error details."
+    types:
+    - uid: ErrorResponse
+- name: RoleAssignmentDetails
+  description: Role Assignment response details
+  kind: object
+  properties:
+  - name: id
+    description: Role Assignment ID
+    types:
+    - uid: string
+  - name: roleDefinitionId
+    description: Role ID of the Synapse Built-In Role
+    types:
+    - uid: string
+  - name: principalId
+    description: Object ID of the AAD principal or security-group
+    types:
+    - uid: string
+  - name: scope
+    description: Scope at the role assignment is created
+    types:
+    - uid: string
+  - name: principalType
+    description: 'Type of the principal Id: User, Group or ServicePrincipal'
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: List role assignments
+  request:
+    uri: GET exampleWorkspace.dev.azuresynapse.net/roleAssignments?api-version=2020-12-01&roleId=00000000-0000-0000-0000-000000000000&principalId=00000000-0000-0000-0000-000000000000&scope=workspaces/exampleWorkspace
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: x-ms-continuation
+    body: >-
+      {
+        "count": 2,
+        "value": [
+          {
+            "id": "00000000-0000-0000-0000-000000000000",
+            "roleDefinitionId": "00000000-0000-0000-0000-000000000000",
+            "principalId": "00000000-0000-0000-0000-000000000000",
+            "scope": "workspaces/exampleWorkspace",
+            "principalType": "User || Group || ServicePrincipal"
+          },
+          {
+            "id": "00000000-0000-0000-0000-000000000000",
+            "roleDefinitionId": "00000000-0000-0000-0000-000000000000",
+            "principalId": "00000000-0000-0000-0000-000000000000",
+            "scope": "workspaces/exampleWorkspace",
+            "principalType": "User || Group || ServicePrincipal"
+          }
+        ]
+      }
+  - statusCode: default
+    body: >-
+      {
+        "error": {
+          "code": "Error code",
+          "message": "Error message"
+        }
+      }
+security: []
+metadata:
+  description: Learn more about Synapse service - List role assignments.
+errorCodes: []

@@ -1,0 +1,256 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.servicetaginformation.list
+name: List
+service: Virtual Networks
+groupName: Service Tag Information
+apiVersion: 2021-03-01
+summary: Gets a list of service tag information resources with pagination.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTagDetails?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTagDetails?api-version=2021-03-01&noAddressPrefixes={noAddressPrefixes}&tagName={tagName}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The location that will be used as a reference for cloud (not as a filter based on location, you will get the list of service tags with prefix details across all regions but limited to the cloud that your subscription belongs to).
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+- name: noAddressPrefixes
+  in: query
+  description: Do not return address prefixes for the tag(s).
+  types:
+  - uid: boolean
+- name: tagName
+  in: query
+  description: Return tag information for a particular tag.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns a list of service tag information resources.
+  types:
+  - uid: ServiceTagInformationListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ServiceTagInformationListResult
+  description: Response for Get ServiceTagInformation API service call. Retrieves the list of service tag information resources.
+  kind: object
+  properties:
+  - name: value
+    description: The list of service tag information resources.
+    types:
+    - uid: ServiceTagInformation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: ServiceTagInformation
+  description: The service tag information.
+  kind: object
+  properties:
+  - name: properties
+    isReadyOnly: true
+    description: Properties of the service tag information.
+    types:
+    - uid: ServiceTagInformationPropertiesFormat
+  - name: name
+    isReadyOnly: true
+    description: The name of service tag.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The ID of service tag.
+    types:
+    - uid: string
+  - name: serviceTagChangeNumber
+    isReadyOnly: true
+    description: The iteration number of service tag object for region.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: ServiceTagInformationPropertiesFormat
+  description: Properties of the service tag information.
+  kind: object
+  properties:
+  - name: changeNumber
+    isReadyOnly: true
+    description: The iteration number of service tag.
+    types:
+    - uid: string
+  - name: region
+    isReadyOnly: true
+    description: The region of service tag.
+    types:
+    - uid: string
+  - name: systemService
+    isReadyOnly: true
+    description: The name of system service.
+    types:
+    - uid: string
+  - name: addressPrefixes
+    isReadyOnly: true
+    description: The list of IP address prefixes.
+    types:
+    - uid: string
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the service tag.
+    types:
+    - uid: string
+examples:
+- name: Get list of service tags
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/locations/westeurope/serviceTagDetails?api-version=2021-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "ApiManagement",
+            "id": "ApiManagement",
+            "properties": {
+              "changeNumber": "7",
+              "region": "",
+              "systemService": "AzureApiManagement",
+              "addressPrefixes": [
+                "13.64.39.16/32",
+                "40.74.146.80/31",
+                "40.74.147.32/28"
+              ]
+            }
+          },
+          {
+            "name": "ApiManagement.AustraliaCentral",
+            "id": "ApiManagement.AustraliaCentral",
+            "properties": {
+              "changeNumber": "2",
+              "region": "australiacentral",
+              "systemService": "AzureApiManagement",
+              "addressPrefixes": [
+                "20.36.106.68/31",
+                "20.36.107.176/28"
+              ]
+            }
+          }
+        ]
+      }
+- name: Get list of service tags with no address prefixes
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/locations/westeurope/serviceTagDetails?api-version=2021-03-01&noAddressPrefixes=true
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "ApiManagement",
+            "id": "ApiManagement",
+            "properties": {
+              "changeNumber": "7",
+              "region": "",
+              "systemService": "AzureApiManagement",
+              "addressPrefixes": []
+            }
+          },
+          {
+            "name": "ApiManagement.AustraliaCentral",
+            "id": "ApiManagement.AustraliaCentral",
+            "properties": {
+              "changeNumber": "2",
+              "region": "australiacentral",
+              "systemService": "AzureApiManagement",
+              "addressPrefixes": []
+            }
+          }
+        ]
+      }
+- name: Get list of service tags with tag name.
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/locations/westeurope/serviceTagDetails?api-version=2021-03-01&tagName=ApiManagement
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "ApiManagement",
+            "id": "ApiManagement",
+            "properties": {
+              "changeNumber": "7",
+              "region": "",
+              "systemService": "AzureApiManagement",
+              "addressPrefixes": [
+                "13.64.39.16/32",
+                "40.74.146.80/31",
+                "40.74.147.32/28"
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Virtual Networks service - Gets a list of service tag information resources with pagination.
+errorCodes: []

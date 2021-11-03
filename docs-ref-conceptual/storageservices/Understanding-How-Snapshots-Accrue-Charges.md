@@ -31,27 +31,33 @@ Creating a snapshot, which is a read-only copy of a blob, can result in addition
 > -   If you are maintaining snapshots for a blob, avoid calling **UploadFile**, **UploadText**, **UploadStream**, or **UploadByteArray** to update the blob, as those methods replace all of the blocks in the blob. Instead, update the fewest possible number of blocks by using the **PutBlock** and **PutBlockList** methods.  
   
 ## Snapshot Billing Scenarios  
- The following scenarios demonstrate how charges accrue for a block blob and its snapshots. In Scenario 1, the base blob has not been updated since the snapshot was taken, so charges are incurred only for unique blocks 1, 2, and 3:  
-  
- ![WA&#95;SnapshotScenario1](media/WA_SnapshotScenario1.png "WA_SnapshotScenario1")  
+
+The following scenarios demonstrate how charges accrue for a block blob and its snapshots. In Scenario 1, the base blob has not been updated since the snapshot was taken, so charges are incurred only for unique blocks 1, 2, and 3:  
+
+:::image type="content" source="media/WA_SnapshotScenario1.png" alt-text="Diagram showing how blocks are charged in scenario 1":::
+
 Scenario 1: Only blocks 1, 2, and 3 accrue charges.  
   
- In Scenario 2, the base blob has been updated, but the snapshot has not. Block 3 was updated, and even though it contains the same data and the same ID, it is not the same as block 3 in the snapshot. As a result, the account is charged for four blocks:  
-  
- ![WA&#95;SnapshotScenario2](media/WA_SnapshotScenario2.png "WA_SnapshotScenario2")  
+In Scenario 2, the base blob has been updated, but the snapshot has not. Block 3 was updated, and even though it contains the same data and the same ID, it is not the same as block 3 in the snapshot. As a result, the account is charged for four blocks:  
+
+:::image type="content" source="media/WA_SnapshotScenario2.png" alt-text="Diagram showing how blocks are charged in scenario 2":::
+
 Scenario 2: Blocks 1, 2, and 3 in the base blob accrue charges, along with block 3 in the snapshot.  
   
- In Scenario 3, the base blob has been updated, but the snapshot has not. Block 3 was replaced with block 4 in the base blob, but the snapshot still reflects block 3. As a result, the account is charged for four blocks:  
-  
- ![WA&#95;SnapshotScenario3](media/WA_SnapshotScenario3.png "WA_SnapshotScenario3")  
+In Scenario 3, the base blob has been updated, but the snapshot has not. Block 3 was replaced with block 4 in the base blob, but the snapshot still reflects block 3. As a result, the account is charged for four blocks:  
+
+:::image type="content" source="media/WA_SnapshotScenario3.png" alt-text="Diagram showing how blocks are charged in scenario 3":::
+
 Scenario 3: Blocks 1, 2, 3, and 4 accrue charges.  
   
- In Scenario 4, the base blob has been completely updated and contains none of its original blocks. As a result, the account is charged for all eight unique blocks. This scenario can occur if you are using an update method such as **UploadFile**, **UploadText**, **UploadFromStream**, or **UploadByteArray**, because these methods replace all of the contents of a blob.  
+In Scenario 4, the base blob has been completely updated and contains none of its original blocks. As a result, the account is charged for all eight unique blocks. This scenario can occur if you are using an update method such as **UploadFile**, **UploadText**, **UploadFromStream**, or **UploadByteArray**, because these methods replace all of the contents of a blob.  
+
+:::image type="content" source="media/WA_SnapshotScenario4.png" alt-text="Diagram showing how blocks are charged in scenario 4":::
   
- ![WA&#95;SnapshotScenario4](media/WA_SnapshotScenario4.png "WA_SnapshotScenario4")  
 Scenario 4: Blocks 1, 2, 3, 4, 5, 6, 7, and 8 accrue charges.  
   
 ## See Also  
+
  [How to Use the Blob Storage Service](/azure/storage/blobs/storage-quickstart-blobs-dotnet/)   
  [How to Use the Queue Storage Service](/azure/storage/queues/storage-dotnet-how-to-use-queues)   
  [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md)

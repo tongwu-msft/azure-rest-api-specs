@@ -1,0 +1,206 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.subscription.2020-09-01.alias.create
+name: Create
+service: Subscription
+groupName: Alias
+apiVersion: 2020-09-01
+summary: Create Alias Subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/providers/Microsoft.Subscription/aliases/{aliasName}?api-version=2020-09-01
+uriParameters:
+- name: aliasName
+  in: path
+  isRequired: true
+  description: Name for this subscription creation request also known as alias. Note that this is not the same as subscription name and this doesn’t have any other lifecycle need beyond the request for subscription creation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2020-09-01
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Normal response for a successful query.
+  types:
+  - uid: PutAliasResponse
+- name: 201 Created
+  description: Accepted. Subscription creation is in progress.
+  types:
+  - uid: PutAliasResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponseBody
+requestBody:
+- name: default
+  parameters:
+  - name: properties
+    in: body
+    isRequired: true
+    description: Put alias request properties.
+    types:
+    - uid: PutAliasRequestProperties
+requestHeader: []
+definitions:
+- name: PutAliasRequestProperties
+  description: Put subscription properties.
+  kind: object
+  properties:
+  - name: displayName
+    description: The friendly name of the subscription.
+    types:
+    - uid: string
+  - name: workload
+    description: The workload type of the subscription. It can be either Production or DevTest.
+    types:
+    - uid: workload
+  - name: billingScope
+    description: Determines whether subscription is fieldLed, partnerLed or LegacyEA
+    types:
+    - uid: string
+  - name: subscriptionId
+    description: This parameter can be used to create alias for existing subscription Id
+    types:
+    - uid: string
+  - name: resellerId
+    description: Reseller ID, basically MPN Id
+    types:
+    - uid: string
+- name: PutAliasResponse
+  description: Subscription Information with the alias.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified ID for the alias resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Alias ID.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type, Microsoft.Subscription/aliases.
+    types:
+    - uid: string
+  - name: properties
+    description: Put Alias response properties.
+    types:
+    - uid: PutAliasResponseProperties
+- name: ErrorResponseBody
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorResponse
+- name: PutAliasRequest
+  description: The parameters required to create a new subscription.
+  kind: object
+  properties:
+  - name: properties
+    description: Put alias request properties.
+    types:
+    - uid: PutAliasRequestProperties
+- name: workload
+  description: The workload type of the subscription. It can be either Production or DevTest.
+  kind: enum
+  properties:
+  - name: Production
+    types:
+    - uid: string
+  - name: DevTest
+    types:
+    - uid: string
+- name: PutAliasResponseProperties
+  description: Put subscription creation result properties.
+  kind: object
+  properties:
+  - name: subscriptionId
+    isReadyOnly: true
+    description: Newly created subscription Id.
+    types:
+    - uid: string
+  - name: provisioningState
+    description: The provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The provisioning state of the resource.
+  kind: enum
+  properties:
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: CreateAlias
+  request:
+    uri: PUT https://management.azure.com/providers/Microsoft.Subscription/aliases/aliasForNewSub?api-version=2020-09-01
+    body: >-
+      {
+        "properties": {
+          "displayName": "Contoso MCA subscription",
+          "billingScope": "/providers/Microsoft.Billing/billingAccounts/e879cf0f-2b4d-5431-109a-f72fc9868693:024cabf4-7321-4cf9-be59-df0c77ca51de_2019-05-31/billingProfiles/PE2Q-NOIT-BG7-TGB/invoiceSections/MTT4-OBS7-PJA-TGB",
+          "workload": "Production"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Subscription/aliases/aliasForNewSub",
+        "name": "aliasForNewSub",
+        "type": "Microsoft.Subscription/aliases",
+        "properties": {
+          "subscriptionId": "subscriptions/291bba3f-e0a5-47bc-a099-3bdcb2a50a05"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Subscription/aliases/aliasForNewSub",
+        "name": "aliasForNewSub",
+        "type": "Microsoft.Subscription/aliases",
+        "properties": {
+          "subscriptionId": "subscriptions/291bba3f-e0a5-47bc-a099-3bdcb2a50a05"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Subscription service - Create Alias Subscription.
+errorCodes: []

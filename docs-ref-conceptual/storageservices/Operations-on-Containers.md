@@ -40,6 +40,9 @@ Microsoft Azure Storage provides REST operations for working with containers in 
   
  [List Blobs](List-Blobs.md)  
  List blobs in a container.  
+
+ [Restore Container](restore-container.md)  
+ Restore the contents and properties of a soft deleted container to a specified container.  
   
 ## See also  
  [Blob Service REST API](Blob-Service-REST-API.md)

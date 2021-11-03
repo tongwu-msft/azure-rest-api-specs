@@ -184,7 +184,7 @@ https://myaccount.table.core.windows.net/Customers()?$filter=IsActive%20eq%20tru
 ```  
   
 #### Filtering on DateTime Properties  
- To filter on a `DateTime` value, specify the `datetime` keyword on the URI, followed by the date/time constant in single quotes. The date/time constant must be in combined UTC format, as described in [Formatting DateTime Property Values](Formatting-DateTime-Property-Values.md).  
+ To filter on a `DateTime` value, specify the `datetime` keyword on the URI, followed by the date/time constant in single quotes. The date/time constant must be in combined UTC format, as described in [Formatting DateTime values](formatting-datetime-values.md).  
   
  The following example returns entities where the `CustomerSince` property is equal to July 10, 2008:  
   

@@ -1,7 +1,7 @@
-﻿---
+---
 ms.assetid: 6348a635-5bfb-48be-a89e-d680e1f050bc
 title: Azure SQL Virtual Machine REST API reference
-ms.service: sql-vm
+ms.service: virtual-machines-sql
 author: yareyes
 ms.author: yareyes
 ms.manager: pratraw

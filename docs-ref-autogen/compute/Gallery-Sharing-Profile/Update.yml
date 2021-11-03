@@ -1,0 +1,272 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.gallerysharingprofile.update
+name: Update
+service: Compute
+groupName: Gallery Sharing Profile
+apiVersion: 2021-07-01
+summary: Update sharing profile of a gallery.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/share?api-version=2021-07-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: galleryName
+  in: path
+  isRequired: true
+  description: The name of the Shared Image Gallery.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SharingUpdate
+- name: 202 Accepted
+  description: Accepted
+  types:
+  - uid: SharingUpdate
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: operationType
+    in: body
+    isRequired: true
+    description: 'This property allows you to specify the operation type of gallery sharing update. <br><br> Possible values are: <br><br> **Add** <br><br> **Remove** <br><br> **Reset**'
+    types:
+    - uid: SharingUpdateOperationTypes
+  - name: groups
+    in: body
+    description: A list of sharing profile groups.
+    types:
+    - uid: SharingProfileGroup
+      isArray: true
+requestHeader: []
+definitions:
+- name: SharingProfileGroup
+  description: Group of the gallery sharing profile
+  kind: object
+  properties:
+  - name: type
+    description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
+    types:
+    - uid: SharingProfileGroupTypes
+  - name: ids
+    description: A list of subscription/tenant ids the gallery is aimed to be shared to.
+    types:
+    - uid: string
+      isArray: true
+- name: SharingUpdate
+  description: Specifies information about the gallery sharing profile update.
+  kind: object
+  properties:
+  - name: operationType
+    description: 'This property allows you to specify the operation type of gallery sharing update. <br><br> Possible values are: <br><br> **Add** <br><br> **Remove** <br><br> **Reset**'
+    types:
+    - uid: SharingUpdateOperationTypes
+  - name: groups
+    description: A list of sharing profile groups.
+    types:
+    - uid: SharingProfileGroup
+      isArray: true
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
+- name: SharingProfileGroupTypes
+  description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
+  kind: enum
+  properties:
+  - name: Subscriptions
+    types:
+    - uid: string
+  - name: AADTenants
+    types:
+    - uid: string
+- name: SharingUpdateOperationTypes
+  description: 'This property allows you to specify the operation type of gallery sharing update. <br><br> Possible values are: <br><br> **Add** <br><br> **Remove** <br><br> **Reset**'
+  kind: enum
+  properties:
+  - name: Add
+    types:
+    - uid: string
+  - name: Remove
+    types:
+    - uid: string
+  - name: Reset
+    types:
+    - uid: string
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+examples:
+- name: Add sharing id to the sharing profile of a gallery.
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/share?api-version=2021-07-01
+    body: >-
+      {
+        "operationType": "Add",
+        "groups": [
+          {
+            "type": "Subscriptions",
+            "ids": [
+              "34a4ab42-0d72-47d9-bd1a-aed207386dac",
+              "380fd389-260b-41aa-bad9-0a83108c370b"
+            ]
+          },
+          {
+            "type": "AADTenants",
+            "ids": [
+              "c24c76aa-8897-4027-9b03-8f7928b54ff6"
+            ]
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "operationType": "Add",
+        "groups": [
+          {
+            "type": "Subscriptions",
+            "ids": [
+              "34a4ab42-0d72-47d9-bd1a-aed207386dac",
+              "380fd389-260b-41aa-bad9-0a83108c370b"
+            ]
+          },
+          {
+            "type": "AADTenants",
+            "ids": [
+              "c24c76aa-8897-4027-9b03-8f7928b54ff6"
+            ]
+          }
+        ]
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "operationType": "Add",
+        "groups": [
+          {
+            "type": "Subscriptions",
+            "ids": [
+              "34a4ab42-0d72-47d9-bd1a-aed207386dac",
+              "380fd389-260b-41aa-bad9-0a83108c370b"
+            ]
+          },
+          {
+            "type": "AADTenants",
+            "ids": [
+              "c24c76aa-8897-4027-9b03-8f7928b54ff6"
+            ]
+          }
+        ]
+      }
+- name: reset sharing profile of a gallery.
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/share?api-version=2021-07-01
+    body: >-
+      {
+        "operationType": "Reset"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "operationType": "Reset"
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "operationType": "Reset"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Compute service - Update sharing profile of a gallery.
+errorCodes: []

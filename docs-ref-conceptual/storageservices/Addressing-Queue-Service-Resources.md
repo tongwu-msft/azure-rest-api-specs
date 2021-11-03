@@ -16,7 +16,7 @@ The Queue service exposes the following resources via the REST API:
   
 -   **Queue.** A queue stores messages that may be retrieved by a client application or service.  
   
--   **Messages.** Messages are UTF-8 encoded text that can be the value of an XML element. A message can be 64 KB in size.  
+-   **Messages.** Messages are UTF-8 encoded text that can be the value of an XML element. A message can be 64 KiB in size.  
   
 ## Resource URI Syntax  
  Each resource has a corresponding base URI, which refers to the resource itself.  

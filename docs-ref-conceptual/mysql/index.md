@@ -25,16 +25,27 @@ The following information is common to all tasks that you might do using these R
 -   Set the Content-Type header to **application/json**.  
 -   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx). 
 
-## REST operations
+## Single Server REST operations
 
 | Operation group | Description |
 |---|---|
-| [Server](xref:management.azure.com.mysql.servers) | Create, Restore, Update, Delete, Get, or List servers. |
-| [Configurations](xref:management.azure.com.mysql.configurations) | Update, Get, and List the configuration of a server. | 
-| [Databases](xref:management.azure.com.mysql.databases)  | Create, Delete, Get, or List databases in the server. | 
-| [Firewall Rules](xref:management.azure.com.mysql.firewallrules) | Create, Delete, Get, or List the firewall rules in a server. |
-| [Log Files](xref:management.azure.com.mysql.logfiles) | List the log files in a given server. |
-| [Operations](xref:management.azure.com.mysql.operations) | List the available REST API operations. |
+| [Server](/rest/api/mysql/singleserver/servers) | Create, Restore, Update, Delete, Get, or List servers. |
+| [Configurations](/rest/api/mysql/singleserver/configurations) | Update, Get, and List the configuration of a server. | 
+| [Databases](/rest/api/mysql/singleserver/databases)  | Create, Delete, Get, or List databases in the server. | 
+| [Firewall Rules](/rest/api/mysql/singleserver/firewallrules) | Create, Delete, Get, or List the firewall rules in a server. |
+| [Log Files](/rest/api/mysql/singleserver/logfiles) | List the log files in a given server. |
+| [Operations](/rest/api/mysql/singleserver/operations) | List the available REST API operations. |
+
+## Flexible Server REST operations
+
+| Operation group | Description |
+|---|---|
+| [Server](/rest/api/mysql/flexibleserver(preview)/servers) | Create, Restore, Update, Delete, Get, or List servers. |
+| [Configurations](/rest/api/mysql/flexibleserver(preview)/configurations) | Update, Get, and List the configuration of a server. | 
+| [Databases](/rest/api/mysql/flexibleserver(preview)/databases)  | Create, Delete, Get, or List databases in the server. | 
+| [Firewall Rules](/rest/api/mysql/flexibleserver(preview)/firewallrules) | Create, Delete, Get, or List the firewall rules in a server. |
+| [Log Files](/rest/api/mysql/flexibleserver(preview)/logfiles) | List the log files in a given server. |
+| [Operations](/rest/api/mysql/flexibleserver(preview)/operations) | List the available REST API operations. |
 
 
 ## See also

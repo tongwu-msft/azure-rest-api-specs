@@ -2,7 +2,7 @@
 title: Azure Container Instances REST API reference
 author: dlepow
 ms.author: danlep
-ms.date: 02/08/2019
+ms.date: 07/01/2020
 ms.topic: reference
 ms.service: container-instances
 ms.devlang: rest-api
@@ -18,13 +18,10 @@ The Container Instances REST API provides operations for working with the follow
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-|[Container](xref:management.azure.com.container-instances.container)| Operations for working with containers in a container group. For example, execute a command in a running container, or list its logs. |
-|[Container Group Usage](xref:management.azure.com.container-instances.containergroupusage)| Get usage information for the container groups in a subscription. |
+|[Containers](xref:management.azure.com.container-instances.containers)| Operations for working with containers in a container group. For example, execute a command in a running container, or list its logs. |
 |[Container Groups](xref:management.azure.com.container-instances.containergroups)| Create, read, update, and delete [container groups](/azure/container-instances/container-instances-container-groups), the top-level resource in Azure Container Instances. |
-|[List Cached Images](xref:management.azure.com.container-instances.listcachedimages) | List the cached images of a specific OS type for a subscription in a region.|
-|[List Capabilities](xref:management.azure.com.container-instances.listcapabilities)| List the CPU, memory, and GPU capabilities of container instances in a region.|
+|[Location](xref:management.azure.com.container-instances.location)| List cached images, resource capabilities, and usage for Azure Container Instances by region.|
 |[Operations](xref:management.azure.com.container-instances.operations)| Get information about the available REST API operations in Azure Container Instances. |
-|[Service Association Link](xref:management.azure.com.container-instances.serviceassociationlink)| Manage the service association link for a linked subnet. |
 
 ## See also
 

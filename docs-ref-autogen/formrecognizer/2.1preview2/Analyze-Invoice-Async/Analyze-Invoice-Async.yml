@@ -1,0 +1,127 @@
+### YamlMime:RESTOperation
+uid: formrecognizer.2.1preview2.analyzeinvoiceasync.analyzeinvoiceasync
+name: Analyze Invoice Async
+service: Cognitive Services - Form Recognizer
+groupName: Analyze Invoice Async
+apiVersion: 2.1-preview.2
+summary: "Analyze Invoice Document  \nExtract field text and semantic values from a given invoice document. The input document must be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'. Alternatively, use 'application/json' type to specify the location (Uri) of the document to be analyzed."
+consumes:
+- application/pdf
+- application/json
+- image/jpeg
+- image/png
+- image/tiff
+- image/bmp
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/formrecognizer/v2.1-preview.2/prebuilt/invoice/analyze
+- content: POST {endpoint}/formrecognizer/v2.1-preview.2/prebuilt/invoice/analyze?includeTextDetails={includeTextDetails}&locale={locale}
+  isOptional: true
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: includeTextDetails
+  in: query
+  description: Include text lines and element references in the result.
+  types:
+  - uid: boolean
+- name: locale
+  in: query
+  description: 'Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).'
+  types:
+  - uid: Locale
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Operation-Location
+    value: string
+  description: Request is queued successfully.
+- name: Other Status Codes
+  description: Response entity accompanying non-successful responses containing additional details about the error.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: source
+    in: body
+    description: File source path.
+    types:
+    - uid: string
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: Locale
+  description: 'Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default).'
+  kind: enum
+  properties:
+  - name: en-AU
+    types:
+    - uid: string
+  - name: en-CA
+    types:
+    - uid: string
+  - name: en-GB
+    types:
+    - uid: string
+  - name: en-IN
+    types:
+    - uid: string
+  - name: en-US
+    types:
+    - uid: string
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: ErrorInformation
+- name: SourcePath
+  description: Uri or local path to source data.
+  kind: object
+  properties:
+  - name: source
+    description: File source path.
+    types:
+    - uid: string
+- name: ErrorInformation
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Analyze receipt
+  request:
+    uri: POST {endpoint}/formrecognizer/v2.1-preview.2/prebuilt/invoice/analyze
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Operation-Location
+      value: '{endpoint}/formrecognizer/v2.1-preview.2/prebuilt/invoice/analyzeResults/{resultId}'
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+metadata:
+  description: "Analyze Invoice Document  \nExtract field text and semantic values from a given invoice document. The input document must be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'."
+errorCodes: []

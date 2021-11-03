@@ -22,7 +22,7 @@ Organized by subject area.
 
 | Operation groups                                                                | Description  |
 |---------------------------------------------------------------------------------|-----------------------|
-| [Operations](xref:management.azure.com.monitor.operations)    | Lists the available REST API operations for Azure Monitor.  |
+| [Operations](/rest/api/monitor/alertsmanagement/operations)    | Lists the available REST API operations for Azure Monitor.  |
 | [Autoscale settings](xref:management.azure.com.monitor.autoscalesettings)         | Operations to manage [autoscale](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-overview-autoscale) settings.     |
 | ***Metrics*** | | 
 | [Metric definitions](xref:management.azure.com.monitor.metricdefinitions)      | Lists the metric definitions available for the resource. That is, what [specific metrics](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-supported-metrics) can you collect. |
@@ -42,7 +42,7 @@ Organized by subject area.
 | [Alert management](/rest/api/monitor/alertsmanagement/alerts)             | Provides operations for managing [alert](https://docs.microsoft.com/azure/monitoring-and-diagnostics/alert-metric-overview?toc=/azure/azure-monitor/toc.json) rules. |
 | [Metric alerts](xref:management.azure.com.monitor.metricalerts)                | Operations to manage [newer metric alerts](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-overview-unified-alerts). | 
 | [Metric alerts status](xref:management.azure.com.monitor.metricalertsstatus)   | Lists status of a [newer metric alerts](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-overview-unified-alerts). |
-| [Metric alert baseline](xref:management.azure.com.monitor.metricbaseline)            | Obtains the baselines for a metric for use in [dynamic alerts](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-alerts-dynamic-thresholds). | 
+| [Metric alert baseline](/rest/api/monitor/baselines)            | Obtains the baselines for a metric for use in [dynamic alerts](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-alerts-dynamic-thresholds). | 
 | [Log alert scheduled query rules](xref:management.azure.com.monitor.scheduledqueryrules)    | Provides operations for managing analytic query-based log alerts.   |
 | [Activity log alerts](xref:management.azure.com.monitor.activitylogalerts)        | Configure and list alerts based on [Activity Log](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-overview-activity-logs) events.|
 | ***Retired or being retired*** | |

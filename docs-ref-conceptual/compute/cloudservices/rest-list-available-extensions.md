@@ -3,7 +3,6 @@ title: "Azure Cloud Services REST - List Available Extensions | Microsoft Docs"
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"
-ms.prod: "azure"
 ms.reviewer: ""
 
 ms.suite: ""

@@ -1,5 +1,6 @@
 ---
 title: "Common tasks - Azure Cosmos DB REST API"
+description: This page lists common tasks that you can perform using REST API on Azure Cosmos DB databases, containers, items, stored procedures, UDFs, and triggers.
 ms.date: "03/29/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"

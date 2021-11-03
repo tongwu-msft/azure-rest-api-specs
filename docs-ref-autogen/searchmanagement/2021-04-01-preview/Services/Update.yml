@@ -1,0 +1,1368 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.searchmanagement.2021-04-01-preview.services.update
+name: Update
+service: Search Management
+groupName: Services
+apiVersion: 2021-04-01-preview
+summary: Updates an existing search service in the given resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}?api-version=2021-04-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the current subscription. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: searchServiceName
+  in: path
+  isRequired: true
+  description: The name of the Azure Cognitive Search service to update.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for each request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The existing service definition was successfully updated. If you changed the number of replicas or partitions, the scale operation will happen asynchronously. You can periodically get your service definition and monitor progress via the provisioningState property.
+  types:
+  - uid: SearchService
+- name: Other Status Codes
+  description: 'HTTP 400 (Bad Request): The given service definition is invalid or you attempted to change a property that is immutable; See the error code and message in the response for details. HTTP 404 (Not Found): The subscription or resource group could not be found. HTTP 409 (Conflict): The specified subscription is disabled.'
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: sku
+    in: body
+    description: The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service.
+    types:
+    - uid: Sku
+  - name: location
+    in: body
+    description: The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth). This property is required when creating a new resource.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Tags to help categorize the resource in the Azure portal.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: identity
+    in: body
+    description: Details about the search service identity. A null value indicates that the search service has no identity assigned.
+    types:
+    - uid: Identity
+  - name: properties.replicaCount
+    in: body
+    description: The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.
+    types:
+    - uid: integer
+  - name: properties.partitionCount
+    in: body
+    description: The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3.
+    types:
+    - uid: integer
+  - name: properties.hostingMode
+    in: body
+    description: Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'.
+    types:
+    - uid: HostingMode
+  - name: properties.publicNetworkAccess
+    in: body
+    description: This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.networkRuleSet
+    in: body
+    description: Network specific rules that determine how the Azure Cognitive Search service may be reached.
+    types:
+    - uid: NetworkRuleSet
+  - name: properties.disabledDataExfiltrationOptions
+    in: body
+    description: A list of data exfiltration scenarios that are explicitly disallowed for the search service. Currently, the only supported value is 'All' to disable all possible data export scenarios with more fine grained controls planned for the future.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.encryptionWithCmk
+    in: body
+    description: Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service.
+    types:
+    - uid: EncryptionWithCmk
+  - name: properties.disableLocalAuth
+    in: body
+    description: When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if 'dataPlaneAuthOptions' are defined.
+    types:
+    - uid: boolean
+  - name: properties.authOptions
+    in: body
+    description: Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if 'disableLocalAuth' is set to true.
+    types:
+    - uid: DataPlaneAuthOptions
+  - name: properties.semanticSearch
+    in: body
+    description: Sets options that control the availability of semantic search. This configuration is only possible for certain Azure Cognitive Search SKUs in certain locations.
+    types:
+    - uid: SearchSemanticSearch
+requestHeader:
+- name: x-ms-client-request-id
+  in: header
+  description: A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request.
+  types:
+  - uid: string
+  format: uuid
+definitions:
+- name: Sku
+  description: Defines the SKU of an Azure Cognitive Search Service, which determines price tier and capacity limits.
+  kind: object
+  properties:
+  - name: name
+    description: "The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.'"
+    types:
+    - uid: SkuName
+- name: Identity
+  description: Details about the search service identity. A null value indicates that the search service has no identity assigned.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the system-assigned identity of the search service.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the system-assigned identity of the search service.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an identity created by the system and a set of user assigned identities. The type 'None' will remove all identities from the service.
+    types:
+    - uid: IdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedManagedIdentity
+- name: NetworkRuleSet
+  description: Network specific rules that determine how the Azure Cognitive Search service may be reached.
+  kind: object
+  properties:
+  - name: ipRules
+    description: A list of IP restriction rules that defines the inbound network(s) with allowing access to the search service endpoint. At the meantime, all other public IP networks are blocked by the firewall. These restriction rules are applied only when the 'publicNetworkAccess' of the search service is 'enabled'; otherwise, traffic over public interface is not allowed even with any public IP rules, and private endpoint connections would be the exclusive access method.
+    types:
+    - uid: IpRule
+      isArray: true
+  - name: bypass
+    description: A specific data exfiltration scenario that is disabled for the service.
+    types:
+    - uid: SearchBypass
+- name: EncryptionWithCmk
+  description: Describes a policy that determines how resources within the search service are to be encrypted with Customer Managed Keys.
+  kind: object
+  properties:
+  - name: enforcement
+    description: Describes how a search service should enforce having one or more non customer encrypted resources.
+    types:
+    - uid: SearchEncryptionWithCmk
+  - name: encryptionComplianceStatus
+    isReadyOnly: true
+    description: Describes whether the search service is compliant or not with respect to having non customer encrypted resources. If a service has more than one non customer encrypted resource and 'Enforcement' is 'enabled' then the service will be marked as 'nonCompliant'.
+    types:
+    - uid: SearchEncryptionComplianceStatus
+- name: DataPlaneAuthOptions
+  description: Defines the options for how the data plane API of a Search service authenticates requests. This cannot be set if 'disableLocalAuth' is set to true.
+  kind: object
+  properties:
+  - name: apiKeyOnly
+    description: Indicates that only the API key needs to be used for authentication.
+    types:
+    - uid: ApiKeyOnly
+  - name: aadOrApiKey
+    description: Indicates that either the API key or an access token from Azure Active Directory can be used for authentication.
+    types:
+    - uid: DataPlaneAadOrApiKeyAuthOption
+- name: PrivateEndpointConnection
+  description: Describes an existing Private Endpoint connection to the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: properties
+    description: Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service.
+    types:
+    - uid: PrivateEndpointConnectionProperties
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: SharedPrivateLinkResource
+  description: Describes a Shared Private Link Resource managed by the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: properties
+    description: Describes the properties of a Shared Private Link Resource managed by the Azure Cognitive Search service.
+    types:
+    - uid: SharedPrivateLinkResourceProperties
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: SearchService
+  description: Describes an Azure Cognitive Search service and its current state.
+  kind: object
+  properties:
+  - name: sku
+    description: The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service.
+    types:
+    - uid: Sku
+  - name: identity
+    description: The identity of the resource.
+    types:
+    - uid: Identity
+  - name: properties.replicaCount
+    description: The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.
+    types:
+    - uid: integer
+  - name: properties.partitionCount
+    description: The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3.
+    types:
+    - uid: integer
+  - name: properties.hostingMode
+    description: Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'.
+    types:
+    - uid: HostingMode
+  - name: properties.publicNetworkAccess
+    description: This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.status
+    isReadyOnly: true
+    description: "The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. 'stopped': The search service is in a subscription that's disabled. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned."
+    types:
+    - uid: SearchServiceStatus
+  - name: properties.statusDetails
+    isReadyOnly: true
+    description: The details of the search service status.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up.
+    types:
+    - uid: ProvisioningState
+  - name: properties.networkRuleSet
+    description: Network specific rules that determine how the Azure Cognitive Search service may be reached.
+    types:
+    - uid: NetworkRuleSet
+  - name: properties.disabledDataExfiltrationOptions
+    description: A list of data exfiltration scenarios that are explicitly disallowed for the search service. Currently, the only supported value is 'All' to disable all possible data export scenarios with more fine grained controls planned for the future.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.encryptionWithCmk
+    description: Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service.
+    types:
+    - uid: EncryptionWithCmk
+  - name: properties.disableLocalAuth
+    description: When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if 'dataPlaneAuthOptions' are defined.
+    types:
+    - uid: boolean
+  - name: properties.authOptions
+    description: Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if 'disableLocalAuth' is set to true.
+    types:
+    - uid: DataPlaneAuthOptions
+  - name: properties.semanticSearch
+    description: Sets options that control the availability of semantic search. This configuration is only possible for certain Azure Cognitive Search SKUs in certain locations.
+    types:
+    - uid: SearchSemanticSearch
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: The list of private endpoint connections to the Azure Cognitive Search service.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: properties.sharedPrivateLinkResources
+    isReadyOnly: true
+    description: The list of shared private link resources managed by the Azure Cognitive Search service.
+    types:
+    - uid: SharedPrivateLinkResource
+      isArray: true
+  - name: properties.eTag
+    isReadyOnly: true
+    description: A system generated property representing the service's etag that can be for optimistic concurrency control during updates.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: CloudError
+  description: Contains information about an API error.
+  kind: object
+  properties:
+  - name: error
+    description: Describes a particular API error with an error code and a message.
+    types:
+    - uid: CloudErrorBody
+  - name: message
+    description: A brief description of the error that hints at what went wrong (for details/debugging information refer to the 'error.message' property).
+    types:
+    - uid: string
+- name: SearchServiceUpdate
+  description: The parameters used to update an Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: sku
+    description: The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service.
+    types:
+    - uid: Sku
+  - name: location
+    description: The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth). This property is required when creating a new resource.
+    types:
+    - uid: string
+  - name: tags
+    description: Tags to help categorize the resource in the Azure portal.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: identity
+    description: Details about the search service identity. A null value indicates that the search service has no identity assigned.
+    types:
+    - uid: Identity
+  - name: properties.replicaCount
+    description: The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.
+    types:
+    - uid: integer
+  - name: properties.partitionCount
+    description: The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3.
+    types:
+    - uid: integer
+  - name: properties.hostingMode
+    description: Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'.
+    types:
+    - uid: HostingMode
+  - name: properties.publicNetworkAccess
+    description: This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.status
+    isReadyOnly: true
+    description: "The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. 'stopped': The search service is in a subscription that's disabled. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned."
+    types:
+    - uid: SearchServiceStatus
+  - name: properties.statusDetails
+    isReadyOnly: true
+    description: The details of the search service status.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up.
+    types:
+    - uid: ProvisioningState
+  - name: properties.networkRuleSet
+    description: Network specific rules that determine how the Azure Cognitive Search service may be reached.
+    types:
+    - uid: NetworkRuleSet
+  - name: properties.disabledDataExfiltrationOptions
+    description: A list of data exfiltration scenarios that are explicitly disallowed for the search service. Currently, the only supported value is 'All' to disable all possible data export scenarios with more fine grained controls planned for the future.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.encryptionWithCmk
+    description: Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service.
+    types:
+    - uid: EncryptionWithCmk
+  - name: properties.disableLocalAuth
+    description: When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if 'dataPlaneAuthOptions' are defined.
+    types:
+    - uid: boolean
+  - name: properties.authOptions
+    description: Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if 'disableLocalAuth' is set to true.
+    types:
+    - uid: DataPlaneAuthOptions
+  - name: properties.semanticSearch
+    description: Sets options that control the availability of semantic search. This configuration is only possible for certain Azure Cognitive Search SKUs in certain locations.
+    types:
+    - uid: SearchSemanticSearch
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: The list of private endpoint connections to the Azure Cognitive Search service.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: properties.sharedPrivateLinkResources
+    isReadyOnly: true
+    description: The list of shared private link resources managed by the Azure Cognitive Search service.
+    types:
+    - uid: SharedPrivateLinkResource
+      isArray: true
+  - name: properties.eTag
+    isReadyOnly: true
+    description: A system generated property representing the service's etag that can be for optimistic concurrency control during updates.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: SkuName
+  description: "The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.'"
+  kind: enum
+  properties:
+  - name: free
+    description: Free tier, with no SLA guarantees and a subset of features offered to paid tiers.
+    types:
+    - uid: string
+  - name: basic
+    description: Paid tier dedicated service with up to 3 replicas.
+    types:
+    - uid: string
+  - name: standard
+    description: Paid tier dedicated service with up to 12 partitions and 12 replicas.
+    types:
+    - uid: string
+  - name: standard2
+    description: Similar to 'standard', but with more capacity per search unit.
+    types:
+    - uid: string
+  - name: standard3
+    description: " The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity')."
+    types:
+    - uid: string
+  - name: storage_optimized_l1
+    description: Paid tier dedicated service that supports 1TB per partition, up to 12 partitions.
+    types:
+    - uid: string
+  - name: storage_optimized_l2
+    description: Paid tier dedicated service that supports 2TB per partition, up to 12 partitions.
+    types:
+    - uid: string
+- name: IdentityType
+  description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an identity created by the system and a set of user assigned identities. The type 'None' will remove all identities from the service.
+  kind: enum
+  properties:
+  - name: None
+    description: Indicates that any identity associated with the search service needs to be removed.
+    types:
+    - uid: string
+  - name: SystemAssigned
+    description: Indicates that system-assigned identity for the search service will be enabled.
+    types:
+    - uid: string
+  - name: UserAssigned
+    description: Indicates that one or more user assigned identities will be assigned to the search service.
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    description: Indicates that system-assigned identity for the search service will be enabled along with the assignment of one or more user assigned identities.
+    types:
+    - uid: string
+- name: UserAssignedManagedIdentity
+  description: The details of the user assigned managed identity assigned to the search service.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of user assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of user assigned identity.
+    types:
+    - uid: string
+- name: IpRule
+  description: The IP restriction rule of the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: value
+    description: Value corresponding to a single IPv4 address (eg., 123.1.2.3) or an IP range in CIDR format (eg., 123.1.2.3/24) to be allowed.
+    types:
+    - uid: string
+- name: SearchBypass
+  description: A specific data exfiltration scenario that is disabled for the service.
+  kind: enum
+  properties:
+  - name: None
+    description: Indicates that no origin can bypass the rules defined in the 'ipRules' section. This is the default.
+    types:
+    - uid: string
+- name: SearchEncryptionWithCmk
+  description: Describes how a search service should enforce having one or more non customer encrypted resources.
+  kind: enum
+  properties:
+  - name: Disabled
+    description: No enforcement will be made and the search service can have non customer encrypted resources.
+    types:
+    - uid: string
+  - name: Enabled
+    description: Search service will be marked as non-compliant if there are one or more non customer encrypted resources.
+    types:
+    - uid: string
+  - name: Unspecified
+    description: Enforcement policy is not explicitly specified, with the behavior being the same as if it were set to 'Disabled'.
+    types:
+    - uid: string
+- name: SearchEncryptionComplianceStatus
+  description: Describes whether the search service is compliant or not with respect to having non customer encrypted resources. If a service has more than one non customer encrypted resource and 'Enforcement' is 'enabled' then the service will be marked as 'nonCompliant'.
+  kind: enum
+  properties:
+  - name: Compliant
+    description: Indicates that the search service is compliant, either because number of non customer encrypted resources is zero or enforcement is disabled.
+    types:
+    - uid: string
+  - name: NonCompliant
+    description: Indicates that the search service has more than 1 non customer encrypted resources.
+    types:
+    - uid: string
+- name: ApiKeyOnly
+  description: Indicates that only the API key needs to be used for authentication.
+  kind: object
+  properties: []
+- name: DataPlaneAadOrApiKeyAuthOption
+  description: Indicates that either the API key or an access token from Azure Active Directory can be used for authentication.
+  kind: object
+  properties:
+  - name: aadAuthFailureMode
+    description: Describes what response the data plane API of a Search service would send for requests that failed authentication.
+    types:
+    - uid: AadAuthFailureMode
+- name: PrivateEndpointConnectionProperties
+  description: Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: privateEndpoint
+    description: The private endpoint resource from Microsoft.Network provider.
+    types:
+    - uid: PrivateEndpoint
+  - name: privateLinkServiceConnectionState
+    description: Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+- name: SharedPrivateLinkResourceProperties
+  description: Describes the properties of an existing Shared Private Link Resource managed by the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: privateLinkResourceId
+    description: The resource id of the resource the shared private link resource is for.
+    types:
+    - uid: string
+  - name: groupId
+    description: The group id from the provider of resource the shared private link resource is for.
+    types:
+    - uid: string
+  - name: requestMessage
+    description: The request message for requesting approval of the shared private link resource.
+    types:
+    - uid: string
+  - name: resourceRegion
+    description: Optional. Can be used to specify the Azure Resource Manager location of the resource to which a shared private link is to be created. This is only required for those resources whose DNS configuration are regional (such as Azure Kubernetes Service).
+    types:
+    - uid: string
+  - name: status
+    description: Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected or other yet to be documented value.
+    types:
+    - uid: SharedPrivateLinkResourceStatus
+  - name: provisioningState
+    description: The provisioning state of the shared private link resource. Can be Updating, Deleting, Failed, Succeeded, Incomplete or other yet to be documented value.
+    types:
+    - uid: SharedPrivateLinkResourceProvisioningState
+- name: HostingMode
+  description: Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'.
+  kind: enum
+  properties:
+  - name: default
+    description: The limit on number of indexes is determined by the default limits for the SKU.
+    types:
+    - uid: string
+  - name: highDensity
+    description: Only application for standard3 SKU, where the search service can have up to 1000 indexes.
+    types:
+    - uid: string
+- name: PublicNetworkAccess
+  description: This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.
+  kind: enum
+  properties:
+  - name: enabled
+    description: The search service is accessible from traffic originating from the public internet.
+    types:
+    - uid: string
+  - name: disabled
+    description: The search service is not accessible from traffic originating from the public internet. Access is only permitted over approved private endpoint connections.
+    types:
+    - uid: string
+- name: SearchServiceStatus
+  description: "The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. 'stopped': The search service is in a subscription that's disabled. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned."
+  kind: enum
+  properties:
+  - name: running
+    description: The search service is running and no provisioning operations are underway.
+    types:
+    - uid: string
+  - name: provisioning
+    description: The search service is being provisioned or scaled up or down.
+    types:
+    - uid: string
+  - name: deleting
+    description: The search service is being deleted.
+    types:
+    - uid: string
+  - name: degraded
+    description: The search service is degraded because underlying search units are not healthy.
+    types:
+    - uid: string
+  - name: disabled
+    description: The search service is disabled and all API requests will be rejected.
+    types:
+    - uid: string
+  - name: error
+    description: The search service is in error state, indicating either a failure to provision or to be deleted.
+    types:
+    - uid: string
+  - name: stopped
+    description: The search service is in a subscription that's disabled.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up.
+  kind: enum
+  properties:
+  - name: succeeded
+    description: The last provisioning operation has completed successfully.
+    types:
+    - uid: string
+  - name: provisioning
+    description: The search service is being provisioned or scaled up or down.
+    types:
+    - uid: string
+  - name: failed
+    description: The last provisioning operation has failed.
+    types:
+    - uid: string
+- name: SearchSemanticSearch
+  description: Sets options that control the availability of semantic search. This configuration is only possible for certain Azure Cognitive Search SKUs in certain locations.
+  kind: enum
+  properties:
+  - name: disabled
+    description: Indicates that semantic search is disabled for the search service. This is the default.
+    types:
+    - uid: string
+  - name: free
+    description: Enables semantic search on a search service and indicates that it is to be used within the limits of the free tier. This would cap the volume of semantic search requests and is offered at no extra charge.
+    types:
+    - uid: string
+  - name: standard
+    description: Enables semantic search on a search service as a billable feature, with higher throughput and volume of semantic search queries.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: Describes a particular API error with an error code and a message.
+  kind: object
+  properties:
+  - name: code
+    description: An error code that describes the error condition more precisely than an HTTP status code. Can be used to programmatically handle specific error cases.
+    types:
+    - uid: string
+  - name: message
+    description: A message that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: Contains nested errors that are related to this error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: AadAuthFailureMode
+  description: Describes what response the data plane API of a Search service would send for requests that failed authentication.
+  kind: enum
+  properties:
+  - name: http403
+    description: Indicates that requests that failed authentication should be presented with an HTTP status code of 403 (Forbidden).
+    types:
+    - uid: string
+  - name: http401WithBearerChallenge
+    description: Indicates that requests that failed authentication should be presented with an HTTP status code of 401 (Unauthorized) and present a Bearer Challenge.
+    types:
+    - uid: string
+- name: PrivateEndpoint
+  description: The private endpoint resource from Microsoft.Network provider.
+  kind: object
+  properties:
+  - name: id
+    description: The resource id of the private endpoint resource from Microsoft.Network provider.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint.
+  kind: object
+  properties:
+  - name: status
+    description: Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected.
+    types:
+    - uid: PrivateLinkServiceConnectionStatus
+  - name: description
+    description: The description for the private link service connection state.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: A description of any extra actions that may be required.
+    types:
+    - uid: string
+- name: SharedPrivateLinkResourceStatus
+  description: Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected or other yet to be documented value.
+  kind: enum
+  properties:
+  - name: Pending
+    description: The shared private link resource has been created and is pending approval.
+    types:
+    - uid: string
+  - name: Approved
+    description: The shared private link resource is approved and is ready for use.
+    types:
+    - uid: string
+  - name: Rejected
+    description: The shared private link resource has been rejected and cannot be used.
+    types:
+    - uid: string
+  - name: Disconnected
+    description: The shared private link resource has been removed from the service.
+    types:
+    - uid: string
+- name: SharedPrivateLinkResourceProvisioningState
+  description: The provisioning state of the shared private link resource. Can be Updating, Deleting, Failed, Succeeded, Incomplete or other yet to be documented value.
+  kind: enum
+  properties:
+  - name: Updating
+    description: The shared private link resource is in the process of being created along with other resources for it to be fully functional.
+    types:
+    - uid: string
+  - name: Deleting
+    description: The shared private link resource is in the process of being deleted.
+    types:
+    - uid: string
+  - name: Failed
+    description: The shared private link resource has failed to be provisioned or deleted.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: The shared private link resource has finished provisioning and is ready for approval.
+    types:
+    - uid: string
+  - name: Incomplete
+    description: Provisioning request for the shared private link resource has been accepted but the process of creation has not commenced yet.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStatus
+  description: Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected.
+  kind: enum
+  properties:
+  - name: Pending
+    description: The private endpoint connection has been created and is pending approval.
+    types:
+    - uid: string
+  - name: Approved
+    description: The private endpoint connection is approved and is ready for use.
+    types:
+    - uid: string
+  - name: Rejected
+    description: The private endpoint connection has been rejected and cannot be used.
+    types:
+    - uid: string
+  - name: Disconnected
+    description: The private endpoint connection has been removed from the service.
+    types:
+    - uid: string
+examples:
+- name: SearchUpdateService
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+    body: >-
+      {
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "properties": {
+          "replicaCount": 2
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice",
+        "name": "mysearchservice",
+        "location": "westus",
+        "type": "Microsoft.Search/searchServices",
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "partitionCount": 1,
+          "status": "provisioning",
+          "statusDetails": "",
+          "hostingMode": "default",
+          "provisioningState": "provisioning",
+          "publicNetworkAccess": "enabled",
+          "networkRuleSet": {
+            "ipRules": [],
+            "bypass": "None"
+          },
+          "privateEndpointConnections": [],
+          "sharedPrivateLinkResources": [],
+          "encryptionWithCmk": {
+            "enforcement": "Unspecified",
+            "encryptionComplianceStatus": "Compliant"
+          },
+          "disableLocalAuth": false,
+          "authOptions": {
+            "apiKeyOnly": {}
+          },
+          "disabledDataExfiltrationOptions": []
+        }
+      }
+- name: SearchUpdateServiceToRemoveIdentity
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+    body: >-
+      {
+        "sku": {
+          "name": "standard"
+        },
+        "identity": {
+          "type": "None"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice",
+        "name": "mysearchservice",
+        "location": "westus",
+        "type": "Microsoft.Search/searchServices",
+        "tags": {},
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 3,
+          "partitionCount": 1,
+          "status": "running",
+          "statusDetails": "",
+          "hostingMode": "default",
+          "provisioningState": "succeeded",
+          "publicNetworkAccess": "enabled",
+          "networkRuleSet": {
+            "ipRules": [],
+            "bypass": "None"
+          },
+          "privateEndpointConnections": [],
+          "sharedPrivateLinkResources": [],
+          "encryptionWithCmk": {
+            "enforcement": "Unspecified",
+            "encryptionComplianceStatus": "Compliant"
+          },
+          "disableLocalAuth": false,
+          "authOptions": {
+            "apiKeyOnly": {}
+          },
+          "disabledDataExfiltrationOptions": []
+        }
+      }
+- name: SearchUpdateServiceToAllowAccessFromPublicCustomIPs
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+    body: >-
+      {
+        "properties": {
+          "replicaCount": 3,
+          "partitionCount": 1,
+          "publicNetworkAccess": "enabled",
+          "networkRuleSet": {
+            "ipRules": [
+              {
+                "value": "123.4.5.6"
+              },
+              {
+                "value": "123.4.6.0/18"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice",
+        "name": "mysearchservice",
+        "location": "westus",
+        "type": "Microsoft.Search/searchServices",
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 3,
+          "partitionCount": 1,
+          "status": "running",
+          "statusDetails": "",
+          "hostingMode": "default",
+          "provisioningState": "succeeded",
+          "publicNetworkAccess": "enabled",
+          "networkRuleSet": {
+            "ipRules": [
+              {
+                "value": "10.2.3.4"
+              }
+            ]
+          },
+          "privateEndpointConnections": [],
+          "sharedPrivateLinkResources": [],
+          "encryptionWithCmk": {
+            "enforcement": "Unspecified",
+            "encryptionComplianceStatus": "Compliant"
+          },
+          "disableLocalAuth": false,
+          "authOptions": {
+            "apiKeyOnly": {}
+          },
+          "disabledDataExfiltrationOptions": []
+        }
+      }
+- name: SearchUpdateServiceToAllowAccessFromPrivateEndpoints
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+    body: >-
+      {
+        "properties": {
+          "replicaCount": 1,
+          "partitionCount": 1,
+          "publicNetworkAccess": "disabled"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice",
+        "name": "mysearchservice",
+        "location": "westus",
+        "type": "Microsoft.Search/searchServices",
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "sku": {
+          "name": "basic"
+        },
+        "properties": {
+          "replicaCount": 1,
+          "partitionCount": 1,
+          "status": "running",
+          "statusDetails": "",
+          "hostingMode": "default",
+          "provisioningState": "succeeded",
+          "publicNetworkAccess": "disabled",
+          "networkRuleSet": {
+            "ipRules": [],
+            "bypass": "None"
+          },
+          "privateEndpointConnections": [],
+          "sharedPrivateLinkResources": [],
+          "encryptionWithCmk": {
+            "enforcement": "Unspecified",
+            "encryptionComplianceStatus": "Compliant"
+          },
+          "disableLocalAuth": false,
+          "authOptions": {
+            "apiKeyOnly": {}
+          },
+          "disabledDataExfiltrationOptions": []
+        }
+      }
+- name: SearchUpdateServiceAuthOptions
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+    body: >-
+      {
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "authOptions": {
+            "aadOrApiKey": {
+              "aadAuthFailureMode": "http401WithBearerChallenge"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice",
+        "name": "mysearchservice",
+        "location": "westus",
+        "type": "Microsoft.Search/searchServices",
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "partitionCount": 1,
+          "status": "provisioning",
+          "statusDetails": "",
+          "hostingMode": "default",
+          "provisioningState": "provisioning",
+          "publicNetworkAccess": "enabled",
+          "networkRuleSet": {
+            "ipRules": [],
+            "bypass": "None"
+          },
+          "privateEndpointConnections": [],
+          "sharedPrivateLinkResources": [],
+          "encryptionWithCmk": {
+            "enforcement": "Unspecified",
+            "encryptionComplianceStatus": "Compliant"
+          },
+          "authOptions": {
+            "aadOrApiKey": {
+              "aadAuthFailureMode": "http401WithBearerChallenge"
+            }
+          },
+          "disabledDataExfiltrationOptions": []
+        }
+      }
+- name: SearchUpdateServiceDisableLocalAuth
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+    body: >-
+      {
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "disableLocalAuth": true
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice",
+        "name": "mysearchservice",
+        "location": "westus",
+        "type": "Microsoft.Search/searchServices",
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "partitionCount": 1,
+          "status": "provisioning",
+          "statusDetails": "",
+          "hostingMode": "default",
+          "provisioningState": "provisioning",
+          "publicNetworkAccess": "enabled",
+          "networkRuleSet": {
+            "ipRules": [],
+            "bypass": "None"
+          },
+          "privateEndpointConnections": [],
+          "sharedPrivateLinkResources": [],
+          "encryptionWithCmk": {
+            "enforcement": "Unspecified",
+            "encryptionComplianceStatus": "Compliant"
+          },
+          "disableLocalAuth": true,
+          "authOptions": null,
+          "disabledDataExfiltrationOptions": []
+        }
+      }
+- name: SearchUpdateServiceWithCmkEnforcement
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+    body: >-
+      {
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "encryptionWithCmk": {
+            "enforcement": "Enabled"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice",
+        "name": "mysearchservice",
+        "location": "westus",
+        "type": "Microsoft.Search/searchServices",
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "partitionCount": 1,
+          "status": "provisioning",
+          "statusDetails": "",
+          "hostingMode": "default",
+          "provisioningState": "provisioning",
+          "publicNetworkAccess": "enabled",
+          "networkRuleSet": {
+            "ipRules": [],
+            "bypass": "None"
+          },
+          "privateEndpointConnections": [],
+          "sharedPrivateLinkResources": [],
+          "encryptionWithCmk": {
+            "enforcement": "Enabled",
+            "encryptionComplianceStatus": "Compliant"
+          },
+          "disableLocalAuth": false,
+          "authOptions": {
+            "apiKeyOnly": {}
+          },
+          "disabledDataExfiltrationOptions": []
+        }
+      }
+- name: SearchUpdateServiceWithDataExfiltration
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+    body: >-
+      {
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "disabledDataExfiltrationOptions": [
+            "All"
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice",
+        "name": "mysearchservice",
+        "location": "westus",
+        "type": "Microsoft.Search/searchServices",
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "partitionCount": 1,
+          "status": "provisioning",
+          "statusDetails": "",
+          "hostingMode": "default",
+          "provisioningState": "provisioning",
+          "publicNetworkAccess": "enabled",
+          "networkRuleSet": {
+            "ipRules": [],
+            "bypass": "None"
+          },
+          "privateEndpointConnections": [],
+          "sharedPrivateLinkResources": [],
+          "encryptionWithCmk": {
+            "enforcement": "Unspecified",
+            "encryptionComplianceStatus": "Compliant"
+          },
+          "disableLocalAuth": false,
+          "authOptions": {
+            "apiKeyOnly": {}
+          },
+          "disabledDataExfiltrationOptions": [
+            "All"
+          ]
+        }
+      }
+- name: SearchUpdateServiceWithSemanticSearch
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+    body: >-
+      {
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "semanticSearch": "standard"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice",
+        "name": "mysearchservice",
+        "location": "westus",
+        "type": "Microsoft.Search/searchServices",
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "partitionCount": 1,
+          "status": "provisioning",
+          "statusDetails": "",
+          "hostingMode": "default",
+          "provisioningState": "provisioning",
+          "publicNetworkAccess": "enabled",
+          "networkRuleSet": {
+            "ipRules": [],
+            "bypass": "None"
+          },
+          "privateEndpointConnections": [],
+          "sharedPrivateLinkResources": [],
+          "encryptionWithCmk": {
+            "enforcement": "Unspecified",
+            "encryptionComplianceStatus": "Compliant"
+          },
+          "disableLocalAuth": false,
+          "authOptions": {
+            "apiKeyOnly": {}
+          },
+          "disabledDataExfiltrationOptions": [],
+          "semanticSearch": "standard"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Search Management service - Updates an existing search service in the given resource group.
+errorCodes: []

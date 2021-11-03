@@ -1,5 +1,6 @@
 ---
 title: "List Offers - Azure Cosmos DB REST API"
+description: List offers REST API syntax. Request and response headers, body, status codes and examples.
 ms.date: "03/29/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"

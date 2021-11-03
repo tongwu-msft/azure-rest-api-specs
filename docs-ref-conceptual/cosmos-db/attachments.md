@@ -1,5 +1,6 @@
 ---
 title: "Attachments - Azure Cosmos DB REST API"
+description: Learn how to manage attachments in Azure Cosmos DB using REST API. Attachments are the documents that contain references metadata with an external blob or media.
 ms.date: "12/20/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"

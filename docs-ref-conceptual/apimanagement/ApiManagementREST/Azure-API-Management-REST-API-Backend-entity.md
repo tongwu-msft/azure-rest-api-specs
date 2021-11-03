@@ -2,7 +2,6 @@
 title: "Azure API Management REST API Backend entity"
 ms.custom: na
 ms.date: 05/09/2016
-ms.prod: azure
 ms.reviewer: na
 ms.service: api-management
 ms.suite: na

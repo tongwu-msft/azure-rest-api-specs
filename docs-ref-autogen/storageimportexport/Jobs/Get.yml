@@ -3,14 +3,14 @@ uid: management.azure.com.storageimportexport.jobs.get
 name: Get
 service: Storage Import-Export
 groupName: Jobs
-apiVersion: 2016-11-01
+apiVersion: 2020-08-01
 summary: Gets information about an existing job.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs/{jobName}?api-version=2016-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs/{jobName}?api-version=2020-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -56,6 +56,11 @@ definitions:
   description: Contains the job information.
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: SystemData of ImportExport Jobs.
+    types:
+    - uid: systemData
   - name: id
     isReadyOnly: true
     description: Specifies the resource identifier of the job.
@@ -83,6 +88,10 @@ definitions:
     description: Specifies the job properties
     types:
     - uid: JobDetails
+  - name: identity
+    description: Specifies the job identity details
+    types:
+    - uid: IdentityDetails
 - name: ErrorResponse
   description: Response when errors occurred
   kind: object
@@ -108,6 +117,34 @@ definitions:
     description: Inner error object if present.
     types:
     - uid: object
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: JobDetails
   description: Specifies the job properties
   kind: object
@@ -135,11 +172,11 @@ definitions:
   - name: deliveryPackage
     description: 'Contains information about the package being shipped by the customer to the Microsoft data center. '
     types:
-    - uid: PackageInfomation
+    - uid: DeliveryPackageInformation
   - name: returnPackage
     description: 'Contains information about the package being shipped from the Microsoft data center to the customer to return the drives. The format is the same as the deliveryPackage property above. This property is not included if the drives have not yet been returned. '
     types:
-    - uid: PackageInfomation
+    - uid: PackageInformation
   - name: diagnosticsPath
     description: The virtual blob directory to which the copy logs and backups of drive manifest files (if enabled) will be stored.
     types:
@@ -181,6 +218,28 @@ definitions:
     description: Specifies the provisioning state of the job.
     types:
     - uid: string
+  - name: encryptionKey
+    description: Contains information about the encryption key.
+    types:
+    - uid: EncryptionKeyDetails
+- name: IdentityDetails
+  description: 'Specifies the identity properties. '
+  kind: object
+  properties:
+  - name: type
+    description: The type of identity
+    types:
+    - uid: IdentityType
+  - name: principalId
+    isReadyOnly: true
+    description: 'Specifies the principal id for the identity for the job. '
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: 'Specifies the tenant id for the identity for the job. '
+    types:
+    - uid: string
 - name: Details
   description: Describes the error details if present.
   kind: object
@@ -195,6 +254,22 @@ definitions:
     - uid: string
   - name: message
     description: Provides information about the error message.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
     types:
     - uid: string
 - name: ReturnAddress
@@ -285,7 +360,32 @@ definitions:
     description: Phone number of the recipient of the returned drives.
     types:
     - uid: string
-- name: PackageInfomation
+  - name: additionalInformation
+    isReadyOnly: true
+    description: Additional shipping information for customer, specific to datacenter to which customer should send their disks.
+    types:
+    - uid: string
+- name: DeliveryPackageInformation
+  description: Contains information about the delivery package being shipped by the customer to the Microsoft data center.
+  kind: object
+  properties:
+  - name: carrierName
+    description: The name of the carrier that is used to ship the import or export drives.
+    types:
+    - uid: string
+  - name: trackingNumber
+    description: The tracking number of the package.
+    types:
+    - uid: string
+  - name: driveCount
+    description: The number of drives included in the package.
+    types:
+    - uid: integer
+  - name: shipDate
+    description: The date when the package is shipped.
+    types:
+    - uid: string
+- name: PackageInformation
   description: Contains information about the package being shipped by the customer to the Microsoft data center.
   kind: object
   properties:
@@ -361,7 +461,7 @@ definitions:
   description: A property containing information about the blobs to be exported for an export job. This property is required for export jobs, but must not be specified for import jobs.
   kind: object
   properties:
-  - name: blobListblobPath
+  - name: blobListBlobPath
     description: 'The relative URI to the block blob that contains the list of blob paths or blob path prefixes as defined above, beginning with the container name. If the blob is in root container, the URI must begin with $root. '
     types:
     - uid: string
@@ -375,6 +475,35 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: EncryptionKeyDetails
+  description: Specifies the encryption key properties
+  kind: object
+  properties:
+  - name: kekType
+    description: The type of kek encryption key
+    types:
+    - uid: EncryptionKekType
+  - name: kekUrl
+    description: 'Specifies the url for kek encryption key. '
+    types:
+    - uid: string
+  - name: kekVaultResourceID
+    description: 'Specifies the keyvault resource id for kek encryption key. '
+    types:
+    - uid: string
+- name: IdentityType
+  description: The type of identity
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
 - name: DriveState
   description: "The drive's current state. "
   kind: enum
@@ -400,19 +529,37 @@ definitions:
   - name: ShippedBack
     types:
     - uid: string
+- name: EncryptionKekType
+  description: The type of kek encryption key
+  kind: enum
+  properties:
+  - name: MicrosoftManaged
+    types:
+    - uid: string
+  - name: CustomerManaged
+    types:
+    - uid: string
 examples:
-- name: Get job
+- name: Get import job
   request:
-    uri: GET https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ImportExport/jobs/myJob?api-version=2016-11-01
+    uri: GET https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ImportExport/jobs/myJob?api-version=2020-08-01
   responses:
   - statusCode: "200"
     body: >-
       {
+        "systemData": {
+          "createdBy": "string",
+          "createdByType": "User",
+          "createdAt": "2020-02-03T01:01:01.1075056Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-02-04T02:03:01.1974346Z"
+        },
         "properties": {
           "storageAccountId": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ClassicStorage/storageAccounts/test",
           "jobType": "Import",
           "returnAddress": {
-            "recipientName": "Tets",
+            "recipientName": "Test",
             "streetAddress1": "Street1",
             "streetAddress2": "street2",
             "city": "Redmond",
@@ -422,6 +569,10 @@ examples:
             "phone": "4250000000",
             "email": "Test@contoso.com"
           },
+          "returnShipping": {
+            "carrierName": "FedEx",
+            "carrierAccountNumber": "989ffff"
+          },
           "shippingInformation": {
             "recipientName": "Microsoft Azure Import/Export Service",
             "streetAddress1": "2045 Lafayette Street",
@@ -430,7 +581,8 @@ examples:
             "stateOrProvince": "CA",
             "postalCode": "95050",
             "countryOrRegion": "USA",
-            "phone": "408 0000 0000"
+            "phone": "408 0000 0000",
+            "additionalInformation": ""
           },
           "diagnosticsPath": "waimportexport",
           "logLevel": "Verbose",
@@ -446,7 +598,83 @@ examples:
               "state": "Specified"
             }
           ],
-          "provisioningState": "Succeeded"
+          "provisioningState": "Succeeded",
+          "encryptionKey": {
+            "kekType": "MicrosoftManaged"
+          }
+        },
+        "identity": {
+          "type": "None"
+        },
+        "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ImportExport/jobs/test",
+        "name": "myJob",
+        "type": "Microsoft.ImportExport/jobs",
+        "location": "West US"
+      }
+- name: Get export job
+  request:
+    uri: GET https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ImportExport/jobs/myJob?api-version=2020-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "systemData": {
+          "createdBy": "string",
+          "createdByType": "User",
+          "createdAt": "2020-02-03T01:01:01.1075056Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-02-04T02:03:01.1974346Z"
+        },
+        "properties": {
+          "storageAccountId": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ClassicStorage/storageAccounts/test",
+          "jobType": "Export",
+          "returnAddress": {
+            "recipientName": "Test",
+            "streetAddress1": "Street1",
+            "streetAddress2": "street2",
+            "city": "Redmond",
+            "stateOrProvince": "wa",
+            "postalCode": "98007",
+            "countryOrRegion": "USA",
+            "phone": "4250000000",
+            "email": "Test@contoso.com"
+          },
+          "returnShipping": {
+            "carrierName": "FedEx",
+            "carrierAccountNumber": "989ffff"
+          },
+          "shippingInformation": {
+            "recipientName": "Microsoft Azure Import/Export Service",
+            "streetAddress1": "2045 Lafayette Street",
+            "streetAddress2": "",
+            "city": "Santa Clara",
+            "stateOrProvince": "CA",
+            "postalCode": "95050",
+            "countryOrRegion": "USA",
+            "phone": "408 0000 0000",
+            "additionalInformation": ""
+          },
+          "diagnosticsPath": "waimportexport",
+          "logLevel": "Verbose",
+          "backupDriveManifest": true,
+          "cancelRequested": false,
+          "state": "Creating",
+          "driveList": [],
+          "export": {
+            "blobList": {
+              "blobPathPrefix": [
+                "/"
+              ]
+            }
+          },
+          "provisioningState": "Succeeded",
+          "encryptionKey": {
+            "kekType": "MicrosoftManaged"
+          }
+        },
+        "identity": {
+          "type": "None"
         },
         "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ImportExport/jobs/test",
         "name": "myJob",
@@ -462,4 +690,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Storage Import-Export service - Gets information about an existing job.
 errorCodes: []

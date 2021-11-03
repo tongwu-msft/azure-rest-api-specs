@@ -1,23 +1,15 @@
 ---
 title: "Delete Synonym Map (Azure Cognitive Search REST API)"
 description: "A synonym map can be deleted using REST API in Azure Cognitive Search."
-ms.date: 01/30/2020
+ms.date: 06/30/2020
+
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: nitinme
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
 ---
 # Delete Synonym Map (Azure Cognitive Search REST API)
 
@@ -37,7 +29,7 @@ If you delete a synonym map that is referenced on a field in an index, the delet
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | synonym map name  | Required. The request URI specifies the name of the synonym map to delete.   |
-| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current stable version is `api-version=2020-06-30`. See [API versions](search-service-api-versions.md) for more versions.|
 
 ## Request Headers 
 
@@ -46,9 +38,7 @@ The following table describes the required and optional request headers.
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to `application/json`|  
-|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Delete requests must include an api-key field set to your admin key (as opposed to a query key).|  
-
-You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys). 
+|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Delete requests must include an api-key field set to your admin key (as opposed to a query key). You can [find the API key](/azure/search/search-security-api-keys#find-existing-keys) in your search service dashboard in the Azure portal.|  
 
 ## Request Body  
  None.  
@@ -57,7 +47,8 @@ You can get the api-key value from your service dashboard in the Azure portal. F
  Status Code: 204 No Content is returned for a successful response.  
 
 ## See also  
- [Azure Cognitive Search REST APIs](index.md)   
- [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
- [Synonym map operations &#40;Azure Cognitive Search REST API&#41;](synonym-map-operations.md)   
- [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md)  
+
++ [Azure Cognitive Search REST APIs](index.md)   
++ [HTTP status codes](http-status-codes.md)   
++ [Synonym map operations](synonym-map-operations.md)   
++ [Naming rules](naming-rules.md)  

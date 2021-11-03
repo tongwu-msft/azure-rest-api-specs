@@ -1,0 +1,533 @@
+### YamlMime:RESTOperation
+uid: personalizer.v1.1-preview.1.personalizer.1.1preview1.multislot.rank
+name: Rank
+service: Cognitive Services - Personalizer
+groupName: Multi Slot
+apiVersion: v1.1-preview.1
+summary: "Post multi-slot Rank.  \nSubmit a Personalizer multi-slot rank request. Receives a context, a list of actions, and a list of slots. Returns which of the provided actions should be used in each slot, in each rewardActionId."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/personalizer/v1.1-preview.1/multislot/rank
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Supported Cognitive Services endpoint.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Success
+  types:
+  - uid: MultiSlotRankResponse
+- name: Other Status Codes
+  description: Invalid request.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: contextFeatures
+    in: body
+    description: >-
+      Features of the context used for Personalizer as a
+
+      dictionary of dictionaries. This is determined by your application, and
+
+      typically includes features about the current user, their
+
+      device, profile information, aggregated data about time and date, etc.
+
+      Features should not include personally identifiable information (PII),
+
+      unique UserIDs, or precise timestamps.
+    types:
+    - uid: object
+      isArray: true
+  - name: actions
+    in: body
+    isRequired: true
+    description: >-
+      The set of actions the Personalizer service can pick from.
+
+      The set should not contain more than 50 actions.
+
+      The order of the actions does not affect the rank result but the order
+
+      should match the sequence your application would have used to display them.
+
+      The first item in the array will be used as Baseline item in Offline Evaluations.
+    types:
+    - uid: RankableAction
+      isArray: true
+  - name: slots
+    in: body
+    isRequired: true
+    description: >-
+      The set of slots the Personalizer service should select actions for.
+
+      The set should not contain more than 50 slots.
+    types:
+    - uid: SlotRequest
+      isArray: true
+  - name: eventId
+    in: body
+    description: >-
+      Optionally pass an eventId that uniquely identifies this Rank event.
+
+      If null, the service generates a unique eventId. The eventId will be used for
+
+      associating this request with its reward, as well as seeding the pseudo-random
+
+      generator when making a Personalizer call.
+    types:
+    - uid: string
+  - name: deferActivation
+    in: body
+    description: >-
+      Send false if it is certain the rewardActionId in rank results will be shown to the user, therefore
+
+      Personalizer will expect a Reward call, otherwise it will assign the default
+
+      Reward to the event. Send true if it is possible the user will not see the action specified in the rank results,
+
+      (e.g. because the page is rendering later, or the Rank results may be overridden by code further downstream).
+
+      You must call the Activate Event API if the event output is shown to users, otherwise Rewards will be ignored.
+    types:
+    - uid: boolean
+requestHeader: []
+definitions:
+- name: RankableAction
+  description: An action with its associated features used for ranking.
+  kind: object
+  properties:
+  - name: id
+    description: Id of the action.
+    types:
+    - uid: string
+  - name: features
+    description: List of dictionaries containing features.
+    types:
+    - uid: object
+      isArray: true
+- name: SlotRequest
+  description: A slot with it's associated features and list of excluded actions
+  kind: object
+  properties:
+  - name: id
+    description: Slot ID
+    types:
+    - uid: string
+  - name: features
+    description: List of dictionaries containing slot features.
+    types:
+    - uid: object
+      isArray: true
+  - name: excludedActions
+    description: List of excluded action Ids.
+    types:
+    - uid: string
+      isArray: true
+  - name: baselineAction
+    description: >-
+      The 'baseline action' ID for the slot.
+
+      The BaselineAction is the Id of the Action your application would use in that slot if Personalizer didn't exist.
+
+      BaselineAction must be defined for every slot.
+
+      BaselineAction should never be part of ExcludedActions.
+
+      Each slot must have a unique BaselineAction which corresponds to an an action from the event's Actions list.
+    types:
+    - uid: string
+- name: MultiSlotRankResponse
+  kind: object
+  properties:
+  - name: slots
+    isReadyOnly: true
+    description: Each slot has a corresponding rewardActionID which is the action ID recommended by Personalizer.
+    types:
+    - uid: SlotResponse
+      isArray: true
+  - name: eventId
+    isReadyOnly: true
+    description: The eventId for the round trip from request to response.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Used to return an error to the client
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: PersonalizerError
+- name: MultiSlotRankRequest
+  kind: object
+  properties:
+  - name: contextFeatures
+    description: >-
+      Features of the context used for Personalizer as a
+
+      dictionary of dictionaries. This is determined by your application, and
+
+      typically includes features about the current user, their
+
+      device, profile information, aggregated data about time and date, etc.
+
+      Features should not include personally identifiable information (PII),
+
+      unique UserIDs, or precise timestamps.
+    types:
+    - uid: object
+      isArray: true
+  - name: actions
+    description: >-
+      The set of actions the Personalizer service can pick from.
+
+      The set should not contain more than 50 actions.
+
+      The order of the actions does not affect the rank result but the order
+
+      should match the sequence your application would have used to display them.
+
+      The first item in the array will be used as Baseline item in Offline Evaluations.
+    types:
+    - uid: RankableAction
+      isArray: true
+  - name: slots
+    description: >-
+      The set of slots the Personalizer service should select actions for.
+
+      The set should not contain more than 50 slots.
+    types:
+    - uid: SlotRequest
+      isArray: true
+  - name: eventId
+    description: >-
+      Optionally pass an eventId that uniquely identifies this Rank event.
+
+      If null, the service generates a unique eventId. The eventId will be used for
+
+      associating this request with its reward, as well as seeding the pseudo-random
+
+      generator when making a Personalizer call.
+    types:
+    - uid: string
+  - name: deferActivation
+    description: >-
+      Send false if it is certain the rewardActionId in rank results will be shown to the user, therefore
+
+      Personalizer will expect a Reward call, otherwise it will assign the default
+
+      Reward to the event. Send true if it is possible the user will not see the action specified in the rank results,
+
+      (e.g. because the page is rendering later, or the Rank results may be overridden by code further downstream).
+
+      You must call the Activate Event API if the event output is shown to users, otherwise Rewards will be ignored.
+    types:
+    - uid: boolean
+- name: SlotResponse
+  kind: object
+  properties:
+  - name: id
+    description: Id is the slot ID.
+    types:
+    - uid: string
+  - name: rewardActionId
+    isReadyOnly: true
+    description: RewardActionID is the action ID recommended by Personalizer.
+    types:
+    - uid: string
+- name: PersonalizerError
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: Error Codes returned by Personalizer
+    types:
+    - uid: PersonalizerErrorCode
+  - name: message
+    description: A message explaining the error reported by the service.
+    types:
+    - uid: string
+  - name: target
+    description: Error source element.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: PersonalizerError
+      isArray: true
+  - name: innerError
+    description: An object containing more specific information than the parent object about the error.
+    types:
+    - uid: InternalError
+- name: PersonalizerErrorCode
+  description: Error Codes returned by Personalizer
+  kind: enum
+  properties:
+  - name: BadRequest
+    description: Request could not be understood by the server.
+    types:
+    - uid: string
+  - name: InvalidServiceConfiguration
+    description: Invalid service configuration.
+    types:
+    - uid: string
+  - name: InvalidLearningModeServiceConfiguration
+    description: Updating defaultReward, rewardWaitTime and rewardAggregation when changing learning mode from Online to Apprentice mode and vice versa is not allowed. Make the mode change and then change the additional settings with an additional API call.
+    types:
+    - uid: string
+  - name: InvalidPolicyConfiguration
+    description: Invalid policy configuration.
+    types:
+    - uid: string
+  - name: InvalidPolicyContract
+    description: Invalid policy contract.
+    types:
+    - uid: string
+  - name: InvalidEvaluationContract
+    description: Invalid evaluation contract.
+    types:
+    - uid: string
+  - name: DuplicateCustomPolicyNames
+    description: Custom policy names should be unique.
+    types:
+    - uid: string
+  - name: NoLogsExistInDateRange
+    description: No logs exist in date range.
+    types:
+    - uid: string
+  - name: LogsSizeExceedAllowedLimit
+    description: Total size of logs exceed allowed limit.
+    types:
+    - uid: string
+  - name: InvalidRewardRequest
+    description: Invalid reward request.
+    types:
+    - uid: string
+  - name: InvalidEventIdToActivate
+    description: Invalid activate event request.
+    types:
+    - uid: string
+  - name: InvalidRankRequest
+    description: Invalid request.
+    types:
+    - uid: string
+  - name: InvalidExportLogsRequest
+    description: Invalid request.
+    types:
+    - uid: string
+  - name: InvalidContainer
+    description: SAS Uri must be the Uri to a container that has write permissions.
+    types:
+    - uid: string
+  - name: InvalidModelMetadata
+    description: Invalid model metadata.
+    types:
+    - uid: string
+  - name: ApprenticeModeNeverTurnedOn
+    description: Apprentice mode never turned on.
+    types:
+    - uid: string
+  - name: MissingAppId
+    description: AppId is missing in the header.
+    types:
+    - uid: string
+  - name: InvalidRewardWaitTime
+    description: Reward wait time should be between 5 seconds and 2 days
+    types:
+    - uid: string
+  - name: InvalidMultiSlotApiAccess
+    description: Multi-slot feature is currently disabled. Please follow multi-slot Personalizer documentation to update your loop settings to enable multi-slot functionality.
+    types:
+    - uid: string
+  - name: ModelFileAccessDenied
+    description: Key vault Key used for customer managed key cannot be accessed.
+    types:
+    - uid: string
+  - name: ProblemTypeIncompatibleWithAutoOptimization
+    description: Auto-optimization is not compatible with multi-slot personalization.
+    types:
+    - uid: string
+  - name: ResourceNotFound
+    description: Requested resource does not exist on the server.
+    types:
+    - uid: string
+  - name: FrontEndNotFound
+    description: Front end not found.
+    types:
+    - uid: string
+  - name: EvaluationNotFound
+    description: Offline Evaluation not found.
+    types:
+    - uid: string
+  - name: LearningSettingsNotFound
+    description: Learning Settings not found in evaluation.
+    types:
+    - uid: string
+  - name: EvaluationModelNotFound
+    description: Model not found in evaluation.
+    types:
+    - uid: string
+  - name: LogsPropertiesNotFound
+    description: Log properties not found.
+    types:
+    - uid: string
+  - name: ModelRankingError
+    description: Error while ranking actions using model. Please verify the learning settings are valid.
+    types:
+    - uid: string
+  - name: InternalServerError
+    description: A generic error has occurred on the server.
+    types:
+    - uid: string
+  - name: RankNullResponse
+    description: Rank call returned null response.
+    types:
+    - uid: string
+  - name: UpdateConfigurationFailed
+    description: Failed to update configuration.
+    types:
+    - uid: string
+  - name: ModelResetFailed
+    description: Model reset failed.
+    types:
+    - uid: string
+  - name: ModelPublishFailed
+    description: Model publish failed.
+    types:
+    - uid: string
+  - name: ModelMetadataUpdateFailed
+    description: Model metadata update failed.
+    types:
+    - uid: string
+  - name: OperationNotAllowed
+    description: This operation is not allowed at this time.
+    types:
+    - uid: string
+- name: InternalError
+  description: An object containing more specific information than the parent object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: Detailed error code.
+    types:
+    - uid: string
+  - name: innererror
+    description: An object containing more specific information than the parent object about the error.
+    types:
+    - uid: InternalError
+examples:
+- name: Successful MultiSlot_Rank request
+  request:
+    uri: POST {Endpoint}/personalizer/v1.1-preview.1/multislot/rank
+    body: >-
+      {
+        "contextFeatures": [
+          {
+            "user": {
+              "profileType": "AnonymousUser",
+              "latLong": "47.6,-122.1"
+            }
+          },
+          {
+            "environment": {
+              "dayOfMonth": "28",
+              "monthOfYear": "8",
+              "weather": "Sunny"
+            }
+          },
+          {
+            "device": {
+              "mobile": true,
+              "windows": true
+            }
+          },
+          {
+            "recentActivity": {
+              "itemsInCart": 3
+            }
+          }
+        ],
+        "actions": [
+          {
+            "id": "NewsArticle",
+            "features": [
+              {
+                "type": "News"
+              }
+            ]
+          },
+          {
+            "id": "SportsArticle",
+            "features": [
+              {
+                "type": "Sports"
+              }
+            ]
+          },
+          {
+            "id": "EntertainmentArticle",
+            "features": [
+              {
+                "type": "Entertainment"
+              }
+            ]
+          }
+        ],
+        "slots": [
+          {
+            "id": "Main Article",
+            "features": [
+              {
+                "size": "Large",
+                "position": "Top Middle"
+              }
+            ],
+            "excludedActions": [
+              "SportsArticle"
+            ],
+            "baselineAction": "EntertainmentArticle"
+          },
+          {
+            "id": "Side Bar",
+            "features": [
+              {
+                "size": "Small"
+              }
+            ],
+            "baselineAction": "NewsArticle"
+          }
+        ],
+        "eventId": "75269AD0-BFEE-4598-8196-C57383D38E10",
+        "deferActivation": false
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "slots": [
+          {
+            "id": "Main Article",
+            "rewardActionId": "EntertainmentArticle"
+          },
+          {
+            "id": "Side Bar",
+            "rewardActionId": "SportsArticle"
+          }
+        ],
+        "eventId": "75269AD0-BFEE-4598-8196-C57383D38E10"
+      }
+security: []
+metadata:
+  description: "Post multi-slot Rank.  \nSubmit a Personalizer multi-slot rank request. Receives a context, a list of actions, and a list of slots."
+errorCodes: []

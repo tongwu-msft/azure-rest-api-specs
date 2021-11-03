@@ -1,0 +1,426 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices-textanalytics.3.0.entitiesrecognitiongeneral.entitiesrecognitiongeneral
+name: Entities Recognition General
+service: Cognitive Services - Text Analytics
+groupName: Entities Recognition General
+apiVersion: v3.0
+summary: "Named Entity Recognition  \nThe API returns a list of general named entities in a given document. For the list of supported entity types, check <a href=\"https://aka.ms/taner\">Supported Entity Types in Text Analytics API</a>. See the <a href=\"https://aka.ms/talangs\">Supported languages in Text Analytics API</a> for the list of enabled languages."
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST {Endpoint}/text/analytics/v3.0/entities/recognition/general
+- content: POST {Endpoint}/text/analytics/v3.0/entities/recognition/general?model-version={model-version}&showStats={showStats}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: model-version
+  in: query
+  description: '(Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. '
+  types:
+  - uid: string
+- name: showStats
+  in: query
+  description: (Optional) if set to true, response will contain input and document level statistics.
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: A successful call results in a list of recognized entities returned for each valid document.
+  types:
+  - uid: EntitiesResult
+- name: Other Status Codes
+  description: Error Response
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: documents
+    in: body
+    isRequired: true
+    description: The set of documents to process as part of this batch.
+    types:
+    - uid: MultiLanguageInput
+      isArray: true
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: MultiLanguageInput
+  description: Contains an input document to be analyzed by the service.
+  kind: object
+  properties:
+  - name: id
+    description: A unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: text
+    description: The input text to process.
+    types:
+    - uid: string
+  - name: language
+    description: (Optional) This is the 2 letter ISO 639-1 representation of a language. For example, use "en" for English; "es" for Spanish etc. If not set, use "en" for English as default.
+    types:
+    - uid: string
+- name: EntitiesResult
+  kind: object
+  properties:
+  - name: documents
+    description: Response by document
+    types:
+    - uid: DocumentEntities
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: Document Error.
+    types:
+    - uid: TextAnalyticsError
+- name: MultiLanguageBatchInput
+  description: Contains a set of input documents to be analyzed by the service.
+  kind: object
+  properties:
+  - name: documents
+    description: The set of documents to process as part of this batch.
+    types:
+    - uid: MultiLanguageInput
+      isArray: true
+- name: DocumentEntities
+  kind: object
+  properties:
+  - name: id
+    description: Unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: entities
+    description: Recognized entities in the document.
+    types:
+    - uid: Entity
+      isArray: true
+  - name: warnings
+    description: Warnings encountered while processing document.
+    types:
+    - uid: TextAnalyticsWarning
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the document payload.
+    types:
+    - uid: DocumentStatistics
+- name: DocumentError
+  kind: object
+  properties:
+  - name: id
+    description: Document Id.
+    types:
+    - uid: string
+  - name: error
+    description: Document Error.
+    types:
+    - uid: TextAnalyticsError
+- name: RequestStatistics
+  description: if showStats=true was specified in the request this field will contain information about the request payload.
+  kind: object
+  properties:
+  - name: documentsCount
+    description: Number of documents submitted in the request.
+    types:
+    - uid: integer
+  - name: validDocumentsCount
+    description: Number of valid documents. This excludes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: erroneousDocumentsCount
+    description: Number of invalid documents. This includes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: transactionsCount
+    description: Number of transactions for the request.
+    types:
+    - uid: integer
+- name: TextAnalyticsError
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: ErrorCodeValue
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: Inner error contains more specific information.
+    types:
+    - uid: InnerError
+  - name: details
+    description: Details about specific errors that led to this reported error.
+    types:
+    - uid: TextAnalyticsError
+      isArray: true
+- name: Entity
+  kind: object
+  properties:
+  - name: text
+    description: Entity text as appears in the request.
+    types:
+    - uid: string
+  - name: category
+    description: Entity type, such as Person/Location/Org/SSN etc
+    types:
+    - uid: string
+  - name: subcategory
+    description: Entity sub type, such as Age/Year/TimeRange etc
+    types:
+    - uid: string
+  - name: offset
+    description: Start position (in Unicode characters) for the entity text.
+    types:
+    - uid: integer
+  - name: length
+    description: Length (in Unicode characters) for the entity text.
+    types:
+    - uid: integer
+  - name: confidenceScore
+    description: Confidence score between 0 and 1 of the extracted entity.
+    types:
+    - uid: number
+- name: TextAnalyticsWarning
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: WarningCodeValue
+  - name: message
+    description: Warning message.
+    types:
+    - uid: string
+  - name: targetRef
+    description: A JSON pointer reference indicating the target object.
+    types:
+    - uid: string
+- name: DocumentStatistics
+  description: if showStats=true was specified in the request this field will contain information about the document payload.
+  kind: object
+  properties:
+  - name: charactersCount
+    description: Number of text elements recognized in the document.
+    types:
+    - uid: integer
+  - name: transactionsCount
+    description: Number of transactions for the document.
+    types:
+    - uid: integer
+- name: ErrorCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: invalidRequest
+    types:
+    - uid: string
+  - name: invalidArgument
+    types:
+    - uid: string
+  - name: internalServerError
+    types:
+    - uid: string
+  - name: serviceUnavailable
+    types:
+    - uid: string
+- name: InnerError
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: InnerErrorCodeValue
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: Inner error contains more specific information.
+    types:
+    - uid: InnerError
+- name: WarningCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: LongWordsInDocument
+    types:
+    - uid: string
+  - name: DocumentTruncated
+    types:
+    - uid: string
+- name: InnerErrorCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: invalidParameterValue
+    types:
+    - uid: string
+  - name: invalidRequestBodyFormat
+    types:
+    - uid: string
+  - name: emptyRequest
+    types:
+    - uid: string
+  - name: missingInputRecords
+    types:
+    - uid: string
+  - name: invalidDocument
+    types:
+    - uid: string
+  - name: modelVersionIncorrect
+    types:
+    - uid: string
+  - name: invalidDocumentBatch
+    types:
+    - uid: string
+  - name: unsupportedLanguageCode
+    types:
+    - uid: string
+  - name: invalidCountryHint
+    types:
+    - uid: string
+examples:
+- name: Successful Entities request
+  request:
+    uri: POST {Endpoint}/text/analytics/v3.0/entities/recognition/general
+    body: >-
+      {
+        "documents": [
+          {
+            "language": "en",
+            "id": "1",
+            "text": "I had a wonderful trip to Seattle last week."
+          },
+          {
+            "language": "en",
+            "id": "2",
+            "text": "I work at Microsoft."
+          },
+          {
+            "language": "en",
+            "id": "3",
+            "text": "I visited Space Needle 2 times."
+          }
+        ]
+      }
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "documents": [
+          {
+            "id": "1",
+            "entities": [
+              {
+                "text": "Seattle",
+                "category": "Location",
+                "offset": 26,
+                "length": 7,
+                "confidenceScore": 0.8
+              },
+              {
+                "text": "last week",
+                "category": "DateTime",
+                "subcategory": "DateRange",
+                "offset": 34,
+                "length": 9,
+                "confidenceScore": 0.8
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "2",
+            "entities": [
+              {
+                "text": "Microsoft",
+                "category": "Organization",
+                "offset": 10,
+                "length": 9,
+                "confidenceScore": 0.99
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "3",
+            "entities": [
+              {
+                "text": "Space Needle",
+                "category": "Organization",
+                "offset": 10,
+                "length": 12,
+                "confidenceScore": 0.75
+              },
+              {
+                "text": "2",
+                "category": "Quantity",
+                "subcategory": "Number",
+                "offset": 23,
+                "length": 1,
+                "confidenceScore": 0.8
+              }
+            ],
+            "warnings": []
+          }
+        ],
+        "errors": [],
+        "modelVersion": "2020-04-01"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+metadata:
+  description: "Named Entity Recognition  \nThe API returns a list of general named entities in a given document. For the list of supported entity types, check <a href=\"https://aka."
+errorCodes: []

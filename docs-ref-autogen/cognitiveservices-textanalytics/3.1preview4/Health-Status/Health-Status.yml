@@ -1,0 +1,773 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices-textanalytics.3.1preview4.healthstatus.healthstatus
+name: Health Status
+service: Cognitive Services - Text Analytics
+groupName: Health Status
+apiVersion: v3.1-preview.4
+summary: "Get healthcare analysis job status and results  \nGet details of the healthcare prediction job specified by the jobId."
+produces:
+- application/json
+- text/json
+paths:
+- content: GET {Endpoint}/text/analytics/v3.1-preview.4/entities/health/jobs/{jobId}
+- content: GET {Endpoint}/text/analytics/v3.1-preview.4/entities/health/jobs/{jobId}?$top={$top}&$skip={$skip}&showStats={showStats}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: jobId
+  in: path
+  isRequired: true
+  description: Job ID
+  types:
+  - uid: string
+  format: uuid
+- name: $top
+  in: query
+  description: (Optional) Set the maximum number of results per task. When both $top and $skip are specified, $skip is applied first.
+  types:
+  - uid: integer
+- name: $skip
+  in: query
+  description: (Optional) Set the number of elements to offset in the response. When both $top and $skip are specified, $skip is applied first.
+  types:
+  - uid: integer
+- name: showStats
+  in: query
+  description: (Optional) if set to true, response will contain request and document level statistics.
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: HealthcareJobState
+- name: 404 Not Found
+  description: Job ID not found.
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: Internal error response
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: HealthcareJobState
+  kind: object
+  properties:
+  - name: createdDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: expirationDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: jobId
+    description: ''
+    types:
+    - uid: string
+  - name: lastUpdateDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: State
+  - name: results
+    description: ''
+    types:
+    - uid: HealthcareResult
+  - name: errors
+    description: ''
+    types:
+    - uid: TextAnalyticsError
+      isArray: true
+  - name: '@nextLink'
+    description: ''
+    types:
+    - uid: string
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: Document Error.
+    types:
+    - uid: TextAnalyticsError
+- name: State
+  kind: enum
+  properties:
+  - name: notStarted
+    types:
+    - uid: string
+  - name: running
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+  - name: cancelled
+    types:
+    - uid: string
+  - name: cancelling
+    types:
+    - uid: string
+  - name: partiallyCompleted
+    types:
+    - uid: string
+- name: HealthcareResult
+  kind: object
+  properties:
+  - name: documents
+    description: Response by document
+    types:
+    - uid: DocumentHealthcareEntities
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: TextAnalyticsError
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: ErrorCodeValue
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: Inner error contains more specific information.
+    types:
+    - uid: InnerError
+  - name: details
+    description: Details about specific errors that led to this reported error.
+    types:
+    - uid: TextAnalyticsError
+      isArray: true
+- name: DocumentHealthcareEntities
+  kind: object
+  properties:
+  - name: id
+    description: Unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: entities
+    description: Healthcare entities.
+    types:
+    - uid: HealthcareEntity
+      isArray: true
+  - name: relations
+    description: Healthcare entity relations.
+    types:
+    - uid: HealthcareRelation
+      isArray: true
+  - name: warnings
+    description: Warnings encountered while processing document.
+    types:
+    - uid: TextAnalyticsWarning
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the document payload.
+    types:
+    - uid: DocumentStatistics
+- name: DocumentError
+  kind: object
+  properties:
+  - name: id
+    description: Document Id.
+    types:
+    - uid: string
+  - name: error
+    description: Document Error.
+    types:
+    - uid: TextAnalyticsError
+- name: RequestStatistics
+  description: if showStats=true was specified in the request this field will contain information about the request payload.
+  kind: object
+  properties:
+  - name: documentsCount
+    description: Number of documents submitted in the request.
+    types:
+    - uid: integer
+  - name: validDocumentsCount
+    description: Number of valid documents. This excludes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: erroneousDocumentsCount
+    description: Number of invalid documents. This includes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: transactionsCount
+    description: Number of transactions for the request.
+    types:
+    - uid: integer
+- name: ErrorCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidArgument
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: ServiceUnavailable
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+- name: InnerError
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: InnerErrorCodeValue
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: Inner error contains more specific information.
+    types:
+    - uid: InnerError
+- name: HealthcareEntity
+  kind: object
+  properties:
+  - name: text
+    description: Entity text as appears in the request.
+    types:
+    - uid: string
+  - name: category
+    description: Entity type.
+    types:
+    - uid: string
+  - name: subcategory
+    description: (Optional) Entity sub type.
+    types:
+    - uid: string
+  - name: offset
+    description: Start position for the entity text. Use of different 'stringIndexType' values can affect the offset returned.
+    types:
+    - uid: integer
+  - name: length
+    description: Length for the entity text. Use of different 'stringIndexType' values can affect the length returned.
+    types:
+    - uid: integer
+  - name: confidenceScore
+    description: Confidence score between 0 and 1 of the extracted entity.
+    types:
+    - uid: number
+  - name: assertion
+    description: ''
+    types:
+    - uid: HealthcareAssertion
+  - name: name
+    description: "Preferred name for the entity. Example: 'histologically' would have a 'name' of 'histologic'."
+    types:
+    - uid: string
+  - name: links
+    description: Entity references in known data sources.
+    types:
+    - uid: HealthcareEntityLink
+      isArray: true
+- name: HealthcareRelation
+  description: Every relation is an entity graph of a certain relationType, where all entities are connected and have specific roles within the relation context.
+  kind: object
+  properties:
+  - name: relationType
+    description: "Type of relation. Examples include: `DosageOfMedication` or 'FrequencyOfMedication', etc."
+    types:
+    - uid: relationType
+  - name: entities
+    description: The entities in the relation.
+    types:
+    - uid: HealthcareRelationEntity
+      isArray: true
+- name: TextAnalyticsWarning
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: WarningCodeValue
+  - name: message
+    description: Warning message.
+    types:
+    - uid: string
+  - name: targetRef
+    description: A JSON pointer reference indicating the target object.
+    types:
+    - uid: string
+- name: DocumentStatistics
+  description: if showStats=true was specified in the request this field will contain information about the document payload.
+  kind: object
+  properties:
+  - name: charactersCount
+    description: Number of text elements recognized in the document.
+    types:
+    - uid: integer
+  - name: transactionsCount
+    description: Number of transactions for the document.
+    types:
+    - uid: integer
+- name: InnerErrorCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: InvalidParameterValue
+    types:
+    - uid: string
+  - name: InvalidRequestBodyFormat
+    types:
+    - uid: string
+  - name: EmptyRequest
+    types:
+    - uid: string
+  - name: MissingInputRecords
+    types:
+    - uid: string
+  - name: InvalidDocument
+    types:
+    - uid: string
+  - name: ModelVersionIncorrect
+    types:
+    - uid: string
+  - name: InvalidDocumentBatch
+    types:
+    - uid: string
+  - name: UnsupportedLanguageCode
+    types:
+    - uid: string
+  - name: InvalidCountryHint
+    types:
+    - uid: string
+- name: HealthcareAssertion
+  kind: object
+  properties:
+  - name: conditionality
+    description: Describes any conditionality on the entity.
+    types:
+    - uid: Conditionality
+  - name: certainty
+    description: Describes the entities certainty and polarity.
+    types:
+    - uid: Certainty
+  - name: association
+    description: Describes if the entity is the subject of the text or if it describes someone else.
+    types:
+    - uid: Association
+- name: HealthcareEntityLink
+  kind: object
+  properties:
+  - name: dataSource
+    description: 'Entity Catalog. Examples include: UMLS, CHV, MSH, etc.'
+    types:
+    - uid: string
+  - name: id
+    description: Entity id in the given source catalog.
+    types:
+    - uid: string
+- name: relationType
+  description: "Type of relation. Examples include: `DosageOfMedication` or 'FrequencyOfMedication', etc."
+  kind: enum
+  properties:
+  - name: Abbreviation
+    types:
+    - uid: string
+  - name: DirectionOfBodyStructure
+    types:
+    - uid: string
+  - name: DirectionOfCondition
+    types:
+    - uid: string
+  - name: DirectionOfExamination
+    types:
+    - uid: string
+  - name: DirectionOfTreatment
+    types:
+    - uid: string
+  - name: DosageOfMedication
+    types:
+    - uid: string
+  - name: FormOfMedication
+    types:
+    - uid: string
+  - name: FrequencyOfMedication
+    types:
+    - uid: string
+  - name: FrequencyOfTreatment
+    types:
+    - uid: string
+  - name: QualifierOfCondition
+    types:
+    - uid: string
+  - name: RelationOfExamination
+    types:
+    - uid: string
+  - name: RouteOfMedication
+    types:
+    - uid: string
+  - name: TimeOfCondition
+    types:
+    - uid: string
+  - name: TimeOfEvent
+    types:
+    - uid: string
+  - name: TimeOfExamination
+    types:
+    - uid: string
+  - name: TimeOfMedication
+    types:
+    - uid: string
+  - name: TimeOfTreatment
+    types:
+    - uid: string
+  - name: UnitOfCondition
+    types:
+    - uid: string
+  - name: UnitOfExamination
+    types:
+    - uid: string
+  - name: ValueOfCondition
+    types:
+    - uid: string
+  - name: ValueOfExamination
+    types:
+    - uid: string
+- name: HealthcareRelationEntity
+  kind: object
+  properties:
+  - name: ref
+    description: Reference link object, using a JSON pointer RFC 6901 (URI Fragment Identifier Representation), pointing to the entity .
+    types:
+    - uid: string
+  - name: role
+    description: "Role of entity in the relationship. For example: 'CD20-positive diffuse large B-cell lymphoma' has the following entities with their roles in parenthesis:  CD20 (GeneOrProtein), Positive (Expression), diffuse large B-cell lymphoma (Diagnosis)."
+    types:
+    - uid: string
+- name: WarningCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: LongWordsInDocument
+    types:
+    - uid: string
+  - name: DocumentTruncated
+    types:
+    - uid: string
+- name: Conditionality
+  description: Describes any conditionality on the entity.
+  kind: enum
+  properties:
+  - name: hypothetical
+    types:
+    - uid: string
+  - name: conditional
+    types:
+    - uid: string
+- name: Certainty
+  description: Describes the entities certainty and polarity.
+  kind: enum
+  properties:
+  - name: positive
+    types:
+    - uid: string
+  - name: positivePossible
+    types:
+    - uid: string
+  - name: neutralPossible
+    types:
+    - uid: string
+  - name: negativePossible
+    types:
+    - uid: string
+  - name: negative
+    types:
+    - uid: string
+- name: Association
+  description: Describes if the entity is the subject of the text or if it describes someone else.
+  kind: enum
+  properties:
+  - name: subject
+    types:
+    - uid: string
+  - name: other
+    types:
+    - uid: string
+examples:
+- name: Successful Health request
+  request:
+    uri: GET {Endpoint}/text/analytics/v3.1-preview.4/entities/health/jobs/{Job ID}
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "createdDateTime": "2020-10-01T15:01:03Z",
+        "expirationDateTime": "2020-10-03T15:01:03Z",
+        "jobId": "c0f2a446-05d9-48fc-ba8f-3ef4af8d0b18",
+        "lastUpdateDateTime": "2020-10-01T15:01:03Z",
+        "status": "succeeded",
+        "results": {
+          "documents": [
+            {
+              "id": "1",
+              "entities": [
+                {
+                  "offset": 18,
+                  "length": 5,
+                  "text": "100mg",
+                  "category": "Dosage",
+                  "confidenceScore": 0.99
+                },
+                {
+                  "offset": 27,
+                  "length": 9,
+                  "text": "ibuprofen",
+                  "category": "MedicationName",
+                  "confidenceScore": 1,
+                  "assertion": {
+                    "certainty": "positive"
+                  },
+                  "links": [
+                    {
+                      "id": "C0020740",
+                      "dataSource": "UMLS"
+                    },
+                    {
+                      "id": "0000019879",
+                      "dataSource": "AOD"
+                    },
+                    {
+                      "id": "M01AE01",
+                      "dataSource": "ATC"
+                    },
+                    {
+                      "id": "0046165",
+                      "dataSource": "CCPSS"
+                    },
+                    {
+                      "id": "0000006519",
+                      "dataSource": "CHV"
+                    },
+                    {
+                      "id": "2270-2077",
+                      "dataSource": "CSP"
+                    },
+                    {
+                      "id": "DB01050",
+                      "dataSource": "DRUGBANK"
+                    },
+                    {
+                      "id": "1611",
+                      "dataSource": "GS"
+                    },
+                    {
+                      "id": "sh97005926",
+                      "dataSource": "LCH_NW"
+                    },
+                    {
+                      "id": "LP16165-0",
+                      "dataSource": "LNC"
+                    },
+                    {
+                      "id": "40458",
+                      "dataSource": "MEDCIN"
+                    },
+                    {
+                      "id": "d00015",
+                      "dataSource": "MMSL"
+                    },
+                    {
+                      "id": "D007052",
+                      "dataSource": "MSH"
+                    },
+                    {
+                      "id": "WK2XYI10QM",
+                      "dataSource": "MTHSPL"
+                    },
+                    {
+                      "id": "C561",
+                      "dataSource": "NCI"
+                    },
+                    {
+                      "id": "C561",
+                      "dataSource": "NCI_CTRP"
+                    },
+                    {
+                      "id": "00803",
+                      "dataSource": "NCI_DCP"
+                    },
+                    {
+                      "id": "NSC0256857",
+                      "dataSource": "NCI_DTP"
+                    },
+                    {
+                      "id": "WK2XYI10QM",
+                      "dataSource": "NCI_FDA"
+                    },
+                    {
+                      "id": "CDR0000613511",
+                      "dataSource": "NCI_NCI-GLOSS"
+                    },
+                    {
+                      "id": "002377",
+                      "dataSource": "NDDF"
+                    },
+                    {
+                      "id": "CDR0000040475",
+                      "dataSource": "PDQ"
+                    },
+                    {
+                      "id": "x02MO",
+                      "dataSource": "RCD"
+                    },
+                    {
+                      "id": "5640",
+                      "dataSource": "RXNORM"
+                    },
+                    {
+                      "id": "E-7772",
+                      "dataSource": "SNM"
+                    },
+                    {
+                      "id": "C-603C0",
+                      "dataSource": "SNMI"
+                    },
+                    {
+                      "id": "387207008",
+                      "dataSource": "SNOMEDCT_US"
+                    },
+                    {
+                      "id": "m39860",
+                      "dataSource": "USP"
+                    },
+                    {
+                      "id": "MTHU000060",
+                      "dataSource": "USPMG"
+                    },
+                    {
+                      "id": "4017840",
+                      "dataSource": "VANDF"
+                    }
+                  ]
+                },
+                {
+                  "offset": 37,
+                  "length": 11,
+                  "text": "twice daily",
+                  "category": "Frequency",
+                  "confidenceScore": 1
+                }
+              ],
+              "relations": [
+                {
+                  "relationType": "DosageOfMedication",
+                  "entities": [
+                    {
+                      "ref": "#/documents/0/entities/0",
+                      "role": "Attribute"
+                    },
+                    {
+                      "ref": "#/documents/0/entities/1",
+                      "role": "Entity"
+                    }
+                  ]
+                },
+                {
+                  "relationType": "FrequencyOfMedication",
+                  "entities": [
+                    {
+                      "ref": "#/documents/0/entities/2",
+                      "role": "Attribute"
+                    },
+                    {
+                      "ref": "#/documents/0/entities/1",
+                      "role": "Entity"
+                    }
+                  ]
+                }
+              ],
+              "warnings": []
+            }
+          ],
+          "errors": [],
+          "modelVersion": "2020-05-08"
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "NotFound",
+          "message": "Not Found",
+          "innererror": {
+            "code": "JobIdNotFound",
+            "message": "Job ID not found."
+          }
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "InternalServerError",
+          "message": "Internal Server Error"
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+metadata:
+  description: "Get healthcare analysis job status and results  \nGet details of the healthcare prediction job specified by the jobId."
+errorCodes: []

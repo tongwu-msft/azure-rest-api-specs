@@ -1,0 +1,240 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.avs.datastores.get
+name: Get
+service: AVS
+groupName: Datastores
+apiVersion: 2021-06-01
+summary: Get a datastore in a private cloud cluster
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/datastores/{datastoreName}?api-version=2021-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: privateCloudName
+  in: path
+  isRequired: true
+  description: Name of the private cloud
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: Name of the cluster in the private cloud
+  types:
+  - uid: string
+- name: datastoreName
+  in: path
+  isRequired: true
+  description: Name of the datastore in the private cloud cluster
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: successful operation
+  types:
+  - uid: Datastore
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: Datastore
+  description: A datastore resource
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The state of the datastore provisioning
+    types:
+    - uid: DatastoreProvisioningState
+  - name: properties.netAppVolume
+    description: An Azure NetApp Files volume
+    types:
+    - uid: NetAppVolume
+  - name: properties.diskPoolVolume
+    description: An iSCSI volume
+    types:
+    - uid: DiskPoolVolume
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: CloudError
+  description: API error response
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nAn error returned by the API"
+    types:
+    - uid: ErrorResponse
+- name: DatastoreProvisioningState
+  description: The state of the datastore provisioning
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+- name: NetAppVolume
+  description: An Azure NetApp Files volume from Microsoft.NetApp provider
+  kind: object
+  properties:
+  - name: id
+    description: Azure resource ID of the NetApp volume
+    types:
+    - uid: string
+- name: DiskPoolVolume
+  description: An iSCSI volume from Microsoft.StoragePool provider
+  kind: object
+  properties:
+  - name: targetId
+    description: Azure resource ID of the iSCSI target
+    types:
+    - uid: string
+  - name: lunName
+    description: Name of the LUN to be used for datastore
+    types:
+    - uid: string
+  - name: mountOption
+    description: Mode that describes whether the LUN has to be mounted as a datastore or attached as a LUN
+    types:
+    - uid: MountOptionEnum
+  - name: path
+    isReadyOnly: true
+    description: Device path
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: MountOptionEnum
+  description: Mode that describes whether the LUN has to be mounted as a datastore or attached as a LUN
+  kind: enum
+  properties:
+  - name: MOUNT
+    types:
+    - uid: string
+  - name: ATTACH
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Datastores_Get
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/datastores/datastore1?api-version=2021-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/datastores/datastore1",
+        "name": "datastore1",
+        "properties": {
+          "netAppVolume": {
+            "id": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/ResourceGroup1/providers/Microsoft.NetApp/netAppAccounts/NetAppAccount1/capacityPools/CapacityPool1/volumes/NFSVol1"
+          },
+          "provisioningState": "Succeeded"
+        },
+        "type": "Microsoft.AVS/privateClouds/clusters/datastores"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about AVS service - Get a datastore in a private cloud cluster
+errorCodes: []

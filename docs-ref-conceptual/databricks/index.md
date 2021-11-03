@@ -1,7 +1,7 @@
 ---
 ms.assetid:
 title: Azure Databricks REST APIs
-ms.service: databricks
+ms.service: azure-databricks
 author: jeffpang
 ms.author: b-jepang
 ms.manager: ygupta

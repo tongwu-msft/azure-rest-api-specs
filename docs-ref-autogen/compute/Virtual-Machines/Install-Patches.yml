@@ -1,0 +1,449 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.virtualmachines.installpatches
+name: Install Patches
+service: Compute
+groupName: Virtual Machines
+apiVersion: 2021-07-01
+summary: Installs patches on the VM.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/installPatches?api-version=2021-07-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: vmName
+  in: path
+  isRequired: true
+  description: The name of the virtual machine.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: VirtualMachineInstallPatchesResult
+- name: 202 Accepted
+  description: Accepted
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: maximumDuration
+    in: body
+    description: Specifies the maximum amount of time that the operation will run. It must be an ISO 8601-compliant duration string such as PT4H (4 hours)
+    types:
+    - uid: string
+  - name: rebootSetting
+    in: body
+    isRequired: true
+    description: Defines when it is acceptable to reboot a VM during a software update operation.
+    types:
+    - uid: VMGuestPatchRebootSetting
+  - name: windowsParameters
+    in: body
+    description: Input for InstallPatches on a Windows VM, as directly received by the API
+    types:
+    - uid: WindowsParameters
+  - name: linuxParameters
+    in: body
+    description: Input for InstallPatches on a Linux VM, as directly received by the API
+    types:
+    - uid: LinuxParameters
+requestHeader: []
+definitions:
+- name: WindowsParameters
+  description: Input for InstallPatches on a Windows VM, as directly received by the API
+  kind: object
+  properties:
+  - name: classificationsToInclude
+    description: The update classifications to select when installing patches for Windows.
+    types:
+    - uid: string
+      isArray: true
+  - name: kbNumbersToInclude
+    description: Kbs to include in the patch operation
+    types:
+    - uid: string
+      isArray: true
+  - name: kbNumbersToExclude
+    description: Kbs to exclude in the patch operation
+    types:
+    - uid: string
+      isArray: true
+  - name: excludeKbsRequiringReboot
+    description: Filters out Kbs that don't have an InstallationRebootBehavior of 'NeverReboots' when this is set to true.
+    types:
+    - uid: boolean
+  - name: maxPatchPublishDate
+    description: This is used to install patches that were published on or before this given max published date.
+    types:
+    - uid: string
+- name: LinuxParameters
+  description: Input for InstallPatches on a Linux VM, as directly received by the API
+  kind: object
+  properties:
+  - name: classificationsToInclude
+    description: The update classifications to select when installing patches for Linux.
+    types:
+    - uid: string
+      isArray: true
+  - name: packageNameMasksToInclude
+    description: 'packages to include in the patch operation. Format: packageName_packageVersion'
+    types:
+    - uid: string
+      isArray: true
+  - name: packageNameMasksToExclude
+    description: 'packages to exclude in the patch operation. Format: packageName_packageVersion'
+    types:
+    - uid: string
+      isArray: true
+  - name: maintenanceRunId
+    description: This is used as a maintenance run identifier for Auto VM Guest Patching in Linux.
+    types:
+    - uid: string
+- name: VirtualMachineInstallPatchesResult
+  description: The result summary of an installation operation.
+  kind: object
+  properties:
+  - name: status
+    isReadyOnly: true
+    description: The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Failed", "Succeeded", "Unknown" or "CompletedWithWarnings."
+    types:
+    - uid: PatchOperationStatus
+  - name: installationActivityId
+    isReadyOnly: true
+    description: The activity ID of the operation that produced this result. It is used to correlate across CRP and extension logs.
+    types:
+    - uid: string
+  - name: rebootStatus
+    isReadyOnly: true
+    description: The reboot state of the VM following completion of the operation.
+    types:
+    - uid: VMGuestPatchRebootStatus
+  - name: maintenanceWindowExceeded
+    isReadyOnly: true
+    description: Whether the operation ran out of time before it completed all its intended actions.
+    types:
+    - uid: boolean
+  - name: excludedPatchCount
+    isReadyOnly: true
+    description: The number of patches that were not installed due to the user blocking their installation.
+    types:
+    - uid: integer
+  - name: notSelectedPatchCount
+    isReadyOnly: true
+    description: The number of patches that were detected as available for install, but did not meet the operation's criteria.
+    types:
+    - uid: integer
+  - name: pendingPatchCount
+    isReadyOnly: true
+    description: The number of patches that were identified as meeting the installation criteria, but were not able to be installed. Typically this happens when maintenanceWindowExceeded == true.
+    types:
+    - uid: integer
+  - name: installedPatchCount
+    isReadyOnly: true
+    description: The number of patches successfully installed.
+    types:
+    - uid: integer
+  - name: failedPatchCount
+    isReadyOnly: true
+    description: The number of patches that could not be installed due to some issue. See errors for details.
+    types:
+    - uid: integer
+  - name: patches
+    isReadyOnly: true
+    description: The patches that were installed during the operation.
+    types:
+    - uid: PatchInstallationDetail
+      isArray: true
+  - name: startDateTime
+    isReadyOnly: true
+    description: The UTC timestamp when the operation began.
+    types:
+    - uid: string
+  - name: error
+    isReadyOnly: true
+    description: The errors that were encountered during execution of the operation. The details array contains the list of them.
+    types:
+    - uid: ApiError
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
+- name: VirtualMachineInstallPatchesParameters
+  description: Input for InstallPatches as directly received by the API
+  kind: object
+  properties:
+  - name: maximumDuration
+    description: Specifies the maximum amount of time that the operation will run. It must be an ISO 8601-compliant duration string such as PT4H (4 hours)
+    types:
+    - uid: string
+  - name: rebootSetting
+    description: Defines when it is acceptable to reboot a VM during a software update operation.
+    types:
+    - uid: VMGuestPatchRebootSetting
+  - name: windowsParameters
+    description: Input for InstallPatches on a Windows VM, as directly received by the API
+    types:
+    - uid: WindowsParameters
+  - name: linuxParameters
+    description: Input for InstallPatches on a Linux VM, as directly received by the API
+    types:
+    - uid: LinuxParameters
+- name: PatchOperationStatus
+  description: The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: CompletedWithWarnings
+    types:
+    - uid: string
+- name: VMGuestPatchRebootStatus
+  description: The reboot state of the VM following completion of the operation.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: NotNeeded
+    types:
+    - uid: string
+  - name: Required
+    types:
+    - uid: string
+  - name: Started
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+- name: PatchInstallationDetail
+  description: Information about a specific patch that was encountered during an installation action.
+  kind: object
+  properties:
+  - name: patchId
+    isReadyOnly: true
+    description: A unique identifier for the patch.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The friendly name of the patch.
+    types:
+    - uid: string
+  - name: version
+    isReadyOnly: true
+    description: The version string of the package. It may conform to Semantic Versioning. Only applies to Linux.
+    types:
+    - uid: string
+  - name: kbId
+    isReadyOnly: true
+    description: The KBID of the patch. Only applies to Windows patches.
+    types:
+    - uid: string
+  - name: classifications
+    isReadyOnly: true
+    description: The classification(s) of the patch as provided by the patch publisher.
+    types:
+    - uid: string
+      isArray: true
+  - name: installationState
+    isReadyOnly: true
+    description: The state of the patch after the installation operation completed.
+    types:
+    - uid: PatchInstallationState
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: VMGuestPatchRebootSetting
+  description: Defines when it is acceptable to reboot a VM during a software update operation.
+  kind: enum
+  properties:
+  - name: IfRequired
+    types:
+    - uid: string
+  - name: Never
+    types:
+    - uid: string
+  - name: Always
+    types:
+    - uid: string
+- name: PatchInstallationState
+  description: The state of the patch after the installation operation completed.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Installed
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Excluded
+    types:
+    - uid: string
+  - name: NotSelected
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+examples:
+- name: Install patch state of a virtual machine.
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myVMName/installPatches?api-version=2021-07-01
+    body: >-
+      {
+        "maximumDuration": "PT4H",
+        "rebootSetting": "IfRequired",
+        "windowsParameters": {
+          "classificationsToInclude": [
+            "Critical",
+            "Security"
+          ],
+          "maxPatchPublishDate": "2020-11-19T02:36:43.0539904+00:00"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "Succeeded",
+        "installationActivityId": "68f8b292-dfc2-4646-9781-33cc88631968",
+        "rebootStatus": "Completed",
+        "maintenanceWindowExceeded": false,
+        "excludedPatchCount": 0,
+        "notSelectedPatchCount": 0,
+        "pendingPatchCount": 2,
+        "installedPatchCount": 3,
+        "failedPatchCount": 0,
+        "startDateTime": "2020-04-24T21:02:04.2556154Z",
+        "patches": [
+          {
+            "patchId": "35428702-5784-4ba4-a6e0-5222258b5411",
+            "name": "Definition Update for Windows Defender Antivirus - KB2267602 (Definition 1.279.1373.0)",
+            "version": "",
+            "kbId": "2267602",
+            "classifications": [
+              "Definition Updates"
+            ],
+            "installationState": "Installed"
+          },
+          {
+            "patchId": "39f9cdd1-795c-4d0e-8c0a-73ab3f31746d",
+            "name": "Windows Malicious Software Removal Tool x64 - October 2018 (KB890830)",
+            "version": "",
+            "kbId": "890830",
+            "classifications": [
+              "Update Rollups"
+            ],
+            "installationState": "Pending"
+          }
+        ],
+        "error": null
+      }
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Compute service - Installs patches on the VM.
+errorCodes: []

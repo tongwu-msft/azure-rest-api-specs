@@ -1,5 +1,6 @@
 ---
 title: "Offers - Azure Cosmos DB REST API"
+description: Create, query, and manage offers using REST API. Request and response headers, body, status codes and examples.
 ms.date: "12/13/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"

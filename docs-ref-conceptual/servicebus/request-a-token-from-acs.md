@@ -1,14 +1,13 @@
 ---
 title: "Request a Token from ACS"
-ms.date: "05/12/2015"
-ms.prod: "azure"
+ms.date: "07/08/2020"
 ms.service: "service-bus"
 ms.topic: "reference"
 ms.assetid: 22751f14-1f80-4a8a-81b3-b77a63c7cdfb
 caps.latest.revision: 5
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -23,6 +22,9 @@ translation.priority.mt:
 ---
 # Request a Token from ACS
 Requests a new token from Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS).  
+
+> [!IMPORTANT]
+> If you are using Azure Active Directory Access Control (also known as Access Control Service or ACS) with Service Bus, note that the support for this method is now limited and you should [migrate your application to use SAS](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-migrate-acs-sas) or use OAuth 2.0 authentication with Azure AD (recommended). For more information about deprecation of ACS, see this [blog post](https://docs.microsoft.com/archive/blogs/servicebus/upcoming-changes-to-acs-enabled-namespaces).
   
 ## Request  
   

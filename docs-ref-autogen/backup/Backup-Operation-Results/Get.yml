@@ -1,0 +1,147 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.backup.backupoperationresults.get
+name: Get
+service: Recovery Services - Backup
+groupName: Backup Operation Results
+apiVersion: 2021-02-10
+summary: >-
+  Provides the status of the delete operations such as deleting backed up item. Once the operation has started, the
+
+  status code in the response would be Accepted. It will continue to be in this state till it reaches completion. On
+
+  successful completion, the status code will be OK. This method expects OperationID as an argument. OperationID is
+
+  part of the Location header of the operation response.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupOperationResults/{operationId}?api-version=2021-02-10
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: OperationID which represents the operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+- name: 202 Accepted
+  description: Accepted
+- name: 204 No Content
+  description: NoContent
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: CloudError
+  description: An error response from the Container Instance service.
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: An error response from the Container Instance service.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Get Result for Protected Item Delete Operation
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/PythonSDKBackupTestRg/providers/Microsoft.RecoveryServices/vaults/PySDKBackupTestRsVault/backupOperationResults/00000000-0000-0000-0000-000000000000?api-version=2021-02-10
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/PythonSDKBackupTestRg/providers/Microsoft.RecoveryServices/vaults/PySDKBackupTestRsVault/backupOperations/00000000-0000-0000-0000-000000000000?api-version=2016-12-01
+    - name: Location
+      value: https://management.azure.com/Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/PythonSDKBackupTestRg/providers/Microsoft.RecoveryServices/vaults/PySDKBackupTestRsVault/backupOperationResults/00000000-0000-0000-0000-000000000000?api-version=2016-12-01
+    - name: Retry-After
+      value: "60"
+  - statusCode: "200"
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+metadata:
+  description: >-
+    Provides the status of the delete operations such as deleting backed up item. Once the operation has started, the
+
+    status code in the response would be Accepted.
+errorCodes: []

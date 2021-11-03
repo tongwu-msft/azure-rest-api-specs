@@ -1,0 +1,348 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.capacityreservations.get
+name: Get
+service: Compute
+groupName: Capacity Reservations
+apiVersion: 2021-07-01
+summary: The operation that retrieves information about the capacity reservation.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}?api-version=2021-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}?$expand=instanceView&api-version=2021-07-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: capacityReservationGroupName
+  in: path
+  isRequired: true
+  description: The name of the capacity reservation group.
+  types:
+  - uid: string
+- name: capacityReservationName
+  in: path
+  isRequired: true
+  description: The name of the capacity reservation.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations.
+  types:
+  - uid: CapacityReservationInstanceViewTypes
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: CapacityReservation
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: CapacityReservationInstanceViewTypes
+  description: The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations.
+  kind: enum
+  properties:
+  - name: instanceView
+    types:
+    - uid: string
+- name: CapacityReservation
+  description: Specifies information about the capacity reservation.
+  kind: object
+  properties:
+  - name: sku
+    description: SKU of the resource for which capacity needs be reserved. The SKU name and capacity is required to be set. Currently VM Skus with the capability called 'CapacityReservationSupported' set to true are supported. Refer to List Microsoft.Compute SKUs in a region (https://docs.microsoft.com/rest/api/compute/resourceskus/list) for supported values.
+    types:
+    - uid: Sku
+  - name: zones
+    description: Availability Zone to use for this capacity reservation. The zone has to be single value and also should be part for the list of zones specified during the capacity reservation group creation. The zone can be assigned only during creation. If not provided, the reservation supports only non-zonal deployments. If provided, enforces VM/VMSS using this capacity reservation to be in same zone.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.reservationId
+    isReadyOnly: true
+    description: A unique id generated and assigned to the capacity reservation by the platform which does not change throughout the lifetime of the resource.
+    types:
+    - uid: string
+  - name: properties.virtualMachinesAssociated
+    isReadyOnly: true
+    description: A list of all virtual machine resource ids that are associated with the capacity reservation.
+    types:
+    - uid: SubResourceReadOnly
+      isArray: true
+  - name: properties.provisioningTime
+    isReadyOnly: true
+    description: The date time when the capacity reservation was last updated.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state, which only appears in the response.
+    types:
+    - uid: string
+  - name: properties.instanceView
+    isReadyOnly: true
+    description: The Capacity reservation instance view.
+    types:
+    - uid: CapacityReservationInstanceView
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
+- name: Sku
+  description: 'Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is currently on, you need to deallocate the VMs in the scale set before you modify the SKU name.'
+  kind: object
+  properties:
+  - name: name
+    description: The sku name.
+    types:
+    - uid: string
+  - name: tier
+    description: Specifies the tier of virtual machines in a scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic**
+    types:
+    - uid: string
+  - name: capacity
+    description: Specifies the number of virtual machines in the scale set.
+    types:
+    - uid: integer
+- name: SubResourceReadOnly
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+- name: CapacityReservationInstanceView
+  description: The instance view of a capacity reservation that provides as snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations.
+  kind: object
+  properties:
+  - name: utilizationInfo
+    description: Unutilized capacity of the capacity reservation.
+    types:
+    - uid: CapacityReservationUtilization
+  - name: statuses
+    description: The resource status information.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: CapacityReservationUtilization
+  description: Represents the capacity reservation utilization in terms of resources allocated.
+  kind: object
+  properties:
+  - name: virtualMachinesAllocated
+    isReadyOnly: true
+    description: A list of all virtual machines resource ids allocated against the capacity reservation.
+    types:
+    - uid: SubResourceReadOnly
+      isArray: true
+- name: InstanceViewStatus
+  description: Instance view status.
+  kind: object
+  properties:
+  - name: code
+    description: The status code.
+    types:
+    - uid: string
+  - name: level
+    description: The level code.
+    types:
+    - uid: StatusLevelTypes
+  - name: displayStatus
+    description: The short localizable label for the status.
+    types:
+    - uid: string
+  - name: message
+    description: The detailed status message, including for alerts and error messages.
+    types:
+    - uid: string
+  - name: time
+    description: The time of the status.
+    types:
+    - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+- name: StatusLevelTypes
+  description: The level code.
+  kind: enum
+  properties:
+  - name: Info
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+examples:
+- name: Get a capacity reservation.
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/capacityReservationGroups/myCapacityReservationGroup/capacityReservations/myCapacityReservation?$expand=instanceView&api-version=2021-07-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "reservationId": "{GUID}",
+          "provisioningTime": "2021-06-27T01:02:38.3138469+00:00",
+          "virtualMachinesAssociated": [
+            {
+              "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM1"
+            },
+            {
+              "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM2"
+            },
+            {
+              "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM3"
+            }
+          ],
+          "provisioningState": "Succeeded",
+          "instanceView": {
+            "utilizationInfo": {
+              "virtualMachinesAllocated": [
+                {
+                  "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM1"
+                },
+                {
+                  "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM2"
+                }
+              ]
+            },
+            "statuses": [
+              {
+                "code": "ProvisioningState/succeeded",
+                "level": "Info",
+                "displayStatus": "Provisioning succeeded"
+              }
+            ]
+          }
+        },
+        "location": "westus",
+        "tags": {
+          "department": "HR"
+        },
+        "sku": {
+          "name": "Standard_DS1_v2",
+          "capacity": 4
+        },
+        "zones": [
+          "1"
+        ],
+        "name": "myCapacityReservation"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Compute service - The operation that retrieves information about the capacity reservation.
+errorCodes: []

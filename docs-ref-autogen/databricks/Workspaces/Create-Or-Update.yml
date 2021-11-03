@@ -1,0 +1,1059 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.databricks.workspaces.createorupdate
+name: Create Or Update
+service: Databricks
+groupName: Workspaces
+apiVersion: 2018-04-01
+summary: Creates a new workspace.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Databricks/workspaces/{workspaceName}?api-version=2018-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Created - Returns information about the workspace, including provisioning status.
+  types:
+  - uid: Workspace
+- name: 201 Created
+  description: Created - Returns information about the workspace, including provisioning status.
+  types:
+  - uid: Workspace
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: sku
+    in: body
+    description: The SKU of the resource.
+    types:
+    - uid: Sku
+  - name: properties.managedResourceGroupId
+    in: body
+    isRequired: true
+    description: The managed resource group Id.
+    types:
+    - uid: string
+  - name: properties.parameters
+    in: body
+    description: The workspace's custom parameters.
+    types:
+    - uid: WorkspaceCustomParameters
+  - name: properties.uiDefinitionUri
+    in: body
+    description: The blob URI where the UI definition file is located.
+    types:
+    - uid: string
+  - name: properties.authorizations
+    in: body
+    description: The workspace provider authorizations.
+    types:
+    - uid: WorkspaceProviderAuthorization
+      isArray: true
+  - name: properties.createdBy
+    in: body
+    description: Indicates the Object ID, PUID and Application ID of entity that created the workspace.
+    types:
+    - uid: CreatedBy
+  - name: properties.updatedBy
+    in: body
+    description: Indicates the Object ID, PUID and Application ID of entity that last updated the workspace.
+    types:
+    - uid: CreatedBy
+  - name: properties.storageAccountIdentity
+    in: body
+    description: The details of Managed Identity of Storage Account
+    types:
+    - uid: ManagedIdentityConfiguration
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: Sku
+  description: SKU for the resource.
+  kind: object
+  properties:
+  - name: name
+    description: The SKU name.
+    types:
+    - uid: string
+  - name: tier
+    description: The SKU tier.
+    types:
+    - uid: string
+- name: WorkspaceCustomParameters
+  description: Custom Parameters used for Cluster Creation.
+  kind: object
+  properties:
+  - name: amlWorkspaceId
+    description: The ID of a Azure Machine Learning workspace to link with Databricks workspace
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: customVirtualNetworkId
+    description: The ID of a Virtual Network where this Databricks Cluster should be created
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: customPublicSubnetName
+    description: The name of a Public Subnet within the Virtual Network
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: customPrivateSubnetName
+    description: The name of the Private Subnet within the Virtual Network
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: enableNoPublicIp
+    description: Should the Public IP be Disabled?
+    types:
+    - uid: WorkspaceCustomBooleanParameter
+  - name: loadBalancerBackendPoolName
+    description: Name of the outbound Load Balancer Backend Pool for Secure Cluster Connectivity (No Public IP).
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: loadBalancerId
+    description: Resource URI of Outbound Load balancer for Secure Cluster Connectivity (No Public IP) workspace.
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: natGatewayName
+    description: Name of the NAT gateway for Secure Cluster Connectivity (No Public IP) workspace subnets.
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: publicIpName
+    description: Name of the Public IP for No Public IP workspace with managed vNet.
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: prepareEncryption
+    description: Prepare the workspace for encryption. Enables the Managed Identity for managed storage account.
+    types:
+    - uid: WorkspaceCustomBooleanParameter
+  - name: encryption
+    description: Contains the encryption details for Customer-Managed Key (CMK) enabled workspace.
+    types:
+    - uid: WorkspaceEncryptionParameter
+  - name: requireInfrastructureEncryption
+    description: A boolean indicating whether or not the DBFS root file system will be enabled with secondary layer of encryption with platform managed keys for data at rest.
+    types:
+    - uid: WorkspaceCustomBooleanParameter
+  - name: storageAccountName
+    description: Default DBFS storage account name.
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: storageAccountSkuName
+    description: 'Storage account SKU name, ex: Standard_GRS, Standard_LRS. Refer https://aka.ms/storageskus for valid inputs.'
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: vnetAddressPrefix
+    description: Address prefix for Managed virtual network. Default value for this input is 10.139.
+    types:
+    - uid: WorkspaceCustomStringParameter
+  - name: resourceTags
+    isReadyOnly: true
+    description: Tags applied to resources under Managed resource group. These can be updated by updating tags at workspace level.
+    types:
+    - uid: WorkspaceCustomObjectParameter
+- name: WorkspaceProviderAuthorization
+  description: The workspace provider authorization.
+  kind: object
+  properties:
+  - name: principalId
+    description: The provider's principal identifier. This is the identity that the provider will use to call ARM to manage the workspace resources.
+    types:
+    - uid: string
+  - name: roleDefinitionId
+    description: The provider's role definition identifier. This role will define all the permissions that the provider must have on the workspace's container resource group. This role definition cannot have permission to delete the resource group.
+    types:
+    - uid: string
+- name: CreatedBy
+  description: Provides details of the entity that created/updated the workspace.
+  kind: object
+  properties:
+  - name: oid
+    isReadyOnly: true
+    description: The Object ID that created the workspace.
+    types:
+    - uid: string
+  - name: puid
+    isReadyOnly: true
+    description: The Personal Object ID corresponding to the object ID above
+    types:
+    - uid: string
+  - name: applicationId
+    isReadyOnly: true
+    description: The application ID of the application that initiated the creation of the workspace. For example, Azure Portal.
+    types:
+    - uid: string
+- name: ManagedIdentityConfiguration
+  description: The Managed Identity details for storage account.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The objectId of the Managed Identity that is linked to the Managed Storage account.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant Id where the Managed Identity is created.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of Identity created. It can be either SystemAssigned or UserAssigned.
+    types:
+    - uid: string
+- name: Workspace
+  description: Information about workspace.
+  kind: object
+  properties:
+  - name: sku
+    description: The SKU of the resource.
+    types:
+    - uid: Sku
+  - name: properties.managedResourceGroupId
+    description: The managed resource group Id.
+    types:
+    - uid: string
+  - name: properties.parameters
+    description: The workspace's custom parameters.
+    types:
+    - uid: WorkspaceCustomParameters
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The workspace provisioning state.
+    types:
+    - uid: ProvisioningState
+  - name: properties.uiDefinitionUri
+    description: The blob URI where the UI definition file is located.
+    types:
+    - uid: string
+  - name: properties.authorizations
+    description: The workspace provider authorizations.
+    types:
+    - uid: WorkspaceProviderAuthorization
+      isArray: true
+  - name: properties.createdBy
+    description: Indicates the Object ID, PUID and Application ID of entity that created the workspace.
+    types:
+    - uid: CreatedBy
+  - name: properties.updatedBy
+    description: Indicates the Object ID, PUID and Application ID of entity that last updated the workspace.
+    types:
+    - uid: CreatedBy
+  - name: properties.createdDateTime
+    isReadyOnly: true
+    description: Specifies the date and time when the workspace is created.
+    types:
+    - uid: string
+  - name: properties.workspaceId
+    isReadyOnly: true
+    description: The unique identifier of the databricks workspace in databricks control plane.
+    types:
+    - uid: string
+  - name: properties.workspaceUrl
+    isReadyOnly: true
+    description: The workspace URL which is of the format 'adb-{workspaceId}.{random}.azuredatabricks.net'
+    types:
+    - uid: string
+  - name: properties.storageAccountIdentity
+    description: The details of Managed Identity of Storage Account
+    types:
+    - uid: ManagedIdentityConfiguration
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: "The code and message for an error.  \nThe error details."
+    types:
+    - uid: ErrorInfo
+- name: WorkspaceCustomStringParameter
+  description: The Value.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of variable that this is
+    types:
+    - uid: CustomParameterType
+  - name: value
+    description: The value which should be used for this field.
+    types:
+    - uid: string
+- name: WorkspaceCustomBooleanParameter
+  description: The value which should be used for this field.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of variable that this is
+    types:
+    - uid: CustomParameterType
+  - name: value
+    description: The value which should be used for this field.
+    types:
+    - uid: boolean
+- name: WorkspaceEncryptionParameter
+  description: The object that contains details of encryption used on the workspace.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of variable that this is
+    types:
+    - uid: CustomParameterType
+  - name: value
+    description: The value which should be used for this field.
+    types:
+    - uid: Encryption
+- name: WorkspaceCustomObjectParameter
+  description: The value which should be used for this field.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of variable that this is
+    types:
+    - uid: CustomParameterType
+  - name: value
+    description: The value which should be used for this field.
+    types:
+    - uid: object
+- name: ProvisioningState
+  description: Provisioning status of the workspace.
+  kind: enum
+  properties:
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Ready
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Created
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+- name: ErrorInfo
+  description: The code and message for an error.
+  kind: object
+  properties:
+  - name: code
+    description: A machine readable error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: details
+    description: error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: innererror
+    description: Inner error details if they exist.
+    types:
+    - uid: string
+- name: CustomParameterType
+  description: The type of variable that this is
+  kind: enum
+  properties:
+  - name: Bool
+    types:
+    - uid: string
+  - name: Object
+    types:
+    - uid: string
+  - name: String
+    types:
+    - uid: string
+- name: Encryption
+  description: The object that contains details of encryption used on the workspace.
+  kind: object
+  properties:
+  - name: keySource
+    description: 'The encryption keySource (provider). Possible values (case-insensitive):  Default, Microsoft.Keyvault'
+    types:
+    - uid: KeySource
+  - name: KeyName
+    description: The name of KeyVault key.
+    types:
+    - uid: string
+  - name: keyversion
+    description: The version of KeyVault key.
+    types:
+    - uid: string
+  - name: keyvaulturi
+    description: The Uri of KeyVault.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error's code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: target
+    description: Indicates which property in the request is responsible for the error.
+    types:
+    - uid: string
+- name: KeySource
+  description: 'The encryption keySource (provider). Possible values (case-insensitive):  Default, Microsoft.Keyvault'
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: Microsoft.Keyvault
+    types:
+    - uid: string
+examples:
+- name: Create or update workspace
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace?api-version=2018-04-01
+    body: >-
+      {
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG"
+        },
+        "location": "westus"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace",
+        "type": "Microsoft.Databricks/workspaces",
+        "location": "East US 2",
+        "tags": null,
+        "sku": {
+          "name": "premium"
+        },
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "parameters": null,
+          "provisioningState": "Accepted",
+          "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json",
+          "authorizations": [
+            {
+              "principalId": "00000000-0000-0000-0000-000000000000",
+              "roleDefinitionId": "11111111-1111-1111-1111-111111111111"
+            }
+          ],
+          "createdBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "updatedBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "createdDateTime": "2020-02-20T00:10:29.2858439Z",
+          "workspaceId": "5555555555555555",
+          "workspaceUrl": "adb-5555555555555555.19.azuredatabricks.net"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "myWorkspace",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace",
+        "type": "Microsoft.Databricks/workspaces",
+        "location": "East US 2",
+        "tags": {
+          "environment": "dev"
+        },
+        "sku": {
+          "name": "premium"
+        },
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "parameters": null,
+          "provisioningState": "Accepted",
+          "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json",
+          "authorizations": [
+            {
+              "principalId": "00000000-0000-0000-0000-000000000000",
+              "roleDefinitionId": "11111111-1111-1111-1111-111111111111"
+            }
+          ],
+          "createdBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "updatedBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "createdDateTime": "2020-02-20T00:10:29.2858439Z"
+        }
+      }
+- name: Create or update workspace with custom parameters
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace?api-version=2018-04-01
+    body: >-
+      {
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "parameters": {
+            "customVirtualNetworkId": {
+              "value": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/myNetwork"
+            },
+            "customPublicSubnetName": {
+              "value": "myPublicSubnet"
+            },
+            "customPrivateSubnetName": {
+              "value": "myPrivateSubnet"
+            }
+          }
+        },
+        "location": "westus"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace",
+        "type": "Microsoft.Databricks/workspaces",
+        "location": "East US 2",
+        "tags": null,
+        "sku": {
+          "name": "premium"
+        },
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "parameters": {
+            "customPrivateSubnetName": {
+              "type": "String",
+              "value": "myPrivateSubnet"
+            },
+            "customPublicSubnetName": {
+              "type": "String",
+              "value": "myPublicSubnet"
+            },
+            "customVirtualNetworkId": {
+              "type": "String",
+              "value": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/myNetwork"
+            }
+          },
+          "provisioningState": "Succeeded",
+          "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json",
+          "authorizations": [
+            {
+              "principalId": "00000000-0000-0000-0000-000000000000",
+              "roleDefinitionId": "11111111-1111-1111-1111-111111111111"
+            }
+          ],
+          "createdBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "updatedBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "createdDateTime": "2020-02-20T00:10:29.2858439Z",
+          "workspaceId": "5555555555555555",
+          "workspaceUrl": "adb-5555555555555555.19.azuredatabricks.net"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "myWorkspace",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace",
+        "type": "Microsoft.Databricks/workspaces",
+        "location": "East US 2",
+        "tags": {
+          "environment": "dev"
+        },
+        "sku": {
+          "name": "premium"
+        },
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "provisioningState": "Accepted",
+          "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json",
+          "authorizations": [
+            {
+              "principalId": "00000000-0000-0000-0000-000000000000",
+              "roleDefinitionId": "11111111-1111-1111-1111-111111111111"
+            }
+          ],
+          "createdBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "updatedBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "createdDateTime": "2020-02-20T00:10:29.2858439Z"
+        }
+      }
+- name: Create a workspace which is ready for Customer-Managed Key (CMK) encryption
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace?api-version=2018-04-01
+    body: >-
+      {
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "parameters": {
+            "prepareEncryption": {
+              "value": true
+            }
+          }
+        },
+        "location": "westus"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "myWorkspace",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace",
+        "type": "Microsoft.Databricks/workspaces",
+        "sku": {
+          "name": "premium"
+        },
+        "location": "East US 2",
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "parameters": null,
+          "provisioningState": "Succeeded",
+          "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json",
+          "authorizations": [
+            {
+              "principalId": "00000000-0000-0000-0000-000000000000",
+              "roleDefinitionId": "11111111-1111-1111-1111-111111111111"
+            }
+          ],
+          "createdBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "storageAccountIdentity": {
+            "principalId": "55555555-5555-5555-5555-555555555555",
+            "tenantId": "66666666-6666-6666-6666-666666666666",
+            "type": "SystemAssigned"
+          },
+          "updatedBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "createdDateTime": "2020-02-20T00:10:29.2858439Z",
+          "workspaceId": "5555555555555555",
+          "workspaceUrl": "adb-5555555555555555.19.azuredatabricks.net"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "myWorkspace",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace",
+        "type": "Microsoft.Databricks/workspaces",
+        "location": "East US 2",
+        "tags": {
+          "environment": "dev"
+        },
+        "sku": {
+          "name": "premium"
+        },
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "parameters": null,
+          "provisioningState": "Accepted",
+          "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json",
+          "authorizations": [
+            {
+              "principalId": "00000000-0000-0000-0000-000000000000",
+              "roleDefinitionId": "11111111-1111-1111-1111-111111111111"
+            }
+          ],
+          "createdBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "updatedBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "createdDateTime": "2020-02-20T00:10:29.2858439Z"
+        }
+      }
+- name: Enable Customer-Managed Key (CMK) encryption on a workspace which is prepared for encryption
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace?api-version=2018-04-01
+    body: >-
+      {
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "parameters": {
+            "prepareEncryption": {
+              "value": true
+            },
+            "encryption": {
+              "value": {
+                "keySource": "Microsoft.Keyvault",
+                "keyvaulturi": "https://myKeyVault.vault.azure.net/",
+                "KeyName": "myKeyName",
+                "keyversion": "00000000000000000000000000000000"
+              }
+            }
+          }
+        },
+        "location": "westus"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "myWorkspace",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace",
+        "type": "Microsoft.Databricks/workspaces",
+        "sku": {
+          "name": "premium"
+        },
+        "location": "East US 2",
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "parameters": {
+            "customPrivateSubnetName": {
+              "type": "String",
+              "value": "PrivateBob"
+            },
+            "customPublicSubnetName": {
+              "type": "String",
+              "value": "PublicSarah"
+            },
+            "customVirtualNetworkId": {
+              "type": "String",
+              "value": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/myNetwork"
+            },
+            "prepareEncryption": {
+              "type": "Bool",
+              "value": true
+            },
+            "encryption": {
+              "type": "Object",
+              "value": {
+                "keySource": "Microsoft.Keyvault",
+                "keyvaulturi": "https://myKeyVault.vault.azure.net/",
+                "KeyName": "myKeyName",
+                "keyversion": "00000000000000000000000000000000"
+              }
+            }
+          },
+          "provisioningState": "Succeeded",
+          "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json",
+          "authorizations": [
+            {
+              "principalId": "00000000-0000-0000-0000-000000000000",
+              "roleDefinitionId": "11111111-1111-1111-1111-111111111111"
+            }
+          ],
+          "createdBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "storageAccountIdentity": {
+            "principalId": "55555555-5555-5555-5555-555555555555",
+            "tenantId": "66666666-6666-6666-6666-666666666666",
+            "type": "SystemAssigned"
+          },
+          "updatedBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "createdDateTime": "2020-02-20T00:10:29.2858439Z",
+          "workspaceId": "5555555555555555",
+          "workspaceUrl": "adb-5555555555555555.19.azuredatabricks.net"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "myWorkspace",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace",
+        "type": "Microsoft.Databricks/workspaces",
+        "location": "East US 2",
+        "tags": {
+          "environment": "dev"
+        },
+        "sku": {
+          "name": "premium"
+        },
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "provisioningState": "Accepted",
+          "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json",
+          "authorizations": [
+            {
+              "principalId": "00000000-0000-0000-0000-000000000000",
+              "roleDefinitionId": "11111111-1111-1111-1111-111111111111"
+            }
+          ],
+          "createdBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "updatedBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "createdDateTime": "2020-02-20T00:10:29.2858439Z",
+          "storageAccountIdentity": {
+            "principalId": "55555555-5555-5555-5555-555555555555",
+            "tenantId": "66666666-6666-6666-6666-666666666666",
+            "type": "SystemAssigned"
+          }
+        }
+      }
+- name: Revert Customer-Managed Key (CMK) encryption to Microsoft Managed Keys encryption on a workspace
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace?api-version=2018-04-01
+    body: >-
+      {
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "parameters": {
+            "encryption": {
+              "value": {
+                "keySource": "Default"
+              }
+            }
+          }
+        },
+        "location": "westus"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "myWorkspace",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace",
+        "type": "Microsoft.Databricks/workspaces",
+        "sku": {
+          "name": "premium"
+        },
+        "location": "East US 2",
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "parameters": {
+            "customPrivateSubnetName": {
+              "type": "String",
+              "value": "PrivateBob"
+            },
+            "customPublicSubnetName": {
+              "type": "String",
+              "value": "PublicSarah"
+            },
+            "customVirtualNetworkId": {
+              "type": "String",
+              "value": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/myNetwork"
+            },
+            "prepareEncryption": {
+              "type": "Bool",
+              "value": true
+            },
+            "encryption": {
+              "type": "Object",
+              "value": {
+                "keySource": "Default"
+              }
+            }
+          },
+          "provisioningState": "Succeeded",
+          "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json",
+          "authorizations": [
+            {
+              "principalId": "00000000-0000-0000-0000-000000000000",
+              "roleDefinitionId": "11111111-1111-1111-1111-111111111111"
+            }
+          ],
+          "createdBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "storageAccountIdentity": {
+            "principalId": "55555555-5555-5555-5555-555555555555",
+            "tenantId": "66666666-6666-6666-6666-666666666666",
+            "type": "SystemAssigned"
+          },
+          "updatedBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "createdDateTime": "2020-02-20T00:10:29.2858439Z",
+          "workspaceId": "5555555555555555",
+          "workspaceUrl": "adb-5555555555555555.19.azuredatabricks.net"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "myWorkspace",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Databricks/workspaces/myWorkspace",
+        "type": "Microsoft.Databricks/workspaces",
+        "location": "East US 2",
+        "tags": {
+          "environment": "dev"
+        },
+        "sku": {
+          "name": "premium"
+        },
+        "properties": {
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "provisioningState": "Accepted",
+          "uiDefinitionUri": "https://path/to/workspaceCreateUiDefinition.json",
+          "authorizations": [
+            {
+              "principalId": "00000000-0000-0000-0000-000000000000",
+              "roleDefinitionId": "11111111-1111-1111-1111-111111111111"
+            }
+          ],
+          "createdBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "updatedBy": {
+            "oid": "22222222-2222-2222-2222-222222222222",
+            "puid": "33333333",
+            "applicationId": "44444444-4444-4444-4444-444444444444"
+          },
+          "createdDateTime": "2020-02-20T00:10:29.2858439Z",
+          "storageAccountIdentity": {
+            "principalId": "55555555-5555-5555-5555-555555555555",
+            "tenantId": "66666666-6666-6666-6666-666666666666",
+            "type": "SystemAssigned"
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Databricks service - Creates a new workspace.
+errorCodes: []

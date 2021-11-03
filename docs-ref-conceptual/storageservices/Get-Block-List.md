@@ -26,7 +26,7 @@ The `Get Block List` operation retrieves the list of blocks that have been uploa
   
 |GET Method Request URI|HTTP Version|  
 |----------------------------|------------------|  
-|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist&snapshot=<DateTime>`|HTTP/1.1|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist&snapshot=<DateTime>`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist&versionid=<DateTime>`|HTTP/1.1|  
   
 ### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
@@ -43,6 +43,7 @@ The `Get Block List` operation retrieves the list of blocks that have been uploa
 |URI Parameter|Description|  
 |-------------------|-----------------|  
 |`snapshot`|Optional. The snapshot parameter is an opaque `DateTime` value that, when present, specifies the blob list to retrieve. For more information on working with blob snapshots, see [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md).|  
+|`versionid`|Optional for versions 2019-12-12 and newer. The versionid parameter is an opaque `DateTime` value that, when present, specifies the version of the blob to retrieve.|  
 |`blocklisttype`|Specifies whether to return the list of committed blocks, the list of uncommitted blocks, or both lists together. Valid values are `committed`, `uncommitted`, or `all`. If you omit this parameter, `Get Block List` returns the list of committed blocks.|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
@@ -55,8 +56,10 @@ The `Get Block List` operation retrieves the list of blocks that have been uploa
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id:<ID>`|Optional. If this header is specified, the operation will be performed only if both of the following conditions are met:<br /><br /> - The blob's lease is currently active.<br />- The lease ID specified in the request matches that of the blob.<br /><br /> If this header is specified and both of these conditions are not met, the request will fail and the operation will fail with status code 412 (Precondition Failed).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
+ This operation also supports the use of conditional headers to execute the operation only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
+ 
 ### Request Body  
  None.  
   
@@ -246,6 +249,8 @@ Date: Wed, 14 Sep 2011 00:40:22 GMT
  Note that when a blob has not yet been committed, calling `Get Block List` with `blocklisttype=all` returns the uncommitted blocks, and the `CommittedBlocks` element is empty.  
   
  `Get Block List` does not support concurrency when reading the list of uncommitted blocks.  Calls to `Get Block List` where `blocklisttype=uncommitted` or `blocklisttype=all` have a lower maximum request rate than other read operations. For details on target throughput for read operations, see [Azure Storage Scalability and Performance Targets](https://azure.microsoft.com/documentation/articles/storage-scalability-targets/).  
+  
+ Starting with version 2019-12-12, a block blob may contain blocks up to 4000 MiB in size. To protect applications using a signed 32-bit integer to represent the block size, calling `Get Block List` on a block blob that contains a block larger than 100 MiB with a REST version before 2019-12-12 results in status code 409 (Conflict).  
   
  `Get Block List` applies only to block blobs. Calling `Get Block List` on a page blob results in status code 400 (Bad Request).  
   

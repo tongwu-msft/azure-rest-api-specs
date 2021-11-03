@@ -1,0 +1,187 @@
+### YamlMime:RESTOperation
+uid: fully-qualified-iothubname.azure-devices.net.iothub.service.query.gettwins
+name: Get Twins
+service: IoT Hub
+groupName: Query
+apiVersion: 2020-05-31-preview
+summary: Query an IoT Hub to retrieve information regarding device twins using a SQL-like language. See https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language for more information. Pagination is supported. This returns information about device twins only.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://fully-qualified-iothubname.azure-devices.net/devices/query?api-version=2020-05-31-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the Api.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-item-type
+    value: string
+  - name: x-ms-continuation
+    value: string
+  description: OK.
+  types:
+  - uid: Twin
+    isArray: true
+requestBody:
+- name: default
+  parameters:
+  - name: query
+    in: body
+    description: The query string.
+    types:
+    - uid: string
+requestHeader:
+- name: x-ms-continuation
+  in: header
+  description: The continuation token used to get the next page of results.
+  types:
+  - uid: string
+- name: x-ms-max-item-count
+  in: header
+  description: The maximum number of items returned per page. The service may use a different value if the value specified is not acceptable.
+  types:
+  - uid: string
+definitions:
+- name: Twin
+  description: The state information for a device or module. This is implicitly created and deleted when the corresponding device/ module identity is created or deleted in the IoT Hub.
+  kind: object
+  properties:
+  - name: deviceId
+    description: The unique identifier of the device in the identity registry of the IoT Hub. It is a case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars, and the following special characters {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.
+    types:
+    - uid: string
+  - name: moduleId
+    description: The unique identifier of the module in the identity registry of the IoT Hub. It is a case-sensitive string (up to 128 char long) of ASCII 7-bit alphanumeric chars, and the following special characters {'-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '''}.
+    types:
+    - uid: string
+  - name: tags
+    description: The collection of key-value pairs read and written by the solution back end. They are not visible to device apps. They keys are UTF-8 encoded, case-sensitive and up-to 1KB in length. Allowed characters exclude UNICODE control characters (segments C0 and C1), '.', '$' and space. The values are JSON objects, up-to 4KB in length.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties
+    description: The desired and reported properties of the twin.
+    types:
+    - uid: TwinProperties
+  - name: etag
+    description: The string representing a ETag for the device twin, as per RFC7232.
+    types:
+    - uid: string
+  - name: version
+    description: The version for the device twin including tags and desired properties
+    types:
+    - uid: integer
+  - name: deviceEtag
+    description: The string representing a ETag for the device, as per RFC7232.
+    types:
+    - uid: string
+  - name: status
+    description: The enabled status of the device. If disabled, the device cannot connect to the service.
+    types:
+    - uid: enabled
+    - uid: disabled
+    typesTitle: enum
+  - name: statusReason
+    description: The reason for the current status of the device, if any.
+    types:
+    - uid: string
+  - name: statusUpdateTime
+    description: The date and time when the status of the device was last updated.
+    types:
+    - uid: string
+  - name: connectionState
+    description: The connection state of the device.
+    types:
+    - uid: Disconnected
+    - uid: Connected
+    typesTitle: enum
+  - name: lastActivityTime
+    description: The date and time when the device last connected or received or sent a message. The date and time is sepecified in ISO8601 datetime format in UTC, for example, 2015-01-28T16:24:48.789Z. This value is not updated if the device uses the HTTP/1 protocol to perform messaging operations.
+    types:
+    - uid: string
+  - name: cloudToDeviceMessageCount
+    description: The number of cloud-to-device messages sent.
+    types:
+    - uid: integer
+  - name: authenticationType
+    description: The authentication type used by the device.
+    types:
+    - uid: sas
+    - uid: selfSigned
+    - uid: certificateAuthority
+    - uid: none
+    typesTitle: enum
+  - name: x509Thumbprint
+    description: The X509 thumbprint of the device.
+    types:
+    - uid: X509Thumbprint
+  - name: capabilities
+    description: The status of capabilities enabled on the device.
+    types:
+    - uid: DeviceCapabilities
+  - name: deviceScope
+    description: The scope of the device.
+    types:
+    - uid: string
+- name: QuerySpecification
+  description: The Json query request.
+  kind: object
+  properties:
+  - name: query
+    description: The query string.
+    types:
+    - uid: string
+- name: TwinProperties
+  description: The desired and reported properties of the twin. The maximum depth of the object is 10.
+  kind: object
+  properties:
+  - name: desired
+    description: The collection of desired property key-value pairs. The keys are UTF-8 encoded, case-sensitive and up-to 1KB in length. Allowed characters exclude UNICODE control characters (segments C0 and C1), '.', '$' and space. The desired porperty values are JSON objects, up-to 4KB in length.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: reported
+    description: The collection of reported property key-value pairs. The keys are UTF-8 encoded, case-sensitive and up-to 1KB in length. Allowed characters exclude UNICODE control characters (segments C0 and C1), '.', '$' and space. The reported property values are JSON objects, up-to 4KB in length.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: X509Thumbprint
+  kind: object
+  properties:
+  - name: primaryThumbprint
+    description: The X509 client certificate primary thumbprint.
+    types:
+    - uid: string
+  - name: secondaryThumbprint
+    description: The X509 client certificate secondary thumbprint.
+    types:
+    - uid: string
+- name: DeviceCapabilities
+  description: The status of capabilities enabled on the device.
+  kind: object
+  properties:
+  - name: iotEdge
+    description: The property that determines if the device is an edge device or not.
+    types:
+    - uid: boolean
+examples: []
+security: []
+metadata:
+  description: Query an IoT Hub to retrieve information regarding device twins using a SQL-like language. See https://docs.
+errorCodes: []

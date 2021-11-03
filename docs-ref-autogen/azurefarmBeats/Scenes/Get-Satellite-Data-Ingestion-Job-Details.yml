@@ -1,0 +1,281 @@
+### YamlMime:RESTOperation
+uid: azurefarmbeats.scenes.getsatellitedataingestionjobdetails
+name: Get Satellite Data Ingestion Job Details
+service: Azure FarmBeats
+groupName: Scenes
+apiVersion: 2021-03-31-preview
+summary: >+
+  Get details of a satellite data ingestion job.
+
+produces:
+- application/json
+paths:
+- content: GET /scenes/satellite/ingest-data/{jobId}?api-version=2021-03-31-preview
+uriParameters:
+- name: jobId
+  in: path
+  isRequired: true
+  description: Id of the satellite data ingestion job.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The requested API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: SatelliteDataIngestionJob
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  types:
+  - uid: string
+definitions:
+- name: SatelliteDataIngestionJob
+  description: Schema of satellite data ingestion job.
+  kind: object
+  properties:
+  - name: farmerId
+    description: Id of the associated farmer.
+    types:
+    - uid: string
+  - name: boundaryId
+    description: The id of the boundary for which satellite data is being fetched.
+    types:
+    - uid: string
+  - name: startDateTime
+    description: UTC Date-time from when the satellite data has to be fetched (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: endDateTime
+    description: UTC Date-time till when the satellite data has to be fetched (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: provider
+    description: Provider of satellite data.
+    types:
+    - uid: DataProvider
+  - name: source
+    description: Source of satellite data.
+    types:
+    - uid: Source
+  - name: data
+    description: Data Model for SatelliteIngestionJobRequest.
+    types:
+    - uid: SatelliteData
+  - name: id
+    isReadyOnly: true
+    description: Unique Id of the satellite data ingestion job. This Id must be unique for a given tenant.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: >-
+      Status of the job.
+
+      Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
+    types:
+    - uid: string
+  - name: durationInSeconds
+    isReadyOnly: true
+    description: DProcessing duration of the job. Can be calculated as min(current time, job succeeded/failed/cancelled time) - job execution start time. This does not include the time spent waiting in the queue for the job to be picked up for processing.
+    types:
+    - uid: number
+  - name: message
+    isReadyOnly: true
+    description: Brief description of the result of the job.
+    types:
+    - uid: string
+  - name: createdDateTime
+    isReadyOnly: true
+    description: UTC Date-time at which the job was created (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: lastActionDateTime
+    isReadyOnly: true
+    description: UTC Date-time at which the job was last acted upon (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: UTC Date-time at which the processing of the job started (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: UTC Date-time at which the processing of the job ended (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: name
+    description: Name of the satellite data ingestion job.
+    types:
+    - uid: string
+  - name: description
+    description: Brief description of the satellite data ingestion job.
+    types:
+    - uid: string
+  - name: properties
+    description: A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: ErrorResponse
+  description: >-
+    An error response from Azure AgPlatform service.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
+  kind: object
+  properties:
+  - name: error
+    description: An error from Azure FarmBeats service.
+    types:
+    - uid: Error
+  - name: traceId
+    description: Unique trace Id.
+    types:
+    - uid: string
+- name: DataProvider
+  description: Provider of satellite data.
+  kind: enum
+  properties:
+  - name: Microsoft
+    types:
+    - uid: string
+- name: Source
+  description: Source of satellite data.
+  kind: enum
+  properties:
+  - name: Sentinel_2_L2A
+    types:
+    - uid: string
+- name: SatelliteData
+  description: Data Model for SatelliteIngestionJobRequest.
+  kind: object
+  properties:
+  - name: imageNames
+    description: >-
+      List of names of images to be fetched.
+
+      For Sentinel-2, allowed values are: 'B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B8A', 'B09', 'B11', 'B12', 'AOT', 'SCL', 'SNW', 'CLD', 'NDVI', 'NDWI', 'EVI', 'LAI', 'LAIMask', 'CLP', 'CLM', and 'dataMask'.
+    types:
+    - uid: string
+      isArray: true
+  - name: imageFormats
+    description: 'List of formats in which images can be fetched. Available value: TIF.'
+    types:
+    - uid: string
+      isArray: true
+  - name: imageResolutions
+    description: 'List of image resolutions in meters. For Sentinel-2, available values are: 10, 20, 60.'
+    types:
+    - uid: number
+      isArray: true
+- name: Error
+  description: An error from Azure FarmBeats service.
+  kind: object
+  properties:
+  - name: code
+    description: Server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+- name: InnerError
+  description: >-
+    Inner error containing list of errors.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+  kind: object
+  properties:
+  - name: code
+    description: Specific error code than was provided by the containing error.
+    types:
+    - uid: string
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+examples:
+- name: Scenes_GetSatelliteDataIngestionJobDetails
+  request:
+    uri: GET /scenes/satellite/ingest-data/Job123?api-version=2021-03-31-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "farmerId": "Farmer123",
+        "boundaryId": "Boundary123",
+        "startDateTime": "2020-04-16T10:14:12Z",
+        "endDateTime": "2021-04-16T10:14:12Z",
+        "provider": "Microsoft",
+        "source": "Sentinel_2_L2A",
+        "data": {
+          "imageNames": [
+            "NDVI"
+          ],
+          "imageFormats": [
+            "TIF"
+          ],
+          "imageResolutions": [
+            10
+          ]
+        },
+        "id": "Job123",
+        "status": "Succeeded",
+        "durationInSeconds": 14.2833851,
+        "message": "Satellite data is available for 73 days from provider in the requested date range. Successfully fetched data for 73 days.",
+        "createdDateTime": "2021-06-19T15:30:50Z",
+        "lastActionDateTime": "2021-06-19T15:31:04Z",
+        "startTime": "2021-06-19T15:30:50Z",
+        "endTime": "2021-06-19T15:31:04Z",
+        "name": "Test satellite job",
+        "description": "Test satellite job details",
+        "properties": {
+          "region": "Central US",
+          "retailerId": 123
+        }
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  in: header
+metadata:
+  description: >+
+    Learn more about Azure FarmBeats service - Get details of a satellite data ingestion job.
+
+errorCodes: []

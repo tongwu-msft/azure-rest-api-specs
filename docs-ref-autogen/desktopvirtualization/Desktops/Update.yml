@@ -3,14 +3,14 @@ uid: management.azure.com.desktopvirtualization.desktops.update
 name: Update
 service: Desktop Virtualization
 groupName: Desktops
-apiVersion: 2019-12-10-preview
+apiVersion: 2021-01-14-preview
 summary: Update a desktop.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/desktops/{desktopName}?api-version=2019-12-10-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/desktops/{desktopName}?api-version=2021-01-14-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,7 +24,6 @@ uriParameters:
   description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: applicationGroupName
   in: path
   isRequired: true
@@ -80,6 +79,11 @@ definitions:
   description: Schema for Desktop properties.
   kind: object
   properties:
+  - name: properties.objectId
+    isReadyOnly: true
+    description: ObjectId of Desktop. (internal use)
+    types:
+    - uid: string
   - name: properties.description
     description: Description of Desktop.
     types:
@@ -100,7 +104,7 @@ definitions:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
@@ -110,21 +114,16 @@ definitions:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
 - name: CloudError
-  description: Error response of an operation failure
   kind: object
   properties:
-  - name: code
-    description: Error code
+  - name: error
+    description: ''
     types:
-    - uid: string
-  - name: message
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
+    - uid: CloudErrorProperties
 - name: DesktopPatch
   description: Desktop properties that can be patched.
   kind: object
@@ -145,10 +144,21 @@ definitions:
     description: Friendly name of Desktop.
     types:
     - uid: string
+- name: CloudErrorProperties
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
 examples:
 - name: Desktop_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/applicationGroups/applicationGroup1/desktops/SessionDesktop?api-version=2019-12-10-preview
+    uri: PATCH https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/applicationGroups/applicationGroup1/desktops/SessionDesktop?api-version=2021-01-14-preview
     body: >-
       {
         "properties": {
@@ -164,6 +174,7 @@ examples:
         "id": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/applicationGroups/applicationGroup1/desktops/SessionDesktop",
         "type": "Microsoft.DesktopVirtualization/applicationGroups/desktops",
         "properties": {
+          "objectId": "7877fb31-4bde-49fd-9df3-c046e0ec5325",
           "description": "des1",
           "friendlyName": "friendly",
           "iconHash": "bEQ1n2HysrGxCDvgt4bfOtkET8ydzh5SXGM0KGTBPVc",
@@ -171,4 +182,6 @@ examples:
         }
       }
 security: []
+metadata:
+  description: Learn more about Desktop Virtualization service - Update a desktop.
 errorCodes: []

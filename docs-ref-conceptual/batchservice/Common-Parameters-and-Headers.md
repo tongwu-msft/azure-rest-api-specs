@@ -2,7 +2,6 @@
 title: "Common Parameters and Headers | Microsoft Docs"
 ms.custom: ""
 ms.date: 09/05/2017
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"
 ms.suite: ""

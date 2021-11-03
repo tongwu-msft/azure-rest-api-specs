@@ -1,0 +1,191 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.hybridcompute.privatelinkscopes.getvalidationdetailsformachine
+name: Get Validation Details For Machine
+service: Hybrid Compute
+groupName: Private Link Scopes
+apiVersion: 2021-05-20
+summary: Returns a Azure Arc PrivateLinkScope's validation details for a given machine.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/privateLinkScopes/current?api-version=2021-05-20
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: machineName
+  in: path
+  isRequired: true
+  description: The name of the target machine to get the private link scope validation details for.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Azure Arc PrivateLinkScope validation details definition.
+  types:
+  - uid: PrivateLinkScopeValidationDetails
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PrivateLinkScopeValidationDetails
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id
+    types:
+    - uid: string
+  - name: publicNetworkAccess
+    description: Indicates whether machines associated with the private link scope can also use public Azure Arc service endpoints.
+    types:
+    - uid: PublicNetworkAccessType
+  - name: connectionDetails
+    description: List of Private Endpoint Connection details.
+    types:
+    - uid: ConnectionDetail
+      isArray: true
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: PublicNetworkAccessType
+  description: The network access policy to determine if Azure Arc agents can use public Azure Arc service endpoints. Defaults to disabled (access to Azure Arc services only via private link).
+  kind: enum
+  properties:
+  - name: Enabled
+    description: Allows Azure Arc agents to communicate with Azure Arc services over both public (internet) and private endpoints.
+    types:
+    - uid: string
+  - name: Disabled
+    description: Does not allow Azure Arc agents to communicate with Azure Arc services over public (internet) endpoints. The agents must use the private link.
+    types:
+    - uid: string
+- name: ConnectionDetail
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id
+    types:
+    - uid: string
+  - name: privateIpAddress
+    isReadyOnly: true
+    description: The private endpoint connection private ip address
+    types:
+    - uid: string
+  - name: linkIdentifier
+    isReadyOnly: true
+    description: The private endpoint connection link identifier
+    types:
+    - uid: string
+  - name: groupId
+    isReadyOnly: true
+    description: The private endpoint connection group id
+    types:
+    - uid: string
+  - name: memberName
+    isReadyOnly: true
+    description: The private endpoint connection member name
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: PrivateLinkScopeGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4919/resourceGroups/my-resource-group/providers/Microsoft.HybridCompute/machines/machineName/privateLinkScopes/current?api-version=2021-05-20
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4919/resourceGroups/my-resource-group/providers/microsoft.hybridcompute/privateLinkScopes/my-privatelinkscope",
+        "publicNetworkAccess": "Disabled",
+        "connectionDetails": [
+          {
+            "id": "id",
+            "privateIpAddress": "ip",
+            "linkIdentifier": "linkId",
+            "groupId": "groupId",
+            "memberName": "memberName"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Hybrid Compute service - Returns a Azure Arc PrivateLinkScope's validation details for a given machine.
+errorCodes: []

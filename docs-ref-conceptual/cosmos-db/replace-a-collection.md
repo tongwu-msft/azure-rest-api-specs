@@ -1,6 +1,7 @@
 ---
 title: "Replace a Collection - Azure Cosmos DB REST API"
-ms.date: "03/29/2016"
+description: Learn how to replace a collection's properties by using a REST API request, the request and response object formats for this operation.  
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 22f0a0f2-df1e-40d4-b5ff-12aeecaa1419
@@ -22,7 +23,10 @@ translation.priority.mt:
 ---
 # Replace a Collection
   Replace Collection supports changing the indexing policy of a collection after creation. Changing other properties of a collection like the ID or the partition key are not supported.  
-  
+
+> [!NOTE]
+> These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md).
+
 ## Request  
   
 |Method|Request URI|Description|  
@@ -37,18 +41,17 @@ translation.priority.mt:
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
 |**id**|Required|String|The user generated unique name for the collection. No two collections can have the same ids. It is a string that must not be more than 255 characters.|  
-|**indexingPolicy**|Optional|Object|It is a system generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the permission resource.|  
+|**indexingPolicy**|Optional|Object|This value is used to configure the indexes on collection's items. By default, the indexing policy is set to  automatic for all document paths within the collection.|
+|**partitionKey**|Required|Object|This value sets the partition key that is used for data partitioning.<br /><br /> To use large partition key, specify the version as 2 within the partitionKey property. <br /><br /> If the REST API version is 2018-12-31 or higher, the collection must include a **partitionKey**  definition. In versions older than 2018-12-31, a legacy non-partitioned collection with manual throughput can be created by omitting the **partitionKey** definition and ensuring the throughput is between 400 - 10,000 RU/s. For best performance and scalability, it is recommended to always set a partition key.  <br /><br />Learn about how to [choose a good partition key](/azure/cosmos-db/partitioning-overview.md#choose-partitionkey).|
 
 > [!NOTE]
-> When you set custom index paths, you are required to specify the default indexing rule for the entire document tree, which is denoted by the special path "/*". 
-> 
-> 
-  
+> When you set custom index paths, you are required to specify the default indexing rule for the entire document tree, which is denoted by the special path "/*".
+
 ```  
 {  
   "id": "testcoll",  
   "indexingPolicy": {  
-    "indexingMode": "Lazy",  
+    "indexingMode": "consistent",  
     "automatic": true,  
     "includedPaths": [  
       {  
@@ -93,9 +96,8 @@ translation.priority.mt:
   
 |Code|Description|  
 |----------|-----------------|  
-|201 Created|The operation was successful.|  
+|201 OK|The PUT operation was successful.|  
 |400 Bad Request|The JSON body is invalid. Check for missing curly brackets or quotes.|  
-|409 Conflict|The id provided for the new collection has been taken by an existing collection.|  
   
 ### Body  
   
@@ -133,7 +135,7 @@ translation.priority.mt:
 {  
   "id": "testcoll",  
   "indexingPolicy": {  
-    "indexingMode": "lazy",  
+    "indexingMode": "consistent",  
     "automatic": true,  
     "includedPaths": [  
       {  
@@ -171,7 +173,7 @@ translation.priority.mt:
   
 ```  
 PUT https://querydemo.documents.azure.com/dbs/XrdaAA==/colls/XrdaAKx3Hgw= HTTP/1.1  
-x-ms-date: Mon, 28 Mar 2016 22:12:16 GMT  
+x-ms.date: 04/20/2021
 authorization: type%3dmaster%26ver%3d1.0%26sig%3dZY2s2H1TuPFKk1H2od5qVLbn57vjI9rKz0CMXKOk3GA%3d  
 Cache-Control: no-cache  
 User-Agent: Microsoft.Azure.Documents.Client/1.6.0.0  
@@ -184,7 +186,7 @@ Expect: 100-continue
 {  
   "id": "testcoll",  
   "indexingPolicy": {  
-    "indexingMode": "Lazy",  
+    "indexingMode": "consistent",  
     "automatic": true,  
     "includedPaths": [  
       {  
@@ -250,7 +252,7 @@ Date: Mon, 28 Mar 2016 22:12:15 GMT
 {  
   "id": "testcoll",  
   "indexingPolicy": {  
-    "indexingMode": "lazy",  
+    "indexingMode": "consistent",  
     "automatic": true,  
     "includedPaths": [  
       {  

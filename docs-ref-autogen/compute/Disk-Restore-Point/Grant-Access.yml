@@ -1,0 +1,200 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.diskrestorepoint.grantaccess
+name: Grant Access
+service: Compute
+groupName: Disk Restore Point
+apiVersion: 2020-12-01
+summary: Grants access to a diskRestorePoint.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}/beginGetAccess?api-version=2020-12-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: restorePointCollectionName
+  in: path
+  isRequired: true
+  description: The name of the restore point collection that the disk restore point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+  types:
+  - uid: string
+- name: vmRestorePointName
+  in: path
+  isRequired: true
+  description: The name of the vm restore point that the disk disk restore point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+  types:
+  - uid: string
+- name: diskRestorePointName
+  in: path
+  isRequired: true
+  description: The name of the disk restore point created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: AccessUri
+- name: 202 Accepted
+  description: Accepted
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: access
+    in: body
+    isRequired: true
+    description: ''
+    types:
+    - uid: AccessLevel
+  - name: durationInSeconds
+    in: body
+    isRequired: true
+    description: Time duration in seconds until the SAS access expires.
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: AccessUri
+  description: A disk access SAS uri.
+  kind: object
+  properties:
+  - name: accessSAS
+    isReadyOnly: true
+    description: A SAS uri for accessing a disk.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
+- name: GrantAccessData
+  description: Data used for requesting a SAS.
+  kind: object
+  properties:
+  - name: access
+    description: ''
+    types:
+    - uid: AccessLevel
+  - name: durationInSeconds
+    description: Time duration in seconds until the SAS access expires.
+    types:
+    - uid: integer
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: AccessLevel
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Read
+    types:
+    - uid: string
+  - name: Write
+    types:
+    - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+examples:
+- name: Grants access to a diskRestorePoint.
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpc/restorePoints/vmrp/diskRestorePoints/TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745/beginGetAccess?api-version=2020-12-01
+    body: >-
+      {
+        "access": "Read",
+        "durationInSeconds": 300
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "accessSAS": "https://md-gpvmcxzlzxgd.partition.blob.storage.azure.net/xx3cqcx53f0v/abcd?sv=2014-02-14&sr=b&sk=key1&sig=XXX&st=2021-05-24T18:02:34Z&se=2021-05-24T18:19:14Z&sp=r"
+      }
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Compute service - Grants access to a diskRestorePoint.
+errorCodes: []

@@ -1,5 +1,6 @@
 ---
 title: "Replace a Document - Azure Cosmos DB REST API"
+description: Learn how to replace a document's properties by using a REST API request, the request and response object formats for this operation. 
 ms.date: "03/29/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"

@@ -1,10 +1,10 @@
 ---
 title: "Previous Azure Storage service versions"
 description: Information about previous versions of the Azure Storage service.
-author: pemari-msft
+author: seanmcc-msft
 
-ms.author: pemari
-ms.date: 08/06/2019
+ms.author: seanmcc
+ms.date: 07/06/2021
 ms.service: storage
 ms.topic: reference
 ---
@@ -13,9 +13,21 @@ ms.topic: reference
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
 ## Available Versions  
- The current version of the Azure storage services is 2019-07-07, and using that version is recommended where possible. For information about the latest version, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).  
+The current version of the Azure storage services is 2020-10-02, and using that version is recommended where possible. For information about the latest version, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).  
   
  Additional supported versions include:
+
+-   [Version 2020-08-04](version-2020-08-04.md)
+
+-   [Version 2020-06-12](version-2020-06-12.md)
+
+-   [Version 2020-04-08](version-2020-04-08.md)
+
+-   [Version 2020-02-10](version-2020-02-10.md)
+
+-   [Version 2019-12-12](version-2019-12-12.md)
+
+-   [Version 2019-07-07](version-2019-07-07.md)
 
 -   [Version 2019-02-02](version-2019-02-02.md)
 
@@ -97,10 +109,9 @@ The Microsoft Azure storage services support multiple versions. To make a reques
 4.  If the SAS request against the Blob service does not have an `x-ms-version` header and the owner has not set a default version, the Blob service uses the earliest valid version (2009-07-17) to interpret the SAS parameters. If the container access restrictions were not set with a [Set Container ACL](Set-Container-ACL.md) operation that used version 2009-09-19 or newer, the Blob service operation is performed using the earliest version of the service.  
   
  The following table applies these rules to various scenarios, and assumes the `SignedVersion` parameter is not included.  
-  
-||||  
-|-|-|-|  
-|**Value of x-ms-version header**|**Version used to interpret SAS parameters for authorization and authorization for Blob service**|**Version used to perform Blob service operation**|  
+
+|Value of x-ms-version header|Version used to interpret SAS parameters for authorization and authorization for Blob service|Version used to perform Blob service operation|
+|-|-|-|
 |None|Earliest valid SAS version (2009-07-17)|2009-09-19 is used if the container was set to public by [Set Container ACL](Set-Container-ACL.md) using version 2009-09-19 or newer; otherwise the earliest version of Blob service is used.|  
 |2011-08-18|Earliest valid SAS version (2009-07-17)|2011-08-18.|  
 |Any version XXXX-XX-XX|Earliest valid SAS version (2009-07-17)|Version XXXX-XX-XX|  
