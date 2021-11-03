@@ -19810,6 +19810,83 @@
 #### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlPools%202.yml)
 #### [Get](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlPools%202/Get.yml)
 #### [List](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlPools%202/List.yml)
+# Test Base
+## [Overview](../docs-ref-conceptual/testbase/index.md)
+## Analysis Results
+### [Overview](testbase/Analysis-Results.yml)
+### [Get](testbase/Analysis-Results/Get.yml)
+### [List](testbase/Analysis-Results/List.yml)
+## Available OS
+### [Overview](testbase/Available-OS.yml)
+### [Get](testbase/Available-OS/Get.yml)
+### [List](testbase/Available-OS/List.yml)
+## Customer Events
+### [Overview](testbase/Customer-Events.yml)
+### [Create](testbase/Customer-Events/Create.yml)
+### [Delete](testbase/Customer-Events/Delete.yml)
+### [Get](testbase/Customer-Events/Get.yml)
+### [List By Test Base Account](testbase/Customer-Events/List-By-Test-Base-Account.yml)
+## Email Events
+### [Overview](testbase/Email-Events.yml)
+### [Get](testbase/Email-Events/Get.yml)
+### [List](testbase/Email-Events/List.yml)
+## Favorite Processes
+### [Overview](testbase/Favorite-Processes.yml)
+### [Create](testbase/Favorite-Processes/Create.yml)
+### [Delete](testbase/Favorite-Processes/Delete.yml)
+### [Get](testbase/Favorite-Processes/Get.yml)
+### [List](testbase/Favorite-Processes/List.yml)
+## Flighting Rings
+### [Overview](testbase/Flighting-Rings.yml)
+### [Get](testbase/Flighting-Rings/Get.yml)
+### [List](testbase/Flighting-Rings/List.yml)
+## OS Updates
+### [Overview](testbase/OS-Updates.yml)
+### [Get](testbase/OS-Updates/Get.yml)
+### [List](testbase/OS-Updates/List.yml)
+## Operations
+### [Overview](testbase/Operations.yml)
+### [List](testbase/Operations/List.yml)
+## Packages
+### [Overview](testbase/Packages.yml)
+### [Create](testbase/Packages/Create.yml)
+### [Delete](testbase/Packages/Delete.yml)
+### [Get](testbase/Packages/Get.yml)
+### [Get Download URL](testbase/Packages/Get-Download-URL.yml)
+### [Hard Delete](testbase/Packages/Hard-Delete.yml)
+### [List By Test Base Account](testbase/Packages/List-By-Test-Base-Account.yml)
+### [Update](testbase/Packages/Update.yml)
+## Skus
+### [Overview](testbase/Skus.yml)
+### [List](testbase/Skus/List.yml)
+## Test Base Accounts
+### [Overview](testbase/Test-Base-Accounts.yml)
+### [Check Package Name Availability](testbase/Test-Base-Accounts/Check-Package-Name-Availability.yml)
+### [Create](testbase/Test-Base-Accounts/Create.yml)
+### [Delete](testbase/Test-Base-Accounts/Delete.yml)
+### [Get](testbase/Test-Base-Accounts/Get.yml)
+### [Get File Upload Url](testbase/Test-Base-Accounts/Get-File-Upload-Url.yml)
+### [List By Resource Group](testbase/Test-Base-Accounts/List-By-Resource-Group.yml)
+### [List By Subscription](testbase/Test-Base-Accounts/List-By-Subscription.yml)
+### [Offboard](testbase/Test-Base-Accounts/Offboard.yml)
+### [Update](testbase/Test-Base-Accounts/Update.yml)
+## Test Results
+### [Overview](testbase/Test-Results.yml)
+### [Get](testbase/Test-Results/Get.yml)
+### [Get Download URL](testbase/Test-Results/Get-Download-URL.yml)
+### [Get Video Download URL](testbase/Test-Results/Get-Video-Download-URL.yml)
+### [List](testbase/Test-Results/List.yml)
+## Test Summaries
+### [Overview](testbase/Test-Summaries.yml)
+### [Get](testbase/Test-Summaries/Get.yml)
+### [List](testbase/Test-Summaries/List.yml)
+## Test Types
+### [Overview](testbase/Test-Types.yml)
+### [Get](testbase/Test-Types/Get.yml)
+### [List](testbase/Test-Types/List.yml)
+## Usage
+### [Overview](testbase/Usage.yml)
+### [List](testbase/Usage/List.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
 ## Data Access (Gen2)
