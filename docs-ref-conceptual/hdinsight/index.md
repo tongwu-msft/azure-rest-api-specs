@@ -6,7 +6,7 @@ ms.service: hdinsight
 description: Azure HDInsight REST API reference
 author: guyhay
 ms.author: guyhay
-ms.date: 10/4/2021
+ms.date: 10/29/2021
 ms.topic: reference
 MS.devlang: rest-api
 ---
@@ -17,13 +17,13 @@ MS.devlang: rest-api
 
 ## API querying overview
 
-Use these APIs to create and manage HDInsight resources through Azure Resource Manager. To perform operations on Azure HDInsight resources, you send HTTPS request with a supported method: `GET`, `POST`, `PUT`, or `DELETE` to an endpoint that targets a specific resource.  All task operations conform to the HTTP/1.1 protocol specification and each operation returns an x-ms-request-id header that can be used to obtain information about the request. Ensure that requests made to these resources are secure. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
+Use these APIs to create and manage HDInsight resources through Azure Resource Manager. To perform operations on Azure HDInsight resources, you send HTTPS request with a supported method: `GET`, `POST`, `PUT`, or `DELETE` to an endpoint that targets a specific resource.  All task operations conform to the HTTP/1.1 protocol specification and each operation returns an `x-ms-request-id` header that can be used to obtain information about the request. Ensure that requests made to these resources are secure. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).  
 
 ## Common parameters and headers
 
  The following information is common to all tasks related to clusters that you might do:  
   
-* Replace {api-version} with 2018-06-01-preview
+* Replace {api-version} with `2021-06-01`
   
 * Replace {subscription-id} with your subscription identifier in the URI.  
   
@@ -33,7 +33,7 @@ Use these APIs to create and manage HDInsight resources through Azure Resource M
   
 * Set the Content-Type header to **application/json**.  
   
-* Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx). 
+* Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx).
 
 ## REST Operation Groups
 
@@ -44,21 +44,29 @@ Use these APIs to create and manage HDInsight resources through Azure Resource M
 
 ## Supported REST API versions
 
-The following table lists the supported REST API versions by the Azure HDInsight service. The version must be specified via the `x-ms-version` header in every request. If not specified, the service defaults to the latest version `2018-06-01-preview`.
+The following table lists the supported REST API versions by the Azure HDInsight service. The version must be specified via the `x-ms-version` header in every request. If not specified, the service defaults to the latest version `2021-06-01`.
 
 |Version|Change introduced|Retirement date|  
 |-------------|---------------------|-----------------------|
-|2015-03-01-preview || retirement date TBD
-|2018-06-01-preview||2024-10-15 planned retirement
-|2021-06-01| New version, simplified and with 3 breaking changes
+|`2015-03-01-preview` || 2024-10-15 planned retirement
+|`2018-06-01-preview` || 2024-10-15 planned retirement
+|`2021-06-01`| New version, adding support for several new features detailed below
 
-## Upcoming breaking changes in new 2021-06-01 API version
+## Updates in the new 2021-06-01 API version
 
-Shortly we will be releasing a new version of the HDInsight REST API.  This new version will start the deprecation path for the 2018-06-01-preview version in 3 years, and will introduce some scoped breaking changes.
+We have released a new version of the HDInsight REST API `2021-06-01`.  This new version replaces `2018-06-01-preview` version which will retire on 2024-10-15.  This new API version adds several new features including availability zones, private link, and private end-point connections.  With the latest `2021-06-01` API, please note the following new features and changes.
 
+1. Adding support for creating clusters with availability zones.  
+    * Please see [Creating clusters with availability zones](https://github.com/Azure/azure-sdk-for-net/blob/3b68cb85f4ea3da303cb766e14b80afef3203ec1/sdk/hdinsight/Microsoft.Azure.Management.HDInsight/tests/ScenarioTests/ClusterOperationTests.cs#L779) and for a Rest example [Rest - Create cluster with availability zones](https://docs.microsoft.com/rest/api/hdinsight/2021-06-01/clusters/create#create-cluster-with-availability-zones)
+1. Adding support for creating clusters with private link.  
+    * Please see [Creating clusters with private link](https://github.com/Azure/azure-sdk-for-net/blob/3b68cb85f4ea3da303cb766e14b80afef3203ec1/sdk/hdinsight/Microsoft.Azure.Management.HDInsight/tests/ScenarioTests/ClusterOperationTests.cs#L883)
+1. Support getting private link resources of HDInsight clusters.  
+    * Please see [Private link resources](https://github.com/Azure/azure-sdk-for-net/blob/3b68cb85f4ea3da303cb766e14b80afef3203ec1/sdk/hdinsight/Microsoft.Azure.Management.HDInsight/tests/ScenarioTests/PrivateLinkResourceTests.cs#L38)
+1. Support get/approve/reject/delete private endpoint connections.  
+    * Please see [Private endpoint connections](https://github.com/Azure/azure-sdk-for-net/blob/3b68cb85f4ea3da303cb766e14b80afef3203ec1/sdk/hdinsight/Microsoft.Azure.Management.HDInsight/tests/ScenarioTests/PrivateEndpointConnectionTests.cs#L16) and for a Rest example [Rest - Private Endpoint Connections - Create Or Update](https://docs.microsoft.com/rest/api/hdinsight/2021-06-01/private-endpoint-connections/create-or-update)
 1. One property {location}, previously optional, will be required.
-2. Two existing properties will be removed from the Locations API, {vmsizes} and {vmsize_filters}.  These properties remain in another part of the api, BillingSpecs.  We are moving to a single source (BillingSpecs) for these two properties.
-3. Two existing properties will be renamed, to match camelCase style.
+1. Two existing properties will be removed from the Locations API, {vmsizes} and {vmsize_filters}.  These properties remain in another part of the api, BillingSpecs.  We are moving to a single source (BillingSpecs) for these two properties.
+1. Two existing properties will be renamed, to match camelCase style.
    1. {cores_used} will be renamed to {coresUsed}
    1. {max_cores_allowed} will be renamed to {maxCoresAllowed}
    1. {regionName} has been renamed to {regionName}
