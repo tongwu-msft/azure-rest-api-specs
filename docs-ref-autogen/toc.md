@@ -16121,6 +16121,7 @@
 #### [Delete Profile](speakerrecognition/identification/Text-Independent/Delete-Profile.yml)
 #### [Get Profile](speakerrecognition/identification/Text-Independent/Get-Profile.yml)
 #### [Identify Single Speaker](speakerrecognition/identification/Text-Independent/Identify-Single-Speaker.yml)
+#### [List Activation Phrases](speakerrecognition/identification/Text-Independent/List-Activation-Phrases.yml)
 #### [List Profiles](speakerrecognition/identification/Text-Independent/List-Profiles.yml)
 #### [Reset Profile](speakerrecognition/identification/Text-Independent/Reset-Profile.yml)
 ## Verification
@@ -16140,6 +16141,7 @@
 #### [Create Profile](speakerrecognition/verification/Text-Independent/Create-Profile.yml)
 #### [Delete Profile](speakerrecognition/verification/Text-Independent/Delete-Profile.yml)
 #### [Get Profile](speakerrecognition/verification/Text-Independent/Get-Profile.yml)
+#### [List Activation Phrases](speakerrecognition/verification/Text-Independent/List-Activation-Phrases.yml)
 #### [List Profiles](speakerrecognition/verification/Text-Independent/List-Profiles.yml)
 #### [Reset Profile](speakerrecognition/verification/Text-Independent/Reset-Profile.yml)
 #### [Verify Profile](speakerrecognition/verification/Text-Independent/Verify-Profile.yml)
