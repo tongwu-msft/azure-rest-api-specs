@@ -3,14 +3,14 @@ uid: management.azure.com.aks.agentpools.list
 name: List
 service: AKS
 groupName: Agent Pools
-apiVersion: 2021-05-01
+apiVersion: 2021-09-01
 summary: Gets a list of agent pools in the specified managed cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools?api-version=2021-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -109,6 +109,10 @@ definitions:
     description: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
     types:
     - uid: KubeletDiskType
+  - name: properties.workloadRuntime
+    description: Determines the type of workload a node can run.
+    types:
+    - uid: WorkloadRuntime
   - name: properties.vnetSubnetID
     description: "The ID of the subnet which agent pool nodes and optionally pods will join on startup.  \nIf this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}"
     types:
@@ -141,6 +145,10 @@ definitions:
     description: Whether to enable auto-scaler
     types:
     - uid: boolean
+  - name: properties.scaleDownMode
+    description: "The scale down mode to use when scaling the Agent Pool.  \nThis also effects the cluster autoscaler behavior. If not specified, it defaults to Delete."
+    types:
+    - uid: ScaleDownMode
   - name: properties.type
     description: The type of Agent Pool.
     types:
@@ -168,8 +176,7 @@ definitions:
     types:
     - uid: string
   - name: properties.powerState
-    isReadyOnly: true
-    description: Describes whether the Agent Pool is Running or Stopped
+    description: "Whether the Agent Pool is running or stopped.  \nWhen an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded"
     types:
     - uid: PowerState
   - name: properties.availabilityZones
@@ -246,6 +253,10 @@ definitions:
     description: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
     types:
     - uid: 'GPUInstanceProfile '
+  - name: properties.creationData
+    description: CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot.
+    types:
+    - uid: CreationData
 - name: CloudErrorBody
   description: An error response from the Container service.
   kind: object
@@ -291,6 +302,18 @@ definitions:
     description: Kubelet will use the temporary disk for its data.
     types:
     - uid: string
+- name: WorkloadRuntime
+  description: Determines the type of workload a node can run.
+  kind: enum
+  properties:
+  - name: OCIContainer
+    description: Nodes will use Kubelet to run standard OCI container workloads.
+    types:
+    - uid: string
+  - name: WasmWasi
+    description: Nodes will use Krustlet to run WASM workloads using the WASI provider (Preview).
+    types:
+    - uid: string
 - name: OSType
   description: The operating system type. The default is Linux.
   kind: enum
@@ -311,6 +334,18 @@ definitions:
     types:
     - uid: string
   - name: CBLMariner
+    types:
+    - uid: string
+- name: ScaleDownMode
+  description: Describes how VMs are added to or removed from Agent Pools. See [billing states](https://docs.microsoft.com/azure/virtual-machines/states-billing).
+  kind: enum
+  properties:
+  - name: Delete
+    description: Create new instances during scale up and remove instances during scale down.
+    types:
+    - uid: string
+  - name: Deallocate
+    description: Attempt to start deallocated instances (if they exist) during scale up and deallocate instances during scale down.
     types:
     - uid: string
 - name: AgentPoolType
@@ -465,6 +500,14 @@ definitions:
   - name: MIG7g
     types:
     - uid: string
+- name: CreationData
+  description: Data used when creating a target resource from a source resource.
+  kind: object
+  properties:
+  - name: sourceResourceId
+    description: This is the ARM ID of the source object to be used to create the target object.
+    types:
+    - uid: string
 - name: code
   description: Tells whether the cluster is Running or Stopped
   kind: enum
@@ -596,7 +639,7 @@ definitions:
 examples:
 - name: List Agent Pools by Managed Cluster
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools?api-version=2021-05-01
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools?api-version=2021-09-01
   responses:
   - statusCode: "200"
     body: >-

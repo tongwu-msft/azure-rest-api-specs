@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.updatetags
 name: Update Tags
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2021-05-01
+apiVersion: 2021-09-01
 summary: Updates tags on a managed cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2021-05-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -72,33 +72,6 @@ definitions:
     description: The extended location of the Virtual Machine.
     types:
     - uid: ExtendedLocation
-  - name: id
-    isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
   - name: identity
     description: The identity of the managed cluster, if configured.
     types:
@@ -213,7 +186,11 @@ definitions:
   - name: properties.identityProfile
     description: Identities associated with the cluster.
     types:
-    - {}
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
   - name: properties.privateLinkResources
     description: Private link resources associated with the cluster.
     types:
@@ -227,6 +204,41 @@ definitions:
     description: Configurations for provisioning the cluster with HTTP proxy servers.
     types:
     - uid: ManagedClusterHTTPProxyConfig
+  - name: properties.securityProfile
+    description: Security profile for the managed cluster.
+    types:
+    - uid: ManagedClusterSecurityProfile
+  - name: properties.publicNetworkAccess
+    description: "Whether the cluster can be accessed through public network or not  \nDefault value is 'Enabled' (case insensitive). Could be set to 'Disabled' to enable private cluster"
+    types:
+    - uid: PublicNetworkAccess
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: CloudError
   description: An error response from the Container service.
   kind: object
@@ -325,6 +337,10 @@ definitions:
     description: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
     types:
     - uid: KubeletDiskType
+  - name: workloadRuntime
+    description: Determines the type of workload a node can run.
+    types:
+    - uid: WorkloadRuntime
   - name: vnetSubnetID
     description: "The ID of the subnet which agent pool nodes and optionally pods will join on startup.  \nIf this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}"
     types:
@@ -357,6 +373,10 @@ definitions:
     description: Whether to enable auto-scaler
     types:
     - uid: boolean
+  - name: scaleDownMode
+    description: "The scale down mode to use when scaling the Agent Pool.  \nThis also effects the cluster autoscaler behavior. If not specified, it defaults to Delete."
+    types:
+    - uid: ScaleDownMode
   - name: type
     description: The type of Agent Pool.
     types:
@@ -384,8 +404,7 @@ definitions:
     types:
     - uid: string
   - name: powerState
-    isReadyOnly: true
-    description: Describes whether the Agent Pool is Running or Stopped
+    description: "Whether the Agent Pool is running or stopped.  \nWhen an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded"
     types:
     - uid: PowerState
   - name: availabilityZones
@@ -462,6 +481,10 @@ definitions:
     description: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
     types:
     - uid: 'GPUInstanceProfile '
+  - name: creationData
+    description: CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot.
+    types:
+    - uid: CreationData
   - name: name
     description: "Unique name of the agent pool profile in the context of the subscription and resource group.  \nWindows agent pool names must be 6 characters or less."
     types:
@@ -498,6 +521,10 @@ definitions:
     description: "Whether to enable CSI proxy.  \nFor more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy)."
     types:
     - uid: boolean
+  - name: gmsaProfile
+    description: The Windows gMSA Profile in the Managed Cluster.
+    types:
+    - uid: WindowsGmsaProfile
 - name: ManagedClusterServicePrincipalProfile
   description: Information about a service principal identity for the cluster to use for manipulating Azure APIs.
   kind: object
@@ -597,6 +624,10 @@ definitions:
     description: Profile of the cluster load balancer.
     types:
     - uid: ManagedClusterLoadBalancerProfile
+  - name: natGatewayProfile
+    description: Profile of the cluster NAT gateway.
+    types:
+    - uid: ManagedClusterNATGatewayProfile
 - name: ManagedClusterAADProfile
   description: AADProfile specifies attributes for Azure Active Directory integration.
   kind: object
@@ -731,6 +762,26 @@ definitions:
     description: Whether to create additional public FQDN for private cluster or not.
     types:
     - uid: boolean
+  - name: disableRunCommand
+    description: Whether to disable run command for the cluster or not.
+    types:
+    - uid: boolean
+- name: UserAssignedIdentity
+  description: Details about a user assigned identity.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The resource ID of the user assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    description: The client ID of the user assigned identity.
+    types:
+    - uid: string
+  - name: objectId
+    description: The object ID of the user assigned identity.
+    types:
+    - uid: string
 - name: PrivateLinkResource
   description: A private link resource
   kind: object
@@ -780,6 +831,24 @@ definitions:
       isArray: true
   - name: trustedCa
     description: Alternative CA cert to use for connecting to proxy servers.
+    types:
+    - uid: string
+- name: ManagedClusterSecurityProfile
+  description: Security profile for the container service cluster.
+  kind: object
+  properties:
+  - name: azureDefender
+    description: Azure Defender settings for the security profile.
+    types:
+    - uid: ManagedClusterSecurityProfileAzureDefender
+- name: PublicNetworkAccess
+  description: Whether the cluster can be accessed through public network or not
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: CloudErrorBody
@@ -889,6 +958,18 @@ definitions:
     description: Kubelet will use the temporary disk for its data.
     types:
     - uid: string
+- name: WorkloadRuntime
+  description: Determines the type of workload a node can run.
+  kind: enum
+  properties:
+  - name: OCIContainer
+    description: Nodes will use Kubelet to run standard OCI container workloads.
+    types:
+    - uid: string
+  - name: WasmWasi
+    description: Nodes will use Krustlet to run WASM workloads using the WASI provider (Preview).
+    types:
+    - uid: string
 - name: OSType
   description: The operating system type. The default is Linux.
   kind: enum
@@ -909,6 +990,18 @@ definitions:
     types:
     - uid: string
   - name: CBLMariner
+    types:
+    - uid: string
+- name: ScaleDownMode
+  description: Describes how VMs are added to or removed from Agent Pools. See [billing states](https://docs.microsoft.com/azure/virtual-machines/states-billing).
+  kind: enum
+  properties:
+  - name: Delete
+    description: Create new instances during scale up and remove instances during scale down.
+    types:
+    - uid: string
+  - name: Deallocate
+    description: Attempt to start deallocated instances (if they exist) during scale up and deallocate instances during scale down.
     types:
     - uid: string
 - name: AgentPoolType
@@ -1055,6 +1148,14 @@ definitions:
   - name: MIG7g
     types:
     - uid: string
+- name: CreationData
+  description: Data used when creating a target resource from a source resource.
+  kind: object
+  properties:
+  - name: sourceResourceId
+    description: This is the ARM ID of the source object to be used to create the target object.
+    types:
+    - uid: string
 - name: ContainerServiceSshConfiguration
   description: SSH configuration for Linux-based VMs running on Azure.
   kind: object
@@ -1074,6 +1175,22 @@ definitions:
     - uid: string
   - name: Windows_Server
     description: Enables Azure Hybrid User Benefits for Windows VMs.
+    types:
+    - uid: string
+- name: WindowsGmsaProfile
+  description: Windows gMSA Profile in the managed cluster.
+  kind: object
+  properties:
+  - name: enabled
+    description: "Whether to enable Windows gMSA.  \nSpecifies whether to enable Windows gMSA in the managed cluster."
+    types:
+    - uid: boolean
+  - name: dnsServer
+    description: Specifies the DNS server for Windows gMSA. <br><br> Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster.
+    types:
+    - uid: string
+  - name: rootDomainName
+    description: Specifies the root domain name for Windows gMSA. <br><br> Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster.
     types:
     - uid: string
 - name: Identity
@@ -1190,6 +1307,14 @@ definitions:
     description: Egress paths must be defined by the user. This is an advanced scenario and requires proper network configuration. For more information see [outbound type userDefinedRouting](https://docs.microsoft.com/azure/aks/egress-outboundtype#outbound-type-of-userdefinedrouting).
     types:
     - uid: string
+  - name: managedNATGateway
+    description: The AKS-managed NAT gateway is used for egress.
+    types:
+    - uid: string
+  - name: userAssignedNATGateway
+    description: The user-assigned NAT gateway associated to the cluster subnet is used for egress. This is an advanced scenario and requires proper network configuration.
+    types:
+    - uid: string
 - name: loadBalancerSku
   description: The load balancer sku for the managed cluster.
   kind: enum
@@ -1229,6 +1354,27 @@ definitions:
     - uid: integer
   - name: idleTimeoutInMinutes
     description: Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 30 minutes.
+    types:
+    - uid: integer
+  - name: enableMultipleStandardLoadBalancers
+    description: Enable multiple standard load balancers per AKS cluster or not.
+    types:
+    - uid: boolean
+- name: ManagedClusterNATGatewayProfile
+  description: Profile of the managed cluster NAT gateway.
+  kind: object
+  properties:
+  - name: managedOutboundIPProfile
+    description: Profile of the managed outbound IP resources of the cluster NAT gateway.
+    types:
+    - uid: ManagedClusterManagedOutboundIPProfile
+  - name: effectiveOutboundIPs
+    description: The effective outbound IP resources of the cluster NAT gateway.
+    types:
+    - uid: ResourceReference
+      isArray: true
+  - name: idleTimeoutInMinutes
+    description: Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 4 minutes.
     types:
     - uid: integer
 - name: upgradeChannel
@@ -1273,6 +1419,18 @@ definitions:
     - uid: string
   - name: random
     description: Used when you don't have a particular need for the node groups to scale differently.
+    types:
+    - uid: string
+- name: ManagedClusterSecurityProfileAzureDefender
+  description: Azure Defender settings for the security profile.
+  kind: object
+  properties:
+  - name: enabled
+    description: Whether to enable Azure Defender
+    types:
+    - uid: boolean
+  - name: logAnalyticsWorkspaceResourceId
+    description: Resource ID of the Log Analytics workspace to be associated with Azure Defender.  When Azure Defender is enabled, this field is required and must be a valid workspace resource ID. When Azure Defender is disabled, leave the field empty.
     types:
     - uid: string
 - name: SysctlConfig
@@ -1399,22 +1557,6 @@ definitions:
     description: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or without headers.
     types:
     - uid: string
-- name: UserAssignedIdentity
-  description: Details about a user assigned identity.
-  kind: object
-  properties:
-  - name: resourceId
-    description: The resource ID of the user assigned identity.
-    types:
-    - uid: string
-  - name: clientId
-    description: The client ID of the user assigned identity.
-    types:
-    - uid: string
-  - name: objectId
-    description: The object ID of the user assigned identity.
-    types:
-    - uid: string
 - name: ManagedClusterPodIdentityProvisioningState
   description: The current provisioning state of the pod identity.
   kind: enum
@@ -1472,6 +1614,14 @@ definitions:
     description: The fully qualified Azure resource id.
     types:
     - uid: string
+- name: ManagedClusterManagedOutboundIPProfile
+  description: Profile of the managed outbound IP resources of the managed cluster.
+  kind: object
+  properties:
+  - name: count
+    description: 'The desired number of outbound IPs created/managed by Azure. Allowed values must be in the range of 1 to 16 (inclusive). The default value is 1. '
+    types:
+    - uid: integer
 - name: ManagedClusterPodIdentityProvisioningError
   description: An error response from the pod identity provisioning.
   kind: object
@@ -1504,7 +1654,7 @@ definitions:
 examples:
 - name: Update Managed Cluster Tags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-05-01
+    uri: PATCH https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
     body: >-
       {
         "tags": {
