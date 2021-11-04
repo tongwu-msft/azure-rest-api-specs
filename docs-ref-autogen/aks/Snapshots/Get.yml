@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.aks.maintenanceconfigurations.get
+uid: management.azure.com.aks.snapshots.get
 name: Get
 service: AKS
-groupName: Maintenance Configurations
+groupName: Snapshots
 apiVersion: 2021-09-01
-summary: Gets the specified maintenance configuration of a managed cluster.
+summary: Gets a snapshot.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}?api-version=2021-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,12 +31,6 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$
-- name: configName
-  in: path
-  isRequired: true
-  description: The name of the maintenance configuration.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -47,40 +41,68 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: MaintenanceConfiguration
+  - uid: Snapshot
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: MaintenanceConfiguration
-  description: Planned maintenance configuration, used to configure when updates can be deployed to a Managed Cluster.
+- name: Snapshot
+  description: A node pool snapshot resource.
   kind: object
   properties:
   - name: systemData
     isReadyOnly: true
-    description: The system metadata relating to this resource.
+    description: The system metadata relating to this snapshot.
     types:
     - uid: SystemData
-  - name: properties.timeInWeek
-    description: "Time slots during the week when planned maintenance is allowed to proceed.  \nIf two array entries specify the same day of the week, the applied configuration is the union of times in both entries."
+  - name: properties.creationData
+    description: CreationData to be used to specify the source agent pool resource ID to create this snapshot.
     types:
-    - uid: TimeInWeek
-      isArray: true
-  - name: properties.notAllowedTime
-    description: Time slots on which upgrade is not allowed.
+    - uid: CreationData
+  - name: properties.snapshotType
+    description: The type of a snapshot. The default is NodePool.
     types:
-    - uid: TimeSpan
-      isArray: true
+    - uid: SnapshotType
+  - name: properties.kubernetesVersion
+    isReadyOnly: true
+    description: The version of Kubernetes.
+    types:
+    - uid: string
+  - name: properties.nodeImageVersion
+    isReadyOnly: true
+    description: The version of node image.
+    types:
+    - uid: string
+  - name: properties.osType
+    isReadyOnly: true
+    description: The operating system type. The default is Linux.
+    types:
+    - uid: OSType
+  - name: properties.osSku
+    isReadyOnly: true
+    description: Specifies an OS SKU. This value must not be specified if OSType is Windows.
+    types:
+    - uid: OSSKU
+  - name: properties.vmSize
+    isReadyOnly: true
+    description: The size of the VM.
+    types:
+    - uid: string
+  - name: properties.enableFIPS
+    isReadyOnly: true
+    description: Whether to use a FIPS-enabled OS.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
-    description: Resource ID.
+    description: Resource Id
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    description: Resource name
     types:
     - uid: string
   - name: type
@@ -88,6 +110,18 @@ definitions:
     description: Resource type
     types:
     - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: CloudError
   description: An error response from the Container service.
   kind: object
@@ -124,29 +158,42 @@ definitions:
     description: The type of identity that last modified the resource.
     types:
     - uid: string
-- name: TimeInWeek
-  description: Time in a week.
+- name: CreationData
+  description: Data used when creating a target resource from a source resource.
   kind: object
   properties:
-  - name: day
-    description: The day of the week.
-    types:
-    - uid: WeekDay
-  - name: hourSlots
-    description: "A list of hours in the day used to identify a time range.  \nEach integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range."
-    types:
-    - uid: integer
-      isArray: true
-- name: TimeSpan
-  description: A time range.
-  kind: object
-  properties:
-  - name: start
-    description: The start of a time span
+  - name: sourceResourceId
+    description: This is the ARM ID of the source object to be used to create the target object.
     types:
     - uid: string
-  - name: end
-    description: The end of a time span
+- name: SnapshotType
+  description: The type of a snapshot. The default is NodePool.
+  kind: enum
+  properties:
+  - name: NodePool
+    description: The snapshot is a snapshot of a node pool.
+    types:
+    - uid: string
+- name: OSType
+  description: The operating system type. The default is Linux.
+  kind: enum
+  properties:
+  - name: Linux
+    description: Use Linux.
+    types:
+    - uid: string
+  - name: Windows
+    description: Use Windows.
+    types:
+    - uid: string
+- name: OSSKU
+  description: Specifies an OS SKU. This value must not be specified if OSType is Windows.
+  kind: enum
+  properties:
+  - name: Ubuntu
+    types:
+    - uid: string
+  - name: CBLMariner
     types:
     - uid: string
 - name: CloudErrorBody
@@ -186,65 +233,38 @@ definitions:
   - name: Key
     types:
     - uid: string
-- name: WeekDay
-  description: The weekday enum.
-  kind: enum
-  properties:
-  - name: Sunday
-    types:
-    - uid: string
-  - name: Monday
-    types:
-    - uid: string
-  - name: Tuesday
-    types:
-    - uid: string
-  - name: Wednesday
-    types:
-    - uid: string
-  - name: Thursday
-    types:
-    - uid: string
-  - name: Friday
-    types:
-    - uid: string
-  - name: Saturday
-    types:
-    - uid: string
 examples:
-- name: Get Maintenance Configuration
+- name: Get Snapshot
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/maintenanceConfigurations/default?api-version=2021-09-01
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1?api-version=2021-09-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/maintenanceConfigurations/default",
-        "name": "default",
+        "name": "snapshot1",
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1",
+        "type": "Microsoft.ContainerService/Snapshots",
+        "location": "westus",
+        "tags": {
+          "key1": "val1",
+          "key2": "val2"
+        },
         "systemData": {
           "createdBy": "user1",
           "createdByType": "User",
-          "createdAt": "2020-01-01T17:18:19.1234567Z",
-          "lastModifiedBy": "user2",
-          "lastModifiedByType": "User",
-          "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
+          "createdAt": "2021-08-09T20:13:23.298420761Z"
         },
         "properties": {
-          "timeInWeek": [
-            {
-              "day": "Monday",
-              "hourSlots": [
-                1,
-                2
-              ]
-            }
-          ],
-          "notAllowedTime": [
-            {
-              "start": "2020-11-26T03:00:00Z",
-              "end": "2020-11-30T12:00:00Z"
-            }
-          ]
+          "creationData": {
+            "sourceResourceId": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/cluster1/agentPools/pool0"
+          },
+          "snapshotType": "NodePool",
+          "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2021.09.11",
+          "kubernetesVersion": "1.20.5",
+          "osType": "Linux",
+          "osSku": "Ubuntu",
+          "vmSize": "Standard_D2s_v3",
+          "enableFIPS": false
         }
       }
 security:
@@ -257,5 +277,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about AKS service - Gets the specified maintenance configuration of a managed cluster.
+  description: Learn more about AKS service - Gets a snapshot.
 errorCodes: []

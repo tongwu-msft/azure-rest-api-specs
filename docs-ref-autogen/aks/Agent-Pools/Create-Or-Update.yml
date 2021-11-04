@@ -3,14 +3,14 @@ uid: management.azure.com.aks.agentpools.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Agent Pools
-apiVersion: 2021-05-01
+apiVersion: 2021-09-01
 summary: Creates or updates an agent pool in the specified managed cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -84,6 +84,11 @@ requestBody:
     description: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
     types:
     - uid: KubeletDiskType
+  - name: properties.workloadRuntime
+    in: body
+    description: Determines the type of workload a node can run.
+    types:
+    - uid: WorkloadRuntime
   - name: properties.vnetSubnetID
     in: body
     description: "The ID of the subnet which agent pool nodes and optionally pods will join on startup.  \nIf this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}"
@@ -124,6 +129,11 @@ requestBody:
     description: Whether to enable auto-scaler
     types:
     - uid: boolean
+  - name: properties.scaleDownMode
+    in: body
+    description: "The scale down mode to use when scaling the Agent Pool.  \nThis also effects the cluster autoscaler behavior. If not specified, it defaults to Delete."
+    types:
+    - uid: ScaleDownMode
   - name: properties.type
     in: body
     description: The type of Agent Pool.
@@ -144,6 +154,11 @@ requestBody:
     description: Settings for upgrading the agentpool
     types:
     - uid: AgentPoolUpgradeSettings
+  - name: properties.powerState
+    in: body
+    description: "Whether the Agent Pool is running or stopped.  \nWhen an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded"
+    types:
+    - uid: PowerState
   - name: properties.availabilityZones
     in: body
     description: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
@@ -234,6 +249,11 @@ requestBody:
     description: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
     types:
     - uid: 'GPUInstanceProfile '
+  - name: properties.creationData
+    in: body
+    description: CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot.
+    types:
+    - uid: CreationData
 requestHeader: []
 definitions:
 - name: AgentPoolUpgradeSettings
@@ -321,6 +341,14 @@ definitions:
     description: The size in MB of a swap file that will be created on each node.
     types:
     - uid: integer
+- name: CreationData
+  description: Data used when creating a target resource from a source resource.
+  kind: object
+  properties:
+  - name: sourceResourceId
+    description: This is the ARM ID of the source object to be used to create the target object.
+    types:
+    - uid: string
 - name: AgentPool
   description: Agent Pool.
   kind: object
@@ -360,6 +388,10 @@ definitions:
     description: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
     types:
     - uid: KubeletDiskType
+  - name: properties.workloadRuntime
+    description: Determines the type of workload a node can run.
+    types:
+    - uid: WorkloadRuntime
   - name: properties.vnetSubnetID
     description: "The ID of the subnet which agent pool nodes and optionally pods will join on startup.  \nIf this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}"
     types:
@@ -392,6 +424,10 @@ definitions:
     description: Whether to enable auto-scaler
     types:
     - uid: boolean
+  - name: properties.scaleDownMode
+    description: "The scale down mode to use when scaling the Agent Pool.  \nThis also effects the cluster autoscaler behavior. If not specified, it defaults to Delete."
+    types:
+    - uid: ScaleDownMode
   - name: properties.type
     description: The type of Agent Pool.
     types:
@@ -419,8 +455,7 @@ definitions:
     types:
     - uid: string
   - name: properties.powerState
-    isReadyOnly: true
-    description: Describes whether the Agent Pool is Running or Stopped
+    description: "Whether the Agent Pool is running or stopped.  \nWhen an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded"
     types:
     - uid: PowerState
   - name: properties.availabilityZones
@@ -497,6 +532,10 @@ definitions:
     description: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
     types:
     - uid: 'GPUInstanceProfile '
+  - name: properties.creationData
+    description: CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot.
+    types:
+    - uid: CreationData
 - name: CloudError
   description: An error response from the Container service.
   kind: object
@@ -657,6 +696,18 @@ definitions:
     description: Kubelet will use the temporary disk for its data.
     types:
     - uid: string
+- name: WorkloadRuntime
+  description: Determines the type of workload a node can run.
+  kind: enum
+  properties:
+  - name: OCIContainer
+    description: Nodes will use Kubelet to run standard OCI container workloads.
+    types:
+    - uid: string
+  - name: WasmWasi
+    description: Nodes will use Krustlet to run WASM workloads using the WASI provider (Preview).
+    types:
+    - uid: string
 - name: OSType
   description: The operating system type. The default is Linux.
   kind: enum
@@ -677,6 +728,18 @@ definitions:
     types:
     - uid: string
   - name: CBLMariner
+    types:
+    - uid: string
+- name: ScaleDownMode
+  description: Describes how VMs are added to or removed from Agent Pools. See [billing states](https://docs.microsoft.com/azure/virtual-machines/states-billing).
+  kind: enum
+  properties:
+  - name: Delete
+    description: Create new instances during scale up and remove instances during scale down.
+    types:
+    - uid: string
+  - name: Deallocate
+    description: Attempt to start deallocated instances (if they exist) during scale up and deallocate instances during scale down.
     types:
     - uid: string
 - name: AgentPoolType
@@ -770,7 +833,7 @@ definitions:
 examples:
 - name: Create/Update Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -850,7 +913,7 @@ examples:
       }
 - name: Update Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -917,7 +980,7 @@ examples:
       }
 - name: Create Spot Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -995,7 +1058,7 @@ examples:
       }
 - name: Create Agent Pool with PPG
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -1041,7 +1104,7 @@ examples:
       }
 - name: Create Agent Pool with OSSKU
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -1160,7 +1223,7 @@ examples:
       }
 - name: Create Agent Pool with GPUMIG
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -1279,7 +1342,7 @@ examples:
       }
 - name: Create Agent Pool with Ephemeral OS Disk
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -1329,7 +1392,7 @@ examples:
       }
 - name: Create Agent Pool with KubeletConfig and LinuxOSConfig
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -1445,7 +1508,7 @@ examples:
       }
 - name: Create Agent Pool with EncryptionAtHost enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -1491,7 +1554,7 @@ examples:
       }
 - name: Create Agent Pool with UltraSSD enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -1537,7 +1600,7 @@ examples:
       }
 - name: Create Agent Pool with FIPS enabled OS
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -1579,6 +1642,205 @@ examples:
           "maxPods": 110,
           "osType": "Linux",
           "enableFIPS": true
+        }
+      }
+- name: Create Agent Pool using an agent pool snapshot
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-09-01
+    body: >-
+      {
+        "properties": {
+          "orchestratorVersion": "",
+          "count": 3,
+          "vmSize": "Standard_DS2_v2",
+          "osType": "Linux",
+          "enableFIPS": true,
+          "creationData": {
+            "sourceResourceId": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "orchestratorVersion": "1.19.6",
+          "count": 3,
+          "vmSize": "Standard_DS2_v2",
+          "maxPods": 110,
+          "osType": "Linux",
+          "enableFIPS": true,
+          "creationData": {
+            "sourceResourceId": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Creating",
+          "orchestratorVersion": "1.19.6",
+          "count": 3,
+          "vmSize": "Standard_DS2_v2",
+          "maxPods": 110,
+          "osType": "Linux",
+          "enableFIPS": true,
+          "creationData": {
+            "sourceResourceId": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1"
+          }
+        }
+      }
+- name: Create Agent Pool with Krustlet and the WASI runtime
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-09-01
+    body: >-
+      {
+        "properties": {
+          "orchestratorVersion": "",
+          "count": 3,
+          "vmSize": "Standard_DS2_v2",
+          "osType": "Linux",
+          "osDiskSizeGB": 64,
+          "mode": "User",
+          "workloadRuntime": "WasmWasi"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "orchestratorVersion": "1.17.8",
+          "count": 3,
+          "vmSize": "Standard_DS2_v2",
+          "maxPods": 110,
+          "osType": "Linux",
+          "osDiskSizeGB": 64,
+          "mode": "User",
+          "workloadRuntime": "WasmWasi"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Creating",
+          "orchestratorVersion": "1.17.8",
+          "count": 3,
+          "vmSize": "Standard_DS2_v2",
+          "maxPods": 110,
+          "osType": "Linux",
+          "osDiskSizeGB": 64,
+          "mode": "User",
+          "workloadRuntime": "WasmWasi"
+        }
+      }
+- name: Stop Agent Pool
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-09-01
+    body: >-
+      {
+        "properties": {
+          "powerState": {
+            "code": "Stopped"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Stopping",
+          "count": 0,
+          "enableAutoScaling": false,
+          "minCount": null,
+          "maxCount": null,
+          "powerState": {
+            "code": "Stopped"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Stopping",
+          "count": 0,
+          "enableAutoScaling": false,
+          "minCount": null,
+          "maxCount": null,
+          "powerState": {
+            "code": "Stopped"
+          }
+        }
+      }
+- name: Start Agent Pool
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-09-01
+    body: >-
+      {
+        "properties": {
+          "powerState": {
+            "code": "Running"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Starting",
+          "count": 50,
+          "enableAutoScaling": true,
+          "minCount": 3,
+          "maxCount": 55,
+          "powerState": {
+            "code": "Running"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Starting",
+          "count": 50,
+          "enableAutoScaling": true,
+          "minCount": 3,
+          "maxCount": 55,
+          "powerState": {
+            "code": "Running"
+          }
         }
       }
 security:

@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.aks.managedclusters.resetserviceprincipalprofile
-name: Reset Service Principal Profile
+uid: management.azure.com.aks.snapshots.delete
+name: Delete
 service: AKS
-groupName: Managed Clusters
+groupName: Snapshots
 apiVersion: 2021-09-01
-summary: "Reset the Service Principal Profile of a managed cluster.  \nThis action cannot be performed on a cluster that is not using a service principal"
+summary: Deletes a snapshot.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile?api-version=2021-09-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,26 +40,12 @@ uriParameters:
 responses:
 - name: 200 OK
   description: OK
-- name: 202 Accepted
-  description: Accepted
+- name: 204 No Content
+  description: NoContent
 - name: Other Status Codes
-  description: Error response describing why the operation failed. If the cluster doesn't exist, 404 (Not found) is returned.
+  description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-requestBody:
-- name: default
-  parameters:
-  - name: clientId
-    in: body
-    isRequired: true
-    description: The ID for the service principal.
-    types:
-    - uid: string
-  - name: secret
-    in: body
-    description: The secret password associated with the service principal in plain text.
-    types:
-    - uid: string
 requestHeader: []
 definitions:
 - name: CloudError
@@ -70,18 +56,6 @@ definitions:
     description: Details about the error.
     types:
     - uid: CloudErrorBody
-- name: ManagedClusterServicePrincipalProfile
-  description: Information about a service principal identity for the cluster to use for manipulating Azure APIs.
-  kind: object
-  properties:
-  - name: clientId
-    description: The ID for the service principal.
-    types:
-    - uid: string
-  - name: secret
-    description: The secret password associated with the service principal in plain text.
-    types:
-    - uid: string
 - name: CloudErrorBody
   description: An error response from the Container service.
   kind: object
@@ -104,17 +78,12 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: Reset Service Principal Profile
+- name: Delete Snapshot
   request:
-    uri: POST https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/resetServicePrincipalProfile?api-version=2021-09-01
-    body: >-
-      {
-        "clientId": "clientid",
-        "secret": "secret"
-      }
+    uri: DELETE https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1?api-version=2021-09-01
   responses:
   - statusCode: "200"
-  - statusCode: "202"
+  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2
@@ -125,5 +94,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Reset the Service Principal Profile of a managed cluster.  \nThis action cannot be performed on a cluster that is not using a service principal"
+  description: Learn more about AKS service - Deletes a snapshot.
 errorCodes: []

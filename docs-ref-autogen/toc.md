@@ -83,6 +83,14 @@
 ## Resolve Private Link Service Id
 ### [Overview](aks/Resolve-Private-Link-Service-Id.yml)
 ### [P OS T](aks/Resolve-Private-Link-Service-Id/P-OS-T.yml)
+## Snapshots
+### [Overview](aks/Snapshots.yml)
+### [Create Or Update](aks/Snapshots/Create-Or-Update.yml)
+### [Delete](aks/Snapshots/Delete.yml)
+### [Get](aks/Snapshots/Get.yml)
+### [List](aks/Snapshots/List.yml)
+### [List By Resource Group](aks/Snapshots/List-By-Resource-Group.yml)
+### [Update Tags](aks/Snapshots/Update-Tags.yml)
 # Analysis Services
 ## [Overview](../docs-ref-conceptual/analysisservices/index.md)
 ## Operations
