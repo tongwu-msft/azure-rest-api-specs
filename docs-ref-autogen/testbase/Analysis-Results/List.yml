@@ -1,0 +1,488 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.testbase.analysisresults.list
+name: List
+service: Test Base
+groupName: Analysis Results
+apiVersion: 2020-12-16-preview
+summary: Lists the Analysis Results of a Test Result. The result collection will only contain one element as all the data will be nested in a singleton object.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/packages/{packageName}/testResults/{testResultName}/analysisResults?analysisResultType={analysisResultType}&api-version=2020-12-16-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource.
+  types:
+  - uid: string
+- name: testBaseAccountName
+  in: path
+  isRequired: true
+  description: The resource name of the Test Base Account.
+  types:
+  - uid: string
+- name: packageName
+  in: path
+  isRequired: true
+  description: The resource name of the Test Base Package.
+  types:
+  - uid: string
+- name: testResultName
+  in: path
+  isRequired: true
+  description: The Test Result Name. It equals to {osName}-{TestResultId} string.
+  types:
+  - uid: string
+- name: analysisResultType
+  in: query
+  isRequired: true
+  description: The type of the Analysis Result of a Test Result.
+  types:
+  - uid: analysisResultType
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation is completed.
+  types:
+  - uid: AnalysisResultListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: analysisResultType
+  description: The type of the Analysis Result of a Test Result.
+  kind: enum
+  properties:
+  - name: ScriptExecution
+    types:
+    - uid: string
+  - name: Reliability
+    types:
+    - uid: string
+  - name: MemoryUtilization
+    types:
+    - uid: string
+  - name: CPUUtilization
+    types:
+    - uid: string
+  - name: MemoryRegression
+    types:
+    - uid: string
+  - name: CPURegression
+    types:
+    - uid: string
+  - name: TestAnalysis
+    types:
+    - uid: string
+- name: AnalysisResultListResult
+  description: A list of Analysis Results. It will only contain one element as all the data will be nested in a singleton object.
+  kind: object
+  properties:
+  - name: value
+    description: The list of Analysis Results.
+    types:
+    - uid: AnalysisResultSingletonResource
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to the next set of results. Not empty if value contains incomplete list of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The error response send when an operation fails.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+- name: AnalysisResultSingletonResource
+  description: The Analysis Result Singleton Resource.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata relating to this resource
+    types:
+    - uid: SystemData
+  - name: properties.grade
+    description: The grade of the test.
+    types:
+    - uid: grade
+  - name: properties.analysisResultType
+    description: Type of the Analysis Result.
+    types:
+    - uid: analysisResultType
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: string
+- name: grade
+  description: The grade of the test.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: NotAvailable
+    types:
+    - uid: string
+  - name: Pass
+    types:
+    - uid: string
+  - name: Fail
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: MemoryUtilizationAnalysisResultsList
+  request:
+    uri: GET https://management.azure.com/subscriptions/476f61a4-952c-422a-b4db-568a828f35df/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/testResults/Windows-10-1909-Test-Id/analysisResults?analysisResultType=MemoryUtilization&api-version=2020-12-16-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "cpuUtilization",
+            "id": "/subscriptions/476f61a4-952c-422a-b4db-568a828f35df/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/testResults/Windows-10-1909-Test-Id/analysisResults/memoryUtilization",
+            "type": "Microsoft.TestBase/testBaseAccounts/packages/testResults/analysisResults",
+            "properties": {
+              "grade": "Pass",
+              "analysisResultType": "MemoryUtilization",
+              "memoryUtilizationResults": [
+                {
+                  "process": "app.exe",
+                  "upperBound": {
+                    "percentile": 90,
+                    "value": 60
+                  },
+                  "lowerBound": {
+                    "percentile": 50,
+                    "value": 20
+                  },
+                  "utilization": [
+                    {
+                      "timestamp": "2020-12-28T17:30:00Z",
+                      "value": 34.7
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:31:00Z",
+                      "value": 35.9
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:32:00Z",
+                      "value": 27.1
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:33:00Z",
+                      "value": 49.8
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:34:00Z",
+                      "value": 45.6
+                    }
+                  ]
+                },
+                {
+                  "process": "anotherProcess.exe",
+                  "upperBound": {
+                    "percentile": 90,
+                    "value": 60
+                  },
+                  "lowerBound": {
+                    "percentile": 50,
+                    "value": 20
+                  },
+                  "utilization": [
+                    {
+                      "timestamp": "2020-12-28T17:30:00Z",
+                      "value": 34.7
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:31:00Z",
+                      "value": 35.9
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:32:00Z",
+                      "value": 27.1
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:33:00Z",
+                      "value": 49.8
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:34:00Z",
+                      "value": 45.6
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+- name: CPUUtilizationAnalysisResultsList
+  request:
+    uri: GET https://management.azure.com/subscriptions/476f61a4-952c-422a-b4db-568a828f35df/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/testResults/Windows-10-1909-Test-Id/analysisResults?analysisResultType=CPUUtilization&api-version=2020-12-16-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "cpuUtilization",
+            "id": "/subscriptions/476f61a4-952c-422a-b4db-568a828f35df/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/testResults/Windows-10-1909-Test-Id/analysisResults/cpuUtilization",
+            "type": "Microsoft.TestBase/testBaseAccounts/packages/testResults/analysisResults",
+            "properties": {
+              "grade": "Pass",
+              "analysisResultType": "CPUUtilization",
+              "cpuUtilizationResults": [
+                {
+                  "process": "app.exe",
+                  "upperBound": {
+                    "percentile": 90,
+                    "value": 60
+                  },
+                  "lowerBound": {
+                    "percentile": 50,
+                    "value": 20
+                  },
+                  "utilization": [
+                    {
+                      "timestamp": "2020-12-28T17:30:00Z",
+                      "value": 34.7
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:31:00Z",
+                      "value": 35.9
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:32:00Z",
+                      "value": 27.1
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:33:00Z",
+                      "value": 49.8
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:34:00Z",
+                      "value": 45.6
+                    }
+                  ]
+                },
+                {
+                  "process": "anotherProcess.exe",
+                  "upperBound": {
+                    "percentile": 90,
+                    "value": 60
+                  },
+                  "lowerBound": {
+                    "percentile": 50,
+                    "value": 20
+                  },
+                  "utilization": [
+                    {
+                      "timestamp": "2020-12-28T17:30:00Z",
+                      "value": 34.7
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:31:00Z",
+                      "value": 35.9
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:32:00Z",
+                      "value": 27.1
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:33:00Z",
+                      "value": 49.8
+                    },
+                    {
+                      "timestamp": "2020-12-28T17:34:00Z",
+                      "value": 45.6
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+- name: MemoryRegressionAnalysisResultsList
+  request:
+    uri: GET https://management.azure.com/subscriptions/476f61a4-952c-422a-b4db-568a828f35df/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/testResults/Windows-10-1909-Test-Id/analysisResults?analysisResultType=MemoryRegression&api-version=2020-12-16-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "memoryRegression",
+            "id": "/subscriptions/476f61a4-952c-422a-b4db-568a828f35df/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/testResults/Windows-10-1909-Test-Id/analysisResults/memoryRegression",
+            "type": "Microsoft.TestBase/testBaseAccounts/packages/testResults/analysisResults",
+            "properties": {
+              "grade": "Pass",
+              "analysisResultType": "MemoryRegression",
+              "memoryRegressionResults": [
+                {
+                  "fileName": "testApp.exe",
+                  "grade": "Pass",
+                  "details": "Some details of testApp",
+                  "diff": 0.1,
+                  "isRegressed": false
+                },
+                {
+                  "fileName": "dependencies.exe",
+                  "grade": "Pass",
+                  "details": "Some details of dependencies",
+                  "diff": 0.15,
+                  "isRegressed": false
+                }
+              ]
+            }
+          }
+        ]
+      }
+- name: CPURegressionAnalysisResultsList
+  request:
+    uri: GET https://management.azure.com/subscriptions/476f61a4-952c-422a-b4db-568a828f35df/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/testResults/Windows-10-1909-Test-Id/analysisResults?analysisResultType=CPURegression&api-version=2020-12-16-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "cpuRegression",
+            "id": "/subscriptions/476f61a4-952c-422a-b4db-568a828f35df/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/testResults/Windows-10-1909-Test-Id/analysisResults/cpuRegression",
+            "type": "Microsoft.TestBase/testBaseAccounts/packages/testResults/analysisResults",
+            "properties": {
+              "grade": "Pass",
+              "analysisResultType": "CPURegression",
+              "cpuRegressionResults": [
+                {
+                  "fileName": "testApp.exe",
+                  "grade": "Pass",
+                  "details": "Some details of testApp",
+                  "diff": 0.1,
+                  "isRegressed": false
+                },
+                {
+                  "fileName": "dependencies.exe",
+                  "grade": "Pass",
+                  "details": "Some details of dependencies",
+                  "diff": 0.15,
+                  "isRegressed": false
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Lists the Analysis Results of a Test Result. The result collection will only contain one element as all the data will be nested in a singleton object.
+errorCodes: []

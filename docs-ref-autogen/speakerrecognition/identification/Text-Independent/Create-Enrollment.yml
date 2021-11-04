@@ -3,18 +3,18 @@ uid: speakerrecognition.identification.textindependent.createenrollment
 name: Create Enrollment
 service: Speaker Recognition
 groupName: Text Independent
-apiVersion: "2.0"
-summary: "Enroll Profile  \nAdds an enrollment to existing profile.\nIf the minimum number of requested enrollment audios is reached, a voice print is created.\nIf the voice print was created before, it gets recreated from all existing enrollment audios including the new one.\n\nLimitations:\n* Minimum audio input length per request is **1 second**\n* Maximum audio input length per request is **120 seconds**\n* Minimum total effective speech length (excluding silence and other non-speech frames) for creating a voiceprint is **20 seconds**\n  This limitation can be disabled by setting ignoreMinLength to **true**.\n\n* Maximum total audio input length allowed for creating a voiceprint is **300 seconds**\n* Minimum audio Signal-to-noise ratio (SNR) is **0dB**"
+apiVersion: 2021-09-05
+summary: "Enroll Profile  \nAdds an enrollment to existing profile.\nThe first enrollment must be a predefined activation phrase which can be listed using the /phrases/{locale} api.\nIf the minimum number of requested enrollment audios is reached, a voice print is created.\nAny further enrollment will be used to improve the voice print.\n\nLimitations:\n* Minimum audio input length per request is **1 second**\n* Maximum audio input length per request is **120 seconds**\n* Minimum total effective speech length (excluding silence and other non-speech frames) for creating a voiceprint is **20 seconds**\n  This limitation can be disabled by setting ignoreMinLength to **true**.\n\n* Maximum total audio input length allowed for creating a voiceprint is **300 seconds**\n* Minimum audio Signal-to-noise ratio (SNR) is **2dB**"
 consumes:
 - audio/wav; codecs=audio/pcm
 produces:
 - application/json
 paths:
-- content: POST {Endpoint}/speaker/identification/v2.0/text-independent/profiles/{profileId}/enrollments
-- content: POST {Endpoint}/speaker/identification/v2.0/text-independent/profiles/{profileId}/enrollments?ignoreMinLength={ignoreMinLength}
+- content: POST {endpoint}/speaker-recognition/identification/text-independent/profiles/{profileId}/enrollments?api-version=2021-09-05
+- content: POST {endpoint}/speaker-recognition/identification/text-independent/profiles/{profileId}/enrollments?api-version=2021-09-05&ignoreMinLength={ignoreMinLength}
   isOptional: true
 uriParameters:
-- name: Endpoint
+- name: endpoint
   in: path
   isRequired: true
   skipUrlEncoding: true
@@ -27,8 +27,13 @@ uriParameters:
   description: Unique identifier for profile id (guid).
   types:
   - uid: string
-  pattern: ^([0-9a-fA-F]){8}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){4}-?([0-9a-fA-F]){12}$
   format: uuid
+- name: api-version
+  in: query
+  isRequired: true
+  description: Specifies the version of the operation to use for this request.
+  types:
+  - uid: string
 - name: ignoreMinLength
   in: query
   description: If true, a voice print will be created immediately for this profile regardless of how much speech is supplied or stored. Default is false.
@@ -39,57 +44,13 @@ responses:
   description: Created
   types:
   - uid: TiEnrollmentInfo
-- name: 400 Bad Request
-  description: >-
-    Bad Request
-
-    * InvalidRequest - Invalid audio length. Maximum allowed length per enrollment request is 120 seconds.
-
-    * InvalidRequest - Invalid audio length. Minimum allowed length per enrollment request is 1 second.
-
-    * InvalidRequest - Invalid audio format. Supported format is 16Khz 16bit Mono PCM.
-
-    * InvalidArgument - Invalid ignoreMinLength parameter value. Valid values are "true" and "false".
-
-    * InvalidRequest - Minimum audio Signal-to-noise ratio (SNR) is 0dB
-
-    * InvalidRequest - Audio is too noisy. The minimum allowed Signal-to-noise ratio (SNR) is 0dB.
-  types:
-  - uid: Error
-- name: 401 Unauthorized
-  description: Request is not authorized. Make sure subscription key is included and valid.
-  types:
-  - uid: Error
-- name: 403 Forbidden
-  description: >-
-    Forbidden
-
-    * InvalidRequest - Maximum allowed length across all profile enrollments is 300 seconds.
-  types:
-  - uid: Error
-- name: 404 Not Found
-  description: NotFound - Requested profile doesn't exist
-  types:
-  - uid: Error
 - name: Other Status Codes
-  description: >-
-    Conflict
-
-    * Conflict - Sending concurrent requests on same profile is not allowed.
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Failure
   types:
-  - uid: Error
-- name: Other Status Codes
-  description: UnsupportedMediaType  - Unsupported media type. Only "audio/wav; codecs=audio/pcm" is accepted.
-  types:
-  - uid: Error
-- name: Other Status Codes
-  description: Rate limit is exceeded.
-  types:
-  - uid: Error
-- name: 500 Internal Server Error
-  description: Internal Server Error.
-  types:
-  - uid: Error
+  - uid: SpeakerErrorInfo
 requestBody:
 - name: default
   parameters:
@@ -115,7 +76,7 @@ definitions:
     - uid: string
   - name: enrollmentStatus
     description: >-
-      Status representing the current state of the profile. Available values are:
+      Status representing the current state of the profile enrollment. Available values are:
 
       * Enrolling: profile has no voice print and not ready for recognition requests.
 
@@ -125,30 +86,31 @@ definitions:
     types:
     - uid: TrainingStatusType
   - name: enrollmentsCount
-    description: Number of enrolment audios accepted for this profile.
+    description: Number of enrollment audios accepted for this profile.
     types:
     - uid: integer
-  - name: enrollmentsLength
+  - name: enrollmentsLengthInSec
     description: Total length of enrollment audios accepted for this profile in seconds.
     types:
     - uid: number
-  - name: enrollmentsSpeechLength
+  - name: enrollmentsSpeechLengthInSec
     description: Summation of pure speech (which is the amount of audio after removing silence and non-speech segments) across all profile enrollments in seconds.
     types:
     - uid: number
-  - name: remainingEnrollmentsSpeechLength
+  - name: remainingEnrollmentsSpeechLengthInSec
     description: Amount of pure speech (which is the amount of audio after removing silence and non-speech segments) needed to complete profile enrollment in seconds.
     types:
     - uid: number
-  - name: audioLength
-    description: This enrolment audio length in seconds.
+  - name: audioLengthInSec
+    description: This enrollment audio length in seconds.
     types:
     - uid: number
-  - name: audioSpeechLength
+  - name: audioSpeechLengthInSec
     description: This enrollment audio pure speech (which is the amount of audio after removing silence and non-speech segments) length in seconds.
     types:
     - uid: number
-- name: Error
+- name: SpeakerErrorInfo
+  description: Speaker error message
   kind: object
   properties:
   - name: error
@@ -157,7 +119,7 @@ definitions:
     - uid: Error
 - name: TrainingStatusType
   description: >-
-    Status representing the current state of the profile. Available values are:
+    Status representing the current state of the profile enrollment. Available values are:
 
     * Enrolling: profile has no voice print and not ready for recognition requests.
 
@@ -175,10 +137,21 @@ definitions:
   - name: Enrolled
     types:
     - uid: string
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
 examples:
 - name: Successful Query
   request:
-    uri: POST {Endpoint}/speaker/identification/v2.0/text-independent/profiles/49a36324-fc4b-4387-aa06-090cfbf0064f/enrollments
+    uri: POST https://westus.api.cognitive.microsoft.com/speaker-recognition/identification/text-independent/profiles/49a36324-fc4b-4387-aa06-090cfbf0064f/enrollments?api-version=2021-09-05
     body: "\"{binary file date}\""
     headers:
     - name: Ocp-Apim-Subscription-Key
@@ -193,98 +166,23 @@ examples:
         "profileId": "49a36324-fc4b-4387-aa06-090cfbf0064f",
         "enrollmentStatus": "Enrolling",
         "enrollmentsCount": 1,
-        "enrollmentsLength": 1.83,
-        "enrollmentsSpeechLength": 1.35,
-        "remainingEnrollmentsSpeechLength": 18.65,
-        "audioLength": 1.83,
-        "audioSpeechLength": 1.35
+        "enrollmentsLengthInSec": 1.83,
+        "enrollmentsSpeechLengthInSec": 1.35,
+        "remainingEnrollmentsSpeechLengthInSec": 18.65,
+        "audioLengthInSec": 1.83,
+        "audioSpeechLengthInSec": 1.35
       }
-  - statusCode: "400"
+  - statusCode: default
     headers:
     - name: Content-Type
       value: application/json
+    - name: x-ms-error-code
+      value: Error Code
     body: >-
       {
         "error": {
-          "code": "InvalidRequest",
-          "message": "Audio is too noisy."
-        }
-      }
-  - statusCode: "401"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "Unauthorized",
-          "message": "Request is not authorized. Make sure subscription key is included and valid."
-        }
-      }
-  - statusCode: "403"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "InvalidRequest",
-          "message": "Maximum allowed length across all profile enrollments is 300 seconds."
-        }
-      }
-  - statusCode: "404"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "Not Found",
-          "message": "Requested profile doesn't exist"
-        }
-      }
-  - statusCode: "409"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "Conflict",
-          "message": "Sending concurrent requests on same profile is not allowed."
-        }
-      }
-  - statusCode: "415"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "UnsupportedMediaType",
-          "message": "Unsupported media type. Only 'audio/wav; codecs=audio/pcm' is accepted."
-        }
-      }
-  - statusCode: "429"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "RateLimit",
-          "message": "Rate limit is exceeded."
-        }
-      }
-  - statusCode: "500"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "InternalServerError",
-          "message": "Internal Server Error."
+          "code": "Error Code",
+          "message": "Erro Messae"
         }
       }
 security:
@@ -292,5 +190,5 @@ security:
   type: apiKey
   in: header
 metadata:
-  description: "Enroll Profile  \nAdds an enrollment to existing profile.\nIf the minimum number of requested enrollment audios is reached, a voice print is created."
+  description: "Enroll Profile  \nAdds an enrollment to existing profile.\nThe first enrollment must be a predefined activation phrase which can be listed using the /phrases/{locale} api."
 errorCodes: []

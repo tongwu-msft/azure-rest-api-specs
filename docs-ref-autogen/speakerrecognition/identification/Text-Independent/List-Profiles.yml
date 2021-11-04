@@ -3,25 +3,31 @@ uid: speakerrecognition.identification.textindependent.listprofiles
 name: List Profiles
 service: Speaker Recognition
 groupName: Text Independent
-apiVersion: "2.0"
+apiVersion: 2021-09-05
 summary: "List Profile  \nRetrieves a set of profiles.\nProfiles are sorted alphabetically by ProfileId"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET {Endpoint}/speaker/identification/v2.0/text-independent/profiles
-- content: GET {Endpoint}/speaker/identification/v2.0/text-independent/profiles?$top={$top}
+- content: GET {endpoint}/speaker-recognition/identification/text-independent/profiles?api-version=2021-09-05
+- content: GET {endpoint}/speaker-recognition/identification/text-independent/profiles?api-version=2021-09-05&maxpagesize={maxpagesize}
   isOptional: true
 uriParameters:
-- name: Endpoint
+- name: endpoint
   in: path
   isRequired: true
   skipUrlEncoding: true
   description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
-- name: $top
+- name: api-version
+  in: query
+  isRequired: true
+  description: Specifies the version of the operation to use for this request.
+  types:
+  - uid: string
+- name: maxpagesize
   in: query
   description: The number of profiles to return. Default is 100 and the maximum is 500
   types:
@@ -31,35 +37,13 @@ responses:
   description: OK
   types:
   - uid: TiProfileInfoList
-- name: 400 Bad Request
-  description: >-
-    Bad Request
-
-    * InvalidArgument - Invalid $top parameter value. Value should be positive integer in the range [1, 500].
-
-    * InvalidArgument - Invalid $continuationToken value. $continuationToken must be generated form a prior API call.
-
-    * InvalidArgument - $filter parameter is not supported.
-
-    * InvalidArgument - $skip parameter is not supported.
-
-    * InvalidArgument - $orderBy parameter is not supported.
-
-    * InvalidArgument - $delta parameter is not supported.
-  types:
-  - uid: Error
-- name: 401 Unauthorized
-  description: Request is not authorized. Make sure subscription key is included and valid.
-  types:
-  - uid: Error
 - name: Other Status Codes
-  description: Rate limit is exceeded.
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Failure
   types:
-  - uid: Error
-- name: 500 Internal Server Error
-  description: Internal Server Error.
-  types:
-  - uid: Error
+  - uid: SpeakerErrorInfo
 requestHeader:
 - name: Ocp-Apim-Subscription-Key
   in: header
@@ -71,16 +55,17 @@ definitions:
   description: Text-Independent Speaker profile info list
   kind: object
   properties:
-  - name: profiles
+  - name: value
     description: Text-Independent Speaker profile info
     types:
     - uid: TiProfileInfo
       isArray: true
-  - name: '@nextLink'
+  - name: nextLink
     description: ''
     types:
     - uid: string
-- name: Error
+- name: SpeakerErrorInfo
+  description: Speaker error message
   kind: object
   properties:
   - name: error
@@ -99,9 +84,18 @@ definitions:
     description: Language identifier consisting of a combination of language code and country code.
     types:
     - uid: string
+  - name: profileStatus
+    description: >-
+      Status representing the current state of the profile activation. Available values are:
+
+      * Active: profile is active and can be used if the enrollment status is 'Enrolled'.
+
+      * Inactive: profile has not been activated and an activation phrase must be submitted.
+    types:
+    - uid: ProfileStatusType
   - name: enrollmentStatus
     description: >-
-      Status representing the current state of the profile. Available values are:
+      Status representing the current state of the profile enrollment. Available values are:
 
       * Enrolling: profile has no voice print and not ready for recognition requests.
 
@@ -119,18 +113,18 @@ definitions:
     types:
     - uid: string
   - name: enrollmentsCount
-    description: Number of enrolment audios accepted for this profile.
+    description: Number of enrollment audios accepted for this profile.
     types:
     - uid: integer
-  - name: enrollmentsLength
+  - name: enrollmentsLengthInSec
     description: Total length of enrollment audios accepted for this profile in seconds.
     types:
     - uid: number
-  - name: enrollmentsSpeechLength
+  - name: enrollmentsSpeechLengthInSec
     description: Summation of pure speech (which is the amount of audio after removing silence and non-speech segments) across all profile enrollments in seconds.
     types:
     - uid: number
-  - name: remainingEnrollmentsSpeechLength
+  - name: remainingEnrollmentsSpeechLengthInSec
     description: Amount of pure speech (which is the amount of audio after removing silence and non-speech segments) needed to complete profile enrollment in seconds.
     types:
     - uid: number
@@ -138,9 +132,35 @@ definitions:
     description: Date specifying the model assigned to this profile. Format is yyyy-mm-dd. If profile has no enrollments, this value will be empty.
     types:
     - uid: string
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+- name: ProfileStatusType
+  description: >-
+    Status representing the current state of the profile activation. Available values are:
+
+    * Active: profile is active and can be used if the enrollment status is 'Enrolled'.
+
+    * Inactive: profile has not been activated and an activation phrase must be submitted.
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Inactive
+    types:
+    - uid: string
 - name: TrainingStatusType
   description: >-
-    Status representing the current state of the profile. Available values are:
+    Status representing the current state of the profile enrollment. Available values are:
 
     * Enrolling: profile has no voice print and not ready for recognition requests.
 
@@ -161,7 +181,7 @@ definitions:
 examples:
 - name: Successful Query
   request:
-    uri: GET {Endpoint}/speaker/identification/v2.0/text-independent/profiles
+    uri: GET https://westus.api.cognitive.microsoft.com/speaker-recognition/identification/text-independent/profiles?api-version=2021-09-05
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
@@ -172,64 +192,34 @@ examples:
       value: application/json
     body: >-
       {
-        "profiles": [
+        "value": [
           {
             "profileId": "49a36324-fc4b-4387-aa06-090cfbf0064f",
             "locale": "en-US",
+            "profileStatus": "Active",
             "enrollmentStatus": "Enrolling",
             "createdDateTime": "2015-04-23T18:25:43.41Z",
             "lastUpdatedDateTime": "2015-04-23T19:34:51.52Z",
             "enrollmentsCount": 1,
-            "enrollmentsLength": 1.83,
-            "enrollmentsSpeechLength": 1.35,
-            "remainingEnrollmentsSpeechLength": 18.65,
+            "enrollmentsLengthInSec": 1.83,
+            "enrollmentsSpeechLengthInSec": 1.35,
+            "remainingEnrollmentsSpeechLengthInSec": 18.65,
             "modelVersion": "2019-12-05"
           }
         ],
-        "@nextLink": "https://{Endpoint}/text-independent/profiles?$top=35&$continuationToken=U21pdGg1QmVuOTk5"
+        "nextLink": "{opaqueUrl}"
       }
-  - statusCode: "400"
+  - statusCode: default
     headers:
     - name: Content-Type
       value: application/json
+    - name: x-ms-error-code
+      value: Error Code
     body: >-
       {
         "error": {
-          "code": "InvalidArgument",
-          "message": "Invalid $top parameter value. Value should be positive integer in the range [1, 500]"
-        }
-      }
-  - statusCode: "401"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "Unauthorized",
-          "message": "Request is not authorized. Make sure subscription key is included and valid."
-        }
-      }
-  - statusCode: "429"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "RateLimit",
-          "message": "Rate limit is exceeded."
-        }
-      }
-  - statusCode: "500"
-    headers:
-    - name: Content-Type
-      value: application/json
-    body: >-
-      {
-        "error": {
-          "code": "InternalServerError",
-          "message": "Internal Server Error."
+          "code": "Error Code",
+          "message": "Erro Messae"
         }
       }
 security:
