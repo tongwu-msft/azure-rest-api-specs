@@ -234,6 +234,8 @@
 ### [List Handles](list-handles.md)
 ### [Force Close Handles](force-close-handles.md)
 ### [Lease File](lease-file.md)
+### [Rename File](rename-file.md)
+### [Rename Directory](fename-directory.md)
 # Storage Analytics
 ## [Storage Analytics Metrics Table Schema (classic)](storage-analytics-metrics-table-schema.md)
 ## [Storage Analytics Log Format](storage-analytics-log-format.md)
