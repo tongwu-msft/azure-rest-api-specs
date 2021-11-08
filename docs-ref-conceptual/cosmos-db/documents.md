@@ -79,6 +79,8 @@ This sample JSON document shows the entry for a volcano in a collection. The ent
 -   [Get a Document](get-a-document.md)  
   
 -   [Replace a Document](replace-a-document.md)  
+
+-   [Patch a Document](patch-a-document.md)
   
 -   [Delete a Document](delete-a-document.md)  
   

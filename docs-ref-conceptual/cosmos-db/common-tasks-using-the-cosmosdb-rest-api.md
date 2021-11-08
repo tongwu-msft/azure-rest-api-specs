@@ -37,7 +37,8 @@ translation.priority.mt:
 * [Create a Document](create-a-document.md)  
 * [List Documents](list-documents.md)  
 * [Get a Document](get-a-document.md)  
-* [Replace a Document](replace-a-document.md)  
+* [Replace a Document](replace-a-document.md)
+* [Patch a Document](patch-a-document.md)  
 * [Delete a Document](delete-a-document.md)  
 * [Query Databases](query-documents.md)
 
