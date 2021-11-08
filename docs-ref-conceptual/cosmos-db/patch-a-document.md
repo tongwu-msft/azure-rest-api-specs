@@ -43,7 +43,7 @@ The `Patch Document` operation does path-level updates to specific files/propert
   
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
-|**operations**|Required|Array|  [Patch supports either a single, or multiple, operations](https://docs.microsoft.com/en-us/azure/cosmos-db/partial-document-update#supported-operations) that should be passed as an array |
+|**operations**|Required|Array|  [Patch supports either a single, or multiple, operations](https://docs.microsoft.com/azure/cosmos-db/partial-document-update#supported-operations) that should be passed as an array |
 
 ### Single Operation 
   
@@ -253,7 +253,7 @@ Date: Tue, 29 Mar 2016 02:28:30 GMT
 ```  
   
 ## See Also  
-* [Partial document update in Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/partial-document-update)
+* [Partial document update in Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/partial-document-update)
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
 * [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
 * [Azure Cosmos DB SQL API SDKs](/azure/cosmos-db/sql-api-sdk-dotnet)    
