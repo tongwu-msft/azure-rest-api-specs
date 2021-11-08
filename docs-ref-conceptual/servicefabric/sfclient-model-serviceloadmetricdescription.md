@@ -1,5 +1,5 @@
 ---
-title: "ServiceLoadMetricDescription"
+title: "Client ServiceLoadMetricDescription"
 description: "ServiceLoadMetricDescription"
 ms.date: "10/20/2021"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceLoadMetricDescription
+# Client ServiceLoadMetricDescription
 
 Specifies a metric to load balance a service during runtime.
 

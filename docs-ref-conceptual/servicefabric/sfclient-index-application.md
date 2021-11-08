@@ -1,5 +1,5 @@
 ---
-title: "Application"
+title: "Application Client APIs"
 description: "Application"
 ms.date: "10/20/2021"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Application APIs
+# Application Client APIs
 
 | Name | Description |
 | --- | --- |

@@ -1,5 +1,5 @@
 ---
-title: "Models"
+title: "Client Type Models"
 description: "Models"
 ms.date: "10/20/2021"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Type Models
+# Client Type Models
 
 
 | Name | Description |
