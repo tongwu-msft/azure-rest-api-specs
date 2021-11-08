@@ -83,6 +83,14 @@
 ## Resolve Private Link Service Id
 ### [Overview](aks/Resolve-Private-Link-Service-Id.yml)
 ### [P OS T](aks/Resolve-Private-Link-Service-Id/P-OS-T.yml)
+## Snapshots
+### [Overview](aks/Snapshots.yml)
+### [Create Or Update](aks/Snapshots/Create-Or-Update.yml)
+### [Delete](aks/Snapshots/Delete.yml)
+### [Get](aks/Snapshots/Get.yml)
+### [List](aks/Snapshots/List.yml)
+### [List By Resource Group](aks/Snapshots/List-By-Resource-Group.yml)
+### [Update Tags](aks/Snapshots/Update-Tags.yml)
 # Analysis Services
 ## [Overview](../docs-ref-conceptual/analysisservices/index.md)
 ## Operations
@@ -3599,6 +3607,7 @@
 ### [Get](azurestack/Backup-Locations/Get.yml)
 ### [List](azurestack/Backup-Locations/List.yml)
 ### [Prune External Store](azurestack/Backup-Locations/Prune-External-Store.yml)
+### [Set](azurestack/Backup-Locations/Set.yml)
 ### [Update](azurestack/Backup-Locations/Update.yml)
 ## Backups
 ### [Overview](azurestack/Backups.yml)
@@ -3758,9 +3767,6 @@
 ## Operations
 ### [Overview](azurestack/Operations.yml)
 ### [List](azurestack/Operations/List.yml)
-## Operations (BackupAdmin)
-### [Overview](azurestack/Operations%20(BackupAdmin).yml)
-### [List](azurestack/Operations%20(BackupAdmin)/List.yml)
 ## Operations (Commerce)
 ### [Overview](azurestack/Operations%20(Commerce).yml)
 ### [List](azurestack/Operations%20(Commerce)/List.yml)
@@ -6172,6 +6178,9 @@
 #### [Delete](communication/Communication-Identity/Delete.yml)
 #### [Issue Access Token](communication/Communication-Identity/Issue-Access-Token.yml)
 #### [Revoke Access Tokens](communication/Communication-Identity/Revoke-Access-Tokens.yml)
+### Communication Network Traversal
+#### [Overview](communication/Communication-Network-Traversal.yml)
+#### [Issue Relay Configuration](communication/Communication-Network-Traversal/Issue-Relay-Configuration.yml)
 ### Communication Service
 #### [Overview](communication/Communication-Service.yml)
 #### [Check Name Availability](communication/Communication-Service/Check-Name-Availability.yml)
@@ -7171,16 +7180,14 @@
 ##### [Retrieve Continuous Backup Information](cosmos-db-resource-provider/2021-04-01-preview/Sql-Resources/Retrieve-Continuous-Backup-Information.yml)
 ##### [Update Sql Container Throughput](cosmos-db-resource-provider/2021-04-01-preview/Sql-Resources/Update-Sql-Container-Throughput.yml)
 ##### [Update Sql Database Throughput](cosmos-db-resource-provider/2021-04-01-preview/Sql-Resources/Update-Sql-Database-Throughput.yml)
-#### SqlResources2
-##### [Overview](cosmos-db-resource-provider/2021-04-01-preview/SqlResources2.yml)
-##### [Create Update Sql Role Assignment](cosmos-db-resource-provider/2021-04-01-preview/SqlResources2/Create-Update-Sql-Role-Assignment.yml)
-##### [Create Update Sql Role Definition](cosmos-db-resource-provider/2021-04-01-preview/SqlResources2/Create-Update-Sql-Role-Definition.yml)
-##### [Delete Sql Role Assignment](cosmos-db-resource-provider/2021-04-01-preview/SqlResources2/Delete-Sql-Role-Assignment.yml)
-##### [Delete Sql Role Definition](cosmos-db-resource-provider/2021-04-01-preview/SqlResources2/Delete-Sql-Role-Definition.yml)
-##### [Get Sql Role Assignment](cosmos-db-resource-provider/2021-04-01-preview/SqlResources2/Get-Sql-Role-Assignment.yml)
-##### [Get Sql Role Definition](cosmos-db-resource-provider/2021-04-01-preview/SqlResources2/Get-Sql-Role-Definition.yml)
-##### [List Sql Role Assignments](cosmos-db-resource-provider/2021-04-01-preview/SqlResources2/List-Sql-Role-Assignments.yml)
-##### [List Sql Role Definitions](cosmos-db-resource-provider/2021-04-01-preview/SqlResources2/List-Sql-Role-Definitions.yml)
+##### [Create Update Sql Role Assignment](cosmos-db-resource-provider/2021-04-01-preview/Sql-Resources/Create-Update-Sql-Role-Assignment.yml)
+##### [Create Update Sql Role Definition](cosmos-db-resource-provider/2021-04-01-preview/Sql-Resources/Create-Update-Sql-Role-Definition.yml)
+##### [Delete Sql Role Assignment](cosmos-db-resource-provider/2021-04-01-preview/Sql-Resources/Delete-Sql-Role-Assignment.yml)
+##### [Delete Sql Role Definition](cosmos-db-resource-provider/2021-04-01-preview/Sql-Resources/Delete-Sql-Role-Definition.yml)
+##### [Get Sql Role Assignment](cosmos-db-resource-provider/2021-04-01-preview/Sql-Resources/Get-Sql-Role-Assignment.yml)
+##### [Get Sql Role Definition](cosmos-db-resource-provider/2021-04-01-preview/Sql-Resources/Get-Sql-Role-Definition.yml)
+##### [List Sql Role Assignments](cosmos-db-resource-provider/2021-04-01-preview/Sql-Resources/List-Sql-Role-Assignments.yml)
+##### [List Sql Role Definitions](cosmos-db-resource-provider/2021-04-01-preview/Sql-Resources/List-Sql-Role-Definitions.yml)
 #### Table Resources
 ##### [Overview](cosmos-db-resource-provider/2021-04-01-preview/Table-Resources.yml)
 ##### [Create Update Table](cosmos-db-resource-provider/2021-04-01-preview/Table-Resources/Create-Update-Table.yml)
@@ -7356,16 +7363,14 @@
 ##### [Migrate Sql Database To Manual Throughput](cosmos-db-resource-provider/2021-04-15/Sql-Resources/Migrate-Sql-Database-To-Manual-Throughput.yml)
 ##### [Update Sql Container Throughput](cosmos-db-resource-provider/2021-04-15/Sql-Resources/Update-Sql-Container-Throughput.yml)
 ##### [Update Sql Database Throughput](cosmos-db-resource-provider/2021-04-15/Sql-Resources/Update-Sql-Database-Throughput.yml)
-#### SqlResources2
-##### [Overview](cosmos-db-resource-provider/2021-04-15/SqlResources2.yml)
-##### [Create Update Sql Role Assignment](cosmos-db-resource-provider/2021-04-15/SqlResources2/Create-Update-Sql-Role-Assignment.yml)
-##### [Create Update Sql Role Definition](cosmos-db-resource-provider/2021-04-15/SqlResources2/Create-Update-Sql-Role-Definition.yml)
-##### [Delete Sql Role Assignment](cosmos-db-resource-provider/2021-04-15/SqlResources2/Delete-Sql-Role-Assignment.yml)
-##### [Delete Sql Role Definition](cosmos-db-resource-provider/2021-04-15/SqlResources2/Delete-Sql-Role-Definition.yml)
-##### [Get Sql Role Assignment](cosmos-db-resource-provider/2021-04-15/SqlResources2/Get-Sql-Role-Assignment.yml)
-##### [Get Sql Role Definition](cosmos-db-resource-provider/2021-04-15/SqlResources2/Get-Sql-Role-Definition.yml)
-##### [List Sql Role Assignments](cosmos-db-resource-provider/2021-04-15/SqlResources2/List-Sql-Role-Assignments.yml)
-##### [List Sql Role Definitions](cosmos-db-resource-provider/2021-04-15/SqlResources2/List-Sql-Role-Definitions.yml)
+##### [Create Update Sql Role Assignment](cosmos-db-resource-provider/2021-04-15/Sql-Resources/Create-Update-Sql-Role-Assignment.yml)
+##### [Create Update Sql Role Definition](cosmos-db-resource-provider/2021-04-15/Sql-Resources/Create-Update-Sql-Role-Definition.yml)
+##### [Delete Sql Role Assignment](cosmos-db-resource-provider/2021-04-15/Sql-Resources/Delete-Sql-Role-Assignment.yml)
+##### [Delete Sql Role Definition](cosmos-db-resource-provider/2021-04-15/Sql-Resources/Delete-Sql-Role-Definition.yml)
+##### [Get Sql Role Assignment](cosmos-db-resource-provider/2021-04-15/Sql-Resources/Get-Sql-Role-Assignment.yml)
+##### [Get Sql Role Definition](cosmos-db-resource-provider/2021-04-15/Sql-Resources/Get-Sql-Role-Definition.yml)
+##### [List Sql Role Assignments](cosmos-db-resource-provider/2021-04-15/Sql-Resources/List-Sql-Role-Assignments.yml)
+##### [List Sql Role Definitions](cosmos-db-resource-provider/2021-04-15/Sql-Resources/List-Sql-Role-Definitions.yml)
 #### Table Resources
 ##### [Overview](cosmos-db-resource-provider/2021-04-15/Table-Resources.yml)
 ##### [Create Update Table](cosmos-db-resource-provider/2021-04-15/Table-Resources/Create-Update-Table.yml)
@@ -11822,14 +11827,6 @@
 ### Metrics (Data plane)
 #### [Overview](monitor/Metrics%20(Data%20plane).yml)
 #### [Create](monitor/Metrics%20(Data%20plane)/Create.yml)
-### Scheduled Query Rules
-#### [Overview](monitor/Scheduled-Query-Rules.yml)
-#### [Create Or Update](monitor/Scheduled-Query-Rules/Create-Or-Update.yml)
-#### [Delete](monitor/Scheduled-Query-Rules/Delete.yml)
-#### [Get](monitor/Scheduled-Query-Rules/Get.yml)
-#### [List By Resource Group](monitor/Scheduled-Query-Rules/List-By-Resource-Group.yml)
-#### [List By Subscription](monitor/Scheduled-Query-Rules/List-By-Subscription.yml)
-#### [Update](monitor/Scheduled-Query-Rules/Update.yml)
 ### Smart Detector Alert Rules
 #### [Overview](monitor/Smart-Detector-Alert-Rules.yml)
 #### [Create Or Update](monitor/Smart-Detector-Alert-Rules/Create-Or-Update.yml)
@@ -11921,15 +11918,24 @@
 ##### [List](monitor/querypacks(preview)/Query%20Packs%20(Preview)/List.yml)
 ##### [List By Resource Group](monitor/querypacks(preview)/Query%20Packs%20(Preview)/List-By-Resource-Group.yml)
 ##### [Update Tags](monitor/querypacks(preview)/Query%20Packs%20(Preview)/Update-Tags.yml)
-### Scheduled Query Rule-Preview
+### Scheduled Query Rule - 2018-04-16
 #### Scheduled Query Rules
-##### [Overview](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules.yml)
-##### [Create Or Update](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/Create-Or-Update.yml)
-##### [Delete](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/Delete.yml)
-##### [Get](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/Get.yml)
-##### [List By Resource Group](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/List-By-Resource-Group.yml)
-##### [List By Subscription](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/List-By-Subscription.yml)
-##### [Update](monitor/scheduledqueryrule-preview/Scheduled-Query-Rules/Update.yml)
+##### [Overview](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules.yml)
+##### [Create Or Update](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/Create-Or-Update.yml)
+##### [Delete](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/Delete.yml)
+##### [Get](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/Get.yml)
+##### [List By Resource Group](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/List-By-Resource-Group.yml)
+##### [List By Subscription](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/List-By-Subscription.yml)
+##### [Update](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules/Update.yml)
+### Scheduled Query Rule - 2021-02-01-preview
+#### Scheduled Query Rules
+##### [Overview](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules.yml)
+##### [Create Or Update](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/Create-Or-Update.yml)
+##### [Delete](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/Delete.yml)
+##### [Get](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/Get.yml)
+##### [List By Resource Group](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/List-By-Resource-Group.yml)
+##### [List By Subscription](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/List-By-Subscription.yml)
+##### [Update](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/Update.yml)
 ### VM Health
 #### Health Monitors
 ##### [Overview](monitor/vmhealth/Health-Monitors.yml)
@@ -13772,6 +13778,13 @@
 ### [Update](resources/Resources/Update.yml)
 ### [Update By Id](resources/Resources/Update-By-Id.yml)
 ### [Validate Move Resources](resources/Resources/Validate-Move-Resources.yml)
+## Subscription Feature Registrations
+### [Overview](resources/Subscription-Feature-Registrations.yml)
+### [Create Or Update](resources/Subscription-Feature-Registrations/Create-Or-Update.yml)
+### [Delete](resources/Subscription-Feature-Registrations/Delete.yml)
+### [Get](resources/Subscription-Feature-Registrations/Get.yml)
+### [List All By Subscription](resources/Subscription-Feature-Registrations/List-All-By-Subscription.yml)
+### [List By Subscription](resources/Subscription-Feature-Registrations/List-By-Subscription.yml)
 ## Subscriptions
 ### [Overview](resources/Subscriptions.yml)
 ### [Get](resources/Subscriptions/Get.yml)
@@ -16120,6 +16133,7 @@
 #### [Delete Profile](speakerrecognition/identification/Text-Independent/Delete-Profile.yml)
 #### [Get Profile](speakerrecognition/identification/Text-Independent/Get-Profile.yml)
 #### [Identify Single Speaker](speakerrecognition/identification/Text-Independent/Identify-Single-Speaker.yml)
+#### [List Activation Phrases](speakerrecognition/identification/Text-Independent/List-Activation-Phrases.yml)
 #### [List Profiles](speakerrecognition/identification/Text-Independent/List-Profiles.yml)
 #### [Reset Profile](speakerrecognition/identification/Text-Independent/Reset-Profile.yml)
 ## Verification
@@ -16139,6 +16153,7 @@
 #### [Create Profile](speakerrecognition/verification/Text-Independent/Create-Profile.yml)
 #### [Delete Profile](speakerrecognition/verification/Text-Independent/Delete-Profile.yml)
 #### [Get Profile](speakerrecognition/verification/Text-Independent/Get-Profile.yml)
+#### [List Activation Phrases](speakerrecognition/verification/Text-Independent/List-Activation-Phrases.yml)
 #### [List Profiles](speakerrecognition/verification/Text-Independent/List-Profiles.yml)
 #### [Reset Profile](speakerrecognition/verification/Text-Independent/Reset-Profile.yml)
 #### [Verify Profile](speakerrecognition/verification/Text-Independent/Verify-Profile.yml)
@@ -18631,6 +18646,7 @@
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### Previous Azure Storage services versions
 #### [Overview](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
+#### [Version 2020-10-02](../docs-ref-conceptual/storageservices/version-2020-10-02.md)
 #### [Version 2020-08-04](../docs-ref-conceptual/storageservices/version-2020-08-04.md)
 #### [Version 2020-06-12](../docs-ref-conceptual/storageservices/version-2020-06-12.md)
 #### [Version 2020-04-08](../docs-ref-conceptual/storageservices/version-2020-04-08.md)
@@ -19805,6 +19821,83 @@
 #### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlPools%202.yml)
 #### [Get](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlPools%202/Get.yml)
 #### [List](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlPools%202/List.yml)
+# Test Base
+## [Overview](../docs-ref-conceptual/testbase/index.md)
+## Analysis Results
+### [Overview](testbase/Analysis-Results.yml)
+### [Get](testbase/Analysis-Results/Get.yml)
+### [List](testbase/Analysis-Results/List.yml)
+## Available OS
+### [Overview](testbase/Available-OS.yml)
+### [Get](testbase/Available-OS/Get.yml)
+### [List](testbase/Available-OS/List.yml)
+## Customer Events
+### [Overview](testbase/Customer-Events.yml)
+### [Create](testbase/Customer-Events/Create.yml)
+### [Delete](testbase/Customer-Events/Delete.yml)
+### [Get](testbase/Customer-Events/Get.yml)
+### [List By Test Base Account](testbase/Customer-Events/List-By-Test-Base-Account.yml)
+## Email Events
+### [Overview](testbase/Email-Events.yml)
+### [Get](testbase/Email-Events/Get.yml)
+### [List](testbase/Email-Events/List.yml)
+## Favorite Processes
+### [Overview](testbase/Favorite-Processes.yml)
+### [Create](testbase/Favorite-Processes/Create.yml)
+### [Delete](testbase/Favorite-Processes/Delete.yml)
+### [Get](testbase/Favorite-Processes/Get.yml)
+### [List](testbase/Favorite-Processes/List.yml)
+## Flighting Rings
+### [Overview](testbase/Flighting-Rings.yml)
+### [Get](testbase/Flighting-Rings/Get.yml)
+### [List](testbase/Flighting-Rings/List.yml)
+## OS Updates
+### [Overview](testbase/OS-Updates.yml)
+### [Get](testbase/OS-Updates/Get.yml)
+### [List](testbase/OS-Updates/List.yml)
+## Operations
+### [Overview](testbase/Operations.yml)
+### [List](testbase/Operations/List.yml)
+## Packages
+### [Overview](testbase/Packages.yml)
+### [Create](testbase/Packages/Create.yml)
+### [Delete](testbase/Packages/Delete.yml)
+### [Get](testbase/Packages/Get.yml)
+### [Get Download URL](testbase/Packages/Get-Download-URL.yml)
+### [Hard Delete](testbase/Packages/Hard-Delete.yml)
+### [List By Test Base Account](testbase/Packages/List-By-Test-Base-Account.yml)
+### [Update](testbase/Packages/Update.yml)
+## Skus
+### [Overview](testbase/Skus.yml)
+### [List](testbase/Skus/List.yml)
+## Test Base Accounts
+### [Overview](testbase/Test-Base-Accounts.yml)
+### [Check Package Name Availability](testbase/Test-Base-Accounts/Check-Package-Name-Availability.yml)
+### [Create](testbase/Test-Base-Accounts/Create.yml)
+### [Delete](testbase/Test-Base-Accounts/Delete.yml)
+### [Get](testbase/Test-Base-Accounts/Get.yml)
+### [Get File Upload Url](testbase/Test-Base-Accounts/Get-File-Upload-Url.yml)
+### [List By Resource Group](testbase/Test-Base-Accounts/List-By-Resource-Group.yml)
+### [List By Subscription](testbase/Test-Base-Accounts/List-By-Subscription.yml)
+### [Offboard](testbase/Test-Base-Accounts/Offboard.yml)
+### [Update](testbase/Test-Base-Accounts/Update.yml)
+## Test Results
+### [Overview](testbase/Test-Results.yml)
+### [Get](testbase/Test-Results/Get.yml)
+### [Get Download URL](testbase/Test-Results/Get-Download-URL.yml)
+### [Get Video Download URL](testbase/Test-Results/Get-Video-Download-URL.yml)
+### [List](testbase/Test-Results/List.yml)
+## Test Summaries
+### [Overview](testbase/Test-Summaries.yml)
+### [Get](testbase/Test-Summaries/Get.yml)
+### [List](testbase/Test-Summaries/List.yml)
+## Test Types
+### [Overview](testbase/Test-Types.yml)
+### [Get](testbase/Test-Types/Get.yml)
+### [List](testbase/Test-Types/List.yml)
+## Usage
+### [Overview](testbase/Usage.yml)
+### [List](testbase/Usage/List.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
 ## Data Access (Gen2)

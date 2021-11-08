@@ -1,0 +1,183 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.testbase.usage.list
+name: List
+service: Test Base
+groupName: Usage
+apiVersion: 2020-12-16-preview
+summary: Lists the usage data of a Test Base Account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/usages?api-version=2020-12-16-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/usages?$filter={$filter}&api-version=2020-12-16-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource.
+  types:
+  - uid: string
+- name: testBaseAccountName
+  in: path
+  isRequired: true
+  description: The resource name of the Test Base Account.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: Odata filter
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The usage of the Test Base Account was returned.
+  types:
+  - uid: TestBaseAccountUsageDataList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: TestBaseAccountUsageDataList
+  description: A list of Test Base Account usage data.
+  kind: object
+  properties:
+  - name: value
+    description: The list of Test Base Account usage data.
+    types:
+    - uid: TestBaseAccountUsageData
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to the next set of results. Not empty if value contains incomplete list of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The error response send when an operation fails.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+- name: TestBaseAccountUsageData
+  description: The usage data of a Test Base Account.
+  kind: object
+  properties:
+  - name: id
+    description: Fully qualified ARM resource id
+    types:
+    - uid: string
+  - name: name
+    description: Localizable String object containing the name and a localized value.
+    types:
+    - uid: TestBaseAccountUsageName
+  - name: unit
+    description: 'Representing the units of the usage quota. Possible values are: Count, Bytes, Seconds, Percent, CountPerSecond, BytesPerSecond.'
+    types:
+    - uid: string
+  - name: limit
+    description: The maximum permitted value for the usage quota. If there is no limit, this value will be -1.
+    types:
+    - uid: integer
+  - name: currentValue
+    description: Current value for the usage quota.
+    types:
+    - uid: integer
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
+- name: TestBaseAccountUsageName
+  description: Localizable String object containing the name and a localized value.
+  kind: object
+  properties:
+  - name: value
+    description: The identifier of the usage.
+    types:
+    - uid: string
+  - name: localizedValue
+    description: Localized name of the usage.
+    types:
+    - uid: string
+examples:
+- name: TestBaseAccountUsagesList
+  request:
+    uri: GET https://management.azure.com/subscriptions/476f61a4-952c-422a-b4db-568a828f35df/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/usages?api-version=2020-12-16-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nextLink": "https://management.azure.com/subscriptions/476f61a4-952c-422a-b4db-568a828f35df/providers/Microsoft.TestBase/contoso-testBaseAccount1/usages?api-version=2020-12-16-preview&$skipToken=dummySkipToken",
+        "value": [
+          {
+            "id": "/subscriptions/476f61a4-952c-422a-b4db-568a828f35df/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/usages/contoso-package1-usage",
+            "name": {
+              "value": "contoso-package1-usage",
+              "localizedValue": "contoso-package1-usage"
+            },
+            "unit": "Seconds",
+            "limit": -1,
+            "currentValue": 7531
+          },
+          {
+            "id": "/subscriptions/476f61a4-952c-422a-b4db-568a828f35df/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/usages/contoso-package2-usage",
+            "name": {
+              "value": "contoso-package2-usage",
+              "localizedValue": "contoso-package2-usage"
+            },
+            "unit": "Seconds",
+            "limit": -1,
+            "currentValue": 3157
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Test Base service - Lists the usage data of a Test Base Account.
+errorCodes: []

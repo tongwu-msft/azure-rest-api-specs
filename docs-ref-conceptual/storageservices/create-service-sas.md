@@ -3,7 +3,7 @@ title: Create a service SAS - Azure Storage
 description: A service shared access signature (SAS) delegates access to a resource in the Blob, Queue, Table, or File service.
 author: tamram
 
-ms.date: 12/22/2020
+ms.date: 11/02/2021
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -144,15 +144,16 @@ The following table shows the permissions supported for each resource type.
 
 | Permission | URI symbol | Resource | Version support | Allowed operations |
 |--|--|--|--|--|
-| Read | r | Container<br />Directory<br />Blob | All | Read the content, block list, properties, and metadata of any blob in the container or directory. Use a blob as the source of a copy operation. |
+| Read | r | Container<br />Directory<br />Blob | All | Read the content, blocklist, properties, and metadata of any blob in the container or directory. Use a blob as the source of a copy operation. |
 | Add | a | Container<br />Directory<br />Blob | All | Add a block to an append blob. |
 | Create | c | Container<br />Directory<br />Blob | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
-| Write | w | Container<br />Directory<br />Blob | All | Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
+| Write | w | Container<br />Directory<br />Blob | All | Create or write content, properties, metadata, or blocklist. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
 | Delete | d | Container<br />Directory<br />Blob | All | Delete a blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the [Lease Blob](Lease-Blob.md) operation. |
 | Delete version | x | Container<br />Blob | Version 2019-12-12 or later | Delete a blob version. |
 | Permanent delete | y | Blob | Version 2020-02-10 or later | Permanently delete a blob snapshot or version.|
 | List | l | Container<br />Directory | All | List blobs non-recursively. |
 | Tags | t | Blob | Version 2019-12-12 or later | Read or write the tags on a blob. |
+| Find | f | Container | Version 2019-12-12 or later | Find blobs with index tags. |
 | Move | m | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. This operation can optionally be restricted to the owner of the child blob, directory, or parent directory if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
 | Execute | e | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. Does not permit the caller to read user-defined metadata. |
 | Ownership | o | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, this permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or blob within a directory that has the sticky bit set. |
@@ -245,6 +246,20 @@ The following table describes how to refer to a signed identifier on the URI.
   
 A stored access policy includes a signed identifier, a value up to 64 characters long that is unique within the resource. The value of this signed identifier can be specified for the `signedidentifier` field in the URI for the shared access signature. Specifying a signed identifier on the URI associates the signature with the stored access policy. To establish a container-level access policy using the REST API, see [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md).  
 
+### Specifying the encryption scope
+
+The `signedEncryptionScope` field on the URI enables the customer to specify the encryption scope the client application can use. It enforces the server-side encryption with the given encryption scope when uploading blobs (PUT) with the SAS token. The GET and HEAD will not be restricted and performed as before. The following table describes how to refer to a signed encryption scope on the URI.
+
+|Field name|Query parameter|Description|  
+|----------------|---------------------|-----------------|  
+|`signedEncryptionScope`|`ses`|Optional. Indicates the encryption scope to use to encrypt the request contents.| 
+
+This field is supported with version 2020-12-06 or later. If the `ses` is added prior to the supported version, the service returns error response code 403 (Forbidden).
+
+If the default encryption scope is set for the container or filesystem, the `ses` query parameter will respect the container encryption policy. If there is a mismatch between the `ses` query parameter and `x-ms-default-encryption-scope` header, and the `x-ms-deny-encryption-scope-override` header is set to `true`, the service returns error response code 403 (Forbidden).
+
+When the `x-ms-encryption-scope` header and the `ses` query parameter are provided in the PUT request, the service returns error response code 400 (Bad Request) if there is a mismatch.
+
 ### Specifying the signature  
 
 The signature part of the URI is used to authorize the request made with the shared access signature. Azure Storage uses a Shared Key authorization scheme to authorize a service SAS. The following table describes how to specify the signature on the URI.  
@@ -256,6 +271,28 @@ The signature part of the URI is used to authorize the request made with the sha
 #### Constructing the signature string  
 
 To construct the signature string of a shared access signature, first construct the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Note that fields included in the string-to-sign must be URL-decoded.  
+
+##### Version 2020-12-06 and later
+
+Version 2020-12-06 adds support for the signed encryption scope field. To construct the string-to-sign for Blob service resources, use the following format:  
+
+``` 
+StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
+               signedIP + "\n" +  
+               signedProtocol + "\n" +  
+               signedVersion + "\n" +  
+               signedResource + "\n" +
+               signedSnapshotTime + "\n" +
+               signedEncryptionScope + "\n" +
+               rscc + "\n" +  
+               rscd + "\n" +  
+               rsce + "\n" +  
+               rscl + "\n" +  
+```
 
 ##### Version 2018-11-09 and later
   

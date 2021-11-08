@@ -1,0 +1,139 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.testbase.testbaseaccounts.getfileuploadurl
+name: Get File Upload Url
+service: Test Base
+groupName: Test Base Accounts
+apiVersion: 2020-12-16-preview
+summary: Gets the file upload URL of a Test Base Account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/getFileUploadUrl?api-version=2020-12-16-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource.
+  types:
+  - uid: string
+- name: testBaseAccountName
+  in: path
+  isRequired: true
+  description: The resource name of the Test Base Account.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The file upload URL of the Test Base Account was returned.
+  types:
+  - uid: FileUploadURLResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: blobName
+    in: body
+    description: The custom file name of the uploaded blob.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: FileUploadURLResponse
+  description: The URL response
+  kind: object
+  properties:
+  - name: uploadUrl
+    isReadyOnly: true
+    description: The URL used for uploading the package.
+    types:
+    - uid: string
+  - name: blobPath
+    isReadyOnly: true
+    description: The blob path of the uploaded package. It will be used as the 'blobPath' property of PackageResource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The error response send when an operation fails.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+- name: GetFileUploadURLParameters
+  description: The parameters supplied to the Test Base Account GetFileUploadURL action.
+  kind: object
+  properties:
+  - name: blobName
+    description: The custom file name of the uploaded blob.
+    types:
+    - uid: string
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
+examples:
+- name: TestBaseAccountGetFileUploadUrl
+  request:
+    uri: POST https://management.azure.com/subscriptions/476f61a4-952c-422a-b4db-568a828f35df/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/getFileUploadUrl?api-version=2020-12-16-preview
+    body: >-
+      {
+        "blobName": "package.zip"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "uploadUrl": "https://uslwestusdevsa.blob.core.windows.net/usltest/temp/20c0d7e0-1bb6-477f-bc04-57c734453000/token",
+        "blobPath": "https://uslwestusdevsa.blob.core.windows.net/usltest/temp/20c0d7e0-1bb6-477f-bc04-57c734453000/package.zip"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Test Base service - Gets the file upload URL of a Test Base Account.
+errorCodes: []

@@ -1,0 +1,172 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.testbase.skus.list
+name: List
+service: Test Base
+groupName: Skus
+apiVersion: 2020-12-16-preview
+summary: Lists the available SKUs of Test Base Account in a subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.TestBase/skus?api-version=2020-12-16-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation is completed.
+  types:
+  - uid: TestBaseAccountSKUListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: TestBaseAccountSKUListResult
+  description: A list of Test Base Account SKUs.
+  kind: object
+  properties:
+  - name: value
+    description: The list of Test Base Account SKUs.
+    types:
+    - uid: TestBaseAccountSKU
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to the next set of results. Not empty if value contains incomplete list of results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The error response send when an operation fails.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+- name: TestBaseAccountSKU
+  description: Describes a Test Base Account SKU.
+  kind: object
+  properties:
+  - name: resourceType
+    description: The type of resource the SKU applies to.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the SKU. This is typically a letter + number code, such as B0 or S0.
+    types:
+    - uid: string
+  - name: tier
+    description: The tier of this particular SKU.
+    types:
+    - uid: tier
+  - name: capabilities
+    isReadyOnly: true
+    description: The capabilities of a SKU.
+    types:
+    - uid: TestBaseAccountSKUCapability
+      isArray: true
+  - name: locations
+    description: The locations that the SKU is available.
+    types:
+    - uid: string
+      isArray: true
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
+- name: tier
+  description: The tier of this particular SKU.
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+- name: TestBaseAccountSKUCapability
+  description: Properties of the Test Base Account SKU Capability.
+  kind: object
+  properties:
+  - name: name
+    description: An invariant to describe the feature, such as 'SLA'.
+    types:
+    - uid: string
+  - name: value
+    description: An invariant if the feature is measured by quantity, such as 99.9%.
+    types:
+    - uid: string
+examples:
+- name: TestBaseAccountSKUsList
+  request:
+    uri: GET https://management.azure.com/subscriptions/476f61a4-952c-422a-b4db-568a828f35df/providers/Microsoft.TestBase/skus?api-version=2020-12-16-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nextLink": "https://management.azure.com/subscriptions/476f61a4-952c-422a-b4db-568a828f35df/providers/Microsoft.TestBase/skus?api-version=2020-12-16-preview&$skipToken=dummySkipToken",
+        "value": [
+          {
+            "resourceType": "testBaseAccounts",
+            "name": "S0",
+            "tier": "Standard",
+            "locations": [
+              "global"
+            ],
+            "capabilities": []
+          },
+          {
+            "resourceType": "testBaseAccounts",
+            "name": "S0",
+            "tier": "Standard",
+            "locations": [
+              "global"
+            ],
+            "capabilities": []
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Test Base service - Lists the available SKUs of Test Base Account in a subscription.
+errorCodes: []
