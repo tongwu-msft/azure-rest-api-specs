@@ -32,7 +32,7 @@ Starts upgrading an application in the Service Fabric cluster.
 
 Validates the supplied application upgrade parameters and starts upgrading the application if the parameters are valid.
 Note, application parameters are not preserved across an application upgrade.
-In order to preserve current application parameters, the user should get the parameters using [GetApplicationInfo](./sfclient-getapplicationupgrade.md) operation first and pass them into the upgrade API call as shown in the example.
+In order to preserve current application parameters, the user should get the parameters using [GetApplicationInfo](./sfclient-api-getapplicationupgrade.md) operation first and pass them into the upgrade API call as shown in the example.
 
 
 ## Request

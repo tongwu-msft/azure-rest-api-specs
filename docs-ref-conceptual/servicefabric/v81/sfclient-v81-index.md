@@ -1,6 +1,6 @@
 ---
-title: "Service Fabric Client REST API Reference"
-description: "Service Fabric Client REST API Reference"
+title: "Service Fabric Client REST API Reference v81"
+description: "Service Fabric Client REST API Reference 8v1"
 ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 
 
-# Service Fabric Client REST API Reference
+# Service Fabric Client REST API Reference v81
 
 [Service Fabric](https://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. 
 

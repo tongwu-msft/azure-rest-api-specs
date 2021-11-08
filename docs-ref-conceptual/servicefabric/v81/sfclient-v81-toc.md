@@ -4,7 +4,7 @@ description: Service Fabric client table of content v81"
 ms.service: "service-fabric"
 ---
 
-# [Service Fabric Client APIs](sfclient-v81-index.md)
+# [Service Fabric Client APIs v81](sfclient-v81-index.md)
 ## [Authenticating Service Fabric REST Requests](sfclient-v81-authenticating-service-fabric-rest-requests.md)
 ## [Service Fabric Names and JSON Serialization](sfclient-v81-service-fabric-names-and-json-serialization.md)
 ## [Status and Error Codes](sfclient-v81-status-and-error-codes.md)
