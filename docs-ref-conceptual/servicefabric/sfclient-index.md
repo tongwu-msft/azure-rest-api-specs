@@ -77,23 +77,6 @@ http://65.52.117.43:{connection-port}
 
 ```  
 
-
-## Preview Features
-### Service Fabric Resource Model
-[Service Fabric Resource Model](/azure/service-fabric-mesh/service-fabric-mesh-service-fabric-resources) describes a simple approach to define resources that comprise a [Service Fabric Mesh](https://aka.ms/sfmesh) application.
-
-Following is a list of Service Fabric Client APIs that allows deploying and managing [Service Fabric Mesh](https://aka.ms/sfmesh) applications in a Service Fabric cluster.
-
-* [Service Fabric Secret Resource APIs](#meshsecrets-apis)
-    - [Secret Value APIs](#meshsecretvalues-apis)
-* [Service Fabric Volume Resource APIs](#meshvolumes-apis)
-* [Service Fabric Network Resource APIs](#meshnetworks-apis)
-* [Service Fabric Application Resource APIs](#meshapplications-apis)
-    - [Service APIs](#meshservices-apis)
-    - [Service Replica APIs](#meshservicereplicas-apis)
-    - [Code Package APIs](#meshcodepackages-apis)
-* [Service Fabric Gateway Resource APIs](#meshgateways-apis)
-
 ## Client API Reference
 Following is a list of Service Fabric Client REST APIs.
 
@@ -427,91 +410,6 @@ Following is a list of Service Fabric Client REST APIs.
 | [Get Partition Replica Event List](sfclient-api-getpartitionreplicaeventlist.md) | Gets a Partition Replica-related events.<br/> |
 | [Get Partition Replicas Event List](sfclient-api-getpartitionreplicaseventlist.md) | Gets all Replicas-related events for a Partition.<br/> |
 | [Get Correlated Event List](sfclient-api-getcorrelatedeventlist.md) | Gets all correlated events for a given event.<br/> |
-
-----
-## [MeshSecrets APIs](sfclient-index-meshsecrets.md)
-
-| Name | Description |
-| --- | --- |
-| [Create Or Update](sfclient-api-meshsecret_createorupdate.md) | Creates or updates a Secret resource.<br/> |
-| [Get](sfclient-api-meshsecret_get.md) | Gets the Secret resource with the given name.<br/> |
-| [Delete](sfclient-api-meshsecret_delete.md) | Deletes the Secret resource.<br/> |
-| [List](sfclient-api-meshsecret_list.md) | Lists all the secret resources.<br/> |
-
-----
-## [MeshSecretValues APIs](sfclient-index-meshsecretvalues.md)
-
-| Name | Description |
-| --- | --- |
-| [Add Value](sfclient-api-meshsecretvalue_addvalue.md) | Adds the specified value as a new version of the specified secret resource.<br/> |
-| [Get](sfclient-api-meshsecretvalue_get.md) | Gets the specified secret value resource.<br/> |
-| [Delete](sfclient-api-meshsecretvalue_delete.md) | Deletes the specified  value of the named secret resource.<br/> |
-| [List](sfclient-api-meshsecretvalue_list.md) | List names of all values of the specified secret resource.<br/> |
-| [Show](sfclient-api-meshsecretvalue_show.md) | Lists the specified value of the secret resource.<br/> |
-
-----
-## [MeshVolumes APIs](sfclient-index-meshvolumes.md)
-
-| Name | Description |
-| --- | --- |
-| [Create Or Update](sfclient-api-meshvolume_createorupdate.md) | Creates or updates a Volume resource.<br/> |
-| [Get](sfclient-api-meshvolume_get.md) | Gets the Volume resource with the given name.<br/> |
-| [Delete](sfclient-api-meshvolume_delete.md) | Deletes the Volume resource.<br/> |
-| [List](sfclient-api-meshvolume_list.md) | Lists all the volume resources.<br/> |
-
-----
-## [MeshNetworks APIs](sfclient-index-meshnetworks.md)
-
-| Name | Description |
-| --- | --- |
-| [Create Or Update](sfclient-api-meshnetwork_createorupdate.md) | Creates or updates a Network resource.<br/> |
-| [Get](sfclient-api-meshnetwork_get.md) | Gets the Network resource with the given name.<br/> |
-| [Delete](sfclient-api-meshnetwork_delete.md) | Deletes the Network resource.<br/> |
-| [List](sfclient-api-meshnetwork_list.md) | Lists all the network resources.<br/> |
-
-----
-## [MeshApplications APIs](sfclient-index-meshapplications.md)
-
-| Name | Description |
-| --- | --- |
-| [Create Or Update](sfclient-api-meshapplication_createorupdate.md) | Creates or updates a Application resource.<br/> |
-| [Get](sfclient-api-meshapplication_get.md) | Gets the Application resource with the given name.<br/> |
-| [Delete](sfclient-api-meshapplication_delete.md) | Deletes the Application resource.<br/> |
-| [List](sfclient-api-meshapplication_list.md) | Lists all the application resources.<br/> |
-| [Get Upgrade Progress](sfclient-api-meshapplication_getupgradeprogress.md) | Gets the progress of the latest upgrade performed on this application resource.<br/> |
-
-----
-## [MeshServices APIs](sfclient-index-meshservices.md)
-
-| Name | Description |
-| --- | --- |
-| [Get](sfclient-api-meshservice_get.md) | Gets the Service resource with the given name.<br/> |
-| [List](sfclient-api-meshservice_list.md) | Lists all the service resources.<br/> |
-
-----
-## [MeshCodePackages APIs](sfclient-index-meshcodepackages.md)
-
-| Name | Description |
-| --- | --- |
-| [Get Container Logs](sfclient-api-meshcodepackage_getcontainerlogs.md) | Gets the logs from the container.<br/> |
-
-----
-## [MeshServiceReplicas APIs](sfclient-index-meshservicereplicas.md)
-
-| Name | Description |
-| --- | --- |
-| [Get](sfclient-api-meshservicereplica_get.md) | Gets the given replica of the service of an application.<br/> |
-| [List](sfclient-api-meshservicereplica_list.md) | Lists all the replicas of a service.<br/> |
-
-----
-## [MeshGateways APIs](sfclient-index-meshgateways.md)
-
-| Name | Description |
-| --- | --- |
-| [Create Or Update](sfclient-api-meshgateway_createorupdate.md) | Creates or updates a Gateway resource.<br/> |
-| [Get](sfclient-api-meshgateway_get.md) | Gets the Gateway resource with the given name.<br/> |
-| [Delete](sfclient-api-meshgateway_delete.md) | Deletes the Gateway resource.<br/> |
-| [List](sfclient-api-meshgateway_list.md) | Lists all the gateway resources.<br/> |
 
 ----
 ## [Models](sfclient-index-models.md)
