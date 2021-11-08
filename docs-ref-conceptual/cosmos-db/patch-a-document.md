@@ -1,6 +1,6 @@
 ---
 title: "Patch a Document - Azure Cosmos DB REST API"
-description: Patch document REST API syntax. Request and response headers, body, status codes and examples.
+description: Patch document REST API syntax. Request and response headers, body, status codes, and examples.
 ms.date: "10/29/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
@@ -24,13 +24,13 @@ translation.priority.mt:
 # Patch Document
 Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the SQL API for Azure Cosmos DB. 
 
-The `Patch Document` operation performs path-level updates to specific files/properties in a single document. 
+The `Patch Document` operation does path-level updates to specific files/properties in a single document. 
   
 ## Request  
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|PATCH|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs/{id}|The {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription. The {db-id} value is the user generated name/ID of the database, not the system generated ID (rid). The {coll-id} value is the name of the collection that contains the document.The id is the value of the {id} in the document|  
+|PATCH|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs/{id}|The {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription. The {db-id} value is the user-generated name/ID of the database, not the system-generated ID (rid). The {coll-id} value is the name of the collection that contains the document. The id is the value of the {id} in the document|  
   
 ### Headers  
  See [Common Azure Cosmos DB REST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Azure Cosmos DB requests.  
@@ -43,7 +43,7 @@ The `Patch Document` operation performs path-level updates to specific files/pro
   
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
-|**operations**|Required|Array|  [Patch supports either a single or multiple operations](https://docs.microsoft.com/en-us/azure/cosmos-db/partial-document-update#supported-operations) which should be passed as an array |
+|**operations**|Required|Array|  [Patch supports either a single, or multiple, operations](https://docs.microsoft.com/en-us/azure/cosmos-db/partial-document-update#supported-operations) that should be passed as an array |
 
 ### Single Operation 
   
@@ -112,18 +112,18 @@ The `Patch Document` operation performs path-level updates to specific files/pro
 |----------------------|-----------------|  
 |200 OK|The operation was successful.|  
 |400 Bad Request|The JSON body is invalid.|  
-|412 Pre condition Failed| The specified pre-condition is not met
+|412 Precondition Failed| The specified pre-condition isn't met
 
   
 ### Body  
   
 |Property|Description|  
 |--------------|-----------------|  
-|**_rid**|It is a system generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
+|**_rid**|It is a system-generated property. The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
 |**_ts**|It is a [system generated property](/azure/cosmos-db/stored-procedures-triggers-udfs). It specifies the last updated timestamp of the resource. The value is a timestamp.|  
-|**_self**|It is a system generated property. It is the unique addressable URI for the resource.|  
-|**_etag**|It is a system generated property that specifies the resource **etag** required for optimistic concurrency control.|  
-|**_attachments**|It is a system generated property that specifies the addressable path for the attachments resource.|  
+|**_self**|It is a system-generated property that has URI for the resource.|  
+|**_etag**|It is a system-generated property that specifies the resource **etag** required for optimistic concurrency control.|  
+|**_attachments**|It is a system-generated property that specifies the addressable path for the attachments resource.|  
   
 ```
 {
