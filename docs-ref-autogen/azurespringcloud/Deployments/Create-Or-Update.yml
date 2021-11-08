@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringcloud.deployments.createorupdate
 name: Create Or Update
 service: Azure Spring Cloud
 groupName: Deployments
-apiVersion: 2019-05-01-preview
+apiVersion: 2020-07-01
 summary: Create a new Deployment or update an exiting Deployment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}?api-version=2019-05-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -56,12 +56,15 @@ responses:
     operation result.
   types:
   - uid: DeploymentResource
-- name: 202 Accepted
-  description: Accepted. The response describes the create or update Deployment request is accepted.
-  types:
-  - uid: DeploymentResource
 - name: 200 OK
   description: Success. The response describes the updated Deployment.
+  types:
+  - uid: DeploymentResource
+- name: 202 Accepted
+  description: >-
+    Accepted. The response indicates the exiting Deployment is now updating and contains a Location
+
+    header to query the operation result.
   types:
   - uid: DeploymentResource
 - name: Other Status Codes
@@ -220,10 +223,6 @@ definitions:
     description: The path to the .NET executable relative to zip root
     types:
     - uid: string
-  - name: instanceCount
-    description: Instance count, basic tier should be in range (1, 25), standard tier should be in range (1, 500)
-    types:
-    - uid: integer
   - name: environmentVariables
     description: Collection of environment variables
     types:
@@ -250,9 +249,6 @@ definitions:
     types:
     - uid: string
   - name: Failed
-    types:
-    - uid: string
-  - name: Deleting
     types:
     - uid: string
 - name: DeploymentResourceStatus
@@ -359,7 +355,7 @@ definitions:
 examples:
 - name: Deployments_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment?api-version=2019-05-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment?api-version=2020-07-01
     body: >-
       {
         "properties": {
@@ -373,18 +369,12 @@ examples:
             "cpu": 1,
             "memoryInGB": 3,
             "jvmOptions": "-Xms1G -Xmx3G",
-            "instanceCount": 1,
             "environmentVariables": {
               "env": "test"
             },
             "runtimeVersion": "Java_8"
           },
           "instances": null
-        },
-        "sku": {
-          "name": "S0",
-          "tier": "Standard",
-          "capacity": 1
         }
       }
   responses:
@@ -403,13 +393,53 @@ examples:
             "cpu": 1,
             "memoryInGB": 3,
             "jvmOptions": "-Xms1G -Xmx3G",
-            "instanceCount": 1,
             "environmentVariables": {
               "env": "test"
             },
             "runtimeVersion": "Java_8"
           },
           "provisioningState": "Creating",
+          "status": "Running",
+          "active": false,
+          "instances": [
+            {
+              "name": "instance1",
+              "status": "Running",
+              "discoveryStatus": "pending",
+              "startTime": "2020-08-26T01:55:02Z"
+            }
+          ]
+        },
+        "sku": {
+          "name": "S0",
+          "tier": "Standard",
+          "capacity": 1
+        },
+        "type": "Microsoft.AppPlatform/Spring/apps/deployments",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment",
+        "name": "mydeployment"
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "source": {
+            "type": "Source",
+            "relativePath": "resources/a172cedcae47474b615c54d510a5d84a8dea3032e958587430b413538be3f333-2019082605-e3095339-1723-44b7-8b5e-31b1003978bc",
+            "version": "1.0",
+            "artifactSelector": "sub-module-1"
+          },
+          "appName": "myapp",
+          "deploymentSettings": {
+            "cpu": 1,
+            "memoryInGB": 3,
+            "jvmOptions": "-Xms1G -Xmx3G",
+            "environmentVariables": {
+              "env": "test"
+            },
+            "runtimeVersion": "Java_8"
+          },
+          "provisioningState": "Succeeded",
           "status": "Running",
           "active": false,
           "instances": [
@@ -445,54 +475,12 @@ examples:
             "cpu": 1,
             "memoryInGB": 3,
             "jvmOptions": "-Xms1G -Xmx3G",
-            "instanceCount": 1,
             "environmentVariables": {
               "env": "test"
             },
             "runtimeVersion": "Java_8"
           },
-          "provisioningState": "Creating",
-          "status": "Starting",
-          "active": false,
-          "instances": [
-            {
-              "name": "instance1",
-              "status": "Starting",
-              "discoveryStatus": "pending"
-            }
-          ]
-        },
-        "sku": {
-          "name": "S0",
-          "tier": "Standard",
-          "capacity": 1
-        },
-        "type": "Microsoft.AppPlatform/Spring/apps/deployments",
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment",
-        "name": "mydeployment"
-      }
-  - statusCode: "200"
-    body: >-
-      {
-        "properties": {
-          "source": {
-            "type": "Source",
-            "relativePath": "resources/a172cedcae47474b615c54d510a5d84a8dea3032e958587430b413538be3f333-2019082605-e3095339-1723-44b7-8b5e-31b1003978bc",
-            "version": "1.0",
-            "artifactSelector": "sub-module-1"
-          },
-          "appName": "myapp",
-          "deploymentSettings": {
-            "cpu": 1,
-            "memoryInGB": 3,
-            "jvmOptions": "-Xms1G -Xmx3G",
-            "instanceCount": 1,
-            "environmentVariables": {
-              "env": "test"
-            },
-            "runtimeVersion": "Java_8"
-          },
-          "provisioningState": "Succeeded",
+          "provisioningState": "Updating",
           "status": "Running",
           "active": false,
           "instances": [

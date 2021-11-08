@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.azurespringcloud.customdomains.patch
-name: Patch
+uid: management.azure.com.azurespringcloud.monitoringsettings.get
+name: Get
 service: Azure Spring Cloud
-groupName: Custom Domains
-apiVersion: 2019-05-01-preview
-summary: Update custom domain of one lifecycle application.
+groupName: Monitoring Settings
+apiVersion: 2020-07-01
+summary: Get the Monitoring Setting and its properties.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/domains/{domainName}?api-version=2019-05-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/monitoringSettings/default?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,18 +30,6 @@ uriParameters:
   description: The name of the Service resource.
   types:
   - uid: string
-- name: appName
-  in: path
-  isRequired: true
-  description: The name of the App resource.
-  types:
-  - uid: string
-- name: domainName
-  in: path
-  isRequired: true
-  description: The name of the custom domain resource.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -50,48 +38,23 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Success. The response describe the existed custom domain updated.
+  description: Success. The response describes the corresponding Monitoring Setting.
   types:
-  - uid: CustomDomainResource
+  - uid: MonitoringSettingResource
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-requestBody:
-- name: default
-  parameters:
-  - name: properties
-    in: body
-    description: Properties of the custom domain resource.
-    types:
-    - uid: CustomDomainProperties
 requestHeader: []
 definitions:
-- name: CustomDomainProperties
-  description: Custom domain of app resource payload.
-  kind: object
-  properties:
-  - name: thumbprint
-    description: The thumbprint of bound certificate.
-    types:
-    - uid: string
-  - name: appName
-    isReadyOnly: true
-    description: The app name of domain.
-    types:
-    - uid: string
-  - name: certName
-    description: The bound certificate name of domain.
-    types:
-    - uid: string
-- name: CustomDomainResource
-  description: Custom domain resource payload.
+- name: MonitoringSettingResource
+  description: Monitoring Setting resource
   kind: object
   properties:
   - name: properties
-    description: Properties of the custom domain resource.
+    description: Properties of the Monitoring Setting resource
     types:
-    - uid: CustomDomainProperties
+    - uid: MonitoringSettingProperties
   - name: id
     isReadyOnly: true
     description: Fully qualified resource Id for the resource.
@@ -115,6 +78,27 @@ definitions:
     description: An error response from the service.
     types:
     - uid: CloudErrorBody
+- name: MonitoringSettingProperties
+  description: Monitoring Setting properties payload
+  kind: object
+  properties:
+  - name: provisioningState
+    isReadyOnly: true
+    description: State of the Monitoring Setting.
+    types:
+    - uid: MonitoringSettingState
+  - name: error
+    description: Error when apply Monitoring Setting changes.
+    types:
+    - uid: Error
+  - name: traceEnabled
+    description: Indicates whether enable the trace functionality
+    types:
+    - uid: boolean
+  - name: appInsightsInstrumentationKey
+    description: Target application insight instrumentation key
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -136,29 +120,50 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: MonitoringSettingState
+  description: State of the Monitoring Setting.
+  kind: enum
+  properties:
+  - name: NotAvailable
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+- name: Error
+  description: The error code compose of code and message.
+  kind: object
+  properties:
+  - name: code
+    description: The code of error.
+    types:
+    - uid: string
+  - name: message
+    description: The message of error.
+    types:
+    - uid: string
 examples:
-- name: CustomDomains_Patch
+- name: MonitoringSettings_Get
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/domains/mydomain.com?api-version=2019-05-01-preview
-    body: >-
-      {
-        "properties": {
-          "thumbprint": "934367bf1c97033f877db0f15cb1b586957d3133",
-          "certName": "mycert"
-        }
-      }
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/monitoringSettings/default?api-version=2020-07-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "properties": {
-          "thumbprint": "934367bf1c97033f877db0f15cb1b586957d3133",
-          "appName": "myapp",
-          "certName": "mycert"
+          "provisioningState": "Succeeded",
+          "traceEnabled": true,
+          "appInsightsInstrumentationKey": "00000000-0000-0000-0000-000000000000"
         },
-        "type": "Microsoft.AppPlatform/Spring/apps/domains",
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/domains/mydomain.com",
-        "name": "mydomain.com"
+        "type": "Microsoft.AppPlatform/Spring/monitoringSettings",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/monitoringSettings/default",
+        "name": "default"
       }
 security:
 - name: azure_auth
@@ -170,5 +175,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Spring Cloud service - Update custom domain of one lifecycle application.
+  description: Learn more about Azure Spring Cloud service - Get the Monitoring Setting and its properties.
 errorCodes: []
