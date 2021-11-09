@@ -3547,12 +3547,15 @@
 ### [Overview](azurespringcloud/Deployments.yml)
 ### [Create Or Update](azurespringcloud/Deployments/Create-Or-Update.yml)
 ### [Delete](azurespringcloud/Deployments/Delete.yml)
+### [Generate Heap Dump](azurespringcloud/Deployments/Generate-Heap-Dump.yml)
+### [Generate Thread Dump](azurespringcloud/Deployments/Generate-Thread-Dump.yml)
 ### [Get](azurespringcloud/Deployments/Get.yml)
 ### [Get Log File Url](azurespringcloud/Deployments/Get-Log-File-Url.yml)
 ### [List](azurespringcloud/Deployments/List.yml)
 ### [List For Cluster](azurespringcloud/Deployments/List-For-Cluster.yml)
 ### [Restart](azurespringcloud/Deployments/Restart.yml)
 ### [Start](azurespringcloud/Deployments/Start.yml)
+### [Start JFR](azurespringcloud/Deployments/Start-JFR.yml)
 ### [Stop](azurespringcloud/Deployments/Stop.yml)
 ### [Update](azurespringcloud/Deployments/Update.yml)
 ## Monitoring Settings
@@ -3578,10 +3581,18 @@
 ### [List By Subscription](azurespringcloud/Services/List-By-Subscription.yml)
 ### [List Test Keys](azurespringcloud/Services/List-Test-Keys.yml)
 ### [Regenerate Test Key](azurespringcloud/Services/Regenerate-Test-Key.yml)
+### [Start](azurespringcloud/Services/Start.yml)
+### [Stop](azurespringcloud/Services/Stop.yml)
 ### [Update](azurespringcloud/Services/Update.yml)
 ## Skus
 ### [Overview](azurespringcloud/Skus.yml)
 ### [List](azurespringcloud/Skus/List.yml)
+## Storages
+### [Overview](azurespringcloud/Storages.yml)
+### [Create Or Update](azurespringcloud/Storages/Create-Or-Update.yml)
+### [Delete](azurespringcloud/Storages/Delete.yml)
+### [Get](azurespringcloud/Storages/Get.yml)
+### [List](azurespringcloud/Storages/List.yml)
 # Azure Stack Admin
 ## [Overview](../docs-ref-conceptual/azure-stack/index.md)
 ## Acquired Plans

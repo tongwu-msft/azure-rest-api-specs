@@ -3,15 +3,15 @@ uid: management.azure.com.azurespringcloud.deployments.listforcluster
 name: List For Cluster
 service: Azure Spring Cloud
 groupName: Deployments
-apiVersion: 2020-07-01
+apiVersion: 2021-09-01-preview
 summary: List deployments for a certain service
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/deployments?api-version=2020-07-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/deployments?api-version=2020-07-01&version={version}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/deployments?api-version=2021-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/deployments?api-version=2021-09-01-preview&version={version}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -35,7 +35,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 - name: version
@@ -208,18 +208,26 @@ definitions:
       the relative path to the target module/project.
     types:
     - uid: string
+  - name: customContainer
+    description: Custom container payload
+    types:
+    - uid: CustomContainer
 - name: DeploymentSettings
   description: Deployment settings payload
   kind: object
   properties:
   - name: cpu
-    description: Required CPU, basic tier should be 1, standard tier should be in range (1, 4)
+    description: Required CPU. This should be 1 for Basic tier, and in range [1, 4] for Standard tier. This is deprecated starting from API version 2021-09-01-preview. Please use the resourceRequests field to set the CPU size.
     types:
     - uid: integer
   - name: memoryInGB
-    description: Required Memory size in GB, basic tier should be in range (1, 2), standard tier should be in range (1, 8)
+    description: Required Memory size in GB. This should be in range [1, 2] for Basic tier, and in range [1, 8] for Standard tier. This is deprecated starting from API version 2021-09-01-preview. Please use the resourceRequests field to set the the memory size.
     types:
     - uid: integer
+  - name: resourceRequests
+    description: The requested resource quantity for required CPU and Memory. It is recommended that using this field to represent the required CPU and Memory, the old field cpu and memoryInGB will be deprecated later.
+    types:
+    - uid: ResourceRequests
   - name: jvmOptions
     description: JVM parameter
     types:
@@ -240,6 +248,10 @@ definitions:
     description: Runtime version
     types:
     - uid: RuntimeVersion
+  - name: containerProbeSettings
+    description: Container liveness and readiness probe settings
+    types:
+    - uid: ContainerProbeSettings
 - name: DeploymentResourceProvisioningState
   description: Provisioning state of the Deployment
   kind: enum
@@ -323,6 +335,47 @@ definitions:
   - name: Source
     types:
     - uid: string
+  - name: Container
+    types:
+    - uid: string
+- name: CustomContainer
+  description: Custom container payload
+  kind: object
+  properties:
+  - name: server
+    description: The name of the registry that contains the container image
+    types:
+    - uid: string
+  - name: containerImage
+    description: Container image of the custom container. This should be in the form of <repository>:<tag> without the server name of the registry
+    types:
+    - uid: string
+  - name: command
+    description: Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided.
+    types:
+    - uid: string
+      isArray: true
+  - name: args
+    description: Arguments to the entrypoint. The docker image's CMD is used if this is not provided.
+    types:
+    - uid: string
+      isArray: true
+  - name: imageRegistryCredential
+    description: Credential of the image registry
+    types:
+    - uid: ImageRegistryCredential
+- name: ResourceRequests
+  description: Deployment resource request payload
+  kind: object
+  properties:
+  - name: cpu
+    description: Required CPU. 1 core can be represented by 1 or 1000m. This should be 500m or 1 for Basic tier, and {500m, 1, 2, 3, 4} for Standard tier.
+    types:
+    - uid: string
+  - name: memory
+    description: Required memory. 1 GB can be represented by 1Gi or 1024Mi. This should be {512Mi, 1Gi, 2Gi} for Basic tier, and {512Mi, 1Gi, 2Gi, ..., 8Gi} for Standard tier.
+    types:
+    - uid: string
 - name: RuntimeVersion
   description: Runtime version
   kind: enum
@@ -336,10 +389,30 @@ definitions:
   - name: NetCore_31
     types:
     - uid: string
+- name: ContainerProbeSettings
+  description: Container liveness and readiness probe settings
+  kind: object
+  properties:
+  - name: disableProbe
+    description: Indicates whether disable the liveness and readiness probe
+    types:
+    - uid: boolean
+- name: ImageRegistryCredential
+  description: Credential of the image registry
+  kind: object
+  properties:
+  - name: username
+    description: The username of the image registry credential
+    types:
+    - uid: string
+  - name: password
+    description: The password of the image registry credential
+    types:
+    - uid: string
 examples:
 - name: Deployments_ListForCluster
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/deployments?api-version=2020-07-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/deployments?api-version=2021-09-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -357,6 +430,10 @@ examples:
               "deploymentSettings": {
                 "cpu": 1,
                 "memoryInGB": 3,
+                "resourceRequests": {
+                  "cpu": "1000m",
+                  "memory": "3Gi"
+                },
                 "jvmOptions": "-Xms1G -Xmx3G",
                 "environmentVariables": {
                   "env": "test"

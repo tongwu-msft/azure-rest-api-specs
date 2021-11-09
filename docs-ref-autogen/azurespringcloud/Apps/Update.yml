@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringcloud.apps.update
 name: Update
 service: Azure Spring Cloud
 groupName: Apps
-apiVersion: 2020-07-01
+apiVersion: 2021-09-01-preview
 summary: Operation to update an exiting App.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}?api-version=2020-07-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,7 +39,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -118,6 +118,20 @@ definitions:
     description: Persistent disk settings
     types:
     - uid: PersistentDisk
+  - name: customPersistentDisks
+    description: List of custom persistent disks
+    types:
+    - uid: CustomPersistentDiskResource
+      isArray: true
+  - name: enableEndToEndTLS
+    description: Indicate if end to end TLS is enabled.
+    types:
+    - uid: boolean
+  - name: loadedCertificates
+    description: Collection of loaded certificates
+    types:
+    - uid: LoadedCertificate
+      isArray: true
 - name: ManagedIdentityProperties
   description: Managed identity properties retrieved from ARM request headers.
   kind: object
@@ -218,6 +232,31 @@ definitions:
     description: Mount path of the persistent disk
     types:
     - uid: string
+- name: CustomPersistentDiskResource
+  description: Custom persistent disk resource payload.
+  kind: object
+  properties:
+  - name: customPersistentDiskProperties
+    description: Properties of the custom persistent disk resource payload.
+    types:
+    - uid: AzureFileVolume
+    typesTitle: CustomPersistentDiskProperties
+  - name: storageId
+    description: The resource id of Azure Spring Cloud Storage resource.
+    types:
+    - uid: string
+- name: LoadedCertificate
+  description: Loaded certificate payload
+  kind: object
+  properties:
+  - name: resourceId
+    description: Resource Id of loaded certificate
+    types:
+    - uid: string
+  - name: loadTrustStore
+    description: Indicate whether the certificate will be loaded into default trust store, only work for Java runtime.
+    types:
+    - uid: boolean
 - name: ManagedIdentityType
   description: Type of the managed identity
   kind: enum
@@ -255,10 +294,36 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: AzureFileVolume
+  description: The properties of the Azure File volume. Azure File shares are mounted as volumes.
+  kind: object
+  properties:
+  - name: shareName
+    description: The share name of the Azure File share.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the underlying resource to mount as a persistent disk.
+    types:
+    - uid: AzureFileVolume
+    typesTitle: string
+  - name: mountPath
+    description: The mount path of the persistent disk.
+    types:
+    - uid: string
+  - name: readOnly
+    description: Indicates whether the persistent disk is a readOnly one.
+    types:
+    - uid: boolean
+  - name: mountOptions
+    description: These are the mount options for a persistent disk.
+    types:
+    - uid: string
+      isArray: true
 examples:
 - name: Apps_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2020-07-01
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2021-09-01-preview
     body: >-
       {
         "properties": {
@@ -266,6 +331,7 @@ examples:
           "activeDeploymentName": "mydeployment1",
           "fqdn": "myapp.mydomain.com",
           "httpsOnly": false,
+          "enableEndToEndTLS": false,
           "temporaryDisk": {
             "sizeInGB": 2,
             "mountPath": "/mytemporarydisk"
@@ -273,7 +339,18 @@ examples:
           "persistentDisk": {
             "sizeInGB": 2,
             "mountPath": "/mypersistentdisk"
-          }
+          },
+          "customPersistentDisks": [
+            {
+              "customPersistentDiskProperties": {
+                "type": "AzureFileVolume",
+                "mountPath": "/mypath1/mypath2",
+                "mountOptions": [],
+                "shareName": "myFileShare"
+              },
+              "storageId": "myASCStorageID"
+            }
+          ]
         },
         "identity": {
           "type": "SystemAssigned",
@@ -293,6 +370,7 @@ examples:
           "activeDeploymentName": "mydeployment1",
           "fqdn": "myapp.mydomain.com",
           "httpsOnly": false,
+          "enableEndToEndTLS": false,
           "temporaryDisk": {
             "sizeInGB": 2,
             "mountPath": "/mytemporarydisk"
@@ -301,7 +379,18 @@ examples:
             "sizeInGB": 2,
             "usedInGB": 1,
             "mountPath": "/mypersistentdisk"
-          }
+          },
+          "customPersistentDisks": [
+            {
+              "customPersistentDiskProperties": {
+                "type": "AzureFileVolume",
+                "mountPath": "/mypath1/mypath2",
+                "mountOptions": [],
+                "shareName": "myFileShare"
+              },
+              "storageId": "myASCStorageID"
+            }
+          ]
         },
         "type": "Microsoft.AppPlatform/Spring/apps",
         "identity": {
@@ -323,6 +412,7 @@ examples:
           "activeDeploymentName": "mydeployment1",
           "fqdn": "myapp.mydomain.com",
           "httpsOnly": false,
+          "enableEndToEndTLS": false,
           "temporaryDisk": {
             "sizeInGB": 2,
             "mountPath": "/mytemporarydisk"
@@ -331,7 +421,18 @@ examples:
             "sizeInGB": 2,
             "usedInGB": 1,
             "mountPath": "/mypersistentdisk"
-          }
+          },
+          "customPersistentDisks": [
+            {
+              "customPersistentDiskProperties": {
+                "type": "AzureFileVolume",
+                "mountPath": "/mypath1/mypath2",
+                "mountOptions": [],
+                "shareName": "myFileShare"
+              },
+              "storageId": "myASCStorageID"
+            }
+          ]
         },
         "type": "Microsoft.AppPlatform/Spring/apps",
         "identity": {

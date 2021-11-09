@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.azurespringcloud.deployments.stop
-name: Stop
+uid: management.azure.com.azurespringcloud.services.start
+name: Start
 service: Azure Spring Cloud
-groupName: Deployments
+groupName: Services
 apiVersion: 2021-09-01-preview
-summary: Stop the deployment.
+summary: Start a Service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/stop?api-version=2021-09-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/start?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,18 +30,6 @@ uriParameters:
   description: The name of the Service resource.
   types:
   - uid: string
-- name: appName
-  in: path
-  isRequired: true
-  description: The name of the App resource.
-  types:
-  - uid: string
-- name: deploymentName
-  in: path
-  isRequired: true
-  description: The name of the Deployment resource.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -49,13 +37,12 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: Success.
 - name: 202 Accepted
-  description: >-
-    Accepted. The response indicates the Deployment is now stopping and contains a Location header to
-
-    query the operation result.
+  description: Accepted. The response indicates the stop operation is performed in the background.
+- name: 404 Not Found
+  description: Not found. The response indicates the service does not exist.
+- name: Other Status Codes
+  description: Conflict. The response indicates the exiting Service is now updating.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -92,15 +79,13 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: Deployments_Stop
+- name: Services_Start
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment/stop?api-version=2021-09-01-preview
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/start?api-version=2021-09-01-preview
   responses:
-  - statusCode: "200"
   - statusCode: "202"
-    headers:
-    - name: location
-      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.AppPlatform/...pathToOperationResult...
+  - statusCode: "404"
+  - statusCode: "409"
 security:
 - name: azure_auth
   type: oauth2
@@ -111,5 +96,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Spring Cloud service - Stop the deployment.
+  description: Learn more about Azure Spring Cloud service - Start a Service.
 errorCodes: []

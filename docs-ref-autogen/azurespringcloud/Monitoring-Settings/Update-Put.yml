@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringcloud.monitoringsettings.updateput
 name: Update Put
 service: Azure Spring Cloud
 groupName: Monitoring Settings
-apiVersion: 2020-07-01
+apiVersion: 2021-09-01-preview
 summary: Update the Monitoring Setting.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/monitoringSettings/default?api-version=2020-07-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/monitoringSettings/default?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,7 +33,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -76,13 +76,21 @@ definitions:
     types:
     - uid: Error
   - name: traceEnabled
-    description: Indicates whether enable the trace functionality
+    description: Indicates whether enable the trace functionality, which will be deprecated since api version 2020-11-01-preview. Please leverage appInsightsInstrumentationKey to indicate if monitoringSettings enabled or not
     types:
     - uid: boolean
   - name: appInsightsInstrumentationKey
-    description: Target application insight instrumentation key
+    description: Target application insight instrumentation key, null or whitespace include empty will disable monitoringSettings
     types:
     - uid: string
+  - name: appInsightsSamplingRate
+    description: Indicates the sampling rate of application insight agent, should be in range [0.0, 100.0]
+    types:
+    - uid: number
+  - name: appInsightsAgentVersions
+    description: Indicates the versions of application insight agent
+    types:
+    - uid: applicationInsightsAgentVersions
 - name: MonitoringSettingResource
   description: Monitoring Setting resource
   kind: object
@@ -142,6 +150,15 @@ definitions:
     description: The message of error.
     types:
     - uid: string
+- name: applicationInsightsAgentVersions
+  description: Application Insights agent versions properties payload
+  kind: object
+  properties:
+  - name: java
+    isReadyOnly: true
+    description: Indicates the version of application insight java agent
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -166,12 +183,13 @@ definitions:
 examples:
 - name: MonitoringSettings_UpdatePut
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/monitoringSettings/default?api-version=2020-07-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/monitoringSettings/default?api-version=2021-09-01-preview
     body: >-
       {
         "properties": {
           "traceEnabled": true,
-          "appInsightsInstrumentationKey": "00000000-0000-0000-0000-000000000000"
+          "appInsightsInstrumentationKey": "00000000-0000-0000-0000-000000000000",
+          "appInsightsSamplingRate": 10
         }
       }
   responses:
@@ -181,7 +199,11 @@ examples:
         "properties": {
           "provisioningState": "Updating",
           "traceEnabled": true,
-          "appInsightsInstrumentationKey": "00000000-0000-0000-0000-000000000000"
+          "appInsightsInstrumentationKey": "00000000-0000-0000-0000-000000000000",
+          "appInsightsSamplingRate": 10,
+          "appInsightsAgentVersions": {
+            "java": "3.0.0"
+          }
         },
         "type": "Microsoft.AppPlatform/Spring/monitoringSettings",
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/monitoringSettings/default",
@@ -193,7 +215,11 @@ examples:
         "properties": {
           "provisioningState": "Succeeded",
           "traceEnabled": true,
-          "appInsightsInstrumentationKey": "00000000-0000-0000-0000-000000000000"
+          "appInsightsInstrumentationKey": "00000000-0000-0000-0000-000000000000",
+          "appInsightsSamplingRate": 10,
+          "appInsightsAgentVersions": {
+            "java": "3.0.0"
+          }
         },
         "type": "Microsoft.AppPlatform/Spring/monitoringSettings",
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/monitoringSettings/default",

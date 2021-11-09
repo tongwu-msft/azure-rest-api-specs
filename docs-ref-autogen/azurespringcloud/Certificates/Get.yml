@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringcloud.certificates.get
 name: Get
 service: Azure Spring Cloud
 groupName: Certificates
-apiVersion: 2020-07-01
+apiVersion: 2021-09-01-preview
 summary: Get the certificate resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/certificates/{certificateName}?api-version=2020-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/certificates/{certificateName}?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,7 +39,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -60,7 +60,9 @@ definitions:
   - name: properties
     description: Properties of the certificate resource payload.
     types:
-    - uid: CertificateProperties
+    - uid: KeyVaultCertificateProperties
+    - uid: ContentCertificateProperties
+    typesTitle: CertificateProperties
   - name: id
     isReadyOnly: true
     description: Fully qualified resource Id for the resource.
@@ -84,15 +86,31 @@ definitions:
     description: An error response from the service.
     types:
     - uid: CloudErrorBody
-- name: CertificateProperties
-  description: Certificate resource payload.
+- name: CloudErrorBody
+  description: An error response from the service.
   kind: object
   properties:
-  - name: thumbprint
-    isReadyOnly: true
-    description: The thumbprint of certificate.
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: KeyVaultCertificateProperties
+  description: Properties of certificate imported from key vault.
+  kind: object
+  properties:
   - name: vaultUri
     description: The vault uri of user key vault.
     types:
@@ -103,6 +121,20 @@ definitions:
     - uid: string
   - name: certVersion
     description: The certificate version of key vault.
+    types:
+    - uid: string
+  - name: excludePrivateKey
+    description: Optional. If set to true, it will not import private key from key vault.
+    types:
+    - uid: boolean
+  - name: type
+    description: The type of the certificate source.
+    types:
+    - uid: KeyVaultCertificate
+    typesTitle: string
+  - name: thumbprint
+    isReadyOnly: true
+    description: The thumbprint of certificate.
     types:
     - uid: string
   - name: issuer
@@ -136,36 +168,66 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: CloudErrorBody
-  description: An error response from the service.
+- name: ContentCertificateProperties
+  description: Properties of certificate imported from key vault.
   kind: object
   properties:
-  - name: code
-    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - name: content
+    description: The content of uploaded certificate.
     types:
     - uid: string
-  - name: message
-    description: A message describing the error, intended to be suitable for display in a user interface.
+  - name: type
+    description: The type of the certificate source.
+    types:
+    - uid: ContentCertificate
+    typesTitle: string
+  - name: thumbprint
+    isReadyOnly: true
+    description: The thumbprint of certificate.
     types:
     - uid: string
-  - name: target
-    description: The target of the particular error. For example, the name of the property in error.
+  - name: issuer
+    isReadyOnly: true
+    description: The issuer of certificate.
     types:
     - uid: string
-  - name: details
-    description: A list of additional details about the error.
+  - name: issuedDate
+    isReadyOnly: true
+    description: The issue date of certificate.
     types:
-    - uid: CloudErrorBody
+    - uid: string
+  - name: expirationDate
+    isReadyOnly: true
+    description: The expiration date of certificate.
+    types:
+    - uid: string
+  - name: activateDate
+    isReadyOnly: true
+    description: The activate date of certificate.
+    types:
+    - uid: string
+  - name: subjectName
+    isReadyOnly: true
+    description: The subject name of certificate.
+    types:
+    - uid: string
+  - name: dnsNames
+    isReadyOnly: true
+    description: The domain list of certificate.
+    types:
+    - uid: string
       isArray: true
 examples:
 - name: Certificates_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycertificate?api-version=2020-07-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycertificate?api-version=2021-09-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "properties": {
+          "type": "KeyVaultCertificate",
+          "excludePrivateKey": false,
           "thumbprint": "934367bf1c97033f877db0f15cb1b586957d3133",
           "vaultUri": "https://myvault.vault.azure.net",
           "keyVaultCertName": "mycert",
