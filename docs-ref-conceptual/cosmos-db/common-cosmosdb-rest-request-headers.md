@@ -39,16 +39,16 @@ The following request headers are common to all tasks that you might do with the
 |**x-ms-max-item-count**|Optional|Number|An integer indicating the maximum number of items to be returned per page. An x-ms-max-item-count of -1 can be specified to let the service determine the optimal item count. This is the recommended configuration value for x-ms-max-item-count|  
 |**x-ms-documentdb-partitionkey**|Optional|Array|The partition key value for the requested document or attachment operation. Required for operations against documents and attachments when the collection definition includes a partition key definition. This value is used to scope your query to documents that match the partition key criteria. By design it's a single partition query. Supported in API versions 2015-12-16 and newer. Currently, the SQL API supports a single partition key, so this is an array containing just one value.| 
 | **x-ms-documentdb-query-enablecrosspartition**| Optional| Boolean | When this header is set to true and if your query doesn't have a partition key, Azure Cosmos DB fans out the query across partitions. The fan out is done by issuing individual queries to all the partitions. To read the query results, the client applications should consume the results from the FeedResponse and check for the ContinuationToken property. To read all the results, keep iterating on the data until the ContinuationToken is null.  |  
-|**x-ms-session-token**|Required (for session consistency only)|String|A string token used with session level consistency. For more information, see <br />                [Using consistency levels in Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/consistency-levels)|  
+|**x-ms-session-token**|Required (for session consistency only)|String|A string token used with session level consistency. For more information, see <br />                [Using consistency levels in Cosmos DB](/azure/cosmos-db/consistency-levels)|  
 |**x-ms-version**|Required|String|The version of the Cosmos DB REST service. <br />                For a list of supported API versions, see [Azure Cosmos DB REST API Reference](index.md)|
-|**A-IM**|Optional|String|Indicates a [change feed](https://docs.microsoft.com/azure/cosmos-db/change-feed) request. Must be set to "Incremental feed", or omitted otherwise.|
-|**x-ms-documentdb-partitionkeyrangeid**|Optional|Number|Used in [change feed](https://docs.microsoft.com/azure/cosmos-db/change-feed) requests. The partition key range ID for reading data.|
+|**A-IM**|Optional|String|Indicates a [change feed](/azure/cosmos-db/change-feed) request. Must be set to "Incremental feed", or omitted otherwise.|
+|**x-ms-documentdb-partitionkeyrangeid**|Optional|Number|Used in [change feed](/azure/cosmos-db/change-feed) requests. The partition key range ID for reading data.|
 |**x-ms-cosmos-allow-tentative-writes**| Optional | Boolean |When this header is set to true for the Azure Cosmos accounts configured with multiple write locations, Azure Cosmos DB will allow writes to all locations. Write requests with the value of this header set to false (or if the header is absent) will fail with 403 Response Status code with error message "Writes are not allowed in the region".  |
  
 **See also**  
-* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
-* [Azure Cosmos DB SQL API SDKs](/azure/cosmos-db/sql-api-sdk-dotnet)   
+* [Azure Cosmos DB](/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB SQL API](/azure/cosmos-db/sql-api-introduction)
+* [Azure Cosmos DB SQL API SDKs](/azure/cosmos-db/sql-api-sdk-dotnet)
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
   
