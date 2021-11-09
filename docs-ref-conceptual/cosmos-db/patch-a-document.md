@@ -1,7 +1,7 @@
 ---
 title: "Patch a Document - Azure Cosmos DB REST API"
 description: Patch document REST API syntax. Request and response headers, body, status codes, and examples.
-ms.date: "10/29/2021"
+ms.date: "09/11/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: c341c439-b854-4a5d-8982-448ff5e22f22
@@ -37,7 +37,7 @@ The `Patch Document` operation does path-level updates to specific files/propert
   
 |Header|Required|Type|Description|  
 |------------|--------------|----------|-----------------|  
-|**x-ms-documentdb-partitionkey**|Optional|Array|The partition key value for the document to be deleted. Must be included if and only if the collection is created with a **partitionKey** definition.|  
+|**x-ms-documentdb-partitionkey**|Optional|Array|The partition key value for the document to be patched. Must be included if and only if the collection is created with a **partitionKey** definition.|  
 
 ### Body  
   
@@ -45,7 +45,7 @@ The `Patch Document` operation does path-level updates to specific files/propert
 |--------------|--------------|----------|-----------------|  
 |**operations**|Required|Array|  [Patch supports either a single, or multiple, operations](https://docs.microsoft.com/azure/cosmos-db/partial-document-update#supported-operations) that should be passed as an array |
 
-### Single Operation 
+### Single operation
   
 ```  
 {
@@ -59,7 +59,7 @@ The `Patch Document` operation does path-level updates to specific files/propert
 }  
 ```  
 
-### Multiple Operations
+### Multiple operations
   
 ```  
 {
@@ -125,7 +125,7 @@ The `Patch Document` operation does path-level updates to specific files/propert
 |**_etag**|It is a system-generated property that specifies the resource **etag** required for optimistic concurrency control.|  
 |**_attachments**|It is a system-generated property that specifies the addressable path for the attachments resource.|  
   
-```
+```json
 {
     "id": "Andersen.1",
     "LastName": "Andersen",
@@ -172,7 +172,7 @@ PATCH https://querydemo.documents.azure.com/dbs/FamilyDatabase/colls/FamilyConta
 x-ms-documentdb-partitionkey: ["Andersen"]  
 x-ms-date: Tue, 29 Mar 2016 02:28:29 GMT  
 Authorization: type%3dmaster%26ver%3d1.0%26sig%3d92WMAkQv0Zu35zpKZD%2bcGSH%2b2SXd8HGxHIvJgxhO6%2fs%3d
-Content-Type:application/json-patch+json
+Content-Type:application/json_patch+json
 Cache-Control: no-cache  
 User-Agent: Microsoft.Azure.DocumentDB/2.16.12  
 x-ms-version: 2015-12-16  
