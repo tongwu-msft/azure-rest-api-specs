@@ -3,14 +3,14 @@ uid: management.azure.com.container-instances.containergroups.list
 name: List
 service: Container Instances
 groupName: Container Groups
-apiVersion: 2019-12-01
+apiVersion: 2021-09-01
 summary: Get a list of container groups in the specified subscription. This operation returns properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/containerGroups?api-version=2019-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/containerGroups?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -87,6 +87,11 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: zones
+    description: The zones for the container group.
+    types:
+    - uid: string
+      isArray: true
   - name: identity
     description: The identity of the container group, if configured.
     types:
@@ -132,10 +137,11 @@ definitions:
     description: The diagnostic information for a container group.
     types:
     - uid: ContainerGroupDiagnostics
-  - name: properties.networkProfile
-    description: The network profile information for a container group.
+  - name: properties.subnetIds
+    description: The subnet resource IDs for a container group.
     types:
-    - uid: ContainerGroupNetworkProfile
+    - uid: ContainerGroupSubnetId
+      isArray: true
   - name: properties.dnsConfig
     description: The DNS config information for a container group.
     types:
@@ -259,6 +265,14 @@ definitions:
     - uid: string
   - name: password
     description: The password for the private registry.
+    types:
+    - uid: string
+  - name: identity
+    description: The identity for the private registry.
+    types:
+    - uid: string
+  - name: identityUrl
+    description: The identity URL for the private registry.
     types:
     - uid: string
 - name: ContainerGroupRestartPolicy
@@ -411,12 +425,16 @@ definitions:
     description: Container group log analytics information.
     types:
     - uid: LogAnalytics
-- name: ContainerGroupNetworkProfile
-  description: Container group network profile information.
+- name: ContainerGroupSubnetId
+  description: Container group subnet information.
   kind: object
   properties:
   - name: id
-    description: The identifier for a network profile.
+    description: Resource ID of virtual network and subnet.
+    types:
+    - uid: string
+  - name: name
+    description: Friendly name for the subnet.
     types:
     - uid: string
 - name: DnsConfiguration
@@ -726,6 +744,10 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: workspaceResourceId
+    description: The workspace resource id for log analytics
+    types:
+    - uid: string
 - name: ContainerNetworkProtocol
   description: The protocol associated with the port.
   kind: enum
@@ -822,6 +844,11 @@ definitions:
     description: The scheme.
     types:
     - uid: Scheme
+  - name: httpHeaders
+    description: The HTTP headers.
+    types:
+    - uid: HttpHeader
+      isArray: true
 - name: ContainerGroupNetworkProtocol
   description: The protocol associated with the port.
   kind: enum
@@ -864,6 +891,18 @@ definitions:
   - name: https
     types:
     - uid: string
+- name: HttpHeader
+  description: The HTTP header.
+  kind: object
+  properties:
+  - name: name
+    description: The header name.
+    types:
+    - uid: string
+  - name: value
+    description: The header value.
+    types:
+    - uid: string
 - name: GpuSku
   description: The SKU of the GPU resource.
   kind: enum
@@ -880,7 +919,7 @@ definitions:
 examples:
 - name: ContainerGroupsList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ContainerInstance/containerGroups?api-version=2019-12-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ContainerInstance/containerGroups?api-version=2021-09-01
   responses:
   - statusCode: "200"
     body: >-
@@ -889,6 +928,9 @@ examples:
           {
             "id": "/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1",
             "location": "WestUs",
+            "zones": [
+              "1"
+            ],
             "name": "demo1",
             "properties": {
               "containers": [
