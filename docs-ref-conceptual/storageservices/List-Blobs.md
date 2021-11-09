@@ -151,6 +151,8 @@ For version 2020-08-04 and above, for Hierarchical Namespace enabled accounts, `
 
 For version 2020-10-02 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `ResourceType` property element for the path, which can be either `file`/`directory`.   
 
+For version 2021-02-12 and above, `List Blobs` will percent-encode (per RFC 2396) all `Blob` `Name` or `BlobPrefix` `Name` element values which contain characters invalid in XML (specifically, U+FFFE or U+FFFF). If encoded, the `Name` element will include an `Encoded=true` attribute. Note that this will only occur for the `Name` element values containing the characters invalid in XML, not the remaining `Name` elements in the response.
+
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
 <EnumerationResults ServiceEndpoint="http://myaccount.blob.core.windows.net/"  ContainerName="mycontainer">  
