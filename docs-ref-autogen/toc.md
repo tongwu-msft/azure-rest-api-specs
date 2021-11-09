@@ -2812,6 +2812,13 @@
 ## Operations
 ### [Overview](avs/Operations.yml)
 ### [List](avs/Operations/List.yml)
+## Placement Policies
+### [Overview](avs/Placement-Policies.yml)
+### [Create Or Update](avs/Placement-Policies/Create-Or-Update.yml)
+### [Delete](avs/Placement-Policies/Delete.yml)
+### [Get](avs/Placement-Policies/Get.yml)
+### [List](avs/Placement-Policies/List.yml)
+### [Update](avs/Placement-Policies/Update.yml)
 ## Private Clouds
 ### [Overview](avs/Private-Clouds.yml)
 ### [Create Or Update](avs/Private-Clouds/Create-Or-Update.yml)
@@ -2838,6 +2845,11 @@
 ### [Overview](avs/Script-Packages.yml)
 ### [Get](avs/Script-Packages/Get.yml)
 ### [List](avs/Script-Packages/List.yml)
+## Virtual Machines
+### [Overview](avs/Virtual-Machines.yml)
+### [Get](avs/Virtual-Machines/Get.yml)
+### [List](avs/Virtual-Machines/List.yml)
+### [Restrict Movement](avs/Virtual-Machines/Restrict-Movement.yml)
 ## Workload Networks
 ### [Overview](avs/Workload-Networks.yml)
 ### [Create Dhcp](avs/Workload-Networks/Create-Dhcp.yml)
