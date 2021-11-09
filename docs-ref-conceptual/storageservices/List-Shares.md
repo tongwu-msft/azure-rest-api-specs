@@ -122,9 +122,9 @@ The format of the response body is as follows.
 - The `AccessTier` element holds the tier of the share. If the share's tier has not been changed, this property will be the default tier `TransactionOptimized` on general purpose version 2 (GPv2) storage accounts and `Premium` on FileStorage storage accounts. Note that FileStorage storage accounts only support the `Premium` tier.
 - The `AccessTierChangeTime` element is present only if the access tier on the share is explicitly set.
 - The `AccessTierTransitionState` element is present only if the share is transitioning from one tier to another. It indicates the tier it is transitioning from.
-- The `ProvisionedIngressMBps` element is present only for `Premium` FileStorage accounts and versoin 2019-07-07 or later. It shows provisioned ingress in MiBps.
-- The `ProvisionedEgressMBps`  element is present only for `Premium` FileStorage accounts and versoin 2019-07-07 or later. It shows provisioned egress in MiBps.
-- The `ProvisionedBandwidthMiBps` element is present only for `Premium` FileStorage accounts and version 2021-02-12 or later. It shows provisioned bandwidth (ingress + egress combined) in MiBps.
+- The `ProvisionedIngressMBps` element is present only for `Premium` FileStorage accounts and versoin 2019-07-07 or later. It shows provisioned ingress in MiB/s.
+- The `ProvisionedEgressMBps`  element is present only for `Premium` FileStorage accounts and versoin 2019-07-07 or later. It shows provisioned egress in MiB/s.
+- The `ProvisionedBandwidthMiBps` element is present only for `Premium` FileStorage accounts and version 2021-02-12 or later. It shows provisioned bandwidth (ingress + egress combined) in MiB/s.
 
 ### Sample Response
 See the [Sample request and response](#sample-request-and-response) section later in this topic.
