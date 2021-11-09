@@ -1,6 +1,6 @@
 ---
 title: "Status and Error Codes v81"
-ms.date: "11/23/2019 v81"
+ms.date: "11/08/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to:
