@@ -3,12 +3,12 @@ uid: management.azure.com.policy.remediations.deleteatmanagementgroup
 name: Delete At Management Group
 service: Policy
 groupName: Remediations
-apiVersion: 2019-07-01
+apiVersion: 2021-10-01
 summary: Deletes an existing remediation at management group scope.
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}?api-version=2019-07-01
+- content: DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}?api-version=2021-10-01
 uriParameters:
 - name: managementGroupsNamespace
   in: path
@@ -66,6 +66,11 @@ definitions:
     description: The name of the remediation.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
   - name: properties.policyAssignmentId
     description: The resource ID of the policy assignment that should be remediated.
     types:
@@ -102,6 +107,28 @@ definitions:
     description: The deployment status summary for all deployments created by the remediation.
     types:
     - uid: RemediationDeploymentSummary
+  - name: properties.statusMessage
+    isReadyOnly: true
+    description: The remediation status message. Provides additional details regarding the state of the remediation.
+    types:
+    - uid: string
+  - name: properties.correlationId
+    isReadyOnly: true
+    description: The remediation correlation Id. Can be used to find events related to the remediation in the activity log.
+    types:
+    - uid: string
+  - name: properties.resourceCount
+    description: Determines the max number of resources that can be remediated by the remediation job. If not provided, the default resource count is used.
+    types:
+    - uid: integer
+  - name: properties.parallelDeployments
+    description: Determines how many resources to remediate at any given time. Can be used to increase or reduce the pace of the remediation. If not provided, the default parallel deployments value is used.
+    types:
+    - uid: integer
+  - name: properties.failureThreshold
+    description: The remediation failure threshold settings
+    types:
+    - uid: FailureThreshold
 - name: ErrorResponse
   description: Error response.
   kind: object
@@ -110,6 +137,34 @@ definitions:
     description: The error details.
     types:
     - uid: ErrorDefinition
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: ResourceDiscoveryMode
   description: The way resources to remediate are discovered. Defaults to ExistingNonCompliant if not specified.
   kind: enum
@@ -150,6 +205,14 @@ definitions:
     description: The number of deployments required by the remediation that have failed.
     types:
     - uid: integer
+- name: FailureThreshold
+  description: The remediation failure threshold settings
+  kind: object
+  properties:
+  - name: percentage
+    description: A number between 0.0 to 1.0 representing the percentage failure threshold. The remediation will fail if the percentage of failed remediation operations (i.e. failed deployments) exceeds this threshold.
+    types:
+    - uid: number
 - name: ErrorDefinition
   description: Error definition.
   kind: object
@@ -181,6 +244,22 @@ definitions:
     types:
     - uid: TypedErrorInfo
       isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: TypedErrorInfo
   description: Scenario specific error details.
   kind: object
@@ -198,7 +277,7 @@ definitions:
 examples:
 - name: Delete remediation at management group scope
   request:
-    uri: DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/financeMg/providers/Microsoft.PolicyInsights/remediations/storageRemediation?api-version=2019-07-01
+    uri: DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/financeMg/providers/Microsoft.PolicyInsights/remediations/storageRemediation?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -213,11 +292,26 @@ examples:
             "totalDeployments": 2,
             "successfulDeployments": 2,
             "failedDeployments": 0
+          },
+          "statusMessage": "Remediation extended status",
+          "correlationId": "a14e1d60-dae9-4771-b4be-a556d69e77a6",
+          "resourceCount": 42,
+          "parallelDeployments": 6,
+          "failureThreshold": {
+            "percentage": 0.1
           }
         },
         "id": "/providers/Microsoft.Management/managementGroups/financeMg/providers/microsoft.policyinsights/remediations/storageRemediation",
         "name": "storageRemediation",
-        "type": "Microsoft.PolicyInsights/remediations"
+        "type": "Microsoft.PolicyInsights/remediations",
+        "systemData": {
+          "createdBy": "b69a9388-9488-4534-b470-7ec6d41beef6",
+          "createdByType": "User",
+          "createdAt": "2018-09-13T21:51:09.075918Z",
+          "lastModifiedBy": "b69a9388-9488-4534-b470-7ec6d41beef6",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2018-09-13T21:52:10.0011706Z"
+        }
       }
   - statusCode: "204"
 security:
