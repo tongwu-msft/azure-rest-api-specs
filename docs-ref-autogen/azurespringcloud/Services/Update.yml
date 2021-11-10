@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringcloud.services.update
 name: Update
 service: Azure Spring Cloud
 groupName: Services
-apiVersion: 2019-05-01-preview
+apiVersion: 2021-09-01-preview
 summary: Operation to update an exiting Service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}?api-version=2019-05-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,7 +33,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -90,14 +90,6 @@ definitions:
     description: Provisioning state of the Service
     types:
     - uid: ProvisioningState
-  - name: configServerProperties
-    description: Config server git properties of the Service
-    types:
-    - uid: ConfigServerProperties
-  - name: trace
-    description: Trace properties of the Service
-    types:
-    - uid: TraceProperties
   - name: networkProfile
     description: Network profile of the Service
     types:
@@ -112,6 +104,11 @@ definitions:
     description: ServiceInstanceEntity GUID which uniquely identifies a created resource
     types:
     - uid: string
+  - name: powerState
+    isReadyOnly: true
+    description: Power state of the Service
+    types:
+    - uid: PowerState
 - name: Sku
   description: Sku of Azure Spring Cloud
   kind: object
@@ -206,44 +203,6 @@ definitions:
   - name: MoveFailed
     types:
     - uid: string
-- name: ConfigServerProperties
-  description: Config server git properties payload
-  kind: object
-  properties:
-  - name: state
-    isReadyOnly: true
-    description: State of the config server.
-    types:
-    - uid: ConfigServerState
-  - name: error
-    description: Error when apply config server settings.
-    types:
-    - uid: Error
-  - name: configServer
-    description: Settings of config server.
-    types:
-    - uid: ConfigServerSettings
-- name: TraceProperties
-  description: Trace properties payload
-  kind: object
-  properties:
-  - name: state
-    isReadyOnly: true
-    description: State of the trace proxy.
-    types:
-    - uid: TraceProxyState
-  - name: error
-    description: Error when apply trace proxy changes.
-    types:
-    - uid: Error
-  - name: enabled
-    description: Indicates whether enable the tracing functionality
-    types:
-    - uid: boolean
-  - name: appInsightInstrumentationKey
-    description: Target application insight instrumentation key
-    types:
-    - uid: string
 - name: NetworkProfile
   description: Service network profile payload
   kind: object
@@ -279,6 +238,16 @@ definitions:
     types:
     - uid: RequiredTraffic
       isArray: true
+- name: PowerState
+  description: Power state of the Service
+  kind: enum
+  properties:
+  - name: Running
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -300,61 +269,6 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: ConfigServerState
-  description: State of the config server.
-  kind: enum
-  properties:
-  - name: NotAvailable
-    types:
-    - uid: string
-  - name: Deleted
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Updating
-    types:
-    - uid: string
-- name: Error
-  description: The error code compose of code and message.
-  kind: object
-  properties:
-  - name: code
-    description: The code of error.
-    types:
-    - uid: string
-  - name: message
-    description: The message of error.
-    types:
-    - uid: string
-- name: ConfigServerSettings
-  description: The settings of config server.
-  kind: object
-  properties:
-  - name: gitProperty
-    description: Property of git environment.
-    types:
-    - uid: ConfigServerGitProperty
-- name: TraceProxyState
-  description: State of the trace proxy.
-  kind: enum
-  properties:
-  - name: NotAvailable
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Updating
-    types:
-    - uid: string
 - name: OutboundIPs
   description: Desired outbound IP resources for Azure Spring Cloud instance.
   kind: object
@@ -396,52 +310,6 @@ definitions:
     description: The direction of required traffic
     types:
     - uid: trafficDirection
-- name: ConfigServerGitProperty
-  description: Property of git.
-  kind: object
-  properties:
-  - name: repositories
-    description: Repositories of git.
-    types:
-    - uid: GitPatternRepository
-      isArray: true
-  - name: uri
-    description: URI of the repository
-    types:
-    - uid: string
-  - name: label
-    description: Label of the repository
-    types:
-    - uid: string
-  - name: searchPaths
-    description: Searching path of the repository
-    types:
-    - uid: string
-      isArray: true
-  - name: username
-    description: Username of git repository basic auth.
-    types:
-    - uid: string
-  - name: password
-    description: Password of git repository basic auth.
-    types:
-    - uid: string
-  - name: hostKey
-    description: Public sshKey of git repository.
-    types:
-    - uid: string
-  - name: hostKeyAlgorithm
-    description: SshKey algorithm of git repository.
-    types:
-    - uid: string
-  - name: privateKey
-    description: Private sshKey algorithm of git repository.
-    types:
-    - uid: string
-  - name: strictHostKeyChecking
-    description: Strict host key checking or not.
-    types:
-    - uid: boolean
 - name: trafficDirection
   description: The direction of required traffic
   kind: enum
@@ -452,79 +320,13 @@ definitions:
   - name: Outbound
     types:
     - uid: string
-- name: GitPatternRepository
-  description: Git repository property payload
-  kind: object
-  properties:
-  - name: name
-    description: Name of the repository
-    types:
-    - uid: string
-  - name: pattern
-    description: Collection of pattern of the repository
-    types:
-    - uid: string
-      isArray: true
-  - name: uri
-    description: URI of the repository
-    types:
-    - uid: string
-  - name: label
-    description: Label of the repository
-    types:
-    - uid: string
-  - name: searchPaths
-    description: Searching path of the repository
-    types:
-    - uid: string
-      isArray: true
-  - name: username
-    description: Username of git repository basic auth.
-    types:
-    - uid: string
-  - name: password
-    description: Password of git repository basic auth.
-    types:
-    - uid: string
-  - name: hostKey
-    description: Public sshKey of git repository.
-    types:
-    - uid: string
-  - name: hostKeyAlgorithm
-    description: SshKey algorithm of git repository.
-    types:
-    - uid: string
-  - name: privateKey
-    description: Private sshKey algorithm of git repository.
-    types:
-    - uid: string
-  - name: strictHostKeyChecking
-    description: Strict host key checking or not.
-    types:
-    - uid: boolean
 examples:
 - name: Services_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice?api-version=2019-05-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice?api-version=2021-09-01-preview
     body: >-
       {
-        "properties": {
-          "configServerProperties": {
-            "configServer": {
-              "gitProperty": {
-                "uri": "https://github.com/fake-user/fake-repository.git",
-                "label": "master",
-                "searchPaths": [
-                  "/"
-                ]
-              }
-            }
-          },
-          "trace": {
-            "enabled": true,
-            "appInsightInstrumentationKey": "00000000-0000-0000-0000-000000000000"
-          }
-        },
+        "properties": {},
         "sku": {
           "name": "S0",
           "tier": "Standard"
@@ -540,23 +342,6 @@ examples:
       {
         "properties": {
           "provisioningState": "Updating",
-          "configServerProperties": {
-            "state": "Succeeded",
-            "configServer": {
-              "gitProperty": {
-                "uri": "https://github.com/fake-user/fake-repository.git",
-                "label": "master",
-                "searchPaths": [
-                  "/"
-                ]
-              }
-            }
-          },
-          "trace": {
-            "state": "Succeeded",
-            "enabled": true,
-            "appInsightInstrumentationKey": "00000000-0000-0000-0000-000000000000"
-          },
           "serviceId": "12345678abcd1234abcd12345678abcd",
           "networkProfile": {
             "outboundIPs": {
@@ -613,23 +398,6 @@ examples:
       {
         "properties": {
           "provisioningState": "Succeeded",
-          "configServerProperties": {
-            "state": "Succeeded",
-            "configServer": {
-              "gitProperty": {
-                "uri": "https://github.com/fake-user/fake-repository.git",
-                "label": "master",
-                "searchPaths": [
-                  "/"
-                ]
-              }
-            }
-          },
-          "trace": {
-            "state": "Succeeded",
-            "enabled": true,
-            "appInsightInstrumentationKey": "00000000-0000-0000-0000-000000000000"
-          },
           "serviceId": "12345678abcd1234abcd12345678abcd",
           "networkProfile": {
             "outboundIPs": {

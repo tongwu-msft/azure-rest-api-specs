@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringcloud.certificates.createorupdate
 name: Create Or Update
 service: Azure Spring Cloud
 groupName: Certificates
-apiVersion: 2019-05-01-preview
+apiVersion: 2021-09-01-preview
 summary: Create or update certificate resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/certificates/{certificateName}?api-version=2019-05-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/certificates/{certificateName}?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,12 +39,26 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
 - name: 200 OK
   description: Success. The response describe the existed certificate updated.
+  types:
+  - uid: CertificateResource
+- name: 201 Created
+  description: >-
+    Created. The response describes the new certificate and contains a Location header to query the
+
+    operation result.
+  types:
+  - uid: CertificateResource
+- name: 202 Accepted
+  description: >-
+    Accepted. The response indicates the exiting certificate is now updating and contains a Location
+
+    header to query the operation result.
   types:
   - uid: CertificateResource
 - name: Other Status Codes
@@ -58,18 +72,48 @@ requestBody:
     in: body
     description: Properties of the certificate resource payload.
     types:
-    - uid: CertificateProperties
+    - uid: KeyVaultCertificateProperties
+    - uid: ContentCertificateProperties
+    typesTitle: CertificateProperties
 requestHeader: []
 definitions:
-- name: CertificateProperties
+- name: CertificateResource
   description: Certificate resource payload.
   kind: object
   properties:
-  - name: thumbprint
+  - name: properties
+    description: Properties of the certificate resource payload.
+    types:
+    - uid: KeyVaultCertificateProperties
+    - uid: ContentCertificateProperties
+    typesTitle: CertificateProperties
+  - name: id
     isReadyOnly: true
-    description: The thumbprint of certificate.
+    description: Fully qualified resource Id for the resource.
     types:
     - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the service.
+    types:
+    - uid: CloudErrorBody
+- name: KeyVaultCertificateProperties
+  description: Properties of certificate imported from key vault.
+  kind: object
+  properties:
   - name: vaultUri
     description: The vault uri of user key vault.
     types:
@@ -80,6 +124,20 @@ definitions:
     - uid: string
   - name: certVersion
     description: The certificate version of key vault.
+    types:
+    - uid: string
+  - name: excludePrivateKey
+    description: Optional. If set to true, it will not import private key from key vault.
+    types:
+    - uid: boolean
+  - name: type
+    description: The type of the certificate source.
+    types:
+    - uid: KeyVaultCertificate
+    typesTitle: string
+  - name: thumbprint
+    isReadyOnly: true
+    description: The thumbprint of certificate.
     types:
     - uid: string
   - name: issuer
@@ -113,37 +171,55 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: CertificateResource
-  description: Certificate resource payload.
+- name: ContentCertificateProperties
+  description: Properties of certificate imported from key vault.
   kind: object
   properties:
-  - name: properties
-    description: Properties of the certificate resource payload.
-    types:
-    - uid: CertificateProperties
-  - name: id
-    isReadyOnly: true
-    description: Fully qualified resource Id for the resource.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the resource.
+  - name: content
+    description: The content of uploaded certificate.
     types:
     - uid: string
   - name: type
+    description: The type of the certificate source.
+    types:
+    - uid: ContentCertificate
+    typesTitle: string
+  - name: thumbprint
     isReadyOnly: true
-    description: The type of the resource.
+    description: The thumbprint of certificate.
     types:
     - uid: string
-- name: CloudError
-  description: An error response from the service.
-  kind: object
-  properties:
-  - name: error
-    description: An error response from the service.
+  - name: issuer
+    isReadyOnly: true
+    description: The issuer of certificate.
     types:
-    - uid: CloudErrorBody
+    - uid: string
+  - name: issuedDate
+    isReadyOnly: true
+    description: The issue date of certificate.
+    types:
+    - uid: string
+  - name: expirationDate
+    isReadyOnly: true
+    description: The expiration date of certificate.
+    types:
+    - uid: string
+  - name: activateDate
+    isReadyOnly: true
+    description: The activate date of certificate.
+    types:
+    - uid: string
+  - name: subjectName
+    isReadyOnly: true
+    description: The subject name of certificate.
+    types:
+    - uid: string
+  - name: dnsNames
+    isReadyOnly: true
+    description: The domain list of certificate.
+    types:
+    - uid: string
+      isArray: true
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -168,10 +244,11 @@ definitions:
 examples:
 - name: Certificates_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycertificate?api-version=2019-05-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycertificate?api-version=2021-09-01-preview
     body: >-
       {
         "properties": {
+          "type": "KeyVaultCertificate",
           "vaultUri": "https://myvault.vault.azure.net",
           "keyVaultCertName": "mycert",
           "certVersion": "08a219d06d874795a96db47e06fbb01e"
@@ -182,6 +259,58 @@ examples:
     body: >-
       {
         "properties": {
+          "type": "KeyVaultCertificate",
+          "excludePrivateKey": false,
+          "thumbprint": "934367bf1c97033f877db0f15cb1b586957d3133",
+          "vaultUri": "https://myvault.vault.azure.net",
+          "keyVaultCertName": "mycert",
+          "certVersion": "08a219d06d874795a96db47e06fbb01e",
+          "issuer": "mydomain.com",
+          "issuedDate": "2019-02-20T07:40:42Z",
+          "expirationDate": "2019-02-21T07:40:42Z",
+          "activateDate": "2019-02-22T07:40:42Z",
+          "subjectName": "mysubjectname",
+          "dnsNames": [
+            "mydomain.com",
+            "mydomain.net",
+            "mydomain.io"
+          ]
+        },
+        "type": "Microsoft.AppPlatform/Spring/certificates",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycertificate",
+        "name": "mycertificate"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "type": "KeyVaultCertificate",
+          "excludePrivateKey": false,
+          "thumbprint": "934367bf1c97033f877db0f15cb1b586957d3133",
+          "vaultUri": "https://myvault.vault.azure.net",
+          "keyVaultCertName": "mycert",
+          "certVersion": "08a219d06d874795a96db47e06fbb01e",
+          "issuer": "mydomain.com",
+          "issuedDate": "2019-02-20T07:40:42Z",
+          "expirationDate": "2019-02-21T07:40:42Z",
+          "activateDate": "2019-02-22T07:40:42Z",
+          "subjectName": "mysubjectname",
+          "dnsNames": [
+            "mydomain.com",
+            "mydomain.net",
+            "mydomain.io"
+          ]
+        },
+        "type": "Microsoft.AppPlatform/Spring/certificates",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycertificate",
+        "name": "mycertificate"
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "type": "KeyVaultCertificate",
+          "excludePrivateKey": false,
           "thumbprint": "934367bf1c97033f877db0f15cb1b586957d3133",
           "vaultUri": "https://myvault.vault.azure.net",
           "keyVaultCertName": "mycert",

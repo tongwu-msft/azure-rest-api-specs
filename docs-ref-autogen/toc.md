@@ -3528,6 +3528,7 @@
 ### [Get Resource Upload Url](azurespringcloud/Apps/Get-Resource-Upload-Url.yml)
 ### [List](azurespringcloud/Apps/List.yml)
 ### [Update](azurespringcloud/Apps/Update.yml)
+### [Validate Domain](azurespringcloud/Apps/Validate-Domain.yml)
 ## Bindings
 ### [Overview](azurespringcloud/Bindings.yml)
 ### [Create Or Update](azurespringcloud/Bindings/Create-Or-Update.yml)
@@ -3541,26 +3542,39 @@
 ### [Delete](azurespringcloud/Certificates/Delete.yml)
 ### [Get](azurespringcloud/Certificates/Get.yml)
 ### [List](azurespringcloud/Certificates/List.yml)
+## Config Servers
+### [Overview](azurespringcloud/Config-Servers.yml)
+### [Get](azurespringcloud/Config-Servers/Get.yml)
+### [Update Patch](azurespringcloud/Config-Servers/Update-Patch.yml)
+### [Update Put](azurespringcloud/Config-Servers/Update-Put.yml)
+### [Validate](azurespringcloud/Config-Servers/Validate.yml)
 ## Custom Domains
 ### [Overview](azurespringcloud/Custom-Domains.yml)
 ### [Create Or Update](azurespringcloud/Custom-Domains/Create-Or-Update.yml)
 ### [Delete](azurespringcloud/Custom-Domains/Delete.yml)
 ### [Get](azurespringcloud/Custom-Domains/Get.yml)
 ### [List](azurespringcloud/Custom-Domains/List.yml)
-### [Patch](azurespringcloud/Custom-Domains/Patch.yml)
-### [Validate](azurespringcloud/Custom-Domains/Validate.yml)
+### [Update](azurespringcloud/Custom-Domains/Update.yml)
 ## Deployments
 ### [Overview](azurespringcloud/Deployments.yml)
 ### [Create Or Update](azurespringcloud/Deployments/Create-Or-Update.yml)
 ### [Delete](azurespringcloud/Deployments/Delete.yml)
+### [Generate Heap Dump](azurespringcloud/Deployments/Generate-Heap-Dump.yml)
+### [Generate Thread Dump](azurespringcloud/Deployments/Generate-Thread-Dump.yml)
 ### [Get](azurespringcloud/Deployments/Get.yml)
 ### [Get Log File Url](azurespringcloud/Deployments/Get-Log-File-Url.yml)
 ### [List](azurespringcloud/Deployments/List.yml)
-### [List Cluster All Deployments](azurespringcloud/Deployments/List-Cluster-All-Deployments.yml)
+### [List For Cluster](azurespringcloud/Deployments/List-For-Cluster.yml)
 ### [Restart](azurespringcloud/Deployments/Restart.yml)
 ### [Start](azurespringcloud/Deployments/Start.yml)
+### [Start JFR](azurespringcloud/Deployments/Start-JFR.yml)
 ### [Stop](azurespringcloud/Deployments/Stop.yml)
 ### [Update](azurespringcloud/Deployments/Update.yml)
+## Monitoring Settings
+### [Overview](azurespringcloud/Monitoring-Settings.yml)
+### [Get](azurespringcloud/Monitoring-Settings/Get.yml)
+### [Update Patch](azurespringcloud/Monitoring-Settings/Update-Patch.yml)
+### [Update Put](azurespringcloud/Monitoring-Settings/Update-Put.yml)
 ## Operations
 ### [Overview](azurespringcloud/Operations.yml)
 ### [List](azurespringcloud/Operations/List.yml)
@@ -3579,10 +3593,18 @@
 ### [List By Subscription](azurespringcloud/Services/List-By-Subscription.yml)
 ### [List Test Keys](azurespringcloud/Services/List-Test-Keys.yml)
 ### [Regenerate Test Key](azurespringcloud/Services/Regenerate-Test-Key.yml)
+### [Start](azurespringcloud/Services/Start.yml)
+### [Stop](azurespringcloud/Services/Stop.yml)
 ### [Update](azurespringcloud/Services/Update.yml)
-## Sku
-### [Overview](azurespringcloud/Sku.yml)
-### [List](azurespringcloud/Sku/List.yml)
+## Skus
+### [Overview](azurespringcloud/Skus.yml)
+### [List](azurespringcloud/Skus/List.yml)
+## Storages
+### [Overview](azurespringcloud/Storages.yml)
+### [Create Or Update](azurespringcloud/Storages/Create-Or-Update.yml)
+### [Delete](azurespringcloud/Storages/Delete.yml)
+### [Get](azurespringcloud/Storages/Get.yml)
+### [List](azurespringcloud/Storages/List.yml)
 # Azure Stack Admin
 ## [Overview](../docs-ref-conceptual/azure-stack/index.md)
 ## Acquired Plans
