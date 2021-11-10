@@ -6,7 +6,7 @@ ms.service: iot-central
 ms.topic: reference
 author: avneet723
 ms.author: avneets
-ms.date: 09/09/2021
+ms.date: 11/01/2021
 ---
 
 # Azure IoT Central REST API reference
@@ -29,13 +29,15 @@ The IoT Central REST API provides operations for working with the following reso
 | Operation group | Description                                                        | Learn more |
 |-----------------|--------------------------------------------------------------------|------------| 
 | [API Tokens](https://aka.ms/iotcapi-token)  | Create, read, delete access tokens used to interact with the IoT Central public APIs| [Authenticating against the API](https://aka.ms/iotcentralapidocsauth)
-| [Continuous Data Exports](https://aka.ms/iotcapi-cde) | Manage data exports within your IoT Central application | [Export your data](/azure/iot-central/preview/howto-export-data)|
+| [Destinations](https://aka.ms/iotcapi-destinations) | Manage destionations utilized to configure data exports within your IoT Central application | [Configure your destination](/azure/iot-central/preview/howto-export-data#destinations)|
 | [Device Templates](https://aka.ms/iotcapi-devicetemplates) | Create, read, and delete device templates within an IoT Central application| [Setup device template](/azure/iot-central/core/howto-set-up-template)|
 | [Devices](https://aka.ms/iotcapi-devices) | Get information about and manage devices and IoT Edge modules in your IoT Central application| [Manage your devices](/azure/iot-central/preview/howto-manage-devices)|
 | [Device Groups](https://aka.ms/iotc-devicegroups)| List the set of device groups within your application | [List Device Groups](/azure/iot-central/core/tutorial-use-device-groups) |
+| [Exports](https://aka.ms/iotcapi-cde) | Manage data export definitions within your IoT Central application | [Manage your data exports](/azure/iot-central/preview/howto-export-data)|
 | [File Upload](https://aka.ms/iotcapi-fileupload) | Update, retrieve and delete file upload configurations| [Configure File Upload](/azure/iot-central/core/howto-configure-file-uploads)|
 | [Jobs](https://aka.ms/iotcapi-jobs)|Get information about and manage jobs within your application | [Manage your jobs](/azure/iot-central/core/howto-run-a-job) |
-| [Organizations](/rest/api/iotcentral/1.1-preview/organizations) | Create, read, delete and list organizations within your IoT Central application| [Manage your organizations](/azure/iot-central/core/howto-create-organizations)|
+| [Organizations](https://aka.ms/iotcapi-orgs) | Create, read, delete and list organizations within your IoT Central application| [Manage your organizations](/azure/iot-central/core/howto-create-organizations)|
+| [Query](https://aka.ms/iotcapi-query) | Query for devices or device data from within your IoT Central application using IoT Central Query Language| [Query your data](/azure/iot-central/core/howto-query-with-rest-api)|
 | [Roles](https://aka.ms/iotcapi-roles)| List roles within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles)|
 | [Users](https://aka.ms/iotcapi-users)| Add, update, and remove users within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles) |
 
