@@ -9,7 +9,7 @@ summary: >-
 
   * No image will be stored. Only the extracted face feature will be stored on server. The faceId is an identifier of the face feature and will be used in [Face - Identify](https://docs.microsoft.com/rest/api/faceapi/face/identify), [Face - Verify](https://docs.microsoft.com/rest/api/faceapi/face/verifyfacetoface), and [Face - Find Similar](https://docs.microsoft.com/rest/api/faceapi/face/findsimilar). The stored face feature(s) will expire and be deleted at the time specified by faceIdTimeToLive after the original detection call.
 
-  * Optional parameters include faceId, landmarks, and attributes. Attributes include age, gender, headPose, smile, facialHair, glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure, noise, and mask. Some of the results returned for specific attributes may not be highly accurate.
+  * Optional parameters include faceId, landmarks, and attributes. Attributes include age, gender, headPose, smile, facialHair, glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure, noise, mask, and qualityForRecognition. Some of the results returned for specific attributes may not be highly accurate.
 
   * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is from 1KB to 6MB.
 
@@ -51,7 +51,7 @@ uriParameters:
   - uid: boolean
 - name: returnFaceAttributes
   in: query
-  description: Analyze and return the one or more specified face attributes in the comma-separated string like "returnFaceAttributes=age,gender". The available attributes depends on the 'detectionModel' specified. 'detection_01' supports age, gender, headPose, smile, facialHair, glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure, and noise. While 'detection_02' does not support any attributes and 'detection_03' only supports mask. Note that each face attribute analysis has additional computational and time cost.
+  description: Analyze and return the one or more specified face attributes in the comma-separated string like "returnFaceAttributes=age,gender". The available attributes depends on the 'detectionModel' specified. 'detection_01' supports age, gender, headPose, smile, facialHair, glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure, noise, and qualityForRecognition. While 'detection_02' does not support any attributes and 'detection_03' only supports mask and qualityForRecognition. Additionally, qualityForRecognition is only supported when the 'recognitionModel' is specified as 'recognition_03' or 'recognition_04'. Note that each face attribute analysis has additional computational and time cost.
   types:
   - uid: array
 - name: recognitionModel
@@ -365,6 +365,10 @@ definitions:
     description: Properties describing the presence of a mask on a given face.
     types:
     - uid: Mask
+  - name: qualityForRecognition
+    description: Properties describing the overall image quality regarding whether the image being used in the detection is of sufficient quality to attempt face recognition on.
+    types:
+    - uid: QualityForRecognition
 - name: Error
   description: Error body.
   kind: object
@@ -588,6 +592,19 @@ definitions:
     description: A boolean value indicating whether nose and mouth are covered.
     types:
     - uid: boolean
+- name: QualityForRecognition
+  description: An enum value indicating quality of image for recognition.
+  kind: enum
+  properties:
+  - name: Low
+    types:
+    - uid: string
+  - name: Medium
+    types:
+    - uid: string
+  - name: High
+    types:
+    - uid: string
 - name: HairColor
   description: Hair color and associated confidence
   kind: object
