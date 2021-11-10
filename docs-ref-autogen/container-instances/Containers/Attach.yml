@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.container-instances.containers.listlogs
-name: List Logs
+uid: management.azure.com.container-instances.containers.attach
+name: Attach
 service: Container Instances
 groupName: Containers
 apiVersion: 2021-09-01
-summary: Get the logs for a specified container instance in a specified resource group and container group.
+summary: "Attach to the output of a specific container instance.  \nAttach to the output stream of a specific container instance in a specified resource group and container group."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/logs?api-version=2021-09-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/logs?api-version=2021-09-01&tail={tail}&timestamps={timestamps}
-  isOptional: true
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/attach?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,34 +42,27 @@ uriParameters:
   description: Client API version
   types:
   - uid: string
-- name: tail
-  in: query
-  description: The number of lines to show from the tail of the container instance log. If not provided, all available logs are shown up to 4mb.
-  types:
-  - uid: integer
-  format: int32
-- name: timestamps
-  in: query
-  description: If true, adds a timestamp at the beginning of every line of log output. If not provided, defaults to false.
-  types:
-  - uid: boolean
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: Logs
+  - uid: ContainerAttachResponse
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: Logs
-  description: The logs.
+- name: ContainerAttachResponse
+  description: The information for the output stream from container attach.
   kind: object
   properties:
-  - name: content
-    description: The content of the log.
+  - name: webSocketUri
+    description: The uri for the output stream from the attach.
+    types:
+    - uid: string
+  - name: password
+    description: The password to the output stream from the attach. Send as an Authorization header value when connecting to the websocketUri.
     types:
     - uid: string
 - name: CloudError
@@ -104,14 +95,15 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: ContainerListLogs
+- name: ContainerAttach
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1/containers/container1/logs?api-version=2021-09-01&tail=10
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1/containers/container1/attach?api-version=2021-09-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "content": "log content"
+        "webSocketUri": "wss://web-socket-uri",
+        "password": "password"
       }
 security:
 - name: azure_auth
@@ -123,5 +115,5 @@ security:
   - name: user_impersonation
     description: Impersonate your user account
 metadata:
-  description: Learn more about Container Instances service - Get the logs for a specified container instance in a specified resource group and container group.
+  description: "Attach to the output of a specific container instance.  \nAttach to the output stream of a specific container instance in a specified resource group and container group."
 errorCodes: []

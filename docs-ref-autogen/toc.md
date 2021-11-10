@@ -6776,6 +6776,7 @@
 ### [Create Or Update](container-instances/Container-Groups/Create-Or-Update.yml)
 ### [Delete](container-instances/Container-Groups/Delete.yml)
 ### [Get](container-instances/Container-Groups/Get.yml)
+### [Get Outbound Network Dependencies Endpoints](container-instances/Container-Groups/Get-Outbound-Network-Dependencies-Endpoints.yml)
 ### [List](container-instances/Container-Groups/List.yml)
 ### [List By Resource Group](container-instances/Container-Groups/List-By-Resource-Group.yml)
 ### [Restart](container-instances/Container-Groups/Restart.yml)
@@ -6784,6 +6785,7 @@
 ### [Update](container-instances/Container-Groups/Update.yml)
 ## Containers
 ### [Overview](container-instances/Containers.yml)
+### [Attach](container-instances/Containers/Attach.yml)
 ### [Execute Command](container-instances/Containers/Execute-Command.yml)
 ### [List Logs](container-instances/Containers/List-Logs.yml)
 ## Location
