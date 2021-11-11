@@ -29,7 +29,7 @@ The IoT Central REST API provides operations for working with the following reso
 | Operation group | Description                                                        | Learn more |
 |-----------------|--------------------------------------------------------------------|------------| 
 | [API Tokens](https://aka.ms/iotcapi-token)  | Create, read, delete access tokens used to interact with the IoT Central public APIs| [Authenticating against the API](https://aka.ms/iotcentralapidocsauth)
-| [Destinations](https://aka.ms/iotcapi-destinations) | Manage destionations utilized to configure data exports within your IoT Central application | [Configure your destination](/azure/iot-central/preview/howto-export-data#destinations)|
+| [Destinations](https://aka.ms/iotcapi-destinations) | Manage destinations utilized to configure data exports within your IoT Central application | [Configure your destination](/azure/iot-central/preview/howto-export-data#destinations)|
 | [Device Templates](https://aka.ms/iotcapi-devicetemplates) | Create, read, and delete device templates within an IoT Central application| [Setup device template](/azure/iot-central/core/howto-set-up-template)|
 | [Devices](https://aka.ms/iotcapi-devices) | Get information about and manage devices and IoT Edge modules in your IoT Central application| [Manage your devices](/azure/iot-central/preview/howto-manage-devices)|
 | [Device Groups](https://aka.ms/iotc-devicegroups)| List the set of device groups within your application | [List Device Groups](/azure/iot-central/core/tutorial-use-device-groups) |
