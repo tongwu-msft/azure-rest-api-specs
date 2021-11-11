@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.azurespringcloud.customdomains.patch
-name: Patch
+uid: management.azure.com.azurespringcloud.customdomains.update
+name: Update
 service: Azure Spring Cloud
 groupName: Custom Domains
-apiVersion: 2019-05-01-preview
+apiVersion: 2021-09-01-preview
 summary: Update custom domain of one lifecycle application.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/domains/{domainName}?api-version=2019-05-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/domains/{domainName}?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,12 +45,19 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
 - name: 200 OK
   description: Success. The response describe the existed custom domain updated.
+  types:
+  - uid: CustomDomainResource
+- name: 202 Accepted
+  description: >-
+    Accepted. The response indicates the exiting custom domain is now updating and contains a Location
+
+    header to query the operation result.
   types:
   - uid: CustomDomainResource
 - name: Other Status Codes
@@ -137,9 +144,9 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: CustomDomains_Patch
+- name: CustomDomains_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/domains/mydomain.com?api-version=2019-05-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/domains/mydomain.com?api-version=2021-09-01-preview
     body: >-
       {
         "properties": {
@@ -149,6 +156,18 @@ examples:
       }
   responses:
   - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "thumbprint": "934367bf1c97033f877db0f15cb1b586957d3133",
+          "appName": "myapp",
+          "certName": "mycert"
+        },
+        "type": "Microsoft.AppPlatform/Spring/apps/domains",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/domains/mydomain.com",
+        "name": "mydomain.com"
+      }
+  - statusCode: "202"
     body: >-
       {
         "properties": {

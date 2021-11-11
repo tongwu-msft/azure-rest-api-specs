@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringcloud.deployments.createorupdate
 name: Create Or Update
 service: Azure Spring Cloud
 groupName: Deployments
-apiVersion: 2019-05-01-preview
+apiVersion: 2021-09-01-preview
 summary: Create a new Deployment or update an exiting Deployment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}?api-version=2019-05-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,7 +45,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -56,12 +56,15 @@ responses:
     operation result.
   types:
   - uid: DeploymentResource
-- name: 202 Accepted
-  description: Accepted. The response describes the create or update Deployment request is accepted.
-  types:
-  - uid: DeploymentResource
 - name: 200 OK
   description: Success. The response describes the updated Deployment.
+  types:
+  - uid: DeploymentResource
+- name: 202 Accepted
+  description: >-
+    Accepted. The response indicates the exiting Deployment is now updating and contains a Location
+
+    header to query the operation result.
   types:
   - uid: DeploymentResource
 - name: Other Status Codes
@@ -200,18 +203,26 @@ definitions:
       the relative path to the target module/project.
     types:
     - uid: string
+  - name: customContainer
+    description: Custom container payload
+    types:
+    - uid: CustomContainer
 - name: DeploymentSettings
   description: Deployment settings payload
   kind: object
   properties:
   - name: cpu
-    description: Required CPU, basic tier should be 1, standard tier should be in range (1, 4)
+    description: Required CPU. This should be 1 for Basic tier, and in range [1, 4] for Standard tier. This is deprecated starting from API version 2021-09-01-preview. Please use the resourceRequests field to set the CPU size.
     types:
     - uid: integer
   - name: memoryInGB
-    description: Required Memory size in GB, basic tier should be in range (1, 2), standard tier should be in range (1, 8)
+    description: Required Memory size in GB. This should be in range [1, 2] for Basic tier, and in range [1, 8] for Standard tier. This is deprecated starting from API version 2021-09-01-preview. Please use the resourceRequests field to set the the memory size.
     types:
     - uid: integer
+  - name: resourceRequests
+    description: The requested resource quantity for required CPU and Memory. It is recommended that using this field to represent the required CPU and Memory, the old field cpu and memoryInGB will be deprecated later.
+    types:
+    - uid: ResourceRequests
   - name: jvmOptions
     description: JVM parameter
     types:
@@ -220,10 +231,6 @@ definitions:
     description: The path to the .NET executable relative to zip root
     types:
     - uid: string
-  - name: instanceCount
-    description: Instance count, basic tier should be in range (1, 25), standard tier should be in range (1, 500)
-    types:
-    - uid: integer
   - name: environmentVariables
     description: Collection of environment variables
     types:
@@ -236,6 +243,10 @@ definitions:
     description: Runtime version
     types:
     - uid: RuntimeVersion
+  - name: containerProbeSettings
+    description: Container liveness and readiness probe settings
+    types:
+    - uid: ContainerProbeSettings
 - name: DeploymentResourceProvisioningState
   description: Provisioning state of the Deployment
   kind: enum
@@ -250,9 +261,6 @@ definitions:
     types:
     - uid: string
   - name: Failed
-    types:
-    - uid: string
-  - name: Deleting
     types:
     - uid: string
 - name: DeploymentResourceStatus
@@ -343,6 +351,47 @@ definitions:
   - name: Source
     types:
     - uid: string
+  - name: Container
+    types:
+    - uid: string
+- name: CustomContainer
+  description: Custom container payload
+  kind: object
+  properties:
+  - name: server
+    description: The name of the registry that contains the container image
+    types:
+    - uid: string
+  - name: containerImage
+    description: Container image of the custom container. This should be in the form of <repository>:<tag> without the server name of the registry
+    types:
+    - uid: string
+  - name: command
+    description: Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided.
+    types:
+    - uid: string
+      isArray: true
+  - name: args
+    description: Arguments to the entrypoint. The docker image's CMD is used if this is not provided.
+    types:
+    - uid: string
+      isArray: true
+  - name: imageRegistryCredential
+    description: Credential of the image registry
+    types:
+    - uid: ImageRegistryCredential
+- name: ResourceRequests
+  description: Deployment resource request payload
+  kind: object
+  properties:
+  - name: cpu
+    description: Required CPU. 1 core can be represented by 1 or 1000m. This should be 500m or 1 for Basic tier, and {500m, 1, 2, 3, 4} for Standard tier.
+    types:
+    - uid: string
+  - name: memory
+    description: Required memory. 1 GB can be represented by 1Gi or 1024Mi. This should be {512Mi, 1Gi, 2Gi} for Basic tier, and {512Mi, 1Gi, 2Gi, ..., 8Gi} for Standard tier.
+    types:
+    - uid: string
 - name: RuntimeVersion
   description: Runtime version
   kind: enum
@@ -356,10 +405,30 @@ definitions:
   - name: NetCore_31
     types:
     - uid: string
+- name: ContainerProbeSettings
+  description: Container liveness and readiness probe settings
+  kind: object
+  properties:
+  - name: disableProbe
+    description: Indicates whether disable the liveness and readiness probe
+    types:
+    - uid: boolean
+- name: ImageRegistryCredential
+  description: Credential of the image registry
+  kind: object
+  properties:
+  - name: username
+    description: The username of the image registry credential
+    types:
+    - uid: string
+  - name: password
+    description: The password of the image registry credential
+    types:
+    - uid: string
 examples:
 - name: Deployments_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment?api-version=2019-05-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment?api-version=2021-09-01-preview
     body: >-
       {
         "properties": {
@@ -370,21 +439,17 @@ examples:
             "artifactSelector": "sub-module-1"
           },
           "deploymentSettings": {
-            "cpu": 1,
-            "memoryInGB": 3,
+            "resourceRequests": {
+              "cpu": "1000m",
+              "memory": "3Gi"
+            },
             "jvmOptions": "-Xms1G -Xmx3G",
-            "instanceCount": 1,
             "environmentVariables": {
               "env": "test"
             },
             "runtimeVersion": "Java_8"
           },
           "instances": null
-        },
-        "sku": {
-          "name": "S0",
-          "tier": "Standard",
-          "capacity": 1
         }
       }
   responses:
@@ -402,14 +467,62 @@ examples:
           "deploymentSettings": {
             "cpu": 1,
             "memoryInGB": 3,
+            "resourceRequests": {
+              "cpu": "1000m",
+              "memory": "3Gi"
+            },
             "jvmOptions": "-Xms1G -Xmx3G",
-            "instanceCount": 1,
             "environmentVariables": {
               "env": "test"
             },
             "runtimeVersion": "Java_8"
           },
           "provisioningState": "Creating",
+          "status": "Running",
+          "active": false,
+          "instances": [
+            {
+              "name": "instance1",
+              "status": "Running",
+              "discoveryStatus": "pending",
+              "startTime": "2020-08-26T01:55:02Z"
+            }
+          ]
+        },
+        "sku": {
+          "name": "S0",
+          "tier": "Standard",
+          "capacity": 1
+        },
+        "type": "Microsoft.AppPlatform/Spring/apps/deployments",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment",
+        "name": "mydeployment"
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "source": {
+            "type": "Source",
+            "relativePath": "resources/a172cedcae47474b615c54d510a5d84a8dea3032e958587430b413538be3f333-2019082605-e3095339-1723-44b7-8b5e-31b1003978bc",
+            "version": "1.0",
+            "artifactSelector": "sub-module-1"
+          },
+          "appName": "myapp",
+          "deploymentSettings": {
+            "cpu": 1,
+            "memoryInGB": 3,
+            "resourceRequests": {
+              "cpu": "1000m",
+              "memory": "3Gi"
+            },
+            "jvmOptions": "-Xms1G -Xmx3G",
+            "environmentVariables": {
+              "env": "test"
+            },
+            "runtimeVersion": "Java_8"
+          },
+          "provisioningState": "Succeeded",
           "status": "Running",
           "active": false,
           "instances": [
@@ -444,21 +557,110 @@ examples:
           "deploymentSettings": {
             "cpu": 1,
             "memoryInGB": 3,
+            "resourceRequests": {
+              "cpu": "1000m",
+              "memory": "3Gi"
+            },
             "jvmOptions": "-Xms1G -Xmx3G",
-            "instanceCount": 1,
             "environmentVariables": {
               "env": "test"
             },
             "runtimeVersion": "Java_8"
           },
-          "provisioningState": "Creating",
-          "status": "Starting",
+          "provisioningState": "Updating",
+          "status": "Running",
           "active": false,
           "instances": [
             {
               "name": "instance1",
-              "status": "Starting",
-              "discoveryStatus": "pending"
+              "status": "Running",
+              "discoveryStatus": "pending",
+              "startTime": "2020-08-26T01:55:02Z"
+            }
+          ]
+        },
+        "sku": {
+          "name": "S0",
+          "tier": "Standard",
+          "capacity": 1
+        },
+        "type": "Microsoft.AppPlatform/Spring/apps/deployments",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment",
+        "name": "mydeployment"
+      }
+- name: Deployments_CreateOrUpdate_CustomContainer
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment?api-version=2021-09-01-preview
+    body: >-
+      {
+        "properties": {
+          "source": {
+            "type": "Container",
+            "customContainer": {
+              "server": "myacr.azurecr.io",
+              "containerImage": "myContainerImage:v1",
+              "command": [
+                "/bin/sh"
+              ],
+              "args": [
+                "-c",
+                "while true; do echo hello; sleep 10;done"
+              ],
+              "imageRegistryCredential": {
+                "username": "myUsername",
+                "password": "myPassword"
+              }
+            }
+          },
+          "deploymentSettings": {
+            "resourceRequests": {
+              "cpu": "1000m",
+              "memory": "3Gi"
+            },
+            "environmentVariables": {
+              "env": "test"
+            }
+          },
+          "instances": null
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "source": {
+            "type": "Container",
+            "customContainer": {
+              "server": "myacr.azurecr.io",
+              "containerImage": "myContainerImage:v1",
+              "imageRegistryCredential": {
+                "username": "myUsername",
+                "password": ""
+              }
+            }
+          },
+          "appName": "myapp",
+          "deploymentSettings": {
+            "cpu": 1,
+            "memoryInGB": 3,
+            "resourceRequests": {
+              "cpu": "1000m",
+              "memory": "3Gi"
+            },
+            "environmentVariables": {
+              "env": "test"
+            }
+          },
+          "provisioningState": "Creating",
+          "status": "Running",
+          "active": false,
+          "instances": [
+            {
+              "name": "instance1",
+              "status": "Running",
+              "discoveryStatus": "N/A",
+              "startTime": "2020-08-26T01:55:02Z"
             }
           ]
         },
@@ -476,21 +678,27 @@ examples:
       {
         "properties": {
           "source": {
-            "type": "Source",
-            "relativePath": "resources/a172cedcae47474b615c54d510a5d84a8dea3032e958587430b413538be3f333-2019082605-e3095339-1723-44b7-8b5e-31b1003978bc",
-            "version": "1.0",
-            "artifactSelector": "sub-module-1"
+            "type": "Container",
+            "customContainer": {
+              "server": "myacr.azurecr.io",
+              "containerImage": "myContainerImage:v1",
+              "imageRegistryCredential": {
+                "username": "myUsername",
+                "password": ""
+              }
+            }
           },
           "appName": "myapp",
           "deploymentSettings": {
             "cpu": 1,
             "memoryInGB": 3,
-            "jvmOptions": "-Xms1G -Xmx3G",
-            "instanceCount": 1,
+            "resourceRequests": {
+              "cpu": "1000m",
+              "memory": "3Gi"
+            },
             "environmentVariables": {
               "env": "test"
-            },
-            "runtimeVersion": "Java_8"
+            }
           },
           "provisioningState": "Succeeded",
           "status": "Running",
@@ -499,7 +707,55 @@ examples:
             {
               "name": "instance1",
               "status": "Running",
-              "discoveryStatus": "pending",
+              "discoveryStatus": "N/A",
+              "startTime": "2020-08-26T01:55:02Z"
+            }
+          ]
+        },
+        "sku": {
+          "name": "S0",
+          "tier": "Standard",
+          "capacity": 1
+        },
+        "type": "Microsoft.AppPlatform/Spring/apps/deployments",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment",
+        "name": "mydeployment"
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "source": {
+            "type": "Source",
+            "customContainer": {
+              "server": "myacr.azurecr.io",
+              "containerImage": "myContainerImage:v1",
+              "imageRegistryCredential": {
+                "username": "myUsername",
+                "password": ""
+              }
+            }
+          },
+          "appName": "myapp",
+          "deploymentSettings": {
+            "cpu": 1,
+            "memoryInGB": 3,
+            "resourceRequests": {
+              "cpu": "1000m",
+              "memory": "3Gi"
+            },
+            "environmentVariables": {
+              "env": "test"
+            }
+          },
+          "provisioningState": "Updating",
+          "status": "Running",
+          "active": false,
+          "instances": [
+            {
+              "name": "instance1",
+              "status": "Running",
+              "discoveryStatus": "N/A",
               "startTime": "2020-08-26T01:55:02Z"
             }
           ]
