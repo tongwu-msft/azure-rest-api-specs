@@ -53,7 +53,7 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Job Versions](/rest/api/sql/2021-05-01-preview/job-versions)| Get or list job versions.|
 |[Jobs](/rest/api/sql/2021-05-01-preview/jobs)| Create, get, update, list, delete jobs.|
 |[Ledger Digest Uploads](/rest/api/sql/2021-05-01-preview/ledger-digest-uploads)| Create, get, update, list the ledger digest upload configuration for a database.|
-|[Location Capabilities](/rest/api/sql/2021-05-01-preview/location%20capabilities)| Get the subscription capabilities available for the specified location.|
+|[Location Capabilities](/rest/api/sql/2021-05-01-preview/capabilities)| Get the subscription capabilities available for the specified location.|
 |[Long Term Retention Backups](/rest/api/sql/2021-05-01-preview/long-term-retention-backups)| Create, get, update, list, delete a long term retention backup.|
 |[Long Term Retention Managed Instance Backups](/rest/api/sql/2021-05-01-preview/long-term-retention-managed-instance-backups)| Create, get, update, list, delete a long term retention backup for a managed database.|
 |[Long Term Retention Policies](/rest/api/sql/2021-05-01-preview/long-term-retention-policies)| Get, list, set a database's long term retention policy.|
