@@ -6210,6 +6210,7 @@
 #### [Overview](communication/Communication-Identity.yml)
 #### [Create](communication/Communication-Identity/Create.yml)
 #### [Delete](communication/Communication-Identity/Delete.yml)
+#### [Exchange Teams User Access Token](communication/Communication-Identity/Exchange-Teams-User-Access-Token.yml)
 #### [Issue Access Token](communication/Communication-Identity/Issue-Access-Token.yml)
 #### [Revoke Access Tokens](communication/Communication-Identity/Revoke-Access-Tokens.yml)
 ### Communication Network Traversal
