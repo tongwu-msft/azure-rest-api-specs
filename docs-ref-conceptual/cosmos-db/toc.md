@@ -23,6 +23,7 @@
 ## [List Documents](list-documents.md)
 ## [Get a Document](get-a-document.md)
 ## [Replace a Document](replace-a-document.md)
+## [Patch a Document](patch-a-document.md)
 ## [Delete a Document](delete-a-document.md)
 ## [Query Documents](query-documents.md)
 # [Attachments](attachments.md)
