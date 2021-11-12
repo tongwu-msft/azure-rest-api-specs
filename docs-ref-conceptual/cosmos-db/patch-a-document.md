@@ -1,5 +1,5 @@
 ---
-title: "Patch a Document - Azure Cosmos DB REST API"
+title: "Patch a document - Azure Cosmos DB REST API"
 description: Patch document REST API syntax. Request and response headers, body, status codes, and examples.
 ms.date: "09/11/2021"
 ms.service: "cosmos-db"
