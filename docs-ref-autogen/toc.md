@@ -6945,6 +6945,7 @@
 ### [List Documents](../docs-ref-conceptual/cosmos-db/list-documents.md)
 ### [Get a Document](../docs-ref-conceptual/cosmos-db/get-a-document.md)
 ### [Replace a Document](../docs-ref-conceptual/cosmos-db/replace-a-document.md)
+### [Patch a Document](../docs-ref-conceptual/cosmos-db/patch-a-document.md)
 ### [Delete a Document](../docs-ref-conceptual/cosmos-db/delete-a-document.md)
 ### [Query Documents](../docs-ref-conceptual/cosmos-db/query-documents.md)
 ## Attachments
