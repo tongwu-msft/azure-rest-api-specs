@@ -18,11 +18,11 @@ Windows Virtual Desktop is a comprehensive desktop and app virtualization servic
 
 | Operation Group | Description |
 | --- | --- |
-| [Application Groups (2019-12-10-preview)](~/docs-ref-autogen/desktopvirtualization/ApplicationGroups.yml) | Operations to create, update, delete, list application groups. |
-| [Applications (2019-12-10-preview)](~/docs-ref-autogen/desktopvirtualization/Applications.yml) | Operations to create, update, delete, list applications. |
-| [Desktops (2019-12-10-preview)](~/docs-ref-autogen/desktopvirtualization/Desktops.yml) | Operations to get, update, list desktops. |
-| [Host Pools (2019-12-10-preview)](~/docs-ref-autogen/desktopvirtualization/HostPools.yml) | Operations to create, update, delete, list host pools. |
-| [Session Hosts (2019-12-10-preview)](~/docs-ref-autogen/desktopvirtualization/SessionHosts.yml) | Operations to update, delete, list session hosts. |
-| [Start Menu Items (2019-12-10-preview)](~/docs-ref-autogen/desktopvirtualization/StartMenuItems.yml) | Retrieve list of start menu items. |
-| [User Sessions (2019-12-10-preview)](~/docs-ref-autogen/desktopvirtualization/UserSessions.yml) | Operations to disconnect, send message, get, delete, list user sessions. |
-| [Workspaces (2019-12-10-preview)](~/docs-ref-autogen/desktopvirtualization/Workspaces.yml) | Operations to create, update, delete, list workspaces. |
+| [Application Groups (2021-07-12)](/rest/api/desktopvirtualization/application-groups) | Operations to create, update, delete, list application groups. |
+| [Applications (2021-07-12)](/rest/api/desktopvirtualization/applications) | Operations to create, update, delete, list applications. |
+| [Desktops (2021-07-12)](/rest/api/desktopvirtualization/desktops) | Operations to get, update, list desktops. |
+| [Host Pools (2021-07-12)](/rest/api/desktopvirtualization/host-pools) | Operations to create, update, delete, list host pools. |
+| [Session Hosts (2021-07-12)](/rest/api/desktopvirtualization/session-hosts) | Operations to update, delete, list session hosts. |
+| [Start Menu Items (2021-07-12)](/rest/api/desktopvirtualization/start-menu-items) | Retrieve list of start menu items. |
+| [User Sessions (2021-07-12)](/rest/api/desktopvirtualization/user-sessions) | Operations to disconnect, send message, get, delete, list user sessions. |
+| [Workspaces (2021-07-12)](/rest/api/desktopvirtualization/workspaces) | Operations to create, update, delete, list workspaces. |
