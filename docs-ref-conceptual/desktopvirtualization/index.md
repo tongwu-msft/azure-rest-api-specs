@@ -18,11 +18,15 @@ Windows Virtual Desktop is a comprehensive desktop and app virtualization servic
 
 | Operation Group | Description |
 | --- | --- |
-| [Application Groups (2021-07-12)](/rest/api/desktopvirtualization/application-groups) | Operations to create, update, delete, list application groups. |
-| [Applications (2021-07-12)](/rest/api/desktopvirtualization/applications) | Operations to create, update, delete, list applications. |
-| [Desktops (2021-07-12)](/rest/api/desktopvirtualization/desktops) | Operations to get, update, list desktops. |
-| [Host Pools (2021-07-12)](/rest/api/desktopvirtualization/host-pools) | Operations to create, update, delete, list host pools. |
-| [Session Hosts (2021-07-12)](/rest/api/desktopvirtualization/session-hosts) | Operations to update, delete, list session hosts. |
-| [Start Menu Items (2021-07-12)](/rest/api/desktopvirtualization/start-menu-items) | Retrieve list of start menu items. |
-| [User Sessions (2021-07-12)](/rest/api/desktopvirtualization/user-sessions) | Operations to disconnect, send message, get, delete, list user sessions. |
-| [Workspaces (2021-07-12)](/rest/api/desktopvirtualization/workspaces) | Operations to create, update, delete, list workspaces. |
+| [Application Groups](/rest/api/desktopvirtualization/application-groups) | Operations to create, update, delete, list application groups. |
+| [Applications](/rest/api/desktopvirtualization/applications) | Operations to create, update, delete, list applications. |
+| [Desktops](/rest/api/desktopvirtualization/desktops) | Operations to get, update, list desktops. |
+| [Host Pools](/rest/api/desktopvirtualization/host-pools) | Operations to create, update, delete, list host pools. |
+| [MSIX Packages](/rest/api/desktopvirtualization/msix-packages) | Operations to create, update, delete, list MSIX Package. |
+| [Msix Images](/rest/api/desktopvirtualization/msix-images) | Operations to expand MSIX Images. |
+| [Operations](/rest/api/desktopvirtualization/operations) | Operations to list available operations the Desktop virtualization resource provider supports. |
+| [Scaling Plans](/rest/api/desktopvirtualization/scaling-plans) | Operations to create, update, delete, get, and list scaling plans. |
+| [Session Hosts](/rest/api/desktopvirtualization/session-hosts) | Operations to update, delete, list session hosts. |
+| [Start Menu Items](/rest/api/desktopvirtualization/start-menu-items) | Retrieve list of start menu items. |
+| [User Sessions](/rest/api/desktopvirtualization/user-sessions) | Operations to disconnect, send message, get, delete, list user sessions. |
+| [Workspaces](/rest/api/desktopvirtualization/workspaces) | Operations to create, update, delete, list workspaces. |
