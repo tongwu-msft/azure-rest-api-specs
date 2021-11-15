@@ -4848,11 +4848,26 @@
 ### Check Sku Availability
 #### [Overview](cognitiveservices/accountmanagement/Check-Sku-Availability.yml)
 #### [Check Sku Availability](cognitiveservices/accountmanagement/Check-Sku-Availability/Check-Sku-Availability.yml)
+### Commitment Plans
+#### [Overview](cognitiveservices/accountmanagement/Commitment-Plans.yml)
+#### [Create Or Update](cognitiveservices/accountmanagement/Commitment-Plans/Create-Or-Update.yml)
+#### [Delete](cognitiveservices/accountmanagement/Commitment-Plans/Delete.yml)
+#### [Get](cognitiveservices/accountmanagement/Commitment-Plans/Get.yml)
+#### [List](cognitiveservices/accountmanagement/Commitment-Plans/List.yml)
+### Commitment Tiers
+#### [Overview](cognitiveservices/accountmanagement/Commitment-Tiers.yml)
+#### [List](cognitiveservices/accountmanagement/Commitment-Tiers/List.yml)
 ### Deleted Accounts
 #### [Overview](cognitiveservices/accountmanagement/Deleted-Accounts.yml)
 #### [Get](cognitiveservices/accountmanagement/Deleted-Accounts/Get.yml)
 #### [List](cognitiveservices/accountmanagement/Deleted-Accounts/List.yml)
 #### [Purge](cognitiveservices/accountmanagement/Deleted-Accounts/Purge.yml)
+### Deployments
+#### [Overview](cognitiveservices/accountmanagement/Deployments.yml)
+#### [Create Or Update](cognitiveservices/accountmanagement/Deployments/Create-Or-Update.yml)
+#### [Delete](cognitiveservices/accountmanagement/Deployments/Delete.yml)
+#### [Get](cognitiveservices/accountmanagement/Deployments/Get.yml)
+#### [List](cognitiveservices/accountmanagement/Deployments/List.yml)
 ### Operations
 #### [Overview](cognitiveservices/accountmanagement/Operations.yml)
 #### [List](cognitiveservices/accountmanagement/Operations/List.yml)
