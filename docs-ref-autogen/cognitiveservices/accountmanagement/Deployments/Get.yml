@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cognitiveservices.accountmanagement.privateendpointconnections.get
+uid: management.azure.com.cognitiveservices.accountmanagement.deployments.get
 name: Get
 service: Cognitive Services
-groupName: Private Endpoint Connections
+groupName: Deployments
 apiVersion: 2021-10-01
-summary: Gets the specified private endpoint connection associated with the Cognitive Services account.
+summary: Gets the specified deployments associated with the Cognitive Services account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2021-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,10 +31,10 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]*$
-- name: privateEndpointConnectionName
+- name: deploymentName
   in: path
   isRequired: true
-  description: The name of the private endpoint connection associated with the Cognitive Services Account
+  description: The name of the deployment associated with the Cognitive Services Account
   types:
   - uid: string
 - name: api-version
@@ -45,37 +45,33 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK -- Get the private endpoint connection properties successfully.
+  description: OK -- Get the deployments properties successfully.
   types:
-  - uid: PrivateEndpointConnection
+  - uid: Deployment
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: PrivateEndpointConnection
-  description: The Private Endpoint Connection resource.
+- name: Deployment
+  description: Cognitive Services account deployment.
   kind: object
   properties:
-  - name: properties
-    description: Resource properties.
-    types:
-    - uid: PrivateEndpointConnectionProperties
   - name: systemData
     isReadyOnly: true
     description: Metadata pertaining to creation and last modification of the resource.
     types:
     - uid: systemData
-  - name: location
-    description: The location of the private endpoint connection
-    types:
-    - uid: string
   - name: etag
     isReadyOnly: true
     description: Resource Etag.
     types:
     - uid: string
+  - name: properties
+    description: Properties of Cognitive Services account deployment.
+    types:
+    - uid: DeploymentProperties
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -99,28 +95,6 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: PrivateEndpointConnectionProperties
-  description: Properties of the PrivateEndpointConnectProperties.
-  kind: object
-  properties:
-  - name: privateEndpoint
-    description: The resource of private end point.
-    types:
-    - uid: PrivateEndpoint
-  - name: privateLinkServiceConnectionState
-    description: A collection of information about the state of the connection between service consumer and provider.
-    types:
-    - uid: PrivateLinkServiceConnectionState
-  - name: provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the private endpoint connection resource.
-    types:
-    - uid: PrivateEndpointConnectionProvisioningState
-  - name: groupIds
-    description: The private link resource group ids.
-    types:
-    - uid: string
-      isArray: true
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -149,6 +123,23 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
+- name: DeploymentProperties
+  description: Properties of Cognitive Services account deployment.
+  kind: object
+  properties:
+  - name: provisioningState
+    isReadyOnly: true
+    description: Gets the status of the resource at the time the operation was called.
+    types:
+    - uid: DeploymentProvisioningState
+  - name: model
+    description: Properties of Cognitive Services account deployment model.
+    types:
+    - uid: DeploymentModel
+  - name: scaleSettings
+    description: Properties of Cognitive Services account deployment model.
+    types:
+    - uid: DeploymentScaleSettings
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -180,47 +171,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: PrivateEndpoint
-  description: The Private Endpoint resource.
-  kind: object
-  properties:
-  - name: id
-    isReadyOnly: true
-    description: The ARM identifier for Private Endpoint
-    types:
-    - uid: string
-- name: PrivateLinkServiceConnectionState
-  description: A collection of information about the state of the connection between service consumer and provider.
-  kind: object
-  properties:
-  - name: status
-    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-    types:
-    - uid: PrivateEndpointServiceConnectionStatus
-  - name: description
-    description: The reason for approval/rejection of the connection.
-    types:
-    - uid: string
-  - name: actionsRequired
-    description: A message indicating if changes on the service provider require any updates on the consumer.
-    types:
-    - uid: string
-- name: PrivateEndpointConnectionProvisioningState
-  description: The current provisioning state.
-  kind: enum
-  properties:
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Creating
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -237,6 +187,56 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: DeploymentProvisioningState
+  description: Gets the status of the resource at the time the operation was called.
+  kind: enum
+  properties:
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Moving
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+- name: DeploymentModel
+  description: Properties of Cognitive Services account deployment model.
+  kind: object
+  properties:
+  - name: format
+    description: Deployment model format.
+    types:
+    - uid: string
+  - name: name
+    description: Deployment model name.
+    types:
+    - uid: string
+  - name: version
+    description: Deployment model version.
+    types:
+    - uid: string
+- name: DeploymentScaleSettings
+  description: Properties of Cognitive Services account deployment model.
+  kind: object
+  properties:
+  - name: scaleType
+    description: Deployment scale type.
+    types:
+    - uid: DeploymentScaleType
+  - name: capacity
+    description: Deployment capacity.
+    types:
+    - uid: integer
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -251,42 +251,38 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: PrivateEndpointServiceConnectionStatus
-  description: The private endpoint connection status.
+- name: DeploymentScaleType
+  description: Deployment scale type.
   kind: enum
   properties:
-  - name: Pending
-    types:
-    - uid: string
-  - name: Approved
-    types:
-    - uid: string
-  - name: Rejected
+  - name: Manual
     types:
     - uid: string
 examples:
-- name: GetPrivateEndpointConnection
+- name: GetDeployment
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.CognitiveServices/accounts/sto2527/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2021-10-01
+    uri: GET https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.CognitiveServices/accounts/accountName/deployments/deploymentName?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/res7231/providers/Microsoft.CognitiveServices/accounts/sto288/privateEndpointConnections/{privateEndpointConnectionName}",
-        "name": "{privateEndpointConnectionName}",
-        "type": "Microsoft.CognitiveServices/accounts/privateEndpointConnections",
+        "id": "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.CognitiveServices/accounts/accountName/deployments/deploymentName",
+        "name": "deploymentName",
+        "type": "Microsoft.CognitiveServices/accounts/deployments",
         "properties": {
-          "privateEndpoint": {
-            "id": "/subscriptions/{subscription-id}/resourceGroups/res7231/providers/Microsoft.Network/privateEndpoints/petest01"
+          "model": {
+            "format": "OpenAI",
+            "name": "ada",
+            "version": "1"
           },
-          "privateLinkServiceConnectionState": {
-            "status": "Approved",
-            "description": "Auto-Approved",
-            "actionsRequired": "None"
-          }
+          "scaleSettings": {
+            "scaleType": "Manual",
+            "capacity": 1
+          },
+          "provisioningState": "Succeeded"
         }
       }
 security: []
 metadata:
-  description: Learn more about Cognitive Services service - Gets the specified private endpoint connection associated with the Cognitive Services account.
+  description: Learn more about Cognitive Services service - Gets the specified deployments associated with the Cognitive Services account.
 errorCodes: []
