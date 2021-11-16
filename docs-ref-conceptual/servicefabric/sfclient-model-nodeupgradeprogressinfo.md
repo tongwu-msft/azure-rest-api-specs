@@ -1,7 +1,7 @@
 ---
 title: "NodeUpgradeProgressInfo"
 description: "NodeUpgradeProgressInfo"
-ms.date: "10/21/2020"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -37,6 +37,7 @@ Information about the upgrading node and its status
 | [`NodeName`](#nodename) | string | No |
 | [`UpgradePhase`](#upgradephase) | string (enum) | No |
 | [`PendingSafetyChecks`](#pendingsafetychecks) | array of [SafetyCheckWrapper](sfclient-model-safetycheckwrapper.md) | No |
+| [`UpgradeDuration`](#upgradeduration) | string | No |
 
 ____
 ### `NodeName`
@@ -69,3 +70,10 @@ __Type__: array of [SafetyCheckWrapper](sfclient-model-safetycheckwrapper.md) <b
 __Required__: No<br/>
 <br/>
 List of pending safety checks
+
+____
+### `UpgradeDuration`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+The estimated time spent processing the node since it was deactivated during a node-by-node upgrade.

@@ -1,7 +1,7 @@
 ---
 title: "Get Deployed Application Info List"
 description: "Get Deployed Application Info List"
-ms.date: "10/21/2020"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -135,6 +135,7 @@ GET http://localhost:19080/Nodes/_Node_0/$/GetApplications?api-version=6.1&MaxRe
       "Id": "samples~CalculatorApp",
       "Name": "fabric:/samples/CalculatorApp",
       "TypeName": "CalculatorApp",
+      "TypeVersion": "1.0.0",
       "Status": "Active",
       "WorkDirectory": "C:\\SfDevCluster\\Data\\_App\\_Node_0\\CalculatorApp_App0\\work",
       "LogDirectory": "C:\\SfDevCluster\\Data\\_App\\_Node_0\\CalculatorApp_App0\\log",
@@ -175,6 +176,7 @@ GET http://localhost:19080/Nodes/_Node_0/$/GetApplications?api-version=6.1&Conti
       "Id": "samples~VQueueApp1",
       "Name": "fabric:/samples/VQueueApp1",
       "TypeName": "VolatileQueueApp",
+      "TypeVersion": "1.0.0",
       "Status": "Active",
       "WorkDirectory": "C:\\SfDevCluster\\Data\\_App\\_Node_0\\VolatileQueueApp_App2\\work",
       "LogDirectory": "C:\\SfDevCluster\\Data\\_App\\_Node_0\\VolatileQueueApp_App2\\log",
@@ -205,6 +207,7 @@ GET http://localhost:19080/Nodes/_Node_0/$/GetApplications?api-version=6.1&Inclu
       "Id": "samples~CalculatorApp",
       "Name": "fabric:/samples/CalculatorApp",
       "TypeName": "CalculatorApp",
+      "TypeVersion": "1.0.0",
       "Status": "Active",
       "WorkDirectory": "C:\\SfDevCluster\\Data\\_App\\_Node_0\\CalculatorApp_App0\\work",
       "LogDirectory": "C:\\SfDevCluster\\Data\\_App\\_Node_0\\CalculatorApp_App0\\log",
@@ -215,6 +218,7 @@ GET http://localhost:19080/Nodes/_Node_0/$/GetApplications?api-version=6.1&Inclu
       "Id": "samples~PQueueApp1",
       "Name": "fabric:/samples/PQueueApp1",
       "TypeName": "PersistentQueueApp",
+      "TypeVersion": "1.0.0",
       "Status": "Active",
       "WorkDirectory": "C:\\SfDevCluster\\Data\\_App\\_Node_0\\PersistentQueueApp_App1\\work",
       "LogDirectory": "C:\\SfDevCluster\\Data\\_App\\_Node_0\\PersistentQueueApp_App1\\log",
@@ -225,6 +229,7 @@ GET http://localhost:19080/Nodes/_Node_0/$/GetApplications?api-version=6.1&Inclu
       "Id": "samples~VQueueApp1",
       "Name": "fabric:/samples/VQueueApp1",
       "TypeName": "VolatileQueueApp",
+      "TypeVersion": "1.0.0",
       "Status": "Active",
       "WorkDirectory": "C:\\SfDevCluster\\Data\\_App\\_Node_0\\VolatileQueueApp_App2\\work",
       "LogDirectory": "C:\\SfDevCluster\\Data\\_App\\_Node_0\\VolatileQueueApp_App2\\log",

@@ -1,7 +1,7 @@
 ---
-title: "Cluster"
+title: "Cluster Client APIs"
 description: "Cluster"
-ms.date: "10/21/2020"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Cluster APIs
+# Cluster Client APIs
 
 | Name | Description |
 | --- | --- |
@@ -55,4 +55,5 @@ translation.priority.mt:
 | [Get Cluster Version](sfclient-api-getclusterversion.md) | Get the current Service Fabric cluster version.<br/> |
 | [Get Cluster Load](sfclient-api-getclusterload.md) | Gets the load of a Service Fabric cluster.<br/> |
 | [Toggle Verbose Service Placement Health Reporting](sfclient-api-toggleverboseserviceplacementhealthreporting.md) | Changes the verbosity of service placement health reporting.<br/> |
+| [Validate Cluster Upgrade](sfclient-api-validateclusterupgrade.md) | Validate and assess the impact of a code or configuration version update of a Service Fabric cluster.<br/> |
 

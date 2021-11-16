@@ -1,7 +1,7 @@
 ---
-title: "PartitionLoadInformation v8.1"
+title: "PartitionLoadInformation"
 description: "PartitionLoadInformation"
-ms.date: "07/13/2021"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionLoadInformation v8.1
+# PartitionLoadInformation
 
 Represents load information for a partition, which contains the primary, secondary and auxiliary reported load metrics.
 In case there is no load reported, PartitionLoadInformation will contain the default load for the service of the partition.

@@ -1,7 +1,7 @@
 ---
-title: "Partition v8.1"
-description: "Partition v8.1"
-ms.date: "07/13/2021"
+title: "Partition"
+description: "Partition"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Partition APIs v8.1
+# Partition APIs
 
 | Name | Description |
 | --- | --- |

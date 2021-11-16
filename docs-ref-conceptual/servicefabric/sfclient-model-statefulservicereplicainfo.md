@@ -1,7 +1,7 @@
 ---
-title: "StatefulServiceReplicaInfo v8.1"
+title: "StatefulServiceReplicaInfo"
 description: "StatefulServiceReplicaInfo"
-ms.date: "07/13/2021"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatefulServiceReplicaInfo v8.1
+# StatefulServiceReplicaInfo
 
 Represents a stateful service replica. This includes information about the identity, role, status, health, node name, uptime, and other details about the replica.
 

@@ -1,7 +1,7 @@
 ---
 title: "MetricLoadDescription"
 description: "MetricLoadDescription"
-ms.date: "10/21/2020"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -57,4 +57,4 @@ ____
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
-The predicted value of the metric load.
+The predicted value of the metric load. Predicted metric load values is currently a preview feature. It allows predicted load values to be reported and used at the Service Fabric side, but that feature is currently not enabled.

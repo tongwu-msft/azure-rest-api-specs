@@ -1,7 +1,7 @@
 ---
 title: "Get Deployed Application Info"
 description: "Get Deployed Application Info"
-ms.date: "10/21/2020"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -126,6 +126,7 @@ GET http://localhost:19080/Nodes/_Node_0/$/GetApplications/samples~CalculatorApp
   "Id": "samples~CalculatorApp",
   "Name": "fabric:/samples/CalculatorApp",
   "TypeName": "CalculatorApp",
+  "TypeVersion": "1.0.0",
   "Status": "Active",
   "WorkDirectory": "C:\\SfDevCluster\\Data\\_App\\_Node_1\\CalculatorApp_App0\\work",
   "LogDirectory": "C:\\SfDevCluster\\Data\\_App\\_Node_1\\CalculatorApp_App0\\log",

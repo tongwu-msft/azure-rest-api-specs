@@ -1,7 +1,7 @@
 ---
 title: "FailedUpgradeDomainProgressObject"
 description: "FailedUpgradeDomainProgressObject"
-ms.date: "10/21/2020"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # FailedUpgradeDomainProgressObject
 
-The detailed upgrade progress for nodes in the current upgrade domain at the point of failure.
+The detailed upgrade progress for nodes in the current upgrade domain at the point of failure. Not applicable to node-by-node upgrades.
 
 ## Properties
 | Name | Type | Required |
