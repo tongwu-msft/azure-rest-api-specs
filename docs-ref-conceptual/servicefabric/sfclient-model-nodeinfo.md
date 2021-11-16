@@ -1,7 +1,7 @@
 ---
 title: "NodeInfo"
 description: "NodeInfo"
-ms.date: "04/02/2021"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -53,6 +53,8 @@ Information about a node in Service Fabric cluster.
 | [`NodeUpAt`](#nodeupat) | string (date-time) | No |
 | [`NodeDownAt`](#nodedownat) | string (date-time) | No |
 | [`NodeTags`](#nodetags) | array of string | No |
+| [`IsNodeByNodeUpgradeInProgress`](#isnodebynodeupgradeinprogress) | boolean | No |
+| [`InfrastructurePlacementID`](#infrastructureplacementid) | string | No |
 
 ____
 ### `Name`
@@ -213,3 +215,17 @@ __Type__: array of string <br/>
 __Required__: No<br/>
 <br/>
 List that contains tags, which will be applied to the nodes.
+
+____
+### `IsNodeByNodeUpgradeInProgress`
+__Type__: boolean <br/>
+__Required__: No<br/>
+<br/>
+Indicates if a node-by-node upgrade is currently being performed on this node.
+
+____
+### `InfrastructurePlacementID`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+PlacementID used by the InfrastructureService.

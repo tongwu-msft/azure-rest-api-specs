@@ -1,7 +1,7 @@
 ---
-title: "Service Fabric Client REST API Reference v8.1"
-description: "Service Fabric Client REST API Reference v8.1"
-ms.date: "07/13/2021"
+title: "Service Fabric Client REST API Reference"
+description: "Service Fabric Client REST API Reference"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 
 
-# Service Fabric Client REST API Reference v8.1
+# Service Fabric Client REST API Reference
 
 [Service Fabric](https://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. 
 
@@ -37,7 +37,7 @@ Service Fabric Client APIs allow deploying and managing microservices based appl
 
 
 > [!IMPORTANT]
->  These APIs work with Service Fabric clusters running runtime version 8.1.0.46 and above.
+>  These APIs work with Service Fabric clusters running runtime version 8.2.0.46 and above.
 >
 
 ## Versioning
@@ -77,23 +77,6 @@ http://65.52.117.43:{connection-port}
 
 ```  
 
-
-## Preview Features
-### Service Fabric Resource Model
-[Service Fabric Resource Model](/azure/service-fabric-mesh/service-fabric-mesh-service-fabric-resources) describes a simple approach to define resources that comprise a [Service Fabric Mesh](https://aka.ms/sfmesh) application.
-
-Following is a list of Service Fabric Client APIs that allows deploying and managing [Service Fabric Mesh](https://aka.ms/sfmesh) applications in a Service Fabric cluster.
-
-* [Service Fabric Secret Resource APIs](#meshsecrets-apis)
-    - [Secret Value APIs](#meshsecretvalues-apis)
-* [Service Fabric Volume Resource APIs](#meshvolumes-apis)
-* [Service Fabric Network Resource APIs](#meshnetworks-apis)
-* [Service Fabric Application Resource APIs](#meshapplications-apis)
-    - [Service APIs](#meshservices-apis)
-    - [Service Replica APIs](#meshservicereplicas-apis)
-    - [Code Package APIs](#meshcodepackages-apis)
-* [Service Fabric Gateway Resource APIs](#meshgateways-apis)
-
 ## Client API Reference
 Following is a list of Service Fabric Client REST APIs.
 
@@ -127,6 +110,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [Get Cluster Version](sfclient-api-getclusterversion.md) | Get the current Service Fabric cluster version.<br/> |
 | [Get Cluster Load](sfclient-api-getclusterload.md) | Gets the load of a Service Fabric cluster.<br/> |
 | [Toggle Verbose Service Placement Health Reporting](sfclient-api-toggleverboseserviceplacementhealthreporting.md) | Changes the verbosity of service placement health reporting.<br/> |
+| [Validate Cluster Upgrade](sfclient-api-validateclusterupgrade.md) | Validate and assess the impact of a code or configuration version update of a Service Fabric cluster.<br/> |
 
 ----
 ## [Node APIs](sfclient-index-node.md)
@@ -428,91 +412,6 @@ Following is a list of Service Fabric Client REST APIs.
 | [Get Correlated Event List](sfclient-api-getcorrelatedeventlist.md) | Gets all correlated events for a given event.<br/> |
 
 ----
-## [MeshSecrets APIs](sfclient-index-meshsecrets.md)
-
-| Name | Description |
-| --- | --- |
-| [Create Or Update](sfclient-api-meshsecret_createorupdate.md) | Creates or updates a Secret resource.<br/> |
-| [Get](sfclient-api-meshsecret_get.md) | Gets the Secret resource with the given name.<br/> |
-| [Delete](sfclient-api-meshsecret_delete.md) | Deletes the Secret resource.<br/> |
-| [List](sfclient-api-meshsecret_list.md) | Lists all the secret resources.<br/> |
-
-----
-## [MeshSecretValues APIs](sfclient-index-meshsecretvalues.md)
-
-| Name | Description |
-| --- | --- |
-| [Add Value](sfclient-api-meshsecretvalue_addvalue.md) | Adds the specified value as a new version of the specified secret resource.<br/> |
-| [Get](sfclient-api-meshsecretvalue_get.md) | Gets the specified secret value resource.<br/> |
-| [Delete](sfclient-api-meshsecretvalue_delete.md) | Deletes the specified  value of the named secret resource.<br/> |
-| [List](sfclient-api-meshsecretvalue_list.md) | List names of all values of the specified secret resource.<br/> |
-| [Show](sfclient-api-meshsecretvalue_show.md) | Lists the specified value of the secret resource.<br/> |
-
-----
-## [MeshVolumes APIs](sfclient-index-meshvolumes.md)
-
-| Name | Description |
-| --- | --- |
-| [Create Or Update](sfclient-api-meshvolume_createorupdate.md) | Creates or updates a Volume resource.<br/> |
-| [Get](sfclient-api-meshvolume_get.md) | Gets the Volume resource with the given name.<br/> |
-| [Delete](sfclient-api-meshvolume_delete.md) | Deletes the Volume resource.<br/> |
-| [List](sfclient-api-meshvolume_list.md) | Lists all the volume resources.<br/> |
-
-----
-## [MeshNetworks APIs](sfclient-index-meshnetworks.md)
-
-| Name | Description |
-| --- | --- |
-| [Create Or Update](sfclient-api-meshnetwork_createorupdate.md) | Creates or updates a Network resource.<br/> |
-| [Get](sfclient-api-meshnetwork_get.md) | Gets the Network resource with the given name.<br/> |
-| [Delete](sfclient-api-meshnetwork_delete.md) | Deletes the Network resource.<br/> |
-| [List](sfclient-api-meshnetwork_list.md) | Lists all the network resources.<br/> |
-
-----
-## [MeshApplications APIs](sfclient-index-meshapplications.md)
-
-| Name | Description |
-| --- | --- |
-| [Create Or Update](sfclient-api-meshapplication_createorupdate.md) | Creates or updates a Application resource.<br/> |
-| [Get](sfclient-api-meshapplication_get.md) | Gets the Application resource with the given name.<br/> |
-| [Delete](sfclient-api-meshapplication_delete.md) | Deletes the Application resource.<br/> |
-| [List](sfclient-api-meshapplication_list.md) | Lists all the application resources.<br/> |
-| [Get Upgrade Progress](sfclient-api-meshapplication_getupgradeprogress.md) | Gets the progress of the latest upgrade performed on this application resource.<br/> |
-
-----
-## [MeshServices APIs](sfclient-index-meshservices.md)
-
-| Name | Description |
-| --- | --- |
-| [Get](sfclient-api-meshservice_get.md) | Gets the Service resource with the given name.<br/> |
-| [List](sfclient-api-meshservice_list.md) | Lists all the service resources.<br/> |
-
-----
-## [MeshCodePackages APIs](sfclient-index-meshcodepackages.md)
-
-| Name | Description |
-| --- | --- |
-| [Get Container Logs](sfclient-api-meshcodepackage_getcontainerlogs.md) | Gets the logs from the container.<br/> |
-
-----
-## [MeshServiceReplicas APIs](sfclient-index-meshservicereplicas.md)
-
-| Name | Description |
-| --- | --- |
-| [Get](sfclient-api-meshservicereplica_get.md) | Gets the given replica of the service of an application.<br/> |
-| [List](sfclient-api-meshservicereplica_list.md) | Lists all the replicas of a service.<br/> |
-
-----
-## [MeshGateways APIs](sfclient-index-meshgateways.md)
-
-| Name | Description |
-| --- | --- |
-| [Create Or Update](sfclient-api-meshgateway_createorupdate.md) | Creates or updates a Gateway resource.<br/> |
-| [Get](sfclient-api-meshgateway_get.md) | Gets the Gateway resource with the given name.<br/> |
-| [Delete](sfclient-api-meshgateway_delete.md) | Deletes the Gateway resource.<br/> |
-| [List](sfclient-api-meshgateway_list.md) | Lists all the gateway resources.<br/> |
-
-----
 ## [Models](sfclient-index-models.md)
 
 | Name | Description |
@@ -732,7 +631,8 @@ Following is a list of Service Fabric Client REST APIs.
 | [ContainerState](sfclient-model-containerstate.md) | The container state.<br/> |
 | [CreateComposeDeploymentDescription](sfclient-model-createcomposedeploymentdescription.md) | Defines description for creating a Service Fabric compose deployment.<br/> |
 | [CreateFabricDump enum](sfclient-model-createfabricdump.md) | Possible values include: 'False', 'True'<br/> |
-| [CurrentUpgradeDomainProgressInfo](sfclient-model-currentupgradedomainprogressinfo.md) | Information about the current in-progress upgrade domain.<br/> |
+| [CurrentUpgradeDomainProgressInfo](sfclient-model-currentupgradedomainprogressinfo.md) | Information about the current in-progress upgrade domain. Not applicable to node-by-node upgrades.<br/> |
+| [CurrentUpgradeUnitsProgressInfo](sfclient-model-currentupgradeunitsprogressinfo.md) | Information about the current in-progress upgrade units.<br/> |
 | [DataLossMode enum](sfclient-model-datalossmode.md) | Possible values include: 'Invalid', 'PartialDataLoss', 'FullDataLoss'<br/> |
 | [DayOfWeek enum](sfclient-model-dayofweek.md) | Describes the days in a week.<br/> |
 | [DeactivationIntent enum](sfclient-model-deactivationintent.md) | Possible values include: 'Pause', 'Restart', 'RemoveData'<br/> |
@@ -837,7 +737,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [FabricReplicaStatus enum](sfclient-model-fabricreplicastatus.md) | Specifies the status of the replica.<br/> |
 | [FailedPropertyBatchInfo](sfclient-model-failedpropertybatchinfo.md) | Derived from PropertyBatchInfo. Represents the property batch failing. Contains information about the specific batch failure.<br/> |
 | [FailedPropertyBatchInfo](sfclient-model-failedpropertybatchinfo.md) | Derived from PropertyBatchInfo. Represents the property batch failing. Contains information about the specific batch failure.<br/> |
-| [FailedUpgradeDomainProgressObject](sfclient-model-failedupgradedomainprogressobject.md) | The detailed upgrade progress for nodes in the current upgrade domain at the point of failure.<br/> |
+| [FailedUpgradeDomainProgressObject](sfclient-model-failedupgradedomainprogressobject.md) | The detailed upgrade progress for nodes in the current upgrade domain at the point of failure. Not applicable to node-by-node upgrades.<br/> |
 | [FailureAction enum](sfclient-model-failureaction.md) | The compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations.<br/>Invalid indicates the failure action is invalid. Rollback specifies that the upgrade will start rolling back automatically.<br/>Manual indicates that the upgrade will switch to UnmonitoredManual upgrade mode.<br/> |
 | [FailureReason enum](sfclient-model-failurereason.md) | The cause of an upgrade failure that resulted in FailureAction being executed.<br/> |
 | [FailureUpgradeDomainProgressInfo](sfclient-model-failureupgradedomainprogressinfo.md) | Information about the upgrade domain progress at the time of upgrade failure.<br/> |
@@ -1200,6 +1100,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [ServiceHealthStateChunk](sfclient-model-servicehealthstatechunk.md) | Represents the health state chunk of a service, which contains the service name, its aggregated health state and any partitions that respect the filters in the cluster health chunk query description.<br/> |
 | [ServiceHealthStateChunkList](sfclient-model-servicehealthstatechunklist.md) | The list of service health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.<br/> |
 | [ServiceHealthStateFilter](sfclient-model-servicehealthstatefilter.md) | Defines matching criteria to determine whether a service should be included as a child of an application in the cluster health chunk.<br/>The services are only returned if the parent application matches a filter specified in the cluster health chunk query description.<br/>One filter can match zero, one or multiple services, depending on its properties.<br/> |
+| [ServiceHostUpgradeImpact enum](sfclient-model-servicehostupgradeimpact.md) | The expected impact of the upgrade.<br/> |
 | [ServiceIdentity](sfclient-model-serviceidentity.md) | Map service identity friendly name to an application identity.<br/> |
 | [ServiceInfo](sfclient-model-serviceinfo.md) | Information about a Service Fabric service.<br/> |
 | [ServiceKind enum](sfclient-model-servicekind.md) | The kind of service (Stateless or Stateful).<br/> |
@@ -1327,16 +1228,19 @@ Following is a list of Service Fabric Client REST APIs.
 | [UpgradeDomainNodesHealthEvaluation](sfclient-model-upgradedomainnodeshealthevaluation.md) | Represents health evaluation for cluster nodes in an upgrade domain, containing health evaluations for each unhealthy node that impacted current aggregated health state. Can be returned when evaluating cluster health during cluster upgrade and the aggregated health state is either Error or Warning.<br/> |
 | [UpgradeDomainState enum](sfclient-model-upgradedomainstate.md) | The state of the upgrade domain.<br/> |
 | [UpgradeKind enum](sfclient-model-upgradekind.md) | The kind of upgrade out of the following possible values.<br/> |
-| [UpgradeMode enum](sfclient-model-upgrademode.md) | The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored.<br/> |
+| [UpgradeMode enum](sfclient-model-upgrademode.md) | The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, Monitored, and UnmonitoredDeferred.<br/> |
 | [UpgradeOrchestrationServiceState](sfclient-model-upgradeorchestrationservicestate.md) | Service state of Service Fabric Upgrade Orchestration Service.<br/> |
 | [UpgradeOrchestrationServiceStateSummary](sfclient-model-upgradeorchestrationservicestatesummary.md) | Service state summary of Service Fabric Upgrade Orchestration Service.<br/> |
 | [UpgradeSortOrder enum](sfclient-model-upgradesortorder.md) | Defines the order in which an upgrade proceeds through the cluster.<br/> |
 | [UpgradeState enum](sfclient-model-upgradestate.md) | The state of the upgrade domain.<br/> |
 | [UpgradeType enum](sfclient-model-upgradetype.md) | The type of upgrade out of the following possible values.<br/> |
+| [UpgradeUnitInfo](sfclient-model-upgradeunitinfo.md) | Information about an upgrade unit.<br/> |
+| [UpgradeUnitState enum](sfclient-model-upgradeunitstate.md) | The state of the upgrade unit.<br/> |
 | [UploadChunkRange](sfclient-model-uploadchunkrange.md) | Information about which portion of the file to upload.<br/> |
 | [UploadSession](sfclient-model-uploadsession.md) | Information about a image store upload session<br/> |
 | [UploadSessionInfo](sfclient-model-uploadsessioninfo.md) | Information about an image store upload session. A session is associated with a relative path in the image store.<br/> |
 | [UsageInfo](sfclient-model-usageinfo.md) | Information about how much space and how many files in the file system the ImageStore is using in this category<br/> |
+| [ValidateClusterUpgradeResult](sfclient-model-validateclusterupgraderesult.md) | Specifies result of validating a cluster upgrade.<br/> |
 | [ValidationFailedChaosEvent](sfclient-model-validationfailedchaosevent.md) | Chaos event corresponding to a failure during validation.<br/> |
 | [ValidationFailedChaosEvent](sfclient-model-validationfailedchaosevent.md) | Chaos event corresponding to a failure during validation.<br/> |
 | [VolumeProperties](sfclient-model-volumeproperties.md) | Describes properties of a volume resource.<br/> |

@@ -1,7 +1,7 @@
 ---
 title: "CurrentUpgradeDomainProgressInfo"
 description: "CurrentUpgradeDomainProgressInfo"
-ms.date: "10/21/2020"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # CurrentUpgradeDomainProgressInfo
 
-Information about the current in-progress upgrade domain.
+Information about the current in-progress upgrade domain. Not applicable to node-by-node upgrades.
 
 ## Properties
 | Name | Type | Required |

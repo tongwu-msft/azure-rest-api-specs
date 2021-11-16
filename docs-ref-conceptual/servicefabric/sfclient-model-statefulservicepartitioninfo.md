@@ -1,7 +1,7 @@
 ---
-title: "StatefulServicePartitionInfo  v8.1"
+title: "StatefulServicePartitionInfo"
 description: "StatefulServicePartitionInfo"
-ms.date: "07/13/2021"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatefulServicePartitionInfo v8.1
+# StatefulServicePartitionInfo
 
 Information about a partition of a stateful Service Fabric service..
 

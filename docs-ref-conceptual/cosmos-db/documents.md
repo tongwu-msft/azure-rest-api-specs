@@ -79,14 +79,16 @@ This sample JSON document shows the entry for a volcano in a collection. The ent
 -   [Get a Document](get-a-document.md)  
   
 -   [Replace a Document](replace-a-document.md)  
+
+-   [Patch a Document](patch-a-document.md)
   
 -   [Delete a Document](delete-a-document.md)  
   
 -   [Query Documents](query-documents.md)  
   
 ## See Also  
-* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB](/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB SQL API](/azure/cosmos-db/sql-api-introduction)   
 * [Azure Cosmos DB SQL API SDKs](/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
 

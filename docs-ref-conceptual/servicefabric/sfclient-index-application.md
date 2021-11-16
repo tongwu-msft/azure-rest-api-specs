@@ -1,7 +1,7 @@
 ---
-title: "Application v8.1"
-description: "Application v8.1"
-ms.date: "07/13/2021"
+title: "Application Client APIs"
+description: "Application"
+ms.date: "10/20/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Application APIs v8.1
+# Application Client APIs
 
 | Name | Description |
 | --- | --- |
