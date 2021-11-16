@@ -441,7 +441,6 @@
 ### [Get Partition Replicas Event List](sfclient-api-getpartitionreplicaseventlist.md)
 ### [Get Correlated Event List](sfclient-api-getcorrelatedeventlist.md)
 ## [MeshSecrets](sfclient-index-meshsecrets.md)
-### [Create Or Update](sfclient-api-meshsecret_createorupdate.md)
 ### [Get](sfclient-api-meshsecret_get.md)
 ### [Delete](sfclient-api-meshsecret_delete.md)
 ### [List](sfclient-api-meshsecret_list.md)
