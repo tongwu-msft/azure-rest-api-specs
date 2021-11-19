@@ -6,7 +6,7 @@ ms.service: hdinsight
 description: Azure HDInsight REST API reference
 author: guyhay
 ms.author: guyhay
-ms.date: 10/29/2021
+ms.date: 11/17/2021
 ms.topic: reference
 MS.devlang: rest-api
 ---
@@ -48,13 +48,13 @@ The following table lists the supported REST API versions by the Azure HDInsight
 
 |Version|Change introduced|Retirement date|  
 |-------------|---------------------|-----------------------|
-|`2015-03-01-preview` || 2024-10-15 planned retirement
-|`2018-06-01-preview` || 2024-10-15 planned retirement
-|`2021-06-01`| New version, adding support for several new features detailed below
+|`2015-03-01-preview` || 2024-11-30 planned retirement
+|`2018-06-01-preview` || 2024-11-30 planned retirement
+|`2021-06-01`| New version which adds support for several new features detailed below
 
 ## Updates in the new 2021-06-01 API version
 
-We have released a new version of the HDInsight REST API `2021-06-01`.  This new version replaces `2018-06-01-preview` version which will retire on 2024-10-15.  This new API version adds several new features including availability zones, private link, and private end-point connections.  With the latest `2021-06-01` API, please note the following new features and changes.
+We have released a new version of the HDInsight REST API `2021-06-01`.  This new version replaces `2018-06-01-preview` version which will retire on 2024-11-30.  This new API version adds several new features including availability zones, private link, and private end-point connections.  With the latest `2021-06-01` API, please note the following new features and changes.
 
 1. Adding support for creating clusters with availability zones.  
     * Please see [Creating clusters with availability zones](https://github.com/Azure/azure-sdk-for-net/blob/3b68cb85f4ea3da303cb766e14b80afef3203ec1/sdk/hdinsight/Microsoft.Azure.Management.HDInsight/tests/ScenarioTests/ClusterOperationTests.cs#L779) and for a Rest example [Rest - Create cluster with availability zones](https://docs.microsoft.com/rest/api/hdinsight/2021-06-01/clusters/create#create-cluster-with-availability-zones)
