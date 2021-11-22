@@ -14021,6 +14021,20 @@
 ### [Delete](securitycenter/Connectors/Delete.yml)
 ### [Get](securitycenter/Connectors/Get.yml)
 ### [List](securitycenter/Connectors/List.yml)
+## Custom Assessment Automations
+### [Overview](securitycenter/Custom-Assessment-Automations.yml)
+### [Create](securitycenter/Custom-Assessment-Automations/Create.yml)
+### [Delete](securitycenter/Custom-Assessment-Automations/Delete.yml)
+### [Get](securitycenter/Custom-Assessment-Automations/Get.yml)
+### [List By Resource Group](securitycenter/Custom-Assessment-Automations/List-By-Resource-Group.yml)
+### [List By Subscription](securitycenter/Custom-Assessment-Automations/List-By-Subscription.yml)
+## Custom Entity Store Assignments
+### [Overview](securitycenter/Custom-Entity-Store-Assignments.yml)
+### [Create](securitycenter/Custom-Entity-Store-Assignments/Create.yml)
+### [Delete](securitycenter/Custom-Entity-Store-Assignments/Delete.yml)
+### [Get](securitycenter/Custom-Entity-Store-Assignments/Get.yml)
+### [List By Resource Group](securitycenter/Custom-Entity-Store-Assignments/List-By-Resource-Group.yml)
+### [List By Subscription](securitycenter/Custom-Entity-Store-Assignments/List-By-Subscription.yml)
 ## Device Security Groups
 ### [Overview](securitycenter/Device-Security-Groups.yml)
 ### [Create Or Update](securitycenter/Device-Security-Groups/Create-Or-Update.yml)
@@ -14133,6 +14147,14 @@
 ### [Overview](securitycenter/Secure-Scores.yml)
 ### [Get](securitycenter/Secure-Scores/Get.yml)
 ### [List](securitycenter/Secure-Scores/List.yml)
+## Security Connectors
+### [Overview](securitycenter/Security-Connectors.yml)
+### [Create Or Update](securitycenter/Security-Connectors/Create-Or-Update.yml)
+### [Delete](securitycenter/Security-Connectors/Delete.yml)
+### [Get](securitycenter/Security-Connectors/Get.yml)
+### [List](securitycenter/Security-Connectors/List.yml)
+### [List By Resource Group](securitycenter/Security-Connectors/List-By-Resource-Group.yml)
+### [Update](securitycenter/Security-Connectors/Update.yml)
 ## Security Contacts
 ### [Overview](securitycenter/Security-Contacts.yml)
 ### [Create](securitycenter/Security-Contacts/Create.yml)
