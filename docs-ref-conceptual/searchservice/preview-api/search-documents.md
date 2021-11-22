@@ -630,5 +630,5 @@ The "(preview)" designation indicates that validation testing across all feature
 + [Creating queries in Azure Cognitive Search](/azure/search/search-query-create)
 + [Queries in Azure Cognitive Search](/azure/search/search-query-overview)
 + [How full text search works in Azure Cognitive Search](/azure/search/search-lucene-query-architecture)
-+ [OData Expression Syntax for Azure vSearch](/azure/search/query-odata-filter-orderby-syntax)
++ [OData Expression Syntax for Azure Search](/azure/search/query-odata-filter-orderby-syntax)
 + [Simple query syntax in Azure Cognitive Search](/azure/search/query-simple-syntax) 
