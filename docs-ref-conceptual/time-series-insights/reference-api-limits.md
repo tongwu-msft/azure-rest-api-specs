@@ -28,7 +28,7 @@ The following limits are applied during query execution to fairly utilize resour
 | All | Max number of instances per environment | 1,000,000 | Gen2 |
 | All | Max number of instance fields per instance | 100 | Gen2 |
 | All | Max number of types per environment | 1,000 | Gen2 |
-| All | Max number of variables per type | 50 | Gen2 |
+| All | Max number of variables per type | 100 | Gen2 |
 | All | Max number of hierarchies per environment | 32 | Gen2 |
 | All | Max number of hierarchies associated with an instance | 32 | Gen2 |
 | All | Max hierarchy depth | 32 | Gen2 |
