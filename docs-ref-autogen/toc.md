@@ -11735,14 +11735,14 @@
 #### [Overview](monitor/Tenant-Activity-Logs.yml)
 #### [List](monitor/Tenant-Activity-Logs/List.yml)
 ### Alerts Management
-#### Action Rules
-##### [Overview](monitor/alertsmanagement/Action-Rules.yml)
-##### [Create Update](monitor/alertsmanagement/Action-Rules/Create-Update.yml)
-##### [Delete](monitor/alertsmanagement/Action-Rules/Delete.yml)
-##### [Get By Name](monitor/alertsmanagement/Action-Rules/Get-By-Name.yml)
-##### [List By Resource Group](monitor/alertsmanagement/Action-Rules/List-By-Resource-Group.yml)
-##### [List By Subscription](monitor/alertsmanagement/Action-Rules/List-By-Subscription.yml)
-##### [Update](monitor/alertsmanagement/Action-Rules/Update.yml)
+#### Alert Processing Rules
+##### [Overview](monitor/alertsmanagement/Alert-Processing-Rules.yml)
+##### [Create Or Update](monitor/alertsmanagement/Alert-Processing-Rules/Create-Or-Update.yml)
+##### [Delete](monitor/alertsmanagement/Alert-Processing-Rules/Delete.yml)
+##### [Get By Name](monitor/alertsmanagement/Alert-Processing-Rules/Get-By-Name.yml)
+##### [List By Resource Group](monitor/alertsmanagement/Alert-Processing-Rules/List-By-Resource-Group.yml)
+##### [List By Subscription](monitor/alertsmanagement/Alert-Processing-Rules/List-By-Subscription.yml)
+##### [Update](monitor/alertsmanagement/Alert-Processing-Rules/Update.yml)
 #### Alerts
 ##### [Overview](monitor/alertsmanagement/Alerts.yml)
 ##### [Change State](monitor/alertsmanagement/Alerts/Change-State.yml)
@@ -14021,6 +14021,20 @@
 ### [Delete](securitycenter/Connectors/Delete.yml)
 ### [Get](securitycenter/Connectors/Get.yml)
 ### [List](securitycenter/Connectors/List.yml)
+## Custom Assessment Automations
+### [Overview](securitycenter/Custom-Assessment-Automations.yml)
+### [Create](securitycenter/Custom-Assessment-Automations/Create.yml)
+### [Delete](securitycenter/Custom-Assessment-Automations/Delete.yml)
+### [Get](securitycenter/Custom-Assessment-Automations/Get.yml)
+### [List By Resource Group](securitycenter/Custom-Assessment-Automations/List-By-Resource-Group.yml)
+### [List By Subscription](securitycenter/Custom-Assessment-Automations/List-By-Subscription.yml)
+## Custom Entity Store Assignments
+### [Overview](securitycenter/Custom-Entity-Store-Assignments.yml)
+### [Create](securitycenter/Custom-Entity-Store-Assignments/Create.yml)
+### [Delete](securitycenter/Custom-Entity-Store-Assignments/Delete.yml)
+### [Get](securitycenter/Custom-Entity-Store-Assignments/Get.yml)
+### [List By Resource Group](securitycenter/Custom-Entity-Store-Assignments/List-By-Resource-Group.yml)
+### [List By Subscription](securitycenter/Custom-Entity-Store-Assignments/List-By-Subscription.yml)
 ## Device Security Groups
 ### [Overview](securitycenter/Device-Security-Groups.yml)
 ### [Create Or Update](securitycenter/Device-Security-Groups/Create-Or-Update.yml)
@@ -14133,6 +14147,14 @@
 ### [Overview](securitycenter/Secure-Scores.yml)
 ### [Get](securitycenter/Secure-Scores/Get.yml)
 ### [List](securitycenter/Secure-Scores/List.yml)
+## Security Connectors
+### [Overview](securitycenter/Security-Connectors.yml)
+### [Create Or Update](securitycenter/Security-Connectors/Create-Or-Update.yml)
+### [Delete](securitycenter/Security-Connectors/Delete.yml)
+### [Get](securitycenter/Security-Connectors/Get.yml)
+### [List](securitycenter/Security-Connectors/List.yml)
+### [List By Resource Group](securitycenter/Security-Connectors/List-By-Resource-Group.yml)
+### [Update](securitycenter/Security-Connectors/Update.yml)
 ## Security Contacts
 ### [Overview](securitycenter/Security-Contacts.yml)
 ### [Create](securitycenter/Security-Contacts/Create.yml)
