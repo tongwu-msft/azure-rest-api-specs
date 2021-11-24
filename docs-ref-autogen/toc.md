@@ -1408,6 +1408,12 @@
 #### Operation
 ##### [Overview](apimanagement/2021-08-01/Operation.yml)
 ##### [List By Tags](apimanagement/2021-08-01/Operation/List-By-Tags.yml)
+#### Outbound Network Dependencies Endpoints
+##### [Overview](apimanagement/2021-08-01/Outbound-Network-Dependencies-Endpoints.yml)
+##### [List By Service](apimanagement/2021-08-01/Outbound-Network-Dependencies-Endpoints/List-By-Service.yml)
+#### Perform Connectivity Check Async
+##### [Overview](apimanagement/2021-08-01/Perform-Connectivity-Check-Async.yml)
+##### [Perform Connectivity Check Async](apimanagement/2021-08-01/Perform-Connectivity-Check-Async/Perform-Connectivity-Check-Async.yml)
 #### Policy
 ##### [Overview](apimanagement/2021-08-01/Policy.yml)
 ##### [Create Or Update](apimanagement/2021-08-01/Policy/Create-Or-Update.yml)
@@ -1428,6 +1434,14 @@
 #### Portal Settings
 ##### [Overview](apimanagement/2021-08-01/Portal-Settings.yml)
 ##### [List By Service](apimanagement/2021-08-01/Portal-Settings/List-By-Service.yml)
+#### Private Endpoint Connection
+##### [Overview](apimanagement/2021-08-01/Private-Endpoint-Connection.yml)
+##### [Create Or Update](apimanagement/2021-08-01/Private-Endpoint-Connection/Create-Or-Update.yml)
+##### [Delete](apimanagement/2021-08-01/Private-Endpoint-Connection/Delete.yml)
+##### [Get By Name](apimanagement/2021-08-01/Private-Endpoint-Connection/Get-By-Name.yml)
+##### [Get Private Link Resource](apimanagement/2021-08-01/Private-Endpoint-Connection/Get-Private-Link-Resource.yml)
+##### [List By Service](apimanagement/2021-08-01/Private-Endpoint-Connection/List-By-Service.yml)
+##### [List Private Link Resources](apimanagement/2021-08-01/Private-Endpoint-Connection/List-Private-Link-Resources.yml)
 #### Product
 ##### [Overview](apimanagement/2021-08-01/Product.yml)
 ##### [Create Or Update](apimanagement/2021-08-01/Product/Create-Or-Update.yml)
