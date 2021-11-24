@@ -4787,6 +4787,34 @@
 ### Rank
 #### [Overview](cognitiveservices/personalizer/Rank.yml)
 #### [Rank](cognitiveservices/personalizer/Rank/Rank.yml)
+## Question Answering
+### Question Answering
+#### [Overview](cognitiveservices/questionanswering/Question-Answering.yml)
+#### [Get Answers](cognitiveservices/questionanswering/Question-Answering/Get-Answers.yml)
+#### [Get Answers From Text](cognitiveservices/questionanswering/Question-Answering/Get-Answers-From-Text.yml)
+### Question Answering Projects
+#### [Overview](cognitiveservices/questionanswering/Question-Answering-Projects.yml)
+#### [Add Feedback](cognitiveservices/questionanswering/Question-Answering-Projects/Add-Feedback.yml)
+#### [Create Project](cognitiveservices/questionanswering/Question-Answering-Projects/Create-Project.yml)
+#### [Delete Project](cognitiveservices/questionanswering/Question-Answering-Projects/Delete-Project.yml)
+#### [Deploy Project](cognitiveservices/questionanswering/Question-Answering-Projects/Deploy-Project.yml)
+#### [Export](cognitiveservices/questionanswering/Question-Answering-Projects/Export.yml)
+#### [Get Delete Status](cognitiveservices/questionanswering/Question-Answering-Projects/Get-Delete-Status.yml)
+#### [Get Deploy Status](cognitiveservices/questionanswering/Question-Answering-Projects/Get-Deploy-Status.yml)
+#### [Get Export Status](cognitiveservices/questionanswering/Question-Answering-Projects/Get-Export-Status.yml)
+#### [Get Import Status](cognitiveservices/questionanswering/Question-Answering-Projects/Get-Import-Status.yml)
+#### [Get Project Details](cognitiveservices/questionanswering/Question-Answering-Projects/Get-Project-Details.yml)
+#### [Get Qnas](cognitiveservices/questionanswering/Question-Answering-Projects/Get-Qnas.yml)
+#### [Get Sources](cognitiveservices/questionanswering/Question-Answering-Projects/Get-Sources.yml)
+#### [Get Synonyms](cognitiveservices/questionanswering/Question-Answering-Projects/Get-Synonyms.yml)
+#### [Get Update Qnas Status](cognitiveservices/questionanswering/Question-Answering-Projects/Get-Update-Qnas-Status.yml)
+#### [Get Update Sources Status](cognitiveservices/questionanswering/Question-Answering-Projects/Get-Update-Sources-Status.yml)
+#### [Import](cognitiveservices/questionanswering/Question-Answering-Projects/Import.yml)
+#### [List Deployments](cognitiveservices/questionanswering/Question-Answering-Projects/List-Deployments.yml)
+#### [List Projects](cognitiveservices/questionanswering/Question-Answering-Projects/List-Projects.yml)
+#### [Update Qnas](cognitiveservices/questionanswering/Question-Answering-Projects/Update-Qnas.yml)
+#### [Update Sources](cognitiveservices/questionanswering/Question-Answering-Projects/Update-Sources.yml)
+#### [Update Synonyms](cognitiveservices/questionanswering/Question-Answering-Projects/Update-Synonyms.yml)
 ## Translator
 ### Document Translation
 #### [Overview](cognitiveservices/translator/Document-Translation.yml)
@@ -11735,14 +11763,6 @@
 #### [Overview](monitor/Tenant-Activity-Logs.yml)
 #### [List](monitor/Tenant-Activity-Logs/List.yml)
 ### Alerts Management
-#### Alert Processing Rules
-##### [Overview](monitor/alertsmanagement/Alert-Processing-Rules.yml)
-##### [Create Or Update](monitor/alertsmanagement/Alert-Processing-Rules/Create-Or-Update.yml)
-##### [Delete](monitor/alertsmanagement/Alert-Processing-Rules/Delete.yml)
-##### [Get By Name](monitor/alertsmanagement/Alert-Processing-Rules/Get-By-Name.yml)
-##### [List By Resource Group](monitor/alertsmanagement/Alert-Processing-Rules/List-By-Resource-Group.yml)
-##### [List By Subscription](monitor/alertsmanagement/Alert-Processing-Rules/List-By-Subscription.yml)
-##### [Update](monitor/alertsmanagement/Alert-Processing-Rules/Update.yml)
 #### Alerts
 ##### [Overview](monitor/alertsmanagement/Alerts.yml)
 ##### [Change State](monitor/alertsmanagement/Alerts/Change-State.yml)
