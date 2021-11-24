@@ -603,7 +603,6 @@
 ##### [Overview](apimanagement/2020-12-01/User-Subscription.yml)
 ##### [Get](apimanagement/2020-12-01/User-Subscription/Get.yml)
 ##### [List](apimanagement/2020-12-01/User-Subscription/List.yml)
-### 2021-01-01-preview
 ### 2021-04-01-preview
 #### Api
 ##### [Overview](apimanagement/2021-04-01-preview/Api.yml)
