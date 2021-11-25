@@ -1,0 +1,269 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices.questionanswering.questionansweringprojects.getdeploystatus
+name: Get Deploy Status
+service: Cognitive Services
+groupName: Question Answering Projects
+apiVersion: 2021-10-01
+summary: Gets the status of a Deploy job.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/language/query-knowledgebases/projects/{projectName}/deployments/{deploymentName}/jobs/{jobId}?api-version=2021-10-01
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Supported Cognitive Services endpoint (e.g., https://<resource-name>.api.cognitiveservices.azure.com).
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: The name of the project to use.
+  types:
+  - uid: string
+- name: deploymentName
+  in: path
+  isRequired: true
+  description: The name of the specific deployment of the project to use.
+  types:
+  - uid: string
+- name: jobId
+  in: path
+  isRequired: true
+  description: Job ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Deploy job state.
+  types:
+  - uid: JobState
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: JobState
+  description: Job state represents the job metadata and any errors.
+  kind: object
+  properties:
+  - name: createdDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: expirationDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: jobId
+    description: ''
+    types:
+    - uid: string
+  - name: lastUpdatedDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: Job Status.
+    types:
+    - uid: jobStatus
+  - name: errors
+    description: The error object.
+    types:
+    - uid: Error
+      isArray: true
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: Error
+- name: jobStatus
+  description: Job Status.
+  kind: enum
+  properties:
+  - name: notStarted
+    types:
+    - uid: string
+  - name: running
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+  - name: cancelled
+    types:
+    - uid: string
+  - name: cancelling
+    types:
+    - uid: string
+  - name: partiallyCompleted
+    types:
+    - uid: string
+- name: Error
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: ErrorCode
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: ErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidArgument
+    types:
+    - uid: string
+  - name: Unauthorized
+    types:
+    - uid: string
+  - name: Forbidden
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+  - name: ProjectNotFound
+    types:
+    - uid: string
+  - name: OperationNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexNotFound
+    types:
+    - uid: string
+  - name: TooManyRequests
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexLimitReached
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: ServiceUnavailable
+    types:
+    - uid: string
+- name: InnerErrorModel
+  description: An object containing more specific information about the error. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: InnerErrorCode
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: InnerErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidParameterValue
+    types:
+    - uid: string
+  - name: KnowledgeBaseNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: ExtractionFailure
+    types:
+    - uid: string
+examples:
+- name: Successful query
+  request:
+    uri: GET {Endpoint}/language/query-knowledgebases/projects/proj1/deployments/production/jobs/job1?api-version=2021-10-01
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "errors": [],
+        "createdDateTime": "2021-05-01T17:21:14Z",
+        "expirationDateTime": "2021-05-01T17:21:14Z",
+        "jobId": "635c2741-15c4-4c2c-9f78-bfd30b6b2a4a",
+        "lastUpdatedDateTime": "2021-05-01T17:21:14Z",
+        "status": "succeeded"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+metadata:
+  description: Learn more about Cognitive Services service - Gets the status of a Deploy job.
+errorCodes: []
