@@ -11798,6 +11798,14 @@
 #### [Overview](monitor/Tenant-Activity-Logs.yml)
 #### [List](monitor/Tenant-Activity-Logs/List.yml)
 ### Alerts Management
+#### Alert Processing Rules
+##### [Overview](monitor/alertsmanagement/Alert-Processing-Rules.yml)
+##### [Create Or Update](monitor/alertsmanagement/Alert-Processing-Rules/Create-Or-Update.yml)
+##### [Delete](monitor/alertsmanagement/Alert-Processing-Rules/Delete.yml)
+##### [Get By Name](monitor/alertsmanagement/Alert-Processing-Rules/Get-By-Name.yml)
+##### [List By Resource Group](monitor/alertsmanagement/Alert-Processing-Rules/List-By-Resource-Group.yml)
+##### [List By Subscription](monitor/alertsmanagement/Alert-Processing-Rules/List-By-Subscription.yml)
+##### [Update](monitor/alertsmanagement/Alert-Processing-Rules/Update.yml)
 #### Alerts
 ##### [Overview](monitor/alertsmanagement/Alerts.yml)
 ##### [Change State](monitor/alertsmanagement/Alerts/Change-State.yml)

@@ -10,7 +10,7 @@ produces:
 - application/json
 paths:
 - content: GET https://atlas.microsoft.com/weather/forecast/daily/json?api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/weather/forecast/daily/json?subscription-key={subscription-key}&api-version=1.0&query={query}&unit={unit}&duration={duration}&language={language}
+- content: GET https://atlas.microsoft.com/weather/forecast/daily/json?api-version=1.0&query={query}&unit={unit}&duration={duration}&language={language}
   isOptional: true
 uriParameters:
 - name: format
@@ -19,28 +19,23 @@ uriParameters:
   description: Desired format of the response. Only `json` format is supported.
   types:
   - uid: JsonFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: query
   in: query
   isRequired: true
-  description: Coordinates of the location for which current conditions information is requested. The applicable query is specified as a comma separated string composed by latitude followed by longitude e.g. "47.641268,-122.125679".
+  description: The applicable query specified as a comma separated string composed by latitude followed by longitude e.g. "47.641268,-122.125679".
   types:
-  - uid: string
+  - uid: array
 - name: unit
   in: query
   description: Specifies to return the data in either metric units or imperial units. Default value is metric.
   types:
-  - uid: Unit
+  - uid: WeatherDataUnit
 - name: duration
   in: query
   description: >-
@@ -54,7 +49,11 @@ uriParameters:
   - uid: integer
 - name: language
   in: query
-  description: "Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used.  Default value is en-us. \n\nPlease refer to [Supported languages](https://docs.microsoft.com/azure/azure-maps/supported-languages) for details."
+  description: >-
+    Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used.
+
+
+    Please refer to [Supported Languages](https://docs.microsoft.com/azure/azure-maps/supported-languages) for details.
   types:
   - uid: string
 responses:
@@ -62,29 +61,10 @@ responses:
   description: OK
   types:
   - uid: DailyForecastResponse
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -100,7 +80,7 @@ definitions:
     description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
-- name: Unit
+- name: WeatherDataUnit
   description: Specifies to return the data in either metric units or imperial units. Default value is metric.
   kind: enum
   properties:
@@ -116,22 +96,24 @@ definitions:
   kind: object
   properties:
   - name: summary
+    isReadyOnly: true
     description: Summary for the main conditions for the requested time period. Notice that summary can cover only part of the time period.
     types:
     - uid: DailyForecastSummary
   - name: forecasts
+    isReadyOnly: true
     description: Forecast data for each requested day.
     types:
     - uid: DailyForecast
       isArray: true
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
+    - uid: ErrorDetail
 - name: DailyForecastSummary
   description: Summary for the main conditions for the requested time period. Notice that summary can cover only part of the time period.
   kind: object
@@ -180,20 +162,20 @@ definitions:
     types:
     - uid: number
   - name: degreeDaySummary
-    description: Summary of Heating Degree Day or Cooling Degree Day information
+    description: Summary for mean temperature of Heating Degree Day or Cooling Degree Day information
     types:
     - uid: DegreeDaySummary
   - name: airAndPollen
-    description: airAndPollen
+    description: Air quality
     types:
     - uid: AirAndPollen
       isArray: true
   - name: day
-    description: Day
+    description: Day forecast detail
     types:
     - uid: DayOrNight
   - name: night
-    description: Night
+    description: Night forecast detail
     types:
     - uid: DayOrNight
   - name: sources
@@ -201,30 +183,37 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
     types:
-    - uid: string
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: WeatherUnitRange
   description: Returned temperature values.
   kind: object
@@ -277,13 +266,13 @@ definitions:
   - name: iconCode
     description: Numeric value representing an image that displays the `iconPhrase`. Please refer to [Weather Service Concepts](https://aka.ms/AzureMapsWeatherConcepts) for details.
     types:
-    - uid: integer
+    - uid: IconCode
   - name: iconPhrase
     description: Phrase description of the icon. Displayed in specified language. For example, 'Sunny'.
     types:
     - uid: string
   - name: localSource
-    description: ''
+    description: Local weather data provider information.
     types:
     - uid: LocalSource
   - name: hasPrecipitation
@@ -291,9 +280,9 @@ definitions:
     types:
     - uid: boolean
   - name: precipitationType
-    description: Specifies the type of precipitation ("rain" "snow" "ice" or "mix"). If dbz = zero, precipitationType is not present in the response.
+    description: Specifies the type of precipitation ("Rain" "Snow" "Ice" or "Mix"). If dbz is zero, precipitationType is not present in the response.
     types:
-    - uid: string
+    - uid: PrecipitationType
   - name: precipitationIntensity
     description: Description of the intensity.
     types:
@@ -329,11 +318,11 @@ definitions:
   - name: wind
     description: Wind details being returned including speed and direction.
     types:
-    - uid: Wind
+    - uid: WindDetails
   - name: windGust
     description: Wind gust. Wind gust is a sudden, brief increase in speed of the wind.
     types:
-    - uid: Wind
+    - uid: WindDetails
   - name: totalLiquid
     description: Total liquid equivalent of precipitation during the forecast period.
     types:
@@ -370,7 +359,22 @@ definitions:
     description: Percent representing cloud cover.
     types:
     - uid: integer
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 - name: WeatherUnit
+  description: Specific value of a given unit related to weather.
   kind: object
   properties:
   - name: value
@@ -384,8 +388,145 @@ definitions:
   - name: unitType
     description: Numeric ID value associated with the type of unit being displayed. Can be used for unit translation. Please refer to [Weather Service Concepts](https://aka.ms/AzureMapsWeatherConcepts) for details.
     types:
-    - uid: integer
+    - uid: UnitType
+- name: IconCode
+  description: Numeric value representing an image that displays the `iconPhrase`. Please refer to [Weather Service Concepts](https://aka.ms/AzureMapsWeatherConcepts) for details.
+  kind: enum
+  properties:
+  - name: "1"
+    types:
+    - uid: Integer
+  - name: "2"
+    types:
+    - uid: Integer
+  - name: "3"
+    types:
+    - uid: Integer
+  - name: "4"
+    types:
+    - uid: Integer
+  - name: "5"
+    types:
+    - uid: Integer
+  - name: "6"
+    types:
+    - uid: Integer
+  - name: "7"
+    types:
+    - uid: Integer
+  - name: "8"
+    types:
+    - uid: Integer
+  - name: "9"
+    types:
+    - uid: Integer
+  - name: "10"
+    types:
+    - uid: Integer
+  - name: "11"
+    types:
+    - uid: Integer
+  - name: "12"
+    types:
+    - uid: Integer
+  - name: "13"
+    types:
+    - uid: Integer
+  - name: "14"
+    types:
+    - uid: Integer
+  - name: "15"
+    types:
+    - uid: Integer
+  - name: "16"
+    types:
+    - uid: Integer
+  - name: "17"
+    types:
+    - uid: Integer
+  - name: "18"
+    types:
+    - uid: Integer
+  - name: "19"
+    types:
+    - uid: Integer
+  - name: "20"
+    types:
+    - uid: Integer
+  - name: "21"
+    types:
+    - uid: Integer
+  - name: "22"
+    types:
+    - uid: Integer
+  - name: "23"
+    types:
+    - uid: Integer
+  - name: "24"
+    types:
+    - uid: Integer
+  - name: "25"
+    types:
+    - uid: Integer
+  - name: "26"
+    types:
+    - uid: Integer
+  - name: "27"
+    types:
+    - uid: Integer
+  - name: "28"
+    types:
+    - uid: Integer
+  - name: "29"
+    types:
+    - uid: Integer
+  - name: "30"
+    types:
+    - uid: Integer
+  - name: "31"
+    types:
+    - uid: Integer
+  - name: "32"
+    types:
+    - uid: Integer
+  - name: "33"
+    types:
+    - uid: Integer
+  - name: "34"
+    types:
+    - uid: Integer
+  - name: "35"
+    types:
+    - uid: Integer
+  - name: "36"
+    types:
+    - uid: Integer
+  - name: "37"
+    types:
+    - uid: Integer
+  - name: "38"
+    types:
+    - uid: Integer
+  - name: "39"
+    types:
+    - uid: Integer
+  - name: "40"
+    types:
+    - uid: Integer
+  - name: "41"
+    types:
+    - uid: Integer
+  - name: "42"
+    types:
+    - uid: Integer
+  - name: "43"
+    types:
+    - uid: Integer
+  - name: "44"
+    types:
+    - uid: Integer
 - name: LocalSource
+  description: Local weather data provider information.
   kind: object
   properties:
   - name: id
@@ -400,7 +541,27 @@ definitions:
     description: Weather code provided by the local data provider. This weather code allows the forecast to be matched to icons provided by the local data provider instead of Azure Maps icons.
     types:
     - uid: string
-- name: Wind
+- name: PrecipitationType
+  description: Specifies the type of precipitation ("Rain" "Snow" "Ice" or "Mix"). If dbz is zero, precipitationType is not present in the response.
+  kind: enum
+  properties:
+  - name: Rain
+    description: Rain
+    types:
+    - uid: string
+  - name: Snow
+    description: Snow
+    types:
+    - uid: string
+  - name: Ice
+    description: Ice
+    types:
+    - uid: string
+  - name: Mix
+    description: Mix
+    types:
+    - uid: string
+- name: WindDetails
   description: Wind details being returned including speed and direction.
   kind: object
   properties:
@@ -412,6 +573,82 @@ definitions:
     description: Speed of the wind in specified unit.
     types:
     - uid: WindSpeed
+- name: UnitType
+  description: Numeric ID value associated with the type of unit being displayed. Can be used for unit translation. Please refer to [Weather Service Concepts](https://aka.ms/AzureMapsWeatherConcepts) for details.
+  kind: enum
+  properties:
+  - name: "0"
+    types:
+    - uid: Integer
+  - name: "1"
+    types:
+    - uid: Integer
+  - name: "2"
+    types:
+    - uid: Integer
+  - name: "3"
+    types:
+    - uid: Integer
+  - name: "4"
+    types:
+    - uid: Integer
+  - name: "5"
+    types:
+    - uid: Integer
+  - name: "6"
+    types:
+    - uid: Integer
+  - name: "7"
+    types:
+    - uid: Integer
+  - name: "8"
+    types:
+    - uid: Integer
+  - name: "9"
+    types:
+    - uid: Integer
+  - name: "10"
+    types:
+    - uid: Integer
+  - name: "11"
+    types:
+    - uid: Integer
+  - name: "12"
+    types:
+    - uid: Integer
+  - name: "13"
+    types:
+    - uid: Integer
+  - name: "14"
+    types:
+    - uid: Integer
+  - name: "15"
+    types:
+    - uid: Integer
+  - name: "16"
+    types:
+    - uid: Integer
+  - name: "17"
+    types:
+    - uid: Integer
+  - name: "18"
+    types:
+    - uid: Integer
+  - name: "19"
+    types:
+    - uid: Integer
+  - name: "20"
+    types:
+    - uid: Integer
+  - name: "21"
+    types:
+    - uid: Integer
+  - name: "22"
+    types:
+    - uid: Integer
+  - name: "31"
+    types:
+    - uid: Integer
 - name: WindDirection
   description: Wind direction
   kind: object
@@ -419,7 +656,7 @@ definitions:
   - name: degrees
     description: Wind direction in Azimuth degrees,  starting at true North and continuing in clockwise direction. North is 0 degrees, east is 90 degrees, south is 180 degrees, west is 270 degrees. Possible values 0-359.
     types:
-    - uid: number
+    - uid: integer
   - name: localizedDescription
     description: Direction abbreviation in the specified language.
     types:
@@ -439,9 +676,9 @@ definitions:
   - name: unitType
     description: Numeric ID value associated with the type of unit being displayed. Can be used for unit translation. Please refer to [Weather Service Concepts](https://aka.ms/AzureMapsWeatherConcepts) for details.
     types:
-    - uid: integer
+    - uid: UnitType
 examples:
-- name: DailyForecast
+- name: Successfully retrieve detailed daily weather forecast for a given coordinate location
   request:
     uri: GET https://atlas.microsoft.com/weather/forecast/daily/json?api-version=1.0&query=62.6490341,30.0734812&duration=5
   responses:
@@ -673,46 +910,6 @@ examples:
             ]
           }
         ]
-      }
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
       }
 security:
 - name: AADToken
