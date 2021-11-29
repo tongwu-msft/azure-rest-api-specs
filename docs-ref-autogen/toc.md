@@ -6121,6 +6121,14 @@
 #### [Release Phone Number](communication/Phone-Numbers/Release-Phone-Number.yml)
 #### [Search Available Phone Numbers](communication/Phone-Numbers/Search-Available-Phone-Numbers.yml)
 #### [Update Capabilities](communication/Phone-Numbers/Update-Capabilities.yml)
+### Short Codes
+#### [Overview](communication/Short-Codes.yml)
+#### [Delete US Program Brief](communication/Short-Codes/Delete-US-Program-Brief.yml)
+#### [Get Short Codes](communication/Short-Codes/Get-Short-Codes.yml)
+#### [Get US Program Brief](communication/Short-Codes/Get-US-Program-Brief.yml)
+#### [Get US Program Briefs](communication/Short-Codes/Get-US-Program-Briefs.yml)
+#### [Submit US Program Brief](communication/Short-Codes/Submit-US-Program-Brief.yml)
+#### [Upsert US Program Brief](communication/Short-Codes/Upsert-US-Program-Brief.yml)
 ### Sms
 #### [Overview](communication/Sms.yml)
 #### [Send](communication/Sms/Send.yml)
@@ -11798,6 +11806,14 @@
 #### [Overview](monitor/Tenant-Activity-Logs.yml)
 #### [List](monitor/Tenant-Activity-Logs/List.yml)
 ### Alerts Management
+#### Alert Processing Rules
+##### [Overview](monitor/alertsmanagement/Alert-Processing-Rules.yml)
+##### [Create Or Update](monitor/alertsmanagement/Alert-Processing-Rules/Create-Or-Update.yml)
+##### [Delete](monitor/alertsmanagement/Alert-Processing-Rules/Delete.yml)
+##### [Get By Name](monitor/alertsmanagement/Alert-Processing-Rules/Get-By-Name.yml)
+##### [List By Resource Group](monitor/alertsmanagement/Alert-Processing-Rules/List-By-Resource-Group.yml)
+##### [List By Subscription](monitor/alertsmanagement/Alert-Processing-Rules/List-By-Subscription.yml)
+##### [Update](monitor/alertsmanagement/Alert-Processing-Rules/Update.yml)
 #### Alerts
 ##### [Overview](monitor/alertsmanagement/Alerts.yml)
 ##### [Change State](monitor/alertsmanagement/Alerts/Change-State.yml)
