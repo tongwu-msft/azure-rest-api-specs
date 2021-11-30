@@ -1767,9 +1767,6 @@
 ### [Renew](appservice/Domains/Renew.yml)
 ### [Update](appservice/Domains/Update.yml)
 ### [Update Ownership Identifier](appservice/Domains/Update-Ownership-Identifier.yml)
-## Generate Github Access Token For Appservice CLI Async
-### [Overview](appservice/Generate-Github-Access-Token-For-Appservice-CLI-Async.yml)
-### [Generate Github Access Token For Appservice CLI Async](appservice/Generate-Github-Access-Token-For-Appservice-CLI-Async/Generate-Github-Access-Token-For-Appservice-CLI-Async.yml)
 ## Get Publishing User
 ### [Overview](appservice/Get-Publishing-User.yml)
 ### [Get Publishing User](appservice/Get-Publishing-User/Get-Publishing-User.yml)
