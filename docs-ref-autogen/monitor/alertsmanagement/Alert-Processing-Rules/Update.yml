@@ -1,0 +1,511 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.monitor.alertsmanagement.alertprocessingrules.update
+name: Update
+service: Monitor
+groupName: Alert Processing Rules
+apiVersion: 2021-08-08-preview
+summary: Enable, disable, or update tags for an alert processing rule.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AlertsManagement/actionRules/{alertProcessingRuleName}?api-version=2021-08-08-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Resource group name where the resource is created.
+  types:
+  - uid: string
+- name: alertProcessingRuleName
+  in: path
+  isRequired: true
+  description: The name that needs to be updated.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: api-version
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: OK. Returns the created/updated alert processing rule.
+  types:
+  - uid: AlertProcessingRule
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: errorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: tags
+    in: body
+    description: Tags to be updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.enabled
+    in: body
+    description: Indicates if the given alert processing rule is enabled or disabled.
+    types:
+    - uid: boolean
+requestHeader: []
+definitions:
+- name: api-version
+  description: Client API version.
+  kind: enum
+  properties:
+  - name: 2021-08-08-preview
+    types:
+    - uid: string
+- name: AlertProcessingRule
+  description: Alert processing rule object containing target scopes, conditions and scheduling logic.
+  kind: object
+  properties:
+  - name: properties
+    description: Alert processing rule properties.
+    types:
+    - uid: AlertProcessingRuleProperties
+  - name: systemData
+    isReadyOnly: true
+    description: Alert processing rule system data.
+    types:
+    - uid: systemData
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Azure resource type
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Azure resource name
+    types:
+    - uid: string
+- name: errorResponse
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Details of error response.
+    types:
+    - uid: errorResponseBody
+- name: PatchObject
+  description: Data contract for patch.
+  kind: object
+  properties:
+  - name: tags
+    description: Tags to be updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.enabled
+    description: Indicates if the given alert processing rule is enabled or disabled.
+    types:
+    - uid: boolean
+- name: AlertProcessingRuleProperties
+  description: Alert processing rule properties defining scopes, conditions and scheduling logic for alert processing rule.
+  kind: object
+  properties:
+  - name: scopes
+    description: Scopes on which alert processing rule will apply.
+    types:
+    - uid: string
+      isArray: true
+  - name: conditions
+    description: Conditions on which alerts will be filtered.
+    types:
+    - uid: Condition
+      isArray: true
+  - name: schedule
+    description: Scheduling for alert processing rule.
+    types:
+    - uid: Schedule
+  - name: actions
+    description: Actions to be applied.
+    types:
+    - uid: AddActionGroups
+      isArray: true
+    - uid: RemoveAllActionGroups
+      isArray: true
+    typesTitle: Action[]
+  - name: description
+    description: Description of alert processing rule.
+    types:
+    - uid: string
+  - name: enabled
+    description: Indicates if the given alert processing rule is enabled or disabled.
+    types:
+    - uid: boolean
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: errorResponseBody
+  description: Details of error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code, intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: Description of the error, intended for display in user interface.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the particular error, for example name of the property.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: errorResponseBody
+      isArray: true
+- name: Condition
+  description: Condition to trigger an alert processing rule.
+  kind: object
+  properties:
+  - name: field
+    description: Field for a given condition.
+    types:
+    - uid: Field
+  - name: operator
+    description: Operator for a given condition.
+    types:
+    - uid: Operator
+  - name: values
+    description: List of values to match for a given condition.
+    types:
+    - uid: string
+      isArray: true
+- name: Schedule
+  description: Scheduling configuration for a given alert processing rule.
+  kind: object
+  properties:
+  - name: effectiveFrom
+    description: Scheduling effective from time. Date-Time in ISO-8601 format without timezone suffix.
+    types:
+    - uid: string
+  - name: effectiveUntil
+    description: Scheduling effective until time. Date-Time in ISO-8601 format without timezone suffix.
+    types:
+    - uid: string
+  - name: timeZone
+    description: Scheduling time zone.
+    types:
+    - uid: string
+  - name: recurrences
+    description: List of recurrences.
+    types:
+    - uid: DailyRecurrence
+      isArray: true
+    - uid: WeeklyRecurrence
+      isArray: true
+    - uid: MonthlyRecurrence
+      isArray: true
+    typesTitle: Recurrence[]
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: Field
+  description: Field for a given condition.
+  kind: enum
+  properties:
+  - name: Severity
+    types:
+    - uid: string
+  - name: MonitorService
+    types:
+    - uid: string
+  - name: MonitorCondition
+    types:
+    - uid: string
+  - name: SignalType
+    types:
+    - uid: string
+  - name: TargetResourceType
+    types:
+    - uid: string
+  - name: TargetResource
+    types:
+    - uid: string
+  - name: TargetResourceGroup
+    types:
+    - uid: string
+  - name: AlertRuleId
+    types:
+    - uid: string
+  - name: AlertRuleName
+    types:
+    - uid: string
+  - name: Description
+    types:
+    - uid: string
+  - name: AlertContext
+    types:
+    - uid: string
+- name: Operator
+  description: Operator for a given condition.
+  kind: enum
+  properties:
+  - name: Equals
+    types:
+    - uid: string
+  - name: NotEquals
+    types:
+    - uid: string
+  - name: Contains
+    types:
+    - uid: string
+  - name: DoesNotContain
+    types:
+    - uid: string
+- name: AddActionGroups
+  description: Add action groups to alert processing rule.
+  kind: object
+  properties:
+  - name: actionGroupIds
+    description: List of action group Ids to add to alert processing rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: actionType
+    description: Action that should be applied.
+    types:
+    - uid: AddActionGroups
+    typesTitle: string
+- name: RemoveAllActionGroups
+  description: Indicates if all action groups should be removed.
+  kind: object
+  properties:
+  - name: actionType
+    description: Action that should be applied.
+    types:
+    - uid: RemoveAllActionGroups
+    typesTitle: string
+- name: DailyRecurrence
+  description: Daily recurrence object.
+  kind: object
+  properties:
+  - name: recurrenceType
+    description: Specifies when the recurrence should be applied.
+    types:
+    - uid: Daily
+    typesTitle: string
+  - name: startTime
+    description: Start time for recurrence.
+    types:
+    - uid: string
+  - name: endTime
+    description: End time for recurrence.
+    types:
+    - uid: string
+- name: WeeklyRecurrence
+  description: Weekly recurrence object.
+  kind: object
+  properties:
+  - name: daysOfWeek
+    description: Specifies the values for weekly recurrence pattern.
+    types:
+    - uid: string
+      isArray: true
+  - name: recurrenceType
+    description: Specifies when the recurrence should be applied.
+    types:
+    - uid: Weekly
+    typesTitle: string
+  - name: startTime
+    description: Start time for recurrence.
+    types:
+    - uid: string
+  - name: endTime
+    description: End time for recurrence.
+    types:
+    - uid: string
+- name: MonthlyRecurrence
+  description: Monthly recurrence object.
+  kind: object
+  properties:
+  - name: daysOfMonth
+    description: Specifies the values for monthly recurrence pattern.
+    types:
+    - uid: integer
+      isArray: true
+  - name: recurrenceType
+    description: Specifies when the recurrence should be applied.
+    types:
+    - uid: Monthly
+    typesTitle: string
+  - name: startTime
+    description: Start time for recurrence.
+    types:
+    - uid: string
+  - name: endTime
+    description: End time for recurrence.
+    types:
+    - uid: string
+examples:
+- name: PatchAlertProcessingRule
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/1e3ff1c0-771a-4119-a03b-be82a51e232d/resourceGroups/alertscorrelationrg/providers/Microsoft.AlertsManagement/actionRules/WeeklySuppression?api-version=2021-08-08-preview
+    body: >-
+      {
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "properties": {
+          "enabled": false
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "systemData": {
+          "createdBy": "abc@microsoft.com",
+          "createdByType": "User",
+          "createdAt": "2018-06-12T22:05:09Z",
+          "lastModifiedBy": "xyz@microsoft.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2018-06-12T22:05:09Z"
+        },
+        "properties": {
+          "scopes": [
+            "/subscriptions/1e3ff1c0-771a-4119-a03b-be82a51e232d/resourceGroups/alertscorrelationrg"
+          ],
+          "conditions": [
+            {
+              "field": "Severity",
+              "operator": "Equals",
+              "values": [
+                "Sev0",
+                "Sev2"
+              ]
+            },
+            {
+              "field": "MonitorService",
+              "operator": "Equals",
+              "values": [
+                "Platform",
+                "Application Insights"
+              ]
+            },
+            {
+              "field": "TargetResourceType",
+              "operator": "NotEquals",
+              "values": [
+                "Microsoft.Compute/VirtualMachines"
+              ]
+            }
+          ],
+          "schedule": {
+            "effectiveFrom": "2018-12-10T22:05:09",
+            "effectiveUntil": "2018-12-05T22:05:09",
+            "timeZone": "Pacific Standard Time",
+            "recurrences": [
+              {
+                "recurrenceType": "Weekly",
+                "startTime": "06:00:00",
+                "endTime": "14:00:00",
+                "daysOfWeek": [
+                  "Tuesday",
+                  "Friday"
+                ]
+              }
+            ]
+          },
+          "actions": [
+            {
+              "actionType": "RemoveAllActionGroups"
+            }
+          ],
+          "description": "Alert processing rule on resource group for weekly suppression",
+          "enabled": false
+        },
+        "id": "/subscriptions/1e3ff1c0-771a-4119-a03b-be82a51e232d/resourceGroups/alertscorrelationrg/providers/Microsoft.AlertsManagement/actionRules/WeeklySuppression",
+        "type": "Microsoft.AlertsManagement/actionRules",
+        "name": "WeeklySuppression",
+        "location": "Global",
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        }
+      }
+security: []
+metadata:
+  description: Learn more about Monitor service - Enable, disable, or update tags for an alert processing rule.
+errorCodes: []
