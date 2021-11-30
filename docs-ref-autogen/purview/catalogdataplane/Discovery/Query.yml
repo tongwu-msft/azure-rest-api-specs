@@ -44,7 +44,7 @@ requestBody:
     - uid: string
   - name: offset
     in: body
-    description: The offset. The default value is 0.
+    description: The offset. The default value is 0. The maximum value is 100000.
     types:
     - uid: integer
   - name: limit
@@ -107,7 +107,7 @@ definitions:
     types:
     - uid: integer
   - name: '@search.facets'
-    description: "Context  \nA facet list that consists of index fields assetType ,classification, classificationCategory, contactId, fileExtension, label, and label. When the facet is specified in the request, the value of the facet is returned as an element of @search.facets."
+    description: "Context  \nA facet list that consists of index fields assetType ,classification, contactId, and label. When the facet is specified in the request, the value of the facet is returned as an element of @search.facets."
     types:
     - uid: SearchFacetResultValue
   - name: value
@@ -140,7 +140,7 @@ definitions:
     types:
     - uid: string
   - name: offset
-    description: The offset. The default value is 0.
+    description: The offset. The default value is 0. The maximum value is 100000.
     types:
     - uid: integer
   - name: limit
@@ -381,7 +381,7 @@ examples:
             }
           ]
         },
-        "limit": 2,
+        "limit": 10,
         "offset": 0,
         "facets": [
           {
@@ -415,20 +415,6 @@ examples:
           {
             "facet": "term",
             "count": 10,
-            "sort": {
-              "count": "desc"
-            }
-          },
-          {
-            "facet": "classificationCategory",
-            "count": 0,
-            "sort": {
-              "count": "desc"
-            }
-          },
-          {
-            "facet": "fileExtension",
-            "count": 0,
             "sort": {
               "count": "desc"
             }
@@ -491,7 +477,7 @@ examples:
     body: >-
       {
         "keywords": null,
-        "limit": 2,
+        "limit": 10,
         "filter": {
           "and": [
             {
@@ -565,7 +551,7 @@ examples:
     body: >-
       {
         "keywords": null,
-        "limit": 2,
+        "limit": 10,
         "filter": {
           "not": {
             "classification": "MICROSOFT.SYSTEM.TEMP_FILE"
@@ -618,7 +604,7 @@ examples:
     body: >-
       {
         "keywords": null,
-        "limit": 2,
+        "limit": 10,
         "filter": {
           "and": [
             {
@@ -710,7 +696,7 @@ examples:
     body: >-
       {
         "keywords": null,
-        "limit": 2,
+        "limit": 10,
         "filter": {
           "attributeName": "name",
           "operator": "eq",
@@ -767,7 +753,7 @@ examples:
     body: >-
       {
         "keywords": null,
-        "limit": 2,
+        "limit": 10,
         "filter": {
           "classification": "MICROSOFT.PERSONAL.EMAIL",
           "includeSubClassifications": true
@@ -830,7 +816,7 @@ examples:
     body: >-
       {
         "keywords": null,
-        "limit": 2,
+        "limit": 10,
         "filter": {
           "and": [
             {
@@ -885,7 +871,7 @@ examples:
     body: >-
       {
         "keywords": null,
-        "limit": 2,
+        "limit": 10,
         "filter": {
           "and": [
             {
@@ -924,7 +910,7 @@ examples:
     body: >-
       {
         "keywords": null,
-        "limit": 2,
+        "limit": 10,
         "filter": {
           "and": [
             {
@@ -984,7 +970,7 @@ examples:
     body: >-
       {
         "keywords": null,
-        "limit": 2,
+        "limit": 10,
         "filter": {
           "or": [
             {
@@ -1220,12 +1206,12 @@ examples:
             }
           ]
         },
-        "limit": 2,
+        "limit": 10,
         "offset": 0,
         "facets": [
           {
             "facet": "assetType",
-            "count": 0
+            "count": 10
           },
           {
             "facet": "classification",
@@ -1236,15 +1222,7 @@ examples:
             "count": 10
           },
           {
-            "facet": "fileExtension",
-            "count": 10
-          },
-          {
             "facet": "label",
-            "count": 10
-          },
-          {
-            "facet": "classificationCategory",
             "count": 10
           }
         ]
@@ -1281,7 +1259,6 @@ examples:
               "value": "MICROSOFT.GOVERNMENT.US.STATE"
             }
           ],
-          "fileExtension": [],
           "assetType": [
             {
               "count": 1476,
@@ -1322,7 +1299,6 @@ examples:
               "value": "Example.Label"
             }
           ],
-          "classificationCategory": [],
           "term": [
             {
               "count": 1,
@@ -1402,7 +1378,7 @@ examples:
             }
           ]
         },
-        "limit": 2,
+        "limit": 10,
         "offset": 0,
         "facets": [
           {
@@ -1475,6 +1451,68 @@ examples:
             "classification": [],
             "label": [],
             "assetType": [],
+            "term": [],
+            "contact": []
+          }
+        ]
+      }
+- name: Discovery_Query_Collection
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    body: >-
+      {
+        "keywords": null,
+        "limit": 10,
+        "filter": {
+          "collectionId": "collectionName"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 5,
+        "value": [
+          {
+            "@search.score": 1,
+            "id": "b9638b91-884f-4e5e-98b5-29f6f6f60000",
+            "qualifiedName": "mssql://exampleserver.database.windows.net/examplesqldb/examplepath/exampledata1",
+            "name": "exampledata1",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_sql_table",
+            "classification": [
+              "MICROSOFT.PERSONAL.NAME",
+              "MICROSOFT.PERSONAL.EU.PHONE_NUMBER",
+              "MICROSOFT.PERSONAL.US.PHONE_NUMBER",
+              "MICROSOFT.PERSONAL.EMAIL"
+            ],
+            "label": [],
+            "assetType": [
+              "Azure SQL Database"
+            ],
+            "term": [],
+            "contact": []
+          },
+          {
+            "@search.score": 1,
+            "id": "01aefb9a-61cd-4a02-a572-70f6f6f60000",
+            "qualifiedName": "mssql://exampleserver.database.windows.net/exampledw/examplepath/exampledata2",
+            "name": "exampledata2",
+            "description": null,
+            "owner": null,
+            "entityType": "azure_sql_dw_table",
+            "classification": [
+              "MICROSOFT.GOVERNMENT.CITY_NAME",
+              "MICROSOFT.GOVERNMENT.US.STATE",
+              "MICROSOFT.PERSONAL.NAME",
+              "MICROSOFT.PERSONAL.EU.PHONE_NUMBER",
+              "MICROSOFT.PERSONAL.EMAIL"
+            ],
+            "label": [],
+            "assetType": [
+              "Azure SQL Data Warehouse"
+            ],
             "term": [],
             "contact": []
           }
