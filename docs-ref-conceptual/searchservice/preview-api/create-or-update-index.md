@@ -47,7 +47,8 @@ HTTPS is required for all service requests. If the index doesn't exist, it is cr
 Because an existing index contains content, many index modifications require an [index drop and rebuild](/azure/search/search-howto-reindex). The following schema changes are an exception to this rule:
 
 + Adding new fields
-+ Adding or changing [scoring profiles](/azure/search/index-add-scoring-profiles) 
++ Adding or changing [scoring profiles](/azure/search/index-add-scoring-profiles)
++ Adding or changing semantic configurations
 + Changing CORS options
 + Changing existing fields with any of the following three modifications:
 
@@ -135,7 +136,7 @@ The following JSON is a high-level representation of the main parts of the defin
 | similarity  | Optional. For services created before July 15, 2020, set this property to use the BM25 ranking algorithm. Valid values include `"#Microsoft.Azure.Search.ClassicSimilarity"` or `"#Microsoft.Azure.Search.BM25Similarity"`. API versions that support this property include 2020-06-30 and 2019-05-06-Preview. For more information, see [Ranking algorithms in Azure Cognitive Search](/azure/search/index-ranking-similarity).|
 | suggesters| Optional. Used for autocompleted queries or suggested search results, one per index. It is a data structure that stores prefixes for matching on partial queries like autocomplete and suggestions. Consists of a `name` and suggester-aware fields that provide content for autocompleted queries and suggested results. `searchMode` is required, and always set to `analyzingInfixMatching`. It specifies that matching will occur on any term in the query string. |
 | scoringProfiles | Optional. Used for custom search score ranking. Set `defaultScoringProfile` to use a custom profile as the default, invoked whenever a custom profile is not specified on the query string. For more information about elements, see [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](/azure/search/index-add-scoring-profiles) and the example in the next section. |
-| semantic | Optional.  Defines the parameters of a search index that influence semantic search capabilities.|
+| semantic | Optional.  Defines the parameters of a search index that influence semantic search capabilities. For more information, see [Create a semantic query](/azure/search/semantic-how-to-query-request).|
 | analyzers, charFilters, tokenizers, tokenFilters| Optional. Specify these sections of the index if you are defining [custom analyzers](/azure/search/index-add-custom-analyzers). By default, these sections are null. |  
 | normalizers| Normalizes the lexicographical ordering of strings, producing case-insensitive sorting and filtering output. For more information, see [Add normalizers to a search index](/azure/search/search-normalizers).
 | defaultScoringProfile | Name of a custom scoring profile that overwrites the default scoring behaviors. |
@@ -354,6 +355,10 @@ A scoring profile is a section of the schema that defines custom scoring behavio
 
 **Example: Semantic Configurations**
 
+A semantic configuration is a part of an index definition that's used to configure which fields will be utilized by semantic search for ranking, captions, highlights, and answers. Semantic configurations are made up of a title field, prioritized content fields, and prioritized keyword fields. At least one field needs to be specified between all three sub-properties (titleField, prioritizedKeywordsFields and prioritizedContentFields). Any field of type `Edm.String` or `Collection(Edm.String)` can be used as part of a semantic configuration.
+
+To use semantic search, you must specify the name of a semantic configuration at query time. For more information, see [Create a semantic query](/azure/search/semantic-how-to-query-request).
+
  ```json
 {
     "name": "hotels",  
@@ -394,7 +399,7 @@ A scoring profile is a section of the schema that defines custom scoring behavio
 |Attribute|Description|  
 |---------------|-----------------|  
 |name|Required. The name of the semantic configuration.|  
-|prioritizedFields|Required. Describes the title, content, and keyword fields to be used for semantic ranking, captions, highlights, and answers. At least one of the three sub-properties (titleField, prioritizedKeywordsFields and prioritizedContentFields) need to be set | 
+|prioritizedFields|Required. Describes the title, content, and keyword fields to be used for semantic ranking, captions, highlights, and answers. At least one of the three sub-properties (titleField, prioritizedKeywordsFields and prioritizedContentFields) need to be set. | 
 |titleField|Defines the title field to be used for semantic ranking, captions, highlights, and answers. If you don't have a title field in your index, leave this blank.| 
 |prioritizedContentFields|Defines the content fields to be used for semantic ranking, captions, highlights, and answers. For the best result, the selected fields should contain text in natural language form. The order of the fields in the array represents their priority. Fields with lower priority may get truncated if the content is long.| 
 |prioritizedKeywordsFields|Defines the keyword fields to be used for semantic ranking, captions, highlights, and answers. For the best result, the selected fields should contain a list of keywords. The order of the fields in the array represents their priority. Fields with lower priority may get truncated if the content is long.| 
