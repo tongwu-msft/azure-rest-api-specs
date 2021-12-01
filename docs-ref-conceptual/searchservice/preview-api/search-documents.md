@@ -18,7 +18,7 @@ ms.manager: beloh
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> Preview features for this API include a **semantic** query type and responses, a **speller** parameter that provides spell correction, and a **featuresMode** parameter that can report on per-field term frequency, per-field similarity score, and per-field number of unique matches. A new **queryLanguage** parameter is required for both semantic queries and **speller**. All of these preview features are also supported in 2020-06-30-Preview.
+> Preview features for this API include a **semantic** query type and responses, a **speller** parameter that provides spell correction, and a **featuresMode** parameter that can report on per-field term frequency, per-field similarity score, and per-field number of unique matches. A new **queryLanguage** parameter is required for both semantic queries and **speller**. All of these preview features are also supported in 2020-06-30-Preview. The 2021-04-30-Preview adds a **semanticConfiguration** parameter which is now required for semantic queries as well as a **captions** parameter.
 
 A query request targets the documents collection of a single index on a search service. It includes parameters that define the match criteria, and parameters that shape the response.
 

@@ -18,7 +18,7 @@ ms.manager: beloh
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> If you are using [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds an **identity** property and managed identity support to key vault connections. Previously introduced features from 2020-06-30-Preview that are carried forward to this preview include [normalizers](/azure/search/search-normalizers), used to produce case-insensitive sorting and filtering output. 
+> If you are using [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds an **identity** property and managed identity support to key vault connections. Previously introduced features from 2020-06-30-Preview that are carried forward to this preview include [normalizers](/azure/search/search-normalizers), used to produce case-insensitive sorting and filtering output. [Semantic configurations](/azure/search/semantic-how-to-query-request), which allow you to specify which fields should be used by semantic search, have been added to the 2021-04-30-Preview.
 
 An [index](/azure/search/search-what-is-an-index) specifies the index schema, including the fields collection (field names, data types, and attributes), but also additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.
 
@@ -136,7 +136,7 @@ The following JSON is a high-level representation of the main parts of the defin
 | similarity  | Optional. For services created before July 15, 2020, set this property to use the BM25 ranking algorithm. Valid values include `"#Microsoft.Azure.Search.ClassicSimilarity"` or `"#Microsoft.Azure.Search.BM25Similarity"`. API versions that support this property include 2020-06-30 and 2019-05-06-Preview. For more information, see [Ranking algorithms in Azure Cognitive Search](/azure/search/index-ranking-similarity).|
 | suggesters| Optional. Used for autocompleted queries or suggested search results, one per index. It is a data structure that stores prefixes for matching on partial queries like autocomplete and suggestions. Consists of a `name` and suggester-aware fields that provide content for autocompleted queries and suggested results. `searchMode` is required, and always set to `analyzingInfixMatching`. It specifies that matching will occur on any term in the query string. |
 | scoringProfiles | Optional. Used for custom search score ranking. Set `defaultScoringProfile` to use a custom profile as the default, invoked whenever a custom profile is not specified on the query string. For more information about elements, see [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](/azure/search/index-add-scoring-profiles) and the example in the next section. |
-| semantic | Optional.  Defines the parameters of a search index that influence semantic search capabilities. For more information, see [Create a semantic query](/azure/search/semantic-how-to-query-request).|
+| [semantic](#semantic) | Optional.  Defines the parameters of a search index that influence semantic search capabilities. A semantic configuration is required for semantic queries. For more information, see [Create a semantic query](/azure/search/semantic-how-to-query-request).|
 | analyzers, charFilters, tokenizers, tokenFilters| Optional. Specify these sections of the index if you are defining [custom analyzers](/azure/search/index-add-custom-analyzers). By default, these sections are null. |  
 | normalizers| Normalizes the lexicographical ordering of strings, producing case-insensitive sorting and filtering output. For more information, see [Add normalizers to a search index](/azure/search/search-normalizers).
 | defaultScoringProfile | Name of a custom scoring profile that overwrites the default scoring behaviors. |
@@ -355,6 +355,51 @@ A scoring profile is a section of the schema that defines custom scoring behavio
 
 **Example: Semantic Configurations**
 
+A semantic configuration is a part of an index definition that's used to configure which fields will be utilized by semantic search for ranking, captions, highlights, and answers. To use semantic search, you must specify the name of a semantic configuration at query time. For more information, see [Create a semantic query](/azure/search/semantic-how-to-query-request).
+
+ ```json
+{
+    "name": "hotels",  
+    "fields": [ omitted for brevity ],
+    "suggesters": [ omitted for brevity ],
+    "analyzers": [ omitted for brevity ],
+    "semantic": {
+      "configurations": [
+        {
+          "name": "my-semantic-config",
+          "prioritizedFields": {
+            "titleField": {
+                  "fieldName": "hotelName"
+                },
+            "prioritizedContentFields": [
+              {
+                "fieldName": "description"
+              },
+              {
+                "fieldName": "description_fr"
+              }
+            ],
+            "prioritizedKeywordsFields": [
+              {
+                "fieldName": "tags"
+              },
+              {
+                "fieldName": "category"
+              }
+            ]
+          }
+        }
+      ]
+    }
+}
+```
+
+## Definitions
+
+<a name="semantic"></a>
+
+### Semantic
+
 A semantic configuration is a part of an index definition that's used to configure which fields will be utilized by semantic search for ranking, captions, highlights, and answers. Semantic configurations are made up of a title field, prioritized content fields, and prioritized keyword fields. At least one field needs to be specified between all three sub-properties (titleField, prioritizedKeywordsFields and prioritizedContentFields). Any field of type `Edm.String` or `Collection(Edm.String)` can be used as part of a semantic configuration.
 
 To use semantic search, you must specify the name of a semantic configuration at query time. For more information, see [Create a semantic query](/azure/search/semantic-how-to-query-request).
@@ -400,9 +445,9 @@ To use semantic search, you must specify the name of a semantic configuration at
 |---------------|-----------------|  
 |name|Required. The name of the semantic configuration.|  
 |prioritizedFields|Required. Describes the title, content, and keyword fields to be used for semantic ranking, captions, highlights, and answers. At least one of the three sub-properties (titleField, prioritizedKeywordsFields and prioritizedContentFields) need to be set. | 
-|titleField|Defines the title field to be used for semantic ranking, captions, highlights, and answers. If you don't have a title field in your index, leave this blank.| 
-|prioritizedContentFields|Defines the content fields to be used for semantic ranking, captions, highlights, and answers. For the best result, the selected fields should contain text in natural language form. The order of the fields in the array represents their priority. Fields with lower priority may get truncated if the content is long.| 
-|prioritizedKeywordsFields|Defines the keyword fields to be used for semantic ranking, captions, highlights, and answers. For the best result, the selected fields should contain a list of keywords. The order of the fields in the array represents their priority. Fields with lower priority may get truncated if the content is long.| 
+|prioritizedFields.titleField|Defines the title field to be used for semantic ranking, captions, highlights, and answers. If you don't have a title field in your index, leave this blank.| 
+|prioritizedFields.prioritizedContentFields|Defines the content fields to be used for semantic ranking, captions, highlights, and answers. For the best result, the selected fields should contain text in natural language form. The order of the fields in the array represents their priority. Fields with lower priority may get truncated if the content is long.| 
+|prioritizedFields.prioritizedKeywordsFields|Defines the keyword fields to be used for semantic ranking, captions, highlights, and answers. For the best result, the selected fields should contain a list of keywords. The order of the fields in the array represents their priority. Fields with lower priority may get truncated if the content is long.| 
 
 ## See also
 
