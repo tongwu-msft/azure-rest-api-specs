@@ -14116,6 +14116,13 @@
 ### [Get In Subscription](securitycenter/Assessments-Metadata/Get-In-Subscription.yml)
 ### [List](securitycenter/Assessments-Metadata/List.yml)
 ### [List By Subscription](securitycenter/Assessments-Metadata/List-By-Subscription.yml)
+## Assignments
+### [Overview](securitycenter/Assignments.yml)
+### [Create Or Update](securitycenter/Assignments/Create-Or-Update.yml)
+### [Delete](securitycenter/Assignments/Delete.yml)
+### [Get](securitycenter/Assignments/Get.yml)
+### [List](securitycenter/Assignments/List.yml)
+### [List By Subscription](securitycenter/Assignments/List-By-Subscription.yml)
 ## Auto Provisioning Settings
 ### [Overview](securitycenter/Auto-Provisioning-Settings.yml)
 ### [Create](securitycenter/Auto-Provisioning-Settings/Create.yml)
@@ -14299,6 +14306,13 @@
 ### [Overview](securitycenter/Sql-Vulnerability-Assessment-Scans.yml)
 ### [Get](securitycenter/Sql-Vulnerability-Assessment-Scans/Get.yml)
 ### [List](securitycenter/Sql-Vulnerability-Assessment-Scans/List.yml)
+## Standards
+### [Overview](securitycenter/Standards.yml)
+### [Create Or Update](securitycenter/Standards/Create-Or-Update.yml)
+### [Delete](securitycenter/Standards/Delete.yml)
+### [Get](securitycenter/Standards/Get.yml)
+### [List](securitycenter/Standards/List.yml)
+### [List By Subscription](securitycenter/Standards/List-By-Subscription.yml)
 ## Sub Assessments
 ### [Overview](securitycenter/Sub-Assessments.yml)
 ### [Get](securitycenter/Sub-Assessments/Get.yml)
