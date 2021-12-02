@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.netapp.snapshotpolicies.listvolumes
-name: List Volumes
+uid: management.azure.com.netapp.volumegroups.create
+name: Create
 service: Azure NetApp Files
-groupName: Snapshot Policies
+groupName: Volume Groups
 apiVersion: 2021-08-01
-summary: "Get volumes for snapshot policy  \nGet volumes associated with snapshot policy"
+summary: "Create the specified volume group and volumes. Creating volume group will create all the volumes specified in request body implicitly. Once volumes are created using volume group, those will be treated as regular volumes thereafter.  \nCreate a volume group along with specified volumes"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}/volumes?api-version=2021-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups/{volumeGroupName}?api-version=2021-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,12 +31,13 @@ uriParameters:
   description: The name of the NetApp account
   types:
   - uid: string
-- name: snapshotPolicyName
+- name: volumeGroupName
   in: path
   isRequired: true
-  description: The name of the snapshot policy
+  description: The name of the volumeGroup
   types:
   - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,63}$
 - name: api-version
   in: query
   isRequired: true
@@ -44,44 +45,83 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: OK
+- name: 201 Created
+  description: Volume group created
   types:
-  - uid: snapshotPolicyVolumeList
+  - uid: volumeGroupDetails
 - name: Other Status Codes
   description: Error response describing why the operation failed.
-requestHeader: []
-definitions:
-- name: snapshotPolicyVolumeList
-  description: Volumes associated with snapshot policy
-  kind: object
-  properties:
-  - name: value
-    description: List of volumes
-    types:
-    - uid: volume
-      isArray: true
-- name: volume
-  description: Volume resource
-  kind: object
-  properties:
+requestBody:
+- name: default
+  parameters:
   - name: location
+    in: body
     description: Resource location
     types:
     - uid: string
+  - name: tags
+    in: body
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.groupMetaData
+    in: body
+    description: "groupMetaData  \nVolume group details"
+    types:
+    - uid: volumeGroupMetaData
+  - name: properties.volumes
+    in: body
+    description: List of volumes from group
+    types:
+    - uid: volumeGroupVolumeProperties
+      isArray: true
+requestHeader: []
+definitions:
+- name: volumeGroupMetaData
+  description: Volume group properties
+  kind: object
+  properties:
+  - name: groupDescription
+    description: Group Description
+    types:
+    - uid: string
+  - name: applicationType
+    description: Application Type
+    types:
+    - uid: ApplicationType
+  - name: applicationIdentifier
+    description: Application specific identifier
+    types:
+    - uid: string
+  - name: globalPlacementRules
+    description: "Global volume placement rules  \nApplication specific placement rules for the volume group"
+    types:
+    - uid: placementKeyValuePairs
+      isArray: true
+  - name: deploymentSpecId
+    description: Application specific identifier of deployment rules for the volume group
+    types:
+    - uid: string
+  - name: volumesCount
+    isReadyOnly: true
+    description: Number of volumes in volume group
+    types:
+    - uid: integer
+- name: volumeGroupVolumeProperties
+  description: Volume resource
+  kind: object
+  properties:
   - name: id
     isReadyOnly: true
     description: Resource Id
     types:
     - uid: string
   - name: name
-    isReadyOnly: true
     description: Resource name
-    types:
-    - uid: string
-  - name: etag
-    isReadyOnly: true
-    description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
   - name: type
@@ -269,6 +309,70 @@ definitions:
     types:
     - uid: placementKeyValuePairs
       isArray: true
+- name: volumeGroupDetails
+  description: Volume group resource for create
+  kind: object
+  properties:
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Azure lifecycle management
+    types:
+    - uid: string
+  - name: properties.groupMetaData
+    description: "groupMetaData  \nVolume group details"
+    types:
+    - uid: volumeGroupMetaData
+  - name: properties.volumes
+    description: List of volumes from group
+    types:
+    - uid: volumeGroupVolumeProperties
+      isArray: true
+- name: ApplicationType
+  description: Application Type
+  kind: enum
+  properties:
+  - name: SAP-HANA
+    types:
+    - uid: string
+- name: placementKeyValuePairs
+  description: Application specific parameters for the placement of volumes in the volume group
+  kind: object
+  properties:
+  - name: key
+    description: Key for an application specific parameter for the placement of volumes in the volume group
+    types:
+    - uid: string
+  - name: value
+    description: Value for an application specific parameter for the placement of volumes in the volume group
+    types:
+    - uid: string
 - name: ServiceLevel
   description: serviceLevel
   kind: enum
@@ -384,18 +488,6 @@ definitions:
     - uid: string
   - name: Disabled
     description: avsDataStore is disabled
-    types:
-    - uid: string
-- name: placementKeyValuePairs
-  description: Application specific parameters for the placement of volumes in the volume group
-  kind: object
-  properties:
-  - name: key
-    description: Key for an application specific parameter for the placement of volumes in the volume group
-    types:
-    - uid: string
-  - name: value
-    description: Value for an application specific parameter for the placement of volumes in the volume group
     types:
     - uid: string
 - name: exportPolicyRule
@@ -548,30 +640,116 @@ definitions:
     types:
     - uid: string
 examples:
-- name: SnapshotPolicies_ListVolumes
+- name: VolumeGroups_Create
   request:
-    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/snapshotPolicies/snapshotPolicyName/volumes?api-version=2021-08-01
-  responses:
-  - statusCode: "200"
+    uri: PUT https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/volumeGroups/group1?api-version=2021-08-01
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1",
-            "name": "account1/pool1/volume1",
-            "type": "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
-            "location": "eastus",
-            "properties": {
-              "fileSystemId": "9760acf5-4638-11e7-9bdb-020073ca7778",
-              "creationToken": "some-amazing-filepath",
-              "usageThreshold": 107374182400,
-              "serviceLevel": "Premium",
-              "provisioningState": "Succeeded",
-              "throughputMibps": 128,
-              "subnetId": "/subscriptions/9760acf5-4638-11e7-9bdb-020073ca7778/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3"
+        "location": "westus",
+        "properties": {
+          "groupMetaData": {
+            "groupDescription": "Volume group",
+            "applicationType": "SAP-HANA",
+            "applicationIdentifier": "DEV",
+            "deploymentSpecId": "fb04dbeb-005d-2703-197e-6208dfadb5d9"
+          },
+          "volumes": [
+            {
+              "name": "testVol1",
+              "properties": {
+                "creationToken": "testVol1",
+                "serviceLevel": "Premium",
+                "throughputMibps": 10,
+                "subnetId": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3",
+                "usageThreshold": 107374182400,
+                "volumeSpecName": "data",
+                "capacityPoolResourceId": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1",
+                "proximityPlacementGroup": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/cys_sjain_fcp_rg/providers/Microsoft.Compute/proximityPlacementGroups/svlqa_sjain_multivolume_ppg"
+              }
+            },
+            {
+              "name": "testVol2",
+              "properties": {
+                "creationToken": "testVol2",
+                "serviceLevel": "Premium",
+                "throughputMibps": 10,
+                "subnetId": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3",
+                "usageThreshold": 107374182400,
+                "volumeSpecName": "log",
+                "capacityPoolResourceId": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1",
+                "proximityPlacementGroup": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/cys_sjain_fcp_rg/providers/Microsoft.Compute/proximityPlacementGroups/svlqa_sjain_multivolume_ppg"
+              }
+            },
+            {
+              "name": "testVol3",
+              "properties": {
+                "creationToken": "testVol3",
+                "serviceLevel": "Premium",
+                "throughputMibps": 10,
+                "subnetId": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3",
+                "usageThreshold": 107374182400,
+                "volumeSpecName": "shared",
+                "capacityPoolResourceId": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1",
+                "proximityPlacementGroup": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/cys_sjain_fcp_rg/providers/Microsoft.Compute/proximityPlacementGroups/svlqa_sjain_multivolume_ppg"
+              }
             }
-          }
-        ]
+          ]
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/volumeGroups/group1",
+        "name": "group1",
+        "type": "Microsoft.NetApp/netAppAccounts/volumeGroups",
+        "location": "westus",
+        "properties": {
+          "provisioningState": "Creating",
+          "groupMetaData": {
+            "groupDescription": "Volume group",
+            "applicationType": "SAP-HANA",
+            "applicationIdentifier": "DEV"
+          },
+          "volumes": [
+            {
+              "name": "testVol1",
+              "properties": {
+                "throughputMibps": 10,
+                "proximityPlacementGroup": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/cys_sjain_fcp_rg/providers/Microsoft.Compute/proximityPlacementGroups/svlqa_sjain_multivolume_ppg",
+                "volumeSpecName": "data",
+                "serviceLevel": "Premium",
+                "creationToken": "testVol1",
+                "usageThreshold": 107374182400,
+                "subnetId": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3"
+              }
+            },
+            {
+              "name": "testVol2",
+              "properties": {
+                "throughputMibps": 10,
+                "proximityPlacementGroup": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/cys_sjain_fcp_rg/providers/Microsoft.Compute/proximityPlacementGroups/svlqa_sjain_multivolume_ppg",
+                "volumeSpecName": "log",
+                "serviceLevel": "Premium",
+                "creationToken": "testVol2",
+                "usageThreshold": 107374182400,
+                "subnetId": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3"
+              }
+            },
+            {
+              "name": "testVol3",
+              "properties": {
+                "throughputMibps": 10,
+                "proximityPlacementGroup": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/cys_sjain_fcp_rg/providers/Microsoft.Compute/proximityPlacementGroups/svlqa_sjain_multivolume_ppg",
+                "volumeSpecName": "shared",
+                "serviceLevel": "Premium",
+                "creationToken": "testVol3",
+                "usageThreshold": 107374182400,
+                "subnetId": "/subscriptions/d633cc2e-722b-4ae1-b636-bbd9e4c60ed9/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3"
+              }
+            }
+          ]
+        }
       }
 security:
 - name: azure_auth
@@ -583,5 +761,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Learn more about Azure NetApp Files service - Get volumes for snapshot policy  \nGet volumes associated with snapshot policy"
+  description: Create the specified volume group and volumes. Creating volume group will create all the volumes specified in request body implicitly.
 errorCodes: []

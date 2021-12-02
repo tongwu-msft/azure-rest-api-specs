@@ -3283,6 +3283,12 @@
 ## Vaults
 ### [Overview](netapp/Vaults.yml)
 ### [List](netapp/Vaults/List.yml)
+## Volume Groups
+### [Overview](netapp/Volume-Groups.yml)
+### [Create](netapp/Volume-Groups/Create.yml)
+### [Delete](netapp/Volume-Groups/Delete.yml)
+### [Get](netapp/Volume-Groups/Get.yml)
+### [List By NetApp Account](netapp/Volume-Groups/List-By-NetApp-Account.yml)
 ## Volumes
 ### [Overview](netapp/Volumes.yml)
 ### [Authorize Replication](netapp/Volumes/Authorize-Replication.yml)
