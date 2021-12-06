@@ -58,6 +58,13 @@ This preview version includes all of the features introduced in 2020-06-30-Previ
 
 + More queryLanguages for semantic search and speller in [Search Documents (preview)](./preview-api/search-documents.md).
 
++ A captions parameter to optionally request captions from semantic search in [Search Documents (preview)](./preview-api/search-documents.md).
+
++ [Semantic configurations](/azure/search/semantic-how-to-query-request) have been added in [Create or Update Index](./preview-api/create-or-update-index.md) which allow you to specify a configuration that determines which fields should be used by semantic search for semantic ranking, captions, highlights, and answers.
+
++ A semanticConfiguration parameter that is required for semantic queries in [Search Documents (preview)](./preview-api/search-documents.md).
+
+
 <a name="2020-06-30"></a>
 
 ### 2020-06-30
