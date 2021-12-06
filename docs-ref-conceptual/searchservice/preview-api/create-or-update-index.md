@@ -48,7 +48,7 @@ Because an existing index contains content, many index modifications require an 
 
 + Adding new fields
 + Adding or changing [scoring profiles](/azure/search/index-add-scoring-profiles)
-+ Adding or changing semantic configurations
++ Adding or changing [semantic configurations](/azure/search/semantic-how-to-query-request)
 + Changing CORS options
 + Changing existing fields with any of the following three modifications:
 
@@ -456,4 +456,5 @@ To use semantic search, you must specify the name of a semantic configuration at
 + [Search Documents API](search-documents.md)
 + [Supported data types](../supported-data-types.md)
 + [Lexical analyzers](/azure/search/search-analyzers)
-+ [Create an Azure Cognitive Search index in the portal](/azure/search/search-create-index-portal/)  
++ [Create an Azure Cognitive Search index in the portal](/azure/search/search-create-index-portal/)
++ [Create a semantic configuration](/azure/search/semantic-how-to-query-request)
