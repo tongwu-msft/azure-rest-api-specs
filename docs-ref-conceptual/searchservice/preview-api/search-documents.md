@@ -568,7 +568,7 @@ If you specify a language code that is not supported by a given feature, such as
 
 For more information about using each feature, see [Enable semantic ranking and captions](/azure/search/semantic-how-to-query-request), [Return a semantic answer](/azure/search/semantic-answers), and [Add spell check to queries](/azure/search/speller-how-to-add).
 
-The "(preview)" designation indicates that validation testing across all features (semantic ranking, captions, answers, and spell check) is either ongoing or pending. We encourage the use of all of the language variants in the following table, but recommend more of preview languages to ensure the results are valid for your content. Languages with a green check and no preview designation have been validated using equivalent data sets, with measurable gain in relevance.
+The "(preview)" designation indicates that validation testing across all features (semantic ranking, captions, answers, and spell check) is either ongoing or pending. We encourage the use of all of the language variants in the following table, but recommend more testing of preview languages to ensure the results are valid for your content. Languages with a green check and no preview designation have been validated using equivalent data sets, with measurable gain in relevance.
 
 | Language | queryLanguage | Semantic ranker and captions | Semantic answer | Speller |
 |----------|---------------|------------------------------|-----------------|---------|
