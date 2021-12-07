@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.volumes.update
 name: Update
 service: Azure NetApp Files
 groupName: Volumes
-apiVersion: 2021-06-01
+apiVersion: 2021-08-01
 summary: "Update a volume  \nPatch the specified volume"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2021-06-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2021-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -369,6 +369,33 @@ definitions:
     description: Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies.
     types:
     - uid: integer
+  - name: properties.volumeGroupName
+    isReadyOnly: true
+    description: Volume Group Name
+    types:
+    - uid: string
+  - name: properties.capacityPoolResourceId
+    description: Pool Resource Id used in case of creating a volume through volume group
+    types:
+    - uid: string
+  - name: properties.proximityPlacementGroup
+    description: Proximity placement group associated with the volume
+    types:
+    - uid: string
+  - name: properties.t2Network
+    isReadyOnly: true
+    description: T2 network information
+    types:
+    - uid: string
+  - name: properties.volumeSpecName
+    description: Volume spec name is the application specific designation or identifier for the particular volume in a volume group for e.g. data, log
+    types:
+    - uid: string
+  - name: properties.placementRules
+    description: "Volume placement rules  \nApplication specific placement rules for the particular volume"
+    types:
+    - uid: placementKeyValuePairs
+      isArray: true
 - name: cloudError
   description: An error response from the service.
   kind: object
@@ -624,6 +651,18 @@ definitions:
     description: avsDataStore is disabled
     types:
     - uid: string
+- name: placementKeyValuePairs
+  description: Application specific parameters for the placement of volumes in the volume group
+  kind: object
+  properties:
+  - name: key
+    description: Key for an application specific parameter for the placement of volumes in the volume group
+    types:
+    - uid: string
+  - name: value
+    description: Value for an application specific parameter for the placement of volumes in the volume group
+    types:
+    - uid: string
 - name: cloudErrorBody
   description: An error response from the service.
   kind: object
@@ -696,7 +735,7 @@ definitions:
 examples:
 - name: Volumes_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1?api-version=2021-06-01
+    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1?api-version=2021-08-01
     body: '{}'
   responses:
   - statusCode: "200"
