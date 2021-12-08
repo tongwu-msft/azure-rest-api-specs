@@ -18,12 +18,12 @@ Reference is provided for the following API Management REST API versions.
 
 ### GA (stable)
 
-* [Current (2021-08-01)](xref:management.azure.com.apimanagement.current-ga.apis)
-* [Previous (2020-12-01)](xref:management.azure.com.apimanagement.previous-ga.apis)
+* [Current (2021-08-01)](xref:management.azure.com.apimanagement.current-ga.api)
+* [Previous (2020-12-01)](xref:management.azure.com.apimanagement.previous-ga.api)
 
 ### Preview
 
-* [Current (2021-04-01-preview)](xref:management.azure.com.apimanagement.current-preview.apis)
+* [Current (2021-04-01-preview)](xref:management.azure.com.apimanagement.current-preview.api)
 
 ## REST operation groups
 
@@ -31,7 +31,7 @@ Links to reference for the current GA (stable) version.
 
 | Operation Group                                                                                     | Description                                                                                                                    |
 |-----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| [API](xref:management.azure.com.apimanagement.current-ga.apis)                                                  | Provides operations for managing the APIs of a service instance.                                                               |
+| [API](xref:management.azure.com.apimanagement.current-ga.api)                                                  | Provides operations for managing the APIs of a service instance.                                                               |
 | [API Diagnostic](xref:management.azure.com.apimanagement.current-ga.apidiagnostic)                             | Provides operations for managing Diagnostic settings for the logger in an API.                                                 |
 | [API Export](xref:management.azure.com.apimanagement.current-ga.apiexport)                                     | Exports an API to a SAS blob.                                                                                                  |
 | [API Issue](xref:management.azure.com.apimanagement.current-ga.apiissue)                                       | Provides operations for managing issues for an API.                                                                            |
