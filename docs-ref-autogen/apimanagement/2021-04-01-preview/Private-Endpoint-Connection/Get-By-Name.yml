@@ -1,0 +1,210 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.2021-04-01-preview.privateendpointconnection.getbyname
+name: Get By Name
+service: API Management
+groupName: Private Endpoint Connection
+apiVersion: 2021-04-01-preview
+summary: Gets the details of the Private Endpoint Connection specified by its identifier.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2021-04-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: privateEndpointConnectionName
+  in: path
+  isRequired: true
+  description: Name of the private endpoint connection.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PrivateEndpointConnection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PrivateEndpointConnection
+  description: The Private Endpoint Connection resource.
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: The resource of private end point.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private endpoint connection resource.
+    types:
+    - uid: PrivateEndpointConnectionProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: error.message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: PrivateEndpoint
+  description: The Private Endpoint resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ARM identifier for Private Endpoint
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: A collection of information about the state of the connection between service consumer and provider.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+    types:
+    - uid: PrivateEndpointServiceConnectionStatus
+  - name: description
+    description: The reason for approval/rejection of the connection.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
+    types:
+    - uid: string
+- name: PrivateEndpointConnectionProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+- name: PrivateEndpointServiceConnectionStatus
+  description: The private endpoint connection status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+examples:
+- name: ApiManagementGetPrivateEndpointConnection
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/privateEndpointConnections/privateEndpointConnectionName?api-version=2021-04-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/privateEndpointConnections/privateEndpointConnectionName",
+        "type": "Microsoft.ApiManagement/service/privateEndpointConnections",
+        "name": "privateEndpointProxyName",
+        "properties": {
+          "provisioningState": "Pending",
+          "privateEndpoint": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/privateEndpointName"
+          },
+          "privateLinkServiceConnectionState": {
+            "status": "Pending",
+            "description": "Please approve my request, thanks",
+            "actionsRequired": "None"
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about API Management service - Gets the details of the Private Endpoint Connection specified by its identifier.
+errorCodes: []
