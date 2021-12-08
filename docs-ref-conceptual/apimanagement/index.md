@@ -18,12 +18,12 @@ Reference is provided for the following API Management REST API versions.
 
 ### GA (stable)
 
-* [Current (2021-08-01)](xref:management.azure.com.apimanagement.current-ga)
-* [Previous (2020-12-01)](xref:management.azure.com.apimanagement.previous-ga)
+* [Current (2021-08-01)](xref:management.azure.com.apimanagement.current-ga.apis)
+* [Previous (2020-12-01)](xref:management.azure.com.apimanagement.previous-ga.apis)
 
 ### Preview
 
-* [Current (2021-04-01-preview)](xref:management.azure.com.apimanagement.current-preview)
+* [Current (2021-04-01-preview)](xref:management.azure.com.apimanagement.current-preview.apis)
 
 ## REST operation groups
 
