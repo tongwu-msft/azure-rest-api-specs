@@ -12,7 +12,22 @@ ms.devlang: rest-api
 
 Azure API Management provides a REST API for performing operations on selected entities, such as users, groups, products, and subscriptions. This reference provides a guide for working with the API Management REST API, and specific reference information for each available operation, grouped by entity.
 
+## REST API versions
+
+Reference is provided for the following API Management REST API versions.
+
+### GA (stable)
+
+* [Current (2021-08-01)](xref:management.azure.com.apimanagement.current-ga)
+* [Previous (2020-12-01)](xref:management.azure.com.apimanagement.previous-ga)
+
+### Preview
+
+* [Current (2021-04-01-preview)](xref:management.azure.com.apimanagement.current-preview)
+
 ## REST operation groups
+
+Links to reference for the current GA (stable) version.
 
 | Operation Group                                                                                     | Description                                                                                                                    |
 |-----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
@@ -95,9 +110,8 @@ Azure API Management provides a REST API for performing operations on selected e
 | [User Subscription](xref:management.azure.com.apimanagement.current-ga.usersubscription)                       | Lists subscriptions by a user.                                                                                                 |
 
 
-## See Also
+## See also
 
 - [Azure API Management documentation](/azure/api-management/)
-- [Azure API Management FAQ](https://azure.microsoft.com/documentation/articles/api-management-faq/)
-- [What is Azure API Management](https://azure.microsoft.com/documentation/articles/api-management-key-concepts/)
-- [Original Access API model](../apimanagement/ApiManagementREST/API-Management-REST.md)
+- [Azure API Management FAQ](/azure/api-management/api-management-faq/)
+- [About Azure API Management](/azure/api-management/tapi-management-key-concepts/)
