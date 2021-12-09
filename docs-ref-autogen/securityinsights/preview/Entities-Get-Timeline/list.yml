@@ -1,0 +1,441 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securityinsights.preview.entitiesgettimeline.list
+name: list
+service: Sentinel
+groupName: Entities Get Timeline
+apiVersion: 2021-09-01-preview
+summary: Timeline for an entity.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/getTimeline?api-version=2021-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+- name: entityId
+  in: path
+  isRequired: true
+  description: entity ID
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: EntityTimelineResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: kinds
+    in: body
+    description: Array of timeline Item kinds.
+    types:
+    - uid: string
+      isArray: true
+  - name: startTime
+    in: body
+    isRequired: true
+    description: The start timeline date, so the results returned are after this date.
+    types:
+    - uid: string
+  - name: endTime
+    in: body
+    isRequired: true
+    description: The end timeline date, so the results returned are before this date.
+    types:
+    - uid: string
+  - name: numberOfBucket
+    in: body
+    description: The number of bucket for timeline queries aggregation.
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: EntityTimelineResponse
+  description: The entity timeline result operation response.
+  kind: object
+  properties:
+  - name: metaData
+    description: The metadata from the timeline operation results.
+    types:
+    - uid: TimelineResultsMetadata
+  - name: value
+    description: The timeline result values.
+    types:
+    - uid: ActivityTimelineItem
+      isArray: true
+    - uid: BookmarkTimelineItem
+      isArray: true
+    - uid: SecurityAlertTimelineItem
+      isArray: true
+    typesTitle: EntityTimelineItem[]
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error
+    description: Error data
+    types:
+    - uid: CloudErrorBody
+- name: EntityTimelineParameters
+  description: The parameters required to execute s timeline operation on the given entity.
+  kind: object
+  properties:
+  - name: kinds
+    description: Array of timeline Item kinds.
+    types:
+    - uid: string
+      isArray: true
+  - name: startTime
+    description: The start timeline date, so the results returned are after this date.
+    types:
+    - uid: string
+  - name: endTime
+    description: The end timeline date, so the results returned are before this date.
+    types:
+    - uid: string
+  - name: numberOfBucket
+    description: The number of bucket for timeline queries aggregation.
+    types:
+    - uid: integer
+- name: TimelineResultsMetadata
+  description: Expansion result metadata.
+  kind: object
+  properties:
+  - name: totalCount
+    description: the total items found for the timeline request
+    types:
+    - uid: integer
+  - name: aggregations
+    description: timeline aggregation per kind
+    types:
+    - uid: TimelineAggregation
+      isArray: true
+  - name: errors
+    description: information about the failure queries
+    types:
+    - uid: TimelineError
+      isArray: true
+- name: CloudErrorBody
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: TimelineAggregation
+  description: timeline aggregation information per kind
+  kind: object
+  properties:
+  - name: count
+    description: the total items found for a kind
+    types:
+    - uid: integer
+  - name: kind
+    description: the query kind
+    types:
+    - uid: EntityTimelineKind
+- name: TimelineError
+  description: Timeline Query Errors.
+  kind: object
+  properties:
+  - name: kind
+    description: the query kind
+    types:
+    - uid: EntityTimelineKind
+  - name: queryId
+    description: the query id
+    types:
+    - uid: string
+  - name: errorMessage
+    description: the error message
+    types:
+    - uid: string
+- name: ActivityTimelineItem
+  description: Represents Activity timeline item.
+  kind: object
+  properties:
+  - name: queryId
+    description: The activity query id.
+    types:
+    - uid: string
+  - name: bucketStartTimeUTC
+    description: The grouping bucket start time.
+    types:
+    - uid: string
+  - name: bucketEndTimeUTC
+    description: The grouping bucket end time.
+    types:
+    - uid: string
+  - name: firstActivityTimeUTC
+    description: The time of the first activity in the grouping bucket.
+    types:
+    - uid: string
+  - name: lastActivityTimeUTC
+    description: The time of the last activity in the grouping bucket.
+    types:
+    - uid: string
+  - name: content
+    description: The activity timeline content.
+    types:
+    - uid: string
+  - name: title
+    description: The activity timeline title.
+    types:
+    - uid: string
+  - name: kind
+    description: The entity query kind type.
+    types:
+    - uid: Activity
+    typesTitle: string
+- name: BookmarkTimelineItem
+  description: Represents bookmark timeline item.
+  kind: object
+  properties:
+  - name: azureResourceId
+    description: The bookmark azure resource id.
+    types:
+    - uid: string
+  - name: displayName
+    description: The bookmark display name.
+    types:
+    - uid: string
+  - name: notes
+    description: The notes of the bookmark
+    types:
+    - uid: string
+  - name: endTimeUtc
+    description: The bookmark end time.
+    types:
+    - uid: string
+  - name: startTimeUtc
+    description: The bookmark start time.
+    types:
+    - uid: string
+  - name: eventTime
+    description: The bookmark event time.
+    types:
+    - uid: string
+  - name: createdBy
+    description: Describes a user that created the bookmark
+    types:
+    - uid: UserInfo
+  - name: labels
+    description: List of labels relevant to this bookmark
+    types:
+    - uid: string
+      isArray: true
+  - name: kind
+    description: The entity query kind type.
+    types:
+    - uid: Bookmark
+    typesTitle: string
+- name: SecurityAlertTimelineItem
+  description: Represents security alert timeline item.
+  kind: object
+  properties:
+  - name: azureResourceId
+    description: The alert azure resource id.
+    types:
+    - uid: string
+  - name: productName
+    description: The alert product name.
+    types:
+    - uid: string
+  - name: description
+    description: The alert description.
+    types:
+    - uid: string
+  - name: displayName
+    description: The alert name.
+    types:
+    - uid: string
+  - name: severity
+    description: The alert severity.
+    types:
+    - uid: AlertSeverity
+  - name: endTimeUtc
+    description: The alert end time.
+    types:
+    - uid: string
+  - name: startTimeUtc
+    description: The alert start time.
+    types:
+    - uid: string
+  - name: timeGenerated
+    description: The alert generated time.
+    types:
+    - uid: string
+  - name: alertType
+    description: The name of the alert type.
+    types:
+    - uid: string
+  - name: kind
+    description: The entity query kind type.
+    types:
+    - uid: SecurityAlert
+    typesTitle: string
+- name: EntityTimelineKind
+  description: The entity query kind
+  kind: enum
+  properties:
+  - name: Activity
+    description: activity
+    types:
+    - uid: string
+  - name: Bookmark
+    description: bookmarks
+    types:
+    - uid: string
+  - name: SecurityAlert
+    description: security alerts
+    types:
+    - uid: string
+- name: UserInfo
+  description: User information that made some action
+  kind: object
+  properties:
+  - name: email
+    isReadyOnly: true
+    description: The email of the user.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the user.
+    types:
+    - uid: string
+  - name: objectId
+    description: The object id of the user.
+    types:
+    - uid: string
+- name: AlertSeverity
+  description: The alert severity.
+  kind: enum
+  properties:
+  - name: High
+    description: High severity
+    types:
+    - uid: string
+  - name: Medium
+    description: Medium severity
+    types:
+    - uid: string
+  - name: Low
+    description: Low severity
+    types:
+    - uid: string
+  - name: Informational
+    description: Informational severity
+    types:
+    - uid: string
+examples:
+- name: Entity timeline
+  request:
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1/getTimeline?api-version=2021-09-01-preview
+    body: >-
+      {
+        "numberOfBucket": 4,
+        "startTime": "2021-09-01T00:00:00.000Z",
+        "endTime": "2021-10-01T00:00:00.000Z"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "kind": "SecurityAlert",
+            "description": "The alert description",
+            "azureResourceId": "4467341f-fb73-4f99-a9b3-29473532cf5a_bf7c3a2f-b743-6410-3ff0-ec64b5995d50",
+            "productName": "Azure Sentinel",
+            "displayName": "Alert display name",
+            "severity": "Medium",
+            "endTimeUtc": "2021-09-01T23:31:28.02Z",
+            "startTimeUtc": "2021-09-01T23:32:28.01Z",
+            "timeGenerated": "2021-09-01T23:37:25.8136594Z",
+            "alertType": "4467341f-fb73-4f99-a9b3-29473532cf5a_c93bf33e-055e-4972-9e7d-f84fe3fb61ae"
+          },
+          {
+            "kind": "Activity",
+            "queryId": "e0459780-ac9d-4b72-8bd4-fecf6b46a0a1",
+            "bucketStartTimeUTC": "2021-09-01T21:31:28.02Z",
+            "bucketEndTimeUTC": "2021-09-01T23:31:28.02Z",
+            "firstActivityTimeUTC": "2021-09-01T21:35:28.02Z",
+            "lastActivityTimeUTC": "2021-09-01T21:35:28.02Z",
+            "content": "he user has deleted the account 3 time(s)",
+            "title": "The user has deleted an account"
+          }
+        ],
+        "metaData": {
+          "totalCount": 6,
+          "aggregations": [
+            {
+              "count": 4,
+              "kind": "Activity"
+            },
+            {
+              "count": 2,
+              "kind": "SecurityAlert"
+            }
+          ],
+          "errors": [
+            {
+              "kind": "Activity",
+              "queryId": "11067f9f-d6a7-4488-887f-0ba564268879",
+              "errorMessage": "syntax error"
+            },
+            {
+              "kind": "SecurityAlert",
+              "errorMessage": "internal server error"
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Sentinel service - Timeline for an entity.
+errorCodes: []
