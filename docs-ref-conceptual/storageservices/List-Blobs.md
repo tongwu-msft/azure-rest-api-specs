@@ -3,7 +3,7 @@ title: List Blobs (REST API) - Azure Storage
 description: The List Blobs operation returns a list of the blobs under the specified container.
 author: pemari-msft
 
-ms.date: 10/06/2020
+ms.date: 12/09/2021
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -339,12 +339,12 @@ For version 2021-02-12 and above, `List Blobs` will percent-encode (per RFC 2396
     <LegalHold>true | false </LegalHold>  
   </Properties> 
  ```  
- 
- **Returning Result Sets Using a Marker Value**  
+
+**Returning Result Sets Using a Marker Value**
   
- If you specify a value for the `maxresults` parameter and the number of blobs to return exceeds this value, or exceeds the default value for `maxresults`, the response body will contain a `NextMarker` element that indicates the next blob to return on a subsequent request. To return the next set of items, specify the value of `NextMarker` as the marker parameter on the URI for the subsequent request.  
-  
- Note that the value of `NextMarker` should be treated as opaque.  
+If you specify a value for the `maxresults` parameter and the number of blobs to return exceeds this value, or exceeds the default value for `maxresults`, the response body will contain a `NextMarker` element that indicates the next blob to return on a subsequent request. In certain cases, the service may return the `NextMarker` element even though the number of results returned is less than the value of `maxresults`.
+
+To return the next set of items, specify the value of `NextMarker` as the marker parameter on the URI for the subsequent request. Note that the value of `NextMarker` should be treated as opaque.  
   
  **Using a Delimiter to Traverse the Blob Namespace**  
   
