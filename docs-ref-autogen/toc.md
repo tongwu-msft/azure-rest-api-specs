@@ -11271,12 +11271,10 @@
 ### [Get Severe Weather Alerts](maps/Weather/Get-Severe-Weather-Alerts.yml)
 ### [Get Weather Along Route](maps/Weather/Get-Weather-Along-Route.yml)
 ## Search V2
-### SearchV2
-#### [Overview](maps/searchv2/Search-V2.yml)
-#### [Get Geocoding](maps/searchv2/Search-V2/Get-Geocoding.yml)
-### searchV3
-#### [Overview](maps/searchv2/search-V3.yml)
-#### [Get Geocoding Batch](maps/searchv2/search-V3/Get-Geocoding-Batch.yml)
+### search V2
+#### [Overview](maps/searchv2/search-V2.yml)
+#### [Get Geocoding](maps/searchv2/search-V2/Get-Geocoding.yml)
+#### [Get Geocoding Batch](maps/searchv2/search-V2/Get-Geocoding-Batch.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
 ## Alias
