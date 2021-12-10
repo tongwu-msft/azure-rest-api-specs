@@ -11271,12 +11271,12 @@
 ### [Get Severe Weather Alerts](maps/Weather/Get-Severe-Weather-Alerts.yml)
 ### [Get Weather Along Route](maps/Weather/Get-Weather-Along-Route.yml)
 ## Search V2
-### Get Geocoding
-#### [Overview](maps/searchv2/Get-Geocoding.yml)
-#### [Get Geocoding](maps/searchv2/Get-Geocoding/Get-Geocoding.yml)
-### Get Geocoding Batch
-#### [Overview](maps/searchv2/Get-Geocoding-Batch.yml)
-#### [Get Geocoding Batch](maps/searchv2/Get-Geocoding-Batch/Get-Geocoding-Batch.yml)
+### SearchV2
+#### [Overview](maps/searchv2/Search-V2.yml)
+#### [Get Geocoding](maps/searchv2/Search-V2/Get-Geocoding.yml)
+### searchV3
+#### [Overview](maps/searchv2/search-V3.yml)
+#### [Get Geocoding Batch](maps/searchv2/search-V3/Get-Geocoding-Batch.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
 ## Alias
@@ -17016,9 +17016,6 @@
 #### Operations
 ##### [Overview](sql/2020-08-01-preview/Operations.yml)
 ##### [List](sql/2020-08-01-preview/Operations/List.yml)
-#### Operations Health
-##### [Overview](sql/2020-08-01-preview/Operations-Health.yml)
-##### [List By Location](sql/2020-08-01-preview/Operations-Health/List-By-Location.yml)
 #### Private Endpoint Connections
 ##### [Overview](sql/2020-08-01-preview/Private-Endpoint-Connections.yml)
 ##### [Create Or Update](sql/2020-08-01-preview/Private-Endpoint-Connections/Create-Or-Update.yml)
@@ -17627,9 +17624,6 @@
 #### Operations
 ##### [Overview](sql/2020-11-01-preview/Operations.yml)
 ##### [List](sql/2020-11-01-preview/Operations/List.yml)
-#### Operations Health
-##### [Overview](sql/2020-11-01-preview/Operations-Health.yml)
-##### [List By Location](sql/2020-11-01-preview/Operations-Health/List-By-Location.yml)
 #### Private Endpoint Connections
 ##### [Overview](sql/2020-11-01-preview/Private-Endpoint-Connections.yml)
 ##### [Create Or Update](sql/2020-11-01-preview/Private-Endpoint-Connections/Create-Or-Update.yml)
@@ -18240,9 +18234,6 @@
 #### Operations
 ##### [Overview](sql/2021-02-01-preview/Operations.yml)
 ##### [List](sql/2021-02-01-preview/Operations/List.yml)
-#### Operations Health
-##### [Overview](sql/2021-02-01-preview/Operations-Health.yml)
-##### [List By Location](sql/2021-02-01-preview/Operations-Health/List-By-Location.yml)
 #### Outbound Firewall Rules
 ##### [Overview](sql/2021-02-01-preview/Outbound-Firewall-Rules.yml)
 ##### [Create Or Update](sql/2021-02-01-preview/Outbound-Firewall-Rules/Create-Or-Update.yml)
@@ -18867,9 +18858,6 @@
 #### Operations
 ##### [Overview](sql/2021-05-01-preview/Operations.yml)
 ##### [List](sql/2021-05-01-preview/Operations/List.yml)
-#### Operations Health
-##### [Overview](sql/2021-05-01-preview/Operations-Health.yml)
-##### [List By Location](sql/2021-05-01-preview/Operations-Health/List-By-Location.yml)
 #### Outbound Firewall Rules
 ##### [Overview](sql/2021-05-01-preview/Outbound-Firewall-Rules.yml)
 ##### [Create Or Update](sql/2021-05-01-preview/Outbound-Firewall-Rules/Create-Or-Update.yml)
