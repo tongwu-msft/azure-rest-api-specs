@@ -11234,6 +11234,10 @@
 ### [Post Search Along Route](maps/Search/Post-Search-Along-Route.yml)
 ### [Post Search Fuzzy Batch](maps/Search/Post-Search-Fuzzy-Batch.yml)
 ### [Post Search Inside Geometry](maps/Search/Post-Search-Inside-Geometry.yml)
+## Search V2
+### [Overview](maps/Search-V2.yml)
+### [Get Geocoding](maps/Search-V2/Get-Geocoding.yml)
+### [Get Geocoding Batch](maps/Search-V2/Get-Geocoding-Batch.yml)
 ## Spatial
 ### [Overview](maps/Spatial.yml)
 ### [Get Buffer](maps/Spatial/Get-Buffer.yml)
@@ -11270,11 +11274,6 @@
 ### [Get Quarter Day Forecast](maps/Weather/Get-Quarter-Day-Forecast.yml)
 ### [Get Severe Weather Alerts](maps/Weather/Get-Severe-Weather-Alerts.yml)
 ### [Get Weather Along Route](maps/Weather/Get-Weather-Along-Route.yml)
-## Search V2
-### search V2
-#### [Overview](maps/searchv2/search-V2.yml)
-#### [Get Geocoding](maps/searchv2/search-V2/Get-Geocoding.yml)
-#### [Get Geocoding Batch](maps/searchv2/search-V2/Get-Geocoding-Batch.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
 ## Alias
