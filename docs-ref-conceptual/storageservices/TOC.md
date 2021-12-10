@@ -82,6 +82,7 @@
 ### [Lease Container](lease-container.md)
 ### [Restore Container](restore-container.md)
 ### [List Blobs](list-blobs.md)
+### [Find Blobs by Tags](find-blobs-by-tags-container.md)
 ## [Operations on Blobs](operations-on-blobs.md)
 ### [Put Blob](put-blob.md)
 ### [Put Blob From URL](put-blob-from-url.md)
