@@ -3,17 +3,17 @@ title: API versions of Microsoft Sentinel REST APIs
 titleSuffix: Microsoft Sentinel
 description: Lists the generally available and preview versions of the Microsoft Sentinel REST APIs.
 
-ms.service: securityinsights
+ms.service: SecurityInsights
 ms.topic: language-reference
 ms.devlang: rest-api
 
 ms.date: 12/09/2021
 author: lior-tamir
-ms.author: lior-tamir
+ms.author: liortamir
 ms.manager: elabramo
 ---
 
-# API versions of Search REST APIs
+# API versions of Microsoft Sentinel REST APIs
 
 This article lists the current and past versions of the Microsoft Sentinel REST APIs.
 
@@ -49,11 +49,11 @@ Use latest stable version when you want to leverage the latest Generally availab
 This is the current Preview release of the Microsoft Sentinel REST APIs. It includes all the previously released Preview features, plus the following additions:
 
 + Alert Rules
-  + [Template version](https://docs.microsoft.com/azure/sentinel/manage-analytics-rule-templates?tabs=update)
-  + [NRT](https://docs.microsoft.com/azure/sentinel/near-real-time-rules)
-  + Add [Office IRM connector](https://docs.microsoft.com/azure/sentinel/data-connectors-reference#microsoft-365-insider-risk-management-irm-preview) support
+  + [Template version](/azure/sentinel/manage-analytics-rule-templates)
+  + [NRT](/azure/sentinel/near-real-time-rules)
+  + Add [Office IRM connector](/azure/sentinel/data-connectors-reference#microsoft-365-insider-risk-management-irm-preview) support
 + Data connectors
-  + [AWS S3 connector](https://docs.microsoft.com/azure/sentinel/connect-aws?tabs=s3)
+  + [AWS S3 connector](/azure/sentinel/connect-aws?tabs=s3)
   + Add support for Codeless API Polling data connectors
 
 
