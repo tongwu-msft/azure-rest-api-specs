@@ -3,8 +3,7 @@ title: API versions of Microsoft Sentinel REST APIs
 titleSuffix: Microsoft Sentinel
 description: Lists the generally available and preview versions of the Microsoft Sentinel REST APIs.
 
-ms.service: SecurityInsights
-ms.topic: language-reference
+ms.topic: conceptual
 ms.devlang: rest-api
 
 ms.date: 12/09/2021
