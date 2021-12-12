@@ -11950,6 +11950,15 @@
 ##### [List By Resource Group](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/List-By-Resource-Group.yml)
 ##### [List By Subscription](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/List-By-Subscription.yml)
 ##### [Update](monitor/scheduledqueryrule-2021-02-01-preview/Scheduled-Query-Rules/Update.yml)
+### Scheduled Query Rule - 2021-08-01
+#### Scheduled Query Rules
+##### [Overview](monitor/scheduledqueryrule-2021-08-01/Scheduled-Query-Rules.yml)
+##### [Create Or Update](monitor/scheduledqueryrule-2021-08-01/Scheduled-Query-Rules/Create-Or-Update.yml)
+##### [Delete](monitor/scheduledqueryrule-2021-08-01/Scheduled-Query-Rules/Delete.yml)
+##### [Get](monitor/scheduledqueryrule-2021-08-01/Scheduled-Query-Rules/Get.yml)
+##### [List By Resource Group](monitor/scheduledqueryrule-2021-08-01/Scheduled-Query-Rules/List-By-Resource-Group.yml)
+##### [List By Subscription](monitor/scheduledqueryrule-2021-08-01/Scheduled-Query-Rules/List-By-Subscription.yml)
+##### [Update](monitor/scheduledqueryrule-2021-08-01/Scheduled-Query-Rules/Update.yml)
 ### VM Health
 #### Health Monitors
 ##### [Overview](monitor/vmhealth/Health-Monitors.yml)
