@@ -17,7 +17,7 @@ ms.manager: elabramo
 
 This article lists the current and past versions of the Microsoft Sentinel REST APIs.
 
-[!Note] From 2021-09-01 Preview and 2121-10-01 (stable) versions, every version contains all operation groups. If an operation group hasn’t changed since last version, it will appear again in the new version.
+[!Note] From 2021-09-01 Preview and 2021-10-01 (stable) versions, every version contains all operation groups. If an operation group hasn’t changed since last version, it will appear again in the new version.
 
 ## Preview versions
 
