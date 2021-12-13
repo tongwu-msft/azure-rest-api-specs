@@ -1,0 +1,457 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securityinsights.preview.entityqueries.list
+name: List
+service: Sentinel
+groupName: Entity Queries
+apiVersion: 2021-09-01-preview
+summary: Gets all entity queries.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entityQueries?api-version=2021-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entityQueries?kind={kind}&api-version=2021-09-01-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+- name: kind
+  in: query
+  description: The entity query kind we want to fetch
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: EntityQueryList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: EntityQueryList
+  description: List of all the entity queries.
+  kind: object
+  properties:
+  - name: nextLink
+    isReadyOnly: true
+    description: URL to fetch the next set of entity queries.
+    types:
+    - uid: string
+  - name: value
+    description: Array of entity queries.
+    types:
+    - uid: ExpansionEntityQuery
+      isArray: true
+    - uid: ActivityEntityQuery
+      isArray: true
+    typesTitle: EntityQuery[]
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error
+    description: Error data
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: ExpansionEntityQuery
+  description: Represents Expansion entity query.
+  kind: object
+  properties:
+  - name: properties.dataSources
+    description: List of the data sources that are required to run the query
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.displayName
+    description: The query display name
+    types:
+    - uid: string
+  - name: properties.inputEntityType
+    description: The type of the query's source entity
+    types:
+    - uid: EntityType
+  - name: properties.inputFields
+    description: List of the fields of the source entity that are required to run the query
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.outputEntityTypes
+    description: List of the desired output types to be constructed from the result
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.queryTemplate
+    description: The template query string to be parsed and formatted
+    types:
+    - uid: string
+  - name: kind
+    description: the entity query kind
+    types:
+    - uid: Expansion
+    typesTitle: string
+  - name: etag
+    description: Etag of the azure resource
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: ActivityEntityQuery
+  description: Represents Activity entity query.
+  kind: object
+  properties:
+  - name: properties.title
+    description: The entity query title
+    types:
+    - uid: string
+  - name: properties.content
+    description: The entity query content to display in timeline
+    types:
+    - uid: string
+  - name: properties.description
+    description: The entity query description
+    types:
+    - uid: string
+  - name: properties.queryDefinitions
+    description: The Activity query definitions
+    types:
+    - uid: QueryDefinitions
+  - name: properties.inputEntityType
+    description: The type of the query's source entity
+    types:
+    - uid: EntityType
+  - name: properties.requiredInputFieldsSets
+    description: List of the fields of the source entity that are required to run the query
+    types:
+    - uid: array
+      isArray: true
+  - name: properties.entitiesFilter
+    description: The query applied only to entities matching to all filters
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+  - name: properties.templateName
+    description: The template id this activity was created from
+    types:
+    - uid: string
+  - name: properties.enabled
+    description: Determines whether this activity is enabled or disabled.
+    types:
+    - uid: boolean
+  - name: properties.createdTimeUtc
+    isReadyOnly: true
+    description: The time the activity was created
+    types:
+    - uid: string
+  - name: properties.lastModifiedTimeUtc
+    isReadyOnly: true
+    description: The last time the activity was updated
+    types:
+    - uid: string
+  - name: kind
+    description: the entity query kind
+    types:
+    - uid: Activity
+    typesTitle: string
+  - name: etag
+    description: Etag of the azure resource
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: EntityType
+  description: The type of the query's source entity
+  kind: enum
+  properties:
+  - name: Account
+    description: Entity represents account in the system.
+    types:
+    - uid: string
+  - name: Host
+    description: Entity represents host in the system.
+    types:
+    - uid: string
+  - name: File
+    description: Entity represents file in the system.
+    types:
+    - uid: string
+  - name: AzureResource
+    description: Entity represents azure resource in the system.
+    types:
+    - uid: string
+  - name: CloudApplication
+    description: Entity represents cloud application in the system.
+    types:
+    - uid: string
+  - name: DNS
+    description: Entity represents dns in the system.
+    types:
+    - uid: string
+  - name: FileHash
+    description: Entity represents file hash in the system.
+    types:
+    - uid: string
+  - name: IP
+    description: Entity represents ip in the system.
+    types:
+    - uid: string
+  - name: Malware
+    description: Entity represents malware in the system.
+    types:
+    - uid: string
+  - name: Process
+    description: Entity represents process in the system.
+    types:
+    - uid: string
+  - name: RegistryKey
+    description: Entity represents registry key in the system.
+    types:
+    - uid: string
+  - name: RegistryValue
+    description: Entity represents registry value in the system.
+    types:
+    - uid: string
+  - name: SecurityGroup
+    description: Entity represents security group in the system.
+    types:
+    - uid: string
+  - name: URL
+    description: Entity represents url in the system.
+    types:
+    - uid: string
+  - name: IoTDevice
+    description: Entity represents IoT device in the system.
+    types:
+    - uid: string
+  - name: SecurityAlert
+    description: Entity represents security alert in the system.
+    types:
+    - uid: string
+  - name: HuntingBookmark
+    description: Entity represents HuntingBookmark in the system.
+    types:
+    - uid: string
+  - name: MailCluster
+    description: Entity represents mail cluster in the system.
+    types:
+    - uid: string
+  - name: MailMessage
+    description: Entity represents mail message in the system.
+    types:
+    - uid: string
+  - name: Mailbox
+    description: Entity represents mailbox in the system.
+    types:
+    - uid: string
+  - name: SubmissionMail
+    description: Entity represents submission mail in the system.
+    types:
+    - uid: string
+- name: EntityQueryKind
+  description: The kind of the entity query
+  kind: enum
+  properties:
+  - name: Expansion
+    types:
+    - uid: string
+  - name: Insight
+    types:
+    - uid: string
+  - name: Activity
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: QueryDefinitions
+  description: The Activity query definitions
+  kind: object
+  properties:
+  - name: query
+    description: The Activity query to run on a given entity
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: Get all entity queries.
+  request:
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entityQueries?kind=Expansion&api-version=2021-09-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entityQueries/37ca3555-c135-4a73-a65e-9c1d00323f5d",
+            "name": "37ca3555-c135-4a73-a65e-9c1d00323f5d",
+            "type": "Microsoft.SecurityInsights/entityQueries",
+            "etag": null,
+            "kind": "Expansion",
+            "properties": {
+              "queryTemplate": "let AccountActivity_byIP = (v_IP_Address:string){\r\n                            AzureActivity\r\n                            | where Caller != '' and CallerIpAddress == v_IP_Address\r\n                            | summarize Account_Aux_StartTime = min(TimeGenerated), Account_Aux_EndTime = max(TimeGenerated), Count = count() by Caller, TenantId\r\n                            | top 10 by Count asc nulls last \r\n                            | extend UPN = iff(Caller contains '@', Caller, ''), Account_AadUserId = iff(Caller !contains '@', Caller,'')\r\n                            | extend Account_Name = split(UPN,'@')[0] , Account_UPNSuffix = split(UPN,'@')[1]\r\n                            | project Account_Name, Account_UPNSuffix, Account_AadUserId, Account_AadTenantId=TenantId, Account_Aux_StartTime , Account_Aux_EndTime};\r\n                            AccountActivity_byIP('<address>')",
+              "inputFields": [
+                "address"
+              ],
+              "outputEntityTypes": [
+                "Account"
+              ],
+              "dataSources": [
+                "AzureActivity"
+              ],
+              "inputEntityType": "IP",
+              "displayName": "Least active accounts on Azure from this IP"
+            }
+          },
+          {
+            "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entityQueries/97a1d515-abf2-4231-9a35-985f9de0bb91",
+            "name": "97a1d515-abf2-4231-9a35-985f9de0bb91",
+            "type": "Microsoft.SecurityInsights/entityQueries",
+            "etag": null,
+            "kind": "Expansion",
+            "properties": {
+              "queryTemplate": "let AccountActivity_byIP = (v_IP_Address:string){\r\n                            AzureActivity\r\n                            | where Caller != '' and CallerIpAddress == v_IP_Address\r\n                            | summarize Account_Aux_StartTime = min(TimeGenerated), Account_Aux_EndTime = max(TimeGenerated), Count = count() by Caller, TenantId\r\n                            | top 10 by Count desc nulls last \r\n                            | extend UPN = iff(Caller contains '@', Caller, ''), Account_AadUserId = iff(Caller !contains '@', Caller,'')\r\n                            | extend Account_Name = split(UPN,'@')[0] , Account_UPNSuffix = split(UPN,'@')[1]\r\n                            | project Account_Name, Account_UPNSuffix, Account_AadUserId, Account_AadTenantId=TenantId, Account_Aux_StartTime , Account_Aux_EndTime};\r\n                            AccountActivity_byIP('<address>')",
+              "inputFields": [
+                "address"
+              ],
+              "outputEntityTypes": [
+                "Account"
+              ],
+              "dataSources": [
+                "AzureActivity"
+              ],
+              "inputEntityType": "IP",
+              "displayName": "Most active accounts on Azure from this IP"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Sentinel service - Gets all entity queries.
+errorCodes: []

@@ -1,0 +1,333 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securityinsights.preview.entities.getinsights
+name: Get Insights
+service: Sentinel
+groupName: Entities
+apiVersion: 2021-09-01-preview
+summary: Execute Insights for an entity.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/getInsights?api-version=2021-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+- name: entityId
+  in: path
+  isRequired: true
+  description: entity ID
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: EntityGetInsightsResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: startTime
+    in: body
+    isRequired: true
+    description: The start timeline date, so the results returned are after this date.
+    types:
+    - uid: string
+  - name: endTime
+    in: body
+    isRequired: true
+    description: The end timeline date, so the results returned are before this date.
+    types:
+    - uid: string
+  - name: addDefaultExtendedTimeRange
+    in: body
+    description: Indicates if query time range should be extended with default time range of the query. Default value is false
+    types:
+    - uid: boolean
+  - name: insightQueryIds
+    in: body
+    description: List of Insights Query Id. If empty, default value is all insights of this entity
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: EntityGetInsightsResponse
+  description: The Get Insights result operation response.
+  kind: object
+  properties:
+  - name: metaData
+    description: The metadata from the get insights operation results.
+    types:
+    - uid: GetInsightsResultsMetadata
+  - name: value
+    description: The insights result values.
+    types:
+    - uid: EntityInsightItem
+      isArray: true
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error
+    description: Error data
+    types:
+    - uid: CloudErrorBody
+- name: EntityGetInsightsParameters
+  description: The parameters required to execute insights operation on the given entity.
+  kind: object
+  properties:
+  - name: startTime
+    description: The start timeline date, so the results returned are after this date.
+    types:
+    - uid: string
+  - name: endTime
+    description: The end timeline date, so the results returned are before this date.
+    types:
+    - uid: string
+  - name: addDefaultExtendedTimeRange
+    description: Indicates if query time range should be extended with default time range of the query. Default value is false
+    types:
+    - uid: boolean
+  - name: insightQueryIds
+    description: List of Insights Query Id. If empty, default value is all insights of this entity
+    types:
+    - uid: string
+      isArray: true
+- name: GetInsightsResultsMetadata
+  description: Get Insights result metadata.
+  kind: object
+  properties:
+  - name: totalCount
+    description: the total items found for the insights request
+    types:
+    - uid: integer
+  - name: errors
+    description: information about the failed queries
+    types:
+    - uid: GetInsightsError
+      isArray: true
+- name: EntityInsightItem
+  description: Entity insight Item.
+  kind: object
+  properties:
+  - name: queryId
+    description: The query id of the insight
+    types:
+    - uid: string
+  - name: queryTimeInterval
+    description: The Time interval that the query actually executed on.
+    types:
+    - uid: QueryTimeInterval
+  - name: tableQueryResults
+    description: Query results for table insights query.
+    types:
+    - uid: InsightsTableResult
+  - name: chartQueryResults
+    description: Query results for table insights query.
+    types:
+    - uid: InsightsTableResult
+      isArray: true
+- name: CloudErrorBody
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: GetInsightsError
+  description: GetInsights Query Errors.
+  kind: object
+  properties:
+  - name: kind
+    description: the query kind
+    types:
+    - uid: Insight
+    typesTitle: enum
+  - name: queryId
+    description: the query id
+    types:
+    - uid: string
+  - name: errorMessage
+    description: the error message
+    types:
+    - uid: string
+- name: QueryTimeInterval
+  description: The Time interval that the query actually executed on.
+  kind: object
+  properties:
+  - name: startTime
+    description: Insight query start time
+    types:
+    - uid: string
+  - name: endTime
+    description: Insight query end time
+    types:
+    - uid: string
+- name: InsightsTableResult
+  description: Query results for table insights query.
+  kind: object
+  properties:
+  - name: columns
+    description: Columns Metadata of the table
+    types:
+    - uid: Columns
+      isArray: true
+  - name: rows
+    description: Rows data of the table
+    types:
+    - uid: array
+      isArray: true
+- name: Columns
+  description: Columns Metadata of the table
+  kind: object
+  properties:
+  - name: type
+    description: the type of the colum
+    types:
+    - uid: string
+  - name: name
+    description: the name of the colum
+    types:
+    - uid: string
+examples:
+- name: Entity Insight
+  request:
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1/getInsights?api-version=2021-09-01-preview
+    body: >-
+      {
+        "addDefaultExtendedTimeRange": false,
+        "startTime": "2021-09-01T00:00:00.000Z",
+        "endTime": "2021-10-01T00:00:00.000Z",
+        "insightQueryIds": [
+          "cae8d0aa-aa45-4d53-8d88-17dd64ffd4e4"
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "tableQueryResults": {
+              "columns": [
+                {
+                  "name": "Title",
+                  "type": "string"
+                },
+                {
+                  "name": "NameCount",
+                  "type": "long"
+                },
+                {
+                  "name": "SIDCount",
+                  "type": "long"
+                },
+                {
+                  "name": "InternalOrder",
+                  "type": "long"
+                },
+                {
+                  "name": "Index",
+                  "type": "long"
+                }
+              ],
+              "rows": [
+                [
+                  "MyTitle",
+                  "15",
+                  "SID",
+                  "1",
+                  "1"
+                ]
+              ]
+            },
+            "chartQueryResults": [
+              {
+                "columns": [
+                  {
+                    "name": "TimeGenerated",
+                    "type": "datetime"
+                  },
+                  {
+                    "name": "Count",
+                    "type": "long"
+                  },
+                  {
+                    "name": "Legend",
+                    "type": "string"
+                  }
+                ],
+                "rows": [
+                  [
+                    "2021-09-01T00:00:00.000Z",
+                    "55",
+                    "SomeLegend"
+                  ]
+                ]
+              }
+            ],
+            "queryTimeInterval": {
+              "startTime": "2021-09-01T23:35:20Z",
+              "endTime": "2021-09-01T23:35:20Z"
+            },
+            "queryId": "e29ee1ef-7445-455e-85f1-269f2d536d61"
+          }
+        ],
+        "metaData": {
+          "totalCount": 7,
+          "errors": [
+            {
+              "kind": "Insight",
+              "queryId": "4a70a63d-25c4-6312-b73e-4f302a90c06a",
+              "errorMessage": "Internal server error"
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Sentinel service - Execute Insights for an entity.
+errorCodes: []

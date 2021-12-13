@@ -1,0 +1,185 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securityinsights.preview.incidents.createteam
+name: Create Team
+service: Sentinel
+groupName: Incidents
+apiVersion: 2021-09-01-preview
+summary: Creates a Microsoft team to investigate the incident by sharing information and insights between participants.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/createTeam?api-version=2021-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+- name: incidentId
+  in: path
+  isRequired: true
+  description: Incident ID
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: TeamInformation
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: teamName
+    in: body
+    isRequired: true
+    description: The name of the team
+    types:
+    - uid: string
+  - name: teamDescription
+    in: body
+    description: The description of the team
+    types:
+    - uid: string
+  - name: memberIds
+    in: body
+    description: List of member IDs to add to the team
+    types:
+    - uid: string
+      isArray: true
+  - name: groupIds
+    in: body
+    description: List of group IDs to add their members to the team
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: TeamInformation
+  description: Describes team information
+  kind: object
+  properties:
+  - name: teamId
+    isReadyOnly: true
+    description: Team ID
+    types:
+    - uid: string
+  - name: primaryChannelUrl
+    isReadyOnly: true
+    description: The primary channel URL of the team
+    types:
+    - uid: string
+  - name: teamCreationTimeUtc
+    isReadyOnly: true
+    description: The time the team was created
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the team
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: The description of the team
+    types:
+    - uid: string
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error
+    description: Error data
+    types:
+    - uid: CloudErrorBody
+- name: TeamProperties
+  description: Describes team properties
+  kind: object
+  properties:
+  - name: teamName
+    description: The name of the team
+    types:
+    - uid: string
+  - name: teamDescription
+    description: The description of the team
+    types:
+    - uid: string
+  - name: memberIds
+    description: List of member IDs to add to the team
+    types:
+    - uid: string
+      isArray: true
+  - name: groupIds
+    description: List of group IDs to add their members to the team
+    types:
+    - uid: string
+      isArray: true
+- name: CloudErrorBody
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+examples:
+- name: Creates incident teams group.
+  request:
+    uri: POST https://management.azure.com/subscriptions/9023f5b5-df22-4313-8fbf-b4b75af8a6d9/resourceGroups/ambawolvese5resourcegroup/providers/Microsoft.OperationalInsights/workspaces/AmbaE5WestCentralUS/providers/Microsoft.SecurityInsights/incidents/69a30280-6a4c-4aa7-9af0-5d63f335d600/createTeam?api-version=2021-09-01-preview
+    body: >-
+      {
+        "teamName": "Team name",
+        "teamDescription": "Team description"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "teamId": "99978838-9bda-4ad4-8f93-4cf7ebc50ca5",
+        "primaryChannelUrl": "https://teams.microsoft.com/l/team/19:80bf3b25485b4067b7d2dc4eec9e1578%40thread.tacv2/conversations?groupId=99978838-9bda-4ad4-8f93-4cf7ebc50ca5&tenantId=5b5a146c-eba8-46af-96f8-e31b50d15a3f",
+        "teamCreationTimeUtc": "2021-03-15T17:08:21.9954238+02:00",
+        "name": "Team name",
+        "description": "Team description"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Creates a Microsoft team to investigate the incident by sharing information and insights between participants.
+errorCodes: []
