@@ -40,31 +40,31 @@ https://prices.azure.com/api/retail/prices
 
 Here are some examples:
 
-Example call filtered for only virtual machines
+Example calls filtered for only virtual machines
 
 ```http
 https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Virtual Machines'
 ```
 
-Example call filtered for only reservations
+Example calls filtered for only reservations
 
 ```http
 https://prices.azure.com/api/retail/prices?$filter=priceType eq 'Reservation'
 ```
 
-Example call filtered for reserved instance virtual machines
+Example calls filtered for reserved instance virtual machines
 
 ```http
 https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Virtual Machines' and priceType eq 'Reservation'
 ```
 
-Example call filtered for compute resources
+Example calls filtered for compute resources
 
 ```http
 https://prices.azure.com/api/retail/prices?$filter=serviceFamily eq 'Compute'
 ```
 
-Example call filtered for compute with currency in euro
+Example calls filtered for compute with currency in euro
 
 ```http
 https://prices.azure.com/api/retail/prices?currencyCode='EUR'&$filter=serviceFamily eq 'Compute'
@@ -168,46 +168,46 @@ Here's all the property details that are a part of the API response.
 
 | Field | Example Values | Definition |
 | --- | --- | --- |
-| currencyCode | USD | The currency in which rates are defined and returns prices in USD unless specified. |
-| tierMinimumUnits | 0 | Minimum units of consumption to avail the price |
-| reservationTerm | 1 year | Reservation term – 1 year or 3 years |
-| retailPrice | 0.176346 | Prices without discount |
-| unitPrice | 0.176346 | |
-| armRegionName | westeurope | ARM region where the service is available. This version only supports prices on Commercial Cloud. |
-| Location | EU West | Azure data center where the resource is deployed |
-| effectiveStartDate | 2020-08-01T00:00:00Z | Optional field. Shows the date when the retail prices are effective.  |
-| meterId | 000a794b-bdb0-58be-a0cd-0c3a0f222923 | Unique identifier of the resource |
-| meterName | F16s Spot | Name of the meter |
-| productid | DZH318Z0BQPS | UniqueID of the product |
-| skuId | DZH318Z0BQPS/00TG | UniqueID for the SKU |
-| productName | Virtual Machines FS Series Windows | Product name |
-| skuName | F16s Spot | SKU name |
-| serviceName | Virtual Machines | Name of the service |
-| serviceId | DZH313Z7MMC8 | UniqueID of the service |
-| serviceFamily | Compute | Service family of the SKU |
-| unitOfMeasure | 1 Hour | How usage is measured for the service |
-| Type | DevTestConsumption | Meter consumption type. Other types are _Reservation, Consumption._ |
-| isPrimaryMeterRegion | True | True limits API responses to only primary region prices. When False, API responses are returned for only non-primary meter regions, used for legacy billing purposes. |
-| armSkuName | Standard\_F16s | SKU name registered in Azure |
+| `currencyCode` | USD | The currency in which rates are defined and returns prices in USD unless specified. |
+| `tierMinimumUnits` | 0 | Minimum units of consumption to avail the price |
+| `reservationTerm` | 1 year | Reservation term – one year or three years |
+| `retailPrice` | 0.176346 | Prices without discount |
+| `unitPrice` | 0.176346 | |
+| `armRegionName` | `westeurope` | ARM region where the service is available. This version only supports prices on Commercial Cloud. |
+| `Location` | EU West | Azure data center where the resource is deployed |
+| `effectiveStartDate` | 2020-08-01T00:00:00Z | Optional field. Shows the date when the retail prices are effective.  |
+| `meterId` | 000a794b-bdb0-58be-a0cd-0c3a0f222923 | Unique identifier of the resource |
+| `meterName` | F16s Spot | Name of the meter |
+| `productid` | DZH318Z0BQPS | UniqueID of the product |
+| `skuId` | DZH318Z0BQPS/00TG | UniqueID for the SKU |
+| `productName` | Virtual Machines FS Series Windows | Product name |
+| `skuName` | F16s Spot | SKU name |
+| `serviceName` | Virtual Machines | Name of the service |
+| `serviceId` | DZH313Z7MMC8 | UniqueID of the service |
+| `serviceFamily` | Compute | Service family of the SKU |
+| `unitOfMeasure` | 1 Hour | How usage is measured for the service |
+| `Type` | DevTestConsumption | Meter consumption type. Other types are _Reservation, Consumption._ |
+| `isPrimaryMeterRegion` | True | True limits API responses to only primary region prices. When False, API responses are returned for only non-primary meter regions, used for legacy billing purposes. |
+| `armSkuName` | Standard\_F16s | SKU name registered in Azure |
 
 ## API filters
 
 Filters are supported for the following fields:
 
-- armRegionName
-- Location
-- meterId
-- meterName
-- productid
-- skuId
-- productName
-- skuName
-- serviceName
-- serviceId
-- serviceFamily
-- priceType
-- armSkuName
- 
+- `armRegionName`
+- `Location`
+- `meterId`
+- `meterName`
+- `productid`
+- `skuId`
+- `productName`
+- `skuName`
+- `serviceName`
+- `serviceId`
+- `serviceFamily`
+- `priceType`
+- `armSkuName`
+
 You append the filters to the API endpoint, as shown in the API sample calls.
 
 ## Supported currencies
