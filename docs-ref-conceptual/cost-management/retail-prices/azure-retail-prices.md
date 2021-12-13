@@ -4,7 +4,7 @@ description: Provides operations to programmatically get Azure service retail pr
 author: bandersmsft
 ms.author: banders
 ms.reviewer: minminx
-ms.date: 09/27/2021
+ms.date: 12/13/2021
 ms.topic: reference
 ms.service: cost-management-billing
 ms.subservice: cost-management
@@ -14,6 +14,23 @@ ms.devlang: rest-api
 # Azure Retail Prices overview
 
 Azure customers have been looking for a programmatic way to retrieve retail prices for all Azure services. Now you can use the Retail Rates Prices API to get retail prices for all Azure services. Previously, the only way that you could retrieve prices for Azure services was to either use the Azure Pricing Calculator or use the Azure portal. This API gives you an unauthenticated experience to get retail rates for all Azure services. Use the API to explore prices for Azure services against different regions and different SKUs. The programmatic API can also help you create your own tools for internal analysis and price comparison across SKUs and regions.
+
+> ![IMPORTANT]
+> The currency that Microsoft uses to price all Azure services is USD. Prices shown in USD currency are Microsoft retail prices. Other non-USD prices returned by the the API are for your _reference_ only. They are shown to assist you as you reconcile charges with your invoice or usage and charges CSV file.
+
+## Preview version
+
+You can use the new 2021-10-01-preview API version at https://prices.azure.com/api/retail/prices?api-version=2021-10-01-preview. The preview version is backward compatible with the previous version. New preview functionality allows you to retrieve only primary meter prices with:
+
+```http
+https://prices.azure.com/api/retail/prices?api-version=2021-10-01-preview&meterRegion=’primary’
+```
+ 
+If you don't specify the preview version in the URL, the API defaults to the latest version with: 
+
+```http
+https://prices.azure.com/api/retail/prices 
+```
 
 ## API endpoint
 
@@ -155,7 +172,7 @@ Here's all the property details that are a part of the API response.
 | tierMinimumUnits | 0 | Minimum units of consumption to avail the price |
 | reservationTerm | 1 year | Reservation term – 1 year or 3 years |
 | retailPrice | 0.176346 | Prices without discount |
-| unitPrice | 0.176346 |  |
+| unitPrice | 0.176346 | |
 | armRegionName | westeurope | ARM region where the service is available. This version only supports prices on Commercial Cloud. |
 | Location | EU West | Azure data center where the resource is deployed |
 | effectiveStartDate | 2020-08-01T00:00:00Z | Optional field. Shows the date when the retail prices are effective.  |
@@ -170,7 +187,7 @@ Here's all the property details that are a part of the API response.
 | serviceFamily | Compute | Service family of the SKU |
 | unitOfMeasure | 1 Hour | How usage is measured for the service |
 | Type | DevTestConsumption | Meter consumption type. Other types are _Reservation, Consumption._ |
-| isPrimaryMeterRegion | True |  |
+| isPrimaryMeterRegion | True | True limits API responses to only primary region prices. When False, API responses are returned for only non-primary meter regions, used for legacy billing purposes. |
 | armSkuName | Standard\_F16s | SKU name registered in Azure |
 
 ## API filters
