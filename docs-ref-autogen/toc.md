@@ -11234,6 +11234,10 @@
 ### [Post Search Along Route](maps/Search/Post-Search-Along-Route.yml)
 ### [Post Search Fuzzy Batch](maps/Search/Post-Search-Fuzzy-Batch.yml)
 ### [Post Search Inside Geometry](maps/Search/Post-Search-Inside-Geometry.yml)
+## Search V2
+### [Overview](maps/Search-V2.yml)
+### [Get Geocoding](maps/Search-V2/Get-Geocoding.yml)
+### [Get Geocoding Batch](maps/Search-V2/Get-Geocoding-Batch.yml)
 ## Spatial
 ### [Overview](maps/Spatial.yml)
 ### [Get Buffer](maps/Spatial/Get-Buffer.yml)
