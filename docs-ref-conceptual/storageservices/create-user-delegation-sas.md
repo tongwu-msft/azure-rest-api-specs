@@ -266,26 +266,11 @@ For example, if you specify the `rsct=binary` query parameter on a SAS token, th
   
 If you create a shared access signature that specifies response headers as query parameters, you must include those response headers in the string-to-sign that is used to construct the signature string. See the **Constructing the Signature String** section below for details.  
 
-### Specify the user OID
+### Specify the encryption scope
 
-User Delegation SAS supports an optional user OID carried in either the Signed Authorized User Object ID (`saoid`) or Signed Unauthorized User Object ID (`suoid`) parameter when the authentication version (sv) is 2020-02-10 or higher:
+The `signed encryption scope` (`ses`) field specifies an encryption scope that the client application may use when uploading blobs with the SAS token via [Put Blob](Put-Blob.md). The `signed encryption scope` field is supported when when the signed version (`sv`) field on the SAS token is version 2020-12-06 or later. If the signed version field specifies a version that is earlier than the supported version, the service returns error response code 403 (Forbidden).
 
-- The user delegating access (skoid) must have **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action** or **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/manageOwnership/action** RBAC permission when using a SAS with an optional user OID.
-- If the sticky bit is set on the parent folder and the operation is delete or rename, then the owner of the parent folder or the owner of the resource must match the value specified by the optional user OID.
-- If the operation is SetAccessControl and x-ms-owner is being set, the value of x-ms-owner must match the value specified by the optional user OID.
-- If the operation is SetAccessControl and x-ms-group is being set, then the value specified by the optional user OID must be a member of the group specified by x-ms-group.
-
-### Specify the correlation ID
-
-User Delegation SAS supports an optional correlation ID carried in the scid parameter when the authentication version (sv) is 2020-02-10 or higher. This is a GUID value that will be logged in the storage diagnostic logs and can be used to correlate SAS generation with storage resource access.
-
-### Specifying the encryption scope
-
-User Delegation SAS supports an optional encryption scope in the `ses` parameter when the authentication version (`sv`) is 2020-12-06 or higher. It enables the customer to specify the encryption scope the client application can use and enforce the server-side encryption with the given encryption scope when uploading blobs (PUT) with the SAS token.
-
-If the `ses` is added prior the supported version, the service returns error response code 403 (Forbidden).
-
-If the default encryption scope is set for the container or filesystem, the `ses` query parameter will respect the container encryption policy. If there is a mismatch between the `ses` query parameter and `x-ms-default-encryption-scope` header, and the `x-ms-deny-encryption-scope-override` header is set to `true`, the service returns error response code 403 (Forbidden).
+If the default encryption scope is set for the container or filesystem, the `ses` field respects the container encryption policy. If there is a mismatch between the `ses` query parameter and `x-ms-default-encryption-scope` header, and the `x-ms-deny-encryption-scope-override` header is set to `true`, the service returns error response code 403 (Forbidden).
 
 When the `x-ms-encryption-scope` header and the `ses` query parameter are both provided in the PUT request, the service returns error response code 400 (Bad Request) if there is a mismatch.
 
