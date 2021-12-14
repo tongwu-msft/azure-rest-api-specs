@@ -1,0 +1,181 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securityinsights.preview.ipgeodata.get
+name: Get
+service: Sentinel
+groupName: IP Geodata
+apiVersion: 2021-09-01-preview
+summary: Get geodata for a single IP address
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SecurityInsights/enrichment/ip/geodata/?api-version=2021-09-01-preview&ipAddress={ipAddress}
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: ipAddress
+  in: query
+  isRequired: true
+  description: IP address (v4 or v6) to be enriched
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: EnrichmentIpGeodata
+- name: Other Status Codes
+  description: Error response describing why the operation failed to enrich this ip.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: EnrichmentIpGeodata
+  description: Geodata information for a given IP address
+  kind: object
+  properties:
+  - name: asn
+    description: The autonomous system number associated with this IP address
+    types:
+    - uid: string
+  - name: carrier
+    description: The name of the carrier for this IP address
+    types:
+    - uid: string
+  - name: city
+    description: The city this IP address is located in
+    types:
+    - uid: string
+  - name: cityCf
+    description: A numeric rating of confidence that the value in the 'city' field is correct, on a scale of 0-100
+    types:
+    - uid: integer
+  - name: continent
+    description: The continent this IP address is located on
+    types:
+    - uid: string
+  - name: country
+    description: The county this IP address is located in
+    types:
+    - uid: string
+  - name: countryCf
+    description: A numeric rating of confidence that the value in the 'country' field is correct on a scale of 0-100
+    types:
+    - uid: integer
+  - name: ipAddr
+    description: The dotted-decimal or colon-separated string representation of the IP address
+    types:
+    - uid: string
+  - name: ipRoutingType
+    description: A description of the connection type of this IP address
+    types:
+    - uid: string
+  - name: latitude
+    description: The latitude of this IP address
+    types:
+    - uid: string
+  - name: longitude
+    description: The longitude of this IP address
+    types:
+    - uid: string
+  - name: organization
+    description: The name of the organization for this IP address
+    types:
+    - uid: string
+  - name: organizationType
+    description: The type of the organization for this IP address
+    types:
+    - uid: string
+  - name: region
+    description: The geographic region this IP address is located in
+    types:
+    - uid: string
+  - name: state
+    description: The state this IP address is located in
+    types:
+    - uid: string
+  - name: stateCf
+    description: A numeric rating of confidence that the value in the 'state' field is correct on a scale of 0-100
+    types:
+    - uid: integer
+  - name: stateCode
+    description: The abbreviated name for the state this IP address is located in
+    types:
+    - uid: string
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error
+    description: Error data
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+examples:
+- name: Get geodata for a single IP address
+  request:
+    uri: GET https://management.azure.com/subscriptions/bd794837-4d29-4647-9105-6339bfdb4e6a/resourceGroups/myRg/providers/Microsoft.SecurityInsights/enrichment/ip/geodata/?api-version=2021-09-01-preview&ipAddress=1.2.3.4
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "asn": "12345",
+        "carrier": "Microsoft",
+        "city": "Redmond",
+        "cityCf": 90,
+        "continent": "north america",
+        "country": "united states",
+        "countryCf": 99,
+        "ipAddr": "1.2.3.4",
+        "ipRoutingType": "fixed",
+        "latitude": "40.2436",
+        "longitude": "-100.8891",
+        "organization": "Microsoft",
+        "organizationType": "tech",
+        "region": "western usa",
+        "state": "washington",
+        "stateCf": null,
+        "stateCode": "wa"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Sentinel service - Get geodata for a single IP address
+errorCodes: []

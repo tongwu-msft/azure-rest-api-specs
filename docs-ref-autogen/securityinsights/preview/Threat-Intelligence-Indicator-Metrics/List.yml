@@ -1,0 +1,173 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securityinsights.preview.threatintelligenceindicatormetrics.list
+name: List
+service: Sentinel
+groupName: Threat Intelligence Indicator Metrics
+apiVersion: 2021-09-01-preview
+summary: Get threat intelligence indicators metrics (Indicators counts by Type, Threat Type, Source).
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/threatIntelligence/main/metrics?api-version=2021-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ThreatIntelligenceMetricsList
+- name: Other Status Codes
+  description: Error response describing why the operation failed to get metrics.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ThreatIntelligenceMetricsList
+  description: List of all the threat intelligence metric fields (type/threat type/source).
+  kind: object
+  properties:
+  - name: value
+    description: Array of threat intelligence metric fields (type/threat type/source).
+    types:
+    - uid: ThreatIntelligenceMetrics
+      isArray: true
+- name: CloudError
+  description: Error response structure.
+  kind: object
+  properties:
+  - name: error
+    description: Error data
+    types:
+    - uid: CloudErrorBody
+- name: ThreatIntelligenceMetrics
+  description: Threat intelligence metrics.
+  kind: object
+  properties:
+  - name: properties
+    description: Threat intelligence metrics.
+    types:
+    - uid: ThreatIntelligenceMetric
+- name: CloudErrorBody
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: ThreatIntelligenceMetric
+  description: Describes threat intelligence metric
+  kind: object
+  properties:
+  - name: lastUpdatedTimeUtc
+    description: Last updated indicator metric
+    types:
+    - uid: string
+  - name: threatTypeMetrics
+    description: Threat type metrics
+    types:
+    - uid: ThreatIntelligenceMetricEntity
+      isArray: true
+  - name: patternTypeMetrics
+    description: Pattern type metrics
+    types:
+    - uid: ThreatIntelligenceMetricEntity
+      isArray: true
+  - name: sourceMetrics
+    description: Source metrics
+    types:
+    - uid: ThreatIntelligenceMetricEntity
+      isArray: true
+- name: ThreatIntelligenceMetricEntity
+  description: Describes threat intelligence metric entity
+  kind: object
+  properties:
+  - name: metricName
+    description: Metric name
+    types:
+    - uid: string
+  - name: metricValue
+    description: Metric value
+    types:
+    - uid: integer
+examples:
+- name: Get threat intelligence indicators metrics.
+  request:
+    uri: GET https://management.azure.com/subscriptions/bd794837-4d29-4647-9105-6339bfdb4e6a/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/threatIntelligence/main/metrics?api-version=2021-09-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "lastUpdatedTimeUtc": "2021-09-01T19:44:44.117403Z",
+              "threatTypeMetrics": [
+                {
+                  "metricName": "compromised",
+                  "metricValue": 20
+                }
+              ],
+              "patternTypeMetrics": [
+                {
+                  "metricName": "url",
+                  "metricValue": 20
+                }
+              ],
+              "sourceMetrics": [
+                {
+                  "metricName": "Azure Sentinel",
+                  "metricValue": 10315
+                },
+                {
+                  "metricName": "zinga",
+                  "metricValue": 2
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Sentinel service - Get threat intelligence indicators metrics (Indicators counts by Type, Threat Type, Source).
+errorCodes: []
