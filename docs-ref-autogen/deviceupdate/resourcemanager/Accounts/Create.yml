@@ -56,9 +56,15 @@ requestBody:
     - uid: ManagedServiceIdentity
   - name: properties.publicNetworkAccess
     in: body
-    description: Whether or not public network access is allowed for the container registry.
+    description: Whether or not public network access is allowed for the account.
     types:
     - uid: PublicNetworkAccess
+  - name: properties.privateEndpointConnections
+    in: body
+    description: List of private endpoint connections associated with the account.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
   - name: tags
     in: body
     description: Resource tags.
@@ -102,6 +108,48 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: UserAssignedIdentity
+- name: PrivateEndpointConnection
+  description: The Private Endpoint Connection resource.
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: The resource of private end point.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: properties.groupIds
+    description: Array of group IDs.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private endpoint connection resource.
+    types:
+    - uid: PrivateEndpointConnectionProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -149,9 +197,14 @@ definitions:
     types:
     - uid: string
   - name: properties.publicNetworkAccess
-    description: Whether or not public network access is allowed for the container registry.
+    description: Whether or not public network access is allowed for the account.
     types:
     - uid: PublicNetworkAccess
+  - name: properties.privateEndpointConnections
+    description: List of private endpoint connections associated with the account.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
   - name: tags
     description: Resource tags.
     types:
@@ -222,6 +275,47 @@ definitions:
     description: The client ID of the assigned identity.
     types:
     - uid: string
+- name: PrivateEndpoint
+  description: The Private Endpoint resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ARM identifier for Private Endpoint
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: A collection of information about the state of the connection between service consumer and provider.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+    types:
+    - uid: PrivateEndpointServiceConnectionStatus
+  - name: description
+    description: The reason for approval/rejection of the connection.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
+    types:
+    - uid: string
+- name: PrivateEndpointConnectionProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -261,7 +355,7 @@ definitions:
     types:
     - uid: string
 - name: PublicNetworkAccess
-  description: Whether or not public network access is allowed for the container registry.
+  description: Whether or not public network access is allowed for the account.
   kind: enum
   properties:
   - name: Enabled
@@ -301,6 +395,19 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: PrivateEndpointServiceConnectionStatus
+  description: The private endpoint connection status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -334,7 +441,8 @@ examples:
         "type": "Microsoft.DeviceUpdate/accounts",
         "properties": {
           "provisioningState": "Accepted",
-          "hostName": "contoso.api.adu.microsoft.com"
+          "hostName": "contoso.api.adu.microsoft.com",
+          "privateEndpointConnections": []
         }
       }
 security:
