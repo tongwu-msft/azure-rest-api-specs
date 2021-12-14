@@ -16,17 +16,21 @@ ms.devlang: rest-api
 Azure customers have been looking for a programmatic way to retrieve retail prices for all Azure services. Now you can use the Retail Rates Prices API to get retail prices for all Azure services. Previously, the only way that you could retrieve prices for Azure services was to either use the Azure Pricing Calculator or use the Azure portal. This API gives you an unauthenticated experience to get retail rates for all Azure services. Use the API to explore prices for Azure services against different regions and different SKUs. The programmatic API can also help you create your own tools for internal analysis and price comparison across SKUs and regions.
 
 > [!IMPORTANT]
-> The currency that Microsoft uses to price all Azure services is USD. Prices shown in USD currency are Microsoft retail prices. Other non-USD prices returned by the the API are for your _reference_ only. They are shown to assist you as you reconcile charges with your invoice or usage and charges CSV file.
+> The currency that Microsoft uses to price all Azure services is USD. Prices shown in USD currency are Microsoft retail prices. Other non-USD prices returned by the the API are for your _reference_ to help you estimate budget expenses.
 
 ## Preview version
 
-You can use the new 2021-10-01-preview API version at https://prices.azure.com/api/retail/prices?api-version=2021-10-01-preview. The preview version is backward compatible with the previous version. New preview functionality allows you to retrieve only primary meter prices with:
+You can use the new 2021-10-01-preview API version at https://prices.azure.com/api/retail/prices?api-version=2021-10-01-preview. The preview version is backward compatible with the previous version. The URL returns the full set of meters, including primary meters and non-primary meters.
+
+Using either https://prices.azure.com/api/retail/prices or https://prices.azure.com/api/retail/prices?api-version=2021-10-01-preview returns the full set of meters. 
+
+You can limit responses to retrieve only primary meter prices with:
 
 ```http
 https://prices.azure.com/api/retail/prices?api-version=2021-10-01-preview&meterRegion=’primary’
 ```
- 
-If you don't specify the preview version in the URL, the API defaults to the latest version with: 
+
+If you don't specify the preview version in the URL, the API defaults to the latest version with:
 
 ```http
 https://prices.azure.com/api/retail/prices 
@@ -187,7 +191,7 @@ Here's all the property details that are a part of the API response.
 | `serviceFamily` | Compute | Service family of the SKU |
 | `unitOfMeasure` | 1 Hour | How usage is measured for the service |
 | `Type` | DevTestConsumption | Meter consumption type. Other types are _Reservation, Consumption._ |
-| `isPrimaryMeterRegion` | True | True limits API responses to only primary region prices. When False, API responses are returned for only non-primary meter regions, used for legacy billing purposes. |
+| `isPrimaryMeterRegion` | True | Indicates whether the meter region is set as a primary meter or not. Primary meters are used for charges and billing. |
 | `armSkuName` | Standard\_F16s | SKU name registered in Azure |
 
 ## API filters
