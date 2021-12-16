@@ -13,15 +13,15 @@ ms.author: seanmcc
 
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
-The current version of the Azure storage services is 2020-12-06, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
+The current version of the Azure storage services is 2021-04-10, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
 
-## Version 2021-02-12
+## Version 2021-04-10
 
-The 2021-02-12 service version includes the following features:
+The 2021-04-10 service version includes the following features:
 
-- The ability to list system containers with [List Containers](List-Containers2.md).
-- A new share property, `x-ms-share-provisioned-bandwidth-mibps`, returned for premium file shares on [Get Share Properties](Get-Share-Properties.md) and [List Shares](List-Shares.md).
-- The ability to list blobs with invalid XML characters in their names.  For more information, see [List Blobs](List-Blobs.md).
+- A new API [Rename File](rename-file.md) allowing a file to be renamed.
+- A new API [Rename Directory](rename-directory.md) allowing a directory to be renamed.
+- A new API [Find Blobs by Tag on Container](find-blobs-by-tags-container.md) allowing finding blobs by tag on the container level.
 
 ## Specifying service versions in requests  
 
