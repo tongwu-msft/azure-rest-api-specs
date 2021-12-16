@@ -104,12 +104,15 @@ After the specified number of days, the blob’s data is removed from the servic
   
 **Permanent Delete**
 
-A feature to permanently delete a snapshot / version has been added into delete blob API with version 2020-02-10 and later. In order to leverage the feature, the storage account needs to have permanent delete enabled. For more for information, see [Set Blob Service Properties](Set-Blob-Service-Properties.md).
+A feature to permanently delete a soft-deleted snapshot / version has been added into delete blob API with version 2020-02-10 and later. In order to leverage the feature, the storage account needs to have permanent delete enabled. For more for information, see [Set Blob Service Properties](Set-Blob-Service-Properties.md).
+
+> [!NOTE]
+> Storage account must have versioning and/or snapshots enabled. Soft delete must also be enabled on the storage account to soft delete versions / snapshots of blobs in the account. Permanent delete will only delete soft-deleted snapshots and/or versions. 
 
 Storage accounts with permanent delete enabled can use the `deletetype=permanent` query parameter  to permanently delete a soft-deleted snapshot or deleted blob version. Blob service would return 409 (Conflict) if the query parameter presents with any of the following:
 - The permanent delete is not enabled for the storage account.
 - Neither `versionid` nor `snapshot` are provided.
-- The specified snapshot or version is not (soft) deleted.
+- The specified snapshot or version is not soft-deleted.
 
 Permanent delete also includes a new SAS permission (y) grant permission to permanently delete a blob snapshot or blob version. For more information, see [Create a service SAS](create-service-sas.md).
 
