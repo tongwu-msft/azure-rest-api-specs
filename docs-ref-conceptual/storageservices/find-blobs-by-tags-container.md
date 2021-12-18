@@ -1,16 +1,16 @@
 ---
 title: Find Blobs by Tags (REST API) - Azure Storage
-description: The Find Blobs by Tags operation returns all blobs whose tags match a given search expression.
+description: The Find Blobs by Tags operation returns all blobs whose tags match a given search expression on a given container.
 author: akharit
 
-ms.date: 07/06/2020
+ms.date: 12/17/2021
 ms.service: storage
 ms.topic: reference
-ms.author: rerdmann
+ms.author: akharit
 ---
 
 # Find Blobs by Tags
-The `Find Blobs by Tags` operation finds all blobs in the storage account whose tags match a given search expression.  
+The `Find Blobs by Tags` operation finds all blobs in the container whose tags match a given search expression.  
   
 ## Request  
  The `Find Blobs by Tags` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account and *mycontainer* with name of your storage container:  
@@ -100,7 +100,7 @@ The format of the response body is as follows:
  In addition, RBAC users with the `Microsoft.Storage/storageAccounts/blobServices/containers/blobs/filter/action` permission can perform this operation.  
   
 ## Remarks  
- The `Find Blobs by Tags` operation on container is supported in REST API version 2021-04-21 and later.  
+ The `Find Blobs by Tags` operation on container is supported in REST API version 2021-04-10 and later.  
   
   The secondary index used by `Find Blobs by Tags` is eventually consistent. Updates to blob tags via `Set Blob Tags` many not be immediately visible to `Find Blobs by Tags` operations.  
   
@@ -119,7 +119,7 @@ The format of the response body is as follows:
 |`<=`|Less than or equal|`&where=Reviewer <= 'Smith'`|  
 |`AND`|Logical and|`&where=Name > 'C' AND Name < 'D'`<br />`&where=Age > '032' AND Age < '100'`|  
   
- **Note:** the value of the `where` URI parameter must be properly URI encoded (including spaces and operators). The examples above omit this for readability. @container is not supported when container is part of URI. 
+ **Note:** the value of the `where` URI parameter must be properly URI encoded (including spaces and operators). The examples above omit this for readability. @container is not supported when container is part of URI.
 
  All tag values are strings, and the supported binary relational operators use a lexicographic sorting of the tag values. To support non-string data types, including numbers and dates, appropriate padding and sortable formatting must be employed.  Tag values must be enclosed in single quotes.  
   
