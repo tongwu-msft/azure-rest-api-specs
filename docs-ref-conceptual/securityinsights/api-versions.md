@@ -55,7 +55,6 @@ This is the current Preview release of the Microsoft Sentinel REST APIs. It incl
   + Add [Office IRM connector](/azure/sentinel/data-connectors-reference#microsoft-365-insider-risk-management-irm-preview) support
 + Data connectors
   + [AWS S3 connector](/azure/sentinel/connect-aws?tabs=s3)
-  + Add support for Codeless API Polling data connectors
 
 
 
