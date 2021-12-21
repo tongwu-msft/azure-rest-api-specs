@@ -17,11 +17,12 @@ ms.manager: elabramo
 
 This article lists the current and past versions of the Microsoft Sentinel REST APIs.
 
-[!Note] From 2021-09-01 Preview and 2021-10-01 (stable) versions, every version contains all operation groups. If an operation group hasn’t changed since last version, it will appear again in the new version.
+> [!Note] 
+> Starting from the 2021-09-01 Preview and 2021-10-01 (stable) versions, every version contains all operation groups. If an operation group hasn’t changed since last version, it will appear again in the new version.
 
 ## Preview versions
 
-Use latest preview version when you want to leverage all the latest Public Preview features. Note that Preview versions are also released to test new functionality, gather feedback, and discover and fix issues. Preview APIs are available under [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/).
+Use the latest preview version when you want to leverage all the latest Public Preview features. Note that Preview versions are also released to test new functionality, gather feedback, and discover and fix issues. Preview APIs are available under the [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/).
 
 
 | API version | Specification | API updates |
@@ -32,7 +33,7 @@ Use latest preview version when you want to leverage all the latest Public Previ
 
 ## Stable versions
 
-Use latest stable version when you want to leverage the latest Generally available features.
+Use the latest stable version when you want to leverage the latest Generally available features.
 
 | API version | Specification | API updates |
 |-------------|---------------|-------------|
