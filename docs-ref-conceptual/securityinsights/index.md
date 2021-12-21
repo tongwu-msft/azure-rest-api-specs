@@ -19,12 +19,12 @@ Azure Sentinel REST APIs allow you to create and manage data connectors, analyti
 
 | Operation Group | Description |
 | --- | --- |
-| [Actions](xref:management.azure.com.securityinsights.actions) | List all alert rules for an action |
-| [Alerts Rule Template](xref:management.azure.com.securityinsights.alertruletemplates) | List your Alert rules templates available in your Sentinel workspace  |
-| [Alert Rules](xref:management.azure.com.securityinsights.alertrules) | Configure Alert rules and actions for your Sentinel workspace |
-| [Bookmarks](xref:management.azure.com.securityinsights.bookmarks) | Preserve, tag, map entities, and annotate Log Analytics query results. Create or add a bookmark to an Incident |
-| [Data Connectors](xref:management.azure.com.securityinsights.dataconnectors) | List, enable or disable data connectors to your Sentinel workspace|
-| [Incident Comments](xref:management.azure.com.securityinsights.incidentcomments) | Read and create incident comments in your Sentinel workspace |
-| [Incidents](xref:management.azure.com.securityinsights.incidents) | Read, create and delete incidents in your Sentinel workspace |
-| [Operations](xref:management.azure.com.securityinsights.operations) | All avilable operations
+| [Actions](/rest/api/securityinsights/stable/actions) | List all alert rules for an action |
+| [Alerts Rule Template](/rest/api/securityinsights/stable/alert-rule-templates) | List your Alert rules templates available in your Sentinel workspace  |
+| [Alert Rules](/rest/api/securityinsights/stable/alert-rules) | Configure Alert rules and actions for your Sentinel workspace |
+| [Bookmarks](/rest/api/securityinsights/stable/bookmarks) | Preserve, tag, map entities, and annotate Log Analytics query results. Create or add a bookmark to an Incident |
+| [Data Connectors](/rest/api/securityinsights/stable/data-connectors) | List, enable or disable data connectors to your Sentinel workspace|
+| [Incident Comments](/rest/api/securityinsights/stable/incident-comments) | Read and create incident comments in your Sentinel workspace |
+| [Incidents](/rest/api/securityinsights/stable/incidents) | Read, create and delete incidents in your Sentinel workspace |
+| [Operations](/rest/api/securityinsights/stable/operations) | All avilable operations
 
