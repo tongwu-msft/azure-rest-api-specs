@@ -49,7 +49,7 @@ Use the latest stable version when you want to access the latest generally avail
 
 This is the current Preview release of the Microsoft Sentinel REST APIs. It includes all the previously released Preview features, plus the following additions:
 
-+ Alert Rules
++ Alert Rules (also known as analytics rules)
   + [Template version](/azure/sentinel/manage-analytics-rule-templates)
   + [NRT](/azure/sentinel/near-real-time-rules)
   + Add [Office IRM connector](/azure/sentinel/data-connectors-reference#microsoft-365-insider-risk-management-irm-preview) support
