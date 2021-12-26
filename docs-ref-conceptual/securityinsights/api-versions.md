@@ -33,7 +33,7 @@ Use the latest preview version when you want to take advantage of all the latest
 
 ## Stable versions
 
-Use the latest stable version when you want to leverage the latest Generally available features.
+Use the latest stable version when you want to access the latest generally available (GA) features.
 
 | API version | Specification | API updates |
 |-------------|---------------|-------------|
