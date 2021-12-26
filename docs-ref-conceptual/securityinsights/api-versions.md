@@ -22,7 +22,7 @@ This article lists the current and past versions of the Microsoft Sentinel REST 
 
 ## Preview versions
 
-Use the latest preview version when you want to leverage all the latest Public Preview features. Note that Preview versions are also released to test new functionality, gather feedback, and discover and fix issues. Preview APIs are available under the [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/).
+Use the latest preview version when you want to take advantage of all the latest Public Preview features. Note that preview versions are also released to test new functionality, gather feedback, and discover and fix issues. Preview APIs are available under the [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/).
 
 
 | API version | Specification | API updates |
