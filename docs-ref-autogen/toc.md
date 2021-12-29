@@ -14360,7 +14360,7 @@
 ### [Update](securitycenter/Workspace-Settings/Update.yml)
 # Sentinel
 ## [Overview](../docs-ref-conceptual/securityinsights/index.md)
-## [Request limits and throttling](../docs-ref-conceptual/securityinsights/request-limits-and-throttling.md)
+## [API versions](../docs-ref-conceptual/securityinsights/api-versions.md)
 ## Reference
 ### Preview
 #### Actions
