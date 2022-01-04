@@ -1,7 +1,7 @@
 ---
 title: "Asset"
 ms.custom: ""
-ms.date: "03/14/2018"
+ms.date: "10/19/2021"
 ms.reviewer: ""
 ms.service: "media-services"
 ms.suite: ""
@@ -9,7 +9,7 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 219a286b-823e-439e-90ca-2ef2aab4db79
 caps.latest.revision: 67
-author: "Juliako"
+author: "jiayali"
 ms.author: "juliako"
 manager: "erikre"
 translation.priority.mt: 
@@ -27,23 +27,24 @@ translation.priority.mt:
 # Asset
 The `Asset` entity contains digital files (including video, audio, images, thumbnail collections, text tracks and closed caption files) and the metadata about these files. After the digital files are uploaded into an asset, they could be used in the Media Services encoding and streaming workflows.  
   
- When you encode an asset, an output asset is produced upon completion of the encoding job. Among the files mentioned above, the output asset contains XML metadata files that describe the input asset and output asset.  For more information, see the [Input Metadata](/azure/media-services/media-services-input-metadata-schema) and [Output Metadata](/azure/media-services/media-services-output-metadata-schema) topics.  
+ When you encode an asset, an output asset is produced upon completion of the encoding job. Among the files mentioned above, the output asset contains XML metadata files that describe the input asset and output asset.  For more information, see the [Input Metadata](/azure/media-services/media-services-input-metadata-schema) and [Output Metadata](/azure/media-services/media-services-output-metadata-schema) articles.  
   
  The following characteristics apply to an Asset in Media Services:  
- An Asset is a logical unit that represents a single audiovisual presentation.  
+ 
+ -  An Asset is a logical unit that represents a single audiovisual presentation.  
   
- An asset contains a collection of one to many media files.  
+ -  An asset contains a collection of one to many media files.  
   
- The files of an asset are located in a single blob storage container.  
+ -  The files of an asset are located in a single blob storage container.  
   
  Some examples of an Asset are: a full movie, TV show, specific edit; a clip from a movie, TV show, animation, camera ISO file, or event; a movie trailer or promotional video; an advertisement; an audio file, radio show, podcast, or sound file.  
   
  The following characteristics DO NOT apply to an Asset in Media Services:  
- Simply a storage container  
+ -  Simply a storage container  
   
- A folder to organize and store multiple versions of the same presentation in  
+ -  A folder to organize and store multiple versions of the same presentation in  
   
- A folder for submitting batch processing of multiple audiovisual presentations to Azure Media Encoder  
+ -  A folder for submitting batch processing of multiple audiovisual presentations to Azure Media Encoder  
   
  For example, you must not store a movie, its trailer, an advertisement, and an international edit version of the same movie in a single Asset.  
   
@@ -79,7 +80,7 @@ The `Asset` entity contains digital files (including video, audio, images, thumb
 |`AlternateId`<br /><br /> Optional.|Edm.String|An alternate Id value that corresponds to an Id in another content management system. Maximum length is 4000.|  
 |`Name`<br /><br /> Optional.|Edm.String|Friendly name for your asset. Maximum length is 512.|  
 |`Options`<br /><br /> Required. Cannot be updated after the entity has been created.|Edm.Int32|An enumeration value that describes the encryption options that an Asset can be created with. A valid value is one value from the list below, not a combination of values from this list:<br /><br /> -   **None** = 0: Specifies no asset creation options.<br />-   **StorageEncrypted** = 1:  Specifies that an asset's files should be encrypted on for upload and storage when creating the asset.<br />-   **CommonEncryptionProtected** = 2: Specifies that an asset’s files are protected using a common encryption method (such as PlayReady).<br />-   **EnvelopeEncryptionProtected** = 4|  
-|`Uri`<br /><br /> Read-only. Set by Media Services.|Edm.String|The Uri of the blob storage container of the specified Asset.|  
+|`Uri`<br /><br /> Read-only. Set by Media Services.|Edm.String|The URI of the blob storage container of the specified Asset.|  
 |`Locators`<br /><br /> Read-only. Set by Media Services.|Locator entity set|The returned entity set contains all of the Locator entities that are linked to the specified Asset.|  
 |`ContentKeys`<br /><br /> Optional.|ContentKey entity set|The returned entity set contains all of the ContentKey entities that are linked to the specified Asset.|  
 |`Files`<br /><br /> Read-only. Set by Media Services.|File entity set|The returned entity set contains all of the File entities that are linked to the specified Asset.|  
@@ -170,7 +171,7 @@ Expect: 100-continue
 ```  
   
 ##  <a name="delete_an_asset"></a> Delete an Asset  
- Assets can be deleted by referencing the Asset Id value. When an asset is deleted, all of its locators are deleted by Microsoft Azure Media Services. If the asset had origin locators, these will be revoked and deleted as well. All links to ContentKeys will be deleted and any ContentKeys not linked to other assets will be deleted.  
+ Assets can be deleted by referencing the Asset Id value. When an asset is deleted, all of its locators are deleted by Microsoft Azure Media Services. If the asset had origin locators, these locators will be revoked and deleted as well. All links to ContentKeys will be deleted and any ContentKeys not linked to other assets will be deleted.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
@@ -231,7 +232,7 @@ Expect: 100-continue
 ```  
   
 ##  <a name="removing_contentkey_links"></a> Removing ContentKey Links  
- You can remove [ContentKey](../operations/contentkey.md) links from an asset by referencing the asset id and the ContentKey Id in a HTTP DELETE request. If the ContentKey is not linked to any other assets, it will be deleted.  
+ You can remove [ContentKey](../operations/contentkey.md) links from an asset by referencing the asset id and the ContentKey Id in an HTTP DELETE request. If the ContentKey is not linked to any other assets, it will be deleted.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
