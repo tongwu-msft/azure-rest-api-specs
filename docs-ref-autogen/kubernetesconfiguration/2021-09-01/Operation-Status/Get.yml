@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.kubernetesconfiguration.operationstatus.list
-name: List
+uid: management.azure.com.kubernetesconfiguration.2021-09-01.operationstatus.get
+name: Get
 service: Kubernetes Configuration
 groupName: Operation Status
-apiVersion: 2021-05-01-preview
-summary: List Async Operations, currently in progress, in a cluster
+apiVersion: 2021-09-01
+summary: Get Async Operation status
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/operations?api-version=2021-05-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}/operations/{operationId}?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,6 +42,18 @@ uriParameters:
   description: The name of the kubernetes cluster.
   types:
   - uid: string
+- name: extensionName
+  in: path
+  isRequired: true
+  description: Name of the Extension.
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: operation Id
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -50,38 +62,15 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Operations in a cluster
+  description: Operation Status
   types:
-  - uid: OperationStatusList
+  - uid: OperationStatusResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: OperationStatusList
-  description: The async operations in progress, in the cluster.
-  kind: object
-  properties:
-  - name: value
-    isReadyOnly: true
-    description: List of async operations in progress, in the cluster.
-    types:
-    - uid: OperationStatusResult
-      isArray: true
-  - name: nextLink
-    isReadyOnly: true
-    description: URL to get the next set of Operation Result objects, if any.
-    types:
-    - uid: string
-- name: ErrorResponse
-  description: Error response
-  kind: object
-  properties:
-  - name: error
-    description: The error object.
-    types:
-    - uid: ErrorDetail
 - name: OperationStatusResult
   description: The current status of an async operation.
   kind: object
@@ -107,8 +96,15 @@ definitions:
       - uid: string
       - uid: string
   - name: error
-    isReadyOnly: true
-    description: If present, details of the operation error.
+    description: The error detail.
+    types:
+    - uid: ErrorDetail
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
     types:
     - uid: ErrorDetail
 - name: ErrorDetail
@@ -157,30 +153,18 @@ definitions:
     types:
     - uid: object
 examples:
-- name: AsyncOperationStatus List
+- name: AsyncOperationStatus Get
   request:
-    uri: GET https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/operations?api-version=2021-05-01-preview
+    uri: GET https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/extensions/ClusterMonitor/operations/99999999-9999-9999-9999-999999999999?api-version=2021-09-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/extensions/ClusterMonitor/operations/99999999-9999-9999-9999-999999999999",
-            "name": "99999999-9999-9999-9999-999999999999",
-            "status": "Deleting",
-            "properties": {},
-            "error": null
-          },
-          {
-            "id": "/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/extensions/ClusterMonitor/operations/88888888-8888-8888-8888-888888888888",
-            "name": "88888888-8888-8888-8888-888888888888",
-            "status": "Creating",
-            "properties": {},
-            "error": null
-          }
-        ],
-        "nextLink": null
+        "id": "/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/extensions/ClusterMonitor/operations/99999999-9999-9999-9999-999999999999",
+        "name": "99999999-9999-9999-9999-999999999999",
+        "status": "Succeeded",
+        "properties": {},
+        "error": null
       }
 security:
 - name: azure_auth
@@ -192,5 +176,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Kubernetes Configuration service - List Async Operations, currently in progress, in a cluster
+  description: Learn more about Kubernetes Configuration service - Get Async Operation status
 errorCodes: []
