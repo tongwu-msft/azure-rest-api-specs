@@ -10457,25 +10457,48 @@
 ### [wrap Key](keyvault/wrap-Key/wrap-Key.yml)
 # Kubernetes Configuration
 ## [Overview](../docs-ref-conceptual/kubernetesconfiguration/index.md)
-## Extensions
-### [Overview](kubernetesconfiguration/Extensions.yml)
-### [Create](kubernetesconfiguration/Extensions/Create.yml)
-### [Delete](kubernetesconfiguration/Extensions/Delete.yml)
-### [Get](kubernetesconfiguration/Extensions/Get.yml)
-### [List](kubernetesconfiguration/Extensions/List.yml)
-## Operation Status
-### [Overview](kubernetesconfiguration/Operation-Status.yml)
-### [Get](kubernetesconfiguration/Operation-Status/Get.yml)
-### [List](kubernetesconfiguration/Operation-Status/List.yml)
-## Operations
-### [Overview](kubernetesconfiguration/Operations.yml)
-### [List](kubernetesconfiguration/Operations/List.yml)
-## Source Control Configurations
-### [Overview](kubernetesconfiguration/Source-Control-Configurations.yml)
-### [Create Or Update](kubernetesconfiguration/Source-Control-Configurations/Create-Or-Update.yml)
-### [Delete](kubernetesconfiguration/Source-Control-Configurations/Delete.yml)
-### [Get](kubernetesconfiguration/Source-Control-Configurations/Get.yml)
-### [List](kubernetesconfiguration/Source-Control-Configurations/List.yml)
+## 2021-03-01
+### Operations
+#### [Overview](kubernetesconfiguration/2021-03-01/Operations.yml)
+#### [List](kubernetesconfiguration/2021-03-01/Operations/List.yml)
+### Source Control Configurations
+#### [Overview](kubernetesconfiguration/2021-03-01/Source-Control-Configurations.yml)
+#### [Create Or Update](kubernetesconfiguration/2021-03-01/Source-Control-Configurations/Create-Or-Update.yml)
+#### [Delete](kubernetesconfiguration/2021-03-01/Source-Control-Configurations/Delete.yml)
+#### [Get](kubernetesconfiguration/2021-03-01/Source-Control-Configurations/Get.yml)
+#### [List](kubernetesconfiguration/2021-03-01/Source-Control-Configurations/List.yml)
+## 2021-09-01
+### Extensions
+#### [Overview](kubernetesconfiguration/2021-09-01/Extensions.yml)
+#### [Create](kubernetesconfiguration/2021-09-01/Extensions/Create.yml)
+#### [Delete](kubernetesconfiguration/2021-09-01/Extensions/Delete.yml)
+#### [Get](kubernetesconfiguration/2021-09-01/Extensions/Get.yml)
+#### [List](kubernetesconfiguration/2021-09-01/Extensions/List.yml)
+#### [Update](kubernetesconfiguration/2021-09-01/Extensions/Update.yml)
+### Operation Status
+#### [Overview](kubernetesconfiguration/2021-09-01/Operation-Status.yml)
+#### [Get](kubernetesconfiguration/2021-09-01/Operation-Status/Get.yml)
+#### [List](kubernetesconfiguration/2021-09-01/Operation-Status/List.yml)
+### Operations
+#### [Overview](kubernetesconfiguration/2021-09-01/Operations.yml)
+#### [List](kubernetesconfiguration/2021-09-01/Operations/List.yml)
+## 2021-11-01-preview
+### Flux Config Operation Status
+#### [Overview](kubernetesconfiguration/2021-11-01-preview/Flux-Config-Operation-Status.yml)
+#### [Get](kubernetesconfiguration/2021-11-01-preview/Flux-Config-Operation-Status/Get.yml)
+### Flux Configurations
+#### [Overview](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations.yml)
+#### [Create Or Update](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations/Create-Or-Update.yml)
+#### [Delete](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations/Delete.yml)
+#### [Get](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations/Get.yml)
+#### [List](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations/List.yml)
+#### [Update](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations/Update.yml)
+### Operation Status
+#### [Overview](kubernetesconfiguration/2021-11-01-preview/Operation-Status.yml)
+#### [List](kubernetesconfiguration/2021-11-01-preview/Operation-Status/List.yml)
+### Operations
+#### [Overview](kubernetesconfiguration/2021-11-01-preview/Operations.yml)
+#### [List](kubernetesconfiguration/2021-11-01-preview/Operations/List.yml)
 # Lab Services
 ## [Overview](../docs-ref-conceptual/labservices/index.md)
 ## Environment Settings
@@ -13466,51 +13489,98 @@
 ### [List](openshift/Operations/List.yml)
 # Redis Cache
 ## [Overview](../docs-ref-conceptual/redis/index.md)
-## Firewall Rules
-### [Overview](redis/Firewall-Rules.yml)
-### [Create Or Update](redis/Firewall-Rules/Create-Or-Update.yml)
-### [Delete](redis/Firewall-Rules/Delete.yml)
-### [Get](redis/Firewall-Rules/Get.yml)
-### [List](redis/Firewall-Rules/List.yml)
-## Linked Server
-### [Overview](redis/Linked-Server.yml)
-### [Create](redis/Linked-Server/Create.yml)
-### [Delete](redis/Linked-Server/Delete.yml)
-### [Get](redis/Linked-Server/Get.yml)
-### [List](redis/Linked-Server/List.yml)
-## Operations
-### [Overview](redis/Operations.yml)
-### [List](redis/Operations/List.yml)
-## Patch Schedules
-### [Overview](redis/Patch-Schedules.yml)
-### [Create Or Update](redis/Patch-Schedules/Create-Or-Update.yml)
-### [Delete](redis/Patch-Schedules/Delete.yml)
-### [Get](redis/Patch-Schedules/Get.yml)
-### [List By Redis Resource](redis/Patch-Schedules/List-By-Redis-Resource.yml)
-## Private Endpoint Connections
-### [Overview](redis/Private-Endpoint-Connections.yml)
-### [Delete](redis/Private-Endpoint-Connections/Delete.yml)
-### [Get](redis/Private-Endpoint-Connections/Get.yml)
-### [List](redis/Private-Endpoint-Connections/List.yml)
-### [Put](redis/Private-Endpoint-Connections/Put.yml)
-## Private Link Resources
-### [Overview](redis/Private-Link-Resources.yml)
-### [List By Redis Cache](redis/Private-Link-Resources/List-By-Redis-Cache.yml)
-## Redis
-### [Overview](redis/Redis.yml)
-### [Check Name Availability](redis/Redis/Check-Name-Availability.yml)
-### [Create](redis/Redis/Create.yml)
-### [Delete](redis/Redis/Delete.yml)
-### [Export Data](redis/Redis/Export-Data.yml)
-### [Force Reboot](redis/Redis/Force-Reboot.yml)
-### [Get](redis/Redis/Get.yml)
-### [Import Data](redis/Redis/Import-Data.yml)
-### [List By Resource Group](redis/Redis/List-By-Resource-Group.yml)
-### [List By Subscription](redis/Redis/List-By-Subscription.yml)
-### [List Keys](redis/Redis/List-Keys.yml)
-### [List Upgrade Notifications](redis/Redis/List-Upgrade-Notifications.yml)
-### [Regenerate Key](redis/Redis/Regenerate-Key.yml)
-### [Update](redis/Redis/Update.yml)
+## 2020-12-01
+### Firewall Rules
+#### [Overview](redis/2020-12-01/Firewall-Rules.yml)
+#### [Create Or Update](redis/2020-12-01/Firewall-Rules/Create-Or-Update.yml)
+#### [Delete](redis/2020-12-01/Firewall-Rules/Delete.yml)
+#### [Get](redis/2020-12-01/Firewall-Rules/Get.yml)
+#### [List](redis/2020-12-01/Firewall-Rules/List.yml)
+### Linked Server
+#### [Overview](redis/2020-12-01/Linked-Server.yml)
+#### [Create](redis/2020-12-01/Linked-Server/Create.yml)
+#### [Delete](redis/2020-12-01/Linked-Server/Delete.yml)
+#### [Get](redis/2020-12-01/Linked-Server/Get.yml)
+#### [List](redis/2020-12-01/Linked-Server/List.yml)
+### Operations
+#### [Overview](redis/2020-12-01/Operations.yml)
+#### [List](redis/2020-12-01/Operations/List.yml)
+### Patch Schedules
+#### [Overview](redis/2020-12-01/Patch-Schedules.yml)
+#### [Create Or Update](redis/2020-12-01/Patch-Schedules/Create-Or-Update.yml)
+#### [Delete](redis/2020-12-01/Patch-Schedules/Delete.yml)
+#### [Get](redis/2020-12-01/Patch-Schedules/Get.yml)
+#### [List By Redis Resource](redis/2020-12-01/Patch-Schedules/List-By-Redis-Resource.yml)
+### Private Endpoint Connections
+#### [Overview](redis/2020-12-01/Private-Endpoint-Connections.yml)
+#### [Delete](redis/2020-12-01/Private-Endpoint-Connections/Delete.yml)
+#### [Get](redis/2020-12-01/Private-Endpoint-Connections/Get.yml)
+#### [List](redis/2020-12-01/Private-Endpoint-Connections/List.yml)
+#### [Put](redis/2020-12-01/Private-Endpoint-Connections/Put.yml)
+### Private Link Resources
+#### [Overview](redis/2020-12-01/Private-Link-Resources.yml)
+#### [List By Redis Cache](redis/2020-12-01/Private-Link-Resources/List-By-Redis-Cache.yml)
+### Redis
+#### [Overview](redis/2020-12-01/Redis.yml)
+#### [Check Name Availability](redis/2020-12-01/Redis/Check-Name-Availability.yml)
+#### [Create](redis/2020-12-01/Redis/Create.yml)
+#### [Delete](redis/2020-12-01/Redis/Delete.yml)
+#### [Export Data](redis/2020-12-01/Redis/Export-Data.yml)
+#### [Force Reboot](redis/2020-12-01/Redis/Force-Reboot.yml)
+#### [Get](redis/2020-12-01/Redis/Get.yml)
+#### [Import Data](redis/2020-12-01/Redis/Import-Data.yml)
+#### [List By Resource Group](redis/2020-12-01/Redis/List-By-Resource-Group.yml)
+#### [List By Subscription](redis/2020-12-01/Redis/List-By-Subscription.yml)
+#### [List Keys](redis/2020-12-01/Redis/List-Keys.yml)
+#### [List Upgrade Notifications](redis/2020-12-01/Redis/List-Upgrade-Notifications.yml)
+#### [Regenerate Key](redis/2020-12-01/Redis/Regenerate-Key.yml)
+#### [Update](redis/2020-12-01/Redis/Update.yml)
+## 2021-06-01
+### Firewall Rules
+#### [Overview](redis/2021-06-01/Firewall-Rules.yml)
+#### [Create Or Update](redis/2021-06-01/Firewall-Rules/Create-Or-Update.yml)
+#### [Delete](redis/2021-06-01/Firewall-Rules/Delete.yml)
+#### [Get](redis/2021-06-01/Firewall-Rules/Get.yml)
+#### [List](redis/2021-06-01/Firewall-Rules/List.yml)
+### Linked Server
+#### [Overview](redis/2021-06-01/Linked-Server.yml)
+#### [Create](redis/2021-06-01/Linked-Server/Create.yml)
+#### [Delete](redis/2021-06-01/Linked-Server/Delete.yml)
+#### [Get](redis/2021-06-01/Linked-Server/Get.yml)
+#### [List](redis/2021-06-01/Linked-Server/List.yml)
+### Operations
+#### [Overview](redis/2021-06-01/Operations.yml)
+#### [List](redis/2021-06-01/Operations/List.yml)
+### Patch Schedules
+#### [Overview](redis/2021-06-01/Patch-Schedules.yml)
+#### [Create Or Update](redis/2021-06-01/Patch-Schedules/Create-Or-Update.yml)
+#### [Delete](redis/2021-06-01/Patch-Schedules/Delete.yml)
+#### [Get](redis/2021-06-01/Patch-Schedules/Get.yml)
+#### [List By Redis Resource](redis/2021-06-01/Patch-Schedules/List-By-Redis-Resource.yml)
+### Private Endpoint Connections
+#### [Overview](redis/2021-06-01/Private-Endpoint-Connections.yml)
+#### [Delete](redis/2021-06-01/Private-Endpoint-Connections/Delete.yml)
+#### [Get](redis/2021-06-01/Private-Endpoint-Connections/Get.yml)
+#### [List](redis/2021-06-01/Private-Endpoint-Connections/List.yml)
+#### [Put](redis/2021-06-01/Private-Endpoint-Connections/Put.yml)
+### Private Link Resources
+#### [Overview](redis/2021-06-01/Private-Link-Resources.yml)
+#### [List By Redis Cache](redis/2021-06-01/Private-Link-Resources/List-By-Redis-Cache.yml)
+### Redis
+#### [Overview](redis/2021-06-01/Redis.yml)
+#### [Check Name Availability](redis/2021-06-01/Redis/Check-Name-Availability.yml)
+#### [Create](redis/2021-06-01/Redis/Create.yml)
+#### [Delete](redis/2021-06-01/Redis/Delete.yml)
+#### [Export Data](redis/2021-06-01/Redis/Export-Data.yml)
+#### [Force Reboot](redis/2021-06-01/Redis/Force-Reboot.yml)
+#### [Get](redis/2021-06-01/Redis/Get.yml)
+#### [Import Data](redis/2021-06-01/Redis/Import-Data.yml)
+#### [List By Resource Group](redis/2021-06-01/Redis/List-By-Resource-Group.yml)
+#### [List By Subscription](redis/2021-06-01/Redis/List-By-Subscription.yml)
+#### [List Keys](redis/2021-06-01/Redis/List-Keys.yml)
+#### [List Upgrade Notifications](redis/2021-06-01/Redis/List-Upgrade-Notifications.yml)
+#### [Regenerate Key](redis/2021-06-01/Redis/Regenerate-Key.yml)
+#### [Update](redis/2021-06-01/Redis/Update.yml)
 ## Redis Enterprise Cache
 ### Databases
 #### [Overview](redis/redisenterprisecache/Databases.yml)
@@ -14360,7 +14430,7 @@
 ### [Update](securitycenter/Workspace-Settings/Update.yml)
 # Sentinel
 ## [Overview](../docs-ref-conceptual/securityinsights/index.md)
-## [Request limits and throttling](../docs-ref-conceptual/securityinsights/request-limits-and-throttling.md)
+## [API versions](../docs-ref-conceptual/securityinsights/api-versions.md)
 ## Reference
 ### Preview
 #### Actions
