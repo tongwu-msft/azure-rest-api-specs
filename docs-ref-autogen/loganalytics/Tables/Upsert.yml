@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.loganalytics.tables.get
-name: Get
+uid: management.azure.com.loganalytics.tables.upsert
+name: Upsert
 service: Log Analytics
 groupName: Tables
 apiVersion: 2021-12-01-preview
-summary: Gets a Log Analytics workspace table.
+summary: Update or Create a Log Analytics workspace table.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}?api-version=2021-12-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}?api-version=2021-12-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,87 +48,52 @@ responses:
   description: OK response definition.
   types:
   - uid: Table
+- name: 202 Accepted
+  description: Accepted response definition (Long running operation).
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-requestHeader: []
-definitions:
-- name: Table
-  description: Workspace data table definition.
-  kind: object
-  properties:
-  - name: systemData
-    isReadyOnly: true
-    description: Metadata pertaining to creation and last modification of the resource.
-    types:
-    - uid: systemData
+requestBody:
+- name: default
+  parameters:
   - name: properties.retentionInDays
+    in: body
     description: The data table data retention in days, between 4 and 730. Setting this property to null will default to the workspace retention.
     types:
     - uid: integer
   - name: properties.totalRetentionInDays
+    in: body
     description: The table data total retention in days, between 4 and 2555. Setting this property to null will default to table retention.
     types:
     - uid: integer
-  - name: properties.archiveRetentionInDays
-    isReadyOnly: true
-    description: The table data archive retention in days. Calculated as (totalRetentionInDays-retentionInDays)
-    types:
-    - uid: integer
   - name: properties.searchResults
+    in: body
     description: Parameters of the search job that initiated this table.
     types:
     - uid: SearchResults
   - name: properties.restoredLogs
+    in: body
     description: Parameters of the restore operation that initiated this table.
     types:
     - uid: RestoredLogs
   - name: properties.resultStatistics
+    in: body
     description: Search job execution statistics.
     types:
     - uid: ResultStatistics
   - name: properties.plan
+    in: body
     description: The table plan.
     types:
     - uid: TablePlanEnum
-  - name: properties.lastPlanModifiedDate
-    isReadyOnly: true
-    description: The timestamp that table plan was last modified (UTC).
-    types:
-    - uid: string
   - name: properties.schema
+    in: body
     description: Table schema.
     types:
     - uid: Schema
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: Table's current provisioning state. If set to 'updating', indicates a resource lock due to ongoing operation, forbidding any update to the table until the ongoing operation is concluded.
-    types:
-    - uid: ProvisioningStateEnum
-  - name: id
-    isReadyOnly: true
-    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the resource
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-    types:
-    - uid: string
-- name: ErrorResponse
-  description: Error response
-  kind: object
-  properties:
-  - name: error
-    description: The error object.
-    types:
-    - uid: ErrorDetail
+requestHeader: []
+definitions:
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -217,18 +182,6 @@ definitions:
     description: The number of rows that were returned by the search job.
     types:
     - uid: integer
-- name: TablePlanEnum
-  description: The table plan.
-  kind: enum
-  properties:
-  - name: Basic
-    description: Basic - logs that are adjusted to support high volume / low value verbose logs.
-    types:
-    - uid: string
-  - name: Analytics
-    description: Analytics - logs that allow monitoring and analytics.
-    types:
-    - uid: string
 - name: Schema
   description: Table's schema.
   kind: object
@@ -300,53 +253,81 @@ definitions:
     description: Parameters of the restore operation that initiated this table.
     types:
     - uid: RestoredLogs
-- name: ProvisioningStateEnum
-  description: Table's current provisioning state. If set to 'updating', indicates a resource lock due to ongoing operation, forbidding any update to the table until the ongoing operation is concluded.
-  kind: enum
-  properties:
-  - name: Updating
-    description: Table schema is still being built and updated, table is currently locked for any changes till the procedure is done.
-    types:
-    - uid: string
-  - name: InProgress
-    description: Table schema is stable and without changes, table data is being updated.
-    types:
-    - uid: string
-  - name: Succeeded
-    description: Table state is stable and without changes, table is unlocked and open for new updates.
-    types:
-    - uid: string
-- name: ErrorDetail
-  description: The error detail.
+- name: Table
+  description: Workspace data table definition.
   kind: object
   properties:
-  - name: code
+  - name: systemData
     isReadyOnly: true
-    description: The error code.
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: properties.retentionInDays
+    description: The data table data retention in days, between 4 and 730. Setting this property to null will default to the workspace retention.
+    types:
+    - uid: integer
+  - name: properties.totalRetentionInDays
+    description: The table data total retention in days, between 4 and 2555. Setting this property to null will default to table retention.
+    types:
+    - uid: integer
+  - name: properties.archiveRetentionInDays
+    isReadyOnly: true
+    description: The table data archive retention in days. Calculated as (totalRetentionInDays-retentionInDays)
+    types:
+    - uid: integer
+  - name: properties.searchResults
+    description: Parameters of the search job that initiated this table.
+    types:
+    - uid: SearchResults
+  - name: properties.restoredLogs
+    description: Parameters of the restore operation that initiated this table.
+    types:
+    - uid: RestoredLogs
+  - name: properties.resultStatistics
+    description: Search job execution statistics.
+    types:
+    - uid: ResultStatistics
+  - name: properties.plan
+    description: The table plan.
+    types:
+    - uid: TablePlanEnum
+  - name: properties.lastPlanModifiedDate
+    isReadyOnly: true
+    description: The timestamp that table plan was last modified (UTC).
     types:
     - uid: string
-  - name: message
+  - name: properties.schema
+    description: Table schema.
+    types:
+    - uid: Schema
+  - name: properties.provisioningState
     isReadyOnly: true
-    description: The error message.
+    description: Table's current provisioning state. If set to 'updating', indicates a resource lock due to ongoing operation, forbidding any update to the table until the ongoing operation is concluded.
+    types:
+    - uid: ProvisioningStateEnum
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
-  - name: target
+  - name: name
     isReadyOnly: true
-    description: The error target.
+    description: The name of the resource
     types:
     - uid: string
-  - name: details
+  - name: type
     isReadyOnly: true
-    description: The error details.
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
     types:
     - uid: ErrorDetail
-      isArray: true
-  - name: additionalInfo
-    isReadyOnly: true
-    description: The error additional info.
-    types:
-    - uid: ErrorAdditionalInfo
-      isArray: true
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -445,20 +426,65 @@ definitions:
     description: 'A table eligible to have data sent into it via any of the means supported by Data Collection Rules: the Data Collection Endpoint API, ingestion-time transformations, or any other mechanism provided by Data Collection Rules'
     types:
     - uid: string
-- name: ErrorAdditionalInfo
-  description: The resource management error additional info.
-  kind: object
+- name: TablePlanEnum
+  description: The table plan.
+  kind: enum
   properties:
-  - name: type
-    isReadyOnly: true
-    description: The additional info type.
+  - name: Basic
+    description: Basic - logs that are adjusted to support high volume / low value verbose logs.
     types:
     - uid: string
-  - name: info
-    isReadyOnly: true
-    description: The additional info.
+  - name: Analytics
+    description: Analytics - logs that allow monitoring and analytics.
     types:
-    - uid: object
+    - uid: string
+- name: ProvisioningStateEnum
+  description: Table's current provisioning state. If set to 'updating', indicates a resource lock due to ongoing operation, forbidding any update to the table until the ongoing operation is concluded.
+  kind: enum
+  properties:
+  - name: Updating
+    description: Table schema is still being built and updated, table is currently locked for any changes till the procedure is done.
+    types:
+    - uid: string
+  - name: InProgress
+    description: Table schema is stable and without changes, table data is being updated.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: Table state is stable and without changes, table is unlocked and open for new updates.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: ColumnTypeEnum
   description: Column data type.
   kind: enum
@@ -507,119 +533,162 @@ definitions:
     description: A standard V4/V6 ip address following the standard shape, x.x.x.x/y:y:y:y:y:y:y:y
     types:
     - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
-- name: TablesGet
+- name: TablesUpsert
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685/tables/table1_SRCH?api-version=2021-12-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685/tables/AzureNetworkFlow?api-version=2021-12-01-preview
+    body: >-
+      {
+        "properties": {
+          "schema": {
+            "columns": [
+              {
+                "name": "MyNewColumn",
+                "type": "guid"
+              }
+            ]
+          },
+          "retentionInDays": 45,
+          "totalRetentionInDays": 70
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "systemData": {
-          "createdBy": "00000000-0000-0000-0000-00000000000",
-          "createdAt": "2020-02-03T04:05:06Z"
-        },
         "properties": {
-          "resultStatistics": {
-            "progress": 75,
-            "ingestedRecords": 5
-          },
           "schema": {
-            "name": "table1_SRCH",
+            "name": "AzureNetworkFlow",
             "tableSubType": "DataCollectionRuleBased",
-            "tableType": "SearchResults",
-            "displayName": null,
-            "description": null,
-            "columns": [],
-            "standardColumns": [
+            "tableType": "Microsoft",
+            "columns": [
               {
                 "isHidden": false,
+                "name": "MyNewColumn",
+                "type": "guid",
+                "isDefaultDisplay": false
+              }
+            ],
+            "standardColumns": [
+              {
+                "isHidden": true,
                 "name": "TenantId",
                 "type": "guid",
-                "dataTypeHint": null,
-                "displayName": null,
-                "description": null,
                 "isDefaultDisplay": false
               },
               {
                 "isHidden": false,
                 "name": "SourceSystem",
                 "type": "string",
-                "dataTypeHint": null,
-                "displayName": null,
-                "description": null,
-                "isDefaultDisplay": false
-              },
-              {
-                "isHidden": false,
-                "name": "MG",
-                "type": "guid",
-                "dataTypeHint": null,
-                "displayName": null,
-                "description": null,
-                "isDefaultDisplay": false
-              },
-              {
-                "isHidden": false,
-                "name": "ManagementGroupName",
-                "type": "string",
-                "dataTypeHint": null,
-                "displayName": null,
-                "description": null,
                 "isDefaultDisplay": false
               },
               {
                 "isHidden": false,
                 "name": "TimeGenerated",
                 "type": "dateTime",
-                "dataTypeHint": null,
-                "displayName": null,
-                "description": null,
                 "isDefaultDisplay": false
               },
               {
                 "isHidden": false,
-                "name": "Computer",
+                "name": "AgentID",
                 "type": "string",
-                "dataTypeHint": null,
-                "displayName": null,
-                "description": null,
                 "isDefaultDisplay": false
               },
               {
                 "isHidden": false,
-                "name": "RawData",
+                "name": "SourceIP",
                 "type": "string",
-                "dataTypeHint": null,
-                "displayName": null,
-                "description": null,
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "Protocol",
+                "type": "string",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "SourcePort",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "DestinationPort",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "TcpFlags",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "Packets",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "Bytes",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "BytesOut",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "DurationInMs",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "RstCount",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "MaxSampleRtt",
+                "type": "int",
                 "isDefaultDisplay": false
               }
             ],
-            "categories": null,
-            "labels": null,
-            "source": null,
             "solutions": [
               "LogManagement"
-            ],
-            "searchResults": {
-              "query": "Heartbeat | where SourceSystem != '' | project SourceSystem",
-              "description": "This table was created using a Search Job with the following query: 'Heartbeat | where SourceSystem != '' | project SourceSystem'.",
-              "limit": 1000,
-              "startSearchTime": "2020-02-03T04:05:06Z",
-              "endSearchTime": "2020-02-02T04:05:06Z",
-              "sourceTable": "Heartbeat"
-            }
+            ]
           },
-          "provisioningState": "InProgress",
-          "retentionInDays": 50,
-          "totalRetentionInDays": 50,
-          "archiveRetentionInDays": 0,
+          "provisioningState": "Succeeded",
+          "retentionInDays": 45,
+          "totalRetentionInDays": 70,
+          "archiveRetentionInDays": 25,
           "plan": "Analytics"
         },
-        "id": "/subscriptions/00000000-0000-0000-0000-00000000000/resourceGroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685/tables/table1_SRCH",
-        "name": "table1_SRCH"
+        "id": "/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685/tables/AzureNetworkFlow",
+        "name": "AzureNetworkFlow"
       }
+  - statusCode: "202"
 security:
 - name: azure_auth
   type: oauth2
@@ -630,5 +699,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Log Analytics service - Gets a Log Analytics workspace table.
+  description: Learn more about Log Analytics service - Update or Create a Log Analytics workspace table.
 errorCodes: []
