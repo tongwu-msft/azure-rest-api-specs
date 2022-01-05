@@ -3,14 +3,14 @@ uid: management.azure.com.aks.agentpools.upgradenodeimageversion
 name: Upgrade Node Image Version
 service: AKS
 groupName: Agent Pools
-apiVersion: 2021-09-01
+apiVersion: 2021-10-01
 summary: "Upgrades the node image version of an agent pool to the latest.  \nUpgrading the node image version of an agent pool applies the newest OS and runtime updates to the nodes. AKS provides one new image per week with the latest updates. For more details on node image versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeNodeImageVersion?api-version=2021-09-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeNodeImageVersion?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,6 +47,9 @@ responses:
 - name: 200 OK
   description: OK
 - name: 202 Accepted
+  headers:
+  - name: Azure-AsyncOperation
+    value: string
   description: Accepted
   types:
   - uid: AgentPool
@@ -633,10 +636,13 @@ definitions:
 examples:
 - name: Upgrade Agent Pool Node Image Version
   request:
-    uri: POST https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1/upgradeNodeImageVersion?api-version=2021-09-01
+    uri: POST https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1/upgradeNodeImageVersion?api-version=2021-10-01
   responses:
   - statusCode: "200"
   - statusCode: "202"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/providers/Microsoft.ContainerService/locations/westus/operations/00000000-0000-0000-0000-000000000000?api-version=2018-07-31
     body: >-
       {
         "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",

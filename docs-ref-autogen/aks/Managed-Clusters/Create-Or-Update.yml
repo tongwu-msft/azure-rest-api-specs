@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2021-09-01
+apiVersion: 2021-10-01
 summary: Creates or updates a managed cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2021-09-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -195,7 +195,7 @@ requestBody:
     - uid: ManagedClusterSecurityProfile
   - name: properties.publicNetworkAccess
     in: body
-    description: "Whether the cluster can be accessed through public network or not  \nDefault value is 'Enabled' (case insensitive). Could be set to 'Disabled' to enable private cluster"
+    description: "PublicNetworkAccess of the managedCluster  \nAllow or deny public network access for AKS"
     types:
     - uid: PublicNetworkAccess
   - name: location
@@ -584,6 +584,21 @@ definitions:
     description: Profile of the cluster NAT gateway.
     types:
     - uid: ManagedClusterNATGatewayProfile
+  - name: podCidrs
+    description: "The CIDR notation IP ranges from which to assign pod IPs.  \nOne IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking."
+    types:
+    - uid: string
+      isArray: true
+  - name: serviceCidrs
+    description: "The CIDR notation IP ranges from which to assign service cluster IPs.  \nOne IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges."
+    types:
+    - uid: string
+      isArray: true
+  - name: ipFamilies
+    description: "The IP families used to specify IP versions available to the cluster.  \nIP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6."
+    types:
+    - uid: string
+      isArray: true
 - name: ManagedClusterAADProfile
   description: AADProfile specifies attributes for Azure Active Directory integration.
   kind: object
@@ -946,7 +961,7 @@ definitions:
     types:
     - uid: ManagedClusterSecurityProfile
   - name: properties.publicNetworkAccess
-    description: "Whether the cluster can be accessed through public network or not  \nDefault value is 'Enabled' (case insensitive). Could be set to 'Disabled' to enable private cluster"
+    description: "PublicNetworkAccess of the managedCluster  \nAllow or deny public network access for AKS"
     types:
     - uid: PublicNetworkAccess
   - name: id
@@ -1546,7 +1561,7 @@ definitions:
     types:
     - uid: string
 - name: PublicNetworkAccess
-  description: Whether the cluster can be accessed through public network or not
+  description: PublicNetworkAccess of the managedCluster
   kind: enum
   properties:
   - name: Enabled
@@ -1728,7 +1743,11 @@ definitions:
   kind: object
   properties:
   - name: count
-    description: 'The desired number of outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
+    description: 'The desired number of IPv4 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
+    types:
+    - uid: integer
+  - name: countIPv6
+    description: 'The desired number of IPv6 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 0 for single-stack and 1 for dual-stack. '
     types:
     - uid: integer
 - name: OutboundIPPrefixes
@@ -1797,7 +1816,7 @@ definitions:
 examples:
 - name: Create/Update Managed Cluster
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -1944,6 +1963,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -2044,6 +2072,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -2077,7 +2114,7 @@ examples:
       }
 - name: Create/Update AAD Managed Cluster with EnableAzureRBAC
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -2215,6 +2252,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -2306,6 +2352,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -2336,7 +2391,7 @@ examples:
       }
 - name: Create Managed Cluster with PPG
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -2462,6 +2517,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -2543,6 +2607,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -2567,7 +2640,7 @@ examples:
       }
 - name: Create Managed Cluster with OSSKU
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -2702,6 +2775,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -2792,6 +2874,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -2825,7 +2916,7 @@ examples:
       }
 - name: Create Managed Cluster with GPUMIG
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -2960,6 +3051,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -3050,6 +3150,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -3083,7 +3192,7 @@ examples:
       }
 - name: Create/Update Managed Cluster with EnableAHUB
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -3225,6 +3334,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -3320,6 +3438,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -3353,7 +3480,7 @@ examples:
       }
 - name: Create Managed Cluster with EncryptionAtHost enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -3479,6 +3606,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -3560,6 +3696,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -3584,7 +3729,7 @@ examples:
       }
 - name: Create Managed Cluster with UltraSSD enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -3710,6 +3855,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -3791,6 +3945,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -3815,7 +3978,7 @@ examples:
       }
 - name: Create Managed Cluster with PodIdentity enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -3943,6 +4106,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -4027,6 +4199,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -4055,7 +4236,7 @@ examples:
       }
 - name: Create Managed Private Cluster with fqdn subdomain specified
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -4187,6 +4368,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -4272,6 +4462,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -4296,7 +4495,7 @@ examples:
       }
 - name: Create Managed Private Cluster with Public FQDN specified
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -4430,6 +4629,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -4517,6 +4725,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -4541,7 +4758,7 @@ examples:
       }
 - name: Create Managed Cluster with RunCommand disabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -4672,6 +4889,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -4757,6 +4983,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -4781,7 +5016,7 @@ examples:
       }
 - name: Create Managed Cluster with Node Public IP Prefix
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -4907,6 +5142,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -4988,6 +5232,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -5012,7 +5265,7 @@ examples:
       }
 - name: Create Managed Cluster with FIPS enabled OS
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -5138,6 +5391,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -5219,6 +5481,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -5243,7 +5514,7 @@ examples:
       }
 - name: Create Managed Cluster with HTTP proxy configured
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -5376,6 +5647,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -5465,6 +5745,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -5498,7 +5787,7 @@ examples:
       }
 - name: Create Managed Cluster with Security Profile configured
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -5612,6 +5901,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -5694,6 +5992,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -5720,7 +6027,7 @@ examples:
       }
 - name: Create Managed Cluster with AKS-managed NAT gateway as outbound type
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -5946,7 +6253,7 @@ examples:
       }
 - name: Create Managed Cluster with user-assigned NAT gateway as outbound type
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -6139,7 +6446,7 @@ examples:
       }
 - name: Create Managed Cluster using an agent pool snapshot
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -6271,6 +6578,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -6355,6 +6671,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -6379,7 +6704,7 @@ examples:
       }
 - name: Create/Update Managed Cluster with Windows gMSA enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
     body: >-
       {
         "location": "location1",
@@ -6525,6 +6850,15 @@ examples:
             "dnsServiceIP": "10.0.0.10",
             "dockerBridgeCidr": "172.17.0.1/16",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -6622,6 +6956,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,
@@ -6634,6 +6977,322 @@ examples:
                 },
                 {
                   "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip2"
+                }
+              ]
+            }
+          },
+          "autoScalerProfile": {
+            "scan-interval": "20s",
+            "scale-down-delay-after-add": "15m"
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/subid1/resourceGroups/rgName1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1": {
+              "principalId": "principalId1",
+              "clientId": "clientId1"
+            }
+          }
+        }
+      }
+- name: Create/Update Managed Cluster with dual-stack networking
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
+    body: >-
+      {
+        "location": "location1",
+        "tags": {
+          "tier": "production",
+          "archv2": ""
+        },
+        "sku": {
+          "name": "Basic",
+          "tier": "Free"
+        },
+        "properties": {
+          "kubernetesVersion": "",
+          "dnsPrefix": "dnsprefix1",
+          "agentPoolProfiles": [
+            {
+              "name": "nodepool1",
+              "count": 3,
+              "vmSize": "Standard_DS1_v2",
+              "osType": "Linux",
+              "type": "VirtualMachineScaleSets",
+              "scaleDownMode": "Deallocate",
+              "availabilityZones": [
+                "1",
+                "2",
+                "3"
+              ],
+              "enableNodePublicIP": true,
+              "mode": "System"
+            }
+          ],
+          "linuxProfile": {
+            "adminUsername": "azureuser",
+            "ssh": {
+              "publicKeys": [
+                {
+                  "keyData": "keydata"
+                }
+              ]
+            }
+          },
+          "networkProfile": {
+            "loadBalancerSku": "standard",
+            "outboundType": "loadBalancer",
+            "loadBalancerProfile": {
+              "managedOutboundIPs": {
+                "count": 2
+              }
+            },
+            "ipFamilies": [
+              "IPv4",
+              "IPv6"
+            ]
+          },
+          "autoScalerProfile": {
+            "balance-similar-node-groups": "true",
+            "expander": "priority",
+            "max-node-provision-time": "15m",
+            "new-pod-scale-up-delay": "1m",
+            "scale-down-delay-after-add": "15m",
+            "scan-interval": "20s",
+            "skip-nodes-with-system-pods": "false"
+          },
+          "windowsProfile": {
+            "adminUsername": "azureuser",
+            "adminPassword": "replacePassword1234$"
+          },
+          "servicePrincipalProfile": {
+            "clientId": "clientid",
+            "secret": "secret"
+          },
+          "addonProfiles": {},
+          "enableRBAC": true,
+          "diskEncryptionSetID": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+          "enablePodSecurityPolicy": true
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/subid1/resourceGroups/rgName1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1": {}
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1",
+        "location": "location1",
+        "name": "clustername1",
+        "tags": {
+          "archv2": "",
+          "tier": "production"
+        },
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "maxAgentPools": 1,
+          "kubernetesVersion": "1.22.1",
+          "dnsPrefix": "dnsprefix1",
+          "agentPoolProfiles": [
+            {
+              "name": "nodepool1",
+              "count": 3,
+              "vmSize": "Standard_DS1_v2",
+              "maxPods": 110,
+              "osType": "Linux",
+              "provisioningState": "Succeeded",
+              "orchestratorVersion": "1.22.1",
+              "type": "VirtualMachineScaleSets",
+              "scaleDownMode": "Deallocate",
+              "availabilityZones": [
+                "1",
+                "2",
+                "3"
+              ],
+              "enableNodePublicIP": true,
+              "mode": "System",
+              "nodeImageVersion": "AKSUbuntu:1604:2020.03.11"
+            }
+          ],
+          "linuxProfile": {
+            "adminUsername": "azureuser",
+            "ssh": {
+              "publicKeys": [
+                {
+                  "keyData": "keydata"
+                }
+              ]
+            }
+          },
+          "windowsProfile": {
+            "adminUsername": "azureuser"
+          },
+          "servicePrincipalProfile": {
+            "clientId": "clientid"
+          },
+          "nodeResourceGroup": "MC_rg1_clustername1_location1",
+          "enableRBAC": true,
+          "diskEncryptionSetID": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+          "enablePodSecurityPolicy": true,
+          "fqdn": "dnsprefix1-abcd1234.hcp.eastus.azmk8s.io",
+          "networkProfile": {
+            "loadBalancerSku": "basic",
+            "networkPlugin": "kubenet",
+            "podCidr": "10.244.0.0/16",
+            "serviceCidr": "10.0.0.0/16",
+            "dnsServiceIP": "10.0.0.10",
+            "dockerBridgeCidr": "172.17.0.1/16",
+            "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16",
+              "fd11:1234::/64"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16",
+              "fd00:1234::/108"
+            ],
+            "ipFamilies": [
+              "IPv4",
+              "IPv6"
+            ],
+            "loadBalancerProfile": {
+              "allocatedOutboundPorts": 2000,
+              "idleTimeoutInMinutes": 10,
+              "managedOutboundIPs": {
+                "count": 2,
+                "countIPv6": 1
+              },
+              "effectiveOutboundIPs": [
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip1"
+                },
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip2"
+                },
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip3-ipv6"
+                }
+              ]
+            }
+          },
+          "autoScalerProfile": {
+            "balance-similar-node-groups": "true",
+            "expander": "priority",
+            "max-node-provision-time": "15m",
+            "new-pod-scale-up-delay": "1m",
+            "scale-down-delay-after-add": "15m",
+            "scan-interval": "20s",
+            "skip-nodes-with-system-pods": "false"
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/subid1/resourceGroups/rgName1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1": {
+              "principalId": "principalId1",
+              "clientId": "clientId1"
+            }
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1",
+        "location": "location1",
+        "name": "clustername1",
+        "tags": {
+          "archv2": "",
+          "tier": "production"
+        },
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+          "provisioningState": "Creating",
+          "maxAgentPools": 1,
+          "kubernetesVersion": "1.22.1",
+          "dnsPrefix": "dnsprefix1",
+          "agentPoolProfiles": [
+            {
+              "name": "nodepool1",
+              "count": 3,
+              "vmSize": "Standard_DS1_v2",
+              "maxPods": 110,
+              "osType": "Linux",
+              "provisioningState": "Creating",
+              "orchestratorVersion": "1.22.1",
+              "type": "VirtualMachineScaleSets",
+              "scaleDownMode": "Deallocate",
+              "availabilityZones": [
+                "1",
+                "2",
+                "3"
+              ],
+              "enableNodePublicIP": true,
+              "mode": "System"
+            }
+          ],
+          "linuxProfile": {
+            "adminUsername": "azureuser",
+            "ssh": {
+              "publicKeys": [
+                {
+                  "keyData": "keydata"
+                }
+              ]
+            }
+          },
+          "windowsProfile": {
+            "adminUsername": "azureuser"
+          },
+          "servicePrincipalProfile": {
+            "clientId": "clientid"
+          },
+          "nodeResourceGroup": "MC_rg1_clustername1_location1",
+          "enableRBAC": true,
+          "diskEncryptionSetID": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+          "enablePodSecurityPolicy": true,
+          "networkProfile": {
+            "networkPlugin": "kubenet",
+            "podCidr": "10.244.0.0/16",
+            "serviceCidr": "10.0.0.0/16",
+            "dnsServiceIP": "10.0.0.10",
+            "dockerBridgeCidr": "172.17.0.1/16",
+            "loadBalancerSku": "standard",
+            "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16",
+              "fd11:1234::/64"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16",
+              "fd00:1234::/108"
+            ],
+            "ipFamilies": [
+              "IPv4",
+              "IPv6"
+            ],
+            "loadBalancerProfile": {
+              "allocatedOutboundPorts": 2000,
+              "idleTimeoutInMinutes": 10,
+              "managedOutboundIPs": {
+                "count": 2,
+                "countIPv6": 1
+              },
+              "effectiveOutboundIPs": [
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip1"
+                },
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip2"
+                },
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip3-ipv6"
                 }
               ]
             }
