@@ -20,7 +20,7 @@ ms.manager: jennmar
 > [!Important]
 > This preview API adds the ability to flag specific documents for reprocessing by an indexer. Document identifiers passed in the request are processed in full on the next run. The entire API is a preview feature. This preview feature is also supported in 2020-06-30-Preview. For more information, see [Reset and run an indexer](/azure/search/search-howto-run-reset-indexers). 
 
-The Reset Documents API allows you to selectively reprocess documents from your data source. The API accepts two types of document identifiers as input. They are document keys (keys that uniquely identify documents in a search index) and datasource document ids (keys that uniquely identify documents in a data source). Reset Documents API prioritizes the processing of those documents ahead of other documents from the same data source.
+The Reset Documents API allows you to selectively reprocess documents from your data source. The API accepts two types of document identifiers as input. They are document keys (keys that uniquely identify documents in a search index) and datasource document identifiers (keys that uniquely identify documents in a data source). Reset Documents API prioritizes the processing of those documents ahead of other documents from the same data source.
 
 * For indexers with a skillset and incremental enrichment enabled, Reset Documents will clear the cache and re-run the full skillset.
 * For indexers without a skillset, Reset Documents will simply read the source document from the data source and update/insert the contents into the index.
@@ -37,7 +37,7 @@ POST https://[service name].search.windows.net/indexers/[indexer name]/resetdocs
     api-key: [admin key]  
 ``` 
 
-Reset Documents is an asynchronous API. Invoking the API adds the document keys or data source document ids to be reset to the indexer metadata. On the next scheduled or on demand run of the indexer, the indexer prioritizes processing the reset documents before indexing any new or updated documents in the data source.
+Reset Documents is an asynchronous API. Invoking the API adds the document keys or data source document identifiers to be reset to the indexer metadata. On the next scheduled or on-demand run of the indexer, the indexer processes only the reset documents.
 
 ## URI Parameters
 
@@ -46,7 +46,7 @@ Reset Documents is an asynchronous API. Invoking the API adds the document keys 
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | indexer name  | Required. The request URI specifies the name of the indexer to update. |
 | api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
-| overwrite | Optional. This parameter determines whether consecutive Reset Document operations are combined or overwritten. Default is false. When false, the call’s payload of document keys or data source document ids will be added to the list of keys already queued up for reprocessing. If true, the call’s payload of document keys or data source document ids will overwrite the existing list, including clearing the list of reset documents if you set the keys to null.|
+| overwrite | Optional. This parameter determines whether consecutive Reset Document operations are combined or overwritten. Default is false. When false, the call’s payload of document keys or data source document identifiers will be added to the list of keys already queued up for reprocessing. If true, the call’s payload of document keys or data source document identifiers will overwrite the existing list, including clearing the list of reset documents if you set the keys to null.|
 
 ## Request Headers
 
@@ -59,7 +59,7 @@ The following table describes the required and optional request headers.
 
 ## Request Body
 
-The body should contain either a list of document keys or a list of data source document ids that the indexer will look for in the data source. 
+The body should contain either a list of document keys or a list of data source document identifiers that the indexer will look for in the data source. 
 
 The following JSON is a high-level representation of the main parts of the definition. 
 
@@ -70,7 +70,7 @@ The following JSON is a high-level representation of the main parts of the defin
         "key2",
         "key3"
     ],
-    "datasourceDocumentIds" : ]
+    "datasourceDocumentIds" : [
         "key1",
         "key2",
         "key3"
