@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.list
 name: List
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2021-09-01
+apiVersion: 2021-10-01
 summary: Gets a list of managed clusters in the specified subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters?api-version=2021-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -206,7 +206,7 @@ definitions:
     types:
     - uid: ManagedClusterSecurityProfile
   - name: properties.publicNetworkAccess
-    description: "Whether the cluster can be accessed through public network or not  \nDefault value is 'Enabled' (case insensitive). Could be set to 'Disabled' to enable private cluster"
+    description: "PublicNetworkAccess of the managedCluster  \nAllow or deny public network access for AKS"
     types:
     - uid: PublicNetworkAccess
   - name: id
@@ -626,6 +626,21 @@ definitions:
     description: Profile of the cluster NAT gateway.
     types:
     - uid: ManagedClusterNATGatewayProfile
+  - name: podCidrs
+    description: "The CIDR notation IP ranges from which to assign pod IPs.  \nOne IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking."
+    types:
+    - uid: string
+      isArray: true
+  - name: serviceCidrs
+    description: "The CIDR notation IP ranges from which to assign service cluster IPs.  \nOne IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges."
+    types:
+    - uid: string
+      isArray: true
+  - name: ipFamilies
+    description: "The IP families used to specify IP versions available to the cluster.  \nIP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6."
+    types:
+    - uid: string
+      isArray: true
 - name: ManagedClusterAADProfile
   description: AADProfile specifies attributes for Azure Active Directory integration.
   kind: object
@@ -840,7 +855,7 @@ definitions:
     types:
     - uid: ManagedClusterSecurityProfileAzureDefender
 - name: PublicNetworkAccess
-  description: Whether the cluster can be accessed through public network or not
+  description: PublicNetworkAccess of the managedCluster
   kind: enum
   properties:
   - name: Enabled
@@ -1562,7 +1577,11 @@ definitions:
   kind: object
   properties:
   - name: count
-    description: 'The desired number of outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
+    description: 'The desired number of IPv4 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
+    types:
+    - uid: integer
+  - name: countIPv6
+    description: 'The desired number of IPv6 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 0 for single-stack and 1 for dual-stack. '
     types:
     - uid: integer
 - name: OutboundIPPrefixes
@@ -1631,7 +1650,7 @@ definitions:
 examples:
 - name: List Managed Clusters
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/providers/Microsoft.ContainerService/managedClusters?api-version=2021-09-01
+    uri: GET https://management.azure.com/subscriptions/subid1/providers/Microsoft.ContainerService/managedClusters?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
