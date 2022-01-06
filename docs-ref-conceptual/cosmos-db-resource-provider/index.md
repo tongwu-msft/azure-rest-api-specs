@@ -36,4 +36,4 @@ All Azure Resource Manager REST calls require a valid authorization token in the
 ## See Also
 
 - [Azure Cosmos DB](https://azure.microsoft.com/services/cosmos-db/)
-- [Azure Cosmos DB REST API](https://docs.microsoft.com/rest/api/cosmos-db/)
+- [Azure Cosmos DB REST API](../cosmos-db/index.md)

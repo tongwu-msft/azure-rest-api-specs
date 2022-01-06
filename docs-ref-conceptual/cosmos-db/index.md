@@ -35,10 +35,10 @@ The following table lists the supported REST API versions by the Azure Cosmos DB
 
 |Version|Change introduced|Retirement date|  
 |-------------|---------------------|-----------------------|  
-|2018-12-31|[Partitioned collections automatic migration](https://docs.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)|
-|2018-09-17|[Composite and additional spatial indexing](https://docs.microsoft.com/azure/cosmos-db/index-policy#composite-indexes)|
+|2018-12-31|[Partitioned collections automatic migration](/azure/cosmos-db/sql/migrate-containers-partitioned-to-nonpartitioned)|
+|2018-09-17|[Composite and additional spatial indexing](/azure/cosmos-db/index-policy#composite-indexes)|
 |2018-08-31|Dynamic collection scaling improvements|
-|2018-06-18|[Multi-region write support](https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account)|
+|2018-06-18|[Multi-region write support](/azure/cosmos-db/how-to-manage-database-account)|
 |2017-11-15|Multi-region Strong Consistency|
 |2017-05-03|Large partition key|
 |2017-02-22|[Consistent prefix](/azure/cosmos-db/consistency-levels)||
@@ -72,8 +72,8 @@ See [Access control](access-control-on-cosmosdb-resources.md) for how to authori
 * [Supported operations](common-tasks-using-the-cosmosdb-rest-api.md)  
 
 ## See Also  
-* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB](/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB SQL API](/azure/cosmos-db/sql-api-introduction)   
 * [Azure Cosmos DB SQL API SDKs](/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
