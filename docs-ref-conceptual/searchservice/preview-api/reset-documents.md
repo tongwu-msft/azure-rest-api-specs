@@ -18,18 +18,16 @@ ms.manager: jennmar
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview API adds the ability to flag specific documents for reprocessing by an indexer. Document identifiers passed in the request are processed in full on the next run. The entire API is a preview feature. This preview feature is also supported in 2020-06-30-Preview. For more information, see [Reset and run an indexer](/azure/search/search-howto-run-reset-indexers). 
+> This preview API adds the ability to flag specific documents for reprocessing by an indexer. Document identifiers passed in the request are processed in full on the next run. The entire API is a preview feature. For more information, see [Reset and run an indexer](/azure/search/search-howto-run-reset-indexers). 
 
-The Reset Documents API allows you to selectively reprocess documents from your data source. The API accepts two types of document identifiers as input. They are document keys (keys that uniquely identify documents in a search index) and datasource document identifiers (keys that uniquely identify documents in a data source). Reset Documents API prioritizes the processing of those documents ahead of other documents from the same data source.
+The Reset Documents API allows you to selectively reprocess documents from your data source. The API accepts two types of document identifiers as input. They are document keys (keys that uniquely identify documents in a search index) and datasource document identifiers (keys that uniquely identify documents in a data source). 
 
 * For indexers with a skillset and incremental enrichment enabled, Reset Documents will clear the cache and re-run the full skillset.
 * For indexers without a skillset, Reset Documents will simply read the source document from the data source and update/insert the contents into the index.
 
 If you use document keys to reset documents and your document keys are referenced in an indexer field mapping, the indexer will use field mapping to locate the appropriate field in the underlying data source.
 
-This API works for all indexers (with or without a skillset). If the call succeeds, customers will always get a 204 NoContent response. If the indexer doesn’t have a skillset, it will simply read the document from the data source and update/insert the document into the index.
-
-You can reprocess documents for an existing indexer using an HTTP POST request. Specify the name of the indexer to update on the request URI: 
+This API works for all indexers (with or without a skillset). You can invoke this API using an HTTP POST request. If the call succeeds, you will always get a 204 NoContent response. Specify the name of the indexer to update on the request URI: 
 
 ```http
 POST https://[service name].search.windows.net/indexers/[indexer name]/resetdocs?api-version=[api-version]
