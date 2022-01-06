@@ -2,7 +2,7 @@
 ms.assetid: 7b406a24-3966-484a-b926-af54421b1dc1
 title: "Azure Cosmos DB Resource Provider REST API"
 description: Learn how to run REST API commands on different Azure Cosmos DB resources.
-ms.date: "04/20/2021"
+ms.date: 01/05/2022
 ms.service: cosmos-db
 author: markjbrown
 ms.author: mjbrown
@@ -26,12 +26,12 @@ All Azure Resource Manager REST calls require a valid authorization token in the
 
 | Operation Group | Description |
 |-----------------|-------------|
-|[Database Accounts](/rest/api/cosmos-db-resource-provider/2021-04-15/database-accounts)| Provides operations to manage Azure Cosmos DB accounts, including key management, and failover region priority changes for geo-distributed accounts. |
-|[Core (SQL) API Resources](/rest/api/cosmos-db-resource-provider/2021-04-15/sql-resources)| Provides operations to manage Azure Cosmos DB accounts for Core (SQL) API including managing database and container resources and setting throughput. |
-|[Cassandra API Resources](/rest/api/cosmos-db-resource-provider/2021-04-15/cassandra-resources)| Provides operations to manage Azure Cosmos DB accounts for Cassandra API including managing keyspace and table resources and setting throughput. |
-|[MongoDB API Resources](/rest/api/cosmos-db-resource-provider/2021-04-15/mongodb-resources)| Provides operations to manage Azure Cosmos DB accounts for MongoDB API including managing database and collection resources and setting throughput. |
-|[Gremlin API Resources](/rest/api/cosmos-db-resource-provider/2021-04-15/gremlin-resources)| Provides operations to manage Azure Cosmos DB accounts for Gremlin API including managing database and graph resources and setting throughput. |
-|[Table API Resources](/rest/api/cosmos-db-resource-provider/2021-04-15/table-resources)| Provides operations to manage Azure Cosmos DB accounts for Table API including managing table resources and setting throughput. |
+|[Database Accounts](/rest/api/cosmos-db-resource-provider/2021-10-15/database-accounts)| Provides operations to manage Azure Cosmos DB accounts, including key management, and failover region priority changes for geo-distributed accounts. |
+|[Core (SQL) API Resources](/rest/api/cosmos-db-resource-provider/2021-10-15/sql-resources)| Provides operations to manage Azure Cosmos DB accounts for Core (SQL) API including managing database and container resources and setting throughput. |
+|[Cassandra API Resources](/rest/api/cosmos-db-resource-provider/2021-10-15/cassandra-resources)| Provides operations to manage Azure Cosmos DB accounts for Cassandra API including managing keyspace and table resources and setting throughput. |
+|[MongoDB API Resources](/rest/api/cosmos-db-resource-provider/2021-10-15/mongodb-resources)| Provides operations to manage Azure Cosmos DB accounts for MongoDB API including managing database and collection resources and setting throughput. |
+|[Gremlin API Resources](/rest/api/cosmos-db-resource-provider/2021-10-15/gremlin-resources)| Provides operations to manage Azure Cosmos DB accounts for Gremlin API including managing database and graph resources and setting throughput. |
+|[Table API Resources](/rest/api/cosmos-db-resource-provider/2021-10-15/table-resources)| Provides operations to manage Azure Cosmos DB accounts for Table API including managing table resources and setting throughput. |
 
 ## See Also
 

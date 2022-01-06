@@ -29,10 +29,6 @@ The Azure Cosmos DB REST API provides programmatic access to Azure Cosmos DB res
 
 > [!NOTE]
 > These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md). API reference articles are listed below.
-  
-The follow video gives a great introduction to Azure Cosmos DB REST APIs. 
-
-> [!VIDEO https://channel9.msdn.com/Shows/Azure-Friday/Using-REST-with-DocumentDB/player] 
 
 ## Supported REST API Versions
 The following table lists the supported REST API versions by the Azure Cosmos DB service. The version must be specified via the `x-ms-version` header in every request. If not specified, the service defaults to the latest version `2017-02-22`.
