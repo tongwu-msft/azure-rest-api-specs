@@ -29,20 +29,16 @@ The Azure Cosmos DB REST API provides programmatic access to Azure Cosmos DB res
 
 > [!NOTE]
 > These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md). API reference articles are listed below.
-  
-The follow video gives a great introduction to Azure Cosmos DB REST APIs. 
-
-> [!VIDEO https://channel9.msdn.com/Shows/Azure-Friday/Using-REST-with-DocumentDB/player] 
 
 ## Supported REST API Versions
 The following table lists the supported REST API versions by the Azure Cosmos DB service. The version must be specified via the `x-ms-version` header in every request. If not specified, the service defaults to the latest version `2017-02-22`.
 
 |Version|Change introduced|Retirement date|  
 |-------------|---------------------|-----------------------|  
-|2018-12-31|[Partitioned collections automatic migration](https://docs.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)|
-|2018-09-17|[Composite and additional spatial indexing](https://docs.microsoft.com/azure/cosmos-db/index-policy#composite-indexes)|
+|2018-12-31|[Partitioned collections automatic migration](/azure/cosmos-db/sql/migrate-containers-partitioned-to-nonpartitioned)|
+|2018-09-17|[Composite and additional spatial indexing](/azure/cosmos-db/index-policy#composite-indexes)|
 |2018-08-31|Dynamic collection scaling improvements|
-|2018-06-18|[Multi-region write support](https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account)|
+|2018-06-18|[Multi-region write support](/azure/cosmos-db/how-to-manage-database-account)|
 |2017-11-15|Multi-region Strong Consistency|
 |2017-05-03|Large partition key|
 |2017-02-22|[Consistent prefix](/azure/cosmos-db/consistency-levels)||
@@ -55,7 +51,7 @@ The following table lists the supported REST API versions by the Azure Cosmos DB
 |2014-08-21|DocumentDB public preview (now part of Azure Cosmos DB)|February 29th, 2016|  
     
 ## Cosmos DB Resources  
-The following articles describe the supported REST APIs for each resource type. For general information about the resource model, see [Resource model](https://docs.microsoft.com/azure/cosmos-db/sql-api-resources) and [Cosmos DB resource URIs](cosmosdb-resource-uri-syntax-for-rest.md).
+The following articles describe the supported REST APIs for each resource type. For general information about the resource model, see [Resource model](/azure/cosmos-db/sql-api-resources) and [Cosmos DB resource URIs](cosmosdb-resource-uri-syntax-for-rest.md).
   
 * [Databases](databases.md)  
 * [Collections](collections.md)  
@@ -76,8 +72,8 @@ See [Access control](access-control-on-cosmosdb-resources.md) for how to authori
 * [Supported operations](common-tasks-using-the-cosmosdb-rest-api.md)  
 
 ## See Also  
-* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB](/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB SQL API](/azure/cosmos-db/sql-api-introduction)   
 * [Azure Cosmos DB SQL API SDKs](/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   
