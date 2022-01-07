@@ -2,7 +2,7 @@
 
 [Azure Privileged Identity Management (PIM)](https://docs.microsoft.com/en-us/azure/active-directory/privileged-identity-management/) enables you to limit standing administrator access to privileged roles, discover who has access, and review privileged access. This article describes the common ways to manage access using the REST API.
 
-## List eligible roles
+## List eligible assignments
 
 To list eligible role assignments (list access), you can use one of the [Role Eligibility Schedule Instances - List For Scope](https://docs.microsoft.com/en-us/rest/api/authorization/role-eligibility-schedule-instances/list-for-scope) or [Role Eligibility Schedules - List For Scope](/rest/api/authorization/role-eligibility-schedules/list-for-scope) REST APIs. To refine your results, you specify a scope and an optional filter. To call the API, you must have access to the `Microsoft.Authorization/roleAssignments/read` operation at the specified scope. All [built-in roles](/azure/role-based-access-control/built-in-roles) are granted access to this operation.
 
@@ -38,7 +38,7 @@ To list eligible role assignments (list access), you can use one of the [Role El
     | `$filter=asTarget()` | List role assignments for the current user or service principal, including ones inherited from groups. |
     | `$filter=assignedTo('{objectId}')+and+atScope()` | List role assignments for a specified user, including ones inherited from groups for only the specified scope, not including the role assignments at subscopes.|
     
-## Grant eligible access
+## Grant eligible assignment
 
 To create an eligible role assignment (grant access), you use the [Role Eligibility Schedule Requests - Create](/rest/api/authorization/role-eligibility-schedule-requests/create) REST API and specify the security principal, role definition, schedule, requestType = `AdminAssign` and scope. To call this API, you must have access to `Microsoft.Authorization/roleAssignments/write` operation. Of the built-in roles, only [Owner](/azure/role-based-access-control/built-in-roles#owner) and [User Access Administrator](/azure/role-based-access-control/built-in-roles#user-access-administrator) are granted access to this operation.
 
@@ -87,7 +87,7 @@ To create an eligible role assignment (grant access), you use the [Role Eligibil
 
 1. Replace *{principalId}* with the object identifier of the user, group, or service principal that will be assigned the role.
 
-## Remove eligible access
+## Remove eligible assignment
 
 To remove an eligible role assignment (remove access), use the [Role Eligibility Schedule Requests - Create](/rest/api/authorization/role-eligibility-schedule-requests/create) REST API to create a new request to revoke assignment and specify the security principal, role definition, requestType = `AdminRemove` and scope. To call this API, you must have access to the `Microsoft.Authorization/roleAssignments/write` operation. Of the built-in roles, only [Owner](/azure/role-based-access-control/built-in-roles#owner) and [User Access Administrator](/azure/role-based-access-control/built-in-roles#user-access-administrator) are granted access to this operation.
 
