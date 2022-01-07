@@ -12,10 +12,10 @@ To list eligible role assignments (list access), you can use one of the [Role El
 1. Start with the following request:
 
     ```http
-    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleInstances?api-version=2020-10-01-preview&$filter={filter}
+    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleInstances?api-version=2020-10-01-preview&$filter={filter}
     ```    
     ```http
-    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentSchedules?api-version=2020-10-01-preview&$filter={filter}
+    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilitySchedules?api-version=2020-10-01-preview&$filter={filter}
     ```    
 
 1. Within the URI, replace *{scope}* with the scope for which you want to list the role assignments.
