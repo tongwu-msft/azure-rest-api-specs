@@ -40,7 +40,7 @@ To list eligible role assignments (list access), you can use one of the [Role El
     
 ## Grant eligible access
 
-To create an eligible role assignment (grant access), you use the [Role Eligibility Schedule Requests - Create](/rest/api/authorization/role-eligibility-schedule-requests/create) REST API and specify the security principal, role definition, schedule, requestType and scope. To call this API, you must have access to `Microsoft.Authorization/roleAssignments/write` operation. Of the built-in roles, only [Owner](/azure/role-based-access-control/built-in-roles#owner) and [User Access Administrator](/azure/role-based-access-control/built-in-roles#user-access-administrator) are granted access to this operation.
+To create an eligible role assignment (grant access), you use the [Role Eligibility Schedule Requests - Create](/rest/api/authorization/role-eligibility-schedule-requests/create) REST API and specify the security principal, role definition, schedule, requestType = `AdminAssign` and scope. To call this API, you must have access to `Microsoft.Authorization/roleAssignments/write` operation. Of the built-in roles, only [Owner](/azure/role-based-access-control/built-in-roles#owner) and [User Access Administrator](/azure/role-based-access-control/built-in-roles#user-access-administrator) are granted access to this operation.
 
 1. Use the [Role Definitions - List](/rest/api/authorization/roledefinitions/list) REST API or see [Built-in roles](/azure/role-based-access-control/built-in-roles) to get the identifier for the role definition you want to assign.
 
