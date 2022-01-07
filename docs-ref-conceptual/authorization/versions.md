@@ -22,7 +22,7 @@ Latest stable version
 
 | Version | Description |
 | --- | --- |
-| [2020-10-01-preview](#2020-10-01-preview) | Device principal type |
+| [2020-10-01-preview](#2020-10-01-preview) | Device principal type<br>Add Privileged Identity Management resource types |
 | [2020-08-01-preview](#2020-08-01-preview) | Role assignment validation |
 | [2020-07-01-preview](#2020-07-01-preview) | Search role assignments<br/>Search deny assignments |
 | [2020-04-01-preview](#2020-04-01-preview) | Role assignment with description |
@@ -43,6 +43,17 @@ Latest stable version
 Support device principal type
 - Role assignments
     - `Device` added as valid `principalType` property
+
+- Added the following *Privileged Identity Management* resource types
+    - `Role Assignment Schedule Requests`  
+    - `Role Assignment Schedules`
+    - `Role Assignment Schedule Instances`
+    - `Role Eligibility Schedule Requests`
+    - `Role Eligibility Schedules`
+    - `Role Eligibility Schedule Instances`
+    - `Eligible Child Resources`
+    - `Role Management Policies`
+    - `Role Management Policy Assignments`    
 
 ### 2020-08-01-preview
 
