@@ -65,6 +65,15 @@ definitions:
     description: The object that represents the operation.
     types:
     - uid: Display
+  - name: origin
+    isReadyOnly: true
+    description: Origin of the operation.
+    types:
+    - uid: string
+  - name: properties
+    description: Additional properties to expose performance metrics to shoebox.
+    types:
+    - uid: Properties
 - name: Error
   description: The error object
   kind: object
@@ -96,7 +105,120 @@ definitions:
     description: 'Operation type: create, update, delete, etc.'
     types:
     - uid: string
-examples: []
+  - name: description
+    description: Localized description of the operation.
+    types:
+    - uid: string
+- name: Properties
+  description: Additional properties to expose performance metrics to shoebox.
+  kind: object
+  properties:
+  - name: serviceSpecification
+    description: Service specification for exposing performance metrics to shoebox.
+    types:
+    - uid: ServiceSpecification
+- name: ServiceSpecification
+  description: Service specification for exposing performance metrics to shoebox.
+  kind: object
+  properties:
+  - name: metricSpecifications
+    description: Metric specifications for exposing performance metrics to shoebox.
+    types:
+    - uid: MetricSpecification
+      isArray: true
+  - name: logSpecifications
+    description: Log specifications for exposing diagnostic logs to shoebox.
+    types:
+    - uid: LogSpecification
+      isArray: true
+- name: MetricSpecification
+  description: Metric specification for exposing performance metrics to shoebox.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Metric name
+    types:
+    - uid: string
+  - name: displayName
+    description: Localizable metric name
+    types:
+    - uid: string
+  - name: displayDescription
+    description: Localizable description of metric
+    types:
+    - uid: string
+  - name: unit
+    isReadyOnly: true
+    description: Unit for the metric
+    types:
+    - uid: string
+  - name: aggregationType
+    isReadyOnly: true
+    description: Aggregation type for the metric
+    types:
+    - uid: string
+  - name: metricFilterPattern
+    isReadyOnly: true
+    description: Pattern used to filter the metric
+    types:
+    - uid: string
+  - name: dimensions
+    description: For describing multi dimensional metrics
+    types:
+    - uid: Dimensions
+      isArray: true
+- name: LogSpecification
+  description: Log specification for exposing diagnostic logs to shoebox.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the log
+    types:
+    - uid: string
+  - name: displayName
+    description: Localizable name of the log
+    types:
+    - uid: string
+  - name: blobDuration
+    isReadyOnly: true
+    description: Blob duration for the log
+    types:
+    - uid: string
+- name: Dimensions
+  description: For describing multi dimensional metrics
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Dimension of the metric
+    types:
+    - uid: string
+  - name: displayName
+    description: Localizable dimension of the metric
+    types:
+    - uid: string
+examples:
+- name: List operations
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.PowerBIDedicated/operations?api-version=2021-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.PowerBIDedicated/checkNameAvailability/action",
+            "display": {
+              "provider": "Microsoft.PowerBIDedicated",
+              "resource": "checkNameAvailability",
+              "operation": "Capacities_CheckNameAvailability",
+              "description": "Checks that given Power BI Dedicated Capacity name is valid and not in use."
+            }
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2
