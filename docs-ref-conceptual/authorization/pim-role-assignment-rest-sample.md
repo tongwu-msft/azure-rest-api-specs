@@ -120,3 +120,76 @@ To remove an active role assignment (remove access), use the [Role Assignment Sc
 
 1. Replace *{roleAssignmentScheduleRequestName}* with the GUID identifier of the role assignment.
 
+## Activate an eligible role assignment
+
+To activate an eligible role assignment (gain activated access), use the [Role Assignment Schedule Requests - Create](/rest/api/authorization/role-assignment-schedule-requests/create) REST API to create a new request and specify the security principal, role definition, requestType = `SelfActivate` and scope. To call this API, you must have an eligible role assignment on the scope.
+
+1. Use a GUID tool to generate a unique identifier that will be used for the role assignment identifier. The identifier has the format: `00000000-0000-0000-0000-000000000000`
+
+1. Start with the following request:
+
+    ```http
+    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}?api-version=2020-10-01-preview
+    ```
+    
+   ```json
+    {
+      "Properties": {
+        "RoleDefinitionId": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+        "PrincipalId": "{principalId}",
+        "RequestType": "SelfActivate",
+        "ScheduleInfo": {
+          "StartDateTime": "2020-09-09T21:31:27.91Z",
+          "Expiration": {
+            "Type": "AfterDuration", // Values: AfterDuration, AfterDateTime, NoExpiration
+            "EndDateTime": null,
+            "Duration": "PT8H" // Use ISO 8601 format
+          }
+        }
+      }
+    }
+    ```
+    
+1. Within the URI, replace *{scope}* with the scope for removing the role assignment.
+
+    | Scope | Type |
+    | --- | --- |
+    | `providers/Microsoft.Management/managementGroups/{mg-name}` | Management Group |
+    | `subscriptions/{subscriptionId}` | Subscription |
+    | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1` | Resource group |
+    | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1/ providers/Microsoft.Web/sites/mysite1` | Resource |
+
+1. Replace *{roleAssignmentScheduleRequestName}* with the GUID identifier of the role assignment.
+
+## Deactivate an active role assignment
+
+To de-activate an activated role assignment (remove activated access), use the [Role Assignment Schedule Requests - Create](/rest/api/authorization/role-assignment-schedule-requests/create) REST API to create a new request and specify the security principal, role definition, requestType = `SelfDeactivate` and scope. To call this API, you must have an activated role assignment on the scope.
+
+1. Use a GUID tool to generate a unique identifier that will be used for the role assignment identifier. The identifier has the format: `00000000-0000-0000-0000-000000000000`
+
+1. Start with the following request:
+
+    ```http
+    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}?api-version=2020-10-01-preview
+    ```
+    
+   ```json
+    {
+      "Properties": {
+        "RoleDefinitionId": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+        "PrincipalId": "{principalId}",
+        "RequestType": "SelfDeactivate"        
+      }
+    }
+    ```
+    
+1. Within the URI, replace *{scope}* with the scope for removing the role assignment.
+
+    | Scope | Type |
+    | --- | --- |
+    | `providers/Microsoft.Management/managementGroups/{mg-name}` | Management Group |
+    | `subscriptions/{subscriptionId}` | Subscription |
+    | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1` | Resource group |
+    | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1/ providers/Microsoft.Web/sites/mysite1` | Resource |
+
+1. Replace *{roleAssignmentScheduleRequestName}* with the GUID identifier of the role assignment.
