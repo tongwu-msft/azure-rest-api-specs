@@ -49,7 +49,7 @@ To create an active role assignment (grant access), you use the [Role Assignment
 1. Start with the following request and body:
 
     ```http
-    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleAssignmentScheduleRequests}?api-version=2020-10-01-preview
+    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}?api-version=2020-10-01-preview
     ```
 
     ```json
@@ -79,7 +79,7 @@ To create an active role assignment (grant access), you use the [Role Assignment
     | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1` | Resource group |
     | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1/providers/Microsoft.Web/sites/mysite1` | Resource |
 
-1. Replace *{roleAssignmentScheduleRequests}* with the GUID identifier of the role assignment.
+1. Replace *{roleAssignmentScheduleRequestName}* with the GUID identifier of the role assignment.
 
 1. Within the request body, replace *{subscriptionId}* with your subscription identifier.
 
@@ -96,7 +96,7 @@ To remove an active role assignment (remove access), use the [Role Assignment Sc
 1. Start with the following request:
 
     ```http
-    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleAssignmentScheduleRequests}?api-version=2020-10-01-preview
+    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}?api-version=2020-10-01-preview
     ```
     
     ```json
@@ -118,5 +118,5 @@ To remove an active role assignment (remove access), use the [Role Assignment Sc
     | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1` | Resource group |
     | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1/ providers/Microsoft.Web/sites/mysite1` | Resource |
 
-1. Replace *{roleAssignmentScheduleRequests}* with the GUID identifier of the role assignment.
+1. Replace *{roleAssignmentScheduleRequestName}* with the GUID identifier of the role assignment.
 
