@@ -22,6 +22,7 @@ To list eligible role assignments (list access), you can use one of the [Role El
 
     | Scope | Type |
     | --- | --- |
+    | `providers/Microsoft.Management/managementGroups/{mg-name}` | Management Group |
     | `subscriptions/{subscriptionId}` | Subscription |
     | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1` | Resource group |
     | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1/providers/Microsoft.Web/sites/mysite1` | Resource |
@@ -39,7 +40,7 @@ To list eligible role assignments (list access), you can use one of the [Role El
     
 ## Grant eligible access
 
-To create an eligible role assignment (grant access), you use the [Role Eligibility Schedule Requests - Create](/rest/api/authorization/role-eligibility-schedule-requests/createe) REST API and specify the security principal, role definition, schedule, requestType and scope. To call this API, you must have access to `Microsoft.Authorization/roleAssignments/write` operation. Of the built-in roles, only [Owner](/azure/role-based-access-control/built-in-roles#owner) and [User Access Administrator](/azure/role-based-access-control/built-in-roles#user-access-administrator) are granted access to this operation.
+To create an eligible role assignment (grant access), you use the [Role Eligibility Schedule Requests - Create](/rest/api/authorization/role-eligibility-schedule-requests/create) REST API and specify the security principal, role definition, schedule, requestType and scope. To call this API, you must have access to `Microsoft.Authorization/roleAssignments/write` operation. Of the built-in roles, only [Owner](/azure/role-based-access-control/built-in-roles#owner) and [User Access Administrator](/azure/role-based-access-control/built-in-roles#user-access-administrator) are granted access to this operation.
 
 1. Use the [Role Definitions - List](/rest/api/authorization/roledefinitions/list) REST API or see [Built-in roles](/azure/role-based-access-control/built-in-roles) to get the identifier for the role definition you want to assign.
 
@@ -48,21 +49,21 @@ To create an eligible role assignment (grant access), you use the [Role Eligibil
 1. Start with the following request and body:
 
     ```http
-    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}?api-version=2015-07-01
+    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}?api-version=2020-10-01-preview
     ```
 
     ```json
     {
-      "properties": {
-        "roleDefinitionId": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
-        "principalId": "{principalId}",
-        "requestType": "AdminAssign",
-        "scheduleInfo": {
-          "startDateTime": "2020-09-09T21:31:27.91Z",
-          "expiration": {
-            "type": "AfterDuration", // Values: AfterDuration, AfterDateTime, NoExpiration
-            "endDateTime": null,
-            "duration": "P365D" // Use ISO 8601 format
+      "Properties": {
+        "RoleDefinitionId": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+        "PrincipalId": "{principalId}",
+        "RequestType": "AdminAssign",
+        "ScheduleInfo": {
+          "StartDateTime": "2020-09-09T21:31:27.91Z",
+          "Expiration": {
+            "Type": "AfterDuration", // Values: AfterDuration, AfterDateTime, NoExpiration
+            "EndDateTime": null,
+            "Duration": "P365D" // Use ISO 8601 format
           }
         }
       }
@@ -73,6 +74,7 @@ To create an eligible role assignment (grant access), you use the [Role Eligibil
 
     | Scope | Type |
     | --- | --- |
+    | `providers/Microsoft.Management/managementGroups/{mg-name}` | Management Group |
     | `subscriptions/{subscriptionId}` | Subscription |
     | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1` | Resource group |
     | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1/providers/Microsoft.Web/sites/mysite1` | Resource |
@@ -84,3 +86,37 @@ To create an eligible role assignment (grant access), you use the [Role Eligibil
 1. Replace *{roleDefinitionId}* with the role definition identifier.
 
 1. Replace *{principalId}* with the object identifier of the user, group, or service principal that will be assigned the role.
+
+## Remove eligible access
+
+To remove an eligible role assignment (remove access), use the [Role Eligibility Schedule Requests - Create](/rest/api/authorization/role-eligibility-schedule-requests/create) REST API to create a new request to revoke assignment and specify the security principal, role definition, requestType = `AdminRemove` and scope. To call this API, you must have access to the `Microsoft.Authorization/roleAssignments/write` operation. Of the built-in roles, only [Owner](/azure/role-based-access-control/built-in-roles#owner) and [User Access Administrator](/azure/role-based-access-control/built-in-roles#user-access-administrator) are granted access to this operation.
+
+1. Use a GUID tool to generate a unique identifier that will be used for the role assignment identifier. The identifier has the format: `00000000-0000-0000-0000-000000000000`
+
+1. Start with the following request:
+
+    ```http
+    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}?api-version=2020-10-01-preview
+    ```
+    
+    ```json
+    {
+      "Properties": {
+        "RoleDefinitionId": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+        "PrincipalId": "{principalId}",
+        "RequestType": "AdminRemove"
+        }
+    }
+    ```
+    
+1. Within the URI, replace *{scope}* with the scope for removing the role assignment.
+
+    | Scope | Type |
+    | --- | --- |
+    | `providers/Microsoft.Management/managementGroups/{mg-name}` | Management Group |
+    | `subscriptions/{subscriptionId}` | Subscription |
+    | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1` | Resource group |
+    | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1/ providers/Microsoft.Web/sites/mysite1` | Resource |
+
+1. Replace *{roleEligibilityScheduleRequestName}* with the GUID identifier of the role assignment.
+
