@@ -192,7 +192,7 @@ The following tables describe the permissions necessary for an Azure AD user, gr
 | [Peek Messages](peek-messages.md) | Microsoft.Storage/storageAccounts/queueServices/queues/messages/read |
 | [Delete Message](delete-message2.md) | Microsoft.Storage/storageAccounts/queueServices/queues/messages/process/action or Microsoft.Storage/storageAccounts/queueServices/queues/messages/delete |
 | [Clear Messages](clear-messages.md) | Microsoft.Storage/storageAccounts/queueServices/queues/messages/delete |
-| [Update Message](update-message.md) | Microsoft.Storage/storageAccounts/queueServices/queues/messages/write |                                       |
+| [Update Message](update-message.md) | Microsoft.Storage/storageAccounts/queueServices/queues/messages/write |
 
 ### Permissions for Table service operations
 
