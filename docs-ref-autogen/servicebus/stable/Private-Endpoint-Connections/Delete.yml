@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.servicebus.stable.namespaces-migrate.migrate
-name: Migrate
+uid: management.azure.com.servicebus.stable.privateendpointconnections.delete
+name: Delete
 service: Service Bus
-groupName: Namespaces - Migrate
-apiVersion: 2017-04-01
-summary: This operation Migrate the given namespace to provided name type
+groupName: Private Endpoint Connections
+apiVersion: 2021-11-01
+summary: Deletes an existing Private Endpoint Connection.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrate?api-version=2017-04-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,6 +30,12 @@ uriParameters:
   description: The namespace name
   types:
   - uid: string
+- name: privateEndpointConnectionName
+  in: path
+  isRequired: true
+  description: The PrivateEndpointConnection name
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -38,20 +44,15 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Migrate Namespace type is successful.
+  description: Private Endpoint Connection successfully deleted.
+- name: 202 Accepted
+  description: Private Endpoint Connection  delete request accepted.
+- name: 204 No Content
+  description: No content.
 - name: Other Status Codes
   description: ServiceBus error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-requestBody:
-- name: default
-  parameters:
-  - name: targetNamespaceType
-    in: body
-    isRequired: true
-    description: Type of namespaces
-    types:
-    - uid: NameSpaceType
 requestHeader: []
 definitions:
 - name: ErrorResponse
@@ -62,14 +63,6 @@ definitions:
     description: The error object.
     types:
     - uid: Error
-- name: SBNamespaceMigrate
-  description: Namespace Migrate Object
-  kind: object
-  properties:
-  - name: targetNamespaceType
-    description: Type of namespaces
-    types:
-    - uid: NameSpaceType
 - name: Error
   description: The error object.
   kind: object
@@ -101,25 +94,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: NameSpaceType
-  description: Type of namespaces
-  kind: enum
-  properties:
-  - name: Messaging
-    types:
-    - uid: string
-  - name: NotificationHub
-    types:
-    - uid: string
-  - name: Mixed
-    types:
-    - uid: string
-  - name: EventHub
-    types:
-    - uid: string
-  - name: Relay
-    types:
-    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -135,15 +109,13 @@ definitions:
     types:
     - uid: object
 examples:
-- name: NameSpaceUpdate
+- name: NameSpacePrivateEndPointConnectionDelete
   request:
-    uri: POST https://management.azure.com/subscriptions/SubscriptionId/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-41/migrate?api-version=2017-04-01
-    body: >-
-      {
-        "targetNamespaceType": "EventHub"
-      }
+    uri: DELETE https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-3285/privateEndpointConnections/928c44d5-b7c6-423b-b6fa-811e0c27b3e0?api-version=2021-11-01
   responses:
   - statusCode: "200"
+  - statusCode: "202"
+  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2
@@ -154,5 +126,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Service Bus service - This operation Migrate the given namespace to provided name type
+  description: Learn more about Service Bus service - Deletes an existing Private Endpoint Connection.
 errorCodes: []
