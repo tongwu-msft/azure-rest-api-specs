@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.eventhub.stable.networkrulesets.listnetworkrulesets
-name: List Network Rule Sets
+uid: management.azure.com.eventhub.stable.networkrulesets.listnetworkruleset
+name: List Network Rule Set
 service: Event Hubs
 groupName: Network Rule Sets
-apiVersion: 2017-04-01
-summary: Gets list of NetworkRuleSet for a Namespace.
+apiVersion: 2021-11-01
+summary: Gets NetworkRuleSet for a Namespace.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets?api-version=2017-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,11 +38,11 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: List of NetworkRuleSets for Namespace successfully returned.
+  description: Namespace NetworkRuleSet successfully returned.
   types:
   - uid: NetworkRuleSetListResult
 - name: Other Status Codes
-  description: EventHub error response describing why the operation failed.
+  description: ServiceBus error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
@@ -52,7 +52,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: Result of the List NetworkRuleSet operation.
+    description: Result of the List NetworkRuleSet operation
     types:
     - uid: NetworkRuleSet
       isArray: true
@@ -64,18 +64,23 @@ definitions:
   description: Error response indicates Event Hub service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
-  - name: code
-    description: Error code.
+  - name: error
+    description: The error object.
     types:
-    - uid: string
-  - name: message
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
+    - uid: ErrorDetail
 - name: NetworkRuleSet
-  description: Description of NetworkRuleSet resource.
+  description: Description of topic resource.
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
+    types:
+    - uid: systemData
+  - name: properties.trustedServiceAccessEnabled
+    description: Value that indicates whether Trusted Service Access is Enabled or not.
+    types:
+    - uid: boolean
   - name: properties.defaultAction
     description: Default Action for Network Rule Set
     types:
@@ -90,6 +95,10 @@ definitions:
     types:
     - uid: NWRuleSetIpRules
       isArray: true
+  - name: properties.publicNetworkAccess
+    description: This determines if traffic is allowed over public network. By default it is enabled.
+    types:
+    - uid: PublicNetworkAccessFlag
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -102,7 +111,71 @@ definitions:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    description: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
     types:
     - uid: string
 - name: DefaultAction
@@ -116,7 +189,7 @@ definitions:
     types:
     - uid: string
 - name: NWRuleSetVirtualNetworkRules
-  description: Description of VirtualNetworkRules - NetworkRules resource.
+  description: The response from the List namespace operation.
   kind: object
   properties:
   - name: subnet
@@ -124,11 +197,11 @@ definitions:
     types:
     - uid: Subnet
   - name: ignoreMissingVnetServiceEndpoint
-    description: Value that indicates whether to ignore missing VNet Service Endpoint
+    description: Value that indicates whether to ignore missing Vnet Service Endpoint
     types:
     - uid: boolean
 - name: NWRuleSetIpRules
-  description: Description of NetWorkRuleSet - IpRules resource.
+  description: The response from the List namespace operation.
   kind: object
   properties:
   - name: ipMask
@@ -139,6 +212,46 @@ definitions:
     description: The IP Filter Action
     types:
     - uid: NetworkRuleIPAction
+- name: PublicNetworkAccessFlag
+  description: This determines if traffic is allowed over public network. By default it is enabled.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: Subnet
   description: Properties supplied for Subnet
   kind: object
@@ -157,14 +270,14 @@ definitions:
 examples:
 - name: NameSpaceNetworkRuleSetList
   request:
-    uri: GET https://management.azure.com/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-6019/networkRuleSets?api-version=2017-04-01
+    uri: GET https://management.azure.com/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.EventHub/namespaces/sdk-Namespace-6019/networkRuleSets?api-version=2021-11-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/subscriptionid/resourceGroups/resourcegroupid/providers/Microsoft.EventHub/namespaces/sdk-Namespace-9659/networkrulesets/default",
+            "id": "/subscriptions/subscriptionid/resourceGroups/resourcegroupid/providers/Microsoft.EventHub/namespaces/sdk-Namespace-9659/networkruleset/default",
             "name": "default",
             "type": "Microsoft.EventHub/Namespaces/NetworkRuleSet",
             "properties": {
@@ -225,5 +338,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Event Hubs service - Gets list of NetworkRuleSet for a Namespace.
+  description: Learn more about Event Hubs service - Gets NetworkRuleSet for a Namespace.
 errorCodes: []
