@@ -15,7 +15,7 @@ ms.manager: jennmar
 
 # Reset Documents (Preview REST API)
 
-**API Version: 2021-04-30-Preview**
+**API Version: 2020-06-30-Preview, 2021-04-30-Preview**
 
 > [!Important]
 > This preview API adds the ability to flag specific documents for reprocessing by an indexer. The entire API is a preview feature. For more information, see [Reset and run an indexer](/azure/search/search-howto-run-reset-indexers). 
