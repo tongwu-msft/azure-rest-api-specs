@@ -126,6 +126,8 @@ To activate an eligible role assignment (gain activated access), use the [Role A
 
 1. Use a GUID tool to generate a unique identifier that will be used for the role assignment identifier. The identifier has the format: `00000000-0000-0000-0000-000000000000`
 
+1. [Optional] Choose a `RoleEligibilitySchedule` that you want to activate and get the `RoleEligibilityScheduleId` from the [Role Eligibility Schedules](rest/api/authorization/role-eligibility-schedules) API to pass in as the `LinkedRoleEligibilityScheduleId`. This is optional, and if not passed the system will pick a `RoleEligibilitySchedule`.
+
 1. Start with the following request:
 
     ```http
@@ -145,7 +147,8 @@ To activate an eligible role assignment (gain activated access), use the [Role A
             "EndDateTime": null,
             "Duration": "PT8H" // Use ISO 8601 format
           }
-        }
+        },
+        "LinkedRoleEligibilityScheduleId": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/roleAssignmentSchedules/{roleAssignmentScheduleId}" //Optional
       }
     }
     ```
@@ -193,3 +196,32 @@ To de-activate an activated role assignment (remove activated access), use the [
     | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1/ providers/Microsoft.Web/sites/mysite1` | Resource |
 
 1. Replace *{roleAssignmentScheduleRequestName}* with the GUID identifier of the role assignment.
+
+## Just-Enough-Access (JEA)
+
+If a user has an eligible role assignment at a resource (parent), they can choose to activate the role at a child level scope of the parent resource instead of the entire parent scope. For example, if a user has `Contributor` eligible role at a subscription, they can activate the role at a child resource group level of the subscription.
+
+To get a list of all children of a resource on which you have eligble access you can use the [Eligible Child Resources](rest/api/authorization/eligible-child-resources) API.
+
+1. Start with the following request:
+
+    ```http
+    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/eligibleChildResources?api-version=2020-10-01-preview&$filter={filter}
+    ```    
+
+1. Within the URI, replace *{scope}* with the scope for which you want to list the role assignments.
+
+    | Scope | Type |
+    | --- | --- |
+    | `providers/Microsoft.Management/managementGroups/{mg-name}` | Management Group |
+    | `subscriptions/{subscriptionId}` | Subscription |
+    | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1` | Resource group |
+
+1. Replace *{filter}* with the condition that you want to apply to filter the role assignment list.
+
+    | Filter | Description |
+    | --- | --- |
+    | `$filter=resourceType+eq+'Subscription' ` | List resources of type = 'Subscription'. |
+    | `$filter=$filter=resourceType+eq+'subscription'+or+resourceType+eq+'resourcegroup'' ` | List resources of type = 'Subscription' or type = 'ResourceGroup'. |
+    
+1. Use the `id` of any child resource to use as the `scope` for the activation `RoleAssignmentScheduleRequest`
