@@ -10165,296 +10165,326 @@
 #### [Run Bulk Operation](iot-dps/service/Individual-Enrollment/Run-Bulk-Operation.yml)
 # Key Vault
 ## [Overview](../docs-ref-conceptual/keyvault/index.md)
-## Backup Certificate
-### [Overview](keyvault/Backup-Certificate.yml)
-### [Backup Certificate](keyvault/Backup-Certificate/Backup-Certificate.yml)
-## Backup Key
-### [Overview](keyvault/Backup-Key.yml)
-### [Backup Key](keyvault/Backup-Key/Backup-Key.yml)
-## Backup Secret
-### [Overview](keyvault/Backup-Secret.yml)
-### [Backup Secret](keyvault/Backup-Secret/Backup-Secret.yml)
-## Backup Storage Account
-### [Overview](keyvault/Backup-Storage-Account.yml)
-### [Backup Storage Account](keyvault/Backup-Storage-Account/Backup-Storage-Account.yml)
-## Create Certificate
-### [Overview](keyvault/Create-Certificate.yml)
-### [Create Certificate](keyvault/Create-Certificate/Create-Certificate.yml)
-## Create Key
-### [Overview](keyvault/Create-Key.yml)
-### [Create Key](keyvault/Create-Key/Create-Key.yml)
-## Delete Certificate
-### [Overview](keyvault/Delete-Certificate.yml)
-### [Delete Certificate](keyvault/Delete-Certificate/Delete-Certificate.yml)
-## Delete Certificate Contacts
-### [Overview](keyvault/Delete-Certificate-Contacts.yml)
-### [Delete Certificate Contacts](keyvault/Delete-Certificate-Contacts/Delete-Certificate-Contacts.yml)
-## Delete Certificate Issuer
-### [Overview](keyvault/Delete-Certificate-Issuer.yml)
-### [Delete Certificate Issuer](keyvault/Delete-Certificate-Issuer/Delete-Certificate-Issuer.yml)
-## Delete Certificate Operation
-### [Overview](keyvault/Delete-Certificate-Operation.yml)
-### [Delete Certificate Operation](keyvault/Delete-Certificate-Operation/Delete-Certificate-Operation.yml)
-## Delete Key
-### [Overview](keyvault/Delete-Key.yml)
-### [Delete Key](keyvault/Delete-Key/Delete-Key.yml)
-## Delete Sas Definition
-### [Overview](keyvault/Delete-Sas-Definition.yml)
-### [Delete Sas Definition](keyvault/Delete-Sas-Definition/Delete-Sas-Definition.yml)
-## Delete Secret
-### [Overview](keyvault/Delete-Secret.yml)
-### [Delete Secret](keyvault/Delete-Secret/Delete-Secret.yml)
-## Delete Storage Account
-### [Overview](keyvault/Delete-Storage-Account.yml)
-### [Delete Storage Account](keyvault/Delete-Storage-Account/Delete-Storage-Account.yml)
-## Full Backup
-### [Overview](keyvault/Full-Backup.yml)
-### [Full Backup](keyvault/Full-Backup/Full-Backup.yml)
-## Full Backup Status
-### [Overview](keyvault/Full-Backup-Status.yml)
-### [Full Backup Status](keyvault/Full-Backup-Status/Full-Backup-Status.yml)
-## Full Restore Operation
-### [Overview](keyvault/Full-Restore-Operation.yml)
-### [Full Restore Operation](keyvault/Full-Restore-Operation/Full-Restore-Operation.yml)
-## Get Certificate
-### [Overview](keyvault/Get-Certificate.yml)
-### [Get Certificate](keyvault/Get-Certificate/Get-Certificate.yml)
-## Get Certificate Contacts
-### [Overview](keyvault/Get-Certificate-Contacts.yml)
-### [Get Certificate Contacts](keyvault/Get-Certificate-Contacts/Get-Certificate-Contacts.yml)
-## Get Certificate Issuer
-### [Overview](keyvault/Get-Certificate-Issuer.yml)
-### [Get Certificate Issuer](keyvault/Get-Certificate-Issuer/Get-Certificate-Issuer.yml)
-## Get Certificate Issuers
-### [Overview](keyvault/Get-Certificate-Issuers.yml)
-### [Get Certificate Issuers](keyvault/Get-Certificate-Issuers/Get-Certificate-Issuers.yml)
-## Get Certificate Operation
-### [Overview](keyvault/Get-Certificate-Operation.yml)
-### [Get Certificate Operation](keyvault/Get-Certificate-Operation/Get-Certificate-Operation.yml)
-## Get Certificate Policy
-### [Overview](keyvault/Get-Certificate-Policy.yml)
-### [Get Certificate Policy](keyvault/Get-Certificate-Policy/Get-Certificate-Policy.yml)
-## Get Certificate Versions
-### [Overview](keyvault/Get-Certificate-Versions.yml)
-### [Get Certificate Versions](keyvault/Get-Certificate-Versions/Get-Certificate-Versions.yml)
-## Get Certificates
-### [Overview](keyvault/Get-Certificates.yml)
-### [Get Certificates](keyvault/Get-Certificates/Get-Certificates.yml)
-## Get Deleted Certificate
-### [Overview](keyvault/Get-Deleted-Certificate.yml)
-### [Get Deleted Certificate](keyvault/Get-Deleted-Certificate/Get-Deleted-Certificate.yml)
-## Get Deleted Certificates
-### [Overview](keyvault/Get-Deleted-Certificates.yml)
-### [Get Deleted Certificates](keyvault/Get-Deleted-Certificates/Get-Deleted-Certificates.yml)
-## Get Deleted Key
-### [Overview](keyvault/Get-Deleted-Key.yml)
-### [Get Deleted Key](keyvault/Get-Deleted-Key/Get-Deleted-Key.yml)
-## Get Deleted Keys
-### [Overview](keyvault/Get-Deleted-Keys.yml)
-### [Get Deleted Keys](keyvault/Get-Deleted-Keys/Get-Deleted-Keys.yml)
-## Get Deleted Sas Definition
-### [Overview](keyvault/Get-Deleted-Sas-Definition.yml)
-### [Get Deleted Sas Definition](keyvault/Get-Deleted-Sas-Definition/Get-Deleted-Sas-Definition.yml)
-## Get Deleted Sas Definitions
-### [Overview](keyvault/Get-Deleted-Sas-Definitions.yml)
-### [Get Deleted Sas Definitions](keyvault/Get-Deleted-Sas-Definitions/Get-Deleted-Sas-Definitions.yml)
-## Get Deleted Secret
-### [Overview](keyvault/Get-Deleted-Secret.yml)
-### [Get Deleted Secret](keyvault/Get-Deleted-Secret/Get-Deleted-Secret.yml)
-## Get Deleted Secrets
-### [Overview](keyvault/Get-Deleted-Secrets.yml)
-### [Get Deleted Secrets](keyvault/Get-Deleted-Secrets/Get-Deleted-Secrets.yml)
-## Get Deleted Storage Account
-### [Overview](keyvault/Get-Deleted-Storage-Account.yml)
-### [Get Deleted Storage Account](keyvault/Get-Deleted-Storage-Account/Get-Deleted-Storage-Account.yml)
-## Get Deleted Storage Accounts
-### [Overview](keyvault/Get-Deleted-Storage-Accounts.yml)
-### [Get Deleted Storage Accounts](keyvault/Get-Deleted-Storage-Accounts/Get-Deleted-Storage-Accounts.yml)
-## Get Key
-### [Overview](keyvault/Get-Key.yml)
-### [Get Key](keyvault/Get-Key/Get-Key.yml)
-## Get Key Versions
-### [Overview](keyvault/Get-Key-Versions.yml)
-### [Get Key Versions](keyvault/Get-Key-Versions/Get-Key-Versions.yml)
-## Get Keys
-### [Overview](keyvault/Get-Keys.yml)
-### [Get Keys](keyvault/Get-Keys/Get-Keys.yml)
-## Get Sas Definition
-### [Overview](keyvault/Get-Sas-Definition.yml)
-### [Get Sas Definition](keyvault/Get-Sas-Definition/Get-Sas-Definition.yml)
-## Get Sas Definitions
-### [Overview](keyvault/Get-Sas-Definitions.yml)
-### [Get Sas Definitions](keyvault/Get-Sas-Definitions/Get-Sas-Definitions.yml)
-## Get Secret
-### [Overview](keyvault/Get-Secret.yml)
-### [Get Secret](keyvault/Get-Secret/Get-Secret.yml)
-## Get Secret Versions
-### [Overview](keyvault/Get-Secret-Versions.yml)
-### [Get Secret Versions](keyvault/Get-Secret-Versions/Get-Secret-Versions.yml)
-## Get Secrets
-### [Overview](keyvault/Get-Secrets.yml)
-### [Get Secrets](keyvault/Get-Secrets/Get-Secrets.yml)
-## Get Storage Account
-### [Overview](keyvault/Get-Storage-Account.yml)
-### [Get Storage Account](keyvault/Get-Storage-Account/Get-Storage-Account.yml)
-## Get Storage Accounts
-### [Overview](keyvault/Get-Storage-Accounts.yml)
-### [Get Storage Accounts](keyvault/Get-Storage-Accounts/Get-Storage-Accounts.yml)
-## HSM Security Domain
-### [Overview](keyvault/HSM-Security-Domain.yml)
-### [Download](keyvault/HSM-Security-Domain/Download.yml)
-### [Download Pending](keyvault/HSM-Security-Domain/Download-Pending.yml)
-### [Transfer Key](keyvault/HSM-Security-Domain/Transfer-Key.yml)
-### [Upload](keyvault/HSM-Security-Domain/Upload.yml)
-### [Upload Pending](keyvault/HSM-Security-Domain/Upload-Pending.yml)
-## Import Certificate
-### [Overview](keyvault/Import-Certificate.yml)
-### [Import Certificate](keyvault/Import-Certificate/Import-Certificate.yml)
-## Import Key
-### [Overview](keyvault/Import-Key.yml)
-### [Import Key](keyvault/Import-Key/Import-Key.yml)
-## Merge Certificate
-### [Overview](keyvault/Merge-Certificate.yml)
-### [Merge Certificate](keyvault/Merge-Certificate/Merge-Certificate.yml)
-## Private Endpoint Connections
-### [Overview](keyvault/Private-Endpoint-Connections.yml)
-### [Delete](keyvault/Private-Endpoint-Connections/Delete.yml)
-### [Get](keyvault/Private-Endpoint-Connections/Get.yml)
-### [Put](keyvault/Private-Endpoint-Connections/Put.yml)
-## Private Link Resources
-### [Overview](keyvault/Private-Link-Resources.yml)
-### [List By Vault](keyvault/Private-Link-Resources/List-By-Vault.yml)
-## Purge Deleted Certificate
-### [Overview](keyvault/Purge-Deleted-Certificate.yml)
-### [Purge Deleted Certificate](keyvault/Purge-Deleted-Certificate/Purge-Deleted-Certificate.yml)
-## Purge Deleted Key
-### [Overview](keyvault/Purge-Deleted-Key.yml)
-### [Purge Deleted Key](keyvault/Purge-Deleted-Key/Purge-Deleted-Key.yml)
-## Purge Deleted Secret
-### [Overview](keyvault/Purge-Deleted-Secret.yml)
-### [Purge Deleted Secret](keyvault/Purge-Deleted-Secret/Purge-Deleted-Secret.yml)
-## Purge Deleted Storage Account
-### [Overview](keyvault/Purge-Deleted-Storage-Account.yml)
-### [Purge Deleted Storage Account](keyvault/Purge-Deleted-Storage-Account/Purge-Deleted-Storage-Account.yml)
-## Recover Deleted Certificate
-### [Overview](keyvault/Recover-Deleted-Certificate.yml)
-### [Recover Deleted Certificate](keyvault/Recover-Deleted-Certificate/Recover-Deleted-Certificate.yml)
-## Recover Deleted Key
-### [Overview](keyvault/Recover-Deleted-Key.yml)
-### [Recover Deleted Key](keyvault/Recover-Deleted-Key/Recover-Deleted-Key.yml)
-## Recover Deleted Sas Definition
-### [Overview](keyvault/Recover-Deleted-Sas-Definition.yml)
-### [Recover Deleted Sas Definition](keyvault/Recover-Deleted-Sas-Definition/Recover-Deleted-Sas-Definition.yml)
-## Recover Deleted Secret
-### [Overview](keyvault/Recover-Deleted-Secret.yml)
-### [Recover Deleted Secret](keyvault/Recover-Deleted-Secret/Recover-Deleted-Secret.yml)
-## Recover Deleted Storage Account
-### [Overview](keyvault/Recover-Deleted-Storage-Account.yml)
-### [Recover Deleted Storage Account](keyvault/Recover-Deleted-Storage-Account/Recover-Deleted-Storage-Account.yml)
-## Regenerate Storage Account Key
-### [Overview](keyvault/Regenerate-Storage-Account-Key.yml)
-### [Regenerate Storage Account Key](keyvault/Regenerate-Storage-Account-Key/Regenerate-Storage-Account-Key.yml)
-## Restore Certificate
-### [Overview](keyvault/Restore-Certificate.yml)
-### [Restore Certificate](keyvault/Restore-Certificate/Restore-Certificate.yml)
-## Restore Key
-### [Overview](keyvault/Restore-Key.yml)
-### [Restore Key](keyvault/Restore-Key/Restore-Key.yml)
-## Restore Secret
-### [Overview](keyvault/Restore-Secret.yml)
-### [Restore Secret](keyvault/Restore-Secret/Restore-Secret.yml)
-## Restore Status
-### [Overview](keyvault/Restore-Status.yml)
-### [Restore Status](keyvault/Restore-Status/Restore-Status.yml)
-## Restore Storage Account
-### [Overview](keyvault/Restore-Storage-Account.yml)
-### [Restore Storage Account](keyvault/Restore-Storage-Account/Restore-Storage-Account.yml)
-## Role Assignments
-### [Overview](keyvault/Role-Assignments.yml)
-### [Create](keyvault/Role-Assignments/Create.yml)
-### [Delete](keyvault/Role-Assignments/Delete.yml)
-### [Get](keyvault/Role-Assignments/Get.yml)
-### [List For Scope](keyvault/Role-Assignments/List-For-Scope.yml)
-## Role Definitions
-### [Overview](keyvault/Role-Definitions.yml)
-### [Create Or Update](keyvault/Role-Definitions/Create-Or-Update.yml)
-### [Delete](keyvault/Role-Definitions/Delete.yml)
-### [Get](keyvault/Role-Definitions/Get.yml)
-### [List](keyvault/Role-Definitions/List.yml)
-## Selective Key Restore Operation
-### [Overview](keyvault/Selective-Key-Restore-Operation.yml)
-### [Selective Key Restore Operation](keyvault/Selective-Key-Restore-Operation/Selective-Key-Restore-Operation.yml)
-## Set Certificate Contacts
-### [Overview](keyvault/Set-Certificate-Contacts.yml)
-### [Set Certificate Contacts](keyvault/Set-Certificate-Contacts/Set-Certificate-Contacts.yml)
-## Set Certificate Issuer
-### [Overview](keyvault/Set-Certificate-Issuer.yml)
-### [Set Certificate Issuer](keyvault/Set-Certificate-Issuer/Set-Certificate-Issuer.yml)
-## Set Sas Definition
-### [Overview](keyvault/Set-Sas-Definition.yml)
-### [Set Sas Definition](keyvault/Set-Sas-Definition/Set-Sas-Definition.yml)
-## Set Secret
-### [Overview](keyvault/Set-Secret.yml)
-### [Set Secret](keyvault/Set-Secret/Set-Secret.yml)
-## Set Storage Account
-### [Overview](keyvault/Set-Storage-Account.yml)
-### [Set Storage Account](keyvault/Set-Storage-Account/Set-Storage-Account.yml)
-## Update Certificate
-### [Overview](keyvault/Update-Certificate.yml)
-### [Update Certificate](keyvault/Update-Certificate/Update-Certificate.yml)
-## Update Certificate Issuer
-### [Overview](keyvault/Update-Certificate-Issuer.yml)
-### [Update Certificate Issuer](keyvault/Update-Certificate-Issuer/Update-Certificate-Issuer.yml)
-## Update Certificate Operation
-### [Overview](keyvault/Update-Certificate-Operation.yml)
-### [Update Certificate Operation](keyvault/Update-Certificate-Operation/Update-Certificate-Operation.yml)
-## Update Certificate Policy
-### [Overview](keyvault/Update-Certificate-Policy.yml)
-### [Update Certificate Policy](keyvault/Update-Certificate-Policy/Update-Certificate-Policy.yml)
-## Update Key
-### [Overview](keyvault/Update-Key.yml)
-### [Update Key](keyvault/Update-Key/Update-Key.yml)
-## Update Sas Definition
-### [Overview](keyvault/Update-Sas-Definition.yml)
-### [Update Sas Definition](keyvault/Update-Sas-Definition/Update-Sas-Definition.yml)
-## Update Secret
-### [Overview](keyvault/Update-Secret.yml)
-### [Update Secret](keyvault/Update-Secret/Update-Secret.yml)
-## Update Storage Account
-### [Overview](keyvault/Update-Storage-Account.yml)
-### [Update Storage Account](keyvault/Update-Storage-Account/Update-Storage-Account.yml)
-## Vaults
-### [Overview](keyvault/Vaults.yml)
-### [Check Name Availability](keyvault/Vaults/Check-Name-Availability.yml)
-### [Create Or Update](keyvault/Vaults/Create-Or-Update.yml)
-### [Delete](keyvault/Vaults/Delete.yml)
-### [Get](keyvault/Vaults/Get.yml)
-### [Get Deleted](keyvault/Vaults/Get-Deleted.yml)
-### [List](keyvault/Vaults/List.yml)
-### [List By Resource Group](keyvault/Vaults/List-By-Resource-Group.yml)
-### [List By Subscription](keyvault/Vaults/List-By-Subscription.yml)
-### [List Deleted](keyvault/Vaults/List-Deleted.yml)
-### [Purge Deleted](keyvault/Vaults/Purge-Deleted.yml)
-### [Update](keyvault/Vaults/Update.yml)
-### [Update Access Policy](keyvault/Vaults/Update-Access-Policy.yml)
-## decrypt
-### [Overview](keyvault/decrypt.yml)
-### [decrypt](keyvault/decrypt/decrypt.yml)
-## encrypt
-### [Overview](keyvault/encrypt.yml)
-### [encrypt](keyvault/encrypt/encrypt.yml)
-## sign
-### [Overview](keyvault/sign.yml)
-### [sign](keyvault/sign/sign.yml)
-## unwrap Key
-### [Overview](keyvault/unwrap-Key.yml)
-### [unwrap Key](keyvault/unwrap-Key/unwrap-Key.yml)
-## verify
-### [Overview](keyvault/verify.yml)
-### [verify](keyvault/verify/verify.yml)
-## wrap Key
-### [Overview](keyvault/wrap-Key.yml)
-### [wrap Key](keyvault/wrap-Key/wrap-Key.yml)
+## Certificates
+### Backup Certificate
+#### [Overview](keyvault/certificates/Backup-Certificate.yml)
+#### [Backup Certificate](keyvault/certificates/Backup-Certificate/Backup-Certificate.yml)
+### Create Certificate
+#### [Overview](keyvault/certificates/Create-Certificate.yml)
+#### [Create Certificate](keyvault/certificates/Create-Certificate/Create-Certificate.yml)
+### Delete Certificate
+#### [Overview](keyvault/certificates/Delete-Certificate.yml)
+#### [Delete Certificate](keyvault/certificates/Delete-Certificate/Delete-Certificate.yml)
+### Delete Certificate Contacts
+#### [Overview](keyvault/certificates/Delete-Certificate-Contacts.yml)
+#### [Delete Certificate Contacts](keyvault/certificates/Delete-Certificate-Contacts/Delete-Certificate-Contacts.yml)
+### Delete Certificate Issuer
+#### [Overview](keyvault/certificates/Delete-Certificate-Issuer.yml)
+#### [Delete Certificate Issuer](keyvault/certificates/Delete-Certificate-Issuer/Delete-Certificate-Issuer.yml)
+### Delete Certificate Operation
+#### [Overview](keyvault/certificates/Delete-Certificate-Operation.yml)
+#### [Delete Certificate Operation](keyvault/certificates/Delete-Certificate-Operation/Delete-Certificate-Operation.yml)
+### Get Certificate
+#### [Overview](keyvault/certificates/Get-Certificate.yml)
+#### [Get Certificate](keyvault/certificates/Get-Certificate/Get-Certificate.yml)
+### Get Certificate Contacts
+#### [Overview](keyvault/certificates/Get-Certificate-Contacts.yml)
+#### [Get Certificate Contacts](keyvault/certificates/Get-Certificate-Contacts/Get-Certificate-Contacts.yml)
+### Get Certificate Issuer
+#### [Overview](keyvault/certificates/Get-Certificate-Issuer.yml)
+#### [Get Certificate Issuer](keyvault/certificates/Get-Certificate-Issuer/Get-Certificate-Issuer.yml)
+### Get Certificate Issuers
+#### [Overview](keyvault/certificates/Get-Certificate-Issuers.yml)
+#### [Get Certificate Issuers](keyvault/certificates/Get-Certificate-Issuers/Get-Certificate-Issuers.yml)
+### Get Certificate Operation
+#### [Overview](keyvault/certificates/Get-Certificate-Operation.yml)
+#### [Get Certificate Operation](keyvault/certificates/Get-Certificate-Operation/Get-Certificate-Operation.yml)
+### Get Certificate Policy
+#### [Overview](keyvault/certificates/Get-Certificate-Policy.yml)
+#### [Get Certificate Policy](keyvault/certificates/Get-Certificate-Policy/Get-Certificate-Policy.yml)
+### Get Certificate Versions
+#### [Overview](keyvault/certificates/Get-Certificate-Versions.yml)
+#### [Get Certificate Versions](keyvault/certificates/Get-Certificate-Versions/Get-Certificate-Versions.yml)
+### Get Certificates
+#### [Overview](keyvault/certificates/Get-Certificates.yml)
+#### [Get Certificates](keyvault/certificates/Get-Certificates/Get-Certificates.yml)
+### Get Deleted Certificate
+#### [Overview](keyvault/certificates/Get-Deleted-Certificate.yml)
+#### [Get Deleted Certificate](keyvault/certificates/Get-Deleted-Certificate/Get-Deleted-Certificate.yml)
+### Get Deleted Certificates
+#### [Overview](keyvault/certificates/Get-Deleted-Certificates.yml)
+#### [Get Deleted Certificates](keyvault/certificates/Get-Deleted-Certificates/Get-Deleted-Certificates.yml)
+### Import Certificate
+#### [Overview](keyvault/certificates/Import-Certificate.yml)
+#### [Import Certificate](keyvault/certificates/Import-Certificate/Import-Certificate.yml)
+### Merge Certificate
+#### [Overview](keyvault/certificates/Merge-Certificate.yml)
+#### [Merge Certificate](keyvault/certificates/Merge-Certificate/Merge-Certificate.yml)
+### Purge Deleted Certificate
+#### [Overview](keyvault/certificates/Purge-Deleted-Certificate.yml)
+#### [Purge Deleted Certificate](keyvault/certificates/Purge-Deleted-Certificate/Purge-Deleted-Certificate.yml)
+### Recover Deleted Certificate
+#### [Overview](keyvault/certificates/Recover-Deleted-Certificate.yml)
+#### [Recover Deleted Certificate](keyvault/certificates/Recover-Deleted-Certificate/Recover-Deleted-Certificate.yml)
+### Restore Certificate
+#### [Overview](keyvault/certificates/Restore-Certificate.yml)
+#### [Restore Certificate](keyvault/certificates/Restore-Certificate/Restore-Certificate.yml)
+### Set Certificate Contacts
+#### [Overview](keyvault/certificates/Set-Certificate-Contacts.yml)
+#### [Set Certificate Contacts](keyvault/certificates/Set-Certificate-Contacts/Set-Certificate-Contacts.yml)
+### Set Certificate Issuer
+#### [Overview](keyvault/certificates/Set-Certificate-Issuer.yml)
+#### [Set Certificate Issuer](keyvault/certificates/Set-Certificate-Issuer/Set-Certificate-Issuer.yml)
+### Update Certificate
+#### [Overview](keyvault/certificates/Update-Certificate.yml)
+#### [Update Certificate](keyvault/certificates/Update-Certificate/Update-Certificate.yml)
+### Update Certificate Issuer
+#### [Overview](keyvault/certificates/Update-Certificate-Issuer.yml)
+#### [Update Certificate Issuer](keyvault/certificates/Update-Certificate-Issuer/Update-Certificate-Issuer.yml)
+### Update Certificate Operation
+#### [Overview](keyvault/certificates/Update-Certificate-Operation.yml)
+#### [Update Certificate Operation](keyvault/certificates/Update-Certificate-Operation/Update-Certificate-Operation.yml)
+### Update Certificate Policy
+#### [Overview](keyvault/certificates/Update-Certificate-Policy.yml)
+#### [Update Certificate Policy](keyvault/certificates/Update-Certificate-Policy/Update-Certificate-Policy.yml)
+## Common
+## Key Vault
+### Private Endpoint Connections
+#### [Overview](keyvault/keyvault/Private-Endpoint-Connections.yml)
+#### [Delete](keyvault/keyvault/Private-Endpoint-Connections/Delete.yml)
+#### [Get](keyvault/keyvault/Private-Endpoint-Connections/Get.yml)
+#### [Put](keyvault/keyvault/Private-Endpoint-Connections/Put.yml)
+### Private Link Resources
+#### [Overview](keyvault/keyvault/Private-Link-Resources.yml)
+#### [List By Vault](keyvault/keyvault/Private-Link-Resources/List-By-Vault.yml)
+### Vaults
+#### [Overview](keyvault/keyvault/Vaults.yml)
+#### [Check Name Availability](keyvault/keyvault/Vaults/Check-Name-Availability.yml)
+#### [Create Or Update](keyvault/keyvault/Vaults/Create-Or-Update.yml)
+#### [Delete](keyvault/keyvault/Vaults/Delete.yml)
+#### [Get](keyvault/keyvault/Vaults/Get.yml)
+#### [Get Deleted](keyvault/keyvault/Vaults/Get-Deleted.yml)
+#### [List](keyvault/keyvault/Vaults/List.yml)
+#### [List By Resource Group](keyvault/keyvault/Vaults/List-By-Resource-Group.yml)
+#### [List By Subscription](keyvault/keyvault/Vaults/List-By-Subscription.yml)
+#### [List Deleted](keyvault/keyvault/Vaults/List-Deleted.yml)
+#### [Purge Deleted](keyvault/keyvault/Vaults/Purge-Deleted.yml)
+#### [Update](keyvault/keyvault/Vaults/Update.yml)
+#### [Update Access Policy](keyvault/keyvault/Vaults/Update-Access-Policy.yml)
+## Keys
+### Backup Key
+#### [Overview](keyvault/keys/Backup-Key.yml)
+#### [Backup Key](keyvault/keys/Backup-Key/Backup-Key.yml)
+### Create Key
+#### [Overview](keyvault/keys/Create-Key.yml)
+#### [Create Key](keyvault/keys/Create-Key/Create-Key.yml)
+### Delete Key
+#### [Overview](keyvault/keys/Delete-Key.yml)
+#### [Delete Key](keyvault/keys/Delete-Key/Delete-Key.yml)
+### Get Deleted Key
+#### [Overview](keyvault/keys/Get-Deleted-Key.yml)
+#### [Get Deleted Key](keyvault/keys/Get-Deleted-Key/Get-Deleted-Key.yml)
+### Get Deleted Keys
+#### [Overview](keyvault/keys/Get-Deleted-Keys.yml)
+#### [Get Deleted Keys](keyvault/keys/Get-Deleted-Keys/Get-Deleted-Keys.yml)
+### Get Key
+#### [Overview](keyvault/keys/Get-Key.yml)
+#### [Get Key](keyvault/keys/Get-Key/Get-Key.yml)
+### Get Key Versions
+#### [Overview](keyvault/keys/Get-Key-Versions.yml)
+#### [Get Key Versions](keyvault/keys/Get-Key-Versions/Get-Key-Versions.yml)
+### Get Keys
+#### [Overview](keyvault/keys/Get-Keys.yml)
+#### [Get Keys](keyvault/keys/Get-Keys/Get-Keys.yml)
+### Import Key
+#### [Overview](keyvault/keys/Import-Key.yml)
+#### [Import Key](keyvault/keys/Import-Key/Import-Key.yml)
+### Purge Deleted Key
+#### [Overview](keyvault/keys/Purge-Deleted-Key.yml)
+#### [Purge Deleted Key](keyvault/keys/Purge-Deleted-Key/Purge-Deleted-Key.yml)
+### Recover Deleted Key
+#### [Overview](keyvault/keys/Recover-Deleted-Key.yml)
+#### [Recover Deleted Key](keyvault/keys/Recover-Deleted-Key/Recover-Deleted-Key.yml)
+### Restore Key
+#### [Overview](keyvault/keys/Restore-Key.yml)
+#### [Restore Key](keyvault/keys/Restore-Key/Restore-Key.yml)
+### Update Key
+#### [Overview](keyvault/keys/Update-Key.yml)
+#### [Update Key](keyvault/keys/Update-Key/Update-Key.yml)
+### decrypt
+#### [Overview](keyvault/keys/decrypt.yml)
+#### [decrypt](keyvault/keys/decrypt/decrypt.yml)
+### encrypt
+#### [Overview](keyvault/keys/encrypt.yml)
+#### [encrypt](keyvault/keys/encrypt/encrypt.yml)
+### sign
+#### [Overview](keyvault/keys/sign.yml)
+#### [sign](keyvault/keys/sign/sign.yml)
+### unwrap Key
+#### [Overview](keyvault/keys/unwrap-Key.yml)
+#### [unwrap Key](keyvault/keys/unwrap-Key/unwrap-Key.yml)
+### verify
+#### [Overview](keyvault/keys/verify.yml)
+#### [verify](keyvault/keys/verify/verify.yml)
+### wrap Key
+#### [Overview](keyvault/keys/wrap-Key.yml)
+#### [wrap Key](keyvault/keys/wrap-Key/wrap-Key.yml)
+## Managed HSM
+### MHSM Private Endpoint Connections
+#### [Overview](keyvault/managedhsm/MHSM-Private-Endpoint-Connections.yml)
+#### [Delete](keyvault/managedhsm/MHSM-Private-Endpoint-Connections/Delete.yml)
+#### [Get](keyvault/managedhsm/MHSM-Private-Endpoint-Connections/Get.yml)
+#### [List By Resource](keyvault/managedhsm/MHSM-Private-Endpoint-Connections/List-By-Resource.yml)
+#### [Put](keyvault/managedhsm/MHSM-Private-Endpoint-Connections/Put.yml)
+### MHSM Private Link Resources
+#### [Overview](keyvault/managedhsm/MHSM-Private-Link-Resources.yml)
+#### [List By MHSM Resource](keyvault/managedhsm/MHSM-Private-Link-Resources/List-By-MHSM-Resource.yml)
+### Managed Hsms
+#### [Overview](keyvault/managedhsm/Managed-Hsms.yml)
+#### [Create Or Update](keyvault/managedhsm/Managed-Hsms/Create-Or-Update.yml)
+#### [Delete](keyvault/managedhsm/Managed-Hsms/Delete.yml)
+#### [Get](keyvault/managedhsm/Managed-Hsms/Get.yml)
+#### [Get Deleted](keyvault/managedhsm/Managed-Hsms/Get-Deleted.yml)
+#### [List By Resource Group](keyvault/managedhsm/Managed-Hsms/List-By-Resource-Group.yml)
+#### [List By Subscription](keyvault/managedhsm/Managed-Hsms/List-By-Subscription.yml)
+#### [List Deleted](keyvault/managedhsm/Managed-Hsms/List-Deleted.yml)
+#### [Purge Deleted](keyvault/managedhsm/Managed-Hsms/Purge-Deleted.yml)
+#### [Update](keyvault/managedhsm/Managed-Hsms/Update.yml)
+## Managed HSM - Backup/Restore
+### Full Backup
+#### [Overview](keyvault/managedhsm-backup/restore/Full-Backup.yml)
+#### [Full Backup](keyvault/managedhsm-backup/restore/Full-Backup/Full-Backup.yml)
+### Full Backup Status
+#### [Overview](keyvault/managedhsm-backup/restore/Full-Backup-Status.yml)
+#### [Full Backup Status](keyvault/managedhsm-backup/restore/Full-Backup-Status/Full-Backup-Status.yml)
+### Full Restore Operation
+#### [Overview](keyvault/managedhsm-backup/restore/Full-Restore-Operation.yml)
+#### [Full Restore Operation](keyvault/managedhsm-backup/restore/Full-Restore-Operation/Full-Restore-Operation.yml)
+### Restore Status
+#### [Overview](keyvault/managedhsm-backup/restore/Restore-Status.yml)
+#### [Restore Status](keyvault/managedhsm-backup/restore/Restore-Status/Restore-Status.yml)
+### Selective Key Restore Operation
+#### [Overview](keyvault/managedhsm-backup/restore/Selective-Key-Restore-Operation.yml)
+#### [Selective Key Restore Operation](keyvault/managedhsm-backup/restore/Selective-Key-Restore-Operation/Selective-Key-Restore-Operation.yml)
+## Managed HSM - HSM Security Domain
+### HSM Security Domain
+#### [Overview](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain.yml)
+#### [Download](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain/Download.yml)
+#### [Download Pending](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain/Download-Pending.yml)
+#### [Transfer Key](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain/Transfer-Key.yml)
+#### [Upload](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain/Upload.yml)
+#### [Upload Pending](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain/Upload-Pending.yml)
+## Managed HSM - RBAC
+### Role Assignments
+#### [Overview](keyvault/managedhsm-rbac/Role-Assignments.yml)
+#### [Create](keyvault/managedhsm-rbac/Role-Assignments/Create.yml)
+#### [Delete](keyvault/managedhsm-rbac/Role-Assignments/Delete.yml)
+#### [Get](keyvault/managedhsm-rbac/Role-Assignments/Get.yml)
+#### [List For Scope](keyvault/managedhsm-rbac/Role-Assignments/List-For-Scope.yml)
+### Role Definitions
+#### [Overview](keyvault/managedhsm-rbac/Role-Definitions.yml)
+#### [Create Or Update](keyvault/managedhsm-rbac/Role-Definitions/Create-Or-Update.yml)
+#### [Delete](keyvault/managedhsm-rbac/Role-Definitions/Delete.yml)
+#### [Get](keyvault/managedhsm-rbac/Role-Definitions/Get.yml)
+#### [List](keyvault/managedhsm-rbac/Role-Definitions/List.yml)
+## Secrets
+### Backup Secret
+#### [Overview](keyvault/secrets/Backup-Secret.yml)
+#### [Backup Secret](keyvault/secrets/Backup-Secret/Backup-Secret.yml)
+### Delete Secret
+#### [Overview](keyvault/secrets/Delete-Secret.yml)
+#### [Delete Secret](keyvault/secrets/Delete-Secret/Delete-Secret.yml)
+### Get Deleted Secret
+#### [Overview](keyvault/secrets/Get-Deleted-Secret.yml)
+#### [Get Deleted Secret](keyvault/secrets/Get-Deleted-Secret/Get-Deleted-Secret.yml)
+### Get Deleted Secrets
+#### [Overview](keyvault/secrets/Get-Deleted-Secrets.yml)
+#### [Get Deleted Secrets](keyvault/secrets/Get-Deleted-Secrets/Get-Deleted-Secrets.yml)
+### Get Secret
+#### [Overview](keyvault/secrets/Get-Secret.yml)
+#### [Get Secret](keyvault/secrets/Get-Secret/Get-Secret.yml)
+### Get Secret Versions
+#### [Overview](keyvault/secrets/Get-Secret-Versions.yml)
+#### [Get Secret Versions](keyvault/secrets/Get-Secret-Versions/Get-Secret-Versions.yml)
+### Get Secrets
+#### [Overview](keyvault/secrets/Get-Secrets.yml)
+#### [Get Secrets](keyvault/secrets/Get-Secrets/Get-Secrets.yml)
+### Purge Deleted Secret
+#### [Overview](keyvault/secrets/Purge-Deleted-Secret.yml)
+#### [Purge Deleted Secret](keyvault/secrets/Purge-Deleted-Secret/Purge-Deleted-Secret.yml)
+### Recover Deleted Secret
+#### [Overview](keyvault/secrets/Recover-Deleted-Secret.yml)
+#### [Recover Deleted Secret](keyvault/secrets/Recover-Deleted-Secret/Recover-Deleted-Secret.yml)
+### Restore Secret
+#### [Overview](keyvault/secrets/Restore-Secret.yml)
+#### [Restore Secret](keyvault/secrets/Restore-Secret/Restore-Secret.yml)
+### Set Secret
+#### [Overview](keyvault/secrets/Set-Secret.yml)
+#### [Set Secret](keyvault/secrets/Set-Secret/Set-Secret.yml)
+### Update Secret
+#### [Overview](keyvault/secrets/Update-Secret.yml)
+#### [Update Secret](keyvault/secrets/Update-Secret/Update-Secret.yml)
+## Secrets - Storage Accounts
+### Backup Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Backup-Storage-Account.yml)
+#### [Backup Storage Account](keyvault/secrets-storageaccounts/Backup-Storage-Account/Backup-Storage-Account.yml)
+### Delete Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Delete-Sas-Definition.yml)
+#### [Delete Sas Definition](keyvault/secrets-storageaccounts/Delete-Sas-Definition/Delete-Sas-Definition.yml)
+### Delete Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Delete-Storage-Account.yml)
+#### [Delete Storage Account](keyvault/secrets-storageaccounts/Delete-Storage-Account/Delete-Storage-Account.yml)
+### Get Deleted Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Get-Deleted-Sas-Definition.yml)
+#### [Get Deleted Sas Definition](keyvault/secrets-storageaccounts/Get-Deleted-Sas-Definition/Get-Deleted-Sas-Definition.yml)
+### Get Deleted Sas Definitions
+#### [Overview](keyvault/secrets-storageaccounts/Get-Deleted-Sas-Definitions.yml)
+#### [Get Deleted Sas Definitions](keyvault/secrets-storageaccounts/Get-Deleted-Sas-Definitions/Get-Deleted-Sas-Definitions.yml)
+### Get Deleted Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Get-Deleted-Storage-Account.yml)
+#### [Get Deleted Storage Account](keyvault/secrets-storageaccounts/Get-Deleted-Storage-Account/Get-Deleted-Storage-Account.yml)
+### Get Deleted Storage Accounts
+#### [Overview](keyvault/secrets-storageaccounts/Get-Deleted-Storage-Accounts.yml)
+#### [Get Deleted Storage Accounts](keyvault/secrets-storageaccounts/Get-Deleted-Storage-Accounts/Get-Deleted-Storage-Accounts.yml)
+### Get Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Get-Sas-Definition.yml)
+#### [Get Sas Definition](keyvault/secrets-storageaccounts/Get-Sas-Definition/Get-Sas-Definition.yml)
+### Get Sas Definitions
+#### [Overview](keyvault/secrets-storageaccounts/Get-Sas-Definitions.yml)
+#### [Get Sas Definitions](keyvault/secrets-storageaccounts/Get-Sas-Definitions/Get-Sas-Definitions.yml)
+### Get Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Get-Storage-Account.yml)
+#### [Get Storage Account](keyvault/secrets-storageaccounts/Get-Storage-Account/Get-Storage-Account.yml)
+### Get Storage Accounts
+#### [Overview](keyvault/secrets-storageaccounts/Get-Storage-Accounts.yml)
+#### [Get Storage Accounts](keyvault/secrets-storageaccounts/Get-Storage-Accounts/Get-Storage-Accounts.yml)
+### Purge Deleted Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Purge-Deleted-Storage-Account.yml)
+#### [Purge Deleted Storage Account](keyvault/secrets-storageaccounts/Purge-Deleted-Storage-Account/Purge-Deleted-Storage-Account.yml)
+### Recover Deleted Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Recover-Deleted-Sas-Definition.yml)
+#### [Recover Deleted Sas Definition](keyvault/secrets-storageaccounts/Recover-Deleted-Sas-Definition/Recover-Deleted-Sas-Definition.yml)
+### Recover Deleted Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Recover-Deleted-Storage-Account.yml)
+#### [Recover Deleted Storage Account](keyvault/secrets-storageaccounts/Recover-Deleted-Storage-Account/Recover-Deleted-Storage-Account.yml)
+### Regenerate Storage Account Key
+#### [Overview](keyvault/secrets-storageaccounts/Regenerate-Storage-Account-Key.yml)
+#### [Regenerate Storage Account Key](keyvault/secrets-storageaccounts/Regenerate-Storage-Account-Key/Regenerate-Storage-Account-Key.yml)
+### Restore Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Restore-Storage-Account.yml)
+#### [Restore Storage Account](keyvault/secrets-storageaccounts/Restore-Storage-Account/Restore-Storage-Account.yml)
+### Set Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Set-Sas-Definition.yml)
+#### [Set Sas Definition](keyvault/secrets-storageaccounts/Set-Sas-Definition/Set-Sas-Definition.yml)
+### Set Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Set-Storage-Account.yml)
+#### [Set Storage Account](keyvault/secrets-storageaccounts/Set-Storage-Account/Set-Storage-Account.yml)
+### Update Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Update-Sas-Definition.yml)
+#### [Update Sas Definition](keyvault/secrets-storageaccounts/Update-Sas-Definition/Update-Sas-Definition.yml)
+### Update Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Update-Storage-Account.yml)
+#### [Update Storage Account](keyvault/secrets-storageaccounts/Update-Storage-Account/Update-Storage-Account.yml)
 # Kubernetes Configuration
 ## [Overview](../docs-ref-conceptual/kubernetesconfiguration/index.md)
 ## 2021-03-01

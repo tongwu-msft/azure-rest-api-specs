@@ -1,0 +1,244 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.keyvault.managedhsm.mhsmprivatelinkresources.listbymhsmresource
+name: List By MHSM Resource
+service: Key Vault
+groupName: MHSM Private Link Resources
+apiVersion: 2021-06-01-preview
+summary: Gets the private link resources supported for the managed hsm pool.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateLinkResources?api-version=2021-06-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group that contains the managed HSM pool.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the managed HSM Pool
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved private link resources.
+  types:
+  - uid: MHSMPrivateLinkResourceListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: MHSMPrivateLinkResourceListResult
+  description: A list of private link resources
+  kind: object
+  properties:
+  - name: value
+    description: Array of private link resources
+    types:
+    - uid: MHSMPrivateLinkResource
+      isArray: true
+- name: CloudError
+  description: An error response from Key Vault resource provider
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Key Vault resource provider
+    types:
+    - uid: CloudErrorBody
+- name: MHSMPrivateLinkResource
+  description: A private link resource
+  kind: object
+  properties:
+  - name: properties.groupId
+    isReadyOnly: true
+    description: Group identifier of private link resource.
+    types:
+    - uid: string
+  - name: properties.requiredMembers
+    isReadyOnly: true
+    description: Required member names of private link resource.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.requiredZoneNames
+    description: Required DNS zone names of the the private link resource.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: The Azure Resource Manager resource ID for the managed HSM Pool.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the managed HSM Pool.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type of the managed HSM Pool.
+    types:
+    - uid: string
+  - name: location
+    description: The supported Azure location where the managed HSM Pool should be created.
+    types:
+    - uid: string
+  - name: sku
+    description: SKU details
+    types:
+    - uid: ManagedHsmSku
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the key vault resource.
+    types:
+    - uid: SystemData
+- name: CloudErrorBody
+  description: An error response from Key Vault resource provider
+  kind: object
+  properties:
+  - name: code
+    description: Error code. This is a mnemonic that can be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: User friendly error message. The message is typically localized and may vary with service version.
+    types:
+    - uid: string
+- name: ManagedHsmSku
+  description: SKU details
+  kind: object
+  properties:
+  - name: family
+    description: SKU Family of the managed HSM Pool
+    types:
+    - uid: ManagedHsmSkuFamily
+  - name: name
+    description: SKU of the managed HSM Pool
+    types:
+    - uid: ManagedHsmSkuName
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the key vault resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the key vault resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the key vault resource.
+    types:
+    - uid: identityType
+  - name: createdAt
+    description: The timestamp of the key vault resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the key vault resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the key vault resource.
+    types:
+    - uid: identityType
+  - name: lastModifiedAt
+    description: The timestamp of the key vault resource last modification (UTC).
+    types:
+    - uid: string
+- name: ManagedHsmSkuFamily
+  description: SKU Family of the managed HSM Pool
+  kind: enum
+  properties:
+  - name: B
+    types:
+    - uid: string
+- name: ManagedHsmSkuName
+  description: SKU of the managed HSM Pool
+  kind: enum
+  properties:
+  - name: Standard_B1
+    types:
+    - uid: string
+  - name: Custom_B32
+    types:
+    - uid: string
+- name: identityType
+  description: The type of identity that created the key vault resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: KeyVaultListPrivateLinkResources
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/managedHSMs/sample-mhsm/privateLinkResources?api-version=2021-06-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-resource-group/providers/Microsoft.KeyVault/managedhsms/sample-mhsm/privateLinkResources/managedhsm",
+            "name": "managedhsm",
+            "type": "Microsoft.KeyVault/managedhsms/privateLinkResources",
+            "properties": {
+              "groupId": "managedhsms",
+              "requiredMembers": [
+                "default"
+              ],
+              "requiredZoneNames": [
+                "privatelink.managedhsm.azure.net"
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Key Vault service - Gets the private link resources supported for the managed hsm pool.
+errorCodes: []
