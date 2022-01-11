@@ -3,14 +3,14 @@ uid: management.azure.com.eventhub.stable.namespaces.createorupdate
 name: Create Or Update
 service: Event Hubs
 groupName: Namespaces
-apiVersion: 2017-04-01
+apiVersion: 2021-11-01
 summary: Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}?api-version=2017-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -59,6 +59,25 @@ requestBody:
     description: Properties of sku resource
     types:
     - uid: Sku
+  - name: identity.type
+    in: body
+    description: Type of managed service identity.
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: identity.userAssignedIdentities
+    in: body
+    description: Properties for User Assigned Identities
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
+  - name: properties.clusterArmId
+    in: body
+    description: Cluster ARM ID of the Namespace.
+    types:
+    - uid: string
   - name: properties.isAutoInflateEnabled
     in: body
     description: Value that indicates whether AutoInflate is enabled for eventhub namespace.
@@ -72,6 +91,43 @@ requestBody:
   - name: properties.kafkaEnabled
     in: body
     description: Value that indicates whether Kafka is enabled for eventhub namespace.
+    types:
+    - uid: boolean
+  - name: properties.zoneRedundant
+    in: body
+    description: Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.
+    types:
+    - uid: boolean
+  - name: properties.privateEndpointConnections
+    in: body
+    description: List of private endpoint connections.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: properties.disableLocalAuth
+    in: body
+    description: This property disables SAS authentication for the Event Hubs namespace.
+    types:
+    - uid: boolean
+  - name: properties.alternateName
+    in: body
+    description: Alternate name specified when alias and namespace names are same.
+    types:
+    - uid: string
+  - name: properties.encryption.keyVaultProperties
+    in: body
+    description: Properties of KeyVault
+    types:
+    - uid: KeyVaultProperties
+      isArray: true
+  - name: properties.encryption.keySource
+    in: body
+    description: Enumerates the possible value of keySource for Encryption
+    types:
+    - uid: keySource
+  - name: properties.encryption.requireInfrastructureEncryption
+    in: body
+    description: Enable Infrastructure Encryption (Double Encryption)
     types:
     - uid: boolean
   - name: location
@@ -103,9 +159,112 @@ definitions:
     types:
     - uid: SkuTier
   - name: capacity
-    description: The Event Hubs throughput units, value should be 0 to 20 throughput units.
+    description: The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units. The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
     types:
     - uid: integer
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: string
+- name: UserAssignedIdentity
+  description: Recognized Dictionary value.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: Principal Id of user assigned identity
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: Client Id of user assigned identity
+    types:
+    - uid: string
+- name: PrivateEndpointConnection
+  description: Properties of the PrivateEndpointConnection.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
+    types:
+    - uid: systemData
+  - name: properties.privateEndpoint
+    description: The Private Endpoint resource for this Connection.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: Details about the state of the connection.
+    types:
+    - uid: ConnectionState
+  - name: properties.provisioningState
+    description: Provisioning state of the Private Endpoint Connection.
+    types:
+    - uid: EndPointProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+- name: KeyVaultProperties
+  description: Properties to configure keyVault Properties
+  kind: object
+  properties:
+  - name: keyName
+    description: Name of the Key from KeyVault
+    types:
+    - uid: string
+  - name: keyVaultUri
+    description: Uri of KeyVault
+    types:
+    - uid: string
+  - name: keyVersion
+    description: Key Version
+    types:
+    - uid: string
+  - name: identity.userAssignedIdentity
+    description: ARM ID of user Identity selected for encryption
+    types:
+    - uid: string
 - name: EHNamespace
   description: Single Namespace item in List or Get Operation
   kind: object
@@ -114,9 +273,41 @@ definitions:
     description: Properties of sku resource
     types:
     - uid: Sku
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
+    types:
+    - uid: systemData
+  - name: identity.principalId
+    isReadyOnly: true
+    description: ObjectId from the KeyVault
+    types:
+    - uid: string
+  - name: identity.tenantId
+    isReadyOnly: true
+    description: TenantId from the KeyVault
+    types:
+    - uid: string
+  - name: identity.type
+    description: Type of managed service identity.
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: identity.userAssignedIdentities
+    description: Properties for User Assigned Identities
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the Namespace.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: Status of the Namespace.
     types:
     - uid: string
   - name: properties.createdAt
@@ -134,6 +325,10 @@ definitions:
     description: Endpoint you can use to perform Service Bus operations.
     types:
     - uid: string
+  - name: properties.clusterArmId
+    description: Cluster ARM ID of the Namespace.
+    types:
+    - uid: string
   - name: properties.metricId
     isReadyOnly: true
     description: Identifier for Azure Insights metrics.
@@ -149,6 +344,36 @@ definitions:
     - uid: integer
   - name: properties.kafkaEnabled
     description: Value that indicates whether Kafka is enabled for eventhub namespace.
+    types:
+    - uid: boolean
+  - name: properties.zoneRedundant
+    description: Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.
+    types:
+    - uid: boolean
+  - name: properties.privateEndpointConnections
+    description: List of private endpoint connections.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: properties.disableLocalAuth
+    description: This property disables SAS authentication for the Event Hubs namespace.
+    types:
+    - uid: boolean
+  - name: properties.alternateName
+    description: Alternate name specified when alias and namespace names are same.
+    types:
+    - uid: string
+  - name: properties.encryption.keyVaultProperties
+    description: Properties of KeyVault
+    types:
+    - uid: KeyVaultProperties
+      isArray: true
+  - name: properties.encryption.keySource
+    description: Enumerates the possible value of keySource for Encryption
+    types:
+    - uid: keySource
+  - name: properties.encryption.requireInfrastructureEncryption
+    description: Enable Infrastructure Encryption (Double Encryption)
     types:
     - uid: boolean
   - name: location
@@ -182,14 +407,10 @@ definitions:
   description: Error response indicates Event Hub service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
-  - name: code
-    description: Error code.
+  - name: error
+    description: The error object.
     types:
-    - uid: string
-  - name: message
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
+    - uid: ErrorDetail
 - name: SkuName
   description: Name of this SKU.
   kind: enum
@@ -198,6 +419,9 @@ definitions:
     types:
     - uid: string
   - name: Standard
+    types:
+    - uid: string
+  - name: Premium
     types:
     - uid: string
 - name: SkuTier
@@ -210,20 +434,179 @@ definitions:
   - name: Standard
     types:
     - uid: string
+  - name: Premium
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: PrivateEndpoint
+  description: PrivateEndpoint information.
+  kind: object
+  properties:
+  - name: id
+    description: The ARM identifier for Private Endpoint.
+    types:
+    - uid: string
+- name: ConnectionState
+  description: ConnectionState information.
+  kind: object
+  properties:
+  - name: status
+    description: Status of the connection.
+    types:
+    - uid: PrivateLinkConnectionStatus
+  - name: description
+    description: Description of the connection state.
+    types:
+    - uid: string
+- name: EndPointProvisioningState
+  description: Provisioning state of the Private Endpoint Connection.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: keySource
+  description: Enumerates the possible value of keySource for Encryption
+  kind: enum
+  properties:
+  - name: Microsoft.KeyVault
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: PrivateLinkConnectionStatus
+  description: Status of the connection.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: NamespaceCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-5849?api-version=2017-04-01
+    uri: PUT https://management.azure.com/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.EventHub/namespaces/NamespaceSample?api-version=2021-11-01
     body: >-
       {
-        "sku": {
-          "name": "Standard",
-          "tier": "Standard"
+        "location": "East US",
+        "identity": {
+          "type": "SystemAssigned, UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ud1": {},
+            "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ud2": {}
+          }
         },
-        "location": "South Central US",
-        "tags": {
-          "tag1": "value1",
-          "tag2": "value2"
+        "properties": {
+          "encryption": {
+            "keyVaultProperties": [
+              {
+                "keyName": "Samplekey",
+                "keyVaultUri": "https://aprao-keyvault-user.vault-int.azure-int.net/",
+                "identity": {
+                  "userAssignedIdentity": "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ud1"
+                }
+              }
+            ],
+            "keySource": "Microsoft.KeyVault"
+          },
+          "clusterArmId": "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.EventHub/clusters/enc-test"
         }
       }
   responses:
@@ -235,22 +618,52 @@ examples:
           "tier": "Standard",
           "capacity": 1
         },
-        "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-5849",
-        "name": "sdk-Namespace-5849",
+        "id": "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.EventHub/namespaces/NamespaceSample",
+        "name": "NamespaceSample",
         "type": "Microsoft.EventHub/Namespaces",
-        "location": "South Central US",
-        "tags": {
-          "tag1": "value1",
-          "tag2": "value2"
+        "location": "East US",
+        "tags": {},
+        "identity": {
+          "principalId": "PrincipalIdGUID",
+          "tenantId": "TenantIdGUID",
+          "type": "SystemAssigned, UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ud1": {
+              "clientId": "ClientIdGUID",
+              "principalId": "PrincipalIdGUID"
+            },
+            "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ud2": {
+              "clientId": "6a35400f-6ccb-4817-8f1a-ce19ea4523bc",
+              "principalId": "ce2d5953-5c15-40ca-9d51-cc3f4a63b0f5"
+            }
+          }
         },
         "properties": {
+          "zoneRedundant": false,
           "isAutoInflateEnabled": false,
+          "disableLocalAuth": false,
           "maximumThroughputUnits": 0,
-          "provisioningState": "Created",
-          "metricId": "5f750a97-50d9-4e36-8081-c9ee4c0210d4:sdk-namespace-5849",
-          "createdAt": "2017-05-24T23:23:27.877Z",
-          "updatedAt": "2017-05-24T23:23:27.877Z",
-          "serviceBusEndpoint": "https://sdk-Namespace-5849.servicebus.windows-int.net:443/"
+          "encryption": {
+            "keySource": "Microsoft.KeyVault",
+            "keyVaultProperties": [
+              {
+                "keyName": "Samplekey",
+                "keyVaultUri": "https://sample-keyvault-user.vault-int.azure-int.net",
+                "keyVersion": "",
+                "identity": {
+                  "userAssignedIdentity": "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ud1"
+                }
+              }
+            ],
+            "requireInfrastructureEncryption": false
+          },
+          "clusterArmId": "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.EventHub/clusters/enc-test",
+          "kafkaEnabled": false,
+          "provisioningState": "Succeeded",
+          "metricId": "MetricGUID:NamespaceSample",
+          "createdAt": "2021-02-16T22:36:06.107Z",
+          "updatedAt": "2021-02-16T22:37:42.29Z",
+          "serviceBusEndpoint": "https://NamespaceSample.servicebus.windows-int.net:443/"
         }
       }
   - statusCode: "201"
@@ -261,22 +674,52 @@ examples:
           "tier": "Standard",
           "capacity": 1
         },
-        "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-5849",
-        "name": "sdk-Namespace-5849",
+        "id": "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.EventHub/namespaces/NamespaceSample",
+        "name": "NamespaceSample",
         "type": "Microsoft.EventHub/Namespaces",
-        "location": "South Central US",
-        "tags": {
-          "tag1": "value1",
-          "tag2": "value2"
+        "location": "East US",
+        "tags": {},
+        "identity": {
+          "principalId": "PrincipalIdGUID",
+          "tenantId": "TenantIdGUID",
+          "type": "SystemAssigned, UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ud1": {
+              "clientId": "ClientIdGUID",
+              "principalId": "PrincipalIdGUID"
+            },
+            "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ud2": {
+              "clientId": "6a35400f-6ccb-4817-8f1a-ce19ea4523bc",
+              "principalId": "ce2d5953-5c15-40ca-9d51-cc3f4a63b0f5"
+            }
+          }
         },
         "properties": {
+          "zoneRedundant": false,
           "isAutoInflateEnabled": false,
+          "disableLocalAuth": false,
           "maximumThroughputUnits": 0,
-          "provisioningState": "Created",
-          "metricId": "5f750a97-50d9-4e36-8081-c9ee4c0210d4:sdk-namespace-5849",
-          "createdAt": "2017-05-24T23:23:27.877Z",
-          "updatedAt": "2017-05-24T23:23:27.877Z",
-          "serviceBusEndpoint": "https://sdk-Namespace-5849.servicebus.windows-int.net:443/"
+          "encryption": {
+            "keySource": "Microsoft.KeyVault",
+            "keyVaultProperties": [
+              {
+                "keyName": "Samplekey",
+                "keyVaultUri": "https://sample-keyvault-user.vault-int.azure-int.net",
+                "keyVersion": "",
+                "identity": {
+                  "userAssignedIdentity": "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ud1"
+                }
+              }
+            ],
+            "requireInfrastructureEncryption": false
+          },
+          "clusterArmId": "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.EventHub/clusters/enc-test",
+          "kafkaEnabled": false,
+          "provisioningState": "Succeeded",
+          "metricId": "MetricGUID:NamespaceSample",
+          "createdAt": "2021-02-16T22:36:06.107Z",
+          "updatedAt": "2021-02-16T22:37:42.29Z",
+          "serviceBusEndpoint": "https://NamespaceSample.servicebus.windows-int.net:443/"
         }
       }
   - statusCode: "202"

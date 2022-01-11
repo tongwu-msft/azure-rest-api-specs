@@ -42,6 +42,8 @@ responses:
   description: Created - Returns information about the managed application, including provisioning status.
   types:
   - uid: Application
+- name: 202 Accepted
+  description: Accepted - Returns this status until the asynchronous operation has completed.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -728,7 +730,42 @@ definitions:
   - name: group
     types:
     - uid: string
-examples: []
+examples:
+- name: Create or update managed application
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applications/myManagedApplication?api-version=2019-07-01
+    body: >-
+      {
+        "properties": {
+          "applicationDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applicationDefinitions/myAppDef",
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG"
+        },
+        "kind": "ServiceCatalog"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "myManagedApplication",
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applications/myManagedApplication",
+        "type": "Microsoft.Solutions/applications",
+        "managedBy": null,
+        "plan": null,
+        "identity": null,
+        "kind": "ServiceCatalog",
+        "sku": null,
+        "properties": {
+          "applicationDefinitionId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Solutions/applicationDefinitions/myAppDef",
+          "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+          "outputs": null,
+          "parameters": null,
+          "provisioningState": "Created"
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://url.to.query
 security:
 - name: azure_auth
   type: oauth2

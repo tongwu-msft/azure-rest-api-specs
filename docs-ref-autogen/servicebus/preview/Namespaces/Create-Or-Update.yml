@@ -3,14 +3,14 @@ uid: management.azure.com.servicebus.preview.namespaces.createorupdate
 name: Create Or Update
 service: Service Bus
 groupName: Namespaces
-apiVersion: 2021-01-01-preview
+apiVersion: 2021-06-01-preview
 summary: Creates or updates a service namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}?api-version=2021-01-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}?api-version=2021-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -72,7 +72,7 @@ requestBody:
       isDictionary: true
       additionalTypes:
       - uid: string
-      - uid: DictionaryValue
+      - uid: UserAssignedIdentity
   - name: properties.zoneRedundant
     in: body
     description: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
@@ -84,6 +84,11 @@ requestBody:
     types:
     - uid: PrivateEndpointConnection
       isArray: true
+  - name: properties.disableLocalAuth
+    in: body
+    description: This property disables SAS authentication for the Service Bus namespace.
+    types:
+    - uid: boolean
   - name: properties.encryption.keyVaultProperties
     in: body
     description: Properties of KeyVault
@@ -161,7 +166,7 @@ definitions:
     description: The type of identity that last modified the resource.
     types:
     - uid: string
-- name: DictionaryValue
+- name: UserAssignedIdentity
   description: Recognized Dictionary value.
   kind: object
   properties:
@@ -265,7 +270,7 @@ definitions:
       isDictionary: true
       additionalTypes:
       - uid: string
-      - uid: DictionaryValue
+      - uid: UserAssignedIdentity
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the namespace.
@@ -305,6 +310,10 @@ definitions:
     types:
     - uid: PrivateEndpointConnection
       isArray: true
+  - name: properties.disableLocalAuth
+    description: This property disables SAS authentication for the Service Bus namespace.
+    types:
+    - uid: boolean
   - name: properties.encryption.keyVaultProperties
     description: Properties of KeyVault
     types:
@@ -524,7 +533,7 @@ definitions:
 examples:
 - name: NameSpaceCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace2924?api-version=2021-01-01-preview
+    uri: PUT https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace2924?api-version=2021-06-01-preview
     body: >-
       {
         "sku": {
@@ -581,7 +590,8 @@ examples:
           "metricId": "5f750a97-50d9-4e36-8081-c9ee4c0210d4:sdk-namespace-2924",
           "createdAt": "2017-05-25T22:26:36.76Z",
           "updatedAt": "2017-05-25T22:26:36.76Z",
-          "serviceBusEndpoint": "https://sdk-Namespace-2924.servicebus.windows-int.net:443/"
+          "serviceBusEndpoint": "https://sdk-Namespace-2924.servicebus.windows-int.net:443/",
+          "disableLocalAuth": false
         }
       }
   - statusCode: "202"
