@@ -14857,19 +14857,16 @@
 ### Stable
 #### Disaster Recovery Configs
 ##### [Overview](servicebus/stable/Disaster-Recovery-Configs.yml)
-##### [Break Pairing](servicebus/stable/Disaster-Recovery-Configs/Break-Pairing.yml)
+##### [Get Authorization Rule](servicebus/stable/Disaster-Recovery-Configs/Get-Authorization-Rule.yml)
+##### [List Authorization Rules](servicebus/stable/Disaster-Recovery-Configs/List-Authorization-Rules.yml)
+##### [List Keys](servicebus/stable/Disaster-Recovery-Configs/List-Keys.yml)
 ##### [Check Name Availability](servicebus/stable/Disaster-Recovery-Configs/Check-Name-Availability.yml)
+##### [Break Pairing](servicebus/stable/Disaster-Recovery-Configs/Break-Pairing.yml)
 ##### [Create Or Update](servicebus/stable/Disaster-Recovery-Configs/Create-Or-Update.yml)
 ##### [Delete](servicebus/stable/Disaster-Recovery-Configs/Delete.yml)
 ##### [Fail Over](servicebus/stable/Disaster-Recovery-Configs/Fail-Over.yml)
 ##### [Get](servicebus/stable/Disaster-Recovery-Configs/Get.yml)
-##### [Get Authorization Rule](servicebus/stable/Disaster-Recovery-Configs/Get-Authorization-Rule.yml)
 ##### [List](servicebus/stable/Disaster-Recovery-Configs/List.yml)
-##### [List Authorization Rules](servicebus/stable/Disaster-Recovery-Configs/List-Authorization-Rules.yml)
-##### [List Keys](servicebus/stable/Disaster-Recovery-Configs/List-Keys.yml)
-#### Event Hubs
-##### [Overview](servicebus/stable/Event-Hubs.yml)
-##### [List By Namespace](servicebus/stable/Event-Hubs/List-By-Namespace.yml)
 #### Migration Configs
 ##### [Overview](servicebus/stable/Migration-Configs.yml)
 ##### [Complete Migration](servicebus/stable/Migration-Configs/Complete-Migration.yml)
@@ -14897,9 +14894,6 @@
 #### Namespaces - CheckName Availability
 ##### [Overview](servicebus/stable/Namespaces-Check-Name-Availability.yml)
 ##### [Check Name Availability](servicebus/stable/Namespaces-Check-Name-Availability/Check-Name-Availability.yml)
-#### Namespaces - Migrate
-##### [Overview](servicebus/stable/Namespaces-Migrate.yml)
-##### [Migrate](servicebus/stable/Namespaces-Migrate/Migrate.yml)
 #### Namespaces - Network Rule Sets
 ##### [Overview](servicebus/stable/Namespaces-Network-Rule-Sets.yml)
 ##### [Create Or Update Network Rule Set](servicebus/stable/Namespaces-Network-Rule-Sets/Create-Or-Update-Network-Rule-Set.yml)
@@ -14908,9 +14902,15 @@
 #### Operations
 ##### [Overview](servicebus/stable/Operations.yml)
 ##### [List](servicebus/stable/Operations/List.yml)
-#### Premium Messaging Regions
-##### [Overview](servicebus/stable/Premium-Messaging-Regions.yml)
-##### [List](servicebus/stable/Premium-Messaging-Regions/List.yml)
+#### Private Endpoint Connections
+##### [Overview](servicebus/stable/Private-Endpoint-Connections.yml)
+##### [Create Or Update](servicebus/stable/Private-Endpoint-Connections/Create-Or-Update.yml)
+##### [Delete](servicebus/stable/Private-Endpoint-Connections/Delete.yml)
+##### [Get](servicebus/stable/Private-Endpoint-Connections/Get.yml)
+##### [List](servicebus/stable/Private-Endpoint-Connections/List.yml)
+#### Private Link Resources
+##### [Overview](servicebus/stable/Private-Link-Resources.yml)
+##### [Get](servicebus/stable/Private-Link-Resources/Get.yml)
 #### Queues
 ##### [Overview](servicebus/stable/Queues.yml)
 ##### [Create Or Update](servicebus/stable/Queues/Create-Or-Update.yml)
@@ -14925,9 +14925,6 @@
 ##### [List Authorization Rules](servicebus/stable/Queues-Authorization-Rules/List-Authorization-Rules.yml)
 ##### [List Keys](servicebus/stable/Queues-Authorization-Rules/List-Keys.yml)
 ##### [Regenerate Keys](servicebus/stable/Queues-Authorization-Rules/Regenerate-Keys.yml)
-#### Regions
-##### [Overview](servicebus/stable/Regions.yml)
-##### [List By Sku](servicebus/stable/Regions/List-By-Sku.yml)
 #### Rules
 ##### [Overview](servicebus/stable/Rules.yml)
 ##### [Create Or Update](servicebus/stable/Rules/Create-Or-Update.yml)
