@@ -3,7 +3,7 @@ title: Undelete Blob (REST API) - Azure Storage
 description: The Undelete Blob operation restores the contents and metadata of a soft deleted blob and any associated soft deleted snapshots.
 author: pemari-msft
 
-ms.date: 07/06/2020
+ms.date: 01/07/2022
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -74,7 +74,8 @@ Undelete Blob is supported only on version 2017-07-29 or later.
  None.  
   
 ## Authorization  
- This operation can only be called by the account owner and by anyone with a Shared Access Signature that has permission to write to this blob or its container.  
+
+The `Undelete Blob` operation can be called by the account owner, by anyone with a Shared Access Signature that has permission to write to this blob or its container, or by a security principal who is assigned a role with the `Microsoft.Storage/storageAccounts/blobServices/containers/write` action.  
   
 ## Remarks  
 When a soft deleted blob is undeleted, the blob and any associated snapshots are available for operations using other APIs. Undelete request to blob, undeletes soft deleted blob and any associated soft deleted snapshots. Attempting to undelete a blob that is not soft deleted nor has any soft deleted snapshots will succeed without any changes.
