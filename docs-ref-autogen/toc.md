@@ -10247,7 +10247,6 @@
 ### Update Certificate Policy
 #### [Overview](keyvault/certificates/Update-Certificate-Policy.yml)
 #### [Update Certificate Policy](keyvault/certificates/Update-Certificate-Policy/Update-Certificate-Policy.yml)
-## Common
 ## Key Vault
 ### Private Endpoint Connections
 #### [Overview](keyvault/keyvault/Private-Endpoint-Connections.yml)
@@ -13914,6 +13913,7 @@
 ### [List By Subscription](resources/Subscription-Feature-Registrations/List-By-Subscription.yml)
 ## Subscriptions
 ### [Overview](resources/Subscriptions.yml)
+### [Check Zone Peers](resources/Subscriptions/Check-Zone-Peers.yml)
 ### [Get](resources/Subscriptions/Get.yml)
 ### [List](resources/Subscriptions/List.yml)
 ### [List Locations](resources/Subscriptions/List-Locations.yml)
