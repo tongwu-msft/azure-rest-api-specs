@@ -165,4 +165,54 @@ The suggested spelling or grammar correction.
 
 ## Bing supported languages and markets
 
-[!INCLUDE [bing-supported-languages](./includes/bing-supported-languages.md)]
+The following table lists the Bing supported languages that you may specify in the `setLang` query parameter, the country codes that you may specify in the `cc` query parameter, and the market code values that you may use to specify the `mkt` query parameter. Demo Text and Demo Excepted Correction can be used to test if the api is working correctly.
+  |Supported Language|Country/Region|Market Code|Demo Text|Demo Excepted Correction|  
+|------------------------|---------------------|-------------------|-----------------------|----------------------|
+ |Arabic|United Arab Emirates|ar-AE|مرحبا ， يوم عسيد لك|مرحبا ， يوم سعيد لك|
+ |ulgarian|Bulgaria|bg-BG|Българсик език|Български език|
+ |Catalan	|Spain	|ca-ES	|Claudi riera	|claudia riera|
+|Czech	|Czech	|cs-CZ	|Češtian	|Čeština|
+|Danish	|Denmark	|da-DK	|Welokm	|Welkom|
+|German	|Germany	|de-DE	|zdf fussballspiel	|zdf fußballspiel|
+|English	|Australia	|en-AU	|perfect poption	|perfect potion|
+|English	|Canada	|en-CA	|decafenation	|decaffeination|
+|English	|United Kingdom	|en-GB	|topograpical meaning	|topographical meaning|
+|English	|India	|en-IN	|dainik jagaran	|dainik jagran|
+|English	|United States	|en-US	|battle of the aisiago	|battle of the asiago|
+|Spanish	|Spain	|es-ES	|cordillera de lows cárpatos	|cordillera de los cárpatos|
+|Spanish	|Mexico	|es-MX	|carsel de cananea	|cárcel de cananea|
+|Spanish	|United States	|es-US	|carsel de cananea	|cárcel de cananea|
+|Finnish	|Finland|	fi-FI	|hälyt yskeskuks	|hälytyskeskus|
+|French	|Canada	|fr-CA	|les meilleuresadditif	|les meilleures additif|
+|French	|France	|fr-FR	|letre en fromage	|lettre en fromage|
+|Hebrew	|Israel	|he-IL	|ברךו הבא|	ברוך הבא|
+|Croatian	|Croatia	|hr-HR	|suze svetog lovra	|suze svetog lovre|
+|Italian	|Italy	|it-IT	|orologio svarowsky	|orologio swarovski|
+|Japanese	|Japan	|ja-JP	|ありがととう|	ありがとう|
+|Korean	|Korea	|ko-KR	|미안니합다	|미안합니다|
+|Latvian	|Latvia	|lv-LV	|lielie izmeri.lv	|lielieizmeri.lv|
+|Malay	|Malaysia	|ms-MY	|Mesir Bahesa	|mesir bahasa|
+|Norwegian (Bokmål)	|Norway	|nb-NO	|næpe suppe	|nepesuppe|
+|Dutch	|Belgium	|nl-BE	|electriteid	|electriteit|
+|Dutch	|Netherlands	|nl-NL	|electriteid	|electriteit|
+|Polish	|Poland	|pl-PL	|naduzywaniie alkoholu	|naduzywanie alkoholu|
+|Portuguese	|Brazil	|pt-BR	|curso de serralheiro prensisal	|curso de serralheiro presencial|
+|Portuguese (Portugal)	|Portuguese 	|pt-PT	|suzy quatro	|suzi quatro|
+|Romanian	|Romania	|ro-RO	|T3xt despre dulciuri	|text despre dulciuri|
+|Russian	|Russia	|ru-RU	|Превет. Как дела? Какии планны на выхадные?	|привет. как дела? какие планы на выходные?|
+|Slovak	|Slovak 	|sk-SK	|slúchadlá mediatech mt3589	|slúchadlá media tech mt3589|
+|Slovenian	|Sierra Leone	|sl-SI	|ogresnovads	|ogres novads|
+|Swedish	|Sweden	|sv-SE	|förjuden frukt	|förbjuden frukt|
+|Thai	|Thailand	|th-TH	|สวัสดีะค	|สวัสดีค|
+|Turkish	|Turkey	|tr-TR	|atatürk foto lari	|atatürk fotoları|
+|Ukrainian	|Ukraine	|uk-UA	|юьуб	|ютуб|
+|Vietnamese	|Vietnam	|vi-VN	|Hoan nhgênh	|hoan nghênh|
+|Chinese (Simplified)	|People's republic of China	|zh-CN	|南京长江大乔	|南京长江大桥|
+|Chinese (Traditional)	|Hong Kong SAR	|zh-HK	|維利多亞港	|維多利亞港|
+
+ 
+
+ 
+
+ 
+  
