@@ -13923,6 +13923,7 @@
 ### [List By Subscription](resources/Subscription-Feature-Registrations/List-By-Subscription.yml)
 ## Subscriptions
 ### [Overview](resources/Subscriptions.yml)
+### [Check Zone Peers](resources/Subscriptions/Check-Zone-Peers.yml)
 ### [Get](resources/Subscriptions/Get.yml)
 ### [List](resources/Subscriptions/List.yml)
 ### [List Locations](resources/Subscriptions/List-Locations.yml)
