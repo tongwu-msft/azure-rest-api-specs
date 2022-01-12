@@ -3,14 +3,14 @@ uid: management.azure.com.servicebus.preview.subscriptions.createorupdate
 name: Create Or Update
 service: Service Bus
 groupName: Subscriptions
-apiVersion: 2021-01-01-preview
+apiVersion: 2021-06-01-preview
 summary: Creates a topic subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}?api-version=2021-01-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}?api-version=2021-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -120,6 +120,16 @@ requestBody:
     description: Queue/Topic name to forward the Dead Letter message
     types:
     - uid: string
+  - name: properties.isClientAffine
+    in: body
+    description: Value that indicates whether the subscription has an affinity to the client id.
+    types:
+    - uid: boolean
+  - name: properties.clientAffineProperties
+    in: body
+    description: Properties specific to client affine subscriptions.
+    types:
+    - uid: SBClientAffineProperties
 requestHeader: []
 definitions:
 - name: systemData
@@ -179,6 +189,22 @@ definitions:
     description: Number of messages transferred into dead letters.
     types:
     - uid: integer
+- name: SBClientAffineProperties
+  description: Properties specific to client affine subscriptions.
+  kind: object
+  properties:
+  - name: clientId
+    description: Indicates the Client ID of the application that created the client-affine subscription.
+    types:
+    - uid: string
+  - name: isDurable
+    description: For client-affine subscriptions, this value indicates whether the subscription is durable or not.
+    types:
+    - uid: boolean
+  - name: isShared
+    description: For client-affine subscriptions, this value indicates whether the subscription is shared or not.
+    types:
+    - uid: boolean
 - name: SBSubscription
   description: Description of subscription resource.
   kind: object
@@ -261,6 +287,14 @@ definitions:
     description: Queue/Topic name to forward the Dead Letter message
     types:
     - uid: string
+  - name: properties.isClientAffine
+    description: Value that indicates whether the subscription has an affinity to the client id.
+    types:
+    - uid: boolean
+  - name: properties.clientAffineProperties
+    description: Properties specific to client affine subscriptions.
+    types:
+    - uid: SBClientAffineProperties
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -379,7 +413,7 @@ definitions:
 examples:
 - name: SubscriptionCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/Subscriptionid/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1349/topics/sdk-Topics-8740/subscriptions/sdk-Subscriptions-2178?api-version=2021-01-01-preview
+    uri: PUT https://management.azure.com/subscriptions/Subscriptionid/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1349/topics/sdk-Topics-8740/subscriptions/sdk-Subscriptions-2178?api-version=2021-06-01-preview
     body: >-
       {
         "properties": {

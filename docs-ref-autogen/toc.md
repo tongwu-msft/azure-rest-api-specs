@@ -8915,6 +8915,20 @@
 ### [Send batch events](../docs-ref-conceptual/EventHub/send-batch-events.md)
 ## Reference
 ### preview
+#### Clusters
+##### [Overview](EventHub/preview/Clusters.yml)
+##### [Create Or Update](EventHub/preview/Clusters/Create-Or-Update.yml)
+##### [Delete](EventHub/preview/Clusters/Delete.yml)
+##### [Get](EventHub/preview/Clusters/Get.yml)
+##### [List By Resource Group](EventHub/preview/Clusters/List-By-Resource-Group.yml)
+##### [List By Subscription](EventHub/preview/Clusters/List-By-Subscription.yml)
+##### [List Namespaces](EventHub/preview/Clusters/List-Namespaces.yml)
+##### [Update](EventHub/preview/Clusters/Update.yml)
+##### [List Available Cluster Region](EventHub/preview/Clusters/List-Available-Cluster-Region.yml)
+#### Configuration
+##### [Overview](EventHub/preview/Configuration.yml)
+##### [Get](EventHub/preview/Configuration/Get.yml)
+##### [Patch](EventHub/preview/Configuration/Patch.yml)
 #### Consumer Groups
 ##### [Overview](EventHub/preview/Consumer-Groups.yml)
 ##### [Create Or Update](EventHub/preview/Consumer-Groups/Create-Or-Update.yml)
@@ -9009,6 +9023,20 @@
 #### Check Name Availability - Namespaces
 ##### [Overview](EventHub/stable/Check-Name-Availability-Namespaces.yml)
 ##### [Check Name Availability](EventHub/stable/Check-Name-Availability-Namespaces/Check-Name-Availability.yml)
+#### Clusters
+##### [Overview](EventHub/stable/Clusters.yml)
+##### [List Available Cluster Region](EventHub/stable/Clusters/List-Available-Cluster-Region.yml)
+##### [Create Or Update](EventHub/stable/Clusters/Create-Or-Update.yml)
+##### [Delete](EventHub/stable/Clusters/Delete.yml)
+##### [Get](EventHub/stable/Clusters/Get.yml)
+##### [List By Resource Group](EventHub/stable/Clusters/List-By-Resource-Group.yml)
+##### [List By Subscription](EventHub/stable/Clusters/List-By-Subscription.yml)
+##### [List Namespaces](EventHub/stable/Clusters/List-Namespaces.yml)
+##### [Update](EventHub/stable/Clusters/Update.yml)
+#### Configuration
+##### [Overview](EventHub/stable/Configuration.yml)
+##### [Get](EventHub/stable/Configuration/Get.yml)
+##### [Patch](EventHub/stable/Configuration/Patch.yml)
 #### Consumer Groups
 ##### [Overview](EventHub/stable/Consumer-Groups.yml)
 ##### [Create Or Update](EventHub/stable/Consumer-Groups/Create-Or-Update.yml)
@@ -9035,7 +9063,6 @@
 ##### [Create Or Update](EventHub/stable/Namespaces/Create-Or-Update.yml)
 ##### [Delete](EventHub/stable/Namespaces/Delete.yml)
 ##### [Get](EventHub/stable/Namespaces/Get.yml)
-##### [Get Messaging Plan](EventHub/stable/Namespaces/Get-Messaging-Plan.yml)
 ##### [List](EventHub/stable/Namespaces/List.yml)
 ##### [List By Resource Group](EventHub/stable/Namespaces/List-By-Resource-Group.yml)
 ##### [Update](EventHub/stable/Namespaces/Update.yml)
@@ -9043,13 +9070,25 @@
 ##### [Overview](EventHub/stable/Network-Rule-Sets.yml)
 ##### [Create Or Update Network Rule Set](EventHub/stable/Network-Rule-Sets/Create-Or-Update-Network-Rule-Set.yml)
 ##### [Get Network Rule Set](EventHub/stable/Network-Rule-Sets/Get-Network-Rule-Set.yml)
-##### [List Network Rule Sets](EventHub/stable/Network-Rule-Sets/List-Network-Rule-Sets.yml)
+##### [List Network Rule Set](EventHub/stable/Network-Rule-Sets/List-Network-Rule-Set.yml)
 #### Operations
 ##### [Overview](EventHub/stable/Operations.yml)
 ##### [List](EventHub/stable/Operations/List.yml)
-#### Regions
-##### [Overview](EventHub/stable/Regions.yml)
-##### [List By Sku](EventHub/stable/Regions/List-By-Sku.yml)
+#### Private Endpoint Connections
+##### [Overview](EventHub/stable/Private-Endpoint-Connections.yml)
+##### [Create Or Update](EventHub/stable/Private-Endpoint-Connections/Create-Or-Update.yml)
+##### [Delete](EventHub/stable/Private-Endpoint-Connections/Delete.yml)
+##### [Get](EventHub/stable/Private-Endpoint-Connections/Get.yml)
+##### [List](EventHub/stable/Private-Endpoint-Connections/List.yml)
+#### Private Link Resources
+##### [Overview](EventHub/stable/Private-Link-Resources.yml)
+##### [Get](EventHub/stable/Private-Link-Resources/Get.yml)
+#### Schema Registry
+##### [Overview](EventHub/stable/Schema-Registry.yml)
+##### [Create Or Update](EventHub/stable/Schema-Registry/Create-Or-Update.yml)
+##### [Delete](EventHub/stable/Schema-Registry/Delete.yml)
+##### [Get](EventHub/stable/Schema-Registry/Get.yml)
+##### [List By Namespace](EventHub/stable/Schema-Registry/List-By-Namespace.yml)
 # ExpressRoute
 ## [Overview](../docs-ref-conceptual/expressroute/index.md)
 ## Bgp Service Communities
@@ -14818,19 +14857,16 @@
 ### Stable
 #### Disaster Recovery Configs
 ##### [Overview](servicebus/stable/Disaster-Recovery-Configs.yml)
-##### [Break Pairing](servicebus/stable/Disaster-Recovery-Configs/Break-Pairing.yml)
+##### [Get Authorization Rule](servicebus/stable/Disaster-Recovery-Configs/Get-Authorization-Rule.yml)
+##### [List Authorization Rules](servicebus/stable/Disaster-Recovery-Configs/List-Authorization-Rules.yml)
+##### [List Keys](servicebus/stable/Disaster-Recovery-Configs/List-Keys.yml)
 ##### [Check Name Availability](servicebus/stable/Disaster-Recovery-Configs/Check-Name-Availability.yml)
+##### [Break Pairing](servicebus/stable/Disaster-Recovery-Configs/Break-Pairing.yml)
 ##### [Create Or Update](servicebus/stable/Disaster-Recovery-Configs/Create-Or-Update.yml)
 ##### [Delete](servicebus/stable/Disaster-Recovery-Configs/Delete.yml)
 ##### [Fail Over](servicebus/stable/Disaster-Recovery-Configs/Fail-Over.yml)
 ##### [Get](servicebus/stable/Disaster-Recovery-Configs/Get.yml)
-##### [Get Authorization Rule](servicebus/stable/Disaster-Recovery-Configs/Get-Authorization-Rule.yml)
 ##### [List](servicebus/stable/Disaster-Recovery-Configs/List.yml)
-##### [List Authorization Rules](servicebus/stable/Disaster-Recovery-Configs/List-Authorization-Rules.yml)
-##### [List Keys](servicebus/stable/Disaster-Recovery-Configs/List-Keys.yml)
-#### Event Hubs
-##### [Overview](servicebus/stable/Event-Hubs.yml)
-##### [List By Namespace](servicebus/stable/Event-Hubs/List-By-Namespace.yml)
 #### Migration Configs
 ##### [Overview](servicebus/stable/Migration-Configs.yml)
 ##### [Complete Migration](servicebus/stable/Migration-Configs/Complete-Migration.yml)
@@ -14858,9 +14894,6 @@
 #### Namespaces - CheckName Availability
 ##### [Overview](servicebus/stable/Namespaces-Check-Name-Availability.yml)
 ##### [Check Name Availability](servicebus/stable/Namespaces-Check-Name-Availability/Check-Name-Availability.yml)
-#### Namespaces - Migrate
-##### [Overview](servicebus/stable/Namespaces-Migrate.yml)
-##### [Migrate](servicebus/stable/Namespaces-Migrate/Migrate.yml)
 #### Namespaces - Network Rule Sets
 ##### [Overview](servicebus/stable/Namespaces-Network-Rule-Sets.yml)
 ##### [Create Or Update Network Rule Set](servicebus/stable/Namespaces-Network-Rule-Sets/Create-Or-Update-Network-Rule-Set.yml)
@@ -14869,9 +14902,15 @@
 #### Operations
 ##### [Overview](servicebus/stable/Operations.yml)
 ##### [List](servicebus/stable/Operations/List.yml)
-#### Premium Messaging Regions
-##### [Overview](servicebus/stable/Premium-Messaging-Regions.yml)
-##### [List](servicebus/stable/Premium-Messaging-Regions/List.yml)
+#### Private Endpoint Connections
+##### [Overview](servicebus/stable/Private-Endpoint-Connections.yml)
+##### [Create Or Update](servicebus/stable/Private-Endpoint-Connections/Create-Or-Update.yml)
+##### [Delete](servicebus/stable/Private-Endpoint-Connections/Delete.yml)
+##### [Get](servicebus/stable/Private-Endpoint-Connections/Get.yml)
+##### [List](servicebus/stable/Private-Endpoint-Connections/List.yml)
+#### Private Link Resources
+##### [Overview](servicebus/stable/Private-Link-Resources.yml)
+##### [Get](servicebus/stable/Private-Link-Resources/Get.yml)
 #### Queues
 ##### [Overview](servicebus/stable/Queues.yml)
 ##### [Create Or Update](servicebus/stable/Queues/Create-Or-Update.yml)
@@ -14886,9 +14925,6 @@
 ##### [List Authorization Rules](servicebus/stable/Queues-Authorization-Rules/List-Authorization-Rules.yml)
 ##### [List Keys](servicebus/stable/Queues-Authorization-Rules/List-Keys.yml)
 ##### [Regenerate Keys](servicebus/stable/Queues-Authorization-Rules/Regenerate-Keys.yml)
-#### Regions
-##### [Overview](servicebus/stable/Regions.yml)
-##### [List By Sku](servicebus/stable/Regions/List-By-Sku.yml)
 #### Rules
 ##### [Overview](servicebus/stable/Rules.yml)
 ##### [Create Or Update](servicebus/stable/Rules/Create-Or-Update.yml)

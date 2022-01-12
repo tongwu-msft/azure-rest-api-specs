@@ -3,14 +3,14 @@ uid: management.azure.com.eventhub.preview.namespaces.list
 name: List
 service: Event Hubs
 groupName: Namespaces
-apiVersion: 2021-01-01-preview
+apiVersion: 2021-06-01-preview
 summary: Lists all the available Namespaces within a subscription, irrespective of the resource groups.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.EventHub/namespaces?api-version=2021-01-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.EventHub/namespaces?api-version=2021-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -90,7 +90,11 @@ definitions:
   - name: identity.userAssignedIdentities
     description: Properties for User Assigned Identities
     types:
-    - uid: UserAssignedIdentities
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the Namespace.
@@ -146,6 +150,10 @@ definitions:
     types:
     - uid: PrivateEndpointConnection
       isArray: true
+  - name: properties.disableLocalAuth
+    description: This property disables SAS authentication for the Event Hubs namespace.
+    types:
+    - uid: boolean
   - name: properties.encryption.keyVaultProperties
     description: Properties of KeyVault
     types:
@@ -246,14 +254,20 @@ definitions:
   - name: None
     types:
     - uid: string
-- name: UserAssignedIdentities
-  description: Properties for User Assigned Identities
+- name: UserAssignedIdentity
+  description: Recognized Dictionary value.
   kind: object
   properties:
-  - name: ''
-    description: ''
+  - name: principalId
+    isReadyOnly: true
+    description: Principal Id of user assigned identity
     types:
-    - uid: ''
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: Client Id of user assigned identity
+    types:
+    - uid: string
 - name: PrivateEndpointConnection
   description: Properties of the PrivateEndpointConnection.
   kind: object
@@ -420,7 +434,7 @@ definitions:
 examples:
 - name: NamespacesListBySubscription
   request:
-    uri: GET https://management.azure.com/subscriptions/SampleSubscription/providers/Microsoft.EventHub/namespaces?api-version=2021-01-01-preview
+    uri: GET https://management.azure.com/subscriptions/SampleSubscription/providers/Microsoft.EventHub/namespaces?api-version=2021-06-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -454,6 +468,7 @@ examples:
             },
             "properties": {
               "isAutoInflateEnabled": false,
+              "disableLocalAuth": false,
               "maximumThroughputUnits": 0,
               "zoneRedundant": false,
               "encryption": {
