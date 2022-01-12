@@ -166,11 +166,12 @@ The suggested spelling or grammar correction.
 ## Bing supported languages and markets
 
 The following table lists the Bing supported languages that you may specify in the `setLang` query parameter, the country codes that you may specify in the `cc` query parameter, and the market code values that you may use to specify the `mkt` query parameter. Demo Text and Demo Excepted Correction can be used to test if the api is working correctly.
-  |Supported Language|Country/Region|Market Code|Demo Text|Demo Excepted Correction|  
+  
+|Supported Language|Country/Region|Market Code|Demo Text|Demo Excepted Correction|  
 |------------------------|---------------------|-------------------|-----------------------|----------------------|
- |Arabic|United Arab Emirates|ar-AE|مرحبا ， يوم عسيد لك|مرحبا ， يوم سعيد لك|
- |ulgarian|Bulgaria|bg-BG|Българсик език|Български език|
- |Catalan	|Spain	|ca-ES	|Claudi riera	|claudia riera|
+|Arabic|United Arab Emirates|ar-AE|مرحبا ， يوم عسيد لك|مرحبا ， يوم سعيد لك|
+|ulgarian|Bulgaria|bg-BG|Българсик език|Български език|
+|Catalan	|Spain	|ca-ES	|Claudi riera	|claudia riera|
 |Czech	|Czech	|cs-CZ	|Češtian	|Čeština|
 |Danish	|Denmark	|da-DK	|Welokm	|Welkom|
 |German	|Germany	|de-DE	|zdf fussballspiel	|zdf fußballspiel|
