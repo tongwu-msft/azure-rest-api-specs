@@ -10581,6 +10581,12 @@
 ### [Reset Password](labservices/Global-Users/Reset-Password.yml)
 ### [Start Environment](labservices/Global-Users/Start-Environment.yml)
 ### [Stop Environment](labservices/Global-Users/Stop-Environment.yml)
+## Images
+### [Overview](labservices/Images.yml)
+### [Create Or Update](labservices/Images/Create-Or-Update.yml)
+### [Get](labservices/Images/Get.yml)
+### [List By Lab Plan](labservices/Images/List-By-Lab-Plan.yml)
+### [Update](labservices/Images/Update.yml)
 ## Lab Accounts
 ### [Overview](labservices/Lab-Accounts.yml)
 ### [Create Lab](labservices/Lab-Accounts/Create-Lab.yml)
@@ -10591,6 +10597,15 @@
 ### [List By Resource Group](labservices/Lab-Accounts/List-By-Resource-Group.yml)
 ### [List By Subscription](labservices/Lab-Accounts/List-By-Subscription.yml)
 ### [Update](labservices/Lab-Accounts/Update.yml)
+## Lab Plans
+### [Overview](labservices/Lab-Plans.yml)
+### [Create Or Update](labservices/Lab-Plans/Create-Or-Update.yml)
+### [Delete](labservices/Lab-Plans/Delete.yml)
+### [Get](labservices/Lab-Plans/Get.yml)
+### [List By Resource Group](labservices/Lab-Plans/List-By-Resource-Group.yml)
+### [List By Subscription](labservices/Lab-Plans/List-By-Subscription.yml)
+### [Save Image](labservices/Lab-Plans/Save-Image.yml)
+### [Update](labservices/Lab-Plans/Update.yml)
 ## Labs
 ### [Overview](labservices/Labs.yml)
 ### [Add Users](labservices/Labs/Add-Users.yml)
@@ -10600,12 +10615,29 @@
 ### [List](labservices/Labs/List.yml)
 ### [Register](labservices/Labs/Register.yml)
 ### [Update](labservices/Labs/Update.yml)
+## Operation Results
+### [Overview](labservices/Operation-Results.yml)
+### [Get](labservices/Operation-Results/Get.yml)
 ## Operations
 ### [Overview](labservices/Operations.yml)
 ### [Get](labservices/Operations/Get.yml)
+### [List](labservices/Operations/List.yml)
 ## Provider Operations
 ### [Overview](labservices/Provider-Operations.yml)
 ### [List](labservices/Provider-Operations/List.yml)
+## Schedules
+### [Overview](labservices/Schedules.yml)
+### [Create Or Update](labservices/Schedules/Create-Or-Update.yml)
+### [Delete](labservices/Schedules/Delete.yml)
+### [Get](labservices/Schedules/Get.yml)
+### [List By Lab](labservices/Schedules/List-By-Lab.yml)
+### [Update](labservices/Schedules/Update.yml)
+## Skus
+### [Overview](labservices/Skus.yml)
+### [List](labservices/Skus/List.yml)
+## Usages
+### [Overview](labservices/Usages.yml)
+### [List By Location](labservices/Usages/List-By-Location.yml)
 ## Users
 ### [Overview](labservices/Users.yml)
 ### [Create Or Update](labservices/Users/Create-Or-Update.yml)
@@ -10613,6 +10645,35 @@
 ### [Get](labservices/Users/Get.yml)
 ### [List](labservices/Users/List.yml)
 ### [Update](labservices/Users/Update.yml)
+## Virtual Machines
+### [Overview](labservices/Virtual-Machines.yml)
+### [Get](labservices/Virtual-Machines/Get.yml)
+### [List By Lab](labservices/Virtual-Machines/List-By-Lab.yml)
+### [Redeploy](labservices/Virtual-Machines/Redeploy.yml)
+### [Reimage](labservices/Virtual-Machines/Reimage.yml)
+### [Reset Password](labservices/Virtual-Machines/Reset-Password.yml)
+### [Start](labservices/Virtual-Machines/Start.yml)
+### [Stop](labservices/Virtual-Machines/Stop.yml)
+## Labs
+### Labs
+#### [Overview](labservices/labs/Labs.yml)
+#### [Create Or Update](labservices/labs/Labs/Create-Or-Update.yml)
+#### [Delete](labservices/labs/Labs/Delete.yml)
+#### [Get](labservices/labs/Labs/Get.yml)
+#### [List By Resource Group](labservices/labs/Labs/List-By-Resource-Group.yml)
+#### [List By Subscription](labservices/labs/Labs/List-By-Subscription.yml)
+#### [Publish](labservices/labs/Labs/Publish.yml)
+#### [Sync Group](labservices/labs/Labs/Sync-Group.yml)
+#### [Update](labservices/labs/Labs/Update.yml)
+## Users
+### Users
+#### [Overview](labservices/users/Users.yml)
+#### [Create Or Update](labservices/users/Users/Create-Or-Update.yml)
+#### [Delete](labservices/users/Users/Delete.yml)
+#### [Get](labservices/users/Users/Get.yml)
+#### [Invite](labservices/users/Users/Invite.yml)
+#### [List By Lab](labservices/users/Users/List-By-Lab.yml)
+#### [Update](labservices/users/Users/Update.yml)
 # Load balancer
 ## [Overview](../docs-ref-conceptual/load-balancer/index.md)
 ## Inbound Nat Rules
