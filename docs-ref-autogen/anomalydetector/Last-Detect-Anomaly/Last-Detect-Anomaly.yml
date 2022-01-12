@@ -1,0 +1,526 @@
+### YamlMime:RESTOperation
+uid: anomalydetector.lastdetectanomaly.lastdetectanomaly
+name: Last Detect Anomaly
+service: Cognitive Services - AnomalyDetector
+groupName: Last Detect Anomaly
+apiVersion: 1.1-preview.1
+summary: "Detect anomalies in the last a few points of the request body.  \nSynchronized API for anomaly detection."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/anomalydetector/{ApiVersion}/multivariate/models/{modelId}/last/detect
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: ApiVersion
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Anomaly Detector API version (for example, v1.0).
+  types:
+  - uid: string
+- name: modelId
+  in: path
+  isRequired: true
+  description: Model identifier.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 200 OK
+  description: Detection has successfully completed.
+  types:
+  - uid: LastDetectionResult
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Error response
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: variables
+    in: body
+    isRequired: true
+    description: variables
+    types:
+    - uid: VariableValues
+      isArray: true
+  - name: detectingPoints
+    in: body
+    isRequired: true
+    description: number of timestamps on which the model detects
+    types:
+    - uid: integer
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: VariableValues
+  kind: object
+  properties:
+  - name: name
+    description: variable name
+    types:
+    - uid: string
+  - name: timestamps
+    description: timestamps
+    types:
+    - uid: string
+      isArray: true
+  - name: values
+    description: values
+    types:
+    - uid: number
+      isArray: true
+- name: LastDetectionResult
+  kind: object
+  properties:
+  - name: variableStates
+    description: ''
+    types:
+    - uid: VariableState
+      isArray: true
+  - name: results
+    description: ''
+    types:
+    - uid: AnomalyState
+      isArray: true
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The message explaining the error reported by the service.
+    types:
+    - uid: string
+- name: LastDetectionRequest
+  kind: object
+  properties:
+  - name: variables
+    description: variables
+    types:
+    - uid: VariableValues
+      isArray: true
+  - name: detectingPoints
+    description: number of timestamps on which the model detects
+    types:
+    - uid: integer
+- name: VariableState
+  kind: object
+  properties:
+  - name: variable
+    description: Variable name.
+    types:
+    - uid: string
+  - name: filledNARatio
+    description: Proportion of NaN values filled of the variable.
+    types:
+    - uid: number
+  - name: effectiveCount
+    description: Number of effective points counted.
+    types:
+    - uid: integer
+  - name: startTime
+    description: Start time of the variable.
+    types:
+    - uid: string
+  - name: endTime
+    description: End time of the variable.
+    types:
+    - uid: string
+- name: AnomalyState
+  kind: object
+  properties:
+  - name: timestamp
+    description: timestamp
+    types:
+    - uid: string
+  - name: value
+    description: ''
+    types:
+    - uid: AnomalyValue
+  - name: errors
+    description: Error message for the current timestamp
+    types:
+    - uid: ErrorResponse
+      isArray: true
+- name: AnomalyValue
+  kind: object
+  properties:
+  - name: isAnomaly
+    description: True if an anomaly is detected at the current timestamp.
+    types:
+    - uid: boolean
+  - name: severity
+    description: Indicates the significance of the anomaly. The higher the severity, the more significant the anomaly.
+    types:
+    - uid: number
+  - name: score
+    description: Raw score from the model.
+    types:
+    - uid: number
+  - name: interpretation
+    description: ''
+    types:
+    - uid: AnomalyInterpretation
+      isArray: true
+- name: AnomalyInterpretation
+  kind: object
+  properties:
+  - name: variable
+    description: ''
+    types:
+    - uid: string
+  - name: contributionScore
+    description: ''
+    types:
+    - uid: number
+  - name: correlationChanges
+    description: ''
+    types:
+    - uid: CorrelationChanges
+- name: CorrelationChanges
+  kind: object
+  properties:
+  - name: changedVariables
+    description: correlated variables
+    types:
+    - uid: string
+      isArray: true
+  - name: changedValues
+    description: changes in correlation
+    types:
+    - uid: number
+      isArray: true
+examples:
+- name: Detect anomaly with multivariate Model
+  request:
+    uri: POST {Endpoint}/anomalydetector/v1.1-preview.1/multivariate/models/45aad126-aafd-11ea-b8fb-d89ef3400c5f/last/detect
+    body: >-
+      {
+        "variables": [
+          {
+            "name": "Variable_1",
+            "timestamps": [
+              "2021-01-01T00:00:00Z",
+              "2021-01-01T00:01:00Z",
+              "2021-01-01T00:02:00Z",
+              "2021-01-01T00:03:00Z",
+              "2021-01-01T00:04:00Z",
+              "2021-01-01T00:05:00Z",
+              "2021-01-01T00:06:00Z",
+              "2021-01-01T00:07:00Z",
+              "2021-01-01T00:08:00Z",
+              "2021-01-01T00:09:00Z",
+              "2021-01-01T00:10:00Z",
+              "2021-01-01T00:11:00Z",
+              "2021-01-01T00:12:00Z",
+              "2021-01-01T00:13:00Z",
+              "2021-01-01T00:14:00Z",
+              "2021-01-01T00:15:00Z",
+              "2021-01-01T00:16:00Z",
+              "2021-01-01T00:17:00Z",
+              "2021-01-01T00:18:00Z",
+              "2021-01-01T00:19:00Z",
+              "2021-01-01T00:20:00Z",
+              "2021-01-01T00:21:00Z",
+              "2021-01-01T00:22:00Z",
+              "2021-01-01T00:23:00Z",
+              "2021-01-01T00:24:00Z",
+              "2021-01-01T00:25:00Z",
+              "2021-01-01T00:26:00Z",
+              "2021-01-01T00:27:00Z",
+              "2021-01-01T00:28:00Z",
+              "2021-01-01T00:29:00Z"
+            ],
+            "values": [
+              0.45513785459339717,
+              0.7388603950488748,
+              0.201088255984052,
+              0.74628122458918988,
+              0.073081288504016628,
+              0.33090474587393537,
+              0.75449252681533152,
+              0.987506336316328,
+              0.66659329934214684,
+              0.63083515431686721,
+              0.080833101614662284,
+              0.84144155886684424,
+              0.514583545640453,
+              0.0954489875193526,
+              0.77867932319205069,
+              0.41646133667960994,
+              0.030176187583339287,
+              0.34742149371893238,
+              0.508530173413991,
+              0.42451199127255046,
+              0.21159442227252079,
+              0.24733519545833516,
+              0.87910221109821562,
+              0.94796218998846649,
+              0.26702703121252136,
+              0.69545034976694131,
+              0.12357283914889949,
+              0.82149154730506468,
+              0.11813002444192677,
+              0.8579045951076123
+            ]
+          },
+          {
+            "name": "Variable_2",
+            "timestamps": [
+              "2021-01-01T00:00:00Z",
+              "2021-01-01T00:01:00Z",
+              "2021-01-01T00:02:00Z",
+              "2021-01-01T00:03:00Z",
+              "2021-01-01T00:04:00Z",
+              "2021-01-01T00:05:00Z",
+              "2021-01-01T00:06:00Z",
+              "2021-01-01T00:07:00Z",
+              "2021-01-01T00:08:00Z",
+              "2021-01-01T00:09:00Z",
+              "2021-01-01T00:10:00Z",
+              "2021-01-01T00:11:00Z",
+              "2021-01-01T00:12:00Z",
+              "2021-01-01T00:13:00Z",
+              "2021-01-01T00:14:00Z",
+              "2021-01-01T00:15:00Z",
+              "2021-01-01T00:16:00Z",
+              "2021-01-01T00:17:00Z",
+              "2021-01-01T00:18:00Z",
+              "2021-01-01T00:19:00Z",
+              "2021-01-01T00:20:00Z",
+              "2021-01-01T00:21:00Z",
+              "2021-01-01T00:22:00Z",
+              "2021-01-01T00:23:00Z",
+              "2021-01-01T00:24:00Z",
+              "2021-01-01T00:25:00Z",
+              "2021-01-01T00:26:00Z",
+              "2021-01-01T00:27:00Z",
+              "2021-01-01T00:28:00Z",
+              "2021-01-01T00:29:00Z"
+            ],
+            "values": [
+              0.96178716139641451,
+              0.24903311574778408,
+              0.49205612541186128,
+              0.98956010496185975,
+              0.91717592831280936,
+              0.5754204711105273,
+              0.18110332962656339,
+              0.88523119817425766,
+              0.95432319046447789,
+              0.70880124460942617,
+              0.78435722371490135,
+              0.7664787010700046,
+              0.36995523253870932,
+              0.504519908266789,
+              0.58489309299501635,
+              0.76289133960895761,
+              0.81484058689000649,
+              0.085404588737393317,
+              0.034819767275256819,
+              0.21275099339467762,
+              0.98361755791998062,
+              0.93214414833642822,
+              0.038466608085469534,
+              0.17231384376227821,
+              0.86263834102183823,
+              0.35053229974224254,
+              0.631141662835182,
+              0.0730352607990088,
+              0.08886179043386,
+              0.74886060409711785
+            ]
+          },
+          {
+            "name": "Variable_3",
+            "timestamps": [
+              "2021-01-01T00:00:00Z",
+              "2021-01-01T00:01:00Z",
+              "2021-01-01T00:02:00Z",
+              "2021-01-01T00:03:00Z",
+              "2021-01-01T00:04:00Z",
+              "2021-01-01T00:05:00Z",
+              "2021-01-01T00:06:00Z",
+              "2021-01-01T00:07:00Z",
+              "2021-01-01T00:08:00Z",
+              "2021-01-01T00:09:00Z",
+              "2021-01-01T00:10:00Z",
+              "2021-01-01T00:11:00Z",
+              "2021-01-01T00:12:00Z",
+              "2021-01-01T00:13:00Z",
+              "2021-01-01T00:14:00Z",
+              "2021-01-01T00:15:00Z",
+              "2021-01-01T00:16:00Z",
+              "2021-01-01T00:17:00Z",
+              "2021-01-01T00:18:00Z",
+              "2021-01-01T00:19:00Z",
+              "2021-01-01T00:20:00Z",
+              "2021-01-01T00:21:00Z",
+              "2021-01-01T00:22:00Z",
+              "2021-01-01T00:23:00Z",
+              "2021-01-01T00:24:00Z",
+              "2021-01-01T00:25:00Z",
+              "2021-01-01T00:26:00Z",
+              "2021-01-01T00:27:00Z",
+              "2021-01-01T00:28:00Z",
+              "2021-01-01T00:29:00Z"
+            ],
+            "values": [
+              0.40307568794376281,
+              0.15526889968448554,
+              0.36352226408981103,
+              0.60512006372290039,
+              0.85167950184762764,
+              0.26456057352799289,
+              0.68108758300373451,
+              0.91658942216813155,
+              0.700783245230424,
+              0.56241554699403307,
+              0.62772896851278925,
+              0.15992056539730204,
+              0.60209644828275943,
+              0.35937967753105915,
+              0.87316860348486092,
+              0.20301549117588935,
+              0.029261872151168933,
+              0.62614995488284453,
+              0.45850782028563386,
+              0.82750069400833126,
+              0.032760268834037376,
+              0.4485202784055029,
+              0.89156910087483843,
+              0.891669051517807,
+              0.94699793533230459,
+              0.115293087370132,
+              0.088187725184595056,
+              0.74262866205891664,
+              0.32372247468990756,
+              0.936268139507417
+            ]
+          }
+        ],
+        "detectingPoints": 2
+      }
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "variableStates": [
+          {
+            "variable": "variable_1",
+            "filledNARatio": 0,
+            "effectiveCount": 30,
+            "startTime": "2021-01-01T00:00:00Z",
+            "endTime": "2021-01-01T00:29:00Z"
+          },
+          {
+            "variable": "variable_2",
+            "filledNARatio": 0,
+            "effectiveCount": 30,
+            "startTime": "2021-01-01T00:00:00Z",
+            "endTime": "2021-01-01T00:29:00Z"
+          },
+          {
+            "variable": "variable_3",
+            "filledNARatio": 0,
+            "effectiveCount": 30,
+            "startTime": "2021-01-01T00:00:00Z",
+            "endTime": "2021-01-01T00:29:00Z"
+          }
+        ],
+        "results": [
+          {
+            "timestamp": "2021-01-01T00:28:00Z",
+            "value": {
+              "isAnomaly": false,
+              "severity": 0,
+              "score": 0.69284713268280029
+            },
+            "errors": []
+          },
+          {
+            "timestamp": "2021-01-01T00:29:00Z",
+            "value": {
+              "isAnomaly": true,
+              "severity": 0.53374046087265015,
+              "score": 0.91711658239364624,
+              "interpretation": [
+                {
+                  "variable": "variable_2",
+                  "contributionScore": 0.5371576215,
+                  "correlationChanges": {
+                    "changedVariables": [
+                      "variable_1",
+                      "variable_3"
+                    ],
+                    "changedValues": [
+                      0.1741322,
+                      0.1093203
+                    ]
+                  }
+                },
+                {
+                  "variable": "variable_3",
+                  "contributionScore": 0.3324159383,
+                  "correlationChanges": {
+                    "changedVariables": [
+                      "variable_2"
+                    ],
+                    "changedValues": [
+                      0.1229392
+                    ]
+                  }
+                },
+                {
+                  "variable": "variable_1",
+                  "contributionScore": 0.1304264402,
+                  "correlationChanges": {
+                    "changedVariables": [],
+                    "changedValues": []
+                  }
+                }
+              ]
+            },
+            "errors": []
+          }
+        ]
+      }
+  - statusCode: default
+    headers:
+    - name: Content-Type
+      value: application/json
+    - name: x-ms-error-code
+      value: Error Code
+    body: >-
+      {
+        "code": "Error Code",
+        "message": "Error Message"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+metadata:
+  description: "Detect anomalies in the last a few points of the request body.  \nSynchronized API for anomaly detection."
+errorCodes: []

@@ -4855,16 +4855,40 @@
 #### [Transliterate](cognitiveservices/translator/Translator/Transliterate.yml)
 # Cognitive Services - AnomalyDetector
 ## [Overview](../docs-ref-conceptual/anomalydetector/index.md)
-## Anomaly Detector 1.0
+## Delete Multivariate Model
+### [Overview](anomalydetector/Delete-Multivariate-Model.yml)
+### [Delete Multivariate Model](anomalydetector/Delete-Multivariate-Model/Delete-Multivariate-Model.yml)
+## Detect Anomaly
+### [Overview](anomalydetector/Detect-Anomaly.yml)
+### [Detect Anomaly](anomalydetector/Detect-Anomaly/Detect-Anomaly.yml)
+## Export Model
+### [Overview](anomalydetector/Export-Model.yml)
+### [Export Model](anomalydetector/Export-Model/Export-Model.yml)
+## Get Detection Result
+### [Overview](anomalydetector/Get-Detection-Result.yml)
+### [Get Detection Result](anomalydetector/Get-Detection-Result/Get-Detection-Result.yml)
+## Get Multivariate Model
+### [Overview](anomalydetector/Get-Multivariate-Model.yml)
+### [Get Multivariate Model](anomalydetector/Get-Multivariate-Model/Get-Multivariate-Model.yml)
+## Last Detect Anomaly
+### [Overview](anomalydetector/Last-Detect-Anomaly.yml)
+### [Last Detect Anomaly](anomalydetector/Last-Detect-Anomaly/Last-Detect-Anomaly.yml)
+## List Multivariate Model
+### [Overview](anomalydetector/List-Multivariate-Model.yml)
+### [List Multivariate Model](anomalydetector/List-Multivariate-Model/List-Multivariate-Model.yml)
+## Train Multivariate Model
+### [Overview](anomalydetector/Train-Multivariate-Model.yml)
+### [Train Multivariate Model](anomalydetector/Train-Multivariate-Model/Train-Multivariate-Model.yml)
+## Anomaly Detector 1.1
 ### Detect Change Point
-#### [Overview](anomalydetector/anomalydetector1.0/Detect-Change-Point.yml)
-#### [Detect Change Point](anomalydetector/anomalydetector1.0/Detect-Change-Point/Detect-Change-Point.yml)
+#### [Overview](anomalydetector/anomalydetector1.1/Detect-Change-Point.yml)
+#### [Detect Change Point](anomalydetector/anomalydetector1.1/Detect-Change-Point/Detect-Change-Point.yml)
 ### Detect Entire Series
-#### [Overview](anomalydetector/anomalydetector1.0/Detect-Entire-Series.yml)
-#### [Detect Entire Series](anomalydetector/anomalydetector1.0/Detect-Entire-Series/Detect-Entire-Series.yml)
+#### [Overview](anomalydetector/anomalydetector1.1/Detect-Entire-Series.yml)
+#### [Detect Entire Series](anomalydetector/anomalydetector1.1/Detect-Entire-Series/Detect-Entire-Series.yml)
 ### Detect Last Point
-#### [Overview](anomalydetector/anomalydetector1.0/Detect-Last-Point.yml)
-#### [Detect Last Point](anomalydetector/anomalydetector1.0/Detect-Last-Point/Detect-Last-Point.yml)
+#### [Overview](anomalydetector/anomalydetector1.1/Detect-Last-Point.yml)
+#### [Detect Last Point](anomalydetector/anomalydetector1.1/Detect-Last-Point/Detect-Last-Point.yml)
 # Cognitive Services - Bing Search
 ## [Overview](../docs-ref-conceptual/cognitiveservices-bingsearch/index.md)
 ## Bing Autosuggest API
