@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.labservices.users.users.invite
-name: Invite
+uid: management.azure.com.labservices.labs.publish
+name: Publish
 service: Lab Services
-groupName: Users
+groupName: Labs
 apiVersion: 2021-11-15-preview
-summary: Operation to invite a user to a lab.
+summary: Publish or re-publish a lab. This will create or update all lab resources, such as virtual machines.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/users/{userName}/invite?api-version=2021-11-15-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/publish?api-version=2021-11-15-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,13 +30,6 @@ uriParameters:
   description: The name of the lab that uniquely identifies it within containing lab account. Used in resource URIs.
   types:
   - uid: string
-- name: userName
-  in: path
-  isRequired: true
-  description: The name of the user that uniquely identifies it within containing lab. Used in resource URIs.
-  types:
-  - uid: string
-  pattern: ^[-\w\\._\\(\\)]+$
 - name: api-version
   in: query
   isRequired: true
@@ -52,14 +45,6 @@ responses:
   description: The default error response.
   types:
   - uid: ErrorResponse
-requestBody:
-- name: default
-  parameters:
-  - name: text
-    in: body
-    description: Custom text for the invite email.
-    types:
-    - uid: string
 requestHeader: []
 definitions:
 - name: ErrorResponse
@@ -70,14 +55,6 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: InviteBody
-  description: Body for a user invite request
-  kind: object
-  properties:
-  - name: text
-    description: Custom text for the invite email.
-    types:
-    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -124,17 +101,16 @@ definitions:
     types:
     - uid: object
 examples:
-- name: inviteUser
+- name: publishLab
   request:
-    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser/invite?api-version=2021-11-15-preview
-    body: >-
-      {
-        "text": "Invitation to lab testlab"
-      }
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/publish?api-version=2021-11-15-preview
   responses:
   - statusCode: "200"
   - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.LabServices/operationresults/a64149d8-84cb-4566-ab8e-b4ee1a074174
 security: []
 metadata:
-  description: Learn more about Lab Services service - Operation to invite a user to a lab.
+  description: Learn more about Lab Services service - Publish or re-publish a lab. This will create or update all lab resources, such as virtual machines.
 errorCodes: []
