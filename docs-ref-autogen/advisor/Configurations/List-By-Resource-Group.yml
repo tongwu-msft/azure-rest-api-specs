@@ -3,14 +3,14 @@ uid: management.azure.com.advisor.configurations.listbyresourcegroup
 name: List By Resource Group
 service: Advisor
 groupName: Configurations
-apiVersion: 2017-04-19
+apiVersion: 2020-01-01
 summary: Retrieve Azure Advisor configurations.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Advisor/configurations?api-version=2017-04-19
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Advisor/configurations?api-version=2020-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -35,6 +35,10 @@ responses:
   description: OK. Successfully retrieved zero or more configurations.
   types:
   - uid: ConfigurationListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ArmErrorResponse
 requestHeader: []
 definitions:
 - name: ConfigurationListResult
@@ -50,54 +54,144 @@ definitions:
     description: The link used to get the next page of configurations.
     types:
     - uid: string
+- name: ArmErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: ARM error response body.
+    types:
+    - uid: ARMErrorResponseBody
 - name: ConfigData
   description: The Advisor configuration data structure.
   kind: object
   properties:
-  - name: id
-    description: The resource Id of the configuration resource.
-    types:
-    - uid: string
-  - name: type
-    description: The type of the configuration resource.
-    types:
-    - uid: string
-  - name: name
-    description: The name of the configuration resource.
-    types:
-    - uid: string
-  - name: properties
-    description: The list of property name/value pairs.
-    types:
-    - uid: Properties
-- name: Properties
-  description: The list of property name/value pairs.
-  kind: object
-  properties:
-  - name: exclude
+  - name: properties.exclude
     description: 'Exclude the resource from Advisor evaluations. Valid values: False (default) or True.'
     types:
     - uid: boolean
-  - name: low_cpu_threshold
+  - name: properties.lowCpuThreshold
     description: 'Minimum percentage threshold for Advisor low CPU utilization evaluation. Valid only for subscriptions. Valid values: 5 (default), 10, 15 or 20.'
+    types:
+    - uid: CpuThreshold
+  - name: properties.digests
+    description: Advisor digest configuration. Valid only for subscriptions
+    types:
+    - uid: DigestConfig
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: The resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ARMErrorResponseBody
+  description: ARM error response body.
+  kind: object
+  properties:
+  - name: message
+    description: Gets or sets the string that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: code
+    description: Gets or sets the string that can be used to programmatically identify the error.
+    types:
+    - uid: string
+- name: CpuThreshold
+  description: 'Minimum percentage threshold for Advisor low CPU utilization evaluation. Valid only for subscriptions. Valid values: 5 (default), 10, 15 or 20.'
+  kind: enum
+  properties:
+  - name: "5"
+    types:
+    - uid: string
+  - name: "10"
+    types:
+    - uid: string
+  - name: "15"
+    types:
+    - uid: string
+  - name: "20"
+    types:
+    - uid: string
+- name: DigestConfig
+  description: Advisor Digest configuration entity
+  kind: object
+  properties:
+  - name: name
+    description: Name of digest configuration. Value is case-insensitive and must be unique within a subscription.
+    types:
+    - uid: string
+  - name: actionGroupResourceId
+    description: Action group resource id used by digest.
+    types:
+    - uid: string
+  - name: frequency
+    description: Frequency that digest will be triggered, in days. Value must be between 7 and 30 days inclusive.
+    types:
+    - uid: integer
+  - name: categories
+    description: Categories to send digest for. If categories are not provided, then digest will be sent for all categories.
+    types:
+    - uid: string
+      isArray: true
+  - name: language
+    description: Language for digest content body. Value must be ISO 639-1 code for one of Azure portal supported languages. Otherwise, it will be converted into one. Default value is English (en).
+    types:
+    - uid: string
+  - name: state
+    description: State of digest configuration.
+    types:
+    - uid: DigestConfigState
+- name: DigestConfigState
+  description: State of digest configuration.
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 examples:
 - name: GetConfigurations
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Advisor/configurations?api-version=2017-04-19
+    uri: GET https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Advisor/configurations?api-version=2020-01-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Advisor/configuration/configurationName",
+            "id": "/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Advisor/configurations/default",
             "type": "Microsoft.Advisor/configurations",
-            "name": "configurationName",
+            "name": "default",
             "properties": {
-              "low_cpu_threshold": "5",
-              "exclude": false
+              "lowCpuThreshold": "5",
+              "exclude": false,
+              "digests": [
+                {
+                  "name": "digestConfigName",
+                  "actionGroupResourceId": "/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/microsoft.insights/actionGroups/actionGroupName",
+                  "frequency": 30,
+                  "categories": [
+                    "HighAvailability",
+                    "Security",
+                    "Performance",
+                    "Cost",
+                    "OperationalExcellence"
+                  ],
+                  "language": "en",
+                  "state": "Active"
+                }
+              ]
             }
           }
         ],
