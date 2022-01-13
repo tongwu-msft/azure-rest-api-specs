@@ -161,7 +161,9 @@ The suggested spelling or grammar correction.
 
 [!INCLUDE [bing-error-codes](./includes/bing-error-codes-v7.md)]
 
+## Market codes 
 
+[!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]
 
 ## Bing supported languages and markets
 
