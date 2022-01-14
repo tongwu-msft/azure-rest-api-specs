@@ -1,14 +1,14 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.keyvault.keyvault.privateendpointconnections.delete
-name: Delete
+uid: management.azure.com.keyvault.keyvault.privateendpointconnections.listbyresource
+name: List By Resource
 service: Key Vault
 groupName: Private Endpoint Connections
 apiVersion: 2021-10-01
-summary: Deletes the specified private endpoint connection associated with the key vault.
+summary: The List operation gets information about the private endpoint connections associated with the vault.
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2021-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateEndpointConnections?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -29,12 +29,6 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z0-9-]{3,24}$
-- name: privateEndpointConnectionName
-  in: path
-  isRequired: true
-  description: Name of the private endpoint connection associated with the key vault.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -43,24 +37,36 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The private endpoint connection was successfully deleted.
+  description: Get information about all private endpoint connections in the specified resource group.
   types:
-  - uid: PrivateEndpointConnection
-- name: 202 Accepted
-  headers:
-  - name: Retry-After
-    value: integer
-  - name: Location
-    value: string
-  description: The private endpoint connection is being deleted.
-- name: 204 No Content
-  description: The private endpoint connection does not exist.
+  - uid: PrivateEndpointConnectionListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
+- name: PrivateEndpointConnectionListResult
+  description: List of private endpoint connections.
+  kind: object
+  properties:
+  - name: value
+    description: The list of private endpoint connections.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of private endpoint connections.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from Key Vault resource provider
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Key Vault resource provider
+    types:
+    - uid: CloudErrorBody
 - name: PrivateEndpointConnection
   description: Private endpoint connection resource.
   kind: object
@@ -111,14 +117,18 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: CloudError
+- name: CloudErrorBody
   description: An error response from Key Vault resource provider
   kind: object
   properties:
-  - name: error
-    description: An error response from Key Vault resource provider
+  - name: code
+    description: Error code. This is a mnemonic that can be consumed programmatically.
     types:
-    - uid: CloudErrorBody
+    - uid: string
+  - name: message
+    description: User friendly error message. The message is typically localized and may vary with service version.
+    types:
+    - uid: string
 - name: PrivateEndpoint
   description: Private endpoint object properties.
   kind: object
@@ -166,18 +176,6 @@ definitions:
   - name: Disconnected
     types:
     - uid: string
-- name: CloudErrorBody
-  description: An error response from Key Vault resource provider
-  kind: object
-  properties:
-  - name: code
-    description: Error code. This is a mnemonic that can be consumed programmatically.
-    types:
-    - uid: string
-  - name: message
-    description: User friendly error message. The message is typically localized and may vary with service version.
-    types:
-    - uid: string
 - name: PrivateEndpointServiceConnectionStatus
   description: The private endpoint connection status.
   kind: enum
@@ -202,28 +200,52 @@ definitions:
     types:
     - uid: string
 examples:
-- name: KeyVaultDeletePrivateEndpointConnection
+- name: KeyVaultListPrivateEndpointConnection
   request:
-    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault/privateEndpointConnections/sample-pec?api-version=2021-10-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault/privateEndpointConnections?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault/privateEndpointConnections/sample-pec",
-        "name": "sample-pec",
-        "type": "Microsoft.KeyVault/vaults/privateEndpointConnections",
-        "properties": {
-          "provisioningState": "Disconnected"
-        }
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault/privateEndpointConnections/sample-pec",
+            "name": "sample-pec",
+            "type": "Microsoft.KeyVault/vaults/privateEndpointConnections",
+            "etag": "",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "privateEndpoint": {
+                "id": "/subscriptions/00000000-0000-0000-1234-000000000000/resourceGroups/sample-group/providers/Microsoft.Network/privateEndpoints/sample-pe"
+              },
+              "privateLinkServiceConnectionState": {
+                "status": "Approved",
+                "description": "This was automatically approved by user1234@contoso.com",
+                "actionsRequired": "None"
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault/privateEndpointConnections/sample-pec",
+            "name": "sample-pec",
+            "type": "Microsoft.KeyVault/vaults/privateEndpointConnections",
+            "etag": "",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "privateEndpoint": {
+                "id": "/subscriptions/00000000-0000-0000-1234-000000000000/resourceGroups/sample-group/providers/Microsoft.Network/privateEndpoints/sample-pe"
+              },
+              "privateLinkServiceConnectionState": {
+                "status": "Approved",
+                "description": "This was automatically approved by user1234@contoso.com",
+                "actionsRequired": "None"
+              }
+            }
+          }
+        ],
+        "nextLink": null
       }
-  - statusCode: "202"
-    headers:
-    - name: Retry-After
-      value: "60"
-    - name: Location
-      value: https://some.endpoint.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault/privateEndpointConnections/sample-pec?operationid=25334578
-  - statusCode: "204"
 security: []
 metadata:
-  description: Learn more about Key Vault service - Deletes the specified private endpoint connection associated with the key vault.
+  description: The List operation gets information about the private endpoint connections associated with the vault.
 errorCodes: []

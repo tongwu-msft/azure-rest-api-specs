@@ -10252,6 +10252,7 @@
 #### [Overview](keyvault/keyvault/Private-Endpoint-Connections.yml)
 #### [Delete](keyvault/keyvault/Private-Endpoint-Connections/Delete.yml)
 #### [Get](keyvault/keyvault/Private-Endpoint-Connections/Get.yml)
+#### [List By Resource](keyvault/keyvault/Private-Endpoint-Connections/List-By-Resource.yml)
 #### [Put](keyvault/keyvault/Private-Endpoint-Connections/Put.yml)
 ### Private Link Resources
 #### [Overview](keyvault/keyvault/Private-Link-Resources.yml)

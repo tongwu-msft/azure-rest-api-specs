@@ -3,14 +3,14 @@ uid: management.azure.com.keyvault.keyvault.vaults.get
 name: Get
 service: Key Vault
 groupName: Vaults
-apiVersion: 2019-09-01
+apiVersion: 2021-10-01
 summary: Gets the specified Azure key vault.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}?api-version=2019-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -78,6 +78,11 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: System metadata for the key vault.
+    types:
+    - uid: SystemData
   - name: properties
     description: Properties of the vault
     types:
@@ -90,6 +95,34 @@ definitions:
     description: An error response from Key Vault resource provider
     types:
     - uid: CloudErrorBody
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the key vault resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the key vault resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the key vault resource.
+    types:
+    - uid: identityType
+  - name: createdAt
+    description: The timestamp of the key vault resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the key vault resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the key vault resource.
+    types:
+    - uid: identityType
+  - name: lastModifiedAt
+    description: The timestamp of the key vault resource last modification (UTC).
+    types:
+    - uid: string
 - name: VaultProperties
   description: Properties of the vault
   kind: object
@@ -108,7 +141,7 @@ definitions:
     - uid: AccessPolicyEntry
       isArray: true
   - name: vaultUri
-    description: The URI of the vault for performing operations on keys and secrets. This property is readonly
+    description: The URI of the vault for performing operations on keys and secrets.
     types:
     - uid: string
   - name: hsmPoolResourceId
@@ -162,6 +195,10 @@ definitions:
     types:
     - uid: PrivateEndpointConnectionItem
       isArray: true
+  - name: publicNetworkAccess
+    description: Property to specify whether the vault will accept traffic from public internet. If set to 'disabled' all traffic except private endpoint traffic and that that originates from trusted services will be blocked. This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the rules.
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from Key Vault resource provider
   kind: object
@@ -172,6 +209,22 @@ definitions:
     - uid: string
   - name: message
     description: User friendly error message. The message is typically localized and may vary with service version.
+    types:
+    - uid: string
+- name: identityType
+  description: The type of identity that created the key vault resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
     types:
     - uid: string
 - name: Sku
@@ -378,7 +431,7 @@ definitions:
   - name: actionsRequired
     description: A message indicating if changes on the service provider require any updates on the consumer.
     types:
-    - uid: string
+    - uid: ActionsRequired
 - name: PrivateEndpointConnectionProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -417,10 +470,17 @@ definitions:
   - name: Disconnected
     types:
     - uid: string
+- name: ActionsRequired
+  description: A message indicating if changes on the service provider require any updates on the consumer.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
 examples:
 - name: Retrieve a vault
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-resource-group/providers/Microsoft.KeyVault/vaults/sample-vault?api-version=2019-09-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-resource-group/providers/Microsoft.KeyVault/vaults/sample-vault?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -430,6 +490,14 @@ examples:
         "type": "Microsoft.KeyVault/vaults",
         "location": "westus",
         "tags": {},
+        "systemData": {
+          "createdBy": "keyVaultUser1",
+          "createdByType": "User",
+          "createdAt": "2020-01-01T12:00:00.0000000Z",
+          "lastModifiedBy": "keyVaultUser2",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-01-01T12:00:00.0000000Z"
+        },
         "properties": {
           "sku": {
             "family": "A",
@@ -493,15 +561,8 @@ examples:
           "enabledForTemplateDeployment": true,
           "hsmPoolResourceId": "00000000-0000-0000-0000-000000000000",
           "vaultUri": "https://sample-vault.vault.azure.net",
-          "provisioningState": "Succeeded"
-        }
-      }
-  - statusCode: default
-    body: >-
-      {
-        "error": {
-          "code": "",
-          "message": ""
+          "provisioningState": "Succeeded",
+          "publicNetworkAccess": "Enabled"
         }
       }
 security: []
