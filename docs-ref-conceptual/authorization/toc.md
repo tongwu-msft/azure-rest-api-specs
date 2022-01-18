@@ -5,3 +5,4 @@
 ## [Manage eligible roles through PIM](pim-role-eligibility-rest-sample.md)
 ## [Manage active roles through PIM](pim-role-assignment-rest-sample.md)
 ## [Manage policies through PIM](pim-role-policy-rest-sample.md)
+## [Approve PIM activation requests](pim-approval-sample.md)
