@@ -1,0 +1,574 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.keyvault.managedhsm.managedhsms.update
+name: Update
+service: Key Vault
+groupName: Managed Hsms
+apiVersion: 2021-10-01
+summary: Update a managed HSM Pool in the specified subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}?api-version=2021-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group that contains the managed HSM pool.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the managed HSM Pool
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+  types:
+  - uid: ManagedHsm
+- name: 200 OK
+  description: Patched managed HSM Pool
+  types:
+  - uid: ManagedHsm
+- name: Other Status Codes
+  description: The error response describing why the operation failed.
+  types:
+  - uid: ManagedHsmError
+requestBody:
+- name: default
+  parameters:
+  - name: properties
+    in: body
+    description: Properties of the managed HSM
+    types:
+    - uid: ManagedHsmProperties
+  - name: location
+    in: body
+    description: The supported Azure location where the managed HSM Pool should be created.
+    types:
+    - uid: string
+  - name: sku
+    in: body
+    description: SKU details
+    types:
+    - uid: ManagedHsmSku
+  - name: tags
+    in: body
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: ManagedHsmProperties
+  description: Properties of the managed HSM Pool
+  kind: object
+  properties:
+  - name: tenantId
+    description: The Azure Active Directory tenant ID that should be used for authenticating requests to the managed HSM pool.
+    types:
+    - uid: string
+  - name: initialAdminObjectIds
+    description: Array of initial administrators object ids for this managed hsm pool.
+    types:
+    - uid: string
+      isArray: true
+  - name: hsmUri
+    isReadyOnly: true
+    description: The URI of the managed hsm pool for performing operations on keys.
+    types:
+    - uid: string
+  - name: enableSoftDelete
+    description: Property to specify whether the 'soft delete' functionality is enabled for this managed HSM pool. If it's not set to any value(true or false) when creating new managed HSM pool, it will be set to true by default. Once set to true, it cannot be reverted to false.
+    types:
+    - uid: boolean
+  - name: softDeleteRetentionInDays
+    description: softDelete data retention days. It accepts >=7 and <=90.
+    types:
+    - uid: integer
+  - name: enablePurgeProtection
+    description: Property specifying whether protection against purge is enabled for this managed HSM pool. Setting this property to true activates protection against purge for this managed HSM pool and its content - only the Managed HSM service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible.
+    types:
+    - uid: boolean
+  - name: createMode
+    description: The create mode to indicate whether the resource is being created or is being recovered from a deleted resource.
+    types:
+    - uid: CreateMode
+  - name: statusMessage
+    isReadyOnly: true
+    description: Resource Status Message.
+    types:
+    - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state.
+    types:
+    - uid: ProvisioningState
+  - name: networkAcls
+    description: Rules governing the accessibility of the key vault from specific network locations.
+    types:
+    - uid: MHSMNetworkRuleSet
+  - name: privateEndpointConnections
+    isReadyOnly: true
+    description: List of private endpoint connections associated with the managed hsm pool.
+    types:
+    - uid: MHSMPrivateEndpointConnectionItem
+      isArray: true
+  - name: publicNetworkAccess
+    description: Control permission for data plane traffic coming from public networks while private endpoint is enabled.
+    types:
+    - uid: PublicNetworkAccess
+  - name: scheduledPurgeDate
+    isReadyOnly: true
+    description: The scheduled purge date in UTC.
+    types:
+    - uid: string
+- name: ManagedHsmSku
+  description: SKU details
+  kind: object
+  properties:
+  - name: family
+    description: SKU Family of the managed HSM Pool
+    types:
+    - uid: ManagedHsmSkuFamily
+  - name: name
+    description: SKU of the managed HSM Pool
+    types:
+    - uid: ManagedHsmSkuName
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the key vault resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the key vault resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the key vault resource.
+    types:
+    - uid: identityType
+  - name: createdAt
+    description: The timestamp of the key vault resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the key vault resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the key vault resource.
+    types:
+    - uid: identityType
+  - name: lastModifiedAt
+    description: The timestamp of the key vault resource last modification (UTC).
+    types:
+    - uid: string
+- name: ManagedHsm
+  description: Resource information with extended details.
+  kind: object
+  properties:
+  - name: properties
+    description: Properties of the managed HSM
+    types:
+    - uid: ManagedHsmProperties
+  - name: id
+    isReadyOnly: true
+    description: The Azure Resource Manager resource ID for the managed HSM Pool.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the managed HSM Pool.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type of the managed HSM Pool.
+    types:
+    - uid: string
+  - name: location
+    description: The supported Azure location where the managed HSM Pool should be created.
+    types:
+    - uid: string
+  - name: sku
+    description: SKU details
+    types:
+    - uid: ManagedHsmSku
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the key vault resource.
+    types:
+    - uid: SystemData
+- name: ManagedHsmError
+  description: The error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The server error.
+    types:
+    - uid: Error
+- name: CreateMode
+  description: The create mode to indicate whether the resource is being created or is being recovered from a deleted resource.
+  kind: enum
+  properties:
+  - name: recover
+    description: Recover the managed HSM pool from a soft-deleted resource.
+    types:
+    - uid: string
+  - name: default
+    description: Create a new managed HSM pool. This is the default option.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    description: The managed HSM Pool has been full provisioned.
+    types:
+    - uid: string
+  - name: Provisioning
+    description: The managed HSM Pool is currently being provisioned.
+    types:
+    - uid: string
+  - name: Failed
+    description: Provisioning of the managed HSM Pool has failed.
+    types:
+    - uid: string
+  - name: Updating
+    description: The managed HSM Pool is currently being updated.
+    types:
+    - uid: string
+  - name: Deleting
+    description: The managed HSM Pool is currently being deleted.
+    types:
+    - uid: string
+  - name: Activated
+    description: The managed HSM pool is ready for normal use.
+    types:
+    - uid: string
+  - name: SecurityDomainRestore
+    description: The managed HSM pool is waiting for a security domain restore action.
+    types:
+    - uid: string
+  - name: Restoring
+    description: The managed HSM pool is being restored from full HSM backup.
+    types:
+    - uid: string
+- name: MHSMNetworkRuleSet
+  description: A set of rules governing the network accessibility of a managed hsm pool.
+  kind: object
+  properties:
+  - name: bypass
+    description: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the default is 'AzureServices'.
+    types:
+    - uid: NetworkRuleBypassOptions
+  - name: defaultAction
+    description: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated.
+    types:
+    - uid: NetworkRuleAction
+  - name: ipRules
+    description: The list of IP address rules.
+    types:
+    - uid: MHSMIPRule
+      isArray: true
+  - name: virtualNetworkRules
+    description: The list of virtual network rules.
+    types:
+    - uid: MHSMVirtualNetworkRule
+      isArray: true
+- name: MHSMPrivateEndpointConnectionItem
+  description: Private endpoint connection item.
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: Properties of the private endpoint object.
+    types:
+    - uid: MHSMPrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: Approval state of the private link connection.
+    types:
+    - uid: MHSMPrivateLinkServiceConnectionState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the private endpoint connection.
+    types:
+    - uid: PrivateEndpointConnectionProvisioningState
+- name: PublicNetworkAccess
+  description: Control permission for data plane traffic coming from public networks while private endpoint is enabled.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ManagedHsmSkuFamily
+  description: SKU Family of the managed HSM Pool
+  kind: enum
+  properties:
+  - name: B
+    types:
+    - uid: string
+- name: ManagedHsmSkuName
+  description: SKU of the managed HSM Pool
+  kind: enum
+  properties:
+  - name: Standard_B1
+    types:
+    - uid: string
+  - name: Custom_B32
+    types:
+    - uid: string
+- name: identityType
+  description: The type of identity that created the key vault resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: Error
+  description: The server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The inner error, contains a more specific error code.
+    types:
+    - uid: Error
+- name: NetworkRuleBypassOptions
+  description: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the default is 'AzureServices'.
+  kind: enum
+  properties:
+  - name: AzureServices
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: NetworkRuleAction
+  description: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated.
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+- name: MHSMIPRule
+  description: A rule governing the accessibility of a managed hsm pool from a specific ip address or ip range.
+  kind: object
+  properties:
+  - name: value
+    description: An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78).
+    types:
+    - uid: string
+- name: MHSMVirtualNetworkRule
+  description: A rule governing the accessibility of a managed hsm pool from a specific virtual network.
+  kind: object
+  properties:
+  - name: id
+    description: Full resource id of a vnet subnet, such as '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
+    types:
+    - uid: string
+- name: MHSMPrivateEndpoint
+  description: Private endpoint object properties.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Full identifier of the private endpoint resource.
+    types:
+    - uid: string
+- name: MHSMPrivateLinkServiceConnectionState
+  description: An object that represents the approval state of the private link connection.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been approved, rejected or removed by the key vault owner.
+    types:
+    - uid: PrivateEndpointServiceConnectionStatus
+  - name: description
+    description: The reason for approval or rejection.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
+    types:
+    - uid: ActionsRequired
+- name: PrivateEndpointConnectionProvisioningState
+  description: Provisioning state of the private endpoint connection.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+- name: PrivateEndpointServiceConnectionStatus
+  description: Indicates whether the connection has been approved, rejected or removed by the key vault owner.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+- name: ActionsRequired
+  description: A message indicating if changes on the service provider require any updates on the consumer.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+examples:
+- name: Update an existing managed HSM Pool
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/hsm-group/providers/Microsoft.KeyVault/managedHSMs/hsm1?api-version=2021-10-01
+    body: >-
+      {
+        "tags": {
+          "Dept": "hsm",
+          "Environment": "dogfood",
+          "Slice": "A"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "tenantId": "00000000-0000-0000-0000-000000000000",
+          "initialAdminObjectIds": [
+            "00000000-0000-0000-0000-000000000000"
+          ],
+          "enableSoftDelete": true,
+          "softDeleteRetentionInDays": 90,
+          "enablePurgeProtection": true,
+          "hsmUri": "https://westus.hsm1.managedhsm.azure.net",
+          "provisioningState": "Succeeded",
+          "statusMessage": "ManagedHsm is functional."
+        },
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/hsm-group/providers/Microsoft.KeyVault/managedHSMs/hsm1",
+        "name": "hsm1",
+        "type": "Microsoft.KeyVault/managedHSMs",
+        "location": "westus",
+        "sku": {
+          "family": "B",
+          "name": "Standard_B1"
+        },
+        "tags": {
+          "Dept": "hsm",
+          "Environment": "dogfood",
+          "Slice": "A"
+        }
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "tenantId": "00000000-0000-0000-0000-000000000000",
+          "initialAdminObjectIds": [
+            "00000000-0000-0000-0000-000000000000"
+          ],
+          "enableSoftDelete": true,
+          "softDeleteRetentionInDays": 90,
+          "enablePurgeProtection": true,
+          "hsmUri": "https://westus.hsm1.managedhsm.azure.net",
+          "provisioningState": "Updating",
+          "statusMessage": "ManagedHsm is updating."
+        },
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/hsm-group/providers/Microsoft.KeyVault/managedHSMs/hsm1",
+        "name": "hsm1",
+        "type": "Microsoft.KeyVault/managedHSMs",
+        "location": "westus",
+        "sku": {
+          "family": "B",
+          "name": "Standard_B1"
+        },
+        "tags": {
+          "Dept": "hsm",
+          "Environment": "dogfood",
+          "Slice": "A"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Key Vault service - Update a managed HSM Pool in the specified subscription.
+errorCodes: []

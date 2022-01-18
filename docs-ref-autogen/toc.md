@@ -4855,16 +4855,40 @@
 #### [Transliterate](cognitiveservices/translator/Translator/Transliterate.yml)
 # Cognitive Services - AnomalyDetector
 ## [Overview](../docs-ref-conceptual/anomalydetector/index.md)
-## Anomaly Detector 1.0
+## Delete Multivariate Model
+### [Overview](anomalydetector/Delete-Multivariate-Model.yml)
+### [Delete Multivariate Model](anomalydetector/Delete-Multivariate-Model/Delete-Multivariate-Model.yml)
+## Detect Anomaly
+### [Overview](anomalydetector/Detect-Anomaly.yml)
+### [Detect Anomaly](anomalydetector/Detect-Anomaly/Detect-Anomaly.yml)
+## Export Model
+### [Overview](anomalydetector/Export-Model.yml)
+### [Export Model](anomalydetector/Export-Model/Export-Model.yml)
+## Get Detection Result
+### [Overview](anomalydetector/Get-Detection-Result.yml)
+### [Get Detection Result](anomalydetector/Get-Detection-Result/Get-Detection-Result.yml)
+## Get Multivariate Model
+### [Overview](anomalydetector/Get-Multivariate-Model.yml)
+### [Get Multivariate Model](anomalydetector/Get-Multivariate-Model/Get-Multivariate-Model.yml)
+## Last Detect Anomaly
+### [Overview](anomalydetector/Last-Detect-Anomaly.yml)
+### [Last Detect Anomaly](anomalydetector/Last-Detect-Anomaly/Last-Detect-Anomaly.yml)
+## List Multivariate Model
+### [Overview](anomalydetector/List-Multivariate-Model.yml)
+### [List Multivariate Model](anomalydetector/List-Multivariate-Model/List-Multivariate-Model.yml)
+## Train Multivariate Model
+### [Overview](anomalydetector/Train-Multivariate-Model.yml)
+### [Train Multivariate Model](anomalydetector/Train-Multivariate-Model/Train-Multivariate-Model.yml)
+## Anomaly Detector 1.1
 ### Detect Change Point
-#### [Overview](anomalydetector/anomalydetector1.0/Detect-Change-Point.yml)
-#### [Detect Change Point](anomalydetector/anomalydetector1.0/Detect-Change-Point/Detect-Change-Point.yml)
+#### [Overview](anomalydetector/anomalydetector1.1/Detect-Change-Point.yml)
+#### [Detect Change Point](anomalydetector/anomalydetector1.1/Detect-Change-Point/Detect-Change-Point.yml)
 ### Detect Entire Series
-#### [Overview](anomalydetector/anomalydetector1.0/Detect-Entire-Series.yml)
-#### [Detect Entire Series](anomalydetector/anomalydetector1.0/Detect-Entire-Series/Detect-Entire-Series.yml)
+#### [Overview](anomalydetector/anomalydetector1.1/Detect-Entire-Series.yml)
+#### [Detect Entire Series](anomalydetector/anomalydetector1.1/Detect-Entire-Series/Detect-Entire-Series.yml)
 ### Detect Last Point
-#### [Overview](anomalydetector/anomalydetector1.0/Detect-Last-Point.yml)
-#### [Detect Last Point](anomalydetector/anomalydetector1.0/Detect-Last-Point/Detect-Last-Point.yml)
+#### [Overview](anomalydetector/anomalydetector1.1/Detect-Last-Point.yml)
+#### [Detect Last Point](anomalydetector/anomalydetector1.1/Detect-Last-Point/Detect-Last-Point.yml)
 # Cognitive Services - Bing Search
 ## [Overview](../docs-ref-conceptual/cognitiveservices-bingsearch/index.md)
 ## Bing Autosuggest API
@@ -8665,6 +8689,216 @@
 #### [Update](dns/privatedns/Virtual-Network-Links/Update.yml)
 # Event Grid
 ## [Overview](../docs-ref-conceptual/eventgrid/index.md)
+## Control Plane - version 2021-06-01-preview
+### Domain Topics
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Domain-Topics.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Domain-Topics/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Domain-Topics/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Domain-Topics/Get.yml)
+#### [List By Domain](eventgrid/controlplane-version2021-06-01-preview/Domain-Topics/List-By-Domain.yml)
+### Domains
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Domains.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Domains/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Domains/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Domains/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-06-01-preview/Domains/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-06-01-preview/Domains/List-By-Subscription.yml)
+#### [List Shared Access Keys](eventgrid/controlplane-version2021-06-01-preview/Domains/List-Shared-Access-Keys.yml)
+#### [Regenerate Key](eventgrid/controlplane-version2021-06-01-preview/Domains/Regenerate-Key.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Domains/Update.yml)
+### Event Channels
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Event-Channels.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Event-Channels/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Event-Channels/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Event-Channels/Get.yml)
+#### [List By Partner Namespace](eventgrid/controlplane-version2021-06-01-preview/Event-Channels/List-By-Partner-Namespace.yml)
+### Event Subscriptions
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/Get.yml)
+#### [Get Delivery Attributes](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/Get-Delivery-Attributes.yml)
+#### [Get Full Url](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/Get-Full-Url.yml)
+#### [List By Domain Topic](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-By-Domain-Topic.yml)
+#### [List By Resource](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-By-Resource.yml)
+#### [List Global By Resource Group](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Global-By-Resource-Group.yml)
+#### [List Global By Resource Group For Topic Type](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Global-By-Resource-Group-For-Topic-Type.yml)
+#### [List Global By Subscription](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Global-By-Subscription.yml)
+#### [List Global By Subscription For Topic Type](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Global-By-Subscription-For-Topic-Type.yml)
+#### [List Regional By Resource Group](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Resource-Group.yml)
+#### [List Regional By Resource Group For Topic Type](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Resource-Group-For-Topic-Type.yml)
+#### [List Regional By Subscription](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Subscription.yml)
+#### [List Regional By Subscription For Topic Type](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Subscription-For-Topic-Type.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/Update.yml)
+### Extension Topics
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Extension-Topics.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Extension-Topics/Get.yml)
+### Operations
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Operations.yml)
+#### [List](eventgrid/controlplane-version2021-06-01-preview/Operations/List.yml)
+### Partner Namespaces
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/List-By-Subscription.yml)
+#### [List Shared Access Keys](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/List-Shared-Access-Keys.yml)
+#### [Regenerate Key](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/Regenerate-Key.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/Update.yml)
+### Partner Registrations
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Partner-Registrations.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Partner-Registrations/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Partner-Registrations/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Partner-Registrations/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-06-01-preview/Partner-Registrations/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-06-01-preview/Partner-Registrations/List-By-Subscription.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Partner-Registrations/Update.yml)
+### Partner Topic Event Subscriptions
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Get.yml)
+#### [Get Delivery Attributes](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Get-Delivery-Attributes.yml)
+#### [Get Full Url](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Get-Full-Url.yml)
+#### [List By Partner Topic](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions/List-By-Partner-Topic.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Update.yml)
+### Partner Topics
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics.yml)
+#### [Activate](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics/Activate.yml)
+#### [Deactivate](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics/Deactivate.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics/List-By-Subscription.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics/Update.yml)
+### Private Endpoint Connections
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Private-Endpoint-Connections.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Private-Endpoint-Connections/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Private-Endpoint-Connections/Get.yml)
+#### [List By Resource](eventgrid/controlplane-version2021-06-01-preview/Private-Endpoint-Connections/List-By-Resource.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Private-Endpoint-Connections/Update.yml)
+### Private Link Resources
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Private-Link-Resources.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Private-Link-Resources/Get.yml)
+#### [List By Resource](eventgrid/controlplane-version2021-06-01-preview/Private-Link-Resources/List-By-Resource.yml)
+### System Topic Event Subscriptions
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions/Get.yml)
+#### [Get Delivery Attributes](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions/Get-Delivery-Attributes.yml)
+#### [Get Full Url](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions/Get-Full-Url.yml)
+#### [List By System Topic](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions/List-By-System-Topic.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions/Update.yml)
+### System Topics
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/System-Topics.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/System-Topics/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/System-Topics/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/System-Topics/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-06-01-preview/System-Topics/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-06-01-preview/System-Topics/List-By-Subscription.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/System-Topics/Update.yml)
+### Topic Types
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Topic-Types.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Topic-Types/Get.yml)
+#### [List](eventgrid/controlplane-version2021-06-01-preview/Topic-Types/List.yml)
+#### [List Event Types](eventgrid/controlplane-version2021-06-01-preview/Topic-Types/List-Event-Types.yml)
+### Topics
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Topics.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Topics/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Topics/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Topics/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-06-01-preview/Topics/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-06-01-preview/Topics/List-By-Subscription.yml)
+#### [List Event Types](eventgrid/controlplane-version2021-06-01-preview/Topics/List-Event-Types.yml)
+#### [List Shared Access Keys](eventgrid/controlplane-version2021-06-01-preview/Topics/List-Shared-Access-Keys.yml)
+#### [Regenerate Key](eventgrid/controlplane-version2021-06-01-preview/Topics/Regenerate-Key.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Topics/Update.yml)
+## Control Plane - version 2021-12-01
+### Domain Topics
+#### [Overview](eventgrid/controlplane-version2021-12-01/Domain-Topics.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-12-01/Domain-Topics/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-12-01/Domain-Topics/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Domain-Topics/Get.yml)
+#### [List By Domain](eventgrid/controlplane-version2021-12-01/Domain-Topics/List-By-Domain.yml)
+### Domains
+#### [Overview](eventgrid/controlplane-version2021-12-01/Domains.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-12-01/Domains/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-12-01/Domains/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Domains/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-12-01/Domains/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-12-01/Domains/List-By-Subscription.yml)
+#### [List Shared Access Keys](eventgrid/controlplane-version2021-12-01/Domains/List-Shared-Access-Keys.yml)
+#### [Regenerate Key](eventgrid/controlplane-version2021-12-01/Domains/Regenerate-Key.yml)
+#### [Update](eventgrid/controlplane-version2021-12-01/Domains/Update.yml)
+### Event Subscriptions
+#### [Overview](eventgrid/controlplane-version2021-12-01/Event-Subscriptions.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/Get.yml)
+#### [Get Delivery Attributes](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/Get-Delivery-Attributes.yml)
+#### [Get Full Url](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/Get-Full-Url.yml)
+#### [List By Domain Topic](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-By-Domain-Topic.yml)
+#### [List By Resource](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-By-Resource.yml)
+#### [List Global By Resource Group](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Global-By-Resource-Group.yml)
+#### [List Global By Resource Group For Topic Type](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Global-By-Resource-Group-For-Topic-Type.yml)
+#### [List Global By Subscription](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Global-By-Subscription.yml)
+#### [List Global By Subscription For Topic Type](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Global-By-Subscription-For-Topic-Type.yml)
+#### [List Regional By Resource Group](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Regional-By-Resource-Group.yml)
+#### [List Regional By Resource Group For Topic Type](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Regional-By-Resource-Group-For-Topic-Type.yml)
+#### [List Regional By Subscription](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Regional-By-Subscription.yml)
+#### [List Regional By Subscription For Topic Type](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Regional-By-Subscription-For-Topic-Type.yml)
+#### [Update](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/Update.yml)
+### Extension Topics
+#### [Overview](eventgrid/controlplane-version2021-12-01/Extension-Topics.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Extension-Topics/Get.yml)
+### Operations
+#### [Overview](eventgrid/controlplane-version2021-12-01/Operations.yml)
+#### [List](eventgrid/controlplane-version2021-12-01/Operations/List.yml)
+### Private Endpoint Connections
+#### [Overview](eventgrid/controlplane-version2021-12-01/Private-Endpoint-Connections.yml)
+#### [Delete](eventgrid/controlplane-version2021-12-01/Private-Endpoint-Connections/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Private-Endpoint-Connections/Get.yml)
+#### [List By Resource](eventgrid/controlplane-version2021-12-01/Private-Endpoint-Connections/List-By-Resource.yml)
+#### [Update](eventgrid/controlplane-version2021-12-01/Private-Endpoint-Connections/Update.yml)
+### Private Link Resources
+#### [Overview](eventgrid/controlplane-version2021-12-01/Private-Link-Resources.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Private-Link-Resources/Get.yml)
+#### [List By Resource](eventgrid/controlplane-version2021-12-01/Private-Link-Resources/List-By-Resource.yml)
+### System Topic Event Subscriptions
+#### [Overview](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions/Get.yml)
+#### [Get Delivery Attributes](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions/Get-Delivery-Attributes.yml)
+#### [Get Full Url](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions/Get-Full-Url.yml)
+#### [List By System Topic](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions/List-By-System-Topic.yml)
+#### [Update](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions/Update.yml)
+### System Topics
+#### [Overview](eventgrid/controlplane-version2021-12-01/System-Topics.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-12-01/System-Topics/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-12-01/System-Topics/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/System-Topics/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-12-01/System-Topics/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-12-01/System-Topics/List-By-Subscription.yml)
+#### [Update](eventgrid/controlplane-version2021-12-01/System-Topics/Update.yml)
+### Topic Types
+#### [Overview](eventgrid/controlplane-version2021-12-01/Topic-Types.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Topic-Types/Get.yml)
+#### [List](eventgrid/controlplane-version2021-12-01/Topic-Types/List.yml)
+#### [List Event Types](eventgrid/controlplane-version2021-12-01/Topic-Types/List-Event-Types.yml)
+### Topics
+#### [Overview](eventgrid/controlplane-version2021-12-01/Topics.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-12-01/Topics/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-12-01/Topics/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Topics/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-12-01/Topics/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-12-01/Topics/List-By-Subscription.yml)
+#### [List Event Types](eventgrid/controlplane-version2021-12-01/Topics/List-Event-Types.yml)
+#### [List Shared Access Keys](eventgrid/controlplane-version2021-12-01/Topics/List-Shared-Access-Keys.yml)
+#### [Regenerate Key](eventgrid/controlplane-version2021-12-01/Topics/Regenerate-Key.yml)
+#### [Update](eventgrid/controlplane-version2021-12-01/Topics/Update.yml)
 ## Data Plane
 ### Publish Cloud Event Events
 #### [Overview](eventgrid/dataplane/Publish-Cloud-Event-Events.yml)
@@ -8675,216 +8909,6 @@
 ### Publish Events
 #### [Overview](eventgrid/dataplane/Publish-Events.yml)
 #### [Publish Events](eventgrid/dataplane/Publish-Events/Publish-Events.yml)
-## Version 2021-06-01-preview
-### Domain Topics
-#### [Overview](eventgrid/version2021-06-01-preview/Domain-Topics.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Domain-Topics/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Domain-Topics/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Domain-Topics/Get.yml)
-#### [List By Domain](eventgrid/version2021-06-01-preview/Domain-Topics/List-By-Domain.yml)
-### Domains
-#### [Overview](eventgrid/version2021-06-01-preview/Domains.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Domains/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Domains/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Domains/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-06-01-preview/Domains/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-06-01-preview/Domains/List-By-Subscription.yml)
-#### [List Shared Access Keys](eventgrid/version2021-06-01-preview/Domains/List-Shared-Access-Keys.yml)
-#### [Regenerate Key](eventgrid/version2021-06-01-preview/Domains/Regenerate-Key.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Domains/Update.yml)
-### Event Channels
-#### [Overview](eventgrid/version2021-06-01-preview/Event-Channels.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Event-Channels/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Event-Channels/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Event-Channels/Get.yml)
-#### [List By Partner Namespace](eventgrid/version2021-06-01-preview/Event-Channels/List-By-Partner-Namespace.yml)
-### Event Subscriptions
-#### [Overview](eventgrid/version2021-06-01-preview/Event-Subscriptions.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Event-Subscriptions/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Event-Subscriptions/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Event-Subscriptions/Get.yml)
-#### [Get Delivery Attributes](eventgrid/version2021-06-01-preview/Event-Subscriptions/Get-Delivery-Attributes.yml)
-#### [Get Full Url](eventgrid/version2021-06-01-preview/Event-Subscriptions/Get-Full-Url.yml)
-#### [List By Domain Topic](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-By-Domain-Topic.yml)
-#### [List By Resource](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-By-Resource.yml)
-#### [List Global By Resource Group](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Global-By-Resource-Group.yml)
-#### [List Global By Resource Group For Topic Type](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Global-By-Resource-Group-For-Topic-Type.yml)
-#### [List Global By Subscription](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Global-By-Subscription.yml)
-#### [List Global By Subscription For Topic Type](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Global-By-Subscription-For-Topic-Type.yml)
-#### [List Regional By Resource Group](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Resource-Group.yml)
-#### [List Regional By Resource Group For Topic Type](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Resource-Group-For-Topic-Type.yml)
-#### [List Regional By Subscription](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Subscription.yml)
-#### [List Regional By Subscription For Topic Type](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Subscription-For-Topic-Type.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Event-Subscriptions/Update.yml)
-### Extension Topics
-#### [Overview](eventgrid/version2021-06-01-preview/Extension-Topics.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Extension-Topics/Get.yml)
-### Operations
-#### [Overview](eventgrid/version2021-06-01-preview/Operations.yml)
-#### [List](eventgrid/version2021-06-01-preview/Operations/List.yml)
-### Partner Namespaces
-#### [Overview](eventgrid/version2021-06-01-preview/Partner-Namespaces.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Partner-Namespaces/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Partner-Namespaces/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Partner-Namespaces/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-06-01-preview/Partner-Namespaces/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-06-01-preview/Partner-Namespaces/List-By-Subscription.yml)
-#### [List Shared Access Keys](eventgrid/version2021-06-01-preview/Partner-Namespaces/List-Shared-Access-Keys.yml)
-#### [Regenerate Key](eventgrid/version2021-06-01-preview/Partner-Namespaces/Regenerate-Key.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Partner-Namespaces/Update.yml)
-### Partner Registrations
-#### [Overview](eventgrid/version2021-06-01-preview/Partner-Registrations.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Partner-Registrations/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Partner-Registrations/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Partner-Registrations/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-06-01-preview/Partner-Registrations/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-06-01-preview/Partner-Registrations/List-By-Subscription.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Partner-Registrations/Update.yml)
-### Partner Topic Event Subscriptions
-#### [Overview](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Get.yml)
-#### [Get Delivery Attributes](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Get-Delivery-Attributes.yml)
-#### [Get Full Url](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Get-Full-Url.yml)
-#### [List By Partner Topic](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions/List-By-Partner-Topic.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Update.yml)
-### Partner Topics
-#### [Overview](eventgrid/version2021-06-01-preview/Partner-Topics.yml)
-#### [Activate](eventgrid/version2021-06-01-preview/Partner-Topics/Activate.yml)
-#### [Deactivate](eventgrid/version2021-06-01-preview/Partner-Topics/Deactivate.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Partner-Topics/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Partner-Topics/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-06-01-preview/Partner-Topics/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-06-01-preview/Partner-Topics/List-By-Subscription.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Partner-Topics/Update.yml)
-### Private Endpoint Connections
-#### [Overview](eventgrid/version2021-06-01-preview/Private-Endpoint-Connections.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Private-Endpoint-Connections/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Private-Endpoint-Connections/Get.yml)
-#### [List By Resource](eventgrid/version2021-06-01-preview/Private-Endpoint-Connections/List-By-Resource.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Private-Endpoint-Connections/Update.yml)
-### Private Link Resources
-#### [Overview](eventgrid/version2021-06-01-preview/Private-Link-Resources.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Private-Link-Resources/Get.yml)
-#### [List By Resource](eventgrid/version2021-06-01-preview/Private-Link-Resources/List-By-Resource.yml)
-### System Topic Event Subscriptions
-#### [Overview](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions/Get.yml)
-#### [Get Delivery Attributes](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions/Get-Delivery-Attributes.yml)
-#### [Get Full Url](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions/Get-Full-Url.yml)
-#### [List By System Topic](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions/List-By-System-Topic.yml)
-#### [Update](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions/Update.yml)
-### System Topics
-#### [Overview](eventgrid/version2021-06-01-preview/System-Topics.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/System-Topics/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/System-Topics/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/System-Topics/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-06-01-preview/System-Topics/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-06-01-preview/System-Topics/List-By-Subscription.yml)
-#### [Update](eventgrid/version2021-06-01-preview/System-Topics/Update.yml)
-### Topic Types
-#### [Overview](eventgrid/version2021-06-01-preview/Topic-Types.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Topic-Types/Get.yml)
-#### [List](eventgrid/version2021-06-01-preview/Topic-Types/List.yml)
-#### [List Event Types](eventgrid/version2021-06-01-preview/Topic-Types/List-Event-Types.yml)
-### Topics
-#### [Overview](eventgrid/version2021-06-01-preview/Topics.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Topics/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Topics/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Topics/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-06-01-preview/Topics/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-06-01-preview/Topics/List-By-Subscription.yml)
-#### [List Event Types](eventgrid/version2021-06-01-preview/Topics/List-Event-Types.yml)
-#### [List Shared Access Keys](eventgrid/version2021-06-01-preview/Topics/List-Shared-Access-Keys.yml)
-#### [Regenerate Key](eventgrid/version2021-06-01-preview/Topics/Regenerate-Key.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Topics/Update.yml)
-## Version 2021-12-01
-### Domain Topics
-#### [Overview](eventgrid/version2021-12-01/Domain-Topics.yml)
-#### [Create Or Update](eventgrid/version2021-12-01/Domain-Topics/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-12-01/Domain-Topics/Delete.yml)
-#### [Get](eventgrid/version2021-12-01/Domain-Topics/Get.yml)
-#### [List By Domain](eventgrid/version2021-12-01/Domain-Topics/List-By-Domain.yml)
-### Domains
-#### [Overview](eventgrid/version2021-12-01/Domains.yml)
-#### [Create Or Update](eventgrid/version2021-12-01/Domains/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-12-01/Domains/Delete.yml)
-#### [Get](eventgrid/version2021-12-01/Domains/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-12-01/Domains/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-12-01/Domains/List-By-Subscription.yml)
-#### [List Shared Access Keys](eventgrid/version2021-12-01/Domains/List-Shared-Access-Keys.yml)
-#### [Regenerate Key](eventgrid/version2021-12-01/Domains/Regenerate-Key.yml)
-#### [Update](eventgrid/version2021-12-01/Domains/Update.yml)
-### Event Subscriptions
-#### [Overview](eventgrid/version2021-12-01/Event-Subscriptions.yml)
-#### [Create Or Update](eventgrid/version2021-12-01/Event-Subscriptions/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-12-01/Event-Subscriptions/Delete.yml)
-#### [Get](eventgrid/version2021-12-01/Event-Subscriptions/Get.yml)
-#### [Get Delivery Attributes](eventgrid/version2021-12-01/Event-Subscriptions/Get-Delivery-Attributes.yml)
-#### [Get Full Url](eventgrid/version2021-12-01/Event-Subscriptions/Get-Full-Url.yml)
-#### [List By Domain Topic](eventgrid/version2021-12-01/Event-Subscriptions/List-By-Domain-Topic.yml)
-#### [List By Resource](eventgrid/version2021-12-01/Event-Subscriptions/List-By-Resource.yml)
-#### [List Global By Resource Group](eventgrid/version2021-12-01/Event-Subscriptions/List-Global-By-Resource-Group.yml)
-#### [List Global By Resource Group For Topic Type](eventgrid/version2021-12-01/Event-Subscriptions/List-Global-By-Resource-Group-For-Topic-Type.yml)
-#### [List Global By Subscription](eventgrid/version2021-12-01/Event-Subscriptions/List-Global-By-Subscription.yml)
-#### [List Global By Subscription For Topic Type](eventgrid/version2021-12-01/Event-Subscriptions/List-Global-By-Subscription-For-Topic-Type.yml)
-#### [List Regional By Resource Group](eventgrid/version2021-12-01/Event-Subscriptions/List-Regional-By-Resource-Group.yml)
-#### [List Regional By Resource Group For Topic Type](eventgrid/version2021-12-01/Event-Subscriptions/List-Regional-By-Resource-Group-For-Topic-Type.yml)
-#### [List Regional By Subscription](eventgrid/version2021-12-01/Event-Subscriptions/List-Regional-By-Subscription.yml)
-#### [List Regional By Subscription For Topic Type](eventgrid/version2021-12-01/Event-Subscriptions/List-Regional-By-Subscription-For-Topic-Type.yml)
-#### [Update](eventgrid/version2021-12-01/Event-Subscriptions/Update.yml)
-### Extension Topics
-#### [Overview](eventgrid/version2021-12-01/Extension-Topics.yml)
-#### [Get](eventgrid/version2021-12-01/Extension-Topics/Get.yml)
-### Operations
-#### [Overview](eventgrid/version2021-12-01/Operations.yml)
-#### [List](eventgrid/version2021-12-01/Operations/List.yml)
-### Private Endpoint Connections
-#### [Overview](eventgrid/version2021-12-01/Private-Endpoint-Connections.yml)
-#### [Delete](eventgrid/version2021-12-01/Private-Endpoint-Connections/Delete.yml)
-#### [Get](eventgrid/version2021-12-01/Private-Endpoint-Connections/Get.yml)
-#### [List By Resource](eventgrid/version2021-12-01/Private-Endpoint-Connections/List-By-Resource.yml)
-#### [Update](eventgrid/version2021-12-01/Private-Endpoint-Connections/Update.yml)
-### Private Link Resources
-#### [Overview](eventgrid/version2021-12-01/Private-Link-Resources.yml)
-#### [Get](eventgrid/version2021-12-01/Private-Link-Resources/Get.yml)
-#### [List By Resource](eventgrid/version2021-12-01/Private-Link-Resources/List-By-Resource.yml)
-### System Topic Event Subscriptions
-#### [Overview](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions.yml)
-#### [Create Or Update](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions/Delete.yml)
-#### [Get](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions/Get.yml)
-#### [Get Delivery Attributes](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions/Get-Delivery-Attributes.yml)
-#### [Get Full Url](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions/Get-Full-Url.yml)
-#### [List By System Topic](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions/List-By-System-Topic.yml)
-#### [Update](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions/Update.yml)
-### System Topics
-#### [Overview](eventgrid/version2021-12-01/System-Topics.yml)
-#### [Create Or Update](eventgrid/version2021-12-01/System-Topics/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-12-01/System-Topics/Delete.yml)
-#### [Get](eventgrid/version2021-12-01/System-Topics/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-12-01/System-Topics/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-12-01/System-Topics/List-By-Subscription.yml)
-#### [Update](eventgrid/version2021-12-01/System-Topics/Update.yml)
-### Topic Types
-#### [Overview](eventgrid/version2021-12-01/Topic-Types.yml)
-#### [Get](eventgrid/version2021-12-01/Topic-Types/Get.yml)
-#### [List](eventgrid/version2021-12-01/Topic-Types/List.yml)
-#### [List Event Types](eventgrid/version2021-12-01/Topic-Types/List-Event-Types.yml)
-### Topics
-#### [Overview](eventgrid/version2021-12-01/Topics.yml)
-#### [Create Or Update](eventgrid/version2021-12-01/Topics/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-12-01/Topics/Delete.yml)
-#### [Get](eventgrid/version2021-12-01/Topics/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-12-01/Topics/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-12-01/Topics/List-By-Subscription.yml)
-#### [List Event Types](eventgrid/version2021-12-01/Topics/List-Event-Types.yml)
-#### [List Shared Access Keys](eventgrid/version2021-12-01/Topics/List-Shared-Access-Keys.yml)
-#### [Regenerate Key](eventgrid/version2021-12-01/Topics/Regenerate-Key.yml)
-#### [Update](eventgrid/version2021-12-01/Topics/Update.yml)
 # Event Hubs
 ## [Overview](../docs-ref-conceptual/EventHub/index.md)
 ## Event Hubs service REST
@@ -10204,296 +10228,326 @@
 #### [Run Bulk Operation](iot-dps/service/Individual-Enrollment/Run-Bulk-Operation.yml)
 # Key Vault
 ## [Overview](../docs-ref-conceptual/keyvault/index.md)
-## Backup Certificate
-### [Overview](keyvault/Backup-Certificate.yml)
-### [Backup Certificate](keyvault/Backup-Certificate/Backup-Certificate.yml)
-## Backup Key
-### [Overview](keyvault/Backup-Key.yml)
-### [Backup Key](keyvault/Backup-Key/Backup-Key.yml)
-## Backup Secret
-### [Overview](keyvault/Backup-Secret.yml)
-### [Backup Secret](keyvault/Backup-Secret/Backup-Secret.yml)
-## Backup Storage Account
-### [Overview](keyvault/Backup-Storage-Account.yml)
-### [Backup Storage Account](keyvault/Backup-Storage-Account/Backup-Storage-Account.yml)
-## Create Certificate
-### [Overview](keyvault/Create-Certificate.yml)
-### [Create Certificate](keyvault/Create-Certificate/Create-Certificate.yml)
-## Create Key
-### [Overview](keyvault/Create-Key.yml)
-### [Create Key](keyvault/Create-Key/Create-Key.yml)
-## Delete Certificate
-### [Overview](keyvault/Delete-Certificate.yml)
-### [Delete Certificate](keyvault/Delete-Certificate/Delete-Certificate.yml)
-## Delete Certificate Contacts
-### [Overview](keyvault/Delete-Certificate-Contacts.yml)
-### [Delete Certificate Contacts](keyvault/Delete-Certificate-Contacts/Delete-Certificate-Contacts.yml)
-## Delete Certificate Issuer
-### [Overview](keyvault/Delete-Certificate-Issuer.yml)
-### [Delete Certificate Issuer](keyvault/Delete-Certificate-Issuer/Delete-Certificate-Issuer.yml)
-## Delete Certificate Operation
-### [Overview](keyvault/Delete-Certificate-Operation.yml)
-### [Delete Certificate Operation](keyvault/Delete-Certificate-Operation/Delete-Certificate-Operation.yml)
-## Delete Key
-### [Overview](keyvault/Delete-Key.yml)
-### [Delete Key](keyvault/Delete-Key/Delete-Key.yml)
-## Delete Sas Definition
-### [Overview](keyvault/Delete-Sas-Definition.yml)
-### [Delete Sas Definition](keyvault/Delete-Sas-Definition/Delete-Sas-Definition.yml)
-## Delete Secret
-### [Overview](keyvault/Delete-Secret.yml)
-### [Delete Secret](keyvault/Delete-Secret/Delete-Secret.yml)
-## Delete Storage Account
-### [Overview](keyvault/Delete-Storage-Account.yml)
-### [Delete Storage Account](keyvault/Delete-Storage-Account/Delete-Storage-Account.yml)
-## Full Backup
-### [Overview](keyvault/Full-Backup.yml)
-### [Full Backup](keyvault/Full-Backup/Full-Backup.yml)
-## Full Backup Status
-### [Overview](keyvault/Full-Backup-Status.yml)
-### [Full Backup Status](keyvault/Full-Backup-Status/Full-Backup-Status.yml)
-## Full Restore Operation
-### [Overview](keyvault/Full-Restore-Operation.yml)
-### [Full Restore Operation](keyvault/Full-Restore-Operation/Full-Restore-Operation.yml)
-## Get Certificate
-### [Overview](keyvault/Get-Certificate.yml)
-### [Get Certificate](keyvault/Get-Certificate/Get-Certificate.yml)
-## Get Certificate Contacts
-### [Overview](keyvault/Get-Certificate-Contacts.yml)
-### [Get Certificate Contacts](keyvault/Get-Certificate-Contacts/Get-Certificate-Contacts.yml)
-## Get Certificate Issuer
-### [Overview](keyvault/Get-Certificate-Issuer.yml)
-### [Get Certificate Issuer](keyvault/Get-Certificate-Issuer/Get-Certificate-Issuer.yml)
-## Get Certificate Issuers
-### [Overview](keyvault/Get-Certificate-Issuers.yml)
-### [Get Certificate Issuers](keyvault/Get-Certificate-Issuers/Get-Certificate-Issuers.yml)
-## Get Certificate Operation
-### [Overview](keyvault/Get-Certificate-Operation.yml)
-### [Get Certificate Operation](keyvault/Get-Certificate-Operation/Get-Certificate-Operation.yml)
-## Get Certificate Policy
-### [Overview](keyvault/Get-Certificate-Policy.yml)
-### [Get Certificate Policy](keyvault/Get-Certificate-Policy/Get-Certificate-Policy.yml)
-## Get Certificate Versions
-### [Overview](keyvault/Get-Certificate-Versions.yml)
-### [Get Certificate Versions](keyvault/Get-Certificate-Versions/Get-Certificate-Versions.yml)
-## Get Certificates
-### [Overview](keyvault/Get-Certificates.yml)
-### [Get Certificates](keyvault/Get-Certificates/Get-Certificates.yml)
-## Get Deleted Certificate
-### [Overview](keyvault/Get-Deleted-Certificate.yml)
-### [Get Deleted Certificate](keyvault/Get-Deleted-Certificate/Get-Deleted-Certificate.yml)
-## Get Deleted Certificates
-### [Overview](keyvault/Get-Deleted-Certificates.yml)
-### [Get Deleted Certificates](keyvault/Get-Deleted-Certificates/Get-Deleted-Certificates.yml)
-## Get Deleted Key
-### [Overview](keyvault/Get-Deleted-Key.yml)
-### [Get Deleted Key](keyvault/Get-Deleted-Key/Get-Deleted-Key.yml)
-## Get Deleted Keys
-### [Overview](keyvault/Get-Deleted-Keys.yml)
-### [Get Deleted Keys](keyvault/Get-Deleted-Keys/Get-Deleted-Keys.yml)
-## Get Deleted Sas Definition
-### [Overview](keyvault/Get-Deleted-Sas-Definition.yml)
-### [Get Deleted Sas Definition](keyvault/Get-Deleted-Sas-Definition/Get-Deleted-Sas-Definition.yml)
-## Get Deleted Sas Definitions
-### [Overview](keyvault/Get-Deleted-Sas-Definitions.yml)
-### [Get Deleted Sas Definitions](keyvault/Get-Deleted-Sas-Definitions/Get-Deleted-Sas-Definitions.yml)
-## Get Deleted Secret
-### [Overview](keyvault/Get-Deleted-Secret.yml)
-### [Get Deleted Secret](keyvault/Get-Deleted-Secret/Get-Deleted-Secret.yml)
-## Get Deleted Secrets
-### [Overview](keyvault/Get-Deleted-Secrets.yml)
-### [Get Deleted Secrets](keyvault/Get-Deleted-Secrets/Get-Deleted-Secrets.yml)
-## Get Deleted Storage Account
-### [Overview](keyvault/Get-Deleted-Storage-Account.yml)
-### [Get Deleted Storage Account](keyvault/Get-Deleted-Storage-Account/Get-Deleted-Storage-Account.yml)
-## Get Deleted Storage Accounts
-### [Overview](keyvault/Get-Deleted-Storage-Accounts.yml)
-### [Get Deleted Storage Accounts](keyvault/Get-Deleted-Storage-Accounts/Get-Deleted-Storage-Accounts.yml)
-## Get Key
-### [Overview](keyvault/Get-Key.yml)
-### [Get Key](keyvault/Get-Key/Get-Key.yml)
-## Get Key Versions
-### [Overview](keyvault/Get-Key-Versions.yml)
-### [Get Key Versions](keyvault/Get-Key-Versions/Get-Key-Versions.yml)
-## Get Keys
-### [Overview](keyvault/Get-Keys.yml)
-### [Get Keys](keyvault/Get-Keys/Get-Keys.yml)
-## Get Sas Definition
-### [Overview](keyvault/Get-Sas-Definition.yml)
-### [Get Sas Definition](keyvault/Get-Sas-Definition/Get-Sas-Definition.yml)
-## Get Sas Definitions
-### [Overview](keyvault/Get-Sas-Definitions.yml)
-### [Get Sas Definitions](keyvault/Get-Sas-Definitions/Get-Sas-Definitions.yml)
-## Get Secret
-### [Overview](keyvault/Get-Secret.yml)
-### [Get Secret](keyvault/Get-Secret/Get-Secret.yml)
-## Get Secret Versions
-### [Overview](keyvault/Get-Secret-Versions.yml)
-### [Get Secret Versions](keyvault/Get-Secret-Versions/Get-Secret-Versions.yml)
-## Get Secrets
-### [Overview](keyvault/Get-Secrets.yml)
-### [Get Secrets](keyvault/Get-Secrets/Get-Secrets.yml)
-## Get Storage Account
-### [Overview](keyvault/Get-Storage-Account.yml)
-### [Get Storage Account](keyvault/Get-Storage-Account/Get-Storage-Account.yml)
-## Get Storage Accounts
-### [Overview](keyvault/Get-Storage-Accounts.yml)
-### [Get Storage Accounts](keyvault/Get-Storage-Accounts/Get-Storage-Accounts.yml)
-## HSM Security Domain
-### [Overview](keyvault/HSM-Security-Domain.yml)
-### [Download](keyvault/HSM-Security-Domain/Download.yml)
-### [Download Pending](keyvault/HSM-Security-Domain/Download-Pending.yml)
-### [Transfer Key](keyvault/HSM-Security-Domain/Transfer-Key.yml)
-### [Upload](keyvault/HSM-Security-Domain/Upload.yml)
-### [Upload Pending](keyvault/HSM-Security-Domain/Upload-Pending.yml)
-## Import Certificate
-### [Overview](keyvault/Import-Certificate.yml)
-### [Import Certificate](keyvault/Import-Certificate/Import-Certificate.yml)
-## Import Key
-### [Overview](keyvault/Import-Key.yml)
-### [Import Key](keyvault/Import-Key/Import-Key.yml)
-## Merge Certificate
-### [Overview](keyvault/Merge-Certificate.yml)
-### [Merge Certificate](keyvault/Merge-Certificate/Merge-Certificate.yml)
-## Private Endpoint Connections
-### [Overview](keyvault/Private-Endpoint-Connections.yml)
-### [Delete](keyvault/Private-Endpoint-Connections/Delete.yml)
-### [Get](keyvault/Private-Endpoint-Connections/Get.yml)
-### [Put](keyvault/Private-Endpoint-Connections/Put.yml)
-## Private Link Resources
-### [Overview](keyvault/Private-Link-Resources.yml)
-### [List By Vault](keyvault/Private-Link-Resources/List-By-Vault.yml)
-## Purge Deleted Certificate
-### [Overview](keyvault/Purge-Deleted-Certificate.yml)
-### [Purge Deleted Certificate](keyvault/Purge-Deleted-Certificate/Purge-Deleted-Certificate.yml)
-## Purge Deleted Key
-### [Overview](keyvault/Purge-Deleted-Key.yml)
-### [Purge Deleted Key](keyvault/Purge-Deleted-Key/Purge-Deleted-Key.yml)
-## Purge Deleted Secret
-### [Overview](keyvault/Purge-Deleted-Secret.yml)
-### [Purge Deleted Secret](keyvault/Purge-Deleted-Secret/Purge-Deleted-Secret.yml)
-## Purge Deleted Storage Account
-### [Overview](keyvault/Purge-Deleted-Storage-Account.yml)
-### [Purge Deleted Storage Account](keyvault/Purge-Deleted-Storage-Account/Purge-Deleted-Storage-Account.yml)
-## Recover Deleted Certificate
-### [Overview](keyvault/Recover-Deleted-Certificate.yml)
-### [Recover Deleted Certificate](keyvault/Recover-Deleted-Certificate/Recover-Deleted-Certificate.yml)
-## Recover Deleted Key
-### [Overview](keyvault/Recover-Deleted-Key.yml)
-### [Recover Deleted Key](keyvault/Recover-Deleted-Key/Recover-Deleted-Key.yml)
-## Recover Deleted Sas Definition
-### [Overview](keyvault/Recover-Deleted-Sas-Definition.yml)
-### [Recover Deleted Sas Definition](keyvault/Recover-Deleted-Sas-Definition/Recover-Deleted-Sas-Definition.yml)
-## Recover Deleted Secret
-### [Overview](keyvault/Recover-Deleted-Secret.yml)
-### [Recover Deleted Secret](keyvault/Recover-Deleted-Secret/Recover-Deleted-Secret.yml)
-## Recover Deleted Storage Account
-### [Overview](keyvault/Recover-Deleted-Storage-Account.yml)
-### [Recover Deleted Storage Account](keyvault/Recover-Deleted-Storage-Account/Recover-Deleted-Storage-Account.yml)
-## Regenerate Storage Account Key
-### [Overview](keyvault/Regenerate-Storage-Account-Key.yml)
-### [Regenerate Storage Account Key](keyvault/Regenerate-Storage-Account-Key/Regenerate-Storage-Account-Key.yml)
-## Restore Certificate
-### [Overview](keyvault/Restore-Certificate.yml)
-### [Restore Certificate](keyvault/Restore-Certificate/Restore-Certificate.yml)
-## Restore Key
-### [Overview](keyvault/Restore-Key.yml)
-### [Restore Key](keyvault/Restore-Key/Restore-Key.yml)
-## Restore Secret
-### [Overview](keyvault/Restore-Secret.yml)
-### [Restore Secret](keyvault/Restore-Secret/Restore-Secret.yml)
-## Restore Status
-### [Overview](keyvault/Restore-Status.yml)
-### [Restore Status](keyvault/Restore-Status/Restore-Status.yml)
-## Restore Storage Account
-### [Overview](keyvault/Restore-Storage-Account.yml)
-### [Restore Storage Account](keyvault/Restore-Storage-Account/Restore-Storage-Account.yml)
-## Role Assignments
-### [Overview](keyvault/Role-Assignments.yml)
-### [Create](keyvault/Role-Assignments/Create.yml)
-### [Delete](keyvault/Role-Assignments/Delete.yml)
-### [Get](keyvault/Role-Assignments/Get.yml)
-### [List For Scope](keyvault/Role-Assignments/List-For-Scope.yml)
-## Role Definitions
-### [Overview](keyvault/Role-Definitions.yml)
-### [Create Or Update](keyvault/Role-Definitions/Create-Or-Update.yml)
-### [Delete](keyvault/Role-Definitions/Delete.yml)
-### [Get](keyvault/Role-Definitions/Get.yml)
-### [List](keyvault/Role-Definitions/List.yml)
-## Selective Key Restore Operation
-### [Overview](keyvault/Selective-Key-Restore-Operation.yml)
-### [Selective Key Restore Operation](keyvault/Selective-Key-Restore-Operation/Selective-Key-Restore-Operation.yml)
-## Set Certificate Contacts
-### [Overview](keyvault/Set-Certificate-Contacts.yml)
-### [Set Certificate Contacts](keyvault/Set-Certificate-Contacts/Set-Certificate-Contacts.yml)
-## Set Certificate Issuer
-### [Overview](keyvault/Set-Certificate-Issuer.yml)
-### [Set Certificate Issuer](keyvault/Set-Certificate-Issuer/Set-Certificate-Issuer.yml)
-## Set Sas Definition
-### [Overview](keyvault/Set-Sas-Definition.yml)
-### [Set Sas Definition](keyvault/Set-Sas-Definition/Set-Sas-Definition.yml)
-## Set Secret
-### [Overview](keyvault/Set-Secret.yml)
-### [Set Secret](keyvault/Set-Secret/Set-Secret.yml)
-## Set Storage Account
-### [Overview](keyvault/Set-Storage-Account.yml)
-### [Set Storage Account](keyvault/Set-Storage-Account/Set-Storage-Account.yml)
-## Update Certificate
-### [Overview](keyvault/Update-Certificate.yml)
-### [Update Certificate](keyvault/Update-Certificate/Update-Certificate.yml)
-## Update Certificate Issuer
-### [Overview](keyvault/Update-Certificate-Issuer.yml)
-### [Update Certificate Issuer](keyvault/Update-Certificate-Issuer/Update-Certificate-Issuer.yml)
-## Update Certificate Operation
-### [Overview](keyvault/Update-Certificate-Operation.yml)
-### [Update Certificate Operation](keyvault/Update-Certificate-Operation/Update-Certificate-Operation.yml)
-## Update Certificate Policy
-### [Overview](keyvault/Update-Certificate-Policy.yml)
-### [Update Certificate Policy](keyvault/Update-Certificate-Policy/Update-Certificate-Policy.yml)
-## Update Key
-### [Overview](keyvault/Update-Key.yml)
-### [Update Key](keyvault/Update-Key/Update-Key.yml)
-## Update Sas Definition
-### [Overview](keyvault/Update-Sas-Definition.yml)
-### [Update Sas Definition](keyvault/Update-Sas-Definition/Update-Sas-Definition.yml)
-## Update Secret
-### [Overview](keyvault/Update-Secret.yml)
-### [Update Secret](keyvault/Update-Secret/Update-Secret.yml)
-## Update Storage Account
-### [Overview](keyvault/Update-Storage-Account.yml)
-### [Update Storage Account](keyvault/Update-Storage-Account/Update-Storage-Account.yml)
-## Vaults
-### [Overview](keyvault/Vaults.yml)
-### [Check Name Availability](keyvault/Vaults/Check-Name-Availability.yml)
-### [Create Or Update](keyvault/Vaults/Create-Or-Update.yml)
-### [Delete](keyvault/Vaults/Delete.yml)
-### [Get](keyvault/Vaults/Get.yml)
-### [Get Deleted](keyvault/Vaults/Get-Deleted.yml)
-### [List](keyvault/Vaults/List.yml)
-### [List By Resource Group](keyvault/Vaults/List-By-Resource-Group.yml)
-### [List By Subscription](keyvault/Vaults/List-By-Subscription.yml)
-### [List Deleted](keyvault/Vaults/List-Deleted.yml)
-### [Purge Deleted](keyvault/Vaults/Purge-Deleted.yml)
-### [Update](keyvault/Vaults/Update.yml)
-### [Update Access Policy](keyvault/Vaults/Update-Access-Policy.yml)
-## decrypt
-### [Overview](keyvault/decrypt.yml)
-### [decrypt](keyvault/decrypt/decrypt.yml)
-## encrypt
-### [Overview](keyvault/encrypt.yml)
-### [encrypt](keyvault/encrypt/encrypt.yml)
-## sign
-### [Overview](keyvault/sign.yml)
-### [sign](keyvault/sign/sign.yml)
-## unwrap Key
-### [Overview](keyvault/unwrap-Key.yml)
-### [unwrap Key](keyvault/unwrap-Key/unwrap-Key.yml)
-## verify
-### [Overview](keyvault/verify.yml)
-### [verify](keyvault/verify/verify.yml)
-## wrap Key
-### [Overview](keyvault/wrap-Key.yml)
-### [wrap Key](keyvault/wrap-Key/wrap-Key.yml)
+## Certificates
+### Backup Certificate
+#### [Overview](keyvault/certificates/Backup-Certificate.yml)
+#### [Backup Certificate](keyvault/certificates/Backup-Certificate/Backup-Certificate.yml)
+### Create Certificate
+#### [Overview](keyvault/certificates/Create-Certificate.yml)
+#### [Create Certificate](keyvault/certificates/Create-Certificate/Create-Certificate.yml)
+### Delete Certificate
+#### [Overview](keyvault/certificates/Delete-Certificate.yml)
+#### [Delete Certificate](keyvault/certificates/Delete-Certificate/Delete-Certificate.yml)
+### Delete Certificate Contacts
+#### [Overview](keyvault/certificates/Delete-Certificate-Contacts.yml)
+#### [Delete Certificate Contacts](keyvault/certificates/Delete-Certificate-Contacts/Delete-Certificate-Contacts.yml)
+### Delete Certificate Issuer
+#### [Overview](keyvault/certificates/Delete-Certificate-Issuer.yml)
+#### [Delete Certificate Issuer](keyvault/certificates/Delete-Certificate-Issuer/Delete-Certificate-Issuer.yml)
+### Delete Certificate Operation
+#### [Overview](keyvault/certificates/Delete-Certificate-Operation.yml)
+#### [Delete Certificate Operation](keyvault/certificates/Delete-Certificate-Operation/Delete-Certificate-Operation.yml)
+### Get Certificate
+#### [Overview](keyvault/certificates/Get-Certificate.yml)
+#### [Get Certificate](keyvault/certificates/Get-Certificate/Get-Certificate.yml)
+### Get Certificate Contacts
+#### [Overview](keyvault/certificates/Get-Certificate-Contacts.yml)
+#### [Get Certificate Contacts](keyvault/certificates/Get-Certificate-Contacts/Get-Certificate-Contacts.yml)
+### Get Certificate Issuer
+#### [Overview](keyvault/certificates/Get-Certificate-Issuer.yml)
+#### [Get Certificate Issuer](keyvault/certificates/Get-Certificate-Issuer/Get-Certificate-Issuer.yml)
+### Get Certificate Issuers
+#### [Overview](keyvault/certificates/Get-Certificate-Issuers.yml)
+#### [Get Certificate Issuers](keyvault/certificates/Get-Certificate-Issuers/Get-Certificate-Issuers.yml)
+### Get Certificate Operation
+#### [Overview](keyvault/certificates/Get-Certificate-Operation.yml)
+#### [Get Certificate Operation](keyvault/certificates/Get-Certificate-Operation/Get-Certificate-Operation.yml)
+### Get Certificate Policy
+#### [Overview](keyvault/certificates/Get-Certificate-Policy.yml)
+#### [Get Certificate Policy](keyvault/certificates/Get-Certificate-Policy/Get-Certificate-Policy.yml)
+### Get Certificate Versions
+#### [Overview](keyvault/certificates/Get-Certificate-Versions.yml)
+#### [Get Certificate Versions](keyvault/certificates/Get-Certificate-Versions/Get-Certificate-Versions.yml)
+### Get Certificates
+#### [Overview](keyvault/certificates/Get-Certificates.yml)
+#### [Get Certificates](keyvault/certificates/Get-Certificates/Get-Certificates.yml)
+### Get Deleted Certificate
+#### [Overview](keyvault/certificates/Get-Deleted-Certificate.yml)
+#### [Get Deleted Certificate](keyvault/certificates/Get-Deleted-Certificate/Get-Deleted-Certificate.yml)
+### Get Deleted Certificates
+#### [Overview](keyvault/certificates/Get-Deleted-Certificates.yml)
+#### [Get Deleted Certificates](keyvault/certificates/Get-Deleted-Certificates/Get-Deleted-Certificates.yml)
+### Import Certificate
+#### [Overview](keyvault/certificates/Import-Certificate.yml)
+#### [Import Certificate](keyvault/certificates/Import-Certificate/Import-Certificate.yml)
+### Merge Certificate
+#### [Overview](keyvault/certificates/Merge-Certificate.yml)
+#### [Merge Certificate](keyvault/certificates/Merge-Certificate/Merge-Certificate.yml)
+### Purge Deleted Certificate
+#### [Overview](keyvault/certificates/Purge-Deleted-Certificate.yml)
+#### [Purge Deleted Certificate](keyvault/certificates/Purge-Deleted-Certificate/Purge-Deleted-Certificate.yml)
+### Recover Deleted Certificate
+#### [Overview](keyvault/certificates/Recover-Deleted-Certificate.yml)
+#### [Recover Deleted Certificate](keyvault/certificates/Recover-Deleted-Certificate/Recover-Deleted-Certificate.yml)
+### Restore Certificate
+#### [Overview](keyvault/certificates/Restore-Certificate.yml)
+#### [Restore Certificate](keyvault/certificates/Restore-Certificate/Restore-Certificate.yml)
+### Set Certificate Contacts
+#### [Overview](keyvault/certificates/Set-Certificate-Contacts.yml)
+#### [Set Certificate Contacts](keyvault/certificates/Set-Certificate-Contacts/Set-Certificate-Contacts.yml)
+### Set Certificate Issuer
+#### [Overview](keyvault/certificates/Set-Certificate-Issuer.yml)
+#### [Set Certificate Issuer](keyvault/certificates/Set-Certificate-Issuer/Set-Certificate-Issuer.yml)
+### Update Certificate
+#### [Overview](keyvault/certificates/Update-Certificate.yml)
+#### [Update Certificate](keyvault/certificates/Update-Certificate/Update-Certificate.yml)
+### Update Certificate Issuer
+#### [Overview](keyvault/certificates/Update-Certificate-Issuer.yml)
+#### [Update Certificate Issuer](keyvault/certificates/Update-Certificate-Issuer/Update-Certificate-Issuer.yml)
+### Update Certificate Operation
+#### [Overview](keyvault/certificates/Update-Certificate-Operation.yml)
+#### [Update Certificate Operation](keyvault/certificates/Update-Certificate-Operation/Update-Certificate-Operation.yml)
+### Update Certificate Policy
+#### [Overview](keyvault/certificates/Update-Certificate-Policy.yml)
+#### [Update Certificate Policy](keyvault/certificates/Update-Certificate-Policy/Update-Certificate-Policy.yml)
+## Key Vault
+### Private Endpoint Connections
+#### [Overview](keyvault/keyvault/Private-Endpoint-Connections.yml)
+#### [Delete](keyvault/keyvault/Private-Endpoint-Connections/Delete.yml)
+#### [Get](keyvault/keyvault/Private-Endpoint-Connections/Get.yml)
+#### [List By Resource](keyvault/keyvault/Private-Endpoint-Connections/List-By-Resource.yml)
+#### [Put](keyvault/keyvault/Private-Endpoint-Connections/Put.yml)
+### Private Link Resources
+#### [Overview](keyvault/keyvault/Private-Link-Resources.yml)
+#### [List By Vault](keyvault/keyvault/Private-Link-Resources/List-By-Vault.yml)
+### Vaults
+#### [Overview](keyvault/keyvault/Vaults.yml)
+#### [Check Name Availability](keyvault/keyvault/Vaults/Check-Name-Availability.yml)
+#### [Create Or Update](keyvault/keyvault/Vaults/Create-Or-Update.yml)
+#### [Delete](keyvault/keyvault/Vaults/Delete.yml)
+#### [Get](keyvault/keyvault/Vaults/Get.yml)
+#### [Get Deleted](keyvault/keyvault/Vaults/Get-Deleted.yml)
+#### [List](keyvault/keyvault/Vaults/List.yml)
+#### [List By Resource Group](keyvault/keyvault/Vaults/List-By-Resource-Group.yml)
+#### [List By Subscription](keyvault/keyvault/Vaults/List-By-Subscription.yml)
+#### [List Deleted](keyvault/keyvault/Vaults/List-Deleted.yml)
+#### [Purge Deleted](keyvault/keyvault/Vaults/Purge-Deleted.yml)
+#### [Update](keyvault/keyvault/Vaults/Update.yml)
+#### [Update Access Policy](keyvault/keyvault/Vaults/Update-Access-Policy.yml)
+## Keys
+### Backup Key
+#### [Overview](keyvault/keys/Backup-Key.yml)
+#### [Backup Key](keyvault/keys/Backup-Key/Backup-Key.yml)
+### Create Key
+#### [Overview](keyvault/keys/Create-Key.yml)
+#### [Create Key](keyvault/keys/Create-Key/Create-Key.yml)
+### Delete Key
+#### [Overview](keyvault/keys/Delete-Key.yml)
+#### [Delete Key](keyvault/keys/Delete-Key/Delete-Key.yml)
+### Get Deleted Key
+#### [Overview](keyvault/keys/Get-Deleted-Key.yml)
+#### [Get Deleted Key](keyvault/keys/Get-Deleted-Key/Get-Deleted-Key.yml)
+### Get Deleted Keys
+#### [Overview](keyvault/keys/Get-Deleted-Keys.yml)
+#### [Get Deleted Keys](keyvault/keys/Get-Deleted-Keys/Get-Deleted-Keys.yml)
+### Get Key
+#### [Overview](keyvault/keys/Get-Key.yml)
+#### [Get Key](keyvault/keys/Get-Key/Get-Key.yml)
+### Get Key Versions
+#### [Overview](keyvault/keys/Get-Key-Versions.yml)
+#### [Get Key Versions](keyvault/keys/Get-Key-Versions/Get-Key-Versions.yml)
+### Get Keys
+#### [Overview](keyvault/keys/Get-Keys.yml)
+#### [Get Keys](keyvault/keys/Get-Keys/Get-Keys.yml)
+### Import Key
+#### [Overview](keyvault/keys/Import-Key.yml)
+#### [Import Key](keyvault/keys/Import-Key/Import-Key.yml)
+### Purge Deleted Key
+#### [Overview](keyvault/keys/Purge-Deleted-Key.yml)
+#### [Purge Deleted Key](keyvault/keys/Purge-Deleted-Key/Purge-Deleted-Key.yml)
+### Recover Deleted Key
+#### [Overview](keyvault/keys/Recover-Deleted-Key.yml)
+#### [Recover Deleted Key](keyvault/keys/Recover-Deleted-Key/Recover-Deleted-Key.yml)
+### Restore Key
+#### [Overview](keyvault/keys/Restore-Key.yml)
+#### [Restore Key](keyvault/keys/Restore-Key/Restore-Key.yml)
+### Update Key
+#### [Overview](keyvault/keys/Update-Key.yml)
+#### [Update Key](keyvault/keys/Update-Key/Update-Key.yml)
+### decrypt
+#### [Overview](keyvault/keys/decrypt.yml)
+#### [decrypt](keyvault/keys/decrypt/decrypt.yml)
+### encrypt
+#### [Overview](keyvault/keys/encrypt.yml)
+#### [encrypt](keyvault/keys/encrypt/encrypt.yml)
+### sign
+#### [Overview](keyvault/keys/sign.yml)
+#### [sign](keyvault/keys/sign/sign.yml)
+### unwrap Key
+#### [Overview](keyvault/keys/unwrap-Key.yml)
+#### [unwrap Key](keyvault/keys/unwrap-Key/unwrap-Key.yml)
+### verify
+#### [Overview](keyvault/keys/verify.yml)
+#### [verify](keyvault/keys/verify/verify.yml)
+### wrap Key
+#### [Overview](keyvault/keys/wrap-Key.yml)
+#### [wrap Key](keyvault/keys/wrap-Key/wrap-Key.yml)
+## Managed HSM
+### MHSM Private Endpoint Connections
+#### [Overview](keyvault/managedhsm/MHSM-Private-Endpoint-Connections.yml)
+#### [Delete](keyvault/managedhsm/MHSM-Private-Endpoint-Connections/Delete.yml)
+#### [Get](keyvault/managedhsm/MHSM-Private-Endpoint-Connections/Get.yml)
+#### [List By Resource](keyvault/managedhsm/MHSM-Private-Endpoint-Connections/List-By-Resource.yml)
+#### [Put](keyvault/managedhsm/MHSM-Private-Endpoint-Connections/Put.yml)
+### MHSM Private Link Resources
+#### [Overview](keyvault/managedhsm/MHSM-Private-Link-Resources.yml)
+#### [List By MHSM Resource](keyvault/managedhsm/MHSM-Private-Link-Resources/List-By-MHSM-Resource.yml)
+### Managed Hsms
+#### [Overview](keyvault/managedhsm/Managed-Hsms.yml)
+#### [Create Or Update](keyvault/managedhsm/Managed-Hsms/Create-Or-Update.yml)
+#### [Delete](keyvault/managedhsm/Managed-Hsms/Delete.yml)
+#### [Get](keyvault/managedhsm/Managed-Hsms/Get.yml)
+#### [Get Deleted](keyvault/managedhsm/Managed-Hsms/Get-Deleted.yml)
+#### [List By Resource Group](keyvault/managedhsm/Managed-Hsms/List-By-Resource-Group.yml)
+#### [List By Subscription](keyvault/managedhsm/Managed-Hsms/List-By-Subscription.yml)
+#### [List Deleted](keyvault/managedhsm/Managed-Hsms/List-Deleted.yml)
+#### [Purge Deleted](keyvault/managedhsm/Managed-Hsms/Purge-Deleted.yml)
+#### [Update](keyvault/managedhsm/Managed-Hsms/Update.yml)
+## Managed HSM - Backup/Restore
+### Full Backup
+#### [Overview](keyvault/managedhsm-backup/restore/Full-Backup.yml)
+#### [Full Backup](keyvault/managedhsm-backup/restore/Full-Backup/Full-Backup.yml)
+### Full Backup Status
+#### [Overview](keyvault/managedhsm-backup/restore/Full-Backup-Status.yml)
+#### [Full Backup Status](keyvault/managedhsm-backup/restore/Full-Backup-Status/Full-Backup-Status.yml)
+### Full Restore Operation
+#### [Overview](keyvault/managedhsm-backup/restore/Full-Restore-Operation.yml)
+#### [Full Restore Operation](keyvault/managedhsm-backup/restore/Full-Restore-Operation/Full-Restore-Operation.yml)
+### Restore Status
+#### [Overview](keyvault/managedhsm-backup/restore/Restore-Status.yml)
+#### [Restore Status](keyvault/managedhsm-backup/restore/Restore-Status/Restore-Status.yml)
+### Selective Key Restore Operation
+#### [Overview](keyvault/managedhsm-backup/restore/Selective-Key-Restore-Operation.yml)
+#### [Selective Key Restore Operation](keyvault/managedhsm-backup/restore/Selective-Key-Restore-Operation/Selective-Key-Restore-Operation.yml)
+## Managed HSM - HSM Security Domain
+### HSM Security Domain
+#### [Overview](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain.yml)
+#### [Download](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain/Download.yml)
+#### [Download Pending](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain/Download-Pending.yml)
+#### [Transfer Key](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain/Transfer-Key.yml)
+#### [Upload](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain/Upload.yml)
+#### [Upload Pending](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain/Upload-Pending.yml)
+## Managed HSM - RBAC
+### Role Assignments
+#### [Overview](keyvault/managedhsm-rbac/Role-Assignments.yml)
+#### [Create](keyvault/managedhsm-rbac/Role-Assignments/Create.yml)
+#### [Delete](keyvault/managedhsm-rbac/Role-Assignments/Delete.yml)
+#### [Get](keyvault/managedhsm-rbac/Role-Assignments/Get.yml)
+#### [List For Scope](keyvault/managedhsm-rbac/Role-Assignments/List-For-Scope.yml)
+### Role Definitions
+#### [Overview](keyvault/managedhsm-rbac/Role-Definitions.yml)
+#### [Create Or Update](keyvault/managedhsm-rbac/Role-Definitions/Create-Or-Update.yml)
+#### [Delete](keyvault/managedhsm-rbac/Role-Definitions/Delete.yml)
+#### [Get](keyvault/managedhsm-rbac/Role-Definitions/Get.yml)
+#### [List](keyvault/managedhsm-rbac/Role-Definitions/List.yml)
+## Secrets
+### Backup Secret
+#### [Overview](keyvault/secrets/Backup-Secret.yml)
+#### [Backup Secret](keyvault/secrets/Backup-Secret/Backup-Secret.yml)
+### Delete Secret
+#### [Overview](keyvault/secrets/Delete-Secret.yml)
+#### [Delete Secret](keyvault/secrets/Delete-Secret/Delete-Secret.yml)
+### Get Deleted Secret
+#### [Overview](keyvault/secrets/Get-Deleted-Secret.yml)
+#### [Get Deleted Secret](keyvault/secrets/Get-Deleted-Secret/Get-Deleted-Secret.yml)
+### Get Deleted Secrets
+#### [Overview](keyvault/secrets/Get-Deleted-Secrets.yml)
+#### [Get Deleted Secrets](keyvault/secrets/Get-Deleted-Secrets/Get-Deleted-Secrets.yml)
+### Get Secret
+#### [Overview](keyvault/secrets/Get-Secret.yml)
+#### [Get Secret](keyvault/secrets/Get-Secret/Get-Secret.yml)
+### Get Secret Versions
+#### [Overview](keyvault/secrets/Get-Secret-Versions.yml)
+#### [Get Secret Versions](keyvault/secrets/Get-Secret-Versions/Get-Secret-Versions.yml)
+### Get Secrets
+#### [Overview](keyvault/secrets/Get-Secrets.yml)
+#### [Get Secrets](keyvault/secrets/Get-Secrets/Get-Secrets.yml)
+### Purge Deleted Secret
+#### [Overview](keyvault/secrets/Purge-Deleted-Secret.yml)
+#### [Purge Deleted Secret](keyvault/secrets/Purge-Deleted-Secret/Purge-Deleted-Secret.yml)
+### Recover Deleted Secret
+#### [Overview](keyvault/secrets/Recover-Deleted-Secret.yml)
+#### [Recover Deleted Secret](keyvault/secrets/Recover-Deleted-Secret/Recover-Deleted-Secret.yml)
+### Restore Secret
+#### [Overview](keyvault/secrets/Restore-Secret.yml)
+#### [Restore Secret](keyvault/secrets/Restore-Secret/Restore-Secret.yml)
+### Set Secret
+#### [Overview](keyvault/secrets/Set-Secret.yml)
+#### [Set Secret](keyvault/secrets/Set-Secret/Set-Secret.yml)
+### Update Secret
+#### [Overview](keyvault/secrets/Update-Secret.yml)
+#### [Update Secret](keyvault/secrets/Update-Secret/Update-Secret.yml)
+## Secrets - Storage Accounts
+### Backup Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Backup-Storage-Account.yml)
+#### [Backup Storage Account](keyvault/secrets-storageaccounts/Backup-Storage-Account/Backup-Storage-Account.yml)
+### Delete Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Delete-Sas-Definition.yml)
+#### [Delete Sas Definition](keyvault/secrets-storageaccounts/Delete-Sas-Definition/Delete-Sas-Definition.yml)
+### Delete Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Delete-Storage-Account.yml)
+#### [Delete Storage Account](keyvault/secrets-storageaccounts/Delete-Storage-Account/Delete-Storage-Account.yml)
+### Get Deleted Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Get-Deleted-Sas-Definition.yml)
+#### [Get Deleted Sas Definition](keyvault/secrets-storageaccounts/Get-Deleted-Sas-Definition/Get-Deleted-Sas-Definition.yml)
+### Get Deleted Sas Definitions
+#### [Overview](keyvault/secrets-storageaccounts/Get-Deleted-Sas-Definitions.yml)
+#### [Get Deleted Sas Definitions](keyvault/secrets-storageaccounts/Get-Deleted-Sas-Definitions/Get-Deleted-Sas-Definitions.yml)
+### Get Deleted Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Get-Deleted-Storage-Account.yml)
+#### [Get Deleted Storage Account](keyvault/secrets-storageaccounts/Get-Deleted-Storage-Account/Get-Deleted-Storage-Account.yml)
+### Get Deleted Storage Accounts
+#### [Overview](keyvault/secrets-storageaccounts/Get-Deleted-Storage-Accounts.yml)
+#### [Get Deleted Storage Accounts](keyvault/secrets-storageaccounts/Get-Deleted-Storage-Accounts/Get-Deleted-Storage-Accounts.yml)
+### Get Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Get-Sas-Definition.yml)
+#### [Get Sas Definition](keyvault/secrets-storageaccounts/Get-Sas-Definition/Get-Sas-Definition.yml)
+### Get Sas Definitions
+#### [Overview](keyvault/secrets-storageaccounts/Get-Sas-Definitions.yml)
+#### [Get Sas Definitions](keyvault/secrets-storageaccounts/Get-Sas-Definitions/Get-Sas-Definitions.yml)
+### Get Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Get-Storage-Account.yml)
+#### [Get Storage Account](keyvault/secrets-storageaccounts/Get-Storage-Account/Get-Storage-Account.yml)
+### Get Storage Accounts
+#### [Overview](keyvault/secrets-storageaccounts/Get-Storage-Accounts.yml)
+#### [Get Storage Accounts](keyvault/secrets-storageaccounts/Get-Storage-Accounts/Get-Storage-Accounts.yml)
+### Purge Deleted Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Purge-Deleted-Storage-Account.yml)
+#### [Purge Deleted Storage Account](keyvault/secrets-storageaccounts/Purge-Deleted-Storage-Account/Purge-Deleted-Storage-Account.yml)
+### Recover Deleted Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Recover-Deleted-Sas-Definition.yml)
+#### [Recover Deleted Sas Definition](keyvault/secrets-storageaccounts/Recover-Deleted-Sas-Definition/Recover-Deleted-Sas-Definition.yml)
+### Recover Deleted Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Recover-Deleted-Storage-Account.yml)
+#### [Recover Deleted Storage Account](keyvault/secrets-storageaccounts/Recover-Deleted-Storage-Account/Recover-Deleted-Storage-Account.yml)
+### Regenerate Storage Account Key
+#### [Overview](keyvault/secrets-storageaccounts/Regenerate-Storage-Account-Key.yml)
+#### [Regenerate Storage Account Key](keyvault/secrets-storageaccounts/Regenerate-Storage-Account-Key/Regenerate-Storage-Account-Key.yml)
+### Restore Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Restore-Storage-Account.yml)
+#### [Restore Storage Account](keyvault/secrets-storageaccounts/Restore-Storage-Account/Restore-Storage-Account.yml)
+### Set Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Set-Sas-Definition.yml)
+#### [Set Sas Definition](keyvault/secrets-storageaccounts/Set-Sas-Definition/Set-Sas-Definition.yml)
+### Set Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Set-Storage-Account.yml)
+#### [Set Storage Account](keyvault/secrets-storageaccounts/Set-Storage-Account/Set-Storage-Account.yml)
+### Update Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Update-Sas-Definition.yml)
+#### [Update Sas Definition](keyvault/secrets-storageaccounts/Update-Sas-Definition/Update-Sas-Definition.yml)
+### Update Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Update-Storage-Account.yml)
+#### [Update Storage Account](keyvault/secrets-storageaccounts/Update-Storage-Account/Update-Storage-Account.yml)
 # Kubernetes Configuration
 ## [Overview](../docs-ref-conceptual/kubernetesconfiguration/index.md)
 ## 2021-03-01

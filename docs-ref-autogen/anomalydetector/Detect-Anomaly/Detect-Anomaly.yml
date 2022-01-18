@@ -1,0 +1,139 @@
+### YamlMime:RESTOperation
+uid: anomalydetector.detectanomaly.detectanomaly
+name: Detect Anomaly
+service: Cognitive Services - AnomalyDetector
+groupName: Detect Anomaly
+apiVersion: 1.1-preview.1
+summary: "Detect Multivariate Anomaly  \nSubmit detection multivariate anomaly task with the trained model of modelId, the input schema should be the same with the training request. Thus request will be complete asynchronously and will return a resultId for querying the detection result.The request should be a source link to indicate an externally accessible Azure storage Uri (preferably a Shared Access Signature Uri). All time-series used in generate the model must be zipped into one single file. Each time-series will be as follows: the first column is timestamp and the second column is value."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/anomalydetector/{ApiVersion}/multivariate/models/{modelId}/detect
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: ApiVersion
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Anomaly Detector API version (for example, v1.0).
+  types:
+  - uid: string
+- name: modelId
+  in: path
+  isRequired: true
+  description: Model identifier.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 201 Created
+  headers:
+  - name: Location
+    value: string
+  description: Submit a multivariate model detection task successfully.
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Error response
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: source
+    in: body
+    isRequired: true
+    description: Source link to the input variables. Each variable should be a csv with two columns, `timestamp` and `value`. The file name of the variable will be used as its name. The variables used in detection should be exactly the same with those used in the training phase.
+    types:
+    - uid: string
+  - name: startTime
+    in: body
+    isRequired: true
+    description: A required field, indicating the start time of data for detection. Should be date-time.
+    types:
+    - uid: string
+  - name: endTime
+    in: body
+    isRequired: true
+    description: A required field, indicating the end time of data for detection. Should be date-time.
+    types:
+    - uid: string
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The message explaining the error reported by the service.
+    types:
+    - uid: string
+- name: DetectionRequest
+  description: Detection request.
+  kind: object
+  properties:
+  - name: source
+    description: Source link to the input variables. Each variable should be a csv with two columns, `timestamp` and `value`. The file name of the variable will be used as its name. The variables used in detection should be exactly the same with those used in the training phase.
+    types:
+    - uid: string
+  - name: startTime
+    description: A required field, indicating the start time of data for detection. Should be date-time.
+    types:
+    - uid: string
+  - name: endTime
+    description: A required field, indicating the end time of data for detection. Should be date-time.
+    types:
+    - uid: string
+examples:
+- name: Detect anomaly with multivariate Model
+  request:
+    uri: POST {Endpoint}/anomalydetector/v1.1-preview.1/multivariate/models/45aad126-aafd-11ea-b8fb-d89ef3400c5f/detect
+    body: >-
+      {
+        "source": "https://multiadsample.blob.core.windows.net/data/sample_data_2_1000.zip?sp=rl&st=2020-12-04T06:03:47Z&se=2022-12-05T06:03:00Z&sv=2019-12-12&sr=b&sig=AZTbvZ7fcp3MdqGY%2FvGHJXJjUgjS4DneCGl7U5omq5c%3D",
+        "startTime": "2019-04-01T00:15:00Z",
+        "endTime": "2019-04-01T00:40:00Z"
+      }
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: Location
+      value: '{Endpoint}/anomalydetector/v1.1-preview/multivariate/results/{resultId}'
+  - statusCode: default
+    headers:
+    - name: Content-Type
+      value: application/json
+    - name: x-ms-error-code
+      value: Error Code
+    body: >-
+      {
+        "code": "Error Code",
+        "message": "Error Message"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+metadata:
+  description: "Detect Multivariate Anomaly  \nSubmit detection multivariate anomaly task with the trained model of modelId, the input schema should be the same with the trainin"
+errorCodes: []
