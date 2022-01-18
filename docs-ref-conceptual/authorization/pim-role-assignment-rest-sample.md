@@ -221,7 +221,7 @@ To de-activate an activated role assignment (remove activated access), use the [
 
 If a user has an eligible role assignment at a resource (parent), they can choose to activate the role at a child level scope of the parent resource instead of the entire parent scope. For example, if a user has `Contributor` eligible role at a subscription, they can activate the role at a child resource group level of the subscription.
 
-To get a list of all children of a resource on which you have eligble access you can use the [Eligible Child Resources](rest/api/authorization/eligible-child-resources) API.
+To get a list of all children of a resource on which you have eligible access you can use the [Eligible Child Resources](rest/api/authorization/eligible-child-resources) API.
 
 1. Start with the following request:
 
