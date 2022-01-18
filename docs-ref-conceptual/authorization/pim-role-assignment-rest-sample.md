@@ -1,10 +1,30 @@
+---
+title: Azure Privileged Identity Management (PIM) with REST - Azure | Microsoft Docs
+description: Managing role-based access control (RBAC) with the REST API
+services: active-directory
+documentationcenter: na
+author: amansw
+manager: anujc
+editor: ''
+ROBOTS: NOINDEX
+
+ms.assetid: 1f90228a-7aac-4ea7-ad82-b57d222ab128
+ms.service: role-based-access-control
+ms.workload: multiple
+ms.tgt_pltfrm: rest-api
+ms.devlang: na
+ms.topic: article
+ms.date: 18/01/2022
+ms.author: amansw
+
+---
 # Use Azure PIM to manage active access with the REST API
 
-[Azure Privileged Identity Management (PIM)](https://docs.microsoft.com/en-us/azure/active-directory/privileged-identity-management/) enables you to limit standing administrator access to privileged roles, discover who has access, and review privileged access. This article describes the common ways to manage access using the REST API.
+[Azure Privileged Identity Management (PIM)](https://docs.microsoft.com/azure/active-directory/privileged-identity-management/) enables you to limit standing administrator access to privileged roles, discover who has access, and review privileged access. This article describes the common ways to manage access using the REST API.
 
 ## List active assignments
 
-To list active role assignments (list access), you can use one of the [Role Assignment Schedule Instances - List For Scope](https://docs.microsoft.com/en-us/rest/api/authorization/role-assignment-schedule-instances/list-for-scope) or [Role Assignment Schedules - List For Scope](/rest/api/authorization/role-assignment-schedules/list-for-scope) REST APIs. To refine your results, you specify a scope and an optional filter. To call the API, you must have access to the `Microsoft.Authorization/roleAssignments/read` operation at the specified scope. All [built-in roles](/azure/role-based-access-control/built-in-roles) are granted access to this operation.
+To list active role assignments (list access), you can use one of the [Role Assignment Schedule Instances - List For Scope](/rest/api/authorization/role-assignment-schedule-instances/list-for-scope) or [Role Assignment Schedules - List For Scope](/rest/api/authorization/role-assignment-schedules/list-for-scope) REST APIs. To refine your results, you specify a scope and an optional filter. To call the API, you must have access to the `Microsoft.Authorization/roleAssignments/read` operation at the specified scope. All [built-in roles](/azure/role-based-access-control/built-in-roles) are granted access to this operation.
 
 > [!IMPORTANT]
 > The difference between *schedules* and *schedule instances* is that while schedule instances only include assignments that are active at the current time, schedules also include assignments that will become active in the future.
