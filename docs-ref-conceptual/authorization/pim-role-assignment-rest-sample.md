@@ -20,7 +20,7 @@ ms.author: amansw
 ---
 # Use Azure PIM to manage active access with the REST API
 
-[Azure Privileged Identity Management (PIM)](https://docs.microsoft.com/azure/active-directory/privileged-identity-management/) enables you to limit standing administrator access to privileged roles, discover who has access, and review privileged access. This article describes the common ways to manage access using the REST API.
+[Azure Privileged Identity Management (PIM)](/azure/active-directory/privileged-identity-management/) enables you to limit standing administrator access to privileged roles, discover who has access, and review privileged access. This article describes the common ways to manage access using the REST API.
 
 ## List active assignments
 
