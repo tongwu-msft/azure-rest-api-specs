@@ -19,6 +19,8 @@ ms.author: amansw
 
 ---
 
+# Use Role Management Policies to manage rules for each role within each resource
+
 ## List role management policies for a resource
 
 To list role management policies, you can use [Role Management Policies - List For Scope](/rest/api/authorization/role-management-policies/list-for-scope) REST API. To refine your results, you specify a scope and an optional filter. To call the API, you must have access to the `Microsoft.Authorization/roleAssignments/read` operation at the specified scope. All [built-in roles](/azure/role-based-access-control/built-in-roles) are granted access to this operation.
