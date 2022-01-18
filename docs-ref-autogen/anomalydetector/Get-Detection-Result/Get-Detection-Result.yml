@@ -1,0 +1,340 @@
+### YamlMime:RESTOperation
+uid: anomalydetector.getdetectionresult.getdetectionresult
+name: Get Detection Result
+service: Cognitive Services - AnomalyDetector
+groupName: Get Detection Result
+apiVersion: 1.1-preview.1
+summary: Get multivariate anomaly detection result based on resultId returned by the DetectAnomalyAsync api
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/anomalydetector/{ApiVersion}/multivariate/results/{resultId}
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: ApiVersion
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Anomaly Detector API version (for example, v1.0).
+  types:
+  - uid: string
+- name: resultId
+  in: path
+  isRequired: true
+  description: Result identifier.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 200 OK
+  description: Get Multivariate Anomaly Detection Result by Result Id.
+  types:
+  - uid: DetectionResult
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Error response
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: DetectionResult
+  description: Response of the given resultId.
+  kind: object
+  properties:
+  - name: resultId
+    description: ''
+    types:
+    - uid: string
+  - name: summary
+    description: ''
+    types:
+    - uid: DetectionResultSummary
+  - name: results
+    description: Detection result for each timestamp.
+    types:
+    - uid: AnomalyState
+      isArray: true
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The message explaining the error reported by the service.
+    types:
+    - uid: string
+- name: DetectionResultSummary
+  kind: object
+  properties:
+  - name: status
+    description: Status of detection results. One of CREATED, RUNNING, READY, and FAILED.
+    types:
+    - uid: DetectionStatus
+  - name: errors
+    description: Error message when detection is failed.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: variableStates
+    description: ''
+    types:
+    - uid: VariableState
+      isArray: true
+  - name: setupInfo
+    description: Detection request.
+    types:
+    - uid: DetectionRequest
+- name: AnomalyState
+  kind: object
+  properties:
+  - name: timestamp
+    description: timestamp
+    types:
+    - uid: string
+  - name: value
+    description: ''
+    types:
+    - uid: AnomalyValue
+  - name: errors
+    description: Error message for the current timestamp
+    types:
+    - uid: ErrorResponse
+      isArray: true
+- name: DetectionStatus
+  description: Status of detection results. One of CREATED, RUNNING, READY, and FAILED.
+  kind: enum
+  properties:
+  - name: CREATED
+    types:
+    - uid: string
+  - name: RUNNING
+    types:
+    - uid: string
+  - name: READY
+    types:
+    - uid: string
+  - name: FAILED
+    types:
+    - uid: string
+- name: VariableState
+  kind: object
+  properties:
+  - name: variable
+    description: Variable name.
+    types:
+    - uid: string
+  - name: filledNARatio
+    description: Proportion of NaN values filled of the variable.
+    types:
+    - uid: number
+  - name: effectiveCount
+    description: Number of effective points counted.
+    types:
+    - uid: integer
+  - name: startTime
+    description: Start time of the variable.
+    types:
+    - uid: string
+  - name: endTime
+    description: End time of the variable.
+    types:
+    - uid: string
+- name: DetectionRequest
+  description: Detection request.
+  kind: object
+  properties:
+  - name: source
+    description: Source link to the input variables. Each variable should be a csv with two columns, `timestamp` and `value`. The file name of the variable will be used as its name. The variables used in detection should be exactly the same with those used in the training phase.
+    types:
+    - uid: string
+  - name: startTime
+    description: A required field, indicating the start time of data for detection. Should be date-time.
+    types:
+    - uid: string
+  - name: endTime
+    description: A required field, indicating the end time of data for detection. Should be date-time.
+    types:
+    - uid: string
+- name: AnomalyValue
+  kind: object
+  properties:
+  - name: isAnomaly
+    description: True if an anomaly is detected at the current timestamp.
+    types:
+    - uid: boolean
+  - name: severity
+    description: Indicates the significance of the anomaly. The higher the severity, the more significant the anomaly.
+    types:
+    - uid: number
+  - name: score
+    description: Raw score from the model.
+    types:
+    - uid: number
+  - name: interpretation
+    description: ''
+    types:
+    - uid: AnomalyInterpretation
+      isArray: true
+- name: AnomalyInterpretation
+  kind: object
+  properties:
+  - name: variable
+    description: ''
+    types:
+    - uid: string
+  - name: contributionScore
+    description: ''
+    types:
+    - uid: number
+  - name: correlationChanges
+    description: ''
+    types:
+    - uid: CorrelationChanges
+- name: CorrelationChanges
+  kind: object
+  properties:
+  - name: changedVariables
+    description: correlated variables
+    types:
+    - uid: string
+      isArray: true
+  - name: changedValues
+    description: changes in correlation
+    types:
+    - uid: number
+      isArray: true
+examples:
+- name: Get detection result
+  request:
+    uri: GET {Endpoint}/anomalydetector/v1.1-preview.1/multivariate/results/663884e6-b117-11ea-b3de-0242ac130004
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "resultId": "663884e6-b117-11ea-b3de-0242ac130004",
+        "summary": {
+          "status": "READY",
+          "errors": [],
+          "variableStates": [
+            {
+              "variable": "variable_1",
+              "filledNARatio": 0,
+              "effectiveCount": 30,
+              "startTime": "2021-01-01T00:00:00Z",
+              "endTime": "2021-01-01T00:29:00Z"
+            },
+            {
+              "variable": "variable_2",
+              "filledNARatio": 0,
+              "effectiveCount": 30,
+              "startTime": "2021-01-01T00:00:00Z",
+              "endTime": "2021-01-01T00:29:00Z"
+            },
+            {
+              "variable": "variable_3",
+              "filledNARatio": 0,
+              "effectiveCount": 30,
+              "startTime": "2021-01-01T00:00:00Z",
+              "endTime": "2021-01-01T00:29:00Z"
+            }
+          ],
+          "setupInfo": {
+            "source": "https://multiadsample.blob.core.windows.net/data/sample_data_2_1000.zip?sp=rl&st=2020-12-04T06:03:47Z&se=2022-12-05T06:03:00Z&sv=2019-12-12&sr=b&sig=AZTbvZ7fcp3MdqGY%2FvGHJXJjUgjS4DneCGl7U5omq5c%3D",
+            "startTime": "2021-01-01T00:00:00Z",
+            "endTime": "2021-01-01T00:29:00Z"
+          }
+        },
+        "results": [
+          {
+            "timestamp": "2021-01-01T00:28:00Z",
+            "value": {
+              "isAnomaly": false,
+              "severity": 0,
+              "score": 0.69284713268280029
+            },
+            "errors": []
+          },
+          {
+            "timestamp": "2021-01-01T00:29:00Z",
+            "value": {
+              "isAnomaly": true,
+              "severity": 0.53374046087265015,
+              "score": 0.91711658239364624,
+              "interpretation": [
+                {
+                  "variable": "variable_2",
+                  "contributionScore": 0.5371576215,
+                  "correlationChanges": {
+                    "changedVariables": [
+                      "variable_1",
+                      "variable_3"
+                    ],
+                    "changedValues": [
+                      0.1741322,
+                      0.1093203
+                    ]
+                  }
+                },
+                {
+                  "variable": "variable_3",
+                  "contributionScore": 0.3324159383,
+                  "correlationChanges": {
+                    "changedVariables": [
+                      "variable_2"
+                    ],
+                    "changedValues": [
+                      0.1229392
+                    ]
+                  }
+                },
+                {
+                  "variable": "variable_1",
+                  "contributionScore": 0.1304264402,
+                  "correlationChanges": {
+                    "changedVariables": [],
+                    "changedValues": []
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+  - statusCode: default
+    headers:
+    - name: Content-Type
+      value: application/json
+    - name: x-ms-error-code
+      value: Error Code
+    body: >-
+      {
+        "code": "Error Code",
+        "message": "Error Message"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+metadata:
+  description: Learn more about Cognitive Services - AnomalyDetector service - Get multivariate anomaly detection result based on resultId returned by the DetectAnomalyAsync a
+errorCodes: []

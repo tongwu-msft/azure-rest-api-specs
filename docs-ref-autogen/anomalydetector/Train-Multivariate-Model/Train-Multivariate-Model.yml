@@ -1,0 +1,303 @@
+### YamlMime:RESTOperation
+uid: anomalydetector.trainmultivariatemodel.trainmultivariatemodel
+name: Train Multivariate Model
+service: Cognitive Services - AnomalyDetector
+groupName: Train Multivariate Model
+apiVersion: 1.1-preview.1
+summary: Create and train a multivariate anomaly detection model. The request must include a source parameter to indicate an externally accessible Azure storage Uri (preferably a Shared Access Signature Uri). All time-series used in generate the model must be zipped into one single file. Each time-series will be in a single CSV file in which the first column is timestamp and the second column is value.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/anomalydetector/{ApiVersion}/multivariate/models
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: ApiVersion
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Anomaly Detector API version (for example, v1.0).
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  headers:
+  - name: Location
+    value: string
+  description: Create and train a multivariate anomaly detection model.
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Error response
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: slidingWindow
+    in: body
+    description: An optional field, indicating how many previous points will be used to compute the anomaly score of the subsequent point.
+    types:
+    - uid: integer
+  - name: alignPolicy
+    in: body
+    description: ''
+    types:
+    - uid: AlignPolicy
+  - name: source
+    in: body
+    isRequired: true
+    description: Source link to the input variables. Each variable should be a csv file with two columns, `timestamp` and `value`. By default, the file name of the variable will be used as its variable name.
+    types:
+    - uid: string
+  - name: startTime
+    in: body
+    isRequired: true
+    description: A required field, indicating the start time of training data. Should be date-time.
+    types:
+    - uid: string
+  - name: endTime
+    in: body
+    isRequired: true
+    description: A required field, indicating the end time of training data. Should be date-time.
+    types:
+    - uid: string
+  - name: displayName
+    in: body
+    description: An optional field. The name of the model whose maximum length is 24.
+    types:
+    - uid: string
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: AlignPolicy
+  kind: object
+  properties:
+  - name: alignMode
+    description: 'An optional field, indicating how we align different variables to the same time-range. Either Inner or Outer. '
+    types:
+    - uid: alignMode
+  - name: fillNAMethod
+    description: An optional field, indicating how missing values will be filled. One of Previous, Subsequent, Linear, Zero, Fixed, and NotFill. Cannot be set to NotFill, when the alignMode is Outer.
+    types:
+    - uid: fillNAMethod
+  - name: paddingValue
+    description: An optional field. Required when fillNAMethod is Fixed.
+    types:
+    - uid: number
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The message explaining the error reported by the service.
+    types:
+    - uid: string
+- name: DiagnosticsInfo
+  kind: object
+  properties:
+  - name: modelState
+    description: ''
+    types:
+    - uid: ModelState
+  - name: variableStates
+    description: ''
+    types:
+    - uid: VariableState
+      isArray: true
+- name: ModelInfo
+  description: Train result of a model including status, errors and diagnose info for model and variables.
+  kind: object
+  properties:
+  - name: slidingWindow
+    description: An optional field, indicating how many previous points will be used to compute the anomaly score of the subsequent point.
+    types:
+    - uid: integer
+  - name: alignPolicy
+    description: ''
+    types:
+    - uid: AlignPolicy
+  - name: source
+    description: Source link to the input variables. Each variable should be a csv file with two columns, `timestamp` and `value`. By default, the file name of the variable will be used as its variable name.
+    types:
+    - uid: string
+  - name: startTime
+    description: A required field, indicating the start time of training data. Should be date-time.
+    types:
+    - uid: string
+  - name: endTime
+    description: A required field, indicating the end time of training data. Should be date-time.
+    types:
+    - uid: string
+  - name: displayName
+    description: An optional field. The name of the model whose maximum length is 24.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Model training status.
+    types:
+    - uid: modelStatus
+  - name: errors
+    isReadyOnly: true
+    description: Error messages when failed to create a model.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: diagnosticsInfo
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: DiagnosticsInfo
+- name: alignMode
+  description: 'An optional field, indicating how we align different variables to the same time-range. Either Inner or Outer. '
+  kind: enum
+  properties:
+  - name: Inner
+    types:
+    - uid: string
+  - name: Outer
+    types:
+    - uid: string
+- name: fillNAMethod
+  description: An optional field, indicating how missing values will be filled. One of Previous, Subsequent, Linear, Zero, Fixed, and NotFill. Cannot be set to NotFill, when the alignMode is Outer.
+  kind: enum
+  properties:
+  - name: Previous
+    types:
+    - uid: string
+  - name: Subsequent
+    types:
+    - uid: string
+  - name: Linear
+    types:
+    - uid: string
+  - name: Zero
+    types:
+    - uid: string
+  - name: Fixed
+    types:
+    - uid: string
+  - name: NotFill
+    types:
+    - uid: string
+- name: ModelState
+  kind: object
+  properties:
+  - name: epochIds
+    description: Epoch id
+    types:
+    - uid: integer
+      isArray: true
+  - name: trainLosses
+    description: ''
+    types:
+    - uid: number
+      isArray: true
+  - name: validationLosses
+    description: ''
+    types:
+    - uid: number
+      isArray: true
+  - name: latenciesInSeconds
+    description: ''
+    types:
+    - uid: number
+      isArray: true
+- name: VariableState
+  kind: object
+  properties:
+  - name: variable
+    description: Variable name.
+    types:
+    - uid: string
+  - name: filledNARatio
+    description: Proportion of NaN values filled of the variable.
+    types:
+    - uid: number
+  - name: effectiveCount
+    description: Number of effective points counted.
+    types:
+    - uid: integer
+  - name: startTime
+    description: Start time of the variable.
+    types:
+    - uid: string
+  - name: endTime
+    description: End time of the variable.
+    types:
+    - uid: string
+- name: modelStatus
+  description: Model training status.
+  kind: enum
+  properties:
+  - name: CREATED
+    types:
+    - uid: string
+  - name: RUNNING
+    types:
+    - uid: string
+  - name: READY
+    types:
+    - uid: string
+  - name: FAILED
+    types:
+    - uid: string
+examples:
+- name: Train Multivariate model
+  request:
+    uri: POST {Endpoint}/anomalydetector/v1.1-preview.1/multivariate/models
+    body: >-
+      {
+        "slidingWindow": 20,
+        "alignPolicy": {
+          "alignMode": "Outer",
+          "fillNAMethod": "Linear",
+          "paddingValue": 0
+        },
+        "source": "https://multiadsample.blob.core.windows.net/data/sample_data_2_1000.zip?sp=rl&st=2020-12-04T06:03:47Z&se=2022-12-05T06:03:00Z&sv=2019-12-12&sr=b&sig=AZTbvZ7fcp3MdqGY%2FvGHJXJjUgjS4DneCGl7U5omq5c%3D",
+        "startTime": "2019-04-01T00:00:00Z",
+        "endTime": "2019-04-02T00:00:00Z",
+        "displayName": "Devops-MultiAD"
+      }
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: Location
+      value: '{Endpoint}/anomalydetector/v1.1-preview/multivariate/models/{modelId}'
+  - statusCode: default
+    headers:
+    - name: Content-Type
+      value: application/json
+    - name: x-ms-error-code
+      value: Error Code
+    body: >-
+      {
+        "code": "Error Code",
+        "message": "Error Message"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+metadata:
+  description: Create and train a multivariate anomaly detection model. The request must include a source parameter to indicate an externally accessible Azure storage Uri (pre
+errorCodes: []
