@@ -18,7 +18,6 @@ ms.date: 01/18/2022
 ms.author: amansw
 
 ---
-
 # Use Role Management Policies to manage rules for each role within each resource
 
 ## List role management policies for a resource
