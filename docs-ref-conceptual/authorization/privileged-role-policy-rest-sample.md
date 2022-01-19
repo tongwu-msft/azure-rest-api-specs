@@ -20,7 +20,7 @@ ms.author: amansw
 ---
 
 # Use Role Management Policies to manage rules for each role within each resource
-Role Management Policies help you govern the rules for any role eligiblity request or role assignment request. For example, you can set the maximum duration for which an assignment can be active, or you can even allow permanent assignment. You can update the notification settings for each assignment. You can also set approvers for each role activation.
+Role Management Policies help you govern the rules for any role eligibility request or role assignment request. For example, you can set the maximum duration for which an assignment can be active, or you can even allow permanent assignment. You can update the notification settings for each assignment. You can also set approvers for each role activation.
 
 ## List role management policies for a resource
 
