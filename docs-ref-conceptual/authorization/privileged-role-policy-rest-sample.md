@@ -1,6 +1,6 @@
 ---
-title: Manage PIM role management policies with REST - Azure | Microsoft Docs
-description: Manage the Privileged Identity Management (PIM) role management policies that govern role assignment and activation using the REST API
+title: Manage Azure Privileged Identity Management (PIM) role management policies with REST - Azure | Microsoft Docs
+description: Manage the Privileged Identity Management (PIM) role management policies that govern role assignment and activation using REST API
 services: active-directory
 documentationcenter: na
 author: amansw
