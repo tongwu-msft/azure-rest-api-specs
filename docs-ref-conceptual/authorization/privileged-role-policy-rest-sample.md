@@ -1,6 +1,6 @@
 ---
-title: Azure Privileged Identity Management (PIM) with REST - Azure | Microsoft Docs
-description: Managing role-based access control (RBAC) with the REST API
+title: Manage PIM role management policies with REST - Azure | Microsoft Docs
+description: Manage the Privileged Identity Management (PIM) role management policies that govern role assignment and activation using the REST API
 services: active-directory
 documentationcenter: na
 author: amansw
@@ -18,7 +18,9 @@ ms.date: 01/18/2022
 ms.author: amansw
 
 ---
+
 # Use Role Management Policies to manage rules for each role within each resource
+Role Management Policies help you govern the rules for any role eligiblity request or role assignment request. For example, you can set the maximum duration for which an assignment can be active, or you can even allow permanent assignment. You can update the notification settings for each assignment. You can also set approvers for each role activation.
 
 ## List role management policies for a resource
 
