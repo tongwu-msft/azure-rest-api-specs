@@ -1,6 +1,6 @@
 ---
-title: RBAC Role assignment approvals with REST - Azure | Microsoft Docs
-description: Approve or deny role assignment request approvals using the REST API
+title: RBAC role assignment approvals with REST - Azure | Microsoft Docs
+description: Approve or deny Azure Privileged Identity Management (PIM) role assignment request approvals using REST API
 services: active-directory
 documentationcenter: na
 author: amansw
