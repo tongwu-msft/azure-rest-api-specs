@@ -1,6 +1,6 @@
 ---
-title: Azure Privileged Identity Management (PIM) with REST - Azure | Microsoft Docs
-description: Managing role-based access control (RBAC) with the REST API
+title: Manage active access to azure resources using with REST API - Azure | Microsoft Docs
+description: Managing active access to azure resources using Privileged Identity Management (PIM) and REST
 services: active-directory
 documentationcenter: na
 author: amansw
