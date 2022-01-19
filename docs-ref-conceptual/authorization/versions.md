@@ -22,13 +22,13 @@ Latest stable version
 
 | Version | Description |
 | --- | --- |
-| [2020-10-01-preview](#2020-10-01-preview) | Device principal type |
+| [2020-10-01-preview](#2020-10-01-preview) | Device principal type<br>Add Privileged Identity Management resource types |
 | [2020-08-01-preview](#2020-08-01-preview) | Role assignment validation |
 | [2020-07-01-preview](#2020-07-01-preview) | Search role assignments<br/>Search deny assignments |
 | [2020-04-01-preview](#2020-04-01-preview) | Role assignment with description |
 | [2020-03-01-preview](#2020-03-01-preview) | User not found bypass |
 | [2019-08-01-preview](#2019-08-01-preview) | Role assignment usage metrics |
-| [2019-04-01-preview](#2019-04-01-preview) | Delegated managed identity resource ID<br/>Tenant id query parameter |
+| [2019-04-01-preview](#2019-04-01-preview) | Delegated managed identity resource ID<br/>Tenant ID query parameter |
 | [2019-03-01-preview](#2019-03-01-preview) | Deny assignment conditions |
 | [2018-12-01-preview](#2018-12-01-preview) | Role assignment conditions |
 | [2018-09-01-preview](#2018-09-01-preview) | Role assignment service principal name not found bypass |
@@ -43,6 +43,17 @@ Latest stable version
 Support device principal type
 - Role assignments
     - `Device` added as valid `principalType` property
+
+- Added the following *Privileged Identity Management* resource types
+    - `Role Assignment Schedule Requests`  
+    - `Role Assignment Schedules`
+    - `Role Assignment Schedule Instances`
+    - `Role Eligibility Schedule Requests`
+    - `Role Eligibility Schedules`
+    - `Role Eligibility Schedule Instances`
+    - `Eligible Child Resources`
+    - `Role Management Policies`
+    - `Role Management Policy Assignments`    
 
 ### 2020-08-01-preview
 
@@ -65,7 +76,7 @@ Support search deny assignments
 Support role assignment with description
 - Role assignments
     - `description` property added
-        - description: "Description of role assignment"
+        - Description: "Description of role assignment"
 
 ### 2020-03-01-preview
 
@@ -95,18 +106,18 @@ Support tenant ID query parameter
 Support deny assignment conditions
 - Deny assignments
     - `condition` property added
-        - description: "The conditions on the deny assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'my_storage_container'"
+        - Description: "The conditions on the deny assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'my_storage_container'"
     - `conditionVersion` property added
-        - description: "Version of the condition. Currently accepted value is '2.0'"
+        - Description: "Version of the condition. Currently accepted value is '2.0'"
 
 ### 2018-12-01-preview
 
 Support role assignment conditions
 - Role assignments
     - `condition` property added
-        - description: "The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'my_storage_container'"
+        - Description: "The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'my_storage_container'"
     - `conditionVersion` property added
-        - description: "Version of the condition. Currently accepted value is '2.0'"
+        - Description: "Version of the condition. Currently accepted value is '2.0'"
 
 ### 2018-09-01-preview
 
@@ -114,7 +125,7 @@ Support role assignment service principal name not found bypass
 - Role assignments
     - `principalType` property added to role assignment properties for creation and retrieval
         - possible values: `User`, `Group`, `ServicePrincipal`, `Unknown`, `DirectoryRoleTemplate`, `ForeignGroup`, `Application`, `MSI`, `DirectoryObjectOrGroup`, or `Everyone`
-        - description: "The principal type of the assigned principal ID."
+        - Description: "The principal type of the assigned principal ID."
     - Principal not found exception ignored if `principalType` is explicitly set to `ServicePrincipal`
 
 ### 2018-07-01-preview
@@ -129,14 +140,14 @@ Support deny assignments
 Support data actions
 - Provider operations metadata
     - `isDataAction` parameter added to `ProviderOperation` in response
-        - description: "The dataAction flag to specify the operation type."
+        - Description: "The dataAction flag to specify the operation type."
 - Role assignments
     - `roleDefinitionId` and `principalId` explicitly marked as required in swagger
 - Role definitions
     - `dataActions` added to `Permissions` array in role definition entity
-        - description: "Allowed Data actions."
+        - Description: "Allowed Data actions."
     - `notDataActions` added to `Permissions` array in role definition entity
-        - description: "Denied Data actions."
+        - Description: "Denied Data actions."
 
 ### 2017-10-01-preview
 
