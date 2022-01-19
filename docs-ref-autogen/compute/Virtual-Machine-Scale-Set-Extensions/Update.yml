@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesetextensions.update
 name: Update
 service: Compute
 groupName: Virtual Machine Scale Set Extensions
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: The operation to update an extension.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}?api-version=2021-07-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,6 +51,10 @@ responses:
   description: Created
   types:
   - uid: VirtualMachineScaleSetExtension
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -105,6 +109,11 @@ requestBody:
     description: Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
     types:
     - uid: boolean
+  - name: properties.protectedSettingsFromKeyVault
+    in: body
+    description: The extensions protected settings that are passed by reference, and consumed from key vault
+    types:
+    - uid: object
 requestHeader: []
 definitions:
 - name: VirtualMachineScaleSetExtension
@@ -166,11 +175,23 @@ definitions:
     description: Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
     types:
     - uid: boolean
+  - name: properties.protectedSettingsFromKeyVault
+    description: The extensions protected settings that are passed by reference, and consumed from key vault
+    types:
+    - uid: object
   - name: id
     isReadyOnly: true
     description: Resource Id
     types:
     - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: VirtualMachineScaleSetExtensionUpdate
   description: Describes a Virtual Machine Scale Set Extension.
   kind: object
@@ -231,12 +252,149 @@ definitions:
     description: Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
     types:
     - uid: boolean
+  - name: properties.protectedSettingsFromKeyVault
+    description: The extensions protected settings that are passed by reference, and consumed from key vault
+    types:
+    - uid: object
   - name: id
     isReadyOnly: true
     description: Resource Id
     types:
     - uid: string
-examples: []
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+examples:
+- name: VirtualMachineScaleSetExtensions_Update_MaximumSet_Gen
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaaaaa/extensions/aaaa?api-version=2021-11-01
+    body: >-
+      {
+        "properties": {
+          "autoUpgradeMinorVersion": true,
+          "publisher": "{extension-Publisher}",
+          "type": "{extension-Type}",
+          "typeHandlerVersion": "{handler-version}",
+          "settings": {},
+          "forceUpdateTag": "aaaaaaaaa",
+          "enableAutomaticUpgrade": true,
+          "protectedSettings": {},
+          "provisionAfterExtensions": [
+            "aa"
+          ],
+          "suppressFailures": true
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "{extension-name}",
+        "properties": {
+          "autoUpgradeMinorVersion": true,
+          "publisher": "{extension-Publisher}",
+          "type": "{extension-Type}",
+          "typeHandlerVersion": "{handler-version}",
+          "settings": {},
+          "forceUpdateTag": "aaaaaaaaa",
+          "enableAutomaticUpgrade": true,
+          "protectedSettings": {},
+          "provisioningState": "aaa",
+          "provisionAfterExtensions": [
+            "aa"
+          ],
+          "suppressFailures": true
+        },
+        "type": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "id": "aaaaaaaa"
+      }
+  - statusCode: "201"
+    headers:
+    - name: location
+      value: https://foo.com/operationstatus
+    body: >-
+      {
+        "name": "{extension-name}",
+        "properties": {
+          "autoUpgradeMinorVersion": true,
+          "publisher": "{extension-Publisher}",
+          "type": "{extension-Type}",
+          "typeHandlerVersion": "{handler-version}",
+          "settings": {},
+          "forceUpdateTag": "aaaaaaaaa",
+          "enableAutomaticUpgrade": true,
+          "protectedSettings": {},
+          "provisioningState": "aaa",
+          "provisionAfterExtensions": [
+            "aa"
+          ],
+          "suppressFailures": true
+        },
+        "type": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "id": "aaaaaaaa"
+      }
+- name: VirtualMachineScaleSetExtensions_Update_MinimumSet_Gen
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaa/extensions/aa?api-version=2021-11-01
+    body: '{}'
+  responses:
+  - statusCode: "200"
+    body: '{}'
+  - statusCode: "201"
+    headers:
+    - name: location
+      value: https://foo.com/operationstatus
+    body: '{}'
 security:
 - name: azure_auth
   type: oauth2

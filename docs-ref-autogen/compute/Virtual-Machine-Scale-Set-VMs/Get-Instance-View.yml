@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesetvms.getinstanceview
 name: Get Instance View
 service: Compute
 groupName: Virtual Machine Scale Set VMs
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: Gets the status of a virtual machine from a VM scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/instanceView?api-version=2021-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/instanceView?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,6 +47,10 @@ responses:
   description: OK
   types:
   - uid: VirtualMachineScaleSetVMInstanceView
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: VirtualMachineScaleSetVMInstanceView
@@ -106,6 +110,14 @@ definitions:
     description: The placement group in which the VM is running. If the VM is deallocated it will not have a placementGroupId.
     types:
     - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: VirtualMachineAgentInstanceView
   description: The instance view of the VM Agent running on the virtual machine.
   kind: object
@@ -252,6 +264,31 @@ definitions:
     description: The time of the status.
     types:
     - uid: string
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
 - name: VirtualMachineExtensionHandlerInstanceView
   description: The instance view of a virtual machine extension handler.
   kind: object
@@ -313,6 +350,34 @@ definitions:
   - name: Error
     types:
     - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
 - name: KeyVaultSecretReference
   description: Describes a reference to Key Vault Secret
   kind: object
@@ -347,7 +412,7 @@ definitions:
 examples:
 - name: Get instance view of a virtual machine from a VM scale set placed on a dedicated host group through automatic placement.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myVirtualMachineScaleSet/virtualmachines/0/instanceView?api-version=2021-07-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myVirtualMachineScaleSet/virtualMachines/0/instanceView?api-version=2021-11-01
   responses:
   - statusCode: "200"
     body: >-
@@ -363,7 +428,7 @@ examples:
               "level": "Warning",
               "displayStatus": "Not Ready",
               "message": "VM status blob is found but not yet populated.",
-              "time": "2021-07-01T05:00:32+00:00"
+              "time": "2021-11-01T05:00:32+00:00"
             }
           ],
           "extensionHandlers": null
@@ -378,7 +443,7 @@ examples:
                 "level": "Info",
                 "displayStatus": "Provisioning succeeded",
                 "message": null,
-                "time": "2021-07-01T04:58:58.0882815+00:00"
+                "time": "2021-11-01T04:58:58.0882815+00:00"
               }
             ]
           }

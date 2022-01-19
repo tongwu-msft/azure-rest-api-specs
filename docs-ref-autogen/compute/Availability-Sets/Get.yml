@@ -3,14 +3,14 @@ uid: management.azure.com.compute.availabilitysets.get
 name: Get
 service: Compute
 groupName: Availability Sets
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: Retrieves information about an availability set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}?api-version=2021-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +41,10 @@ responses:
   description: OK
   types:
   - uid: AvailabilitySet
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: AvailabilitySet
@@ -101,6 +105,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: Sku
   description: 'Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is currently on, you need to deallocate the VMs in the scale set before you modify the SKU name.'
   kind: object
@@ -148,6 +160,31 @@ definitions:
     description: The time of the status.
     types:
     - uid: string
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
 - name: StatusLevelTypes
   description: The level code.
   kind: enum
@@ -161,7 +198,86 @@ definitions:
   - name: Error
     types:
     - uid: string
-examples: []
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+examples:
+- name: AvailabilitySets_Get_MaximumSet_Gen
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/availabilitySets/aaaaaaaaaaaa?api-version=2021-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "westus",
+        "properties": {
+          "platformFaultDomainCount": 2,
+          "platformUpdateDomainCount": 20,
+          "virtualMachines": [
+            {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
+            }
+          ],
+          "proximityPlacementGroup": {
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
+          },
+          "statuses": [
+            {
+              "code": "aaaaaaaaaaaaaaaaaaaaaaa",
+              "level": "Info",
+              "displayStatus": "aaaaaa",
+              "message": "a",
+              "time": "2021-11-30T12:58:26.522Z"
+            }
+          ]
+        },
+        "sku": {
+          "name": "Classic",
+          "tier": "aaaaaaaaaaaaaa",
+          "capacity": 29
+        },
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/myAvailabilitySet",
+        "name": "myAvailabilitySet",
+        "type": "Microsoft.Compute/availabilitySets",
+        "tags": {
+          "key9626": "aaaaaaaaaaaaaaaaaaaa",
+          "key2505": "aa"
+        }
+      }
+- name: AvailabilitySets_Get_MinimumSet_Gen
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/availabilitySets/aaaaaaaaaaaaaaaaaaaa?api-version=2021-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "westus"
+      }
 security:
 - name: azure_auth
   type: oauth2
