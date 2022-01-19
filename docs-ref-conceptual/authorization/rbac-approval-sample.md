@@ -27,44 +27,44 @@ To list role assignment approval requests, you can use the [Role Assignment Appr
 
 1. Start with the following request:
 
-```http
-GET https://management.azure.com/providers/Microsoft.Authorization/roleAssignmentApprovals?api-version=2020-10-01-preview&$filter={filter}
-```    
+    ```http
+    GET https://management.azure.com/providers/Microsoft.Authorization/roleAssignmentApprovals?api-version=2020-10-01-preview&$filter={filter}
+    ```    
 
-2. Replace *{filter}* with the condition that you want to apply to filter the role assignment list.
+1. Replace *{filter}* with the condition that you want to apply to filter the role assignment list.
 
-| Filter | Description |
-| --- | --- |
-| `$filter=asApprover()` | List only includes all role assignment approvals that the calling user is assigned as an approver for. |
-| `$filter=asCreatedBy()` | List only includes all role assignment approvals that the calling user created requests for. |
-| `$filter=asTarget()` | List only includes all role assignment approvals that the calling user has requests targeted for. |
+    | Filter | Description |
+    | --- | --- |
+    | `$filter=asApprover()` | List only includes all role assignment approvals that the calling user is assigned as an approver for. |
+    | `$filter=asCreatedBy()` | List only includes all role assignment approvals that the calling user created requests for. |
+    | `$filter=asTarget()` | List only includes all role assignment approvals that the calling user has requests targeted for. |
 
-3. You need to extract the `id` of each `stage` of the `roleAssignmentApproval` and approve or deny the stage.
+1. You need to extract the `id` of each `stage` of the `roleAssignmentApproval` and approve or deny the stage.
 
 ## Get approval stage details
 
 To get the details of any stage of a role assignment approval, you can use [Role Assignment Approval Step - Get By ID](/rest/api/authorization/role-assignment-approval-step/get-by-id) REST API.
 
-Use the following request:
+1. Use the following request:
 
-```http
-GET https://management.azure.com/providers/Microsoft.Authorization/roleAssignmentApprovals/{approvalId}/stages/{stageId}?api-version=2021-01-01-preview
-```    
+    ```http
+    GET https://management.azure.com/providers/Microsoft.Authorization/roleAssignmentApprovals/{approvalId}/stages/{stageId}?api-version=2021-01-01-preview
+    ```    
 
 ## Approve or Deny an approval stage
 
 To approve or deny of any stage of a role assignment approval, you can use [Role Assignment Approval Step - Patch](/rest/api/authorization/role-assignment-approval-step/patch) REST API.
 
-Use the following request:
+1. Use the following request:
 
-```http
-PATCH https://management.azure.com/providers/Microsoft.Authorization/roleAssignmentApprovals/{approvalId}/stages/{stageId}?api-version=2021-01-01-preview
-```  
-````json
-{    
-    "properties": {
-        "reviewResult": "Approve", // Or "Deny"
-        "justification": "Trusted User"
+    ```http
+    PATCH https://management.azure.com/providers/Microsoft.Authorization/roleAssignmentApprovals/{approvalId}/stages/{stageId}?api-version=2021-01-01-preview
+    ```  
+    ````json
+    {    
+        "properties": {
+            "reviewResult": "Approve", // Or "Deny"
+            "justification": "Trusted User"
+        }
     }
-}
-````
+    ````
