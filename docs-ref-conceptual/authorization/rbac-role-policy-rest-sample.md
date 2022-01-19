@@ -29,142 +29,142 @@ To list role management policies, you can use [Role Management Policies - List F
 
 1. Start with the following request:
 
-```http
-GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleManagementPolicies?api-version=2020-10-01-preview&$filter={filter}
-```    
+    ```http
+    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleManagementPolicies?api-version=2020-10-01-preview&$filter={filter}
+    ```    
     
 1. Within the URI, replace *{scope}* with the scope for which you want to list the role management policies.
 
-| Scope | Type |
-| --- | --- |
-| `providers/Microsoft.Management/managementGroups/{mg-name}` | Management Group |
-| `subscriptions/{subscriptionId}` | Subscription |
-| `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1` | Resource group |
-| `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1/providers/Microsoft.Web/sites/mysite1` | Resource |
+    | Scope | Type |
+    | --- | --- |
+    | `providers/Microsoft.Management/managementGroups/{mg-name}` | Management Group |
+    | `subscriptions/{subscriptionId}` | Subscription |
+    | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1` | Resource group |
+    | `subscriptions/{subscriptionId}/resourceGroups/myresourcegroup1/providers/Microsoft.Web/sites/mysite1` | Resource |
     
 1. Replace *{filter}* with the condition that you want to apply to filter the role assignment list.
 
-| Filter | Description |
-| --- | --- |
-| `$filter=roleDefinitionId%20eq%20'{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}'` | List role management policy for a specified role definition within the resource scope. |
+    | Filter | Description |
+    | --- | --- |
+    | `$filter=roleDefinitionId%20eq%20'{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}'` | List role management policy for a specified role definition within the resource scope. |
 
 ## Update a role management policy
 
 1. Choose the rule(s) that you want to update. These are the types of rule -
 
-| Rule Type | Description |
-| --- | --- |
-| RoleManagementPolicyEnablementRule | Enable MFA, Justification on assignments or Ticketing information |
-| RoleManagementPolicyExpirationRule | Specify maximum duration of a role assignment or activation |
-| RoleManagementPolicyNotificationRule | Configure email notification settings for assignments, activations and approvals |
-| RoleManagementPolicyApprovalRule | Configure approval settings for a role activation |
-| RoleManagementPolicyAuthenticationContextRule | Configure the ACRS rule for Conditional Access Policy |
+    | Rule Type | Description |
+    | --- | --- |
+    | RoleManagementPolicyEnablementRule | Enable MFA, Justification on assignments or Ticketing information |
+    | RoleManagementPolicyExpirationRule | Specify maximum duration of a role assignment or activation |
+    | RoleManagementPolicyNotificationRule | Configure email notification settings for assignments, activations and approvals |
+    | RoleManagementPolicyApprovalRule | Configure approval settings for a role activation |
+    | RoleManagementPolicyAuthenticationContextRule | Configure the ACRS rule for Conditional Access Policy |
 
-1. Start with the following request:
+1. Use the following request:
 
-```http
-PATCH https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleManagementPolicies/{roleManagementPolicyId}?api-version=2020-10-01-preview
-```
+    ```http
+    PATCH https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleManagementPolicies/{roleManagementPolicyId}?api-version=2020-10-01-preview
+    ```
 
-```json
-{
-  "properties": {
-    "rules": [
-      {
-        "isExpirationRequired": false,
-        "maximumDuration": "P180D",
-        "id": "Expiration_Admin_Eligibility",
-        "ruleType": "RoleManagementPolicyExpirationRule",
-        "target": {
-          "caller": "Admin",
-          "operations": [
-            "All"
-          ],
-          "level": "Eligibility",
-          "targetObjects": null,
-          "inheritableSettings": null,
-          "enforcedSettings": null
-        }
-      },
-      {
-        "notificationType": "Email",
-        "recipientType": "Admin",
-        "isDefaultRecipientsEnabled": false,
-        "notificationLevel": "Critical",
-        "notificationRecipients": [
-          "admin_admin_eligible@test.com"
-        ],
-        "id": "Notification_Admin_Admin_Eligibility",
-        "ruleType": "RoleManagementPolicyNotificationRule",
-        "target": {
-          "caller": "Admin",
-          "operations": [
-            "All"
-          ],
-          "level": "Eligibility",
-          "targetObjects": null,
-          "inheritableSettings": null,
-          "enforcedSettings": null
-        }
-      },
-      {
-        "enabledRules": [
-          "Justification",
-          "MultiFactorAuthentication",
-          "Ticketing"
-        ],
-        "id": "Enablement_EndUser_Assignment",
-        "ruleType": "RoleManagementPolicyEnablementRule",
-        "target": {
-          "caller": "EndUser",
-          "operations": [
-            "All"
-          ],
-          "level": "Assignment",
-          "targetObjects": null,
-          "inheritableSettings": null,
-          "enforcedSettings": null
-        }
-      },
-      {
-        "setting": {
-          "isApprovalRequired": true,
-          "isApprovalRequiredForExtension": false,
-          "isRequestorJustificationRequired": true,
-          "approvalMode": "SingleStage",
-          "approvalStages": [
-            {
-              "approvalStageTimeOutInDays": 1,
-              "isApproverJustificationRequired": true,
-              "escalationTimeInMinutes": 0,
-              "primaryApprovers": [
-                {
-                  "id": "2385b0f3-5fa9-43cf-8ca4-b01dc97298cd",
-                  "description": "amansw_new_group",
-                  "isBackup": false,
-                  "userType": "Group"
-                }
+    ```json
+    {
+      "properties": {
+        "rules": [
+          {
+            "isExpirationRequired": false,
+            "maximumDuration": "P180D",
+            "id": "Expiration_Admin_Eligibility",
+            "ruleType": "RoleManagementPolicyExpirationRule",
+            "target": {
+              "caller": "Admin",
+              "operations": [
+                "All"
               ],
-              "isEscalationEnabled": false,
-              "escalationApprovers": null
+              "level": "Eligibility",
+              "targetObjects": null,
+              "inheritableSettings": null,
+              "enforcedSettings": null
             }
-          ]
-        },
-        "id": "Approval_EndUser_Assignment",
-        "ruleType": "RoleManagementPolicyApprovalRule",
-        "target": {
-          "caller": "EndUser",
-          "operations": [
-            "All"
-          ],
-          "level": "Assignment",
-          "targetObjects": null,
-          "inheritableSettings": null,
-          "enforcedSettings": null
-        }
+          },
+          {
+            "notificationType": "Email",
+            "recipientType": "Admin",
+            "isDefaultRecipientsEnabled": false,
+            "notificationLevel": "Critical",
+            "notificationRecipients": [
+              "admin_admin_eligible@test.com"
+            ],
+            "id": "Notification_Admin_Admin_Eligibility",
+            "ruleType": "RoleManagementPolicyNotificationRule",
+            "target": {
+              "caller": "Admin",
+              "operations": [
+                "All"
+              ],
+              "level": "Eligibility",
+              "targetObjects": null,
+              "inheritableSettings": null,
+              "enforcedSettings": null
+            }
+          },
+          {
+            "enabledRules": [
+              "Justification",
+              "MultiFactorAuthentication",
+              "Ticketing"
+            ],
+            "id": "Enablement_EndUser_Assignment",
+            "ruleType": "RoleManagementPolicyEnablementRule",
+            "target": {
+              "caller": "EndUser",
+              "operations": [
+                "All"
+              ],
+              "level": "Assignment",
+              "targetObjects": null,
+              "inheritableSettings": null,
+              "enforcedSettings": null
+            }
+          },
+          {
+            "setting": {
+              "isApprovalRequired": true,
+              "isApprovalRequiredForExtension": false,
+              "isRequestorJustificationRequired": true,
+              "approvalMode": "SingleStage",
+              "approvalStages": [
+                {
+                  "approvalStageTimeOutInDays": 1,
+                  "isApproverJustificationRequired": true,
+                  "escalationTimeInMinutes": 0,
+                  "primaryApprovers": [
+                    {
+                      "id": "2385b0f3-5fa9-43cf-8ca4-b01dc97298cd",
+                      "description": "amansw_new_group",
+                      "isBackup": false,
+                      "userType": "Group"
+                    }
+                  ],
+                  "isEscalationEnabled": false,
+                  "escalationApprovers": null
+                }
+              ]
+            },
+            "id": "Approval_EndUser_Assignment",
+            "ruleType": "RoleManagementPolicyApprovalRule",
+            "target": {
+              "caller": "EndUser",
+              "operations": [
+                "All"
+              ],
+              "level": "Assignment",
+              "targetObjects": null,
+              "inheritableSettings": null,
+              "enforcedSettings": null
+            }
+          }
+        ]
       }
-    ]
-  }
-}
+    }
 
-````
+    ````
