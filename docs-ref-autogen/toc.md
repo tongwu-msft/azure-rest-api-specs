@@ -2395,6 +2395,10 @@
 ## [Versions](../docs-ref-conceptual/authorization/versions.md)
 ## Samples
 ### [Manage roles](../docs-ref-conceptual/authorization/role-assignment-rest-sample.md)
+### [Manage eligible roles through PIM](../docs-ref-conceptual/authorization/privileged-role-eligibility-rest-sample.md)
+### [Manage active roles through PIM](../docs-ref-conceptual/authorization/privileged-role-assignment-rest-sample.md)
+### [Manage policies through PIM](../docs-ref-conceptual/authorization/privileged-role-policy-rest-sample.md)
+### [Approve PIM activation requests](../docs-ref-conceptual/authorization/privileged-approval-sample.md)
 ## Reference
 ### Classic Administrators
 #### [Overview](authorization/Classic-Administrators.yml)
