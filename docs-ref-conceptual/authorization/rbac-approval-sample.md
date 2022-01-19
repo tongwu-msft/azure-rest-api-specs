@@ -43,7 +43,7 @@ GET https://management.azure.com/providers/Microsoft.Authorization/roleAssignmen
 
 ## Get approval stage details
 
-To get the details of any stage of a role assignment approval, you can use [Role Assignment Approval Step - Get By Id](/rest/api/authorization/role-assignment-approval-step/get-by-id) REST API.
+To get the details of any stage of a role assignment approval, you can use [Role Assignment Approval Step - Get By ID](/rest/api/authorization/role-assignment-approval-step/get-by-id) REST API.
 
 Use the following request:
 
