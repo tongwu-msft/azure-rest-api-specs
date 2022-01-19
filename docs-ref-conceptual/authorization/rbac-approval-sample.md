@@ -1,6 +1,6 @@
 ---
-title: Azure Privileged Identity Management (PIM) with REST - Azure | Microsoft Docs
-description: Managing role-based access control (RBAC) with the REST API
+title: RBAC Role assignment approvals with REST - Azure | Microsoft Docs
+description: Approve or deny role assignment request approvals using the REST API
 services: active-directory
 documentationcenter: na
 author: amansw
@@ -20,6 +20,7 @@ ms.author: amansw
 ---
 
 # Use Role Assignment Approvals to approve PIM role activation requests with REST API
+Role Assignment Approvals help you manage approval requests for role assignment activation requests. For example, you can get approvals which require an approval from the calling user or you can get approvals where the calling user requested the activation. Then, a `PATCH` operation can be performed on each stage of the approval to approve or deny the request.
 
 ## List all role assignment approval requests
 
