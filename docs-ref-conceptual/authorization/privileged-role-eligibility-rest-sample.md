@@ -1,6 +1,6 @@
 ---
-title: Manage eligible access to azure resources using with REST API - Azure | Microsoft Docs
-description: Managing eligible access to azure resources using Privileged Identity Management (PIM) and REST
+title: Manage eligible access to azure resources through Azure Privileged Identity Management (PIM) using REST API - Azure | Microsoft Docs
+description: Managing eligible access to Azure resources using Privileged Identity Management (PIM) REST API
 services: active-directory
 documentationcenter: na
 author: amansw
