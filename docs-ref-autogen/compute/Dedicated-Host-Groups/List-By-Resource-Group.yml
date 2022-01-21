@@ -3,14 +3,14 @@ uid: management.azure.com.compute.dedicatedhostgroups.listbyresourcegroup
 name: List By Resource Group
 service: Compute
 groupName: Dedicated Host Groups
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups?api-version=2021-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -35,6 +35,10 @@ responses:
   description: OK
   types:
   - uid: DedicatedHostGroupListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: DedicatedHostGroupListResult
@@ -50,6 +54,14 @@ definitions:
     description: The URI to fetch the next page of Dedicated Host Groups. Call ListNext() with this URI to fetch the next page of Dedicated Host Groups.
     types:
     - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: DedicatedHostGroup
   description: Specifies information about the dedicated host group that the dedicated hosts should be assigned to. <br><br> Currently, a dedicated host can only be added to a dedicated host group at creation time. An existing dedicated host cannot be added to another dedicated host group.
   kind: object
@@ -105,6 +117,31 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
 - name: SubResourceReadOnly
   kind: object
   properties:
@@ -121,6 +158,34 @@ definitions:
     types:
     - uid: DedicatedHostInstanceViewWithName
       isArray: true
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
 - name: DedicatedHostInstanceViewWithName
   description: The instance view of a dedicated host that includes the name of the dedicated host. It is used for the response to the instance view of a dedicated host group.
   kind: object
@@ -202,7 +267,75 @@ definitions:
   - name: Error
     types:
     - uid: string
-examples: []
+examples:
+- name: DedicatedHostGroups_ListByResourceGroup_MaximumSet_Gen
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/hostGroups?api-version=2021-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "location": "westus",
+            "tags": {},
+            "zones": [
+              "1"
+            ],
+            "properties": {
+              "platformFaultDomainCount": 3,
+              "supportAutomaticPlacement": true,
+              "hosts": [
+                {
+                  "id": "aaaa"
+                }
+              ],
+              "instanceView": {
+                "hosts": [
+                  {
+                    "name": "aaaaaaaaaaaaaaaaaa",
+                    "assetId": "aaaa",
+                    "availableCapacity": {
+                      "allocatableVMs": [
+                        {
+                          "vmSize": "aaaaaaaaaaaaaaaaaaaa",
+                          "count": 26
+                        }
+                      ]
+                    },
+                    "statuses": [
+                      {
+                        "code": "aaaaaaaaaaaaaaaaaaaaaaa",
+                        "level": "Info",
+                        "displayStatus": "aaaaaa",
+                        "message": "a",
+                        "time": "2021-11-30T12:58:26.522Z"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/HostGroups/myDedicatedHostGroup",
+            "name": "myDedicatedHostGroup",
+            "type": "aaaa"
+          }
+        ],
+        "nextLink": "aaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+- name: DedicatedHostGroups_ListByResourceGroup_MinimumSet_Gen
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/hostGroups?api-version=2021-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "location": "westus"
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2

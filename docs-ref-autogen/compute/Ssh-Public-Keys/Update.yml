@@ -3,14 +3,14 @@ uid: management.azure.com.compute.sshpublickeys.update
 name: Update
 service: Compute
 groupName: Ssh Public Keys
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: Updates a new SSH public key resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}?api-version=2021-07-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +41,10 @@ responses:
   description: OK
   types:
   - uid: SshPublicKeyResource
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -95,6 +99,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: SshPublicKeyUpdateResource
   description: Specifies information about the SSH public key.
   kind: object
@@ -111,7 +123,98 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-examples: []
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+examples:
+- name: SshPublicKeys_Update_MaximumSet_Gen
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/sshPublicKeys/aaaaaaaaaaaa?api-version=2021-11-01
+    body: >-
+      {
+        "properties": {
+          "publicKey": "{ssh-rsa public key}"
+        },
+        "tags": {
+          "key2854": "a"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "westus",
+        "properties": {
+          "publicKey": "{ssh-rsa public key}"
+        },
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/sshPublicKeys/mySshPublicKeyName",
+        "name": "mySshPublicKeyName",
+        "type": "aaaa",
+        "tags": {
+          "key6396": "aaaaaaaaaaaaa",
+          "key8839": "aaa"
+        }
+      }
+- name: SshPublicKeys_Update_MinimumSet_Gen
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/sshPublicKeys/aaaaaaaaaaa?api-version=2021-11-01
+    body: '{}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "westus"
+      }
 security:
 - name: azure_auth
   type: oauth2

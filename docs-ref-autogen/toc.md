@@ -6329,6 +6329,7 @@
 #### [Delete](compute/Dedicated-Hosts/Delete.yml)
 #### [Get](compute/Dedicated-Hosts/Get.yml)
 #### [List By Host Group](compute/Dedicated-Hosts/List-By-Host-Group.yml)
+#### [Restart](compute/Dedicated-Hosts/Restart.yml)
 #### [Update](compute/Dedicated-Hosts/Update.yml)
 ### Disk Accesses
 #### [Overview](compute/Disk-Accesses.yml)
