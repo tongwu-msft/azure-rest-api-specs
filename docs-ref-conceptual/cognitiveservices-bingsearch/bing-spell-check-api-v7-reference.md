@@ -87,7 +87,7 @@ The following are the query parameters that the request may include. The Require
 |<a name="precontexttext" />preContextText|A string that gives context to the [text](#text) string. For example, the `text` string *petal* is valid. However, if you set `preContextText` to *bike*, the context changes and the text string becomes not valid. In this case, the API suggests that you change *petal* to *pedal* (as in *bike pedal*).<br /><br /> This text is not checked for grammar or spelling errors.<br /><br /> The combined length of the `text` string, `preContextText` string, and `postContextText` string may not exceed 10,000 characters.<br /><br /> You may specify this parameter in the query string of a GET request or in the body of a POST request.|String|No|  
 |<a name="postcontexttext" />postContextText|A string that gives context to the [text](#text) string. For example, the `text` string *read* is valid. However, if you set `postContextText` to *carpet*, the context changes and the text string becomes not valid. In this case, the API suggests that you change *read* to *red* (as in *red carpet*).<br /><br /> This text is not checked for grammar or spelling errors.<br /><br /> The combined length of the `text` string, `preContextText` string, and `postContextText` string may not exceed 10,000 characters.<br /><br /> You may specify this parameter in the query string of a GET request or in the body of a POST request.|String|No|  
 |<a name="sessionid" />sessionId|A unique ID that identifies this user session. Generate a unique value for each user session (the value is unimportant).<br /><br /> The service uses the ID to help debug issues and improve the quality of corrections.|String|No|  
-|<a name="setlang" />setLang|The language to use for user interface strings. You may specify the language using either a 2-letter or 4-letter code. Using 4-letter codes is preferred.<br /><br/> For a list of supported language codes, see [Bing supported languages](#bing-supported-languages).<br /><br/> Bing loads the localized strings if `setlang` contains a valid 2-letter neutral culture code (**fr**) or a valid 4-letter specific culture code (**fr-ca**). For example, for **fr-ca**, Bing loads the **fr** neutral culture code strings.<br /><br/> If `setlang` is not valid (for example, **zh**) or Bing doesn't support the language (for example, **af**, **af-na**), Bing defaults to **en** (English).<br /><br/> To specify the 2-letter code, set this parameter to an ISO 639-1 language code.<br /><br/> To specify the 4-letter code, use the form <language>-<country/region> where <language> is an ISO 639-1 language code (neutral culture) and <country/region> is an ISO 3166 country/region (specific culture) code. For example, use **en-US** for United States English.<br /><br/> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br/> This parameter and the Accept-Language header are mutually exclusive—do not specify both.<br /><br/> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
+|<a name="setlang" />setLang|The language to use for user interface strings. You may specify the language using either a 2-letter or 4-letter code. Using 4-letter codes is preferred.<br /><br/> For a list of supported language codes, see [Bing supported languages and markets](#Bingsupportedlanguagesandmarkets).<br /><br /> Bing loads the localized strings if `setlang` contains a valid 2-letter neutral culture code (**fr**) or a valid 4-letter specific culture code (**fr-ca**). For example, for **fr-ca**, Bing loads the **fr** neutral culture code strings.<br /><br/> If `setlang` is not valid (for example, **zh**) or Bing doesn't support the language (for example, **af**, **af-na**), Bing defaults to **en** (English).<br /><br/> To specify the 2-letter code, set this parameter to an ISO 639-1 language code.<br /><br/> To specify the 4-letter code, use the form <language>-<country/region> where <language> is an ISO 639-1 language code (neutral culture) and <country/region> is an ISO 3166 country/region (specific culture) code. For example, use **en-US** for United States English.<br /><br/> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br/> This parameter and the Accept-Language header are mutually exclusive—do not specify both.<br /><br/> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
 |<a name="text" />text|The text string to check for spelling and grammar errors.<br /><br /> The combined length of the `text` string, `preContextText` string, and `postContextText` string may not exceed 10,000 characters.<br /><br /> You may specify this parameter in the query string of a GET request or in the body of a POST request. Because of the query string length limit, you'll typically use a POST request unless you're checking only short strings.|String|Yes|  
 |<a name="userid" />userId|A unique ID that identifies the user. Generate a unique value for each user (the value is unimportant).<br /><br /> The service uses the ID to help debug issues and improve the quality of corrections.|String|No|  
   
@@ -165,6 +165,58 @@ The suggested spelling or grammar correction.
 
 [!INCLUDE [bing-market-codes](./includes/bing-market-codes.md)]
 
-## Bing supported languages
+<a name="Bingsupportedlanguagesandmarkets"></a>
+### Bing supported languages and markets
 
-[!INCLUDE [bing-supported-languages](./includes/bing-supported-languages.md)]
+The following table lists the Bing supported languages that you may specify in the `setLang` query parameter, the country codes that you may specify in the `cc` query parameter, and the market code values that you may use to specify the `mkt` query parameter. Demo Text and Demo Excepted Correction can be used to test if the api is working correctly.
+  
+|Supported Language|Country/Region|Market Code|Demo Text|Demo Excepted Correction|  
+|------------------------|---------------------|-------------------|-----------------------|----------------------|
+|Arabic|United Arab Emirates|ar-AE|مرحبا ， يوم عسيد لك|مرحبا ， يوم سعيد لك|
+|ulgarian|Bulgaria|bg-BG|Българсик език|Български език|
+|Catalan	|Spain	|ca-ES	|Claudi riera	|claudia riera|
+|Czech	|Czech	|cs-CZ	|Češtian	|Čeština|
+|Danish	|Denmark	|da-DK	|Welokm	|Welkom|
+|German	|Germany	|de-DE	|zdf fussballspiel	|zdf fußballspiel|
+|English	|Australia	|en-AU	|perfect poption	|perfect potion|
+|English	|Canada	|en-CA	|decafenation	|decaffeination|
+|English	|United Kingdom	|en-GB	|topograpical meaning	|topographical meaning|
+|English	|India	|en-IN	|dainik jagaran	|dainik jagran|
+|English	|United States	|en-US	|battle of the aisiago	|battle of the asiago|
+|Spanish	|Spain	|es-ES	|cordillera de lows cárpatos	|cordillera de los cárpatos|
+|Spanish	|Mexico	|es-MX	|carsel de cananea	|cárcel de cananea|
+|Spanish	|United States	|es-US	|carsel de cananea	|cárcel de cananea|
+|Finnish	|Finland|	fi-FI	|hälyt yskeskuks	|hälytyskeskus|
+|French	|Canada	|fr-CA	|les meilleuresadditif	|les meilleures additif|
+|French	|France	|fr-FR	|letre en fromage	|lettre en fromage|
+|Hebrew	|Israel	|he-IL	|ברךו הבא|	ברוך הבא|
+|Croatian	|Croatia	|hr-HR	|suze svetog lovra	|suze svetog lovre|
+|Italian	|Italy	|it-IT	|orologio svarowsky	|orologio swarovski|
+|Japanese	|Japan	|ja-JP	|ありがととう|	ありがとう|
+|Korean	|Korea	|ko-KR	|미안니합다	|미안합니다|
+|Latvian	|Latvia	|lv-LV	|lielie izmeri.lv	|lielieizmeri.lv|
+|Malay	|Malaysia	|ms-MY	|Mesir Bahesa	|mesir bahasa|
+|Norwegian (Bokmål)	|Norway	|nb-NO	|næpe suppe	|nepesuppe|
+|Dutch	|Belgium	|nl-BE	|electriteid	|electriteit|
+|Dutch	|Netherlands	|nl-NL	|electriteid	|electriteit|
+|Polish	|Poland	|pl-PL	|naduzywaniie alkoholu	|naduzywanie alkoholu|
+|Portuguese	|Brazil	|pt-BR	|curso de serralheiro prensisal	|curso de serralheiro presencial|
+|Portuguese (Portugal)	|Portuguese 	|pt-PT	|suzy quatro	|suzi quatro|
+|Romanian	|Romania	|ro-RO	|T3xt despre dulciuri	|text despre dulciuri|
+|Russian	|Russia	|ru-RU	|Превет. Как дела? Какии планны на выхадные?	|привет. как дела? какие планы на выходные?|
+|Slovak	|Slovak 	|sk-SK	|slúchadlá mediatech mt3589	|slúchadlá media tech mt3589|
+|Slovenian	|Sierra Leone	|sl-SI	|ogresnovads	|ogres novads|
+|Swedish	|Sweden	|sv-SE	|förjuden frukt	|förbjuden frukt|
+|Thai	|Thailand	|th-TH	|สวัสดีะค	|สวัสดีค|
+|Turkish	|Turkey	|tr-TR	|atatürk foto lari	|atatürk fotoları|
+|Ukrainian	|Ukraine	|uk-UA	|юьуб	|ютуб|
+|Vietnamese	|Vietnam	|vi-VN	|Hoan nhgênh	|hoan nghênh|
+|Chinese (Simplified)	|People's republic of China	|zh-CN	|南京长江大乔	|南京长江大桥|
+|Chinese (Traditional)	|Hong Kong SAR	|zh-HK	|維利多亞港	|維多利亞港|
+
+ 
+
+ 
+
+ 
+  
