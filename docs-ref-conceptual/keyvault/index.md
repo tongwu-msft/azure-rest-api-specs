@@ -228,17 +228,23 @@ Use Key Vault to safeguard and manage cryptographic keys, certificates and secre
 
 ### Certificate policy operations
 
+| Operation | Description |
+|--|--|
 | [Get Certificate Policy](/rest/api/keyvault/certificates/GetCertificatePolicy) | Lists the policy for a certificate. |
 | [Update Certificate Policy](/rest/api/keyvault/certificates/UpdateCertificatePolicy) | Updates the policy for a certificate. |
 
 ### Certificate contacts operations
 
+| Operation | Description |
+|--|--|
 | [Get Certificate Contacts](/rest/api/keyvault/certificates/GetCertificateContacts) | Lists the certificate contacts for a specified key vault. |
 | [Set Certificate Contacts](/rest/api/keyvault/certificates/SetCertificateContacts) | Sets the certificate contacts for the specified key vault. |
 | [Delete Certificate Contacts](/rest/api/keyvault/certificates/DeleteCertificateContacts) | Deletes the certificate contacts for a specified key vault. |
 
 ### Certificate issuer operations
 
+| Operation | Description |
+|--|--|
 | [Get Certificate Issuer](/rest/api/keyvault/certificates/GetCertificateIssuer) | Lists the specified certificate issuer. |
 | [Get Certificate Issuers](/rest/api/keyvault/certificates/GetCertificateIssuers) | List certificate issuers for a specified key vault. |
 | [Set Certificate Issuer](/rest/api/keyvault/certificates/SetCertificateIssuer) | Sets the specified certificate issuer. |
