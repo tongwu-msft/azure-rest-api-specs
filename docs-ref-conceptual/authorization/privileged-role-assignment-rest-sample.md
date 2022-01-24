@@ -245,3 +245,5 @@ To get a list of all children of a resource on which you have eligible access yo
     | `$filter=$filter=resourceType+eq+'subscription'+or+resourceType+eq+'resourcegroup'' ` | List resources of type = 'Subscription' or type = 'ResourceGroup'. |
     
 1. Use the `id` of any child resource to use as the `scope` for the activation `RoleAssignmentScheduleRequest`
+
+[!INCLUDE [common-errors](privileged-role-common-errors.md)]
