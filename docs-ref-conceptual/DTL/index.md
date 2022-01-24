@@ -50,6 +50,5 @@ service_description: To be added
 
 ## See Also
 
-- [Azure DevTest Labs marketing page](https://azure.microsoft.com/documentation/services/devtest-lab/)
-- [What is DevTest Labs?](/articles/devtest-labs/devtest-lab-overview.md)
-- [Azure DevTest Labs Premium tier](https://azure.microsoft.com/documentation/articles/devtest-lab-faq/)
+- [Azure DevTest Labs tutorials](/azure/devtest-labs/)
+- [What is DevTest Labs?](/articles/devtest-labs/devtest-lab-overview)
