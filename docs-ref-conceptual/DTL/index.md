@@ -2,11 +2,12 @@
 ms.assetid: afbc721a-55eb-4f74-9034-bd15f469f041
 title: REST API
 titleSuffix: Azure DevTest Labs
+description:  Learn about REST API operation groups
 ms.service: devtest-lab
-author: jmartens
-ms.author: j-martens
-ms.manager: j-martens
-ms.date: 01-24-2022
+author: j-martens
+ms.author: jmartens
+ms.manager: jmartens
+ms.date: 01/24/2022
 ms.topic: conceptual
 service_description: To be added
 ---
