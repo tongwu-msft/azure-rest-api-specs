@@ -3,14 +3,14 @@ uid: management.azure.com.compute.usage.list
 name: List
 service: Compute
 groupName: Usage
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/usages?api-version=2021-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/usages?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,6 +36,10 @@ responses:
   description: OK
   types:
   - uid: ListUsagesResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: ListUsagesResult
@@ -51,6 +55,14 @@ definitions:
     description: The URI to fetch the next page of compute resource usage information. Call ListNext() with this to fetch the next page of compute resource usage information.
     types:
     - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: Usage
   description: Describes Compute Resource Usage.
   kind: object
@@ -71,6 +83,31 @@ definitions:
     description: The name of the type of usage.
     types:
     - uid: UsageName
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
 - name: UsageUnit
   description: An enum describing the unit of usage measurement.
   kind: enum
@@ -90,7 +127,71 @@ definitions:
     description: The localized name of the resource.
     types:
     - uid: string
-examples: []
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+examples:
+- name: Usage_List_MaximumSet_Gen
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/4_./usages?api-version=2021-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "unit": "Count",
+            "currentValue": 17,
+            "limit": 19,
+            "name": {
+              "value": "aaaaaaaaaaaaaaaaaa",
+              "localizedValue": "aaaaaaaaaaaaaa"
+            }
+          }
+        ],
+        "nextLink": "aaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+- name: Usage_List_MinimumSet_Gen
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/_--/usages?api-version=2021-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "unit": "Count",
+            "currentValue": 17,
+            "limit": 19,
+            "name": {}
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2

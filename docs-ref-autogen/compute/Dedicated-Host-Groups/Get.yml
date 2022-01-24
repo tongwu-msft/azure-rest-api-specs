@@ -3,15 +3,15 @@ uid: management.azure.com.compute.dedicatedhostgroups.get
 name: Get
 service: Compute
 groupName: Dedicated Host Groups
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: Retrieves information about a dedicated host group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}?api-version=2021-07-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}?$expand={$expand}&api-version=2021-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}?api-version=2021-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}?$expand={$expand}&api-version=2021-11-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -48,6 +48,10 @@ responses:
   description: OK
   types:
   - uid: DedicatedHostGroup
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: InstanceViewTypes
@@ -115,6 +119,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: SubResourceReadOnly
   kind: object
   properties:
@@ -131,6 +143,31 @@ definitions:
     types:
     - uid: DedicatedHostInstanceViewWithName
       isArray: true
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
 - name: DedicatedHostInstanceViewWithName
   description: The instance view of a dedicated host that includes the name of the dedicated host. It is used for the response to the instance view of a dedicated host group.
   kind: object
@@ -154,6 +191,34 @@ definitions:
     types:
     - uid: InstanceViewStatus
       isArray: true
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
 - name: DedicatedHostAvailableCapacity
   description: Dedicated host unutilized capacity.
   kind: object
@@ -215,7 +280,7 @@ definitions:
 examples:
 - name: Create a dedicated host group.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2021-07-01
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2021-11-01
   responses:
   - statusCode: "200"
     body: >-

@@ -3,14 +3,14 @@ uid: management.azure.com.compute.restorepoints.create
 name: Create
 service: Compute
 groupName: Restore Points
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: The operation to create the restore point. Updating properties of an existing restore point is not allowed
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}?api-version=2021-07-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -65,6 +65,11 @@ requestBody:
     description: Gets the creation time of the restore point.
     types:
     - uid: string
+  - name: properties.sourceRestorePoint
+    in: body
+    description: Resource Id of the source restore point from which a copy needs to be created.
+    types:
+    - uid: ApiEntityReference
 requestHeader: []
 definitions:
 - name: ApiEntityReference
@@ -111,6 +116,20 @@ definitions:
     description: Location of the VM from which the restore point was created.
     types:
     - uid: string
+- name: RestorePointInstanceView
+  description: The instance view of a restore point.
+  kind: object
+  properties:
+  - name: diskRestorePoints
+    description: The disk restore points information.
+    types:
+    - uid: DiskRestorePointInstanceView
+      isArray: true
+  - name: statuses
+    description: The resource status information.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
 - name: RestorePoint
   description: Restore Point details.
   kind: object
@@ -139,6 +158,15 @@ definitions:
     description: Gets the creation time of the restore point.
     types:
     - uid: string
+  - name: properties.sourceRestorePoint
+    description: Resource Id of the source restore point from which a copy needs to be created.
+    types:
+    - uid: ApiEntityReference
+  - name: properties.instanceView
+    isReadyOnly: true
+    description: The restore point instance view.
+    types:
+    - uid: RestorePointInstanceView
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -249,9 +277,46 @@ definitions:
     types:
     - uid: boolean
   - name: securityType
-    description: 'Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.'
+    description: 'Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set.'
     types:
     - uid: SecurityTypes
+- name: DiskRestorePointInstanceView
+  description: The instance view of a disk restore point.
+  kind: object
+  properties:
+  - name: id
+    description: Disk restore point Id.
+    types:
+    - uid: string
+  - name: replicationStatus
+    description: The disk restore point replication status information.
+    types:
+    - uid: DiskRestorePointReplicationStatus
+      isArray: true
+- name: InstanceViewStatus
+  description: Instance view status.
+  kind: object
+  properties:
+  - name: code
+    description: The status code.
+    types:
+    - uid: string
+  - name: level
+    description: The level code.
+    types:
+    - uid: StatusLevelTypes
+  - name: displayStatus
+    description: The short localizable label for the status.
+    types:
+    - uid: string
+  - name: message
+    description: The detailed status message, including for alerts and error messages.
+    types:
+    - uid: string
+  - name: time
+    description: The time of the status.
+    types:
+    - uid: string
 - name: ConsistencyModeTypes
   description: Gets the consistency mode for the restore point. Please refer to https://aka.ms/RestorePoints for more details.
   kind: enum
@@ -951,10 +1016,35 @@ definitions:
     types:
     - uid: boolean
 - name: SecurityTypes
-  description: 'Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.'
+  description: 'Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set.'
   kind: enum
   properties:
   - name: TrustedLaunch
+    types:
+    - uid: string
+  - name: ConfidentialVM
+    types:
+    - uid: string
+- name: DiskRestorePointReplicationStatus
+  description: The instance view of a disk restore point.
+  kind: object
+  properties:
+  - name: status
+    description: The resource status information.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+- name: StatusLevelTypes
+  description: The level code.
+  kind: enum
+  properties:
+  - name: Info
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
     types:
     - uid: string
 - name: ApiErrorBase
@@ -1036,6 +1126,10 @@ definitions:
     description: Specifies the customer managed disk encryption set resource id for the managed disk.
     types:
     - uid: DiskEncryptionSetParameters
+  - name: securityProfile
+    description: Specifies the security profile for the managed disk.
+    types:
+    - uid: VMDiskSecurityProfile
   - name: id
     description: Resource Id
     types:
@@ -1179,6 +1273,18 @@ definitions:
     description: Resource Id
     types:
     - uid: string
+- name: VMDiskSecurityProfile
+  description: 'Specifies the security profile settings for the managed disk. <br><br> NOTE: It can only be set for Confidential VMs'
+  kind: object
+  properties:
+  - name: securityEncryptionType
+    description: 'Specifies the EncryptionType of the managed disk. <br> It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly for encryption of just the VMGuestState blob. <br><br> NOTE: It can be set for only Confidential VMs.'
+    types:
+    - uid: securityEncryptionTypes
+  - name: diskEncryptionSet
+    description: Specifies the customer managed disk encryption set resource id for the managed disk that is used for Customer Managed Key encrypted ConfidentialVM OS Disk and VMGuest blob.
+    types:
+    - uid: DiskEncryptionSetParameters
 - name: PassNames
   description: The pass name. Currently, the only allowable value is OobeSystem.
   kind: enum
@@ -1270,6 +1376,16 @@ definitions:
   - name: AutomaticByPlatform
     types:
     - uid: string
+- name: securityEncryptionTypes
+  description: 'Specifies the EncryptionType of the managed disk. <br> It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly for encryption of just the VMGuestState blob. <br><br> NOTE: It can be set for only Confidential VMs.'
+  kind: enum
+  properties:
+  - name: VMGuestStateOnly
+    types:
+    - uid: string
+  - name: DiskWithVMGuestState
+    types:
+    - uid: string
 - name: ProtocolTypes
   description: 'Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
   kind: enum
@@ -1283,7 +1399,7 @@ definitions:
 examples:
 - name: Create a restore point
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpcName/restorePoints/rpName?api-version=2021-07-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpcName/restorePoints/rpName?api-version=2021-11-01
     body: >-
       {
         "properties": {
@@ -1360,6 +1476,83 @@ examples:
           "provisioningState": "Succeeded",
           "consistencyMode": "ApplicationConsistent",
           "timeCreated": "2021-01-27T20:35:05.8401519+00:00"
+        }
+      }
+- name: Copy a restore point to a different region
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpcName/restorePoints/rpName?api-version=2021-11-01
+    body: >-
+      {
+        "properties": {
+          "sourceRestorePoint": {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName/restorePoints/sourceRpName"
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "rpName",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpcName/restorePoints/rpName",
+        "properties": {
+          "sourceRestorePoint": {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName/restorePoints/sourceRpName"
+          },
+          "sourceMetadata": {
+            "vmId": "76d6541e-80bd-4dc1-932b-3cae4cfb80e7",
+            "hardwareProfile": {
+              "vmSize": "Standard_B1s"
+            },
+            "storageProfile": {
+              "osDisk": {
+                "osType": "Windows",
+                "name": "osDisk123",
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS",
+                  "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/osDisk123"
+                },
+                "diskRestorePoint": {
+                  "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpcName/restorePoints/rpName/diskRestorePoints/osDisk123_22b4bdfe-6c54-4f72-84d8-85d8860f0c57"
+                }
+              },
+              "dataDisks": [
+                {
+                  "lun": 1,
+                  "name": "dataDisk123",
+                  "caching": "None",
+                  "managedDisk": {
+                    "storageAccountType": "Standard_LRS",
+                    "id": "/subscriptions/{subscription-id}/resourceGroups/userdata/providers/Microsoft.Compute/disks/dataDisk123"
+                  },
+                  "diskRestorePoint": {
+                    "id": "/subscriptions/{subscription-id}/resourceGroups/userdata/providers/Microsoft.Compute/restorePointCollections/mynewrpc/restorePoints/restorepointtwo/diskRestorePoints/dataDisk123_68785190-1acb-4d5e-a8ae-705b45f3dca5"
+                  }
+                }
+              ]
+            },
+            "osProfile": {
+              "computerName": "computerName",
+              "adminUsername": "admin",
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              },
+              "secrets": [],
+              "allowExtensionOperations": true,
+              "requireGuestProvisionSignal": true
+            },
+            "diagnosticsProfile": {
+              "bootDiagnostics": {
+                "enabled": true
+              }
+            },
+            "location": "westus"
+          },
+          "provisioningState": "Creating",
+          "consistencyMode": "ApplicationConsistent",
+          "timeCreated": "2021-10-25T23:54:29.2796325+00:00"
         }
       }
 security:

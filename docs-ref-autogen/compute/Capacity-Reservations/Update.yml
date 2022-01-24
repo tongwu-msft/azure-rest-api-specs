@@ -3,14 +3,14 @@ uid: management.azure.com.compute.capacityreservations.update
 name: Update
 service: Compute
 groupName: Capacity Reservations
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: The operation to update a capacity reservation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}?api-version=2021-07-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -43,12 +43,12 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 202 Accepted
-  description: Accepted
 - name: 200 OK
   description: OK
   types:
   - uid: CapacityReservation
+- name: 202 Accepted
+  description: Accepted
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -148,6 +148,11 @@ definitions:
     description: The Capacity reservation instance view.
     types:
     - uid: CapacityReservationInstanceView
+  - name: properties.timeCreated
+    isReadyOnly: true
+    description: 'Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2021-11-01.'
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -217,6 +222,11 @@ definitions:
     description: The Capacity reservation instance view.
     types:
     - uid: CapacityReservationInstanceView
+  - name: properties.timeCreated
+    isReadyOnly: true
+    description: 'Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2021-11-01.'
+    types:
+    - uid: string
   - name: tags
     description: Resource tags
     types:
@@ -325,7 +335,100 @@ definitions:
     description: The internal error message or exception dump.
     types:
     - uid: string
-examples: []
+examples:
+- name: CapacityReservations_Update_MaximumSet_Gen
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/capacityReservationGroups/aaaaaaaaaa/capacityReservations/aaaaaaaaaaaaaaaaaaa?api-version=2021-11-01
+    body: >-
+      {
+        "properties": {
+          "instanceView": {
+            "utilizationInfo": {},
+            "statuses": [
+              {
+                "code": "aaaaaaaaaaaaaaaaaaaaaaa",
+                "level": "Info",
+                "displayStatus": "aaaaaa",
+                "message": "a",
+                "time": "2021-11-30T12:58:26.522Z"
+              }
+            ]
+          }
+        },
+        "sku": {
+          "name": "DSv3-Type1",
+          "tier": "aaa",
+          "capacity": 7
+        },
+        "tags": {
+          "key4974": "aaaaaaaaaaaaaaaa"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "westus",
+        "tags": {},
+        "sku": {
+          "name": "Standard_DS1_v2",
+          "capacity": 4,
+          "tier": "aaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "zones": [
+          "1"
+        ],
+        "properties": {
+          "reservationId": "{GUID}",
+          "virtualMachinesAssociated": [
+            {
+              "id": "aaaa"
+            }
+          ],
+          "provisioningTime": "2021-06-27T01:02:38.3138469+00:00",
+          "provisioningState": "Creating",
+          "instanceView": {
+            "utilizationInfo": {
+              "virtualMachinesAllocated": [
+                {
+                  "id": "aaaa"
+                }
+              ]
+            },
+            "statuses": [
+              {
+                "code": "aaaaaaaaaaaaaaaaaaaaaaa",
+                "level": "Info",
+                "displayStatus": "aaaaaa",
+                "message": "a",
+                "time": "2021-11-30T12:58:26.522Z"
+              }
+            ]
+          }
+        },
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/capacityReservationGroups/myCapacityReservationGroup/capacityReservations/myCapacityReservation",
+        "name": "myCapacityReservation",
+        "type": "aaaaaaaaaaaaaaa"
+      }
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://foo.com/operationstatus
+- name: CapacityReservations_Update_MinimumSet_Gen
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/capacityReservationGroups/aaaaaaaaaaaaaaaaaaaaaaaaaa/capacityReservations/aaa?api-version=2021-11-01
+    body: '{}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "westus",
+        "sku": {}
+      }
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://foo.com/operationstatus
 security:
 - name: azure_auth
   type: oauth2

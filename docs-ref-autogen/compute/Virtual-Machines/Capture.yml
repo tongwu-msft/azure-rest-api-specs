@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachines.capture
 name: Capture
 service: Compute
 groupName: Virtual Machines
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/capture?api-version=2021-07-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/capture?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -43,6 +43,10 @@ responses:
   - uid: VirtualMachineCaptureResult
 - name: 202 Accepted
   description: Accepted
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -95,6 +99,14 @@ definitions:
     description: Resource Id
     types:
     - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: VirtualMachineCaptureParameters
   description: Capture Virtual Machine parameters.
   kind: object
@@ -111,7 +123,101 @@ definitions:
     description: Specifies whether to overwrite the destination virtual hard disk, in case of conflict.
     types:
     - uid: boolean
-examples: []
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+examples:
+- name: VirtualMachines_Capture_MaximumSet_Gen
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines/aaaaaaaaaaaaaaaaaaaa/capture?api-version=2021-11-01
+    body: >-
+      {
+        "vhdPrefix": "aaaaaaaaa",
+        "destinationContainerName": "aaaaaaa",
+        "overwriteVhds": true
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "$schema": "aaaaa",
+        "contentVersion": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "parameters": {},
+        "resources": [
+          {}
+        ],
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://foo.com/operationstatus
+- name: VirtualMachines_Capture_MinimumSet_Gen
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines/aaaaaaaaaaaaa/capture?api-version=2021-11-01
+    body: >-
+      {
+        "vhdPrefix": "aaaaaaaaa",
+        "destinationContainerName": "aaaaaaa",
+        "overwriteVhds": true
+      }
+  responses:
+  - statusCode: "200"
+    body: '{}'
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://foo.com/operationstatus
 security:
 - name: azure_auth
   type: oauth2
