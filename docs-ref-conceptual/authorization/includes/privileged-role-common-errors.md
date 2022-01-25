@@ -1,4 +1,6 @@
 ---
+title: Common errors returned by Azure Privileged Identity Management API
+description: This is a list of common errors that you may encounter while creating a new request through Azure Privileged Identity Management API and how to mitigate them
 author: amansw
 ms.topic: include
 ms.date: 01/25/2021
@@ -7,7 +9,7 @@ ms.service: role-based-access-control
 ms.localizationpriority: medium
 ---
 
-## Common errors returned for a new request
+# Common errors returned for a new request
 
 Following is a list of common errors that you may encounter while creating a new request and how to mitigate them.
 
