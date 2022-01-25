@@ -3,14 +3,14 @@ uid: management.azure.com.advisor.configurations.createinresourcegroup
 name: Create In Resource Group
 service: Advisor
 groupName: Configurations
-apiVersion: 2017-04-19
+apiVersion: 2020-01-01
 summary: Create/Overwrite Azure Advisor configuration.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Advisor/configurations?api-version=2017-04-19
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Advisor/configurations/default?api-version=2020-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,6 +24,12 @@ uriParameters:
   description: The name of the Azure resource group.
   types:
   - uid: string
+- name: configurationName
+  in: path
+  isRequired: true
+  description: Advisor configuration name. Value must be 'default'
+  types:
+  - uid: ConfigurationName
 - name: api-version
   in: query
   isRequired: true
@@ -31,47 +37,134 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 204 No Content
-  description: No Content. Successfully created/overwrote configuration.
-- name: 400 Bad Request
-  description: Bad Request. Client sent invalid configuration scope, properties or values.
+- name: 200 OK
+  description: Successfully created/overwrote configuration.
   types:
-  - uid: ARMErrorResponseBody
+  - uid: ConfigData
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ArmErrorResponse
 requestBody:
 - name: default
   parameters:
-  - name: id
+  - name: properties.exclude
     in: body
-    description: The resource Id of the configuration resource.
-    types:
-    - uid: string
-  - name: type
-    in: body
-    description: The type of the configuration resource.
-    types:
-    - uid: string
-  - name: name
-    in: body
-    description: The name of the configuration resource.
-    types:
-    - uid: string
-  - name: properties
-    in: body
-    description: The list of property name/value pairs.
-    types:
-    - uid: Properties
-requestHeader: []
-definitions:
-- name: Properties
-  description: The list of property name/value pairs.
-  kind: object
-  properties:
-  - name: exclude
     description: 'Exclude the resource from Advisor evaluations. Valid values: False (default) or True.'
     types:
     - uid: boolean
-  - name: low_cpu_threshold
+  - name: properties.lowCpuThreshold
+    in: body
     description: 'Minimum percentage threshold for Advisor low CPU utilization evaluation. Valid only for subscriptions. Valid values: 5 (default), 10, 15 or 20.'
+    types:
+    - uid: CpuThreshold
+  - name: properties.digests
+    in: body
+    description: Advisor digest configuration. Valid only for subscriptions
+    types:
+    - uid: DigestConfig
+      isArray: true
+requestHeader: []
+definitions:
+- name: ConfigurationName
+  description: Advisor configuration name. Value must be 'default'
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
+- name: DigestConfig
+  description: Advisor Digest configuration entity
+  kind: object
+  properties:
+  - name: name
+    description: Name of digest configuration. Value is case-insensitive and must be unique within a subscription.
+    types:
+    - uid: string
+  - name: actionGroupResourceId
+    description: Action group resource id used by digest.
+    types:
+    - uid: string
+  - name: frequency
+    description: Frequency that digest will be triggered, in days. Value must be between 7 and 30 days inclusive.
+    types:
+    - uid: integer
+  - name: categories
+    description: Categories to send digest for. If categories are not provided, then digest will be sent for all categories.
+    types:
+    - uid: string
+      isArray: true
+  - name: language
+    description: Language for digest content body. Value must be ISO 639-1 code for one of Azure portal supported languages. Otherwise, it will be converted into one. Default value is English (en).
+    types:
+    - uid: string
+  - name: state
+    description: State of digest configuration.
+    types:
+    - uid: DigestConfigState
+- name: ConfigData
+  description: The Advisor configuration data structure.
+  kind: object
+  properties:
+  - name: properties.exclude
+    description: 'Exclude the resource from Advisor evaluations. Valid values: False (default) or True.'
+    types:
+    - uid: boolean
+  - name: properties.lowCpuThreshold
+    description: 'Minimum percentage threshold for Advisor low CPU utilization evaluation. Valid only for subscriptions. Valid values: 5 (default), 10, 15 or 20.'
+    types:
+    - uid: CpuThreshold
+  - name: properties.digests
+    description: Advisor digest configuration. Valid only for subscriptions
+    types:
+    - uid: DigestConfig
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: The resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ArmErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: ARM error response body.
+    types:
+    - uid: ARMErrorResponseBody
+- name: DigestConfigState
+  description: State of digest configuration.
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: CpuThreshold
+  description: 'Minimum percentage threshold for Advisor low CPU utilization evaluation. Valid only for subscriptions. Valid values: 5 (default), 10, 15 or 20.'
+  kind: enum
+  properties:
+  - name: "5"
+    types:
+    - uid: string
+  - name: "10"
+    types:
+    - uid: string
+  - name: "15"
+    types:
+    - uid: string
+  - name: "20"
     types:
     - uid: string
 - name: ARMErrorResponseBody
@@ -86,43 +179,60 @@ definitions:
     description: Gets or sets the string that can be used to programmatically identify the error.
     types:
     - uid: string
-- name: ConfigData
-  description: The Advisor configuration data structure.
-  kind: object
-  properties:
-  - name: id
-    description: The resource Id of the configuration resource.
-    types:
-    - uid: string
-  - name: type
-    description: The type of the configuration resource.
-    types:
-    - uid: string
-  - name: name
-    description: The name of the configuration resource.
-    types:
-    - uid: string
-  - name: properties
-    description: The list of property name/value pairs.
-    types:
-    - uid: Properties
 examples:
 - name: PutConfigurations
   request:
-    uri: PUT https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Advisor/configurations?api-version=2017-04-19
+    uri: PUT https://management.azure.com/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Advisor/configurations/default?api-version=2020-01-01
     body: >-
       {
         "properties": {
-          "exclude": false
+          "lowCpuThreshold": "5",
+          "exclude": true,
+          "digests": [
+            {
+              "name": "digestConfigName",
+              "actionGroupResourceId": "/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/microsoft.insights/actionGroups/actionGroupName",
+              "frequency": 30,
+              "categories": [
+                "HighAvailability",
+                "Security",
+                "Performance",
+                "Cost",
+                "OperationalExcellence"
+              ],
+              "language": "en",
+              "state": "Active"
+            }
+          ]
         }
       }
   responses:
-  - statusCode: "204"
-  - statusCode: "400"
+  - statusCode: "200"
     body: >-
       {
-        "code": "ImproperScope",
-        "message": "localizedMessage"
+        "id": "/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Advisor/configurations/default",
+        "type": "Microsoft.Advisor/configurations",
+        "name": "default",
+        "properties": {
+          "lowCpuThreshold": "5",
+          "exclude": true,
+          "digests": [
+            {
+              "name": "digestConfigName",
+              "actionGroupResourceId": "/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/microsoft.insights/actionGroups/actionGroupName",
+              "frequency": 30,
+              "categories": [
+                "HighAvailability",
+                "Security",
+                "Performance",
+                "Cost",
+                "OperationalExcellence"
+              ],
+              "language": "en",
+              "state": "Active"
+            }
+          ]
+        }
       }
 security:
 - name: azure_auth

@@ -3,14 +3,14 @@ uid: management.azure.com.advisor.recommendations.getgeneratestatus
 name: Get Generate Status
 service: Advisor
 groupName: Recommendations
-apiVersion: 2017-04-19
+apiVersion: 2020-01-01
 summary: Retrieves the status of the recommendation computation or generation process. Invoke this API after calling the generation recommendation. The URI of this API is returned in the Location field of the response header.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations/{operationId}?api-version=2017-04-19
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations/{operationId}?api-version=2020-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,12 +36,35 @@ responses:
   description: Accepted. Recommendation generation is in progress.
 - name: 204 No Content
   description: NoContent. Recommendation generation has been completed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ArmErrorResponse
 requestHeader: []
-definitions: []
+definitions:
+- name: ArmErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: ARM error response body.
+    types:
+    - uid: ARMErrorResponseBody
+- name: ARMErrorResponseBody
+  description: ARM error response body.
+  kind: object
+  properties:
+  - name: message
+    description: Gets or sets the string that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: code
+    description: Gets or sets the string that can be used to programmatically identify the error.
+    types:
+    - uid: string
 examples:
-- name: CreateSuppression
+- name: GetGenerateStatus
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/generateRecommendations/operationGUID?api-version=2017-04-19
+    uri: GET https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/generateRecommendations/operationGUID?api-version=2020-01-01
   responses:
   - statusCode: "202"
   - statusCode: "204"

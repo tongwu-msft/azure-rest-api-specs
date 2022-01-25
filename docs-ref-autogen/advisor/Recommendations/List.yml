@@ -3,15 +3,15 @@ uid: management.azure.com.advisor.recommendations.list
 name: List
 service: Advisor
 groupName: Recommendations
-apiVersion: 2017-04-19
+apiVersion: 2020-01-01
 summary: Obtains cached recommendations for a subscription. The recommendations are generated or computed by invoking generateRecommendations.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/recommendations?api-version=2017-04-19
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/recommendations?api-version=2017-04-19&$filter={$filter}&$top={$top}&$skipToken={$skipToken}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/recommendations?api-version=2020-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/recommendations?api-version=2020-01-01&$filter={$filter}&$top={$top}&$skipToken={$skipToken}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -28,7 +28,7 @@ uriParameters:
   - uid: string
 - name: $filter
   in: query
-  description: "The filter to apply to the recommendations.<br>Filter can be applied to properties ['ResourceId', 'ResourceGroup', 'RecommendationTypeGuid', '[Category](#category)'] with operators ['eq', 'and', 'or'].<br>Example:<br>- $filter=Category eq 'Cost' and ResourceGroup eq 'MyResourceGroup' "
+  description: The filter to apply to the recommendations.<br>Filter can be applied to properties ['ResourceId', 'ResourceGroup', 'RecommendationTypeGuid', '[Category](#category)'] with operators ['eq', 'and', 'or'].<br>Example:<br>- $filter=Category eq 'Cost' and ResourceGroup eq 'MyResourceGroup'
   types:
   - uid: string
 - name: $top
@@ -36,6 +36,7 @@ uriParameters:
   description: The number of recommendations per page if a paged version of this API is being used.
   types:
   - uid: integer
+  format: int32
 - name: $skipToken
   in: query
   description: The page-continuation token to use with a paged version of this API.
@@ -46,6 +47,10 @@ responses:
   description: OK. Successfully obtained cached recommendations.
   types:
   - uid: ResourceRecommendationBaseListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ArmErrorResponse
 requestHeader: []
 definitions:
 - name: ResourceRecommendationBaseListResult
@@ -61,6 +66,13 @@ definitions:
     types:
     - uid: ResourceRecommendationBase
       isArray: true
+- name: ArmErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: ARM error response body.
+    types:
+    - uid: ARMErrorResponseBody
 - name: ResourceRecommendationBase
   description: Advisor Recommendation.
   kind: object
@@ -118,6 +130,47 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: properties.resourceMetadata
+    description: Metadata of resource that was assessed
+    types:
+    - uid: ResourceMetadata
+  - name: properties.description
+    description: The detailed description of recommendation.
+    types:
+    - uid: string
+  - name: properties.label
+    description: The label of recommendation.
+    types:
+    - uid: string
+  - name: properties.learnMoreLink
+    description: The link to learn more about recommendation and generation logic.
+    types:
+    - uid: string
+  - name: properties.potentialBenefits
+    description: The potential benefit of implementing recommendation.
+    types:
+    - uid: string
+  - name: properties.actions
+    description: The list of recommended actions to implement recommendation.
+    types:
+    - uid: object
+      isArray: true
+  - name: properties.remediation
+    description: The automated way to apply recommendation.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.exposedMetadataProperties
+    description: The recommendation metadata properties exposed to customer to provide additional information.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
   - name: id
     isReadyOnly: true
     description: The resource ID.
@@ -131,6 +184,18 @@ definitions:
   - name: type
     isReadyOnly: true
     description: The type of the resource.
+    types:
+    - uid: string
+- name: ARMErrorResponseBody
+  description: ARM error response body.
+  kind: object
+  properties:
+  - name: message
+    description: Gets or sets the string that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: code
+    description: Gets or sets the string that can be used to programmatically identify the error.
     types:
     - uid: string
 - name: category
@@ -190,19 +255,47 @@ definitions:
     description: The remediation action suggested by the recommendation.
     types:
     - uid: string
+- name: ResourceMetadata
+  description: Recommendation resource metadata
+  kind: object
+  properties:
+  - name: resourceId
+    description: Azure resource Id of the assessed resource
+    types:
+    - uid: string
+  - name: source
+    description: Source from which recommendation is generated
+    types:
+    - uid: string
+  - name: action
+    description: The action to view resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: singular
+    description: 'The singular user friendly name of resource type. eg: virtual machine'
+    types:
+    - uid: string
+  - name: plural
+    description: 'The plural user friendly name of resource type. eg: virtual machines'
+    types:
+    - uid: string
 examples:
 - name: ListRecommendations
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/recommendations?api-version=2017-04-19&$top=10
+    uri: GET https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/recommendations?api-version=2020-01-01&$top=10
   responses:
   - statusCode: "200"
     body: >-
       {
-        "nextLink": "https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/recommendations?api-version=2017-04-19&$top=10&$skiptoken=skiptoken",
+        "nextLink": "https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/recommendations?api-version=2020-01-01&$top=10&$skiptoken=skiptoken",
         "value": [
           {
-            "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recGUID",
-            "name": "recGUID",
+            "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recGUID1",
+            "name": "recGUID1",
             "properties": {
               "category": "HighAvailability",
               "impact": "Medium",
@@ -210,10 +303,91 @@ examples:
               "impactedValue": "armavset",
               "lastUpdated": "2017-02-24T22:24:43.3216408Z",
               "risk": "Warning",
+              "remediation": {
+                "httpMethod": "POST",
+                "uri": "uri",
+                "details": "link to document"
+              },
               "shortDescription": {
                 "problem": "This availability set is not configured for fault tolerance",
                 "solution": "To ensure high availability add one or more virtual machines to this availability set"
-              }
+              },
+              "resourceMetadata": {
+                "resourceId": "/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Compute/availabilitysets/abc",
+                "action": {
+                  "actionType": "Document",
+                  "link": "https://link3",
+                  "caption": "Enable Soft Delete to protect blob data",
+                  "description": "Enable Soft Delete to protect blob data",
+                  "metadata": {
+                    "id": "/subscriptions/subscriptionId"
+                  }
+                },
+                "singular": "Availability set",
+                "plural": "Availability sets"
+              },
+              "actions": [
+                {
+                  "actionType": "Document",
+                  "link": "https://link1",
+                  "caption": "Enable Soft Delete to protect blob data",
+                  "description": "Enable Soft Delete to protect blob data",
+                  "metadata": {
+                    "id": "/subscriptions/subscriptionId"
+                  }
+                }
+              ],
+              "description": "After enabling Soft Delete, deleted data transitions to a soft deleted state instead of being permanently deleted. When data is overwritten, a soft deleted snapshot is generated to save the state of the overwritten data. You can configure the amount of time soft deleted data is recoverable before it permanently expires.",
+              "label": "Enable Soft Delete",
+              "learnMoreLink": "https://link2",
+              "potentialBenefits": "Save and recover your data when blobs or blob snapshots are accidentally overwritten or deleted"
+            },
+            "type": "Microsoft.Advisor/recommendations"
+          },
+          {
+            "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recGUID2",
+            "name": "recGUID2",
+            "properties": {
+              "category": "Security",
+              "impact": "Medium",
+              "impactedField": "Microsoft.Compute/virtualMachines",
+              "impactedValue": "armavset",
+              "lastUpdated": "2017-02-24T22:24:43.3216408Z",
+              "risk": "Warning",
+              "shortDescription": {
+                "problem": "Monitoring agent is not installed on your machines",
+                "solution": "Monitoring agent should be installed on your machines"
+              },
+              "resourceMetadata": {
+                "resourceId": "/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Compute/virtualMachines/xyz",
+                "source": "/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Compute/virtualMachines/xyz/providers/Microsoft.Security/assessments/assessmentGuid",
+                "action": {
+                  "actionType": "Document",
+                  "link": "https://link3",
+                  "caption": "Enable Soft Delete to protect blob data",
+                  "description": "Enable Soft Delete to protect blob data",
+                  "metadata": {
+                    "id": "/subscriptions/subscriptionId"
+                  }
+                },
+                "singular": "Virtual machine",
+                "plural": "Virtual machines"
+              },
+              "actions": [
+                {
+                  "actionType": "Document",
+                  "link": "https://link1",
+                  "caption": "Enable Soft Delete to protect blob data",
+                  "description": "Enable Soft Delete to protect blob data",
+                  "metadata": {
+                    "id": "/subscriptions/subscriptionId"
+                  }
+                }
+              ],
+              "description": "Monitoring agent should be installed on your machines.",
+              "label": "Enable monitoring agent",
+              "learnMoreLink": "https://link2",
+              "potentialBenefits": "Protect and monitor machine"
             },
             "type": "Microsoft.Advisor/recommendations"
           }
