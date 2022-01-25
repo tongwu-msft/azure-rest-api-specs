@@ -3,14 +3,14 @@ uid: management.azure.com.advisor.recommendations.generate
 name: Generate
 service: Advisor
 groupName: Recommendations
-apiVersion: 2017-04-19
+apiVersion: 2020-01-01
 summary: Initiates the recommendation generation or computation process for a subscription. This operation is asynchronous. The generated recommendations are stored in a cache in the Advisor service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations?api-version=2017-04-19
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations?api-version=2020-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -32,17 +32,40 @@ responses:
   - name: Retry-After
     value: string
   description: Accepted. Recommendation generation has been accepted.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ArmErrorResponse
 requestHeader: []
-definitions: []
+definitions:
+- name: ArmErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: ARM error response body.
+    types:
+    - uid: ARMErrorResponseBody
+- name: ARMErrorResponseBody
+  description: ARM error response body.
+  kind: object
+  properties:
+  - name: message
+    description: Gets or sets the string that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: code
+    description: Gets or sets the string that can be used to programmatically identify the error.
+    types:
+    - uid: string
 examples:
 - name: GenerateRecommendations
   request:
-    uri: POST https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/generateRecommendations?api-version=2017-04-19
+    uri: POST https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Advisor/generateRecommendations?api-version=2020-01-01
   responses:
   - statusCode: "202"
     headers:
     - name: Location
-      value: https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Microsoft.Advisor/generateRecommendations/recGUID?api-version=2017-04-19
+      value: https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.Microsoft.Advisor/generateRecommendations/recGUID?api-version=2020-01-01
     - name: Retry-After
       value: "60"
 security:

@@ -3,14 +3,14 @@ uid: management.azure.com.advisor.suppressions.create
 name: Create
 service: Advisor
 groupName: Suppressions
-apiVersion: 2017-04-19
+apiVersion: 2020-01-01
 summary: Enables the snoozed or dismissed attribute of a recommendation. The snoozed or dismissed attribute is referred to as a suppression. Use this API to create or update the snoozed or dismissed status of a recommendation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}?api-version=2017-04-19
+- content: PUT https://management.azure.com/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}?api-version=2020-01-01
 uriParameters:
 - name: resourceUri
   in: path
@@ -41,6 +41,14 @@ responses:
   description: OK. Successfully created suppression.
   types:
   - uid: SuppressionContract
+- name: 404 Not Found
+  description: Recommendation to be suppressed is not found.
+  types:
+  - uid: ArmErrorResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ArmErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -68,6 +76,11 @@ definitions:
     description: The duration for which the suppression is valid.
     types:
     - uid: string
+  - name: properties.expirationTimeStamp
+    isReadyOnly: true
+    description: Gets or sets the expiration time stamp.
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: The resource ID.
@@ -83,10 +96,29 @@ definitions:
     description: The type of the resource.
     types:
     - uid: string
+- name: ArmErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: ARM error response body.
+    types:
+    - uid: ARMErrorResponseBody
+- name: ARMErrorResponseBody
+  description: ARM error response body.
+  kind: object
+  properties:
+  - name: message
+    description: Gets or sets the string that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: code
+    description: Gets or sets the string that can be used to programmatically identify the error.
+    types:
+    - uid: string
 examples:
 - name: CreateSuppression
   request:
-    uri: PUT https://management.azure.com/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1?api-version=2017-04-19
+    uri: PUT https://management.azure.com/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1?api-version=2020-01-01
     body: >-
       {
         "properties": {
@@ -103,6 +135,14 @@ examples:
         "properties": {
           "suppressionId": "suppressionId",
           "ttl": "07:00:00:00"
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "NotFound",
+          "message": "Recommendation to be suppressed is not found. Subscription Id:{0} Recommendation Id:{1}"
         }
       }
 security:

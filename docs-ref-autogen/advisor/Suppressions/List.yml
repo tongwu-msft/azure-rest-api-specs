@@ -3,15 +3,15 @@ uid: management.azure.com.advisor.suppressions.list
 name: List
 service: Advisor
 groupName: Suppressions
-apiVersion: 2017-04-19
+apiVersion: 2020-01-01
 summary: Retrieves the list of snoozed or dismissed suppressions for a subscription. The snoozed or dismissed attribute of a recommendation is referred to as a suppression.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/suppressions?api-version=2017-04-19
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/suppressions?api-version=2017-04-19&$top={$top}&$skipToken={$skipToken}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/suppressions?api-version=2020-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/suppressions?api-version=2020-01-01&$top={$top}&$skipToken={$skipToken}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -42,6 +42,10 @@ responses:
   description: OK. Successfully got all suppressions in a subscription.
   types:
   - uid: SuppressionContractListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ArmErrorResponse
 requestHeader: []
 definitions:
 - name: SuppressionContractListResult
@@ -57,6 +61,13 @@ definitions:
     types:
     - uid: SuppressionContract
       isArray: true
+- name: ArmErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: ARM error response body.
+    types:
+    - uid: ARMErrorResponseBody
 - name: SuppressionContract
   description: The details of the snoozed or dismissed rule; for example, the duration, name, and GUID associated with the rule.
   kind: object
@@ -67,6 +78,11 @@ definitions:
     - uid: string
   - name: properties.ttl
     description: The duration for which the suppression is valid.
+    types:
+    - uid: string
+  - name: properties.expirationTimeStamp
+    isReadyOnly: true
+    description: Gets or sets the expiration time stamp.
     types:
     - uid: string
   - name: id
@@ -84,15 +100,27 @@ definitions:
     description: The type of the resource.
     types:
     - uid: string
+- name: ARMErrorResponseBody
+  description: ARM error response body.
+  kind: object
+  properties:
+  - name: message
+    description: Gets or sets the string that describes the error in detail and provides debugging information.
+    types:
+    - uid: string
+  - name: code
+    description: Gets or sets the string that can be used to programmatically identify the error.
+    types:
+    - uid: string
 examples:
 - name: ListSuppressions
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionId1/providers/Microsoft.Advisor/suppressions?api-version=2017-04-19
+    uri: GET https://management.azure.com/subscriptions/subscriptionId1/providers/Microsoft.Advisor/suppressions?api-version=2020-01-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "nextLink": "https://management.azure.com/subscriptions/3f75fdf7-977e-44ad-990d-99f14f0f299f/providers/microsoft.Advisor/suppressions?api-version=2017-04-19&$top=3&$skiptoken=skiptoken",
+        "nextLink": "https://management.azure.com/subscriptions/3f75fdf7-977e-44ad-990d-99f14f0f299f/providers/microsoft.Advisor/suppressions?api-version=2020-01-01&$top=3&$skiptoken=skiptoken",
         "value": [
           {
             "id": "/resourceUri/providers/Microsoft.Advisor/recommendations/recommendationId/suppressions/suppressionName1",
@@ -100,7 +128,8 @@ examples:
             "type": "Microsoft.Advisor/suppressions",
             "properties": {
               "suppressionId": "suppressionId1",
-              "ttl": "7.00:00:00"
+              "ttl": "7.00:00:00",
+              "expirationTimeStamp": "2020-10-24T22:24:43.3216408Z"
             }
           },
           {
@@ -109,7 +138,8 @@ examples:
             "type": "Microsoft.Advisor/suppressions",
             "properties": {
               "suppressionId": "suppressionId2",
-              "ttl": "7.00:00:00"
+              "ttl": "7.00:00:00",
+              "expirationTimeStamp": "2020-10-25T22:24:43.3216408Z"
             }
           }
         ]
