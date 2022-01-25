@@ -246,4 +246,4 @@ To get a list of all children of a resource on which you have eligible access yo
     
 1. Use the `id` of any child resource to use as the `scope` for the activation `RoleAssignmentScheduleRequest`
 
-[!INCLUDE [common-errors](privileged-role-common-errors.md)]
+[!INCLUDE [common-errors](includes/privileged-role-common-errors.md)]
