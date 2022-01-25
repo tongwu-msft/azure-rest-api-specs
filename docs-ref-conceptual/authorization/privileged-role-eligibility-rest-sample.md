@@ -140,4 +140,4 @@ To remove an eligible role assignment (remove access), use the [Role Eligibility
 
 1. Replace *{roleEligibilityScheduleRequestName}* with the GUID identifier of the role assignment.
 
-[!INCLUDE [common-errors](privileged-role-common-errors.md)]
+[!INCLUDE [common-errors](includes/privileged-role-common-errors.md)]
