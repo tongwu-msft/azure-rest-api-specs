@@ -351,6 +351,13 @@
 ##### [Get](apimanagement/current-ga/Gateway-Hostname-Configuration/Get.yml)
 ##### [Get Entity Tag](apimanagement/current-ga/Gateway-Hostname-Configuration/Get-Entity-Tag.yml)
 ##### [List By Service](apimanagement/current-ga/Gateway-Hostname-Configuration/List-By-Service.yml)
+#### Global Schema
+##### [Overview](apimanagement/current-ga/Global-Schema.yml)
+##### [Create Or Update](apimanagement/current-ga/Global-Schema/Create-Or-Update.yml)
+##### [Delete](apimanagement/current-ga/Global-Schema/Delete.yml)
+##### [Get](apimanagement/current-ga/Global-Schema/Get.yml)
+##### [Get Entity Tag](apimanagement/current-ga/Global-Schema/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/current-ga/Global-Schema/List-By-Service.yml)
 #### Group
 ##### [Overview](apimanagement/current-ga/Group.yml)
 ##### [Create Or Update](apimanagement/current-ga/Group/Create-Or-Update.yml)
