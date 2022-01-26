@@ -20901,53 +20901,6 @@
 ### [List Metrics](storsimple/Volumes/List-Metrics.yml)
 # Stream Analytics
 ## [Overview](../docs-ref-conceptual/streamanalytics/index.md)
-## 2016-03-01
-### Functions
-#### [Overview](streamanalytics/2016-03-01/Functions.yml)
-#### [Create Or Replace](streamanalytics/2016-03-01/Functions/Create-Or-Replace.yml)
-#### [Delete](streamanalytics/2016-03-01/Functions/Delete.yml)
-#### [Get](streamanalytics/2016-03-01/Functions/Get.yml)
-#### [List By Streaming Job](streamanalytics/2016-03-01/Functions/List-By-Streaming-Job.yml)
-#### [Retrieve Default Definition](streamanalytics/2016-03-01/Functions/Retrieve-Default-Definition.yml)
-#### [Test](streamanalytics/2016-03-01/Functions/Test.yml)
-#### [Update](streamanalytics/2016-03-01/Functions/Update.yml)
-### Inputs
-#### [Overview](streamanalytics/2016-03-01/Inputs.yml)
-#### [Create Or Replace](streamanalytics/2016-03-01/Inputs/Create-Or-Replace.yml)
-#### [Delete](streamanalytics/2016-03-01/Inputs/Delete.yml)
-#### [Get](streamanalytics/2016-03-01/Inputs/Get.yml)
-#### [List By Streaming Job](streamanalytics/2016-03-01/Inputs/List-By-Streaming-Job.yml)
-#### [Test](streamanalytics/2016-03-01/Inputs/Test.yml)
-#### [Update](streamanalytics/2016-03-01/Inputs/Update.yml)
-### Operations
-#### [Overview](streamanalytics/2016-03-01/Operations.yml)
-#### [List](streamanalytics/2016-03-01/Operations/List.yml)
-### Outputs
-#### [Overview](streamanalytics/2016-03-01/Outputs.yml)
-#### [Create Or Replace](streamanalytics/2016-03-01/Outputs/Create-Or-Replace.yml)
-#### [Delete](streamanalytics/2016-03-01/Outputs/Delete.yml)
-#### [Get](streamanalytics/2016-03-01/Outputs/Get.yml)
-#### [List By Streaming Job](streamanalytics/2016-03-01/Outputs/List-By-Streaming-Job.yml)
-#### [Test](streamanalytics/2016-03-01/Outputs/Test.yml)
-#### [Update](streamanalytics/2016-03-01/Outputs/Update.yml)
-### Streaming Jobs
-#### [Overview](streamanalytics/2016-03-01/Streaming-Jobs.yml)
-#### [Create Or Replace](streamanalytics/2016-03-01/Streaming-Jobs/Create-Or-Replace.yml)
-#### [Delete](streamanalytics/2016-03-01/Streaming-Jobs/Delete.yml)
-#### [Get](streamanalytics/2016-03-01/Streaming-Jobs/Get.yml)
-#### [List](streamanalytics/2016-03-01/Streaming-Jobs/List.yml)
-#### [List By Resource Group](streamanalytics/2016-03-01/Streaming-Jobs/List-By-Resource-Group.yml)
-#### [Start](streamanalytics/2016-03-01/Streaming-Jobs/Start.yml)
-#### [Stop](streamanalytics/2016-03-01/Streaming-Jobs/Stop.yml)
-#### [Update](streamanalytics/2016-03-01/Streaming-Jobs/Update.yml)
-### Subscriptions
-#### [Overview](streamanalytics/2016-03-01/Subscriptions.yml)
-#### [List Quotas](streamanalytics/2016-03-01/Subscriptions/List-Quotas.yml)
-### Transformations
-#### [Overview](streamanalytics/2016-03-01/Transformations.yml)
-#### [Create Or Replace](streamanalytics/2016-03-01/Transformations/Create-Or-Replace.yml)
-#### [Get](streamanalytics/2016-03-01/Transformations/Get.yml)
-#### [Update](streamanalytics/2016-03-01/Transformations/Update.yml)
 ## 2017-04-01-preview
 ### Functions
 #### [Overview](streamanalytics/2017-04-01-preview/Functions.yml)
@@ -21000,6 +20953,69 @@
 #### [Create Or Replace](streamanalytics/2017-04-01-preview/Transformations/Create-Or-Replace.yml)
 #### [Get](streamanalytics/2017-04-01-preview/Transformations/Get.yml)
 #### [Update](streamanalytics/2017-04-01-preview/Transformations/Update.yml)
+## 2020-03-01
+### Clusters
+#### [Overview](streamanalytics/2020-03-01/Clusters.yml)
+#### [Create Or Update](streamanalytics/2020-03-01/Clusters/Create-Or-Update.yml)
+#### [Delete](streamanalytics/2020-03-01/Clusters/Delete.yml)
+#### [Get](streamanalytics/2020-03-01/Clusters/Get.yml)
+#### [List By Resource Group](streamanalytics/2020-03-01/Clusters/List-By-Resource-Group.yml)
+#### [List By Subscription](streamanalytics/2020-03-01/Clusters/List-By-Subscription.yml)
+#### [List Streaming Jobs](streamanalytics/2020-03-01/Clusters/List-Streaming-Jobs.yml)
+#### [Update](streamanalytics/2020-03-01/Clusters/Update.yml)
+### Functions
+#### [Overview](streamanalytics/2020-03-01/Functions.yml)
+#### [Create Or Replace](streamanalytics/2020-03-01/Functions/Create-Or-Replace.yml)
+#### [Delete](streamanalytics/2020-03-01/Functions/Delete.yml)
+#### [Get](streamanalytics/2020-03-01/Functions/Get.yml)
+#### [List By Streaming Job](streamanalytics/2020-03-01/Functions/List-By-Streaming-Job.yml)
+#### [Retrieve Default Definition](streamanalytics/2020-03-01/Functions/Retrieve-Default-Definition.yml)
+#### [Test](streamanalytics/2020-03-01/Functions/Test.yml)
+#### [Update](streamanalytics/2020-03-01/Functions/Update.yml)
+### Inputs
+#### [Overview](streamanalytics/2020-03-01/Inputs.yml)
+#### [Create Or Replace](streamanalytics/2020-03-01/Inputs/Create-Or-Replace.yml)
+#### [Delete](streamanalytics/2020-03-01/Inputs/Delete.yml)
+#### [Get](streamanalytics/2020-03-01/Inputs/Get.yml)
+#### [List By Streaming Job](streamanalytics/2020-03-01/Inputs/List-By-Streaming-Job.yml)
+#### [Test](streamanalytics/2020-03-01/Inputs/Test.yml)
+#### [Update](streamanalytics/2020-03-01/Inputs/Update.yml)
+### Operations
+#### [Overview](streamanalytics/2020-03-01/Operations.yml)
+#### [List](streamanalytics/2020-03-01/Operations/List.yml)
+### Outputs
+#### [Overview](streamanalytics/2020-03-01/Outputs.yml)
+#### [Create Or Replace](streamanalytics/2020-03-01/Outputs/Create-Or-Replace.yml)
+#### [Delete](streamanalytics/2020-03-01/Outputs/Delete.yml)
+#### [Get](streamanalytics/2020-03-01/Outputs/Get.yml)
+#### [List By Streaming Job](streamanalytics/2020-03-01/Outputs/List-By-Streaming-Job.yml)
+#### [Test](streamanalytics/2020-03-01/Outputs/Test.yml)
+#### [Update](streamanalytics/2020-03-01/Outputs/Update.yml)
+### Private Endpoints
+#### [Overview](streamanalytics/2020-03-01/Private-Endpoints.yml)
+#### [Create Or Update](streamanalytics/2020-03-01/Private-Endpoints/Create-Or-Update.yml)
+#### [Delete](streamanalytics/2020-03-01/Private-Endpoints/Delete.yml)
+#### [Get](streamanalytics/2020-03-01/Private-Endpoints/Get.yml)
+#### [List By Cluster](streamanalytics/2020-03-01/Private-Endpoints/List-By-Cluster.yml)
+### Streaming Jobs
+#### [Overview](streamanalytics/2020-03-01/Streaming-Jobs.yml)
+#### [Create Or Replace](streamanalytics/2020-03-01/Streaming-Jobs/Create-Or-Replace.yml)
+#### [Delete](streamanalytics/2020-03-01/Streaming-Jobs/Delete.yml)
+#### [Get](streamanalytics/2020-03-01/Streaming-Jobs/Get.yml)
+#### [List](streamanalytics/2020-03-01/Streaming-Jobs/List.yml)
+#### [List By Resource Group](streamanalytics/2020-03-01/Streaming-Jobs/List-By-Resource-Group.yml)
+#### [Scale](streamanalytics/2020-03-01/Streaming-Jobs/Scale.yml)
+#### [Start](streamanalytics/2020-03-01/Streaming-Jobs/Start.yml)
+#### [Stop](streamanalytics/2020-03-01/Streaming-Jobs/Stop.yml)
+#### [Update](streamanalytics/2020-03-01/Streaming-Jobs/Update.yml)
+### Subscriptions
+#### [Overview](streamanalytics/2020-03-01/Subscriptions.yml)
+#### [List Quotas](streamanalytics/2020-03-01/Subscriptions/List-Quotas.yml)
+### Transformations
+#### [Overview](streamanalytics/2020-03-01/Transformations.yml)
+#### [Create Or Replace](streamanalytics/2020-03-01/Transformations/Create-Or-Replace.yml)
+#### [Get](streamanalytics/2020-03-01/Transformations/Get.yml)
+#### [Update](streamanalytics/2020-03-01/Transformations/Update.yml)
 ## 2020-03-01-preview
 ### Clusters
 #### [Overview](streamanalytics/2020-03-01-preview/Clusters.yml)
