@@ -1,16 +1,18 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.labservices.users.get
-name: Get
+uid: management.azure.com.labservices.users.listbylab
+name: List By Lab
 service: Lab Services
 groupName: Users
 apiVersion: 2021-11-15-preview
-summary: "Get a lab user.  \nReturns the properties of a lab user."
+summary: "Get all users for a lab.  \nReturns a list of all users for a lab."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/users/{userName}?api-version=2021-11-15-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/users?api-version=2021-11-15-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/users?api-version=2021-11-15-preview&$filter={$filter}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,30 +32,51 @@ uriParameters:
   description: The name of the lab that uniquely identifies it within containing lab account. Used in resource URIs.
   types:
   - uid: string
-- name: userName
-  in: path
-  isRequired: true
-  description: The name of the user that uniquely identifies it within containing lab. Used in resource URIs.
-  types:
-  - uid: string
-  pattern: ^[-\w\\._\\(\\)]+$
 - name: api-version
   in: query
   isRequired: true
   description: The API version to use for this operation.
   types:
   - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply to the operation.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
-  description: The request was successful; response contains the lab user.
+  description: The request was successful; response contains all users for the given lab.
   types:
-  - uid: User
+  - uid: PagedUsers
 - name: Other Status Codes
   description: The default error response.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: PagedUsers
+  description: Paged list of users.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The array page of user results.
+    types:
+    - uid: User
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link to get the next page of image results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
 - name: User
   description: User of a lab that can register for and use virtual machines within the lab.
   kind: object
@@ -116,14 +139,37 @@ definitions:
     description: The amount of usage quota time the user gets in addition to the lab usage quota.
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error response
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
-  - name: error
-    description: The error object.
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
     types:
     - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -212,37 +258,20 @@ definitions:
     description: There was an error while sending the invitation.
     types:
     - uid: string
-- name: ErrorDetail
-  description: The error detail.
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
   kind: object
   properties:
-  - name: code
+  - name: type
     isReadyOnly: true
-    description: The error code.
+    description: The additional info type.
     types:
     - uid: string
-  - name: message
+  - name: info
     isReadyOnly: true
-    description: The error message.
+    description: The additional info.
     types:
-    - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The error target.
-    types:
-    - uid: string
-  - name: details
-    isReadyOnly: true
-    description: The error details.
-    types:
-    - uid: ErrorDetail
-      isArray: true
-  - name: additionalInfo
-    isReadyOnly: true
-    description: The error additional info.
-    types:
-    - uid: ErrorAdditionalInfo
-      isArray: true
+    - uid: object
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -259,50 +288,41 @@ definitions:
   - name: Key
     types:
     - uid: string
-- name: ErrorAdditionalInfo
-  description: The resource management error additional info.
-  kind: object
-  properties:
-  - name: type
-    isReadyOnly: true
-    description: The additional info type.
-    types:
-    - uid: string
-  - name: info
-    isReadyOnly: true
-    description: The additional info.
-    types:
-    - uid: object
 examples:
-- name: getUser
+- name: listUser
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser?api-version=2021-11-15-preview
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users?api-version=2021-11-15-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser",
-        "name": "default",
-        "type": "Microsoft.LabServices/User",
-        "systemData": {
-          "createdBy": "identity123",
-          "createdByType": "User",
-          "createdAt": "2020-05-01T10:00:00Z",
-          "lastModifiedBy": "identity123",
-          "lastModifiedByType": "User",
-          "lastModifiedAt": "2020-06-01T09:12:28Z"
-        },
-        "properties": {
-          "provisioningState": "Succeeded",
-          "displayName": "Test User",
-          "email": "testuser@contoso.com",
-          "registrationState": "Registered",
-          "invitationState": "Sent",
-          "totalUsage": "23:59",
-          "additionalUsageQuota": "10:00"
-        }
+        "nextLink": null,
+        "value": [
+          {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser",
+            "name": "default",
+            "type": "Microsoft.LabServices/User",
+            "systemData": {
+              "createdBy": "identity123",
+              "createdByType": "User",
+              "createdAt": "2020-05-01T10:00:00Z",
+              "lastModifiedBy": "identity123",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2020-06-01T09:12:28Z"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "displayName": "Test User",
+              "email": "testuser@contoso.com",
+              "registrationState": "Registered",
+              "invitationState": "Sent",
+              "totalUsage": "23:59",
+              "additionalUsageQuota": "10:00"
+            }
+          }
+        ]
       }
 security: []
 metadata:
-  description: "Learn more about Lab Services service - Get a lab user.  \nReturns the properties of a lab user."
+  description: "Learn more about Lab Services service - Get all users for a lab.  \nReturns a list of all users for a lab."
 errorCodes: []
