@@ -6,7 +6,7 @@ ms.author: nitinme
 ms.manager: nitinme
 ms.date: 01/27/2021
 ms.topic: reference
-ms.service: cognitive-services
+ms.service: applied-ai-services
 ms.subservice: forms-recognizer
 ms.devlang: rest-api
 ---
