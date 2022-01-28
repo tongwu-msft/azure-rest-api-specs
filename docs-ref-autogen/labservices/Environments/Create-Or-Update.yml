@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.labservices.labs.createorupdate
+uid: management.azure.com.labservices.environments.createorupdate
 name: Create Or Update
 service: Lab Services
-groupName: Labs
+groupName: Environments
 apiVersion: 2018-10-15
-summary: Create or replace an existing Lab.
+summary: Create or replace an existing Environment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}?api-version=2018-10-15
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}/environments/{environmentName}?api-version=2018-10-15
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,6 +36,18 @@ uriParameters:
   description: The name of the lab.
   types:
   - uid: string
+- name: environmentSettingName
+  in: path
+  isRequired: true
+  description: The name of the environment Setting.
+  types:
+  - uid: string
+- name: environmentName
+  in: path
+  isRequired: true
+  description: The name of the environment.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -46,11 +58,11 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: Lab
+  - uid: Environment
 - name: 201 Created
   description: Created
   types:
-  - uid: Lab
+  - uid: Environment
 - name: Other Status Codes
   description: BadRequest
   types:
@@ -58,21 +70,11 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.maxUsersInLab
+  - name: properties.resourceSets
     in: body
-    description: Maximum number of users allowed in the lab.
+    description: The set of a VM and the setting id it was created for
     types:
-    - uid: integer
-  - name: properties.usageQuota
-    in: body
-    description: Maximum duration a user can use an environment for in the lab.
-    types:
-    - uid: string
-  - name: properties.userAccessMode
-    in: body
-    description: Lab user access mode (open to all vs. restricted to those listed on the lab).
-    types:
-    - uid: LabUserAccessMode
+    - uid: ResourceSet
   - name: properties.provisioningState
     in: body
     description: The provisioning status of the resource.
@@ -99,6 +101,42 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
+- name: ResourceSet
+  description: Represents a VM and the setting Id it was created for.
+  kind: object
+  properties:
+  - name: vmResourceId
+    description: VM resource Id for the environment
+    types:
+    - uid: string
+  - name: resourceSettingId
+    description: resourceSettingId for the environment
+    types:
+    - uid: string
+- name: NetworkInterface
+  description: Network details of the environment
+  kind: object
+  properties:
+  - name: privateIpAddress
+    isReadyOnly: true
+    description: PrivateIp address of the Compute VM
+    types:
+    - uid: string
+  - name: sshAuthority
+    isReadyOnly: true
+    description: Connection information for Linux
+    types:
+    - uid: string
+  - name: rdpAuthority
+    isReadyOnly: true
+    description: Connection information for Windows
+    types:
+    - uid: string
+  - name: username
+    isReadyOnly: true
+    description: Username of the VM
+    types:
+    - uid: string
 - name: LatestOperationResult
   description: Details of the status of an operation.
   kind: object
@@ -133,45 +171,52 @@ definitions:
     description: The URL to use to check long-running operation status
     types:
     - uid: string
-- name: Lab
-  description: Represents a lab.
+- name: Environment
+  description: Represents an environment instance
   kind: object
   properties:
-  - name: properties.maxUsersInLab
-    description: Maximum number of users allowed in the lab.
+  - name: properties.resourceSets
+    description: The set of a VM and the setting id it was created for
     types:
-    - uid: integer
-  - name: properties.userQuota
+    - uid: ResourceSet
+  - name: properties.claimedByUserObjectId
     isReadyOnly: true
-    description: Maximum value MaxUsersInLab can be set to, as specified by the service
-    types:
-    - uid: integer
-  - name: properties.invitationCode
-    isReadyOnly: true
-    description: Invitation code that users can use to join a lab.
+    description: The AAD object Id of the user who has claimed the environment
     types:
     - uid: string
-  - name: properties.createdByObjectId
+  - name: properties.claimedByUserPrincipalId
     isReadyOnly: true
-    description: Object id of the user that created the lab.
+    description: The user principal Id of the user who has claimed the environment
     types:
     - uid: string
-  - name: properties.usageQuota
-    description: Maximum duration a user can use an environment for in the lab.
+  - name: properties.claimedByUserName
+    isReadyOnly: true
+    description: The name or email address of the user who has claimed the environment
     types:
     - uid: string
-  - name: properties.userAccessMode
-    description: Lab user access mode (open to all vs. restricted to those listed on the lab).
-    types:
-    - uid: LabUserAccessMode
-  - name: properties.createdByUserPrincipalName
+  - name: properties.isClaimed
     isReadyOnly: true
-    description: Lab creator name
+    description: Is the environment claimed or not
+    types:
+    - uid: boolean
+  - name: properties.lastKnownPowerState
+    isReadyOnly: true
+    description: Last known power state of the environment
     types:
     - uid: string
-  - name: properties.createdDate
+  - name: properties.networkInterface
     isReadyOnly: true
-    description: Creation date for the lab
+    description: Network details of the environment
+    types:
+    - uid: NetworkInterface
+  - name: properties.totalUsage
+    isReadyOnly: true
+    description: How long the environment has been used by a lab user
+    types:
+    - uid: string
+  - name: properties.passwordLastReset
+    isReadyOnly: true
+    description: When the password was last reset on the environment.
     types:
     - uid: string
   - name: properties.provisioningState
@@ -222,18 +267,6 @@ definitions:
     description: Body of an error from a REST request.
     types:
     - uid: CloudErrorBody
-- name: LabUserAccessMode
-  description: Lab user access mode (open to all vs. restricted to those listed on the lab).
-  kind: enum
-  properties:
-  - name: Restricted
-    description: Only users registered with the lab can access VMs.
-    types:
-    - uid: string
-  - name: Open
-    description: Any user can register with the lab and access its VMs.
-    types:
-    - uid: string
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -266,5 +299,5 @@ security:
   - name: user_impersonation
     description: Access Microsoft Azure
 metadata:
-  description: Learn more about Lab Services service - Create or replace an existing Lab.
+  description: Learn more about Lab Services service - Create or replace an existing Environment.
 errorCodes: []

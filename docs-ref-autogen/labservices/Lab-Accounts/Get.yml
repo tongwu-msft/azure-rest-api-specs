@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.labservices.users.get
+uid: management.azure.com.labservices.labaccounts.get
 name: Get
 service: Lab Services
-groupName: Users
+groupName: Lab Accounts
 apiVersion: 2018-10-15
-summary: Get user
+summary: Get lab account
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/users/{userName}?api-version=2018-10-15
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/users/{userName}?$expand={$expand}&api-version=2018-10-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}?api-version=2018-10-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}?$expand={$expand}&api-version=2018-10-15
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -32,21 +32,9 @@ uriParameters:
   description: The name of the lab Account.
   types:
   - uid: string
-- name: labName
-  in: path
-  isRequired: true
-  description: The name of the lab.
-  types:
-  - uid: string
-- name: userName
-  in: path
-  isRequired: true
-  description: The name of the user.
-  types:
-  - uid: string
 - name: $expand
   in: query
-  description: "Specify the $expand query. Example: 'properties($select=email)'"
+  description: "Specify the $expand query. Example: 'properties($expand=sizeConfiguration)'"
   types:
   - uid: string
 - name: api-version
@@ -59,42 +47,26 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: User
+  - uid: LabAccount
 - name: Other Status Codes
   description: BadRequest
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: User
-  description: The User registered to a lab
+- name: LabAccount
+  description: Represents a lab account.
   kind: object
   properties:
-  - name: properties.email
+  - name: properties.sizeConfiguration
     isReadyOnly: true
-    description: The user email address, as it was specified during registration.
+    description: Represents the size configuration under the lab account
     types:
-    - uid: string
-  - name: properties.familyName
-    isReadyOnly: true
-    description: The user family name, as it was specified during registration.
+    - uid: SizeConfigurationProperties
+  - name: properties.enabledRegionSelection
+    description: Represents if region selection is enabled
     types:
-    - uid: string
-  - name: properties.givenName
-    isReadyOnly: true
-    description: The user given name, as it was specified during registration.
-    types:
-    - uid: string
-  - name: properties.tenantId
-    isReadyOnly: true
-    description: The user tenant ID, as it was specified during registration.
-    types:
-    - uid: string
-  - name: properties.totalUsage
-    isReadyOnly: true
-    description: How long the user has used his VMs in this lab
-    types:
-    - uid: string
+    - uid: boolean
   - name: properties.provisioningState
     description: The provisioning status of the resource.
     types:
@@ -143,6 +115,15 @@ definitions:
     description: Body of an error from a REST request.
     types:
     - uid: CloudErrorBody
+- name: SizeConfigurationProperties
+  description: Represents the size configuration under the lab account
+  kind: object
+  properties:
+  - name: environmentSizes
+    description: Represents a list of size categories supported by this Lab Account (Small, Medium, Large)
+    types:
+    - uid: EnvironmentSize
+      isArray: true
 - name: LatestOperationResult
   description: Details of the status of an operation.
   kind: object
@@ -198,6 +179,70 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: EnvironmentSize
+  description: Represents a size category supported by this Lab Account (small, medium or large)
+  kind: object
+  properties:
+  - name: name
+    description: The size category
+    types:
+    - uid: ManagedLabVmSize
+  - name: vmSizes
+    description: Represents a set of compute sizes that can serve this given size type
+    types:
+    - uid: SizeInfo
+      isArray: true
+  - name: maxPrice
+    isReadyOnly: true
+    description: The pay-as-you-go dollar price per hour this size will cost. It does not include discounts and may not reflect the actual price the size will cost. This is the maximum price of all prices within this tier.
+    types:
+    - uid: number
+  - name: minNumberOfCores
+    isReadyOnly: true
+    description: The number of cores a VM of this size has. This is the minimum number of cores within this tier.
+    types:
+    - uid: integer
+  - name: minMemory
+    isReadyOnly: true
+    description: The amount of memory available (in GB). This is the minimum amount of memory within this tier.
+    types:
+    - uid: number
+- name: ManagedLabVmSize
+  description: The size of the virtual machine
+  kind: enum
+  properties:
+  - name: Basic
+    description: The base VM size
+    types:
+    - uid: string
+  - name: Standard
+    description: The standard or default VM size
+    types:
+    - uid: string
+  - name: Performance
+    description: The most performant VM size
+    types:
+    - uid: string
+- name: SizeInfo
+  description: Contains detailed information about a size
+  kind: object
+  properties:
+  - name: computeSize
+    description: Represents the actual compute size, e.g. Standard_A2_v2.
+    types:
+    - uid: string
+  - name: price
+    description: The pay-as-you-go price per hour this size will cost. It does not include discounts and may not reflect the actual price the size will cost.
+    types:
+    - uid: number
+  - name: numberOfCores
+    description: The number of cores a VM of this size has.
+    types:
+    - uid: integer
+  - name: memory
+    description: The amount of memory available (in GB).
+    types:
+    - uid: number
 examples: []
 security:
 - name: azure_auth
@@ -209,5 +254,5 @@ security:
   - name: user_impersonation
     description: Access Microsoft Azure
 metadata:
-  description: Learn more about Lab Services service - Get user
+  description: Learn more about Lab Services service - Get lab account
 errorCodes: []

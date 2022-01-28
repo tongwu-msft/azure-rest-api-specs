@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.labservices.users.get
-name: Get
+uid: management.azure.com.labservices.users.list
+name: List
 service: Lab Services
 groupName: Users
 apiVersion: 2018-10-15
-summary: Get user
+summary: List users in a given lab.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/users/{userName}?api-version=2018-10-15
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/users/{userName}?$expand={$expand}&api-version=2018-10-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/users?api-version=2018-10-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/users?$expand={$expand}&$filter={$filter}&$top={$top}&$orderby={$orderby}&api-version=2018-10-15
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -38,15 +38,25 @@ uriParameters:
   description: The name of the lab.
   types:
   - uid: string
-- name: userName
-  in: path
-  isRequired: true
-  description: The name of the user.
-  types:
-  - uid: string
 - name: $expand
   in: query
   description: "Specify the $expand query. Example: 'properties($select=email)'"
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply to the operation.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The maximum number of resources to return from the operation.
+  types:
+  - uid: integer
+  format: int32
+- name: $orderby
+  in: query
+  description: The ordering expression for the results, using OData notation.
   types:
   - uid: string
 - name: api-version
@@ -59,13 +69,34 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: User
+  - uid: ResponseWithContinuation[User]
 - name: Other Status Codes
   description: BadRequest
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
+- name: ResponseWithContinuation[User]
+  description: The response of a list operation.
+  kind: object
+  properties:
+  - name: value
+    description: Results of the list operation.
+    types:
+    - uid: User
+      isArray: true
+  - name: nextLink
+    description: Link for next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - name: error
+    description: Body of an error from a REST request.
+    types:
+    - uid: CloudErrorBody
 - name: User
   description: The User registered to a lab
   kind: object
@@ -135,14 +166,27 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: CloudError
-  description: Error from a REST request.
+- name: CloudErrorBody
+  description: Body of an error from a REST request.
   kind: object
   properties:
-  - name: error
-    description: Body of an error from a REST request.
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: details
+    description: Inner errors.
     types:
     - uid: CloudErrorBody
+      isArray: true
 - name: LatestOperationResult
   description: Details of the status of an operation.
   kind: object
@@ -177,27 +221,6 @@ definitions:
     description: The URL to use to check long-running operation status
     types:
     - uid: string
-- name: CloudErrorBody
-  description: Body of an error from a REST request.
-  kind: object
-  properties:
-  - name: code
-    description: ''
-    types:
-    - uid: string
-  - name: message
-    description: ''
-    types:
-    - uid: string
-  - name: target
-    description: ''
-    types:
-    - uid: string
-  - name: details
-    description: Inner errors.
-    types:
-    - uid: CloudErrorBody
-      isArray: true
 examples: []
 security:
 - name: azure_auth
@@ -209,5 +232,5 @@ security:
   - name: user_impersonation
     description: Access Microsoft Azure
 metadata:
-  description: Learn more about Lab Services service - Get user
+  description: Learn more about Lab Services service - List users in a given lab.
 errorCodes: []

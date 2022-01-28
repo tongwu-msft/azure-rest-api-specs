@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.labservices.labs.delete
-name: Delete
+uid: management.azure.com.labservices.operations.get
+name: Get
 service: Lab Services
-groupName: Labs
+groupName: Operations
 apiVersion: 2018-10-15
-summary: Delete lab. This operation can take a while to complete
+summary: Get operation
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}?api-version=2018-10-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.LabServices/locations/{locationName}/operations/{operationName}?api-version=2018-10-15
 uriParameters:
 - name: subscriptionId
   in: path
@@ -18,22 +18,16 @@ uriParameters:
   description: The subscription ID.
   types:
   - uid: string
-- name: resourceGroupName
+- name: locationName
   in: path
   isRequired: true
-  description: The name of the resource group.
+  description: The name of the location.
   types:
   - uid: string
-- name: labAccountName
+- name: operationName
   in: path
   isRequired: true
-  description: The name of the lab Account.
-  types:
-  - uid: string
-- name: labName
-  in: path
-  isRequired: true
-  description: The name of the lab.
+  description: The name of the operation.
   types:
   - uid: string
 - name: api-version
@@ -43,16 +37,28 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 202 Accepted
-  description: Accepted
-- name: 204 No Content
-  description: No Content
+- name: 200 OK
+  description: OK
+  types:
+  - uid: OperationResult
 - name: Other Status Codes
   description: BadRequest
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
+- name: OperationResult
+  description: An Operation Result
+  kind: object
+  properties:
+  - name: status
+    description: The operation status.
+    types:
+    - uid: string
+  - name: error
+    description: Error details for the operation in case of a failure.
+    types:
+    - uid: OperationError
 - name: CloudError
   description: Error from a REST request.
   kind: object
@@ -61,6 +67,18 @@ definitions:
     description: Body of an error from a REST request.
     types:
     - uid: CloudErrorBody
+- name: OperationError
+  description: Error details for the operation in case of a failure.
+  kind: object
+  properties:
+  - name: code
+    description: The error code of the operation error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message of the operation error.
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -93,5 +111,5 @@ security:
   - name: user_impersonation
     description: Access Microsoft Azure
 metadata:
-  description: Learn more about Lab Services service - Delete lab. This operation can take a while to complete
+  description: Learn more about Lab Services service - Get operation
 errorCodes: []

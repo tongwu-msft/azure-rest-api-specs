@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.labservices.labs.update
+uid: management.azure.com.labservices.labaccounts.update
 name: Update
 service: Lab Services
-groupName: Labs
+groupName: Lab Accounts
 apiVersion: 2018-10-15
-summary: Modify properties of labs.
+summary: Modify properties of lab accounts.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}?api-version=2018-10-15
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}?api-version=2018-10-15
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,12 +30,6 @@ uriParameters:
   description: The name of the lab Account.
   types:
   - uid: string
-- name: labName
-  in: path
-  isRequired: true
-  description: The name of the lab.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -46,7 +40,7 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: Lab
+  - uid: LabAccount
 - name: Other Status Codes
   description: BadRequest
   types:
@@ -54,21 +48,11 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.maxUsersInLab
+  - name: properties.enabledRegionSelection
     in: body
-    description: Maximum number of users allowed in the lab.
+    description: Represents if region selection is enabled
     types:
-    - uid: integer
-  - name: properties.usageQuota
-    in: body
-    description: Maximum duration a user can use an environment for in the lab.
-    types:
-    - uid: string
-  - name: properties.userAccessMode
-    in: body
-    description: Lab user access mode (open to all vs. restricted to those listed on the lab).
-    types:
-    - uid: LabUserAccessMode
+    - uid: boolean
   - name: properties.provisioningState
     in: body
     description: The provisioning status of the resource.
@@ -95,47 +79,19 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: Lab
-  description: Represents a lab.
+- name: LabAccount
+  description: Represents a lab account.
   kind: object
   properties:
-  - name: properties.maxUsersInLab
-    description: Maximum number of users allowed in the lab.
-    types:
-    - uid: integer
-  - name: properties.userQuota
+  - name: properties.sizeConfiguration
     isReadyOnly: true
-    description: Maximum value MaxUsersInLab can be set to, as specified by the service
+    description: Represents the size configuration under the lab account
     types:
-    - uid: integer
-  - name: properties.invitationCode
-    isReadyOnly: true
-    description: Invitation code that users can use to join a lab.
+    - uid: SizeConfigurationProperties
+  - name: properties.enabledRegionSelection
+    description: Represents if region selection is enabled
     types:
-    - uid: string
-  - name: properties.createdByObjectId
-    isReadyOnly: true
-    description: Object id of the user that created the lab.
-    types:
-    - uid: string
-  - name: properties.usageQuota
-    description: Maximum duration a user can use an environment for in the lab.
-    types:
-    - uid: string
-  - name: properties.userAccessMode
-    description: Lab user access mode (open to all vs. restricted to those listed on the lab).
-    types:
-    - uid: LabUserAccessMode
-  - name: properties.createdByUserPrincipalName
-    isReadyOnly: true
-    description: Lab creator name
-    types:
-    - uid: string
-  - name: properties.createdDate
-    isReadyOnly: true
-    description: Creation date for the lab
-    types:
-    - uid: string
+    - uid: boolean
   - name: properties.provisioningState
     description: The provisioning status of the resource.
     types:
@@ -184,22 +140,14 @@ definitions:
     description: Body of an error from a REST request.
     types:
     - uid: CloudErrorBody
-- name: LabFragment
-  description: Represents a lab.
+- name: LabAccountFragment
+  description: Represents a lab account.
   kind: object
   properties:
-  - name: properties.maxUsersInLab
-    description: Maximum number of users allowed in the lab.
+  - name: properties.enabledRegionSelection
+    description: Represents if region selection is enabled
     types:
-    - uid: integer
-  - name: properties.usageQuota
-    description: Maximum duration a user can use an environment for in the lab.
-    types:
-    - uid: string
-  - name: properties.userAccessMode
-    description: Lab user access mode (open to all vs. restricted to those listed on the lab).
-    types:
-    - uid: LabUserAccessMode
+    - uid: boolean
   - name: properties.provisioningState
     description: The provisioning status of the resource.
     types:
@@ -235,18 +183,15 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: LabUserAccessMode
-  description: Lab user access mode (open to all vs. restricted to those listed on the lab).
-  kind: enum
+- name: SizeConfigurationProperties
+  description: Represents the size configuration under the lab account
+  kind: object
   properties:
-  - name: Restricted
-    description: Only users registered with the lab can access VMs.
+  - name: environmentSizes
+    description: Represents a list of size categories supported by this Lab Account (Small, Medium, Large)
     types:
-    - uid: string
-  - name: Open
-    description: Any user can register with the lab and access its VMs.
-    types:
-    - uid: string
+    - uid: EnvironmentSize
+      isArray: true
 - name: LatestOperationResult
   description: Details of the status of an operation.
   kind: object
@@ -302,6 +247,70 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: EnvironmentSize
+  description: Represents a size category supported by this Lab Account (small, medium or large)
+  kind: object
+  properties:
+  - name: name
+    description: The size category
+    types:
+    - uid: ManagedLabVmSize
+  - name: vmSizes
+    description: Represents a set of compute sizes that can serve this given size type
+    types:
+    - uid: SizeInfo
+      isArray: true
+  - name: maxPrice
+    isReadyOnly: true
+    description: The pay-as-you-go dollar price per hour this size will cost. It does not include discounts and may not reflect the actual price the size will cost. This is the maximum price of all prices within this tier.
+    types:
+    - uid: number
+  - name: minNumberOfCores
+    isReadyOnly: true
+    description: The number of cores a VM of this size has. This is the minimum number of cores within this tier.
+    types:
+    - uid: integer
+  - name: minMemory
+    isReadyOnly: true
+    description: The amount of memory available (in GB). This is the minimum amount of memory within this tier.
+    types:
+    - uid: number
+- name: ManagedLabVmSize
+  description: The size of the virtual machine
+  kind: enum
+  properties:
+  - name: Basic
+    description: The base VM size
+    types:
+    - uid: string
+  - name: Standard
+    description: The standard or default VM size
+    types:
+    - uid: string
+  - name: Performance
+    description: The most performant VM size
+    types:
+    - uid: string
+- name: SizeInfo
+  description: Contains detailed information about a size
+  kind: object
+  properties:
+  - name: computeSize
+    description: Represents the actual compute size, e.g. Standard_A2_v2.
+    types:
+    - uid: string
+  - name: price
+    description: The pay-as-you-go price per hour this size will cost. It does not include discounts and may not reflect the actual price the size will cost.
+    types:
+    - uid: number
+  - name: numberOfCores
+    description: The number of cores a VM of this size has.
+    types:
+    - uid: integer
+  - name: memory
+    description: The amount of memory available (in GB).
+    types:
+    - uid: number
 examples: []
 security:
 - name: azure_auth
@@ -313,5 +322,5 @@ security:
   - name: user_impersonation
     description: Access Microsoft Azure
 metadata:
-  description: Learn more about Lab Services service - Modify properties of labs.
+  description: Learn more about Lab Services service - Modify properties of lab accounts.
 errorCodes: []

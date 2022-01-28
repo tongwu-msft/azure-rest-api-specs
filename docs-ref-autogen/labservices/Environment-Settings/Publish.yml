@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.labservices.labs.delete
-name: Delete
+uid: management.azure.com.labservices.environmentsettings.publish
+name: Publish
 service: Lab Services
-groupName: Labs
+groupName: Environment Settings
 apiVersion: 2018-10-15
-summary: Delete lab. This operation can take a while to complete
+summary: Provisions/deprovisions required resources for an environment setting based on current state of the lab/environment setting.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}?api-version=2018-10-15
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}/publish?api-version=2018-10-15
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,6 +36,12 @@ uriParameters:
   description: The name of the lab.
   types:
   - uid: string
+- name: environmentSettingName
+  in: path
+  isRequired: true
+  description: The name of the environment Setting.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -43,14 +49,20 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 202 Accepted
-  description: Accepted
-- name: 204 No Content
-  description: No Content
+- name: 200 OK
+  description: OK
 - name: Other Status Codes
   description: BadRequest
   types:
   - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: useExistingImage
+    in: body
+    description: Whether to use existing VM custom image when publishing.
+    types:
+    - uid: boolean
 requestHeader: []
 definitions:
 - name: CloudError
@@ -61,6 +73,14 @@ definitions:
     description: Body of an error from a REST request.
     types:
     - uid: CloudErrorBody
+- name: PublishPayload
+  description: Payload for Publish operation on EnvironmentSetting.
+  kind: object
+  properties:
+  - name: useExistingImage
+    description: Whether to use existing VM custom image when publishing.
+    types:
+    - uid: boolean
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -93,5 +113,5 @@ security:
   - name: user_impersonation
     description: Access Microsoft Azure
 metadata:
-  description: Learn more about Lab Services service - Delete lab. This operation can take a while to complete
+  description: Provisions/deprovisions required resources for an environment setting based on current state of the lab/environment setting.
 errorCodes: []

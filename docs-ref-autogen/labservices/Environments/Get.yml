@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.labservices.users.get
+uid: management.azure.com.labservices.environments.get
 name: Get
 service: Lab Services
-groupName: Users
+groupName: Environments
 apiVersion: 2018-10-15
-summary: Get user
+summary: Get environment
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/users/{userName}?api-version=2018-10-15
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/users/{userName}?$expand={$expand}&api-version=2018-10-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}/environments/{environmentName}?api-version=2018-10-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}/environments/{environmentName}?$expand={$expand}&api-version=2018-10-15
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -38,15 +38,21 @@ uriParameters:
   description: The name of the lab.
   types:
   - uid: string
-- name: userName
+- name: environmentSettingName
   in: path
   isRequired: true
-  description: The name of the user.
+  description: The name of the environment Setting.
+  types:
+  - uid: string
+- name: environmentName
+  in: path
+  isRequired: true
+  description: The name of the environment.
   types:
   - uid: string
 - name: $expand
   in: query
-  description: "Specify the $expand query. Example: 'properties($select=email)'"
+  description: "Specify the $expand query. Example: 'properties($expand=networkInterface)'"
   types:
   - uid: string
 - name: api-version
@@ -59,40 +65,59 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: User
+  - uid: Environment
 - name: Other Status Codes
   description: BadRequest
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: User
-  description: The User registered to a lab
+- name: Environment
+  description: Represents an environment instance
   kind: object
   properties:
-  - name: properties.email
+  - name: properties.resourceSets
+    description: The set of a VM and the setting id it was created for
+    types:
+    - uid: ResourceSet
+  - name: properties.claimedByUserObjectId
     isReadyOnly: true
-    description: The user email address, as it was specified during registration.
+    description: The AAD object Id of the user who has claimed the environment
     types:
     - uid: string
-  - name: properties.familyName
+  - name: properties.claimedByUserPrincipalId
     isReadyOnly: true
-    description: The user family name, as it was specified during registration.
+    description: The user principal Id of the user who has claimed the environment
     types:
     - uid: string
-  - name: properties.givenName
+  - name: properties.claimedByUserName
     isReadyOnly: true
-    description: The user given name, as it was specified during registration.
+    description: The name or email address of the user who has claimed the environment
     types:
     - uid: string
-  - name: properties.tenantId
+  - name: properties.isClaimed
     isReadyOnly: true
-    description: The user tenant ID, as it was specified during registration.
+    description: Is the environment claimed or not
+    types:
+    - uid: boolean
+  - name: properties.lastKnownPowerState
+    isReadyOnly: true
+    description: Last known power state of the environment
     types:
     - uid: string
+  - name: properties.networkInterface
+    isReadyOnly: true
+    description: Network details of the environment
+    types:
+    - uid: NetworkInterface
   - name: properties.totalUsage
     isReadyOnly: true
-    description: How long the user has used his VMs in this lab
+    description: How long the environment has been used by a lab user
+    types:
+    - uid: string
+  - name: properties.passwordLastReset
+    isReadyOnly: true
+    description: When the password was last reset on the environment.
     types:
     - uid: string
   - name: properties.provisioningState
@@ -143,6 +168,42 @@ definitions:
     description: Body of an error from a REST request.
     types:
     - uid: CloudErrorBody
+- name: ResourceSet
+  description: Represents a VM and the setting Id it was created for.
+  kind: object
+  properties:
+  - name: vmResourceId
+    description: VM resource Id for the environment
+    types:
+    - uid: string
+  - name: resourceSettingId
+    description: resourceSettingId for the environment
+    types:
+    - uid: string
+- name: NetworkInterface
+  description: Network details of the environment
+  kind: object
+  properties:
+  - name: privateIpAddress
+    isReadyOnly: true
+    description: PrivateIp address of the Compute VM
+    types:
+    - uid: string
+  - name: sshAuthority
+    isReadyOnly: true
+    description: Connection information for Linux
+    types:
+    - uid: string
+  - name: rdpAuthority
+    isReadyOnly: true
+    description: Connection information for Windows
+    types:
+    - uid: string
+  - name: username
+    isReadyOnly: true
+    description: Username of the VM
+    types:
+    - uid: string
 - name: LatestOperationResult
   description: Details of the status of an operation.
   kind: object
@@ -209,5 +270,5 @@ security:
   - name: user_impersonation
     description: Access Microsoft Azure
 metadata:
-  description: Learn more about Lab Services service - Get user
+  description: Learn more about Lab Services service - Get environment
 errorCodes: []

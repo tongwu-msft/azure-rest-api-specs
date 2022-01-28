@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.labservices.users.get
+uid: management.azure.com.labservices.galleryimages.get
 name: Get
 service: Lab Services
-groupName: Users
+groupName: Gallery Images
 apiVersion: 2018-10-15
-summary: Get user
+summary: Get gallery image
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/users/{userName}?api-version=2018-10-15
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/users/{userName}?$expand={$expand}&api-version=2018-10-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/galleryimages/{galleryImageName}?api-version=2018-10-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/galleryimages/{galleryImageName}?$expand={$expand}&api-version=2018-10-15
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -32,21 +32,15 @@ uriParameters:
   description: The name of the lab Account.
   types:
   - uid: string
-- name: labName
+- name: galleryImageName
   in: path
   isRequired: true
-  description: The name of the lab.
-  types:
-  - uid: string
-- name: userName
-  in: path
-  isRequired: true
-  description: The name of the user.
+  description: The name of the gallery Image.
   types:
   - uid: string
 - name: $expand
   in: query
-  description: "Specify the $expand query. Example: 'properties($select=email)'"
+  description: "Specify the $expand query. Example: 'properties($select=author)'"
   types:
   - uid: string
 - name: api-version
@@ -59,42 +53,59 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: User
+  - uid: GalleryImage
 - name: Other Status Codes
   description: BadRequest
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: User
-  description: The User registered to a lab
+- name: GalleryImage
+  description: Represents an image from the Azure Marketplace
   kind: object
   properties:
-  - name: properties.email
+  - name: properties.author
     isReadyOnly: true
-    description: The user email address, as it was specified during registration.
+    description: The author of the gallery image.
     types:
     - uid: string
-  - name: properties.familyName
+  - name: properties.createdDate
     isReadyOnly: true
-    description: The user family name, as it was specified during registration.
+    description: The creation date of the gallery image.
     types:
     - uid: string
-  - name: properties.givenName
+  - name: properties.description
     isReadyOnly: true
-    description: The user given name, as it was specified during registration.
+    description: The description of the gallery image.
     types:
     - uid: string
-  - name: properties.tenantId
+  - name: properties.imageReference
     isReadyOnly: true
-    description: The user tenant ID, as it was specified during registration.
+    description: The image reference of the gallery image.
+    types:
+    - uid: GalleryImageReference
+  - name: properties.icon
+    isReadyOnly: true
+    description: The icon of the gallery image.
     types:
     - uid: string
-  - name: properties.totalUsage
+  - name: properties.isEnabled
+    description: Indicates whether this gallery image is enabled.
+    types:
+    - uid: boolean
+  - name: properties.isOverride
+    description: Indicates whether this gallery has been overridden for this lab account
+    types:
+    - uid: boolean
+  - name: properties.planId
     isReadyOnly: true
-    description: How long the user has used his VMs in this lab
+    description: The third party plan that applies to this image
     types:
     - uid: string
+  - name: properties.isPlanAuthorized
+    description: Indicates if the plan has been authorized for programmatic deployment.
+    types:
+    - uid: boolean
   - name: properties.provisioningState
     description: The provisioning status of the resource.
     types:
@@ -143,6 +154,30 @@ definitions:
     description: Body of an error from a REST request.
     types:
     - uid: CloudErrorBody
+- name: GalleryImageReference
+  description: The reference information for an Azure Marketplace image.
+  kind: object
+  properties:
+  - name: offer
+    description: The offer of the gallery image.
+    types:
+    - uid: string
+  - name: publisher
+    description: The publisher of the gallery image.
+    types:
+    - uid: string
+  - name: sku
+    description: The SKU of the gallery image.
+    types:
+    - uid: string
+  - name: osType
+    description: The OS type of the gallery image.
+    types:
+    - uid: string
+  - name: version
+    description: The version of the gallery image.
+    types:
+    - uid: string
 - name: LatestOperationResult
   description: Details of the status of an operation.
   kind: object
@@ -209,5 +244,5 @@ security:
   - name: user_impersonation
     description: Access Microsoft Azure
 metadata:
-  description: Learn more about Lab Services service - Get user
+  description: Learn more about Lab Services service - Get gallery image
 errorCodes: []

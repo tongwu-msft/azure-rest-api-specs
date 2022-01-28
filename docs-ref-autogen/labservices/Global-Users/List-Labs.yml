@@ -1,39 +1,21 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.labservices.labs.delete
-name: Delete
+uid: management.azure.com.labservices.globalusers.listlabs
+name: List Labs
 service: Lab Services
-groupName: Labs
+groupName: Global Users
 apiVersion: 2018-10-15
-summary: Delete lab. This operation can take a while to complete
+summary: List labs for the user.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}?api-version=2018-10-15
+- content: POST https://management.azure.com/providers/Microsoft.LabServices/users/{userName}/listLabs?api-version=2018-10-15
 uriParameters:
-- name: subscriptionId
+- name: userName
   in: path
   isRequired: true
-  description: The subscription ID.
-  types:
-  - uid: string
-- name: resourceGroupName
-  in: path
-  isRequired: true
-  description: The name of the resource group.
-  types:
-  - uid: string
-- name: labAccountName
-  in: path
-  isRequired: true
-  description: The name of the lab Account.
-  types:
-  - uid: string
-- name: labName
-  in: path
-  isRequired: true
-  description: The name of the lab.
+  description: The name of the user.
   types:
   - uid: string
 - name: api-version
@@ -43,16 +25,25 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 202 Accepted
-  description: Accepted
-- name: 204 No Content
-  description: No Content
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ListLabsResponse
 - name: Other Status Codes
   description: BadRequest
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
+- name: ListLabsResponse
+  description: Lists the labs owned by a user
+  kind: object
+  properties:
+  - name: labs
+    description: List of all the labs
+    types:
+    - uid: LabDetails
+      isArray: true
 - name: CloudError
   description: Error from a REST request.
   kind: object
@@ -61,6 +52,27 @@ definitions:
     description: Body of an error from a REST request.
     types:
     - uid: CloudErrorBody
+- name: LabDetails
+  description: This represents the details about a lab that the User is in, and its state.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the lab
+    types:
+    - uid: string
+  - name: provisioningState
+    description: The provisioning state of the lab.
+    types:
+    - uid: string
+  - name: id
+    description: The Id of the lab.
+    types:
+    - uid: string
+  - name: usageQuota
+    isReadyOnly: true
+    description: The maximum duration a user can use a VM in this lab.
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -93,5 +105,5 @@ security:
   - name: user_impersonation
     description: Access Microsoft Azure
 metadata:
-  description: Learn more about Lab Services service - Delete lab. This operation can take a while to complete
+  description: Learn more about Lab Services service - List labs for the user.
 errorCodes: []
