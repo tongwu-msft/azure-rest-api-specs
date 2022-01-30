@@ -2,6 +2,7 @@
 title: Microsoft Sentinel request limits and throttling
 description: Describes how to use throttling with Microsoft Sentinel requests when subscription limits have been reached.
 ms.topic: conceptual
+ms.service: microsoft-sentinel
 ms.date: 07/22/2021
 ms.custom: seodec18, devx-track-azurepowershell
 ---
