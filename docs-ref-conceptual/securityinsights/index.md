@@ -23,8 +23,8 @@ Microsoft Sentinel REST APIs allow you to create and manage data connectors, ana
 | [Alerts Rule Template](/rest/api/securityinsights/stable/alert-rule-templates) | List your Alert rules templates available in your Microsoft Sentinel workspace  |
 | [Alert Rules](/rest/api/securityinsights/stable/alert-rules) | Configure Alert rules and actions for your Microsoft Sentinel workspace |
 | [Bookmarks](/rest/api/securityinsights/stable/bookmarks) | Preserve, tag, map entities, and annotate Log Analytics query results. Create or add a bookmark to an Incident |
-| [Data Connectors](/rest/api/securityinsights/stable/data-connectors) | List, enable or disable data connectors to your MicrosoftSentinel workspace|
-| [Incident Comments](/rest/api/securityinsights/stable/incident-comments) | Read and create incident comments in your MicrosoftSentinel workspace |
-| [Incidents](/rest/api/securityinsights/stable/incidents) | Read, create and delete incidents in your MicrosoftSentinel workspace |
+| [Data Connectors](/rest/api/securityinsights/stable/data-connectors) | List, enable or disable data connectors to your Microsoft Sentinel workspace|
+| [Incident Comments](/rest/api/securityinsights/stable/incident-comments) | Read and create incident comments in your Microsoft Sentinel workspace |
+| [Incidents](/rest/api/securityinsights/stable/incidents) | Read, create and delete incidents in your Microsoft Sentinel workspace |
 | [Operations](/rest/api/securityinsights/stable/operations) | All avilable operations
 
