@@ -1,15 +1,15 @@
 ---
-title: Azure Sentinel request limits and throttling
-description: Describes how to use throttling with Azure Sentinel requests when subscription limits have been reached.
+title: Microsoft Sentinel request limits and throttling
+description: Describes how to use throttling with Microsoft Sentinel requests when subscription limits have been reached.
 ms.topic: conceptual
 ms.date: 07/22/2021
 ms.custom: seodec18, devx-track-azurepowershell
 ---
-# Throttling Azure Sentinel requests
+# Throttling Microsoft Sentinel requests
 
-This article describes how Azure Sentinel throttles requests for specific API calls, including specific throttling limits per API.
+This article describes how Microsoft Sentinel throttles requests for specific API calls, including specific throttling limits per API.
 
-## Azure Sentinel minimum throttling limits
+## Microsoft Sentinel minimum throttling limits
 
 Throttling limits can differ between APIs. The following table lists the API operations where throttling applies, as well as the minimum supported limits.
 
@@ -34,7 +34,7 @@ Minimum limits are supported per 5 minutes, and per subscription and endpoint.
 |     |         |
 
 
-These limits apply to each Azure Resource Manager instance. There are multiple instances in every Azure region, and Azure Sentinel is deployed to most Azure regions. So, in practice, the limits may be higher than these limits. The requests from a user are usually handled by different instances of Azure Resource Manager.
+These limits apply to each Azure Resource Manager instance. There are multiple instances in every Azure region, and Microsoft Sentinel is deployed to most Azure regions. So, in practice, the limits may be higher than these limits. The requests from a user are usually handled by different instances of Azure Resource Manager.
 
 
 ## Error code
@@ -51,4 +51,4 @@ Some resource providers return 429 to report a temporary problem. The problem co
 
 ## Next steps
 
-For more information, see [Azure Sentinel REST API](/rest/api/securityinsights/).
+For more information, see [Microsoft Sentinel REST API](/rest/api/securityinsights/).
