@@ -6,7 +6,7 @@ ms.author: ofshomro
 ms.manager: mico
 ms.date: 07/22/2020
 ms.topic: reference
-ms.service: sentinel
+ms.service: microsoft-sentinel
 ms.devlang: rest-api
 ---
 
