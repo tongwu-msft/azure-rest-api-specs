@@ -38,11 +38,11 @@ PUT https://[service name].search.windows.net/indexers/[indexer name]?api-versio
     api-key: [admin key]    
 ```
 
-HTTPS is required for all service requests. If the indexer doesn't exist, it is created. If it already exists, it is updated to the new definition but you must issue a [Run Indexer](../run-indexer.md) request if you want indexer execution.
+HTTPS is required for all service requests. If the indexer doesn't exist, it's created. If it already exists, it's updated to the new definition but you must issue a [Run Indexer](../run-indexer.md) request if you want indexer execution.
 
 **Creating an indexer** adds it to your search service and runs it. If the request is successful, the index will be populated with searchable content from the data source. 
 
-**Updating an indexer** does not automatically run it, but depending on your modifications and the associated a data source, a reset and rerun might be required. When updating an existing indexer, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the indexer definition with a GET, modify it, and then update it with PUT.
+**Updating an indexer** doesn't automatically run it, but depending on your modifications and the associated a data source, a reset and rerun might be required. When updating an existing indexer, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the indexer definition with a GET, modify it, and then update it with PUT.
 
 Indexer configuration varies based on the type of data source. For data-platform-specific guidance on creating indexers, start with [Indexers overview](/azure/search/search-indexer-overview), which includes the complete list of [related articles](/azure/search/search-indexer-overview#next-steps).
 
@@ -54,7 +54,7 @@ Indexer configuration varies based on the type of data source. For data-platform
 | Parameter	  | Description  | 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
-| indexer name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
+| indexer name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be fewer 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes aren't consecutive. |
 | api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
 
 ## Request Headers
@@ -92,7 +92,7 @@ The following JSON is a high-level representation of the main parts of the defin
 
 |Property|Description|  
 |--------------|-----------------|  
-|name|Required. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.|  
+|name|Required. The name must be lower case, start with a letter or number, have no slashes or dots, and be fewer 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes aren't consecutive.|  
 |[dataSourceName](#dataSourceName) |Required. Name of an existing data source. |
 |[targetIndexName](#targetIndexName)|Required. Name of an existing index. |  
 |[skillsetName](#skillset)|Required for AI enrichment. Name of an existing skillset. |
@@ -141,14 +141,14 @@ The cache object has required and optional properties.
 |Property|Description|  
 |--------------|-----------------|  
 |storageConnectionString | Required. Specifies the storage account used to cache the intermediate results. It must be set to an Azure Storage connection string. Using the account you provide, the search service will create a blob container prefixed with `ms-az-search-indexercache` and completed with a GUID unique to the indexer. |
-|enableReprocessing | Optional. Boolean property (`true` by default) to control processing over incoming documents already represented in the cache. When `true` (default), documents already in the cache are reprocessed when you rerun the indexer, assuming your skill update affects that doc. When `false`, existing documents are not reprocessed, effectively prioritizing new, incoming content over existing content. You should only set `enableReprocessing` to `false` on a temporary basis. To ensure consistency across the corpus, `enableReprocessing` should be `true` most of the time, ensuring that all documents, both new and existing, are valid per the current skillset definition.|
-| ID | Read-only. Generated once the cache is created. The `ID` is the identifier of the container within the `annotationCache` storage account that will be used as the cache for this indexer. This cache will be unique to this indexer and if the indexer is deleted and recreated with the same name, the `ID` will be regenerated. The `ID` cannot be set, it is always generated by the service. |
+|enableReprocessing | Optional. Boolean property (`true` by default) to control processing over incoming documents already represented in the cache. When `true` (default), documents already in the cache are reprocessed when you rerun the indexer, assuming your skill update affects that doc. When `false`, existing documents aren't reprocessed, effectively prioritizing new, incoming content over existing content. You should only set `enableReprocessing` to `false` on a temporary basis. To ensure consistency across the corpus, `enableReprocessing` should be `true` most of the time, ensuring that all documents, both new and existing, are valid per the current skillset definition.|
+| ID | Read-only. Generated once the cache is created. The `ID` is the identifier of the container within the `annotationCache` storage account that will be used as the cache for this indexer. This cache will be unique to this indexer and if the indexer is deleted and recreated with the same name, the `ID` will be regenerated. The `ID` can't be set, it's always generated by the service. |
 
  
 <a name="indexer-schedule"></a>
 
 ### "schedule"  
-An indexer can optionally specify a schedule. Without a schedule, the indexer runs immediately when you send the request: connecting to, crawling, and indexing the data source. For some scenarios including long-running indexing jobs, schedules are used to [extend the processing window](/azure/search/search-howto-large-index) beyond the 24-hour maximum. If a schedule is present, the indexer runs periodically as per schedule. The scheduler is built in; you cannot use an external scheduler. A **Schedule** has the following attributes: 
+An indexer can optionally specify a schedule. Without a schedule, the indexer runs immediately when you send the request: connecting to, crawling, and indexing the data source. For some scenarios including long-running indexing jobs, schedules are used to [extend the processing window](/azure/search/search-howto-large-index) beyond the 24-hour maximum. If a schedule is present, the indexer runs periodically as per schedule. The scheduler is built in; you can't use an external scheduler. A **Schedule** has the following attributes: 
 
 -   **interval**: Required. A duration value that specifies an interval or period for indexer runs. The smallest allowed interval is five minutes; the longest is one day. It must be formatted as an XSD "dayTimeDuration" value (a restricted subset of an [ISO 8601 duration](https://www.w3.org/TR/xmlschema11-2/#dayTimeDuration) value). The pattern for this is: `"P[nD][T[nH][nM]]".` Examples:  `PT15M` for every 15 minutes, `PT2H` for every 2 hours.  
 
@@ -199,7 +199,7 @@ Several parameters are exclusive to a particular indexer, such as [Azure blob in
 | `"imageAction"` | String<br/> `"none"`<br/> `"generateNormalizedImages"`<br/> `"generateNormalizedImagePerPage"` | For [Azure blobs](/azure/search/search-howto-indexing-azure-blob-storage), set to`"none"` to ignore embedded images or image files in the data set. This is the default. <br/><br/>For [image-analysis in AI enrichment](/azure/search/cognitive-search-concept-image-scenarios), set to`"generateNormalizedImages"`  to extract text from images (for example, the word "stop" from a traffic Stop sign), and embed it as part of the content field. During image analysis, the indexer creates an array of normalized images as part of document cracking, and embeds the generated information into the content field. This action requires that `"dataToExtract"` is set to `"contentAndMetadata"`. A normalized image refers to additional processing resulting in uniform image output, sized and rotated to promote consistent rendering when you include images in visual search results (for example, same-size photographs in a graph control as seen in the [JFK demo](https://github.com/Microsoft/AzureSearch_JFK_Files)). This information is generated for each image when you use this option.  <br/><br/>If you set to `"generateNormalizedImagePerPage"`, PDF files will be treated differently in that instead of extracting embedded images, each page will be rendered as an image and normalized accordingly.  Non-PDF file types will be treated the same as if `"generateNormalizedImages"` was set.  <br/><br/>Setting the `"imageAction"` configuration to any value other than `"none"` requires that a [skillset](../create-skillset.md) also be attached to that indexer.
 | `"normalizedImageMaxWidth"`<br/>`"normalizedImageMaxHeight"` | Any integer between 50-10000 | The maximum width or height (in pixels) respectively for normalized images generated when an `"imageAction"` is set. The default is 2000. <br/><br/> The default of 2000 pixels for the normalized images maximum width and height is based on the maximum sizes supported by the [OCR skill](/azure/search/cognitive-search-skill-ocr) and the [image analysis skill](/azure/search/cognitive-search-skill-image-analysis). The [OCR skill](/azure/search/cognitive-search-skill-ocr) supports a maximum width and height of 4200 for non-English languages, and 10000 for English.  If you increase the maximum limits, processing could fail on larger images depending on your skillset definition and the language of the documents.|
 | `"allowSkillsetToReadFileData"` | Boolean<br/> true <br/>false (default) | Setting the `"allowSkillsetToReadFileData"` parameter to `true` will create a path `/document/file_data` that is an object representing the original file data downloaded from your blob data source.  This allows you to pass the original file data to a [custom skill](/azure/search/cognitive-search-custom-skill-web-api) for processing within the enrichment pipeline, or to the [Document Extraction skill](/azure/search/cognitive-search-skill-document-extraction). The object generated will be defined as follows: `{ "$type": "file", "data": "BASE64 encoded string of the file" }` <br/><br/> Setting the `"allowSkillsetToReadFileData"` parameter to `true` requires that a [skillset](../create-skillset.md) be attached to that indexer, that the `"parsingMode"` parameter is set to `"default"`, `"text"` or `"json"`, and the `"dataToExtract"` parameter is set to `"contentAndMetadata"` or `"allMetadata"`. |
-| `"pdfTextRotationAlgorithm"` | String<br/> `"none"` (default)<br/> `"detectAngles"` | Setting the `"pdfTextRotationAlgorithm"` parameter to `"detectAngles"` may help produce better and more readable text extraction from PDF files that have rotated text within them.  Note that there may be a small performance speed impact when this parameter is used. This parameter only applies to PDF files, and only to PDFs with embedded text. If the rotated text appears within an embedded image in the PDF, this parameter does not apply.<br/><br/> Setting the `"pdfTextRotationAlgorithm"` parameter to `"detectAngles"` requires that the `"parsingMode"` parameter is set to `"default"`. |
+| `"pdfTextRotationAlgorithm"` | String<br/> `"none"` (default)<br/> `"detectAngles"` | Setting the `"pdfTextRotationAlgorithm"` parameter to `"detectAngles"` may help produce better and more readable text extraction from PDF files that have rotated text within them.  Note that there may be a small performance speed impact when this parameter is used. This parameter only applies to PDF files, and only to PDFs with embedded text. If the rotated text appears within an embedded image in the PDF, this parameter doesn't apply.<br/><br/> Setting the `"pdfTextRotationAlgorithm"` parameter to `"detectAngles"` requires that the `"parsingMode"` parameter is set to `"default"`. |
 
 
 #### Other configuration parameters
@@ -216,8 +216,8 @@ The following parameters are specific to Azure SQL Database.
 
 Indexer definitions contain field associations for mapping a source field to a destination field in an Azure Cognitive Search index. There are two types of associations depending on whether the content transfer follows a direct or enriched path:
 
-+ **fieldMappings** are optional, applied when source-destination field names do not match, or when you want to specify a function.
-+ **outputFieldMappings** are required if you are building [an enrichment pipeline](/azure/search/cognitive-search-concept-intro). In an enrichment pipeline, the output field is a construct defined during the enrichment process. For example, the output field might be a compound structure built during enrichment from two separate fields in the source document. 
++ **fieldMappings** are optional, applied when source-destination field names don't match, or when you want to specify a function.
++ **outputFieldMappings** are required if you're building [an enrichment pipeline](/azure/search/cognitive-search-concept-intro). In an enrichment pipeline, the output field is a construct defined during the enrichment process. For example, the output field might be a compound structure built during enrichment from two separate fields in the source document. 
 
 In the following example, consider a source table with a field `_id`. Azure Cognitive Search doesn't allow a field name starting with an underscore, so the field must be renamed. This can be done using the `fieldMappings` property of the indexer as follows:
 
@@ -346,7 +346,7 @@ While indexers are encrypted by default using [service-managed keys](/azure/secu
 ```
 
 > [!NOTE]
-> Encryption with customer-managed keys is not available for free services. For billable services, it is only available for search services created on or after 2019-01-01.
+> Encryption with customer-managed keys is not available for free services. For billable services, it's only available for search services created on or after 2019-01-01.
 
 ## See also
 
