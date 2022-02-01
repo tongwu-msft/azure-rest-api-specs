@@ -1,7 +1,6 @@
 ---
 title: Microsoft Sentinel REST API
 description: Operation groups for the Microsoft Sentinel REST API
-ms.manager: mico
 ms.date: 07/22/2020
 ms.topic: reference
 ms.service: microsoft-sentinel
