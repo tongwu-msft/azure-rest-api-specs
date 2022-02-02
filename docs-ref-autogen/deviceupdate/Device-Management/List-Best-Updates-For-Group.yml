@@ -1,0 +1,195 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.devicemanagement.listbestupdatesforgroup
+name: List Best Updates For Group
+service: Device Update
+groupName: Device Management
+apiVersion: 2021-06-01-preview
+summary: Get the best available updates for a group and a count of how many devices need each update.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{endpoint}/deviceupdate/{instanceId}/management/groups/{groupId}/bestUpdates?api-version=2021-06-01-preview
+- content: GET https://{endpoint}/deviceupdate/{instanceId}/management/groups/{groupId}/bestUpdates?$filter={$filter}&api-version=2021-06-01-preview
+  isOptional: true
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account endpoint.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account instance identifier.
+  types:
+  - uid: string
+- name: groupId
+  in: path
+  isRequired: true
+  description: Group identity.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: Restricts the set of bestUpdates returned. You can filter on update Provider, Name and Version property.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The best available updates for a group and a count of how many devices need each update.
+  types:
+  - uid: UpdatableDevicesList
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: UpdatableDevicesList
+  description: The list of updatable devices.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of pageable items.
+    types:
+    - uid: UpdatableDevices
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of items.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: UpdatableDevices
+  description: Update identifier and the number of devices for which the update is applicable.
+  kind: object
+  properties:
+  - name: updateId
+    description: Update identity.
+    types:
+    - uid: UpdateId
+  - name: deviceCount
+    description: Total number of devices for which the update is applicable.
+    types:
+    - uid: integer
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: UpdateId
+  description: Update identifier.
+  kind: object
+  properties:
+  - name: provider
+    description: Update provider.
+    types:
+    - uid: string
+  - name: name
+    description: Update name.
+    types:
+    - uid: string
+  - name: version
+    description: Update version.
+    types:
+    - uid: string
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+examples:
+- name: DeviceManagement_ListBestUpdatesForGroup
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceupdate/blue/management/groups/group1/bestUpdates?api-version=2021-06-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "updateId": {
+              "provider": "provider1",
+              "name": "name1",
+              "version": "1.0.0.0"
+            },
+            "deviceCount": 100
+          },
+          {
+            "updateId": {
+              "provider": "provider2",
+              "name": "name2",
+              "version": "2.0.0.0"
+            },
+            "deviceCount": 200
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Device Update service - Get the best available updates for a group and a count of how many devices need each update.
+errorCodes: []

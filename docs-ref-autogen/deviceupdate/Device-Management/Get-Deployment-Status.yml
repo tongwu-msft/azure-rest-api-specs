@@ -1,0 +1,185 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.devicemanagement.getdeploymentstatus
+name: Get Deployment Status
+service: Device Update
+groupName: Device Management
+apiVersion: 2021-06-01-preview
+summary: Gets the status of a deployment including a breakdown of how many devices in the deployment are in progress, completed, or failed.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{endpoint}/deviceupdate/{instanceId}/management/groups/{groupId}/deployments/{deploymentId}/status?api-version=2021-06-01-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account endpoint.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account instance identifier.
+  types:
+  - uid: string
+- name: groupId
+  in: path
+  isRequired: true
+  description: Group identity.
+  types:
+  - uid: string
+- name: deploymentId
+  in: path
+  isRequired: true
+  description: Deployment identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The status of the deployment.
+  types:
+  - uid: DeploymentStatus
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: DeploymentStatus
+  description: Deployment status metadata.
+  kind: object
+  properties:
+  - name: deploymentState
+    description: The state of the deployment.
+    types:
+    - uid: DeploymentState
+  - name: totalDevices
+    description: The total number of devices in the deployment.
+    types:
+    - uid: integer
+  - name: devicesInProgressCount
+    description: The number of devices that are currently in deployment.
+    types:
+    - uid: integer
+  - name: devicesCompletedFailedCount
+    description: The number of devices that have completed deployment with a failure.
+    types:
+    - uid: integer
+  - name: devicesCompletedSucceededCount
+    description: The number of devices which have successfully completed deployment.
+    types:
+    - uid: integer
+  - name: devicesCanceledCount
+    description: The number of devices which have had their deployment canceled.
+    types:
+    - uid: integer
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: DeploymentState
+  description: Deployment state.
+  kind: enum
+  properties:
+  - name: Active
+    description: The deployment can be sent to devices targeted in the deployment.
+    types:
+    - uid: string
+  - name: Inactive
+    description: A newer deployment for this group has been created and no devices in the group will receive this deployment.
+    types:
+    - uid: string
+  - name: Canceled
+    description: The deployment has been canceled and no devices will receive it.
+    types:
+    - uid: string
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+examples:
+- name: DeviceManagement_GetDeploymentStatus
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceupdate/blue/management/groups/TestGroup/deployments/deploymentId/status?api-version=2021-06-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "deploymentState": "Active",
+        "totalDevices": 1,
+        "devicesInProgressCount": 0,
+        "devicesCompletedFailedCount": 0,
+        "devicesCompletedSucceededCount": 1,
+        "devicesCanceledCount": 0
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Gets the status of a deployment including a breakdown of how many devices in the deployment are in progress, completed, or failed.
+errorCodes: []

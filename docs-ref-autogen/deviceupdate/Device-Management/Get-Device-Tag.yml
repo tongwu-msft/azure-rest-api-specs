@@ -1,0 +1,143 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.devicemanagement.getdevicetag
+name: Get Device Tag
+service: Device Update
+groupName: Device Management
+apiVersion: 2021-06-01-preview
+summary: Gets a count of how many devices have a device tag.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{endpoint}/deviceupdate/{instanceId}/management/devicetags/{tagName}?api-version=2021-06-01-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account endpoint.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account instance identifier.
+  types:
+  - uid: string
+- name: tagName
+  in: path
+  isRequired: true
+  description: Tag name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The count of devices with this device tag.
+  types:
+  - uid: DeviceTag
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: DeviceTag
+  description: Device tag properties.
+  kind: object
+  properties:
+  - name: tagName
+    description: Tag name.
+    types:
+    - uid: string
+  - name: deviceCount
+    description: Number of devices with this tag.
+    types:
+    - uid: integer
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+examples:
+- name: DeviceManagement_GetDeviceTag
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceupdate/blue/management/devicetags/group1?api-version=2021-06-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "tagName": "group1",
+        "deviceCount": 100
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Device Update service - Gets a count of how many devices have a device tag.
+errorCodes: []

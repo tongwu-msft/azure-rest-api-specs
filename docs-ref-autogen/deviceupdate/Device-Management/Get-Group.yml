@@ -1,0 +1,186 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.devicemanagement.getgroup
+name: Get Group
+service: Device Update
+groupName: Device Management
+apiVersion: 2021-06-01-preview
+summary: Gets the properties of a group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{endpoint}/deviceupdate/{instanceId}/management/groups/{groupId}?api-version=2021-06-01-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account endpoint.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account instance identifier.
+  types:
+  - uid: string
+- name: groupId
+  in: path
+  isRequired: true
+  description: Group identity.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The group properties.
+  types:
+  - uid: Group
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: Group
+  description: Group details.
+  kind: object
+  properties:
+  - name: groupId
+    description: Group identity.
+    types:
+    - uid: string
+  - name: groupType
+    description: Group type.
+    types:
+    - uid: GroupType
+  - name: tags
+    description: IoT Hub tags.
+    types:
+    - uid: string
+      isArray: true
+  - name: createdDateTime
+    description: Date and time when the update was created.
+    types:
+    - uid: string
+  - name: deviceCount
+    description: The number of devices in the group.
+    types:
+    - uid: integer
+  - name: deploymentId
+    description: The deployment Id for the group.
+    types:
+    - uid: string
+  - name: deviceClassId
+    description: The device class Id for the group.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: GroupType
+  description: Supported group types.
+  kind: enum
+  properties:
+  - name: DeviceClassIdAndIoTHubTag
+    description: DeviceClassId IoT Hub tag based group, all devices in the group are compatible with the same updates and share a tag and deviceClassId.
+    types:
+    - uid: string
+  - name: InvalidDeviceClassIdAndIoTHubTag
+    description: Invalid deviceClassId IoT Hub tag based group, all devices in the group do not match the deviceClassId of the valid group they were tagged to join.
+    types:
+    - uid: string
+  - name: DefaultDeviceClassId
+    description: Default deviceClassId based group, all devices in the group have no tags but are part of the same deviceClassId.  All devices will be part of one of these groups until a user tags them to join another group.
+    types:
+    - uid: string
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+examples:
+- name: DeviceManagement_GetGroup
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceupdate/blue/management/groups/group1?api-version=2021-06-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "groupId": "MyGroup",
+        "groupType": "DeviceClassIdAndIoTHubTag",
+        "tags": [
+          "MyAduGroup"
+        ],
+        "createdDateTime": "2020-07-01T12:13:14.0000000Z",
+        "deviceClassId": "DeviceClassId",
+        "deviceCount": 149
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Device Update service - Gets the properties of a group.
+errorCodes: []
