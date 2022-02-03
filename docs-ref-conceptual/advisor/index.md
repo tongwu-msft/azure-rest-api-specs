@@ -6,7 +6,7 @@ author: gwallace
 ms.author: gwallace
 ms.date: 03/09/2017
 ms.topic: reference
-ms.service: Advisor
+ms.service: advisor
 ms.devlang: rest-api
 ---
 
