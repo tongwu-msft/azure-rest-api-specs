@@ -26,4 +26,4 @@ Azure Advisor is a personalized cloud consultant that helps you follow best prac
 
 ## See also
 
-- [Azure Advisor documentation](https://docs.microsoft.com/azure/advisor/)
+- [Azure Advisor documentation](/azure/advisor/)
