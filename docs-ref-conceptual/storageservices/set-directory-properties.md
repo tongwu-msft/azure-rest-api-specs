@@ -111,4 +111,4 @@ Only the account owner may call this operation.
 `Set Directory Properties` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue).
 
 ## See also
-[Operations on Files](Operations-on-Files.md)
+[Operations on Directories](Operations-on-Directories.md)
