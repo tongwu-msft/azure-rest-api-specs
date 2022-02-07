@@ -5,7 +5,7 @@ author: shizn
 ms.author: xshi
 ms.date: 10/18/2018
 ms.topic: reference
-ms.service: serviceconnector
+ms.service: service-connector
 ms.devlang: rest-api
 service_description: Service Connector simplifies the process of connecting your Azure Compute service to backing services.
 ---
