@@ -3,15 +3,15 @@ uid: batchservice.pool.list
 name: List
 service: Batch Service
 groupName: Pool
-apiVersion: 2021-06-01.14.0
+apiVersion: 2022-01-01.15.0
 summary: Lists all of the Pools in the specified Account.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET {batchUrl}/pools?api-version=2021-06-01.14.0
-- content: GET {batchUrl}/pools?$filter={$filter}&$select={$select}&$expand={$expand}&maxresults={maxresults}&timeout={timeout}&api-version=2021-06-01.14.0
+- content: GET {batchUrl}/pools?api-version=2022-01-01.15.0
+- content: GET {batchUrl}/pools?$filter={$filter}&$select={$select}&$expand={$expand}&maxresults={maxresults}&timeout={timeout}&api-version=2022-01-01.15.0
   isOptional: true
 uriParameters:
 - name: batchUrl
@@ -191,7 +191,7 @@ definitions:
     types:
     - uid: integer
   - name: currentLowPriorityNodes
-    description: "The number of low-priority Compute Nodes currently in the Pool.  \nlow-priority Compute Nodes which have been preempted are included in this count."
+    description: "The number of Spot/Low-priority Compute Nodes currently in the Pool.  \nSpot/Low-priority Compute Nodes which have been preempted are included in this count."
     types:
     - uid: integer
   - name: targetDedicatedNodes
@@ -199,7 +199,7 @@ definitions:
     types:
     - uid: integer
   - name: targetLowPriorityNodes
-    description: The desired number of low-priority Compute Nodes in the Pool.
+    description: The desired number of Spot/Low-priority Compute Nodes in the Pool.
     types:
     - uid: integer
   - name: enableAutoScale
@@ -466,7 +466,7 @@ definitions:
     types:
     - uid: UserIdentity
   - name: maxTaskRetryCount
-    description: "The maximum number of times the Task may be retried.  \nThe Batch service retries a Task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task. If the maximum retry count is -1, the Batch service retries the Task without limit."
+    description: "The maximum number of times the Task may be retried.  \nThe Batch service retries a Task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task. If the maximum retry count is -1, the Batch service retries the Task without limit, however this is not recommended for a start task or any task. The default value is 0 (no retries)"
     types:
     - uid: integer
   - name: waitForSuccess
@@ -807,7 +807,7 @@ definitions:
     types:
     - uid: IPAddressProvisioningType
   - name: ipAddressIds
-    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
+    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 Spot/Low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
     types:
     - uid: string
       isArray: true
@@ -1378,7 +1378,7 @@ definitions:
 examples:
 - name: Pool list
   request:
-    uri: GET account.region.batch.azure.com/pools?api-version=2021-06-01.14.0
+    uri: GET account.region.batch.azure.com/pools?api-version=2022-01-01.15.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000

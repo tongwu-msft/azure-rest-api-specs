@@ -20452,6 +20452,7 @@
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### Previous Azure Storage services versions
 #### [Overview](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
+#### [Version 2021-02-12](../docs-ref-conceptual/storageservices/version-2021-02-12.md)
 #### [Version 2020-12-06](../docs-ref-conceptual/storageservices/version-2020-12-06.md)
 #### [Version 2020-10-02](../docs-ref-conceptual/storageservices/version-2020-10-02.md)
 #### [Version 2020-08-04](../docs-ref-conceptual/storageservices/version-2020-08-04.md)
@@ -20540,6 +20541,7 @@
 #### [Lease Container](../docs-ref-conceptual/storageservices/lease-container.md)
 #### [Restore Container](../docs-ref-conceptual/storageservices/restore-container.md)
 #### [List Blobs](../docs-ref-conceptual/storageservices/list-blobs.md)
+#### [Find Blobs by Tags](../docs-ref-conceptual/storageservices/find-blobs-by-tags-container.md)
 ### Operations on Blobs
 #### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs.md)
 #### [Put Blob](../docs-ref-conceptual/storageservices/put-blob.md)
@@ -20698,6 +20700,7 @@
 #### [Set Directory Metadata](../docs-ref-conceptual/storageservices/set-directory-metadata.md)
 #### [List Handles](../docs-ref-conceptual/storageservices/list-handles.md)
 #### [Force Close Handles](../docs-ref-conceptual/storageservices/force-close-handles.md)
+#### [Rename Directory](../docs-ref-conceptual/storageservices/rename-directory.md)
 ### Operations on Files
 #### [Overview](../docs-ref-conceptual/storageservices/operations-on-files.md)
 #### [Create File](../docs-ref-conceptual/storageservices/create-file.md)
@@ -20715,6 +20718,7 @@
 #### [List Handles](../docs-ref-conceptual/storageservices/list-handles.md)
 #### [Force Close Handles](../docs-ref-conceptual/storageservices/force-close-handles.md)
 #### [Lease File](../docs-ref-conceptual/storageservices/lease-file.md)
+#### [Rename File](../docs-ref-conceptual/storageservices/rename-file.md)
 ## Storage Analytics
 ### [Storage Analytics Metrics Table Schema (classic)](../docs-ref-conceptual/storageservices/storage-analytics-metrics-table-schema.md)
 ### [Storage Analytics Log Format](../docs-ref-conceptual/storageservices/storage-analytics-log-format.md)
