@@ -1,5 +1,6 @@
 ---
 title: Service Connector REST API | Microsoft Docs
+description: REST API reference documentation for Service Connector
 author: shizn
 ms.author: xshi
 ms.date: 10/18/2018
