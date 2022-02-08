@@ -153,6 +153,8 @@ For version 2020-10-02 and above, for Hierarchical Namespace enabled accounts, `
 
 For version 2021-02-12 and above, `List Blobs` will percent-encode (per RFC 2396) all `Blob` `Name` or `BlobPrefix` `Name` element values which contain characters invalid in XML (specifically, U+FFFE or U+FFFF). If encoded, the `Name` element will include an `Encoded=true` attribute. Note that this will only occur for the `Name` element values containing the characters invalid in XML, not the remaining `Name` elements in the response.
 
+For version  2020-02-10 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `Expiry-Time` element for deleted blobs. `Expiry-Time` is the time when the file will expire and will be returned for file if expiry is set on the same. 
+
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
 <EnumerationResults ServiceEndpoint="http://myaccount.blob.core.windows.net/"  ContainerName="mycontainer">  
@@ -204,6 +206,7 @@ For version 2021-02-12 and above, `List Blobs` will percent-encode (per RFC 2396
         <RemainingRetentionDays>no-of-days</RemainingRetentionDays>
         <TagCount>number of tags between 1 to 10</TagCount>
         <RehydratePriority>rehydrate priority</RehydratePriority>
+        <Expiry-Time>date-time-value</Expiry-Time>
       </Properties>  
       <Metadata>     
         <Name>value</Name>  
