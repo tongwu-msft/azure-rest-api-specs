@@ -10942,6 +10942,7 @@
 ### [Get](load-balancer/Load-Balancers/Get.yml)
 ### [List](load-balancer/Load-Balancers/List.yml)
 ### [List All](load-balancer/Load-Balancers/List-All.yml)
+### [List Inbound Nat Rule Port Mappings](load-balancer/Load-Balancers/List-Inbound-Nat-Rule-Port-Mappings.yml)
 ### [Swap Public Ip Addresses](load-balancer/Load-Balancers/Swap-Public-Ip-Addresses.yml)
 ### [Update Tags](load-balancer/Load-Balancers/Update-Tags.yml)
 # Log Analytics
@@ -21990,6 +21991,18 @@
 ### [Get](virtualnetwork/Firewall-Policies/Get.yml)
 ### [List](virtualnetwork/Firewall-Policies/List.yml)
 ### [List All](virtualnetwork/Firewall-Policies/List-All.yml)
+## Firewall Policy Idps Signatures
+### [Overview](virtualnetwork/Firewall-Policy-Idps-Signatures.yml)
+### [List](virtualnetwork/Firewall-Policy-Idps-Signatures/List.yml)
+## Firewall Policy Idps Signatures Filter Values
+### [Overview](virtualnetwork/Firewall-Policy-Idps-Signatures-Filter-Values.yml)
+### [List](virtualnetwork/Firewall-Policy-Idps-Signatures-Filter-Values/List.yml)
+## Firewall Policy Idps Signatures Overrides
+### [Overview](virtualnetwork/Firewall-Policy-Idps-Signatures-Overrides.yml)
+### [Get](virtualnetwork/Firewall-Policy-Idps-Signatures-Overrides/Get.yml)
+### [List](virtualnetwork/Firewall-Policy-Idps-Signatures-Overrides/List.yml)
+### [Patch](virtualnetwork/Firewall-Policy-Idps-Signatures-Overrides/Patch.yml)
+### [Put](virtualnetwork/Firewall-Policy-Idps-Signatures-Overrides/Put.yml)
 ## Firewall Policy Rule Collection Groups
 ### [Overview](virtualnetwork/Firewall-Policy-Rule-Collection-Groups.yml)
 ### [Create Or Update](virtualnetwork/Firewall-Policy-Rule-Collection-Groups/Create-Or-Update.yml)
@@ -22059,6 +22072,14 @@
 ### [List All](virtualnetwork/Network-Interfaces/List-All.yml)
 ### [List Effective Network Security Groups](virtualnetwork/Network-Interfaces/List-Effective-Network-Security-Groups.yml)
 ### [Update Tags](virtualnetwork/Network-Interfaces/Update-Tags.yml)
+## Network Profiles
+### [Overview](virtualnetwork/Network-Profiles.yml)
+### [Create Or Update](virtualnetwork/Network-Profiles/Create-Or-Update.yml)
+### [Delete](virtualnetwork/Network-Profiles/Delete.yml)
+### [Get](virtualnetwork/Network-Profiles/Get.yml)
+### [List](virtualnetwork/Network-Profiles/List.yml)
+### [List All](virtualnetwork/Network-Profiles/List-All.yml)
+### [Update Tags](virtualnetwork/Network-Profiles/Update-Tags.yml)
 ## Network Security Groups
 ### [Overview](virtualnetwork/Network-Security-Groups.yml)
 ### [Create Or Update](virtualnetwork/Network-Security-Groups/Create-Or-Update.yml)
@@ -22287,6 +22308,12 @@
 ### [List](virtualwan/P2s-Vpn-Gateways/List.yml)
 ### [List By Resource Group](virtualwan/P2s-Vpn-Gateways/List-By-Resource-Group.yml)
 ### [Update Tags](virtualwan/P2s-Vpn-Gateways/Update-Tags.yml)
+## Routing Intent
+### [Overview](virtualwan/Routing-Intent.yml)
+### [Create Or Update](virtualwan/Routing-Intent/Create-Or-Update.yml)
+### [Delete](virtualwan/Routing-Intent/Delete.yml)
+### [Get](virtualwan/Routing-Intent/Get.yml)
+### [List](virtualwan/Routing-Intent/List.yml)
 ## Supported Security Providers
 ### [Overview](virtualwan/Supported-Security-Providers.yml)
 ### [Supported Security Providers](virtualwan/Supported-Security-Providers/Supported-Security-Providers.yml)

@@ -1,0 +1,127 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.firewallpolicyidpssignaturesfiltervalues.list
+name: List
+service: Virtual Networks
+groupName: Firewall Policy Idps Signatures Filter Values
+apiVersion: 2021-05-01
+summary: Retrieves the current filter values for the signatures overrides
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsFilterOptions
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: firewallPolicyName
+  in: path
+  isRequired: true
+  description: The name of the Firewall Policy.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The operation returns a list of all valid filter values for the requested column
+  types:
+  - uid: SignatureOverridesFilterValuesResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: filterName
+    in: body
+    description: Describes the name of the column which values will be returned
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: SignatureOverridesFilterValuesResponse
+  description: Describes the list of all possible values for a specific filter value
+  kind: object
+  properties:
+  - name: filterValues
+    description: Describes the possible values
+    types:
+    - uid: string
+      isArray: true
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: SignatureOverridesFilterValuesQuery
+  description: Describes the filter values possibles for a given column
+  kind: object
+  properties:
+  - name: filterName
+    description: Describes the name of the column which values will be returned
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: query signature overrides
+  request:
+    uri: POST https://management.azure.com/subscriptions/e747cc13-97d4-4a79-b463-42d7f4e558f2/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/listIdpsFilterOptions
+    body: >-
+      {
+        "filterName": "severity"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "filterValues": [
+          "low",
+          "medium",
+          "high"
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Virtual Networks service - Retrieves the current filter values for the signatures overrides
+errorCodes: []

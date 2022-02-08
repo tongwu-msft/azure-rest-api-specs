@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.virtualnetworkpeerings.list
 name: List
 service: Virtual Networks
 groupName: Virtual Network Peerings
-apiVersion: 2021-03-01
+apiVersion: 2021-05-01
 summary: Gets all virtual network peerings in a virtual network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings?api-version=2021-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -117,6 +117,11 @@ definitions:
     description: The reference to the remote virtual network's Bgp Communities.
     types:
     - uid: VirtualNetworkBgpCommunities
+  - name: properties.remoteVirtualNetworkEncryption
+    isReadyOnly: true
+    description: The reference to the remote virtual network's encryption
+    types:
+    - uid: VirtualNetworkEncryption
   - name: properties.peeringState
     description: The status of the virtual network peering.
     types:
@@ -194,6 +199,18 @@ definitions:
     description: The BGP community associated with the region of the virtual network.
     types:
     - uid: string
+- name: VirtualNetworkEncryption
+  description: Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet.
+  kind: object
+  properties:
+  - name: enabled
+    description: Indicates if encryption is enabled on the virtual network.
+    types:
+    - uid: boolean
+  - name: enforcement
+    description: If the encrypted VNet allows VM that does not support encryption
+    types:
+    - uid: VirtualNetworkEncryptionEnforcement
 - name: VirtualNetworkPeeringState
   description: The status of the virtual network peering.
   kind: enum
@@ -239,10 +256,20 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: VirtualNetworkEncryptionEnforcement
+  description: If the encrypted VNet allows VM that does not support encryption
+  kind: enum
+  properties:
+  - name: DropUnencrypted
+    types:
+    - uid: string
+  - name: AllowUnencrypted
+    types:
+    - uid: string
 examples:
 - name: List peerings
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings?api-version=2021-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -305,6 +332,72 @@ examples:
               },
               "peeringState": "Initiated",
               "peeringSyncLevel": "FullyInSync",
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+- name: List peerings with remote virtual network encryption
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings?api-version=2021-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer",
+            "name": "peer",
+            "properties": {
+              "allowVirtualNetworkAccess": true,
+              "allowForwardedTraffic": true,
+              "allowGatewayTransit": false,
+              "useRemoteGateways": false,
+              "remoteVirtualNetwork": {
+                "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
+              },
+              "remoteAddressSpace": {
+                "addressPrefixes": [
+                  "12.0.0.0/8"
+                ]
+              },
+              "remoteBgpCommunities": {
+                "virtualNetworkCommunity": "12076:20002",
+                "regionalCommunity": "12076:50004"
+              },
+              "remoteVirtualNetworkEncryption": {
+                "enabled": true,
+                "enforcement": "AllowUnencrypted"
+              },
+              "peeringState": "Initiated",
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer2",
+            "name": "peer",
+            "properties": {
+              "allowVirtualNetworkAccess": true,
+              "allowForwardedTraffic": false,
+              "allowGatewayTransit": false,
+              "useRemoteGateways": false,
+              "remoteVirtualNetwork": {
+                "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet3"
+              },
+              "remoteAddressSpace": {
+                "addressPrefixes": [
+                  "13.0.0.0/8"
+                ]
+              },
+              "remoteBgpCommunities": {
+                "virtualNetworkCommunity": "12076:20003",
+                "regionalCommunity": "12076:50004"
+              },
+              "remoteVirtualNetworkEncryption": {
+                "enabled": true,
+                "enforcement": "AllowUnencrypted"
+              },
+              "peeringState": "Initiated",
               "provisioningState": "Succeeded"
             }
           }
