@@ -1,5 +1,6 @@
 ---
 title: "Linked service (Azure Data Factory)"
+description: REST API for Linked service in Azure Data Factory 
 ---
 # Linked service
 
