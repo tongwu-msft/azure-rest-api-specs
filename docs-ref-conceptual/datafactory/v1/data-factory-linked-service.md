@@ -178,7 +178,7 @@ client-tracking-id            : 15
     "id": “subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/adf/providers/Microsoft.DataFactory/datafactories/test/linkedservices/linkedservicetest”,  
     "name": "LinkedServicetest",  
     "properties": {  
-        "connectionString": "connectionString": "DefaultEndpointsProtocol=https;AccountName=testaccount;AccountKey=ZkUHBFXvELZDHXXYs1cejz7E1eo3PRWCEJiO4Mg0q8YU2Thfv0AU/aDoNJSVcyFih/pZkTbThm1fK3O1MY3Geg==",  
+        "connectionString": "connectionString": "DefaultEndpointsProtocol=https;AccountName=testaccount;AccountKey=00000000000000000000000000000000000000000000000000000000000000000000000000000000000000==",  
         "hubName": "test_hub",  
         "type": "AzureStorage",  
         "typeProperties": {  
