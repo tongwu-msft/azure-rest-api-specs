@@ -3,15 +3,15 @@ uid: batchservice.job.get
 name: Get
 service: Batch Service
 groupName: Job
-apiVersion: 2021-06-01.14.0
+apiVersion: 2022-01-01.15.0
 summary: Gets information about the specified Job.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET {batchUrl}/jobs/{jobId}?api-version=2021-06-01.14.0
-- content: GET {batchUrl}/jobs/{jobId}?$select={$select}&$expand={$expand}&timeout={timeout}&api-version=2021-06-01.14.0
+- content: GET {batchUrl}/jobs/{jobId}?api-version=2022-01-01.15.0
+- content: GET {batchUrl}/jobs/{jobId}?$select={$select}&$expand={$expand}&timeout={timeout}&api-version=2022-01-01.15.0
   isOptional: true
 uriParameters:
 - name: batchUrl
@@ -160,8 +160,12 @@ definitions:
     description: "The priority of the Job.  \nPriority values can range from -1000 to 1000, with -1000 being the lowest priority and 1000 being the highest priority. The default value is 0."
     types:
     - uid: integer
+  - name: allowTaskPreemption
+    description: "Whether Tasks in this job can be preempted by other high priority jobs  \nIf the value is set to True, other high priority jobs submitted to the system will take precedence and will be able requeue tasks from this job. You can update a job's allowTaskPreemption after it has been created using the update job API."
+    types:
+    - uid: boolean
   - name: maxParallelTasks
-    description: "The maximum number of tasks that can be executed in parallel for the job.  \nThe value of maxParallelTasks must be -1 or greater than 0 if specified. If not specified, the default value is -1, which means there's no limit to the number of tasks that can be run at once. You can update a job's maxParallelTasks after it has been created using the update job API. This property is currently in private preview."
+    description: "The maximum number of tasks that can be executed in parallel for the job.  \nThe value of maxParallelTasks must be -1 or greater than 0 if specified. If not specified, the default value is -1, which means there's no limit to the number of tasks that can be run at once. You can update a job's maxParallelTasks after it has been created using the update job API."
     types:
     - uid: integer
   - name: constraints
@@ -272,7 +276,7 @@ definitions:
     types:
     - uid: string
   - name: maxTaskRetryCount
-    description: "The maximum number of times each Task may be retried. The Batch service retries a Task if its exit code is nonzero.  \nNote that this value specifically controls the number of retries. The Batch service will try each Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries a Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry Tasks. If the maximum retry count is -1, the Batch service retries Tasks without limit. The default value is 0 (no retries)."
+    description: "The maximum number of times each Task may be retried. The Batch service retries a Task if its exit code is nonzero.  \nNote that this value specifically controls the number of retries. The Batch service will try each Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries a Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry Tasks. If the maximum retry count is -1, the Batch service retries the Task without limit, however this is not recommended for a start task or any task. The default value is 0 (no retries)"
     types:
     - uid: integer
 - name: JobManagerTask
@@ -340,7 +344,7 @@ definitions:
     types:
     - uid: AuthenticationTokenSettings
   - name: allowLowPriorityNode
-    description: "Whether the Job Manager Task may run on a low-priority Compute Node.  \nThe default value is true."
+    description: "Whether the Job Manager Task may run on a Spot/Low-priority Compute Node.  \nThe default value is true."
     types:
     - uid: boolean
 - name: JobPreparationTask
@@ -680,7 +684,7 @@ definitions:
     types:
     - uid: string
   - name: maxTaskRetryCount
-    description: "The maximum number of times the Task may be retried. The Batch service retries a Task if its exit code is nonzero.  \nNote that this value specifically controls the number of retries for the Task executable due to a nonzero exit code. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task after the first attempt. If the maximum retry count is -1, the Batch service retries the Task without limit."
+    description: "The maximum number of times the Task may be retried. The Batch service retries a Task if its exit code is nonzero.  \nNote that this value specifically controls the number of retries for the Task executable due to a nonzero exit code. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task after the first attempt. If the maximum retry count is -1, the Batch service retries the Task without limit, however this is not recommended for a start task or any task. The default value is 0 (no retries)"
     types:
     - uid: integer
 - name: UserIdentity
@@ -874,7 +878,7 @@ definitions:
     types:
     - uid: integer
   - name: targetLowPriorityNodes
-    description: "The desired number of low-priority Compute Nodes in the Pool.  \nThis property must not be specified if enableAutoScale is set to true. If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both."
+    description: "The desired number of Spot/Low-priority Compute Nodes in the Pool.  \nThis property must not be specified if enableAutoScale is set to true. If enableAutoScale is set to false, then you must set either targetDedicatedNodes, targetLowPriorityNodes, or both."
     types:
     - uid: integer
   - name: enableAutoScale
@@ -971,6 +975,11 @@ definitions:
     description: "The reference to the user assigned identity to use to access Azure Blob Storage specified by containerUrl  \nThe identity must have write access to the Azure Blob Storage container"
     types:
     - uid: ComputeNodeIdentityReference
+  - name: uploadHeaders
+    description: "A list of name-value pairs for headers to be used in uploading output files  \nThese headers will be specified when uploading files to Azure Storage. For more information, see [Request Headers (All Blob Types)](https://docs.microsoft.com/rest/api/storageservices/put-blob#request-headers-all-blob-types)."
+    types:
+    - uid: HttpHeader
+      isArray: true
 - name: OutputFileUploadCondition
   description: The conditions under which a Task output file or set of files should be uploaded.
   kind: enum
@@ -1124,7 +1133,7 @@ definitions:
     types:
     - uid: UserIdentity
   - name: maxTaskRetryCount
-    description: "The maximum number of times the Task may be retried.  \nThe Batch service retries a Task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task. If the maximum retry count is -1, the Batch service retries the Task without limit."
+    description: "The maximum number of times the Task may be retried.  \nThe Batch service retries a Task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task. If the maximum retry count is -1, the Batch service retries the Task without limit, however this is not recommended for a start task or any task. The default value is 0 (no retries)"
     types:
     - uid: integer
   - name: waitForSuccess
@@ -1200,6 +1209,18 @@ definitions:
     description: "The Azure File Share to mount on each node.  \nThis property is mutually exclusive with all other properties."
     types:
     - uid: AzureFileShareConfiguration
+- name: HttpHeader
+  description: An HTTP header name-value pair
+  kind: object
+  properties:
+  - name: name
+    description: The case-insensitive name of the header to be used while uploading output files
+    types:
+    - uid: string
+  - name: value
+    description: The value of the header to be used while uploading output files
+    types:
+    - uid: string
 - name: ImageReference
   description: A reference to an Azure Virtual Machines Marketplace Image or a Shared Image Gallery Image. To get the list of all Azure Marketplace Image references verified by Azure Batch, see the 'List Supported Images' operation.
   kind: object
@@ -1379,7 +1400,7 @@ definitions:
     types:
     - uid: IPAddressProvisioningType
   - name: ipAddressIds
-    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
+    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 Spot/Low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
     types:
     - uid: string
       isArray: true
@@ -1684,7 +1705,7 @@ definitions:
 examples:
 - name: Job get
   request:
-    uri: GET account.region.batch.azure.com/jobs/jobId?api-version=2021-06-01.14.0
+    uri: GET account.region.batch.azure.com/jobs/jobId?api-version=2022-01-01.15.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
@@ -1705,6 +1726,7 @@ examples:
         "previousStateTransitionTime": "2016-11-19T00:05:27.2137716Z",
         "priority": 0,
         "maxParallelTasks": -1,
+        "allowTaskPreemption": false,
         "usesTaskDependencies": false,
         "constraints": {
           "maxWallClockTime": "P10675199DT2H48M5.4775807S",
