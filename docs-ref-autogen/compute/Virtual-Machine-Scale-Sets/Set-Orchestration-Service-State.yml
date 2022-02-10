@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.setorchestrationservic
 name: Set Orchestration Service State
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: Changes ServiceState property for a given service
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/setOrchestrationServiceState?api-version=2021-07-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/setOrchestrationServiceState?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +41,10 @@ responses:
   description: OK
 - name: 202 Accepted
   description: Accepted
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -58,6 +62,14 @@ requestBody:
     - uid: OrchestrationServiceStateAction
 requestHeader: []
 definitions:
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: OrchestrationServiceStateInput
   description: The input for OrchestrationServiceState
   kind: object
@@ -70,6 +82,31 @@ definitions:
     description: The action to be performed.
     types:
     - uid: OrchestrationServiceStateAction
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
 - name: OrchestrationServiceNames
   description: The name of the service.
   kind: enum
@@ -87,7 +124,63 @@ definitions:
   - name: Suspend
     types:
     - uid: string
-examples: []
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+examples:
+- name: VirtualMachineScaleSets_SetOrchestrationServiceState_MaximumSet_Gen
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaa/setOrchestrationServiceState?api-version=2021-11-01
+    body: >-
+      {
+        "serviceName": "AutomaticRepairs",
+        "action": "Resume"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://foo.com/operationstatus
+- name: VirtualMachineScaleSets_SetOrchestrationServiceState_MinimumSet_Gen
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaa/setOrchestrationServiceState?api-version=2021-11-01
+    body: >-
+      {
+        "serviceName": "AutomaticRepairs",
+        "action": "Resume"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://foo.com/operationstatus
 security:
 - name: azure_auth
   type: oauth2

@@ -3,15 +3,15 @@ uid: management.azure.com.servicebus.stable.subscriptions.listbytopic
 name: List By Topic
 service: Service Bus
 groupName: Subscriptions
-apiVersion: 2017-04-01
+apiVersion: 2021-11-01
 summary: List all the subscriptions under a specified topic.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions?api-version=2017-04-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions?api-version=2017-04-01&$skip={$skip}&$top={$top}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions?api-version=2021-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions?api-version=2021-11-01&$skip={$skip}&$top={$top}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -90,6 +90,11 @@ definitions:
   description: Description of subscription resource.
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
+    types:
+    - uid: systemData
   - name: properties.messageCount
     isReadyOnly: true
     description: Number of messages.
@@ -163,19 +168,32 @@ definitions:
     description: Queue/Topic name to forward the Dead Letter message
     types:
     - uid: string
+  - name: properties.isClientAffine
+    description: Value that indicates whether the subscription has an affinity to the client id.
+    types:
+    - uid: boolean
+  - name: properties.clientAffineProperties
+    description: Properties specific to client affine subscriptions.
+    types:
+    - uid: SBClientAffineProperties
   - name: id
     isReadyOnly: true
-    description: Resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type
+    description: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The geo-location where the resource lives
     types:
     - uid: string
 - name: Error
@@ -209,6 +227,34 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: string
 - name: MessageCountDetails
   description: Message Count Details.
   kind: object
@@ -269,6 +315,22 @@ definitions:
   - name: Unknown
     types:
     - uid: string
+- name: SBClientAffineProperties
+  description: Properties specific to client affine subscriptions.
+  kind: object
+  properties:
+  - name: clientId
+    description: Indicates the Client ID of the application that created the client-affine subscription.
+    types:
+    - uid: string
+  - name: isDurable
+    description: For client-affine subscriptions, this value indicates whether the subscription is durable or not.
+    types:
+    - uid: boolean
+  - name: isShared
+    description: For client-affine subscriptions, this value indicates whether the subscription is shared or not.
+    types:
+    - uid: boolean
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -283,10 +345,26 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: SubscriptionListByTopic
   request:
-    uri: GET https://management.azure.com/subscriptions/5{Subscriptionid}/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1349/topics/sdk-Topics-8740/subscriptions?api-version=2017-04-01
+    uri: GET https://management.azure.com/subscriptions/5{Subscriptionid}/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1349/topics/sdk-Topics-8740/subscriptions?api-version=2021-11-01
   responses:
   - statusCode: "200"
     body: >-
@@ -306,9 +384,9 @@ examples:
               "maxDeliveryCount": 10,
               "status": "Active",
               "enableBatchedOperations": true,
-              "createdAt": "2018-01-04T18:02:20.5992764Z",
-              "updatedAt": "2018-01-04T18:02:20.5992764Z",
-              "accessedAt": "2018-01-04T18:02:20.5992764Z",
+              "createdAt": "2021-01-04T18:02:20.5992764Z",
+              "updatedAt": "2021-01-04T18:02:20.5992764Z",
+              "accessedAt": "2021-01-04T18:02:20.5992764Z",
               "countDetails": {
                 "activeMessageCount": 0,
                 "deadLetterMessageCount": 0,

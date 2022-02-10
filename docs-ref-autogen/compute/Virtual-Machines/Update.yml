@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachines.update
 name: Update
 service: Compute
 groupName: Virtual Machines
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: The operation to update a virtual machine.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2021-07-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +41,10 @@ responses:
   description: OK
   types:
   - uid: VirtualMachine
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -336,7 +340,7 @@ definitions:
     types:
     - uid: boolean
   - name: securityType
-    description: 'Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.'
+    description: 'Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set.'
     types:
     - uid: SecurityTypes
 - name: DiagnosticsProfile
@@ -589,6 +593,11 @@ definitions:
     description: Specifies the gallery applications that should be made available to the VM/VMSS
     types:
     - uid: ApplicationProfile
+  - name: properties.timeCreated
+    isReadyOnly: true
+    description: 'Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2021-11-01.'
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -616,6 +625,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: VirtualMachineUpdate
   description: Describes a Virtual Machine Update.
   kind: object
@@ -736,6 +753,11 @@ definitions:
     description: Specifies the gallery applications that should be made available to the VM/VMSS
     types:
     - uid: ApplicationProfile
+  - name: properties.timeCreated
+    isReadyOnly: true
+    description: 'Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2021-11-01.'
+    types:
+    - uid: string
   - name: tags
     description: Resource tags
     types:
@@ -1299,7 +1321,7 @@ definitions:
     types:
     - uid: string
   - name: version
-    description: Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available.
+    description: Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available. Please do not use field 'version' for gallery image deployment, gallery image should always use 'id' field for deployment, to use 'latest' version of gallery image, just set '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageName}' in the 'id' field without version input.
     types:
     - uid: string
   - name: exactVersion
@@ -1309,6 +1331,10 @@ definitions:
     - uid: string
   - name: sharedGalleryImageId
     description: Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call.
+    types:
+    - uid: string
+  - name: communityGalleryImageId
+    description: Specified the community gallery image unique id for vm deployment. This can be fetched from community gallery image GET call.
     types:
     - uid: string
   - name: id
@@ -1572,10 +1598,13 @@ definitions:
     types:
     - uid: boolean
 - name: SecurityTypes
-  description: 'Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.'
+  description: 'Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set.'
   kind: enum
   properties:
   - name: TrustedLaunch
+    types:
+    - uid: string
+  - name: ConfidentialVM
     types:
     - uid: string
 - name: BootDiagnostics
@@ -1844,6 +1873,10 @@ definitions:
     description: Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
     types:
     - uid: boolean
+  - name: properties.protectedSettingsFromKeyVault
+    description: The extensions protected settings that are passed by reference, and consumed from key vault
+    types:
+    - uid: object
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -1904,6 +1937,31 @@ definitions:
     types:
     - uid: string
   - name: Delete
+    types:
+    - uid: string
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
     types:
     - uid: string
 - name: OperatingSystemTypes
@@ -1990,6 +2048,10 @@ definitions:
     description: Specifies the customer managed disk encryption set resource id for the managed disk.
     types:
     - uid: DiskEncryptionSetParameters
+  - name: securityProfile
+    description: Specifies the security profile for the managed disk.
+    types:
+    - uid: VMDiskSecurityProfile
   - name: id
     description: Resource Id
     types:
@@ -2302,6 +2364,34 @@ definitions:
   - name: EdgeZone
     types:
     - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
 - name: KeyVaultSecretReference
   description: Describes a reference to Key Vault Secret
   kind: object
@@ -2373,6 +2463,18 @@ definitions:
     description: Resource Id
     types:
     - uid: string
+- name: VMDiskSecurityProfile
+  description: 'Specifies the security profile settings for the managed disk. <br><br> NOTE: It can only be set for Confidential VMs'
+  kind: object
+  properties:
+  - name: securityEncryptionType
+    description: 'Specifies the EncryptionType of the managed disk. <br> It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly for encryption of just the VMGuestState blob. <br><br> NOTE: It can be set for only Confidential VMs.'
+    types:
+    - uid: securityEncryptionTypes
+  - name: diskEncryptionSet
+    description: Specifies the customer managed disk encryption set resource id for the managed disk that is used for Customer Managed Key encrypted ConfidentialVM OS Disk and VMGuest blob.
+    types:
+    - uid: DiskEncryptionSetParameters
 - name: PassNames
   description: The pass name. Currently, the only allowable value is OobeSystem.
   kind: enum
@@ -2473,7 +2575,7 @@ definitions:
     types:
     - uid: string
   - name: sku
-    description: Describes the public IP Sku
+    description: Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
     types:
     - uid: PublicIPAddressSku
   - name: properties.idleTimeoutInMinutes
@@ -2534,29 +2636,14 @@ definitions:
   - name: CompletedWithWarnings
     types:
     - uid: string
-- name: ApiError
-  description: Api error.
-  kind: object
+- name: securityEncryptionTypes
+  description: 'Specifies the EncryptionType of the managed disk. <br> It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly for encryption of just the VMGuestState blob. <br><br> NOTE: It can be set for only Confidential VMs.'
+  kind: enum
   properties:
-  - name: details
-    description: The Api error details
-    types:
-    - uid: ApiErrorBase
-      isArray: true
-  - name: innererror
-    description: The Api inner error
-    types:
-    - uid: InnerError
-  - name: code
-    description: The error code.
+  - name: VMGuestStateOnly
     types:
     - uid: string
-  - name: target
-    description: The target of the particular error.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
+  - name: DiskWithVMGuestState
     types:
     - uid: string
 - name: ProtocolTypes
@@ -2570,7 +2657,7 @@ definitions:
     types:
     - uid: string
 - name: PublicIPAddressSku
-  description: Describes the public IP Sku
+  description: Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
   kind: object
   properties:
   - name: name
@@ -2611,34 +2698,6 @@ definitions:
   - name: Static
     types:
     - uid: string
-- name: ApiErrorBase
-  description: Api error base.
-  kind: object
-  properties:
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-- name: InnerError
-  description: Inner error details.
-  kind: object
-  properties:
-  - name: exceptiontype
-    description: The exception type.
-    types:
-    - uid: string
-  - name: errordetail
-    description: The internal error message or exception dump.
-    types:
-    - uid: string
 - name: PublicIPAddressSkuName
   description: Specify public IP sku name
   kind: enum
@@ -2662,7 +2721,7 @@ definitions:
 examples:
 - name: Update a VM by detaching data disk
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-07-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
     body: >-
       {
         "properties": {
@@ -2792,7 +2851,7 @@ examples:
       }
 - name: Update a VM by force-detaching data disk
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-07-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
     body: >-
       {
         "properties": {

@@ -3,15 +3,15 @@ uid: batchservice.task.get
 name: Get
 service: Batch Service
 groupName: Task
-apiVersion: 2021-06-01.14.0
+apiVersion: 2022-01-01.15.0
 summary: "Gets information about the specified Task.  \nFor multi-instance Tasks, information such as affinityId, executionInfo and nodeInfo refer to the primary Task. Use the list subtasks API to retrieve information about subtasks."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}?api-version=2021-06-01.14.0
-- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}?$select={$select}&$expand={$expand}&timeout={timeout}&api-version=2021-06-01.14.0
+- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}?api-version=2022-01-01.15.0
+- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}?$select={$select}&$expand={$expand}&timeout={timeout}&api-version=2022-01-01.15.0
   isOptional: true
 uriParameters:
 - name: batchUrl
@@ -396,7 +396,7 @@ definitions:
     types:
     - uid: string
   - name: maxTaskRetryCount
-    description: "The maximum number of times the Task may be retried. The Batch service retries a Task if its exit code is nonzero.  \nNote that this value specifically controls the number of retries for the Task executable due to a nonzero exit code. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task after the first attempt. If the maximum retry count is -1, the Batch service retries the Task without limit."
+    description: "The maximum number of times the Task may be retried. The Batch service retries a Task if its exit code is nonzero.  \nNote that this value specifically controls the number of retries for the Task executable due to a nonzero exit code. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task after the first attempt. If the maximum retry count is -1, the Batch service retries the Task without limit, however this is not recommended for a start task or any task. The default value is 0 (no retries)"
     types:
     - uid: integer
 - name: UserIdentity
@@ -820,6 +820,11 @@ definitions:
     description: "The reference to the user assigned identity to use to access Azure Blob Storage specified by containerUrl  \nThe identity must have write access to the Azure Blob Storage container"
     types:
     - uid: ComputeNodeIdentityReference
+  - name: uploadHeaders
+    description: "A list of name-value pairs for headers to be used in uploading output files  \nThese headers will be specified when uploading files to Azure Storage. For more information, see [Request Headers (All Blob Types)](https://docs.microsoft.com/rest/api/storageservices/put-blob#request-headers-all-blob-types)."
+    types:
+    - uid: HttpHeader
+      isArray: true
 - name: OutputFileUploadCondition
   description: The conditions under which a Task output file or set of files should be uploaded.
   kind: enum
@@ -884,10 +889,22 @@ definitions:
     description: The value in the name-value pair.
     types:
     - uid: string
+- name: HttpHeader
+  description: An HTTP header name-value pair
+  kind: object
+  properties:
+  - name: name
+    description: The case-insensitive name of the header to be used while uploading output files
+    types:
+    - uid: string
+  - name: value
+    description: The value of the header to be used while uploading output files
+    types:
+    - uid: string
 examples:
 - name: Task get
   request:
-    uri: GET account.region.batch.azure.com/jobs/jobId/tasks/taskId?api-version=2021-06-01.14.0
+    uri: GET account.region.batch.azure.com/jobs/jobId/tasks/taskId?api-version=2022-01-01.15.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000

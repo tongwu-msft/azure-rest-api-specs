@@ -1,17 +1,21 @@
 ---
 ms.assetid: afbc721a-55eb-4f74-9034-bd15f469f041
-title: Azure DevTest Labs
+title: REST API
+titleSuffix: Azure DevTest Labs
+description:  Learn about REST API operation groups
 ms.service: devtest-lab
-author: spelluru
-ms.author: spelluru
-ms.manager: douge
+author: j-martens
+ms.author: jmartens
+ms.manager: jmartens
+ms.date: 01/24/2022
+ms.topic: conceptual
 service_description: To be added
 ---
 
 
 # Azure DevTest Labs
 
-Azure DevTest Labs is a service that helps developers and testers quickly create environments in Azure while minimizing waste and controlling cost. You can test the latest version of your application by quickly provisioning Windows and Linux environments using reusable templates and artifacts. Easily integrate your deployment pipeline with DevTest Labs to provision on-demand environments. Scale up your load testing by provisioning multiple test agents, and create pre-provisioned environments for training and demos.
+[Azure DevTest Labs](/azure/devtest-labs/devtest-lab-overview) is a service that helps developers and testers quickly create environments in Azure while minimizing waste and controlling cost. You can test the latest version of your application by quickly provisioning Windows and Linux environments using reusable templates and artifacts. Easily integrate your deployment pipeline with DevTest Labs to provision on-demand environments. Scale up your load testing by provisioning multiple test agents, and create pre-provisioned environments for training and demos.
 
 ## REST Operation Groups
  
@@ -46,6 +50,5 @@ Azure DevTest Labs is a service that helps developers and testers quickly create
 
 ## See Also
 
-- [Azure DevTest Labs documentation](https://azure.microsoft.com/documentation/services/devtest-lab/)
-- [What is DevTest Labs?](https://azure.microsoft.com/documentation/articles/devtest-lab-overview/)
-- [Azure DevTest Labs Premium tier](https://azure.microsoft.com/documentation/articles/devtest-lab-faq/)
+- [Azure DevTest Labs tutorials](/azure/devtest-labs/)
+- [What is DevTest Labs?](/articles/devtest-labs/devtest-lab-overview)

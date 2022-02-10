@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.get
 name: Get
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2021-09-01
+apiVersion: 2021-10-01
 summary: Gets a managed cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2021-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -197,7 +197,7 @@ definitions:
     types:
     - uid: ManagedClusterSecurityProfile
   - name: properties.publicNetworkAccess
-    description: "Whether the cluster can be accessed through public network or not  \nDefault value is 'Enabled' (case insensitive). Could be set to 'Disabled' to enable private cluster"
+    description: "PublicNetworkAccess of the managedCluster  \nAllow or deny public network access for AKS"
     types:
     - uid: PublicNetworkAccess
   - name: id
@@ -604,6 +604,21 @@ definitions:
     description: Profile of the cluster NAT gateway.
     types:
     - uid: ManagedClusterNATGatewayProfile
+  - name: podCidrs
+    description: "The CIDR notation IP ranges from which to assign pod IPs.  \nOne IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking."
+    types:
+    - uid: string
+      isArray: true
+  - name: serviceCidrs
+    description: "The CIDR notation IP ranges from which to assign service cluster IPs.  \nOne IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges."
+    types:
+    - uid: string
+      isArray: true
+  - name: ipFamilies
+    description: "The IP families used to specify IP versions available to the cluster.  \nIP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6."
+    types:
+    - uid: string
+      isArray: true
 - name: ManagedClusterAADProfile
   description: AADProfile specifies attributes for Azure Active Directory integration.
   kind: object
@@ -818,7 +833,7 @@ definitions:
     types:
     - uid: ManagedClusterSecurityProfileAzureDefender
 - name: PublicNetworkAccess
-  description: Whether the cluster can be accessed through public network or not
+  description: PublicNetworkAccess of the managedCluster
   kind: enum
   properties:
   - name: Enabled
@@ -1406,7 +1421,7 @@ definitions:
     types:
     - uid: boolean
   - name: logAnalyticsWorkspaceResourceId
-    description: Resource ID of the Log Analytics workspace to be associated with Azure Defender.  When Azure Defender is enabled, this field is required and must be a valid workspace resource ID. When Azure Defender is disabled, leave the field empty.
+    description: Resource ID of the Log Analytics workspace to be associated with Azure Defender.  When Azure Defender is enabled, this field is required and must be a valid workspace resource ID. When Azure Defender is disabled, this field should not be exists.
     types:
     - uid: string
 - name: SysctlConfig
@@ -1561,7 +1576,11 @@ definitions:
   kind: object
   properties:
   - name: count
-    description: 'The desired number of outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
+    description: 'The desired number of IPv4 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
+    types:
+    - uid: integer
+  - name: countIPv6
+    description: 'The desired number of IPv6 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 0 for single-stack and 1 for dual-stack. '
     types:
     - uid: integer
 - name: OutboundIPPrefixes
@@ -1630,7 +1649,7 @@ definitions:
 examples:
 - name: Get Managed Cluster
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-09-01
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1694,6 +1713,15 @@ examples:
             "dockerBridgeCidr": "172.17.0.1/16",
             "loadBalancerSku": "standard",
             "outboundType": "loadBalancer",
+            "podCidrs": [
+              "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+              "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+              "IPv4"
+            ],
             "loadBalancerProfile": {
               "allocatedOutboundPorts": 2000,
               "idleTimeoutInMinutes": 10,

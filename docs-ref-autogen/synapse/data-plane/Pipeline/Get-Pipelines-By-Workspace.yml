@@ -133,6 +133,8 @@ definitions:
       isArray: true
     - uid: ExecuteDataFlowActivity
       isArray: true
+    - uid: ScriptActivity
+      isArray: true
     - uid: SynapseNotebookActivity
       isArray: true
     - uid: SynapseSparkJobDefinitionActivity
@@ -1815,6 +1817,50 @@ definitions:
     types:
     - uid: UserProperty
       isArray: true
+- name: ScriptActivity
+  description: Script activity type.
+  kind: object
+  properties:
+  - name: typeProperties.scripts
+    description: 'Array of script blocks. Type: array.'
+    types:
+    - uid: ScriptActivityScriptBlock
+      isArray: true
+  - name: typeProperties.logSettings
+    description: Log settings of script activity.
+    types:
+    - uid: ScriptActivityTypeProperties.LogSettings
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Script
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
 - name: SynapseNotebookActivity
   description: Execute Synapse notebook activity.
   kind: object
@@ -2012,6 +2058,8 @@ definitions:
       isArray: true
     - uid: ExecuteDataFlowActivity
       isArray: true
+    - uid: ScriptActivity
+      isArray: true
     - uid: SynapseNotebookActivity
       isArray: true
     - uid: SynapseSparkJobDefinitionActivity
@@ -2093,6 +2141,8 @@ definitions:
     - uid: AzureFunctionActivity
       isArray: true
     - uid: ExecuteDataFlowActivity
+      isArray: true
+    - uid: ScriptActivity
       isArray: true
     - uid: SynapseNotebookActivity
       isArray: true
@@ -2211,6 +2261,8 @@ definitions:
     - uid: AzureFunctionActivity
       isArray: true
     - uid: ExecuteDataFlowActivity
+      isArray: true
+    - uid: ScriptActivity
       isArray: true
     - uid: SynapseNotebookActivity
       isArray: true
@@ -2332,6 +2384,8 @@ definitions:
     - uid: AzureFunctionActivity
       isArray: true
     - uid: ExecuteDataFlowActivity
+      isArray: true
+    - uid: ScriptActivity
       isArray: true
     - uid: SynapseNotebookActivity
       isArray: true
@@ -2480,6 +2534,8 @@ definitions:
     - uid: AzureFunctionActivity
       isArray: true
     - uid: ExecuteDataFlowActivity
+      isArray: true
+    - uid: ScriptActivity
       isArray: true
     - uid: SynapseNotebookActivity
       isArray: true
@@ -2956,6 +3012,18 @@ definitions:
     description: Log location settings customer needs to provide when enabling log.
     types:
     - uid: LogLocationSettings
+- name: ScriptActivityTypeProperties.LogSettings
+  description: Log settings of script activity.
+  kind: object
+  properties:
+  - name: logDestination
+    description: 'The destination of logs. Type: string.'
+    types:
+    - uid: ScriptActivityLogDestination
+  - name: logLocationSettings
+    description: Log location settings customer needs to provide when enabling log.
+    types:
+    - uid: LogLocationSettings
 - name: SkipErrorFile
   description: Skip error file.
   kind: object
@@ -3247,6 +3315,23 @@ definitions:
     description: 'Core count of the cluster which will execute data flow job. Supported values are: 8, 16, 32, 48, 80, 144 and 272.'
     types:
     - uid: integer
+- name: ScriptActivityScriptBlock
+  description: Script block of scripts.
+  kind: object
+  properties:
+  - name: text
+    description: 'The query text. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: 'The type of the query. Type: string.'
+    types:
+    - uid: ScriptType
+  - name: parameters
+    description: 'Array of script parameters. Type: array.'
+    types:
+    - uid: ScriptActivityParameter
+      isArray: true
 - name: SynapseNotebookReference
   description: Synapse notebook reference type.
   kind: object
@@ -3373,6 +3458,8 @@ definitions:
     - uid: AzureFunctionActivity
       isArray: true
     - uid: ExecuteDataFlowActivity
+      isArray: true
+    - uid: ScriptActivity
       isArray: true
     - uid: SynapseNotebookActivity
       isArray: true
@@ -3579,6 +3666,50 @@ definitions:
   - name: ComputeOptimized
     types:
     - uid: string
+- name: ScriptType
+  description: 'The type of the query. Type: string.'
+  kind: enum
+  properties:
+  - name: Query
+    types:
+    - uid: string
+  - name: NonQuery
+    types:
+    - uid: string
+- name: ScriptActivityParameter
+  description: Parameters of a script block.
+  kind: object
+  properties:
+  - name: name
+    description: 'The name of the parameter. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: The type of the parameter.
+    types:
+    - uid: ScriptActivityParameterType
+  - name: value
+    description: The value of the parameter.
+    types:
+    - uid: object
+  - name: direction
+    description: The direction of the parameter.
+    types:
+    - uid: ScriptActivityParameterDirection
+  - name: size
+    description: The size of the output direction parameter.
+    types:
+    - uid: integer
+- name: ScriptActivityLogDestination
+  description: 'The destination of logs. Type: string.'
+  kind: enum
+  properties:
+  - name: ActivityOutput
+    types:
+    - uid: string
+  - name: ExternalStore
+    types:
+    - uid: string
 - name: NotebookReferenceType
   description: Synapse notebook reference type.
   kind: enum
@@ -3644,6 +3775,59 @@ definitions:
     types:
     - uid: AzureKeyVaultSecret
     typesTitle: string
+- name: ScriptActivityParameterType
+  description: The type of the parameter.
+  kind: enum
+  properties:
+  - name: Boolean
+    types:
+    - uid: string
+  - name: DateTime
+    types:
+    - uid: string
+  - name: DateTimeOffset
+    types:
+    - uid: string
+  - name: Decimal
+    types:
+    - uid: string
+  - name: Double
+    types:
+    - uid: string
+  - name: Guid
+    types:
+    - uid: string
+  - name: Int16
+    types:
+    - uid: string
+  - name: Int32
+    types:
+    - uid: string
+  - name: Int64
+    types:
+    - uid: string
+  - name: Single
+    types:
+    - uid: string
+  - name: String
+    types:
+    - uid: string
+  - name: Timespan
+    types:
+    - uid: string
+- name: ScriptActivityParameterDirection
+  description: The direction of the parameter.
+  kind: enum
+  properties:
+  - name: Input
+    types:
+    - uid: string
+  - name: Output
+    types:
+    - uid: string
+  - name: InputOutput
+    types:
+    - uid: string
 examples:
 - name: Pipelines_ListByWorkspace
   request:

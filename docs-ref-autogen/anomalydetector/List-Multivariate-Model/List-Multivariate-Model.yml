@@ -1,0 +1,178 @@
+### YamlMime:RESTOperation
+uid: anomalydetector.listmultivariatemodel.listmultivariatemodel
+name: List Multivariate Model
+service: Cognitive Services - AnomalyDetector
+groupName: List Multivariate Model
+apiVersion: 1.1-preview.1
+summary: "List Multivariate Models  \nList models of a subscription"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/anomalydetector/{ApiVersion}/multivariate/models
+- content: GET {Endpoint}/anomalydetector/{ApiVersion}/multivariate/models?$skip={$skip}&$top={$top}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: ApiVersion
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Anomaly Detector API version (for example, v1.0).
+  types:
+  - uid: string
+- name: $skip
+  in: query
+  description: $skip indicates how many models will be skipped.
+  types:
+  - uid: integer
+- name: $top
+  in: query
+  description: $top indicates how many models will be fetched.
+  types:
+  - uid: integer
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: ModelList
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Error response
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: ModelList
+  description: Response of listing models.
+  kind: object
+  properties:
+  - name: models
+    description: List of models
+    types:
+    - uid: ModelSnapshot
+      isArray: true
+  - name: currentCount
+    description: Current count of trained multivariate models.
+    types:
+    - uid: integer
+  - name: maxCount
+    description: Max number of models that can be trained for this subscription.
+    types:
+    - uid: integer
+  - name: nextLink
+    description: The link to fetch more models.
+    types:
+    - uid: string
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The message explaining the error reported by the service.
+    types:
+    - uid: string
+- name: ModelSnapshot
+  kind: object
+  properties:
+  - name: modelId
+    description: Model identifier.
+    types:
+    - uid: string
+  - name: createdTime
+    description: Date and time (UTC) when the model was created.
+    types:
+    - uid: string
+  - name: lastUpdatedTime
+    description: Date and time (UTC) when the model was last updated.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Model training status.
+    types:
+    - uid: modelStatus
+  - name: displayName
+    description: ''
+    types:
+    - uid: string
+  - name: variablesCount
+    description: Total number of variables.
+    types:
+    - uid: integer
+- name: modelStatus
+  description: Model training status.
+  kind: enum
+  properties:
+  - name: CREATED
+    types:
+    - uid: string
+  - name: RUNNING
+    types:
+    - uid: string
+  - name: READY
+    types:
+    - uid: string
+  - name: FAILED
+    types:
+    - uid: string
+examples:
+- name: List Multivariate model
+  request:
+    uri: GET {Endpoint}/anomalydetector/v1.1-preview.1/multivariate/models
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "models": [
+          {
+            "modelId": "45aad126-aafd-11ea-b8fb-d89ef3400c5f",
+            "createdTime": "2020-06-30T00:00:00Z",
+            "lastUpdatedTime": "2020-06-30T00:00:00Z",
+            "status": "READY",
+            "displayName": "DevOps-MultiAD",
+            "variablesCount": 18
+          }
+        ],
+        "currentCount": 1,
+        "maxCount": 20,
+        "nextLink": ""
+      }
+  - statusCode: default
+    headers:
+    - name: Content-Type
+      value: application/json
+    - name: x-ms-error-code
+      value: Error Code
+    body: >-
+      {
+        "code": "Error Code",
+        "message": "Error Message"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+metadata:
+  description: "Learn more about Cognitive Services - AnomalyDetector service - List Multivariate Models  \nList models of a subscription"
+errorCodes: []

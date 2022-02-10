@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.update
 name: Update
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: Update a VM scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2021-07-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +41,10 @@ responses:
   description: OK
   types:
   - uid: VirtualMachineScaleSet
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -198,9 +202,13 @@ definitions:
     types:
     - uid: boolean
   - name: gracePeriod
-    description: The amount of time for which automatic repairs are suspended due to a state change on VM. The grace time starts after the state change has completed. This helps avoid premature or accidental repairs. The time duration should be specified in ISO 8601 format. The minimum allowed grace period is 30 minutes (PT30M), which is also the default value. The maximum allowed grace period is 90 minutes (PT90M).
+    description: The amount of time for which automatic repairs are suspended due to a state change on VM. The grace time starts after the state change has completed. This helps avoid premature or accidental repairs. The time duration should be specified in ISO 8601 format. The minimum allowed grace period is 10 minutes (PT10M), which is also the default value. The maximum allowed grace period is 90 minutes (PT90M).
     types:
     - uid: string
+  - name: repairAction
+    description: Type of repair action (replace, restart, reimage) that will be used for repairing unhealthy virtual machines in the scale set. Default value is replace.
+    types:
+    - uid: RepairAction
 - name: VirtualMachineScaleSetUpdateVMProfile
   description: Describes a virtual machine scale set virtual machine profile.
   kind: object
@@ -368,6 +376,11 @@ definitions:
     description: Specifies the Spot Restore properties for the virtual machine scale set.
     types:
     - uid: SpotRestorePolicy
+  - name: properties.timeCreated
+    isReadyOnly: true
+    description: 'Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2021-11-01.'
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -395,6 +408,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: VirtualMachineScaleSetUpdate
   description: Describes a Virtual Machine Scale Set.
   kind: object
@@ -532,6 +553,19 @@ definitions:
     description: Whether OS image rollback feature should be disabled. Default value is false.
     types:
     - uid: boolean
+- name: RepairAction
+  description: Type of repair action (replace, restart, reimage) that will be used for repairing unhealthy virtual machines in the scale set. Default value is replace.
+  kind: enum
+  properties:
+  - name: Replace
+    types:
+    - uid: string
+  - name: Restart
+    types:
+    - uid: string
+  - name: Reimage
+    types:
+    - uid: string
 - name: VirtualMachineScaleSetUpdateOSProfile
   description: Describes a virtual machine scale set OS profile.
   kind: object
@@ -600,7 +634,7 @@ definitions:
     types:
     - uid: boolean
   - name: securityType
-    description: 'Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.'
+    description: 'Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set.'
     types:
     - uid: SecurityTypes
 - name: DiagnosticsProfile
@@ -711,6 +745,10 @@ definitions:
     description: Specifies the gallery applications that should be made available to the VM/VMSS
     types:
     - uid: ApplicationProfile
+  - name: hardwareProfile
+    description: 'Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2021-11-01.'
+    types:
+    - uid: VirtualMachineScaleSetHardwareProfile
 - name: OrchestrationMode
   description: Specifies the orchestration mode for the virtual machine scale set.
   kind: enum
@@ -731,6 +769,31 @@ definitions:
     - uid: boolean
   - name: restoreTimeout
     description: Timeout value expressed as an ISO 8601 time duration after which the platform will not try to restore the VMSS SPOT instances
+    types:
+    - uid: string
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
     types:
     - uid: string
 - name: WindowsConfiguration
@@ -812,7 +875,7 @@ definitions:
     types:
     - uid: string
   - name: version
-    description: Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available.
+    description: Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available. Please do not use field 'version' for gallery image deployment, gallery image should always use 'id' field for deployment, to use 'latest' version of gallery image, just set '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageName}' in the 'id' field without version input.
     types:
     - uid: string
   - name: exactVersion
@@ -822,6 +885,10 @@ definitions:
     - uid: string
   - name: sharedGalleryImageId
     description: Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call.
+    types:
+    - uid: string
+  - name: communityGalleryImageId
+    description: Specified the community gallery image unique id for vm deployment. This can be fetched from community gallery image GET call.
     types:
     - uid: string
   - name: id
@@ -970,10 +1037,13 @@ definitions:
     types:
     - uid: boolean
 - name: SecurityTypes
-  description: 'Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.'
+  description: 'Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set.'
   kind: enum
   properties:
   - name: TrustedLaunch
+    types:
+    - uid: string
+  - name: ConfidentialVM
     types:
     - uid: string
 - name: BootDiagnostics
@@ -1047,6 +1117,10 @@ definitions:
     description: Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
     types:
     - uid: boolean
+  - name: properties.protectedSettingsFromKeyVault
+    description: The extensions protected settings that are passed by reference, and consumed from key vault
+    types:
+    - uid: object
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -1103,6 +1177,10 @@ definitions:
     types:
     - uid: VaultSecretGroup
       isArray: true
+  - name: allowExtensionOperations
+    description: Specifies whether extension operations should be allowed on the virtual machine scale set. <br><br>This may only be set to False when no extensions are present on the virtual machine scale set.
+    types:
+    - uid: boolean
 - name: VirtualMachineScaleSetStorageProfile
   description: Describes a virtual machine scale set storage profile.
   kind: object
@@ -1177,6 +1255,42 @@ definitions:
     types:
     - uid: VMGalleryApplication
       isArray: true
+- name: VirtualMachineScaleSetHardwareProfile
+  description: Specifies the hardware settings for the virtual machine scale set.
+  kind: object
+  properties:
+  - name: vmSizeProperties
+    description: 'Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2021-11-01. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details.'
+    types:
+    - uid: VMSizeProperties
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
 - name: AdditionalUnattendContent
   description: Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
   kind: object
@@ -1288,6 +1402,10 @@ definitions:
     description: Specifies the customer managed disk encryption set resource id for the managed disk.
     types:
     - uid: DiskEncryptionSetParameters
+  - name: securityProfile
+    description: Specifies the security profile for the managed disk.
+    types:
+    - uid: VMDiskSecurityProfile
 - name: DiskCreateOptionTypes
   description: Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.
   kind: enum
@@ -1478,6 +1596,18 @@ definitions:
     description: Optional, Specifies the uri to an azure blob that will replace the default configuration for the package if provided
     types:
     - uid: string
+- name: VMSizeProperties
+  description: Specifies VM Size Property settings on the virtual machine.
+  kind: object
+  properties:
+  - name: vCPUsAvailable
+    description: Specifies the number of vCPUs available for the VM. <br><br> When this property is not specified in the request body the default behavior is to set it to the value of vCPUs available for that VM size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) .
+    types:
+    - uid: integer
+  - name: vCPUsPerCore
+    description: Specifies the vCPU to physical core ratio. <br><br> When this property is not specified in the request body the default behavior is set to the value of vCPUsPerCore for the VM Size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) <br><br> Setting this property to 1 also means that hyper-threading is disabled.
+    types:
+    - uid: integer
 - name: PassNames
   description: The pass name. Currently, the only allowable value is OobeSystem.
   kind: enum
@@ -1599,6 +1729,18 @@ definitions:
     description: Resource Id
     types:
     - uid: string
+- name: VMDiskSecurityProfile
+  description: 'Specifies the security profile settings for the managed disk. <br><br> NOTE: It can only be set for Confidential VMs'
+  kind: object
+  properties:
+  - name: securityEncryptionType
+    description: 'Specifies the EncryptionType of the managed disk. <br> It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly for encryption of just the VMGuestState blob. <br><br> NOTE: It can be set for only Confidential VMs.'
+    types:
+    - uid: securityEncryptionTypes
+  - name: diskEncryptionSet
+    description: Specifies the customer managed disk encryption set resource id for the managed disk that is used for Customer Managed Key encrypted ConfidentialVM OS Disk and VMGuest blob.
+    types:
+    - uid: DiskEncryptionSetParameters
 - name: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration
   description: Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
   kind: object
@@ -1615,6 +1757,10 @@ definitions:
     description: The dns settings to be applied on the publicIP addresses .
     types:
     - uid: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
+  - name: properties.publicIPPrefix
+    description: The PublicIPPrefix from which to allocate publicIP addresses.
+    types:
+    - uid: SubResource
   - name: properties.deleteOption
     description: Specify what happens to the public IP when the VM is deleted
     types:
@@ -1709,6 +1855,16 @@ definitions:
   - name: Https
     types:
     - uid: string
+- name: securityEncryptionTypes
+  description: 'Specifies the EncryptionType of the managed disk. <br> It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly for encryption of just the VMGuestState blob. <br><br> NOTE: It can be set for only Confidential VMs.'
+  kind: enum
+  properties:
+  - name: VMGuestStateOnly
+    types:
+    - uid: string
+  - name: DiskWithVMGuestState
+    types:
+    - uid: string
 - name: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
   description: Describes a virtual machines scale sets network configuration's DNS settings.
   kind: object
@@ -1743,7 +1899,7 @@ definitions:
     types:
     - uid: string
   - name: sku
-    description: Describes the public IP Sku
+    description: Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
     types:
     - uid: PublicIPAddressSku
   - name: properties.idleTimeoutInMinutes
@@ -1772,7 +1928,7 @@ definitions:
     types:
     - uid: DeleteOptions
 - name: PublicIPAddressSku
-  description: Describes the public IP Sku
+  description: Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
   kind: object
   properties:
   - name: name
@@ -1815,7 +1971,657 @@ definitions:
   - name: Global
     types:
     - uid: string
-examples: []
+examples:
+- name: VirtualMachineScaleSets_Update_MaximumSet_Gen
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaa?api-version=2021-11-01
+    body: >-
+      {
+        "sku": {
+          "name": "DSv3-Type1",
+          "tier": "aaa",
+          "capacity": 7
+        },
+        "plan": {
+          "publisher": "microsoft-ads",
+          "product": "windows-data-science-vm",
+          "name": "windows2016",
+          "promotionCode": "aaaaaaaaaa"
+        },
+        "properties": {
+          "upgradePolicy": {
+            "mode": "Manual",
+            "rollingUpgradePolicy": {
+              "maxBatchInstancePercent": 49,
+              "maxUnhealthyInstancePercent": 81,
+              "maxUnhealthyUpgradedInstancePercent": 98,
+              "pauseTimeBetweenBatches": "aaaaaaaaaaaaaaa",
+              "enableCrossZoneUpgrade": true,
+              "prioritizeUnhealthyInstances": true
+            },
+            "automaticOSUpgradePolicy": {
+              "enableAutomaticOSUpgrade": true,
+              "disableAutomaticRollback": true
+            }
+          },
+          "automaticRepairsPolicy": {
+            "enabled": true,
+            "gracePeriod": "PT30M"
+          },
+          "virtualMachineProfile": {
+            "osProfile": {
+              "customData": "aaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true,
+                "patchSettings": {
+                  "patchMode": "AutomaticByOS",
+                  "enableHotpatching": true,
+                  "assessmentMode": "ImageDefault"
+                },
+                "timeZone": "aaaaaaaaaaaaaaaa",
+                "additionalUnattendContent": [
+                  {
+                    "passName": "OobeSystem",
+                    "componentName": "Microsoft-Windows-Shell-Setup",
+                    "settingName": "AutoLogon",
+                    "content": "aaaaaaaaaaaaaaaaaaaa"
+                  }
+                ],
+                "winRM": {
+                  "listeners": [
+                    {
+                      "protocol": "Http",
+                      "certificateUrl": "aaaaaaaaaaaaaaaaaaaaaa"
+                    }
+                  ]
+                }
+              },
+              "linuxConfiguration": {
+                "ssh": {
+                  "publicKeys": [
+                    {
+                      "path": "/home/{your-username}/.ssh/authorized_keys",
+                      "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1"
+                    }
+                  ]
+                },
+                "disablePasswordAuthentication": true,
+                "provisionVMAgent": true,
+                "patchSettings": {
+                  "patchMode": "ImageDefault",
+                  "assessmentMode": "ImageDefault"
+                }
+              },
+              "secrets": [
+                {
+                  "sourceVault": {
+                    "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
+                  },
+                  "vaultCertificates": [
+                    {
+                      "certificateUrl": "aaaaaaa",
+                      "certificateStore": "aaaaaaaaaaaaaaaaaaaaaaaaa"
+                    }
+                  ]
+                }
+              ]
+            },
+            "storageProfile": {
+              "imageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer",
+                "sharedGalleryImageId": "aaaaaa",
+                "id": "aaaaaaaaaaaaaaaaaaa"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "writeAcceleratorEnabled": true,
+                "diskSizeGB": 6,
+                "image": {
+                  "uri": "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd"
+                },
+                "vhdContainers": [
+                  "aa"
+                ],
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS",
+                  "diskEncryptionSet": {
+                    "id": "aaaaaaaaaaaa"
+                  }
+                }
+              },
+              "dataDisks": [
+                {
+                  "diskSizeGB": 1023,
+                  "createOption": "Empty",
+                  "lun": 26,
+                  "name": "aaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "caching": "None",
+                  "writeAcceleratorEnabled": true,
+                  "managedDisk": {
+                    "storageAccountType": "Standard_LRS",
+                    "diskEncryptionSet": {
+                      "id": "aaaaaaaaaaaa"
+                    }
+                  },
+                  "diskIOPSReadWrite": 28,
+                  "diskMBpsReadWrite": 15
+                }
+              ]
+            },
+            "networkProfile": {
+              "healthProbe": {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123"
+              },
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "aaaaaaaa",
+                  "properties": {
+                    "primary": true,
+                    "enableAcceleratedNetworking": true,
+                    "enableFpga": true,
+                    "networkSecurityGroup": {
+                      "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+                    },
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "ipConfigurations": [
+                      {
+                        "name": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123"
+                          },
+                          "primary": true,
+                          "publicIPAddressConfiguration": {
+                            "name": "a",
+                            "properties": {
+                              "idleTimeoutInMinutes": 3,
+                              "dnsSettings": {
+                                "domainNameLabel": "aaaaaaaaaaaaaaaaaa"
+                              },
+                              "deleteOption": "Delete"
+                            }
+                          },
+                          "privateIPAddressVersion": "IPv4",
+                          "applicationGatewayBackendAddressPools": [
+                            {
+                              "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+                            }
+                          ],
+                          "applicationSecurityGroups": [
+                            {
+                              "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+                            }
+                          ],
+                          "loadBalancerBackendAddressPools": [
+                            {
+                              "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+                            }
+                          ],
+                          "loadBalancerInboundNatPools": [
+                            {
+                              "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+                            }
+                          ]
+                        },
+                        "id": "aaaaaaaaaaaaaaaa"
+                      }
+                    ],
+                    "enableIPForwarding": true,
+                    "deleteOption": "Delete"
+                  },
+                  "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                }
+              ],
+              "networkApiVersion": "2020-11-01"
+            },
+            "securityProfile": {
+              "encryptionAtHost": true,
+              "uefiSettings": {
+                "secureBootEnabled": true,
+                "vTpmEnabled": true
+              },
+              "securityType": "TrustedLaunch"
+            },
+            "diagnosticsProfile": {
+              "bootDiagnostics": {
+                "storageUri": "http://{existing-storage-account-name}.blob.core.windows.net",
+                "enabled": true
+              }
+            },
+            "extensionProfile": {
+              "extensions": [
+                {
+                  "name": "{extension-name}",
+                  "properties": {
+                    "autoUpgradeMinorVersion": true,
+                    "publisher": "{extension-Publisher}",
+                    "type": "{extension-Type}",
+                    "typeHandlerVersion": "{handler-version}",
+                    "settings": {},
+                    "forceUpdateTag": "aaaaaaaaa",
+                    "enableAutomaticUpgrade": true,
+                    "protectedSettings": {},
+                    "provisionAfterExtensions": [
+                      "aa"
+                    ],
+                    "suppressFailures": true
+                  }
+                }
+              ],
+              "extensionsTimeBudget": "PT1H20M"
+            },
+            "licenseType": "aaaaaaaaaaaa",
+            "billingProfile": {
+              "maxPrice": -1
+            },
+            "scheduledEventsProfile": {
+              "terminateNotificationProfile": {
+                "notBeforeTimeout": "PT10M",
+                "enable": true
+              }
+            },
+            "userData": "aaaaaaaaaaaaa"
+          },
+          "overprovision": true,
+          "doNotRunExtensionsOnOverprovisionedVMs": true,
+          "singlePlacementGroup": true,
+          "additionalCapabilities": {
+            "hibernationEnabled": true,
+            "ultraSSDEnabled": true
+          },
+          "scaleInPolicy": {
+            "rules": [
+              "OldestVM"
+            ],
+            "forceDeletion": true
+          },
+          "proximityPlacementGroup": {
+            "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+          }
+        },
+        "identity": {
+          "type": "SystemAssigned",
+          "userAssignedIdentities": {
+            "key3951": {}
+          }
+        },
+        "tags": {
+          "key246": "aaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D1_v2"
+        },
+        "location": "westus",
+        "properties": {
+          "overprovision": true,
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer",
+                "exactVersion": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "sharedGalleryImageId": "aaaaaa",
+                "id": "aaaaaaaaaaaaaaaaaaa"
+              },
+              "osDisk": {
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Standard_LRS",
+                  "diskEncryptionSet": {
+                    "id": "aaaaaaaaaaaa"
+                  }
+                },
+                "createOption": "FromImage",
+                "name": "aaaaaaaaaaaaaaa",
+                "writeAcceleratorEnabled": true,
+                "diffDiskSettings": {
+                  "option": "Local",
+                  "placement": "CacheDisk"
+                },
+                "diskSizeGB": 6,
+                "osType": "Windows",
+                "image": {
+                  "uri": "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd"
+                },
+                "vhdContainers": [
+                  "aa"
+                ]
+              },
+              "dataDisks": [
+                {
+                  "name": "aaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "lun": 26,
+                  "caching": "None",
+                  "writeAcceleratorEnabled": true,
+                  "createOption": "Empty",
+                  "diskSizeGB": 1023,
+                  "managedDisk": {
+                    "storageAccountType": "Standard_LRS",
+                    "diskEncryptionSet": {
+                      "id": "aaaaaaaaaaaa"
+                    }
+                  },
+                  "diskIOPSReadWrite": 28,
+                  "diskMBpsReadWrite": 15
+                }
+              ]
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "adminPassword": "{your-password}",
+              "customData": "aaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true,
+                "timeZone": "aaaaaaaaaaaaaaaa",
+                "additionalUnattendContent": [
+                  {
+                    "passName": "OobeSystem",
+                    "componentName": "Microsoft-Windows-Shell-Setup",
+                    "settingName": "AutoLogon",
+                    "content": "aaaaaaaaaaaaaaaaaaaa"
+                  }
+                ],
+                "patchSettings": {
+                  "patchMode": "AutomaticByOS",
+                  "enableHotpatching": true,
+                  "assessmentMode": "ImageDefault"
+                },
+                "winRM": {
+                  "listeners": [
+                    {
+                      "protocol": "Http",
+                      "certificateUrl": "aaaaaaaaaaaaaaaaaaaaaa"
+                    }
+                  ]
+                }
+              },
+              "linuxConfiguration": {
+                "disablePasswordAuthentication": true,
+                "ssh": {
+                  "publicKeys": [
+                    {
+                      "path": "/home/{your-username}/.ssh/authorized_keys",
+                      "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1"
+                    }
+                  ]
+                },
+                "provisionVMAgent": true,
+                "patchSettings": {
+                  "patchMode": "ImageDefault",
+                  "assessmentMode": "ImageDefault"
+                }
+              },
+              "secrets": [
+                {
+                  "sourceVault": {
+                    "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
+                  },
+                  "vaultCertificates": [
+                    {
+                      "certificateUrl": "aaaaaaa",
+                      "certificateStore": "aaaaaaaaaaaaaaaaaaaaaaaaa"
+                    }
+                  ]
+                }
+              ]
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "aaaaaaaa",
+                  "properties": {
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123"
+                          },
+                          "primary": true,
+                          "publicIPAddressConfiguration": {
+                            "name": "a",
+                            "properties": {
+                              "idleTimeoutInMinutes": 3,
+                              "dnsSettings": {
+                                "domainNameLabel": "aaaaaaaaaaaaaaaaaa"
+                              },
+                              "ipTags": [
+                                {
+                                  "ipTagType": "aaaaaaa",
+                                  "tag": "aaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                                }
+                              ],
+                              "publicIPPrefix": {
+                                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
+                              },
+                              "publicIPAddressVersion": "IPv4",
+                              "deleteOption": "Delete"
+                            },
+                            "sku": {
+                              "name": "Basic",
+                              "tier": "Regional"
+                            }
+                          },
+                          "privateIPAddressVersion": "IPv4",
+                          "applicationGatewayBackendAddressPools": [
+                            {
+                              "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+                            }
+                          ],
+                          "applicationSecurityGroups": [
+                            {
+                              "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+                            }
+                          ],
+                          "loadBalancerBackendAddressPools": [
+                            {
+                              "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+                            }
+                          ],
+                          "loadBalancerInboundNatPools": [
+                            {
+                              "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+                            }
+                          ]
+                        },
+                        "id": "aaaaaaaaaaaaaaaa"
+                      }
+                    ],
+                    "enableAcceleratedNetworking": true,
+                    "enableFpga": true,
+                    "networkSecurityGroup": {
+                      "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+                    },
+                    "dnsSettings": {
+                      "dnsServers": [
+                        "aaaaaaaaaaaa"
+                      ]
+                    },
+                    "deleteOption": "Delete"
+                  },
+                  "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                }
+              ],
+              "healthProbe": {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123"
+              },
+              "networkApiVersion": "2020-11-01"
+            },
+            "securityProfile": {
+              "uefiSettings": {
+                "secureBootEnabled": true,
+                "vTpmEnabled": true
+              },
+              "encryptionAtHost": true,
+              "securityType": "TrustedLaunch"
+            },
+            "diagnosticsProfile": {
+              "bootDiagnostics": {
+                "enabled": true,
+                "storageUri": "http://{existing-storage-account-name}.blob.core.windows.net"
+              }
+            },
+            "extensionProfile": {
+              "extensions": [
+                {
+                  "name": "{extension-name}",
+                  "type": "aaaaa",
+                  "properties": {
+                    "forceUpdateTag": "aaaaaaaaa",
+                    "publisher": "{extension-Publisher}",
+                    "type": "{extension-Type}",
+                    "typeHandlerVersion": "{handler-version}",
+                    "autoUpgradeMinorVersion": true,
+                    "enableAutomaticUpgrade": true,
+                    "settings": {},
+                    "protectedSettings": {},
+                    "provisioningState": "aaaaaaaaaaaaaa",
+                    "provisionAfterExtensions": [
+                      "aa"
+                    ],
+                    "suppressFailures": true
+                  },
+                  "id": "aaaaaaaaaaaaaaaaaaaaaa"
+                }
+              ],
+              "extensionsTimeBudget": "PT1H20M"
+            },
+            "licenseType": "aaaaaaaaaaaa",
+            "priority": "Regular",
+            "evictionPolicy": "Deallocate",
+            "billingProfile": {
+              "maxPrice": -1
+            },
+            "scheduledEventsProfile": {
+              "terminateNotificationProfile": {
+                "notBeforeTimeout": "PT10M",
+                "enable": true
+              }
+            },
+            "userData": "aaaaaaaaaaaaa",
+            "capacityReservation": {
+              "capacityReservationGroup": {
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
+              }
+            },
+            "applicationProfile": {
+              "galleryApplications": [
+                {
+                  "tags": "aaaaaaaaaaa",
+                  "order": 29,
+                  "packageReferenceId": "aaaaaaaaaa",
+                  "configurationReference": "aaaaa"
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual",
+            "rollingUpgradePolicy": {
+              "maxBatchInstancePercent": 49,
+              "maxUnhealthyInstancePercent": 81,
+              "maxUnhealthyUpgradedInstancePercent": 98,
+              "pauseTimeBetweenBatches": "aaaaaaaaaaaaaaa",
+              "enableCrossZoneUpgrade": true,
+              "prioritizeUnhealthyInstances": true
+            },
+            "automaticOSUpgradePolicy": {
+              "enableAutomaticOSUpgrade": true,
+              "disableAutomaticRollback": true
+            }
+          },
+          "automaticRepairsPolicy": {
+            "enabled": true,
+            "gracePeriod": "PT30M"
+          },
+          "provisioningState": "succeeded",
+          "doNotRunExtensionsOnOverprovisionedVMs": true,
+          "uniqueId": "aaaaaaaa",
+          "singlePlacementGroup": true,
+          "zoneBalance": true,
+          "platformFaultDomainCount": 1,
+          "proximityPlacementGroup": {
+            "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+          },
+          "hostGroup": {
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
+          },
+          "additionalCapabilities": {
+            "ultraSSDEnabled": true,
+            "hibernationEnabled": true
+          },
+          "scaleInPolicy": {
+            "rules": [
+              "OldestVM"
+            ],
+            "forceDeletion": true
+          },
+          "orchestrationMode": "Uniform",
+          "spotRestorePolicy": {
+            "enabled": true,
+            "restoreTimeout": "aaaaaaaaaa"
+          }
+        },
+        "plan": {
+          "name": "aaaaaaaaaa",
+          "publisher": "aaaaaaaaaaaaaaaaaaaaaa",
+          "product": "aaaaaaaaaaaaaaaaaaaa",
+          "promotionCode": "aaaaaaaaaaaaaaaaaaaa"
+        },
+        "identity": {
+          "principalId": "aaaaaaaaaaaaaaa",
+          "tenantId": "aaaaaaaaaaaaaaaa",
+          "type": "SystemAssigned",
+          "userAssignedIdentities": {
+            "key3951": {
+              "principalId": "aaaa",
+              "clientId": "aaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          }
+        },
+        "zones": [
+          "aaaaaaaaaaaaaaaaaaaa"
+        ],
+        "extendedLocation": {
+          "name": "aaaaaaaaaaaaaaaaaaaaa",
+          "type": "EdgeZone"
+        },
+        "id": "/subscriptions/{subscription-id}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}",
+        "name": "{virtualMachineScaleSetName}",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "tags": {
+          "key8425": "aaa"
+        }
+      }
+- name: VirtualMachineScaleSets_Update_MinimumSet_Gen
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaa?api-version=2021-11-01
+    body: '{}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "westus"
+      }
 security:
 - name: azure_auth
   type: oauth2

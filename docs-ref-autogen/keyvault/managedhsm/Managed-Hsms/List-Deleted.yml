@@ -1,0 +1,194 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.keyvault.managedhsm.managedhsms.listdeleted
+name: List Deleted
+service: Key Vault
+groupName: Managed Hsms
+apiVersion: 2021-10-01
+summary: The List operation gets information about the deleted managed HSMs associated with the subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedManagedHSMs?api-version=2021-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Retrieved information about all managed HSMs in the specified subscription.
+  types:
+  - uid: DeletedManagedHsmListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ManagedHsmError
+requestHeader: []
+definitions:
+- name: DeletedManagedHsmListResult
+  description: List of deleted managed HSM Pools
+  kind: object
+  properties:
+  - name: value
+    description: The list of deleted managed HSM Pools.
+    types:
+    - uid: DeletedManagedHsm
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of deleted managed HSM Pools.
+    types:
+    - uid: string
+- name: ManagedHsmError
+  description: The error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The server error.
+    types:
+    - uid: Error
+- name: DeletedManagedHsm
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The Azure Resource Manager resource ID for the deleted managed HSM Pool.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the managed HSM Pool.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type of the managed HSM Pool.
+    types:
+    - uid: string
+  - name: properties
+    description: Properties of the deleted managed HSM
+    types:
+    - uid: DeletedManagedHsmProperties
+- name: Error
+  description: The server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The inner error, contains a more specific error code.
+    types:
+    - uid: Error
+- name: DeletedManagedHsmProperties
+  description: Properties of the deleted managed HSM.
+  kind: object
+  properties:
+  - name: mhsmId
+    isReadyOnly: true
+    description: The resource id of the original managed HSM.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The location of the original managed HSM.
+    types:
+    - uid: string
+  - name: deletionDate
+    isReadyOnly: true
+    description: The deleted date.
+    types:
+    - uid: string
+  - name: scheduledPurgeDate
+    isReadyOnly: true
+    description: The scheduled purged date.
+    types:
+    - uid: string
+  - name: purgeProtectionEnabled
+    isReadyOnly: true
+    description: Purge protection status of the original managed HSM.
+    types:
+    - uid: boolean
+  - name: tags
+    isReadyOnly: true
+    description: Tags of the original managed HSM.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: List deleted managed HSMs in the specified subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/deletedManagedHSMs?api-version=2021-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus/deletedManagedHSMs/hsm1",
+            "name": "vault-agile-drawer-6404",
+            "type": "Microsoft.KeyVault/deletedManagedHSMs",
+            "properties": {
+              "mhsmId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/hsm-group/providers/Microsoft.KeyVault/managedHSMs/hsm1",
+              "location": "westus",
+              "deletionDate": "2021-04-01T00:00:59Z",
+              "scheduledPurgeDate": "2021-04-01T00:00:59Z",
+              "purgeProtectionEnabled": true,
+              "tags": {
+                "Dept": "hsm",
+                "Environment": "production"
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus/deletedManagedHSMs/hsm2",
+            "name": "vault-agile-drawer-6404",
+            "type": "Microsoft.KeyVault/deletedManagedHSMs",
+            "properties": {
+              "mhsmId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/hsm-group/providers/Microsoft.KeyVault/managedHSMs/hsm2",
+              "location": "westus",
+              "deletionDate": "2021-04-01T00:00:59Z",
+              "scheduledPurgeDate": "2021-04-01T00:00:59Z",
+              "purgeProtectionEnabled": true,
+              "tags": {
+                "Dept": "hsm",
+                "Environment": "production"
+              }
+            }
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/deletedManagedHSMs?api-version=2021-10-01&$skiptoken=dmF1bHQtcGVza3ktanVyeS03MzA3Ng=="
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Key Vault service - The List operation gets information about the deleted managed HSMs associated with the subscription.
+errorCodes: []

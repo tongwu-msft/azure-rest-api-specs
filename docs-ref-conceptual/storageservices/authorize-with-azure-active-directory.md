@@ -145,8 +145,9 @@ The following tables describe the permissions necessary for an Azure AD user, gr
 | [Set Container Metadata](set-container-metadata.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
 | [Get Container ACL](get-container-acl.md) | Not available via OAuth |
 | [Set Container ACL](set-container-acl.md) | Not available via OAuth |
-| [Delete Container](delete-container.md) | Microsoft.Storage/storageAccounts/blobServices/containers/delete |
 | [Lease Container](lease-container.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
+| [Delete Container](delete-container.md) | Microsoft.Storage/storageAccounts/blobServices/containers/delete |
+| [Restore Container](restore-container.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
 | [List Blobs](list-blobs.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read (scoped to container) |
 | [Put Blob](put-blob.md) | For create or replace: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write <br/>To create new blob: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action |
 | [Get Blob](get-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read |
@@ -162,6 +163,7 @@ The following tables describe the permissions necessary for an Azure AD user, gr
 | [Copy Blob](copy-blob.md) | For destination blob: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write or Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action (when writing a new blob to the destination)<br/>For source blob in the same storage account: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read<br/>For source blob in a different storage account: Available as anonymous, or include valid SAS token |
 | [Abort Copy Blob](abort-copy-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 | [Delete Blob](delete-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/delete |
+| [Undelete Blob](delete-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
 | [Put Block](put-block.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 | [Put Block List](put-block-list.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 | [Get Block List](get-block-list.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read |
@@ -190,7 +192,7 @@ The following tables describe the permissions necessary for an Azure AD user, gr
 | [Peek Messages](peek-messages.md) | Microsoft.Storage/storageAccounts/queueServices/queues/messages/read |
 | [Delete Message](delete-message2.md) | Microsoft.Storage/storageAccounts/queueServices/queues/messages/process/action or Microsoft.Storage/storageAccounts/queueServices/queues/messages/delete |
 | [Clear Messages](clear-messages.md) | Microsoft.Storage/storageAccounts/queueServices/queues/messages/delete |
-| [Update Message](update-message.md) | Microsoft.Storage/storageAccounts/queueServices/queues/messages/write |                                       |
+| [Update Message](update-message.md) | Microsoft.Storage/storageAccounts/queueServices/queues/messages/write |
 
 ### Permissions for Table service operations
 

@@ -3,14 +3,14 @@ uid: management.azure.com.servicebus.stable.namespaces-networkrulesets.createoru
 name: Create Or Update Network Rule Set
 service: Service Bus
 groupName: Namespaces - Network Rule Sets
-apiVersion: 2017-04-01
+apiVersion: 2021-11-01
 summary: Create or update NetworkRuleSet for a Namespace.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/networkRuleSets/default?api-version=2017-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/networkRuleSets/default?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,6 +48,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: properties.trustedServiceAccessEnabled
+    in: body
+    description: Value that indicates whether Trusted Service Access is Enabled or not.
+    types:
+    - uid: boolean
   - name: properties.defaultAction
     in: body
     description: Default Action for Network Rule Set
@@ -65,8 +70,41 @@ requestBody:
     types:
     - uid: NWRuleSetIpRules
       isArray: true
+  - name: properties.publicNetworkAccess
+    in: body
+    description: This determines if traffic is allowed over public network. By default it is enabled.
+    types:
+    - uid: PublicNetworkAccessFlag
 requestHeader: []
 definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: string
 - name: NWRuleSetVirtualNetworkRules
   description: Description of VirtualNetworkRules - NetworkRules resource.
   kind: object
@@ -95,6 +133,15 @@ definitions:
   description: Description of NetworkRuleSet resource.
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
+    types:
+    - uid: systemData
+  - name: properties.trustedServiceAccessEnabled
+    description: Value that indicates whether Trusted Service Access is Enabled or not.
+    types:
+    - uid: boolean
   - name: properties.defaultAction
     description: Default Action for Network Rule Set
     types:
@@ -109,19 +156,28 @@ definitions:
     types:
     - uid: NWRuleSetIpRules
       isArray: true
+  - name: properties.publicNetworkAccess
+    description: This determines if traffic is allowed over public network. By default it is enabled.
+    types:
+    - uid: PublicNetworkAccessFlag
   - name: id
     isReadyOnly: true
-    description: Resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type
+    description: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The geo-location where the resource lives
     types:
     - uid: string
 - name: ErrorResponse
@@ -132,6 +188,22 @@ definitions:
     description: The error object.
     types:
     - uid: Error
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: Subnet
   description: Properties supplied for Subnet
   kind: object
@@ -155,6 +227,16 @@ definitions:
     types:
     - uid: string
   - name: Deny
+    types:
+    - uid: string
+- name: PublicNetworkAccessFlag
+  description: This determines if traffic is allowed over public network. By default it is enabled.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: Error
@@ -205,7 +287,7 @@ definitions:
 examples:
 - name: NameSpaceNetworkRuleSetCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-6019/networkRuleSets/default?api-version=2017-04-01
+    uri: PUT https://management.azure.com/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-6019/networkRuleSets/default?api-version=2021-11-01
     body: >-
       {
         "properties": {
@@ -213,19 +295,19 @@ examples:
           "virtualNetworkRules": [
             {
               "subnet": {
-                "id": "/subscriptions/subscriptionid/resourcegroups/resourcegroupid/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet2"
+                "id": "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/alitest/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet2"
               },
               "ignoreMissingVnetServiceEndpoint": true
             },
             {
               "subnet": {
-                "id": "/subscriptions/subscriptionid/resourcegroups/resourcegroupid/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet3"
+                "id": "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/alitest/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet3"
               },
               "ignoreMissingVnetServiceEndpoint": false
             },
             {
               "subnet": {
-                "id": "/subscriptions/subscriptionid/resourcegroups/resourcegroupid/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet6"
+                "id": "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/alitest/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet6"
               },
               "ignoreMissingVnetServiceEndpoint": false
             }
@@ -258,27 +340,28 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourceGroups/resourcegroupid/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-9659/networkrulesets/default",
+        "id": "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourceGroups/Default-ServiceBus-AustraliaEast/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-9659/networkruleset/default",
         "name": "default",
         "type": "Microsoft.ServiceBus/Namespaces/NetworkRuleSet",
         "properties": {
           "defaultAction": "Deny",
+          "publicNetworkAccess": "Enabled",
           "virtualNetworkRules": [
             {
               "subnet": {
-                "id": "/subscriptions/subscriptionid/resourcegroups/resourcegroupid/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet2"
+                "id": "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/alitest/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet2"
               },
               "ignoreMissingVnetServiceEndpoint": true
             },
             {
               "subnet": {
-                "id": "/subscriptions/subscriptionid/resourcegroups/resourcegroupid/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet3"
+                "id": "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/alitest/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet3"
               },
               "ignoreMissingVnetServiceEndpoint": false
             },
             {
               "subnet": {
-                "id": "/subscriptions/subscriptionid/resourcegroups/resourcegroupid/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet6"
+                "id": "/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/alitest/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet6"
               },
               "ignoreMissingVnetServiceEndpoint": false
             }

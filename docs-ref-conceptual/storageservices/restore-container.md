@@ -3,7 +3,7 @@ title: Restore Container (REST API) - Azure Storage
 description: The Restore Container operation restores the contents and properties of a soft deleted container to a specified container.
 author: pemari-msft
 
-ms.date: 10/06/2020
+ms.date: 01/07/2022
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -82,7 +82,7 @@ Content-Length: 0
 ```  
   
 ## Authorization  
- The storage account owner, users with Account SAS tokens with write permissions on containers, and roles with `Microsoft.Storage/storageAccounts/blobServices/containers/write` permission on the soft deleted container and the the restored container may call this operation.
+ The storage account owner, users with Account SAS tokens with write permissions on containers, and roles with `Microsoft.Storage/storageAccounts/blobServices/containers/write` permission on the soft deleted container and the restored container may call this operation.
   
 ## Remarks  
  The container delete retention policy can be set on the account using the Storage Resource Provider.  

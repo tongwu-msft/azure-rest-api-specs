@@ -3,15 +3,15 @@ uid: management.azure.com.compute.virtualmachinescalesets.get
 name: Get
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: Display information about a virtual machine scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2021-07-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2021-07-01&$expand=userData
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2021-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2021-11-01&$expand=userData
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -48,6 +48,10 @@ responses:
   description: OK
   types:
   - uid: VirtualMachineScaleSet
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: ExpandTypesForGetVMScaleSets
@@ -148,6 +152,11 @@ definitions:
     description: Specifies the Spot Restore properties for the virtual machine scale set.
     types:
     - uid: SpotRestorePolicy
+  - name: properties.timeCreated
+    isReadyOnly: true
+    description: 'Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2021-11-01.'
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -175,6 +184,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: Sku
   description: 'Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is currently on, you need to deallocate the VMs in the scale set before you modify the SKU name.'
   kind: object
@@ -270,9 +287,13 @@ definitions:
     types:
     - uid: boolean
   - name: gracePeriod
-    description: The amount of time for which automatic repairs are suspended due to a state change on VM. The grace time starts after the state change has completed. This helps avoid premature or accidental repairs. The time duration should be specified in ISO 8601 format. The minimum allowed grace period is 30 minutes (PT30M), which is also the default value. The maximum allowed grace period is 90 minutes (PT90M).
+    description: The amount of time for which automatic repairs are suspended due to a state change on VM. The grace time starts after the state change has completed. This helps avoid premature or accidental repairs. The time duration should be specified in ISO 8601 format. The minimum allowed grace period is 10 minutes (PT10M), which is also the default value. The maximum allowed grace period is 90 minutes (PT90M).
     types:
     - uid: string
+  - name: repairAction
+    description: Type of repair action (replace, restart, reimage) that will be used for repairing unhealthy virtual machines in the scale set. Default value is replace.
+    types:
+    - uid: RepairAction
 - name: VirtualMachineScaleSetVMProfile
   description: Describes a virtual machine scale set virtual machine profile.
   kind: object
@@ -333,6 +354,10 @@ definitions:
     description: Specifies the gallery applications that should be made available to the VM/VMSS
     types:
     - uid: ApplicationProfile
+  - name: hardwareProfile
+    description: 'Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2021-11-01.'
+    types:
+    - uid: VirtualMachineScaleSetHardwareProfile
 - name: SubResource
   kind: object
   properties:
@@ -385,6 +410,31 @@ definitions:
     - uid: boolean
   - name: restoreTimeout
     description: Timeout value expressed as an ISO 8601 time duration after which the platform will not try to restore the VMSS SPOT instances
+    types:
+    - uid: string
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
     types:
     - uid: string
 - name: ResourceIdentityType
@@ -471,6 +521,19 @@ definitions:
     description: Whether OS image rollback feature should be disabled. Default value is false.
     types:
     - uid: boolean
+- name: RepairAction
+  description: Type of repair action (replace, restart, reimage) that will be used for repairing unhealthy virtual machines in the scale set. Default value is replace.
+  kind: enum
+  properties:
+  - name: Replace
+    types:
+    - uid: string
+  - name: Restart
+    types:
+    - uid: string
+  - name: Reimage
+    types:
+    - uid: string
 - name: VirtualMachineScaleSetOSProfile
   description: Describes a virtual machine scale set OS profile.
   kind: object
@@ -504,6 +567,10 @@ definitions:
     types:
     - uid: VaultSecretGroup
       isArray: true
+  - name: allowExtensionOperations
+    description: Specifies whether extension operations should be allowed on the virtual machine scale set. <br><br>This may only be set to False when no extensions are present on the virtual machine scale set.
+    types:
+    - uid: boolean
 - name: VirtualMachineScaleSetStorageProfile
   description: Describes a virtual machine scale set storage profile.
   kind: object
@@ -551,7 +618,7 @@ definitions:
     types:
     - uid: boolean
   - name: securityType
-    description: 'Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.'
+    description: 'Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set.'
     types:
     - uid: SecurityTypes
 - name: DiagnosticsProfile
@@ -630,6 +697,42 @@ definitions:
     types:
     - uid: VMGalleryApplication
       isArray: true
+- name: VirtualMachineScaleSetHardwareProfile
+  description: Specifies the hardware settings for the virtual machine scale set.
+  kind: object
+  properties:
+  - name: vmSizeProperties
+    description: 'Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2021-11-01. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details.'
+    types:
+    - uid: VMSizeProperties
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
 - name: WindowsConfiguration
   description: Specifies Windows operating system settings on the virtual machine.
   kind: object
@@ -709,7 +812,7 @@ definitions:
     types:
     - uid: string
   - name: version
-    description: Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available.
+    description: Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available. Please do not use field 'version' for gallery image deployment, gallery image should always use 'id' field for deployment, to use 'latest' version of gallery image, just set '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageName}' in the 'id' field without version input.
     types:
     - uid: string
   - name: exactVersion
@@ -719,6 +822,10 @@ definitions:
     - uid: string
   - name: sharedGalleryImageId
     description: Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call.
+    types:
+    - uid: string
+  - name: communityGalleryImageId
+    description: Specified the community gallery image unique id for vm deployment. This can be fetched from community gallery image GET call.
     types:
     - uid: string
   - name: id
@@ -883,10 +990,13 @@ definitions:
     types:
     - uid: boolean
 - name: SecurityTypes
-  description: 'Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.'
+  description: 'Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set.'
   kind: enum
   properties:
   - name: TrustedLaunch
+    types:
+    - uid: string
+  - name: ConfidentialVM
     types:
     - uid: string
 - name: BootDiagnostics
@@ -960,6 +1070,10 @@ definitions:
     description: Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
     types:
     - uid: boolean
+  - name: properties.protectedSettingsFromKeyVault
+    description: The extensions protected settings that are passed by reference, and consumed from key vault
+    types:
+    - uid: object
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -996,6 +1110,18 @@ definitions:
     description: Optional, Specifies the uri to an azure blob that will replace the default configuration for the package if provided
     types:
     - uid: string
+- name: VMSizeProperties
+  description: Specifies VM Size Property settings on the virtual machine.
+  kind: object
+  properties:
+  - name: vCPUsAvailable
+    description: Specifies the number of vCPUs available for the VM. <br><br> When this property is not specified in the request body the default behavior is to set it to the value of vCPUs available for that VM size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) .
+    types:
+    - uid: integer
+  - name: vCPUsPerCore
+    description: Specifies the vCPU to physical core ratio. <br><br> When this property is not specified in the request body the default behavior is set to the value of vCPUsPerCore for the VM Size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) <br><br> Setting this property to 1 also means that hyper-threading is disabled.
+    types:
+    - uid: integer
 - name: AdditionalUnattendContent
   description: Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
   kind: object
@@ -1142,6 +1268,10 @@ definitions:
     description: Specifies the customer managed disk encryption set resource id for the managed disk.
     types:
     - uid: DiskEncryptionSetParameters
+  - name: securityProfile
+    description: Specifies the security profile for the managed disk.
+    types:
+    - uid: VMDiskSecurityProfile
 - name: VirtualMachineScaleSetNetworkConfigurationDnsSettings
   description: Describes a virtual machines scale sets network configuration's DNS settings.
   kind: object
@@ -1347,6 +1477,18 @@ definitions:
     description: Resource Id
     types:
     - uid: string
+- name: VMDiskSecurityProfile
+  description: 'Specifies the security profile settings for the managed disk. <br><br> NOTE: It can only be set for Confidential VMs'
+  kind: object
+  properties:
+  - name: securityEncryptionType
+    description: 'Specifies the EncryptionType of the managed disk. <br> It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly for encryption of just the VMGuestState blob. <br><br> NOTE: It can be set for only Confidential VMs.'
+    types:
+    - uid: securityEncryptionTypes
+  - name: diskEncryptionSet
+    description: Specifies the customer managed disk encryption set resource id for the managed disk that is used for Customer Managed Key encrypted ConfidentialVM OS Disk and VMGuest blob.
+    types:
+    - uid: DiskEncryptionSetParameters
 - name: VirtualMachineScaleSetPublicIPAddressConfiguration
   description: Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
   kind: object
@@ -1356,7 +1498,7 @@ definitions:
     types:
     - uid: string
   - name: sku
-    description: Describes the public IP Sku
+    description: Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
     types:
     - uid: PublicIPAddressSku
   - name: properties.idleTimeoutInMinutes
@@ -1404,8 +1546,18 @@ definitions:
   - name: Https
     types:
     - uid: string
+- name: securityEncryptionTypes
+  description: 'Specifies the EncryptionType of the managed disk. <br> It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly for encryption of just the VMGuestState blob. <br><br> NOTE: It can be set for only Confidential VMs.'
+  kind: enum
+  properties:
+  - name: VMGuestStateOnly
+    types:
+    - uid: string
+  - name: DiskWithVMGuestState
+    types:
+    - uid: string
 - name: PublicIPAddressSku
-  description: Describes the public IP Sku
+  description: Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
   kind: object
   properties:
   - name: name
@@ -1459,7 +1611,7 @@ definitions:
 examples:
 - name: Get a virtual machine scale set placed on a dedicated host group through automatic placement.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myVirtualMachineScaleSet?api-version=2021-07-01&$expand=userData
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myVirtualMachineScaleSet?api-version=2021-11-01&$expand=userData
   responses:
   - statusCode: "200"
     body: >-
@@ -1545,7 +1697,7 @@ examples:
       }
 - name: Get a virtual machine scale set with UserData
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myVirtualMachineScaleSet?api-version=2021-07-01&$expand=userData
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myVirtualMachineScaleSet?api-version=2021-11-01&$expand=userData
   responses:
   - statusCode: "200"
     body: >-
@@ -1641,6 +1793,107 @@ examples:
           "hostGroup": {
             "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myHostGroup"
           }
+        }
+      }
+- name: Get a virtual machine scale set
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myVirtualMachineScaleSet?api-version=2021-11-01&$expand=userData
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "myVirtualMachineScaleSet",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myVirtualMachineScaleSet",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "location": "westus",
+        "tags": {
+          "myTag1": "tagValue1"
+        },
+        "sku": {
+          "name": "Standard_D2s_v3",
+          "tier": "Standard",
+          "capacity": 4
+        },
+        "properties": {
+          "singlePlacementGroup": false,
+          "upgradePolicy": {
+            "mode": "Automatic",
+            "automaticOSUpgradePolicy": {
+              "enableAutomaticOSUpgrade": false
+            }
+          },
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "osDisk": {
+                "createOption": "FromImage",
+                "caching": "ReadWrite",
+                "managedDisk": {
+                  "storageAccountType": "Premium_LRS"
+                },
+                "diskSizeGB": 30
+              },
+              "imageReference": {
+                "publisher": "azuredatabricks",
+                "offer": "databricks",
+                "sku": "databricksworker",
+                "version": "3.15.2"
+              },
+              "dataDisks": []
+            },
+            "applicationProfile": {
+              "galleryApplications": [
+                {
+                  "tags": "myTag1",
+                  "order": 1,
+                  "packageReferenceId": "/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdb/resourceGroups/myresourceGroupName2/providers/Microsoft.Compute/galleries/myGallery1/applications/MyApplication1/versions/1.0",
+                  "configurationReference": "https://mystorageaccount.blob.core.windows.net/configurations/settings.config"
+                },
+                {
+                  "packageReferenceId": "/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdg/resourceGroups/myresourceGroupName3/providers/Microsoft.Compute/galleries/myGallery2/applications/MyApplication2/versions/1.1"
+                }
+              ]
+            },
+            "userData": "RXhhbXBsZSBVc2VyRGF0YQ==",
+            "osProfile": {
+              "computerNamePrefix": "myVirtualMachineScaleSet",
+              "adminUsername": "admin",
+              "linuxConfiguration": {
+                "disablePasswordAuthentication": false
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "myNic",
+                  "properties": {
+                    "primary": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "myIPConfig",
+                        "properties": {
+                          "primary": true,
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVNet/subnets/mySubnet"
+                          }
+                        }
+                      }
+                    ],
+                    "networkSecurityGroup": {
+                      "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkSecurityGroups/myNetworkSecurityGroup"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "provisioningState": "succeeded",
+          "overprovision": false,
+          "doNotRunExtensionsOnOverprovisionedVMs": false,
+          "platformFaultDomainCount": 1,
+          "hostGroup": {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myHostGroup"
+          },
+          "timeCreated": "2021-06-27T01:02:38.3138469+00:00"
         }
       }
 security:

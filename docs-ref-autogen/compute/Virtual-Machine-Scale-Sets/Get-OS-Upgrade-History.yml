@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.getosupgradehistory
 name: Get OS Upgrade History
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: Gets list of OS upgrades on a VM scale set instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osUpgradeHistory?api-version=2021-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osUpgradeHistory?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +41,10 @@ responses:
   description: OK
   types:
   - uid: VirtualMachineScaleSetListOSUpgradeHistory
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: VirtualMachineScaleSetListOSUpgradeHistory
@@ -56,6 +60,14 @@ definitions:
     description: The uri to fetch the next page of OS Upgrade History. Call ListNext() with this to fetch the next page of history of upgrades.
     types:
     - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: UpgradeOperationHistoricalStatusInfo
   description: Virtual Machine Scale Set OS Upgrade History operation response.
   kind: object
@@ -73,6 +85,31 @@ definitions:
   - name: location
     isReadyOnly: true
     description: Resource location
+    types:
+    - uid: string
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
     types:
     - uid: string
 - name: UpgradeOperationHistoricalStatusInfoProperties
@@ -109,6 +146,34 @@ definitions:
     description: Information about OS rollback if performed
     types:
     - uid: RollbackStatusInfo
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
 - name: UpgradeOperationHistoryStatus
   description: Information about the current running state of the overall upgrade.
   kind: object
@@ -152,31 +217,6 @@ definitions:
     description: The number of instances that have not yet begun to be upgraded.
     types:
     - uid: integer
-- name: ApiError
-  description: Api error.
-  kind: object
-  properties:
-  - name: details
-    description: The Api error details
-    types:
-    - uid: ApiErrorBase
-      isArray: true
-  - name: innererror
-    description: The Api inner error
-    types:
-    - uid: InnerError
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
 - name: UpgradeOperationInvoker
   description: Invoker of the Upgrade Operation
   kind: enum
@@ -207,7 +247,7 @@ definitions:
     types:
     - uid: string
   - name: version
-    description: Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available.
+    description: Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available. Please do not use field 'version' for gallery image deployment, gallery image should always use 'id' field for deployment, to use 'latest' version of gallery image, just set '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageName}' in the 'id' field without version input.
     types:
     - uid: string
   - name: exactVersion
@@ -217,6 +257,10 @@ definitions:
     - uid: string
   - name: sharedGalleryImageId
     description: Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call.
+    types:
+    - uid: string
+  - name: communityGalleryImageId
+    description: Specified the community gallery image unique id for vm deployment. This can be fetched from community gallery image GET call.
     types:
     - uid: string
   - name: id
@@ -258,35 +302,92 @@ definitions:
   - name: Faulted
     types:
     - uid: string
-- name: ApiErrorBase
-  description: Api error base.
-  kind: object
-  properties:
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-- name: InnerError
-  description: Inner error details.
-  kind: object
-  properties:
-  - name: exceptiontype
-    description: The exception type.
-    types:
-    - uid: string
-  - name: errordetail
-    description: The internal error message or exception dump.
-    types:
-    - uid: string
-examples: []
+examples:
+- name: VirtualMachineScaleSets_GetOSUpgradeHistory_MaximumSet_Gen
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaa/osUpgradeHistory?api-version=2021-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "runningStatus": {
+                "code": "RollingForward",
+                "startTime": "2021-11-30T13:05:40.442Z",
+                "endTime": "2021-11-30T13:05:40.443Z"
+              },
+              "progress": {
+                "successfulInstanceCount": 6,
+                "failedInstanceCount": 25,
+                "inProgressInstanceCount": 20,
+                "pendingInstanceCount": 27
+              },
+              "error": {
+                "details": [
+                  {
+                    "code": "aaaaaaaaaaaaaaaaaaaaaaaa",
+                    "target": "aaaa",
+                    "message": "aa"
+                  }
+                ],
+                "innererror": {
+                  "exceptiontype": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "errordetail": "aaaaaaaaaaaaaaaaaaaaaaaa"
+                },
+                "code": "aaaaaaa",
+                "target": "aaaaaaa",
+                "message": "aaaaaaaaa"
+              },
+              "startedBy": "Unknown",
+              "targetImageReference": {
+                "sku": "2016-Datacenter",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "latest",
+                "offer": "WindowsServer",
+                "exactVersion": "aaaaaaa",
+                "sharedGalleryImageId": "aaaaaa",
+                "id": "aaaaaaaaaaaaaaaaaaa"
+              },
+              "rollbackInfo": {
+                "successfullyRolledbackInstanceCount": 12,
+                "failedRolledbackInstanceCount": 2,
+                "rollbackError": {
+                  "details": [
+                    {
+                      "code": "aaaaaaaaaaaaaaaaaaaaaaaa",
+                      "target": "aaaa",
+                      "message": "aa"
+                    }
+                  ],
+                  "innererror": {
+                    "exceptiontype": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                    "errordetail": "aaaaaaaaaaaaaaaaaaaaaaaa"
+                  },
+                  "code": "aaaaaaa",
+                  "target": "aaaaaaa",
+                  "message": "aaaaaaaaa"
+                }
+              }
+            },
+            "type": "aaaaaaaaaaaaaaaaaaa",
+            "location": "aaaaaaaaaaaaa"
+          }
+        ],
+        "nextLink": "aaaaaaaaa"
+      }
+- name: VirtualMachineScaleSets_GetOSUpgradeHistory_MinimumSet_Gen
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaa/osUpgradeHistory?api-version=2021-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {}
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2

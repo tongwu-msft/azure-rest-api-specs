@@ -351,6 +351,13 @@
 ##### [Get](apimanagement/current-ga/Gateway-Hostname-Configuration/Get.yml)
 ##### [Get Entity Tag](apimanagement/current-ga/Gateway-Hostname-Configuration/Get-Entity-Tag.yml)
 ##### [List By Service](apimanagement/current-ga/Gateway-Hostname-Configuration/List-By-Service.yml)
+#### Global Schema
+##### [Overview](apimanagement/current-ga/Global-Schema.yml)
+##### [Create Or Update](apimanagement/current-ga/Global-Schema/Create-Or-Update.yml)
+##### [Delete](apimanagement/current-ga/Global-Schema/Delete.yml)
+##### [Get](apimanagement/current-ga/Global-Schema/Get.yml)
+##### [Get Entity Tag](apimanagement/current-ga/Global-Schema/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/current-ga/Global-Schema/List-By-Service.yml)
 #### Group
 ##### [Overview](apimanagement/current-ga/Group.yml)
 ##### [Create Or Update](apimanagement/current-ga/Group/Create-Or-Update.yml)
@@ -2395,6 +2402,10 @@
 ## [Versions](../docs-ref-conceptual/authorization/versions.md)
 ## Samples
 ### [Manage roles](../docs-ref-conceptual/authorization/role-assignment-rest-sample.md)
+### [Manage eligible roles through PIM](../docs-ref-conceptual/authorization/privileged-role-eligibility-rest-sample.md)
+### [Manage active roles through PIM](../docs-ref-conceptual/authorization/privileged-role-assignment-rest-sample.md)
+### [Manage policies through PIM](../docs-ref-conceptual/authorization/privileged-role-policy-rest-sample.md)
+### [Approve PIM activation requests](../docs-ref-conceptual/authorization/privileged-approval-sample.md)
 ## Reference
 ### Classic Administrators
 #### [Overview](authorization/Classic-Administrators.yml)
@@ -4855,16 +4866,40 @@
 #### [Transliterate](cognitiveservices/translator/Translator/Transliterate.yml)
 # Cognitive Services - AnomalyDetector
 ## [Overview](../docs-ref-conceptual/anomalydetector/index.md)
-## Anomaly Detector 1.0
+## Delete Multivariate Model
+### [Overview](anomalydetector/Delete-Multivariate-Model.yml)
+### [Delete Multivariate Model](anomalydetector/Delete-Multivariate-Model/Delete-Multivariate-Model.yml)
+## Detect Anomaly
+### [Overview](anomalydetector/Detect-Anomaly.yml)
+### [Detect Anomaly](anomalydetector/Detect-Anomaly/Detect-Anomaly.yml)
+## Export Model
+### [Overview](anomalydetector/Export-Model.yml)
+### [Export Model](anomalydetector/Export-Model/Export-Model.yml)
+## Get Detection Result
+### [Overview](anomalydetector/Get-Detection-Result.yml)
+### [Get Detection Result](anomalydetector/Get-Detection-Result/Get-Detection-Result.yml)
+## Get Multivariate Model
+### [Overview](anomalydetector/Get-Multivariate-Model.yml)
+### [Get Multivariate Model](anomalydetector/Get-Multivariate-Model/Get-Multivariate-Model.yml)
+## Last Detect Anomaly
+### [Overview](anomalydetector/Last-Detect-Anomaly.yml)
+### [Last Detect Anomaly](anomalydetector/Last-Detect-Anomaly/Last-Detect-Anomaly.yml)
+## List Multivariate Model
+### [Overview](anomalydetector/List-Multivariate-Model.yml)
+### [List Multivariate Model](anomalydetector/List-Multivariate-Model/List-Multivariate-Model.yml)
+## Train Multivariate Model
+### [Overview](anomalydetector/Train-Multivariate-Model.yml)
+### [Train Multivariate Model](anomalydetector/Train-Multivariate-Model/Train-Multivariate-Model.yml)
+## Anomaly Detector 1.1
 ### Detect Change Point
-#### [Overview](anomalydetector/anomalydetector1.0/Detect-Change-Point.yml)
-#### [Detect Change Point](anomalydetector/anomalydetector1.0/Detect-Change-Point/Detect-Change-Point.yml)
+#### [Overview](anomalydetector/anomalydetector1.1/Detect-Change-Point.yml)
+#### [Detect Change Point](anomalydetector/anomalydetector1.1/Detect-Change-Point/Detect-Change-Point.yml)
 ### Detect Entire Series
-#### [Overview](anomalydetector/anomalydetector1.0/Detect-Entire-Series.yml)
-#### [Detect Entire Series](anomalydetector/anomalydetector1.0/Detect-Entire-Series/Detect-Entire-Series.yml)
+#### [Overview](anomalydetector/anomalydetector1.1/Detect-Entire-Series.yml)
+#### [Detect Entire Series](anomalydetector/anomalydetector1.1/Detect-Entire-Series/Detect-Entire-Series.yml)
 ### Detect Last Point
-#### [Overview](anomalydetector/anomalydetector1.0/Detect-Last-Point.yml)
-#### [Detect Last Point](anomalydetector/anomalydetector1.0/Detect-Last-Point/Detect-Last-Point.yml)
+#### [Overview](anomalydetector/anomalydetector1.1/Detect-Last-Point.yml)
+#### [Detect Last Point](anomalydetector/anomalydetector1.1/Detect-Last-Point/Detect-Last-Point.yml)
 # Cognitive Services - Bing Search
 ## [Overview](../docs-ref-conceptual/cognitiveservices-bingsearch/index.md)
 ## Bing Autosuggest API
@@ -6301,6 +6336,7 @@
 #### [Delete](compute/Dedicated-Hosts/Delete.yml)
 #### [Get](compute/Dedicated-Hosts/Get.yml)
 #### [List By Host Group](compute/Dedicated-Hosts/List-By-Host-Group.yml)
+#### [Restart](compute/Dedicated-Hosts/Restart.yml)
 #### [Update](compute/Dedicated-Hosts/Update.yml)
 ### Disk Accesses
 #### [Overview](compute/Disk-Accesses.yml)
@@ -7141,6 +7177,182 @@
 ##### [Migrate Table To Autoscale](cosmos-db-resource-provider/2021-04-01-preview/Table-Resources/Migrate-Table-To-Autoscale.yml)
 ##### [Migrate Table To Manual Throughput](cosmos-db-resource-provider/2021-04-01-preview/Table-Resources/Migrate-Table-To-Manual-Throughput.yml)
 ##### [Update Table Throughput](cosmos-db-resource-provider/2021-04-01-preview/Table-Resources/Update-Table-Throughput.yml)
+### 2021-07-01-preview
+#### Cassandra Resources
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources.yml)
+##### [Create Update Cassandra Keyspace](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Create-Update-Cassandra-Keyspace.yml)
+##### [Create Update Cassandra Table](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Create-Update-Cassandra-Table.yml)
+##### [Create Update Cassandra View](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Create-Update-Cassandra-View.yml)
+##### [Delete Cassandra Keyspace](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Delete-Cassandra-Keyspace.yml)
+##### [Delete Cassandra Table](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Delete-Cassandra-Table.yml)
+##### [Delete Cassandra View](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Delete-Cassandra-View.yml)
+##### [Get Cassandra Keyspace](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Get-Cassandra-Keyspace.yml)
+##### [Get Cassandra Keyspace Throughput](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Get-Cassandra-Keyspace-Throughput.yml)
+##### [Get Cassandra Table](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Get-Cassandra-Table.yml)
+##### [Get Cassandra Table Throughput](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Get-Cassandra-Table-Throughput.yml)
+##### [Get Cassandra View](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Get-Cassandra-View.yml)
+##### [Get Cassandra View Throughput](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Get-Cassandra-View-Throughput.yml)
+##### [List Cassandra Keyspaces](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/List-Cassandra-Keyspaces.yml)
+##### [List Cassandra Tables](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/List-Cassandra-Tables.yml)
+##### [List Cassandra Views](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/List-Cassandra-Views.yml)
+##### [Migrate Cassandra Keyspace To Autoscale](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Migrate-Cassandra-Keyspace-To-Autoscale.yml)
+##### [Migrate Cassandra Keyspace To Manual Throughput](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Migrate-Cassandra-Keyspace-To-Manual-Throughput.yml)
+##### [Migrate Cassandra Table To Autoscale](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Migrate-Cassandra-Table-To-Autoscale.yml)
+##### [Migrate Cassandra Table To Manual Throughput](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Migrate-Cassandra-Table-To-Manual-Throughput.yml)
+##### [Migrate Cassandra View To Autoscale](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Migrate-Cassandra-View-To-Autoscale.yml)
+##### [Migrate Cassandra View To Manual Throughput](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Migrate-Cassandra-View-To-Manual-Throughput.yml)
+##### [Update Cassandra Keyspace Throughput](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Update-Cassandra-Keyspace-Throughput.yml)
+##### [Update Cassandra Table Throughput](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Update-Cassandra-Table-Throughput.yml)
+##### [Update Cassandra View Throughput](cosmos-db-resource-provider/2021-07-01-preview/Cassandra-Resources/Update-Cassandra-View-Throughput.yml)
+#### Collection
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Collection.yml)
+##### [List Metric Definitions](cosmos-db-resource-provider/2021-07-01-preview/Collection/List-Metric-Definitions.yml)
+##### [List Metrics](cosmos-db-resource-provider/2021-07-01-preview/Collection/List-Metrics.yml)
+##### [List Usages](cosmos-db-resource-provider/2021-07-01-preview/Collection/List-Usages.yml)
+#### Collection Partition
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Collection-Partition.yml)
+##### [List Metrics](cosmos-db-resource-provider/2021-07-01-preview/Collection-Partition/List-Metrics.yml)
+##### [List Usages](cosmos-db-resource-provider/2021-07-01-preview/Collection-Partition/List-Usages.yml)
+#### Collection Partition Region
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Collection-Partition-Region.yml)
+##### [List Metrics](cosmos-db-resource-provider/2021-07-01-preview/Collection-Partition-Region/List-Metrics.yml)
+#### Collection Region
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Collection-Region.yml)
+##### [List Metrics](cosmos-db-resource-provider/2021-07-01-preview/Collection-Region/List-Metrics.yml)
+#### Database
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Database.yml)
+##### [List Metric Definitions](cosmos-db-resource-provider/2021-07-01-preview/Database/List-Metric-Definitions.yml)
+##### [List Metrics](cosmos-db-resource-provider/2021-07-01-preview/Database/List-Metrics.yml)
+##### [List Usages](cosmos-db-resource-provider/2021-07-01-preview/Database/List-Usages.yml)
+#### Database Account Region
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Database-Account-Region.yml)
+##### [List Metrics](cosmos-db-resource-provider/2021-07-01-preview/Database-Account-Region/List-Metrics.yml)
+#### Database Accounts
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts.yml)
+##### [Check Name Exists](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/Check-Name-Exists.yml)
+##### [Create Or Update](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/Create-Or-Update.yml)
+##### [Delete](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/Delete.yml)
+##### [Failover Priority Change](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/Failover-Priority-Change.yml)
+##### [Get](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/Get.yml)
+##### [Get Read Only Keys](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/Get-Read-Only-Keys.yml)
+##### [List](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/List.yml)
+##### [List By Resource Group](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/List-By-Resource-Group.yml)
+##### [List Connection Strings](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/List-Connection-Strings.yml)
+##### [List Keys](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/List-Keys.yml)
+##### [List Metric Definitions](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/List-Metric-Definitions.yml)
+##### [List Metrics](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/List-Metrics.yml)
+##### [List Read Only Keys](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/List-Read-Only-Keys.yml)
+##### [List Usages](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/List-Usages.yml)
+##### [Offline Region](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/Offline-Region.yml)
+##### [Online Region](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/Online-Region.yml)
+##### [Regenerate Key](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/Regenerate-Key.yml)
+##### [Update](cosmos-db-resource-provider/2021-07-01-preview/Database-Accounts/Update.yml)
+#### Graph Resources
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Graph-Resources.yml)
+##### [Create Update Graph](cosmos-db-resource-provider/2021-07-01-preview/Graph-Resources/Create-Update-Graph.yml)
+##### [Delete Graph Resource](cosmos-db-resource-provider/2021-07-01-preview/Graph-Resources/Delete-Graph-Resource.yml)
+##### [Get Graph](cosmos-db-resource-provider/2021-07-01-preview/Graph-Resources/Get-Graph.yml)
+##### [List Graphs](cosmos-db-resource-provider/2021-07-01-preview/Graph-Resources/List-Graphs.yml)
+#### Gremlin Resources
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources.yml)
+##### [Create Update Gremlin Database](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/Create-Update-Gremlin-Database.yml)
+##### [Create Update Gremlin Graph](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/Create-Update-Gremlin-Graph.yml)
+##### [Delete Gremlin Database](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/Delete-Gremlin-Database.yml)
+##### [Delete Gremlin Graph](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/Delete-Gremlin-Graph.yml)
+##### [Get Gremlin Database](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/Get-Gremlin-Database.yml)
+##### [Get Gremlin Database Throughput](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/Get-Gremlin-Database-Throughput.yml)
+##### [Get Gremlin Graph](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/Get-Gremlin-Graph.yml)
+##### [Get Gremlin Graph Throughput](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/Get-Gremlin-Graph-Throughput.yml)
+##### [List Gremlin Databases](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/List-Gremlin-Databases.yml)
+##### [List Gremlin Graphs](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/List-Gremlin-Graphs.yml)
+##### [Migrate Gremlin Database To Autoscale](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/Migrate-Gremlin-Database-To-Autoscale.yml)
+##### [Migrate Gremlin Database To Manual Throughput](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/Migrate-Gremlin-Database-To-Manual-Throughput.yml)
+##### [Migrate Gremlin Graph To Autoscale](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/Migrate-Gremlin-Graph-To-Autoscale.yml)
+##### [Migrate Gremlin Graph To Manual Throughput](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/Migrate-Gremlin-Graph-To-Manual-Throughput.yml)
+##### [Update Gremlin Database Throughput](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/Update-Gremlin-Database-Throughput.yml)
+##### [Update Gremlin Graph Throughput](cosmos-db-resource-provider/2021-07-01-preview/Gremlin-Resources/Update-Gremlin-Graph-Throughput.yml)
+#### Location Get
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Location-Get.yml)
+##### [Location Get](cosmos-db-resource-provider/2021-07-01-preview/Location-Get/Location-Get.yml)
+#### Location List
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Location-List.yml)
+##### [Location List](cosmos-db-resource-provider/2021-07-01-preview/Location-List/Location-List.yml)
+#### Mongo DB Resources
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources.yml)
+##### [Create Update Mongo DB Collection](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/Create-Update-Mongo-DB-Collection.yml)
+##### [Create Update Mongo DB Database](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/Create-Update-Mongo-DB-Database.yml)
+##### [Delete Mongo DB Collection](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/Delete-Mongo-DB-Collection.yml)
+##### [Delete Mongo DB Database](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/Delete-Mongo-DB-Database.yml)
+##### [Get Mongo DB Collection](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/Get-Mongo-DB-Collection.yml)
+##### [Get Mongo DB Collection Throughput](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/Get-Mongo-DB-Collection-Throughput.yml)
+##### [Get Mongo DB Database](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/Get-Mongo-DB-Database.yml)
+##### [Get Mongo DB Database Throughput](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/Get-Mongo-DB-Database-Throughput.yml)
+##### [List Mongo DB Collections](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/List-Mongo-DB-Collections.yml)
+##### [List Mongo DB Databases](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/List-Mongo-DB-Databases.yml)
+##### [Migrate Mongo DB Collection To Autoscale](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/Migrate-Mongo-DB-Collection-To-Autoscale.yml)
+##### [Migrate Mongo DB Collection To Manual Throughput](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/Migrate-Mongo-DB-Collection-To-Manual-Throughput.yml)
+##### [Migrate Mongo DB Database To Autoscale](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/Migrate-Mongo-DB-Database-To-Autoscale.yml)
+##### [Migrate Mongo DB Database To Manual Throughput](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/Migrate-Mongo-DB-Database-To-Manual-Throughput.yml)
+##### [Update Mongo DB Collection Throughput](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/Update-Mongo-DB-Collection-Throughput.yml)
+##### [Update Mongo DB Database Throughput](cosmos-db-resource-provider/2021-07-01-preview/Mongo-DB-Resources/Update-Mongo-DB-Database-Throughput.yml)
+#### Operations
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Operations.yml)
+##### [List](cosmos-db-resource-provider/2021-07-01-preview/Operations/List.yml)
+#### Partition Key Range Id
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Partition-Key-Range-Id.yml)
+##### [List Metrics](cosmos-db-resource-provider/2021-07-01-preview/Partition-Key-Range-Id/List-Metrics.yml)
+#### Partition Key Range Id Region
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Partition-Key-Range-Id-Region.yml)
+##### [List Metrics](cosmos-db-resource-provider/2021-07-01-preview/Partition-Key-Range-Id-Region/List-Metrics.yml)
+#### Percentile
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Percentile.yml)
+##### [List Metrics](cosmos-db-resource-provider/2021-07-01-preview/Percentile/List-Metrics.yml)
+#### Percentile Source Target
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Percentile-Source-Target.yml)
+##### [List Metrics](cosmos-db-resource-provider/2021-07-01-preview/Percentile-Source-Target/List-Metrics.yml)
+#### Percentile Target
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Percentile-Target.yml)
+##### [List Metrics](cosmos-db-resource-provider/2021-07-01-preview/Percentile-Target/List-Metrics.yml)
+#### Sql Resources
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources.yml)
+##### [Create Update Sql Container](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Create-Update-Sql-Container.yml)
+##### [Create Update Sql Database](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Create-Update-Sql-Database.yml)
+##### [Create Update Sql Stored Procedure](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Create-Update-Sql-Stored-Procedure.yml)
+##### [Create Update Sql Trigger](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Create-Update-Sql-Trigger.yml)
+##### [Create Update Sql User Defined Function](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Create-Update-Sql-User-Defined-Function.yml)
+##### [Delete Sql Container](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Delete-Sql-Container.yml)
+##### [Delete Sql Database](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Delete-Sql-Database.yml)
+##### [Delete Sql Stored Procedure](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Delete-Sql-Stored-Procedure.yml)
+##### [Delete Sql Trigger](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Delete-Sql-Trigger.yml)
+##### [Delete Sql User Defined Function](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Delete-Sql-User-Defined-Function.yml)
+##### [Get Sql Container](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Get-Sql-Container.yml)
+##### [Get Sql Container Throughput](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Get-Sql-Container-Throughput.yml)
+##### [Get Sql Database](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Get-Sql-Database.yml)
+##### [Get Sql Database Throughput](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Get-Sql-Database-Throughput.yml)
+##### [Get Sql Stored Procedure](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Get-Sql-Stored-Procedure.yml)
+##### [Get Sql Trigger](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Get-Sql-Trigger.yml)
+##### [Get Sql User Defined Function](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Get-Sql-User-Defined-Function.yml)
+##### [List Sql Containers](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/List-Sql-Containers.yml)
+##### [List Sql Databases](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/List-Sql-Databases.yml)
+##### [List Sql Stored Procedures](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/List-Sql-Stored-Procedures.yml)
+##### [List Sql Triggers](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/List-Sql-Triggers.yml)
+##### [List Sql User Defined Functions](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/List-Sql-User-Defined-Functions.yml)
+##### [Migrate Sql Container To Autoscale](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Migrate-Sql-Container-To-Autoscale.yml)
+##### [Migrate Sql Container To Manual Throughput](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Migrate-Sql-Container-To-Manual-Throughput.yml)
+##### [Migrate Sql Database To Autoscale](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Migrate-Sql-Database-To-Autoscale.yml)
+##### [Migrate Sql Database To Manual Throughput](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Migrate-Sql-Database-To-Manual-Throughput.yml)
+##### [Update Sql Container Throughput](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Update-Sql-Container-Throughput.yml)
+##### [Update Sql Database Throughput](cosmos-db-resource-provider/2021-07-01-preview/Sql-Resources/Update-Sql-Database-Throughput.yml)
+#### Table Resources
+##### [Overview](cosmos-db-resource-provider/2021-07-01-preview/Table-Resources.yml)
+##### [Create Update Table](cosmos-db-resource-provider/2021-07-01-preview/Table-Resources/Create-Update-Table.yml)
+##### [Delete Table](cosmos-db-resource-provider/2021-07-01-preview/Table-Resources/Delete-Table.yml)
+##### [Get Table](cosmos-db-resource-provider/2021-07-01-preview/Table-Resources/Get-Table.yml)
+##### [Get Table Throughput](cosmos-db-resource-provider/2021-07-01-preview/Table-Resources/Get-Table-Throughput.yml)
+##### [List Tables](cosmos-db-resource-provider/2021-07-01-preview/Table-Resources/List-Tables.yml)
+##### [Migrate Table To Autoscale](cosmos-db-resource-provider/2021-07-01-preview/Table-Resources/Migrate-Table-To-Autoscale.yml)
+##### [Migrate Table To Manual Throughput](cosmos-db-resource-provider/2021-07-01-preview/Table-Resources/Migrate-Table-To-Manual-Throughput.yml)
+##### [Update Table Throughput](cosmos-db-resource-provider/2021-07-01-preview/Table-Resources/Update-Table-Throughput.yml)
 ### 2021-10-15
 #### Cassandra Clusters
 ##### [Overview](cosmos-db-resource-provider/2021-10-15/Cassandra-Clusters.yml)
@@ -7408,6 +7620,10 @@
 #### [Overview](cost-management/Forecast.yml)
 #### [External Cloud Provider Usage](cost-management/Forecast/External-Cloud-Provider-Usage.yml)
 #### [Usage](cost-management/Forecast/Usage.yml)
+### Generate Reservation Details Report
+#### [Overview](cost-management/Generate-Reservation-Details-Report.yml)
+#### [By Billing Account Id](cost-management/Generate-Reservation-Details-Report/By-Billing-Account-Id.yml)
+#### [By Billing Profile Id](cost-management/Generate-Reservation-Details-Report/By-Billing-Profile-Id.yml)
 ### Operations
 #### [Overview](cost-management/Operations.yml)
 #### [List](cost-management/Operations/List.yml)
@@ -8537,45 +8753,92 @@
 ### [Update](DTL/Virtual-Networks/Update.yml)
 # Device Update
 ## [Overview](../docs-ref-conceptual/deviceupdate/index.md)
-## Deployments
-### [Overview](deviceupdate/Deployments.yml)
-### [Cancel Deployment](deviceupdate/Deployments/Cancel-Deployment.yml)
-### [Create Or Update Deployment](deviceupdate/Deployments/Create-Or-Update-Deployment.yml)
-### [Delete Deployment](deviceupdate/Deployments/Delete-Deployment.yml)
-### [Get All Deployments](deviceupdate/Deployments/Get-All-Deployments.yml)
-### [Get Deployment](deviceupdate/Deployments/Get-Deployment.yml)
-### [Get Deployment Devices](deviceupdate/Deployments/Get-Deployment-Devices.yml)
-### [Get Deployment Status](deviceupdate/Deployments/Get-Deployment-Status.yml)
-### [Retry Deployment](deviceupdate/Deployments/Retry-Deployment.yml)
-## Devices
-### [Overview](deviceupdate/Devices.yml)
-### [Create Or Update Group](deviceupdate/Devices/Create-Or-Update-Group.yml)
-### [Delete Group](deviceupdate/Devices/Delete-Group.yml)
-### [Get All Device Classes](deviceupdate/Devices/Get-All-Device-Classes.yml)
-### [Get All Device Tags](deviceupdate/Devices/Get-All-Device-Tags.yml)
-### [Get All Devices](deviceupdate/Devices/Get-All-Devices.yml)
-### [Get All Groups](deviceupdate/Devices/Get-All-Groups.yml)
-### [Get Device](deviceupdate/Devices/Get-Device.yml)
-### [Get Device Class](deviceupdate/Devices/Get-Device-Class.yml)
-### [Get Device Class Device Ids](deviceupdate/Devices/Get-Device-Class-Device-Ids.yml)
-### [Get Device Class Installable Updates](deviceupdate/Devices/Get-Device-Class-Installable-Updates.yml)
-### [Get Device Tag](deviceupdate/Devices/Get-Device-Tag.yml)
-### [Get Group](deviceupdate/Devices/Get-Group.yml)
-### [Get Group Best Updates](deviceupdate/Devices/Get-Group-Best-Updates.yml)
-### [Get Group Update Compliance](deviceupdate/Devices/Get-Group-Update-Compliance.yml)
-### [Get Update Compliance](deviceupdate/Devices/Get-Update-Compliance.yml)
-## Updates
-### [Overview](deviceupdate/Updates.yml)
-### [Delete Update](deviceupdate/Updates/Delete-Update.yml)
-### [Get File](deviceupdate/Updates/Get-File.yml)
-### [Get Files](deviceupdate/Updates/Get-Files.yml)
-### [Get Names](deviceupdate/Updates/Get-Names.yml)
-### [Get Operation](deviceupdate/Updates/Get-Operation.yml)
-### [Get Operations](deviceupdate/Updates/Get-Operations.yml)
-### [Get Providers](deviceupdate/Updates/Get-Providers.yml)
-### [Get Update](deviceupdate/Updates/Get-Update.yml)
-### [Get Versions](deviceupdate/Updates/Get-Versions.yml)
-### [Import Update](deviceupdate/Updates/Import-Update.yml)
+## 2020-09-01
+### Deployments
+#### [Overview](deviceupdate/2020-09-01/Deployments.yml)
+#### [Cancel Deployment](deviceupdate/2020-09-01/Deployments/Cancel-Deployment.yml)
+#### [Create Or Update Deployment](deviceupdate/2020-09-01/Deployments/Create-Or-Update-Deployment.yml)
+#### [Delete Deployment](deviceupdate/2020-09-01/Deployments/Delete-Deployment.yml)
+#### [Get All Deployments](deviceupdate/2020-09-01/Deployments/Get-All-Deployments.yml)
+#### [Get Deployment](deviceupdate/2020-09-01/Deployments/Get-Deployment.yml)
+#### [Get Deployment Devices](deviceupdate/2020-09-01/Deployments/Get-Deployment-Devices.yml)
+#### [Get Deployment Status](deviceupdate/2020-09-01/Deployments/Get-Deployment-Status.yml)
+#### [Retry Deployment](deviceupdate/2020-09-01/Deployments/Retry-Deployment.yml)
+### Devices
+#### [Overview](deviceupdate/2020-09-01/Devices.yml)
+#### [Create Or Update Group](deviceupdate/2020-09-01/Devices/Create-Or-Update-Group.yml)
+#### [Delete Group](deviceupdate/2020-09-01/Devices/Delete-Group.yml)
+#### [Get All Device Classes](deviceupdate/2020-09-01/Devices/Get-All-Device-Classes.yml)
+#### [Get All Device Tags](deviceupdate/2020-09-01/Devices/Get-All-Device-Tags.yml)
+#### [Get All Devices](deviceupdate/2020-09-01/Devices/Get-All-Devices.yml)
+#### [Get All Groups](deviceupdate/2020-09-01/Devices/Get-All-Groups.yml)
+#### [Get Device](deviceupdate/2020-09-01/Devices/Get-Device.yml)
+#### [Get Device Class](deviceupdate/2020-09-01/Devices/Get-Device-Class.yml)
+#### [Get Device Class Device Ids](deviceupdate/2020-09-01/Devices/Get-Device-Class-Device-Ids.yml)
+#### [Get Device Class Installable Updates](deviceupdate/2020-09-01/Devices/Get-Device-Class-Installable-Updates.yml)
+#### [Get Device Tag](deviceupdate/2020-09-01/Devices/Get-Device-Tag.yml)
+#### [Get Group](deviceupdate/2020-09-01/Devices/Get-Group.yml)
+#### [Get Group Best Updates](deviceupdate/2020-09-01/Devices/Get-Group-Best-Updates.yml)
+#### [Get Group Update Compliance](deviceupdate/2020-09-01/Devices/Get-Group-Update-Compliance.yml)
+#### [Get Update Compliance](deviceupdate/2020-09-01/Devices/Get-Update-Compliance.yml)
+### Updates
+#### [Overview](deviceupdate/2020-09-01/Updates.yml)
+#### [Delete Update](deviceupdate/2020-09-01/Updates/Delete-Update.yml)
+#### [Get File](deviceupdate/2020-09-01/Updates/Get-File.yml)
+#### [Get Files](deviceupdate/2020-09-01/Updates/Get-Files.yml)
+#### [Get Names](deviceupdate/2020-09-01/Updates/Get-Names.yml)
+#### [Get Operation](deviceupdate/2020-09-01/Updates/Get-Operation.yml)
+#### [Get Operations](deviceupdate/2020-09-01/Updates/Get-Operations.yml)
+#### [Get Providers](deviceupdate/2020-09-01/Updates/Get-Providers.yml)
+#### [Get Update](deviceupdate/2020-09-01/Updates/Get-Update.yml)
+#### [Get Versions](deviceupdate/2020-09-01/Updates/Get-Versions.yml)
+#### [Import Update](deviceupdate/2020-09-01/Updates/Import-Update.yml)
+## 2021-06-01-preview
+### Device Management
+#### [Overview](deviceupdate/2021-06-01-preview/Device-Management.yml)
+#### [Collect Logs](deviceupdate/2021-06-01-preview/Device-Management/Collect-Logs.yml)
+#### [Create Or Update Deployment](deviceupdate/2021-06-01-preview/Device-Management/Create-Or-Update-Deployment.yml)
+#### [Create Or Update Group](deviceupdate/2021-06-01-preview/Device-Management/Create-Or-Update-Group.yml)
+#### [Delete Deployment](deviceupdate/2021-06-01-preview/Device-Management/Delete-Deployment.yml)
+#### [Delete Group](deviceupdate/2021-06-01-preview/Device-Management/Delete-Group.yml)
+#### [Get Deployment](deviceupdate/2021-06-01-preview/Device-Management/Get-Deployment.yml)
+#### [Get Deployment Status](deviceupdate/2021-06-01-preview/Device-Management/Get-Deployment-Status.yml)
+#### [Get Device](deviceupdate/2021-06-01-preview/Device-Management/Get-Device.yml)
+#### [Get Device Class](deviceupdate/2021-06-01-preview/Device-Management/Get-Device-Class.yml)
+#### [Get Device Module](deviceupdate/2021-06-01-preview/Device-Management/Get-Device-Module.yml)
+#### [Get Device Tag](deviceupdate/2021-06-01-preview/Device-Management/Get-Device-Tag.yml)
+#### [Get Group](deviceupdate/2021-06-01-preview/Device-Management/Get-Group.yml)
+#### [Get Group Update Compliance](deviceupdate/2021-06-01-preview/Device-Management/Get-Group-Update-Compliance.yml)
+#### [Get Log Collection Operation](deviceupdate/2021-06-01-preview/Device-Management/Get-Log-Collection-Operation.yml)
+#### [Get Log Collection Operation Detailed Status](deviceupdate/2021-06-01-preview/Device-Management/Get-Log-Collection-Operation-Detailed-Status.yml)
+#### [Get Operation](deviceupdate/2021-06-01-preview/Device-Management/Get-Operation.yml)
+#### [Get Update Compliance](deviceupdate/2021-06-01-preview/Device-Management/Get-Update-Compliance.yml)
+#### [Import Devices](deviceupdate/2021-06-01-preview/Device-Management/Import-Devices.yml)
+#### [List Best Updates For Group](deviceupdate/2021-06-01-preview/Device-Management/List-Best-Updates-For-Group.yml)
+#### [List Deployment Devices](deviceupdate/2021-06-01-preview/Device-Management/List-Deployment-Devices.yml)
+#### [List Deployments For Group](deviceupdate/2021-06-01-preview/Device-Management/List-Deployments-For-Group.yml)
+#### [List Device Classes](deviceupdate/2021-06-01-preview/Device-Management/List-Device-Classes.yml)
+#### [List Device Tags](deviceupdate/2021-06-01-preview/Device-Management/List-Device-Tags.yml)
+#### [List Devices](deviceupdate/2021-06-01-preview/Device-Management/List-Devices.yml)
+#### [List Groups](deviceupdate/2021-06-01-preview/Device-Management/List-Groups.yml)
+#### [List Installable Updates For Device Class](deviceupdate/2021-06-01-preview/Device-Management/List-Installable-Updates-For-Device-Class.yml)
+#### [List Log Collection Operations](deviceupdate/2021-06-01-preview/Device-Management/List-Log-Collection-Operations.yml)
+#### [List Operations](deviceupdate/2021-06-01-preview/Device-Management/List-Operations.yml)
+#### [Retry Deployment](deviceupdate/2021-06-01-preview/Device-Management/Retry-Deployment.yml)
+#### [Stop Deployment](deviceupdate/2021-06-01-preview/Device-Management/Stop-Deployment.yml)
+### Device Update
+#### [Overview](deviceupdate/2021-06-01-preview/Device-Update.yml)
+#### [Delete Update](deviceupdate/2021-06-01-preview/Device-Update/Delete-Update.yml)
+#### [Get File](deviceupdate/2021-06-01-preview/Device-Update/Get-File.yml)
+#### [Get Operation](deviceupdate/2021-06-01-preview/Device-Update/Get-Operation.yml)
+#### [Get Update](deviceupdate/2021-06-01-preview/Device-Update/Get-Update.yml)
+#### [Import Update](deviceupdate/2021-06-01-preview/Device-Update/Import-Update.yml)
+#### [List Files](deviceupdate/2021-06-01-preview/Device-Update/List-Files.yml)
+#### [List Names](deviceupdate/2021-06-01-preview/Device-Update/List-Names.yml)
+#### [List Operations](deviceupdate/2021-06-01-preview/Device-Update/List-Operations.yml)
+#### [List Providers](deviceupdate/2021-06-01-preview/Device-Update/List-Providers.yml)
+#### [List Updates](deviceupdate/2021-06-01-preview/Device-Update/List-Updates.yml)
+#### [List Versions](deviceupdate/2021-06-01-preview/Device-Update/List-Versions.yml)
 ## Resource Manager
 ### Accounts
 #### [Overview](deviceupdate/resourcemanager/Accounts.yml)
@@ -8665,6 +8928,216 @@
 #### [Update](dns/privatedns/Virtual-Network-Links/Update.yml)
 # Event Grid
 ## [Overview](../docs-ref-conceptual/eventgrid/index.md)
+## Control Plane - version 2021-06-01-preview
+### Domain Topics
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Domain-Topics.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Domain-Topics/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Domain-Topics/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Domain-Topics/Get.yml)
+#### [List By Domain](eventgrid/controlplane-version2021-06-01-preview/Domain-Topics/List-By-Domain.yml)
+### Domains
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Domains.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Domains/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Domains/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Domains/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-06-01-preview/Domains/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-06-01-preview/Domains/List-By-Subscription.yml)
+#### [List Shared Access Keys](eventgrid/controlplane-version2021-06-01-preview/Domains/List-Shared-Access-Keys.yml)
+#### [Regenerate Key](eventgrid/controlplane-version2021-06-01-preview/Domains/Regenerate-Key.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Domains/Update.yml)
+### Event Channels
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Event-Channels.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Event-Channels/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Event-Channels/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Event-Channels/Get.yml)
+#### [List By Partner Namespace](eventgrid/controlplane-version2021-06-01-preview/Event-Channels/List-By-Partner-Namespace.yml)
+### Event Subscriptions
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/Get.yml)
+#### [Get Delivery Attributes](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/Get-Delivery-Attributes.yml)
+#### [Get Full Url](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/Get-Full-Url.yml)
+#### [List By Domain Topic](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-By-Domain-Topic.yml)
+#### [List By Resource](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-By-Resource.yml)
+#### [List Global By Resource Group](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Global-By-Resource-Group.yml)
+#### [List Global By Resource Group For Topic Type](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Global-By-Resource-Group-For-Topic-Type.yml)
+#### [List Global By Subscription](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Global-By-Subscription.yml)
+#### [List Global By Subscription For Topic Type](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Global-By-Subscription-For-Topic-Type.yml)
+#### [List Regional By Resource Group](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Resource-Group.yml)
+#### [List Regional By Resource Group For Topic Type](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Resource-Group-For-Topic-Type.yml)
+#### [List Regional By Subscription](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Subscription.yml)
+#### [List Regional By Subscription For Topic Type](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Subscription-For-Topic-Type.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Event-Subscriptions/Update.yml)
+### Extension Topics
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Extension-Topics.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Extension-Topics/Get.yml)
+### Operations
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Operations.yml)
+#### [List](eventgrid/controlplane-version2021-06-01-preview/Operations/List.yml)
+### Partner Namespaces
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/List-By-Subscription.yml)
+#### [List Shared Access Keys](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/List-Shared-Access-Keys.yml)
+#### [Regenerate Key](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/Regenerate-Key.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Partner-Namespaces/Update.yml)
+### Partner Registrations
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Partner-Registrations.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Partner-Registrations/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Partner-Registrations/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Partner-Registrations/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-06-01-preview/Partner-Registrations/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-06-01-preview/Partner-Registrations/List-By-Subscription.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Partner-Registrations/Update.yml)
+### Partner Topic Event Subscriptions
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Get.yml)
+#### [Get Delivery Attributes](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Get-Delivery-Attributes.yml)
+#### [Get Full Url](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Get-Full-Url.yml)
+#### [List By Partner Topic](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions/List-By-Partner-Topic.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Update.yml)
+### Partner Topics
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics.yml)
+#### [Activate](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics/Activate.yml)
+#### [Deactivate](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics/Deactivate.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics/List-By-Subscription.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Partner-Topics/Update.yml)
+### Private Endpoint Connections
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Private-Endpoint-Connections.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Private-Endpoint-Connections/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Private-Endpoint-Connections/Get.yml)
+#### [List By Resource](eventgrid/controlplane-version2021-06-01-preview/Private-Endpoint-Connections/List-By-Resource.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Private-Endpoint-Connections/Update.yml)
+### Private Link Resources
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Private-Link-Resources.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Private-Link-Resources/Get.yml)
+#### [List By Resource](eventgrid/controlplane-version2021-06-01-preview/Private-Link-Resources/List-By-Resource.yml)
+### System Topic Event Subscriptions
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions/Get.yml)
+#### [Get Delivery Attributes](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions/Get-Delivery-Attributes.yml)
+#### [Get Full Url](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions/Get-Full-Url.yml)
+#### [List By System Topic](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions/List-By-System-Topic.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/System-Topic-Event-Subscriptions/Update.yml)
+### System Topics
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/System-Topics.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/System-Topics/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/System-Topics/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/System-Topics/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-06-01-preview/System-Topics/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-06-01-preview/System-Topics/List-By-Subscription.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/System-Topics/Update.yml)
+### Topic Types
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Topic-Types.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Topic-Types/Get.yml)
+#### [List](eventgrid/controlplane-version2021-06-01-preview/Topic-Types/List.yml)
+#### [List Event Types](eventgrid/controlplane-version2021-06-01-preview/Topic-Types/List-Event-Types.yml)
+### Topics
+#### [Overview](eventgrid/controlplane-version2021-06-01-preview/Topics.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-06-01-preview/Topics/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-06-01-preview/Topics/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-06-01-preview/Topics/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-06-01-preview/Topics/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-06-01-preview/Topics/List-By-Subscription.yml)
+#### [List Event Types](eventgrid/controlplane-version2021-06-01-preview/Topics/List-Event-Types.yml)
+#### [List Shared Access Keys](eventgrid/controlplane-version2021-06-01-preview/Topics/List-Shared-Access-Keys.yml)
+#### [Regenerate Key](eventgrid/controlplane-version2021-06-01-preview/Topics/Regenerate-Key.yml)
+#### [Update](eventgrid/controlplane-version2021-06-01-preview/Topics/Update.yml)
+## Control Plane - version 2021-12-01
+### Domain Topics
+#### [Overview](eventgrid/controlplane-version2021-12-01/Domain-Topics.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-12-01/Domain-Topics/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-12-01/Domain-Topics/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Domain-Topics/Get.yml)
+#### [List By Domain](eventgrid/controlplane-version2021-12-01/Domain-Topics/List-By-Domain.yml)
+### Domains
+#### [Overview](eventgrid/controlplane-version2021-12-01/Domains.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-12-01/Domains/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-12-01/Domains/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Domains/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-12-01/Domains/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-12-01/Domains/List-By-Subscription.yml)
+#### [List Shared Access Keys](eventgrid/controlplane-version2021-12-01/Domains/List-Shared-Access-Keys.yml)
+#### [Regenerate Key](eventgrid/controlplane-version2021-12-01/Domains/Regenerate-Key.yml)
+#### [Update](eventgrid/controlplane-version2021-12-01/Domains/Update.yml)
+### Event Subscriptions
+#### [Overview](eventgrid/controlplane-version2021-12-01/Event-Subscriptions.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/Get.yml)
+#### [Get Delivery Attributes](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/Get-Delivery-Attributes.yml)
+#### [Get Full Url](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/Get-Full-Url.yml)
+#### [List By Domain Topic](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-By-Domain-Topic.yml)
+#### [List By Resource](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-By-Resource.yml)
+#### [List Global By Resource Group](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Global-By-Resource-Group.yml)
+#### [List Global By Resource Group For Topic Type](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Global-By-Resource-Group-For-Topic-Type.yml)
+#### [List Global By Subscription](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Global-By-Subscription.yml)
+#### [List Global By Subscription For Topic Type](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Global-By-Subscription-For-Topic-Type.yml)
+#### [List Regional By Resource Group](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Regional-By-Resource-Group.yml)
+#### [List Regional By Resource Group For Topic Type](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Regional-By-Resource-Group-For-Topic-Type.yml)
+#### [List Regional By Subscription](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Regional-By-Subscription.yml)
+#### [List Regional By Subscription For Topic Type](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/List-Regional-By-Subscription-For-Topic-Type.yml)
+#### [Update](eventgrid/controlplane-version2021-12-01/Event-Subscriptions/Update.yml)
+### Extension Topics
+#### [Overview](eventgrid/controlplane-version2021-12-01/Extension-Topics.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Extension-Topics/Get.yml)
+### Operations
+#### [Overview](eventgrid/controlplane-version2021-12-01/Operations.yml)
+#### [List](eventgrid/controlplane-version2021-12-01/Operations/List.yml)
+### Private Endpoint Connections
+#### [Overview](eventgrid/controlplane-version2021-12-01/Private-Endpoint-Connections.yml)
+#### [Delete](eventgrid/controlplane-version2021-12-01/Private-Endpoint-Connections/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Private-Endpoint-Connections/Get.yml)
+#### [List By Resource](eventgrid/controlplane-version2021-12-01/Private-Endpoint-Connections/List-By-Resource.yml)
+#### [Update](eventgrid/controlplane-version2021-12-01/Private-Endpoint-Connections/Update.yml)
+### Private Link Resources
+#### [Overview](eventgrid/controlplane-version2021-12-01/Private-Link-Resources.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Private-Link-Resources/Get.yml)
+#### [List By Resource](eventgrid/controlplane-version2021-12-01/Private-Link-Resources/List-By-Resource.yml)
+### System Topic Event Subscriptions
+#### [Overview](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions/Get.yml)
+#### [Get Delivery Attributes](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions/Get-Delivery-Attributes.yml)
+#### [Get Full Url](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions/Get-Full-Url.yml)
+#### [List By System Topic](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions/List-By-System-Topic.yml)
+#### [Update](eventgrid/controlplane-version2021-12-01/System-Topic-Event-Subscriptions/Update.yml)
+### System Topics
+#### [Overview](eventgrid/controlplane-version2021-12-01/System-Topics.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-12-01/System-Topics/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-12-01/System-Topics/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/System-Topics/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-12-01/System-Topics/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-12-01/System-Topics/List-By-Subscription.yml)
+#### [Update](eventgrid/controlplane-version2021-12-01/System-Topics/Update.yml)
+### Topic Types
+#### [Overview](eventgrid/controlplane-version2021-12-01/Topic-Types.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Topic-Types/Get.yml)
+#### [List](eventgrid/controlplane-version2021-12-01/Topic-Types/List.yml)
+#### [List Event Types](eventgrid/controlplane-version2021-12-01/Topic-Types/List-Event-Types.yml)
+### Topics
+#### [Overview](eventgrid/controlplane-version2021-12-01/Topics.yml)
+#### [Create Or Update](eventgrid/controlplane-version2021-12-01/Topics/Create-Or-Update.yml)
+#### [Delete](eventgrid/controlplane-version2021-12-01/Topics/Delete.yml)
+#### [Get](eventgrid/controlplane-version2021-12-01/Topics/Get.yml)
+#### [List By Resource Group](eventgrid/controlplane-version2021-12-01/Topics/List-By-Resource-Group.yml)
+#### [List By Subscription](eventgrid/controlplane-version2021-12-01/Topics/List-By-Subscription.yml)
+#### [List Event Types](eventgrid/controlplane-version2021-12-01/Topics/List-Event-Types.yml)
+#### [List Shared Access Keys](eventgrid/controlplane-version2021-12-01/Topics/List-Shared-Access-Keys.yml)
+#### [Regenerate Key](eventgrid/controlplane-version2021-12-01/Topics/Regenerate-Key.yml)
+#### [Update](eventgrid/controlplane-version2021-12-01/Topics/Update.yml)
 ## Data Plane
 ### Publish Cloud Event Events
 #### [Overview](eventgrid/dataplane/Publish-Cloud-Event-Events.yml)
@@ -8675,216 +9148,6 @@
 ### Publish Events
 #### [Overview](eventgrid/dataplane/Publish-Events.yml)
 #### [Publish Events](eventgrid/dataplane/Publish-Events/Publish-Events.yml)
-## Version 2021-06-01-preview
-### Domain Topics
-#### [Overview](eventgrid/version2021-06-01-preview/Domain-Topics.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Domain-Topics/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Domain-Topics/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Domain-Topics/Get.yml)
-#### [List By Domain](eventgrid/version2021-06-01-preview/Domain-Topics/List-By-Domain.yml)
-### Domains
-#### [Overview](eventgrid/version2021-06-01-preview/Domains.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Domains/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Domains/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Domains/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-06-01-preview/Domains/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-06-01-preview/Domains/List-By-Subscription.yml)
-#### [List Shared Access Keys](eventgrid/version2021-06-01-preview/Domains/List-Shared-Access-Keys.yml)
-#### [Regenerate Key](eventgrid/version2021-06-01-preview/Domains/Regenerate-Key.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Domains/Update.yml)
-### Event Channels
-#### [Overview](eventgrid/version2021-06-01-preview/Event-Channels.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Event-Channels/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Event-Channels/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Event-Channels/Get.yml)
-#### [List By Partner Namespace](eventgrid/version2021-06-01-preview/Event-Channels/List-By-Partner-Namespace.yml)
-### Event Subscriptions
-#### [Overview](eventgrid/version2021-06-01-preview/Event-Subscriptions.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Event-Subscriptions/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Event-Subscriptions/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Event-Subscriptions/Get.yml)
-#### [Get Delivery Attributes](eventgrid/version2021-06-01-preview/Event-Subscriptions/Get-Delivery-Attributes.yml)
-#### [Get Full Url](eventgrid/version2021-06-01-preview/Event-Subscriptions/Get-Full-Url.yml)
-#### [List By Domain Topic](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-By-Domain-Topic.yml)
-#### [List By Resource](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-By-Resource.yml)
-#### [List Global By Resource Group](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Global-By-Resource-Group.yml)
-#### [List Global By Resource Group For Topic Type](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Global-By-Resource-Group-For-Topic-Type.yml)
-#### [List Global By Subscription](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Global-By-Subscription.yml)
-#### [List Global By Subscription For Topic Type](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Global-By-Subscription-For-Topic-Type.yml)
-#### [List Regional By Resource Group](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Resource-Group.yml)
-#### [List Regional By Resource Group For Topic Type](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Resource-Group-For-Topic-Type.yml)
-#### [List Regional By Subscription](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Subscription.yml)
-#### [List Regional By Subscription For Topic Type](eventgrid/version2021-06-01-preview/Event-Subscriptions/List-Regional-By-Subscription-For-Topic-Type.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Event-Subscriptions/Update.yml)
-### Extension Topics
-#### [Overview](eventgrid/version2021-06-01-preview/Extension-Topics.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Extension-Topics/Get.yml)
-### Operations
-#### [Overview](eventgrid/version2021-06-01-preview/Operations.yml)
-#### [List](eventgrid/version2021-06-01-preview/Operations/List.yml)
-### Partner Namespaces
-#### [Overview](eventgrid/version2021-06-01-preview/Partner-Namespaces.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Partner-Namespaces/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Partner-Namespaces/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Partner-Namespaces/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-06-01-preview/Partner-Namespaces/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-06-01-preview/Partner-Namespaces/List-By-Subscription.yml)
-#### [List Shared Access Keys](eventgrid/version2021-06-01-preview/Partner-Namespaces/List-Shared-Access-Keys.yml)
-#### [Regenerate Key](eventgrid/version2021-06-01-preview/Partner-Namespaces/Regenerate-Key.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Partner-Namespaces/Update.yml)
-### Partner Registrations
-#### [Overview](eventgrid/version2021-06-01-preview/Partner-Registrations.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Partner-Registrations/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Partner-Registrations/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Partner-Registrations/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-06-01-preview/Partner-Registrations/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-06-01-preview/Partner-Registrations/List-By-Subscription.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Partner-Registrations/Update.yml)
-### Partner Topic Event Subscriptions
-#### [Overview](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Get.yml)
-#### [Get Delivery Attributes](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Get-Delivery-Attributes.yml)
-#### [Get Full Url](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Get-Full-Url.yml)
-#### [List By Partner Topic](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions/List-By-Partner-Topic.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Partner-Topic-Event-Subscriptions/Update.yml)
-### Partner Topics
-#### [Overview](eventgrid/version2021-06-01-preview/Partner-Topics.yml)
-#### [Activate](eventgrid/version2021-06-01-preview/Partner-Topics/Activate.yml)
-#### [Deactivate](eventgrid/version2021-06-01-preview/Partner-Topics/Deactivate.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Partner-Topics/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Partner-Topics/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-06-01-preview/Partner-Topics/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-06-01-preview/Partner-Topics/List-By-Subscription.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Partner-Topics/Update.yml)
-### Private Endpoint Connections
-#### [Overview](eventgrid/version2021-06-01-preview/Private-Endpoint-Connections.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Private-Endpoint-Connections/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Private-Endpoint-Connections/Get.yml)
-#### [List By Resource](eventgrid/version2021-06-01-preview/Private-Endpoint-Connections/List-By-Resource.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Private-Endpoint-Connections/Update.yml)
-### Private Link Resources
-#### [Overview](eventgrid/version2021-06-01-preview/Private-Link-Resources.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Private-Link-Resources/Get.yml)
-#### [List By Resource](eventgrid/version2021-06-01-preview/Private-Link-Resources/List-By-Resource.yml)
-### System Topic Event Subscriptions
-#### [Overview](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions/Get.yml)
-#### [Get Delivery Attributes](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions/Get-Delivery-Attributes.yml)
-#### [Get Full Url](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions/Get-Full-Url.yml)
-#### [List By System Topic](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions/List-By-System-Topic.yml)
-#### [Update](eventgrid/version2021-06-01-preview/System-Topic-Event-Subscriptions/Update.yml)
-### System Topics
-#### [Overview](eventgrid/version2021-06-01-preview/System-Topics.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/System-Topics/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/System-Topics/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/System-Topics/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-06-01-preview/System-Topics/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-06-01-preview/System-Topics/List-By-Subscription.yml)
-#### [Update](eventgrid/version2021-06-01-preview/System-Topics/Update.yml)
-### Topic Types
-#### [Overview](eventgrid/version2021-06-01-preview/Topic-Types.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Topic-Types/Get.yml)
-#### [List](eventgrid/version2021-06-01-preview/Topic-Types/List.yml)
-#### [List Event Types](eventgrid/version2021-06-01-preview/Topic-Types/List-Event-Types.yml)
-### Topics
-#### [Overview](eventgrid/version2021-06-01-preview/Topics.yml)
-#### [Create Or Update](eventgrid/version2021-06-01-preview/Topics/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-06-01-preview/Topics/Delete.yml)
-#### [Get](eventgrid/version2021-06-01-preview/Topics/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-06-01-preview/Topics/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-06-01-preview/Topics/List-By-Subscription.yml)
-#### [List Event Types](eventgrid/version2021-06-01-preview/Topics/List-Event-Types.yml)
-#### [List Shared Access Keys](eventgrid/version2021-06-01-preview/Topics/List-Shared-Access-Keys.yml)
-#### [Regenerate Key](eventgrid/version2021-06-01-preview/Topics/Regenerate-Key.yml)
-#### [Update](eventgrid/version2021-06-01-preview/Topics/Update.yml)
-## Version 2021-12-01
-### Domain Topics
-#### [Overview](eventgrid/version2021-12-01/Domain-Topics.yml)
-#### [Create Or Update](eventgrid/version2021-12-01/Domain-Topics/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-12-01/Domain-Topics/Delete.yml)
-#### [Get](eventgrid/version2021-12-01/Domain-Topics/Get.yml)
-#### [List By Domain](eventgrid/version2021-12-01/Domain-Topics/List-By-Domain.yml)
-### Domains
-#### [Overview](eventgrid/version2021-12-01/Domains.yml)
-#### [Create Or Update](eventgrid/version2021-12-01/Domains/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-12-01/Domains/Delete.yml)
-#### [Get](eventgrid/version2021-12-01/Domains/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-12-01/Domains/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-12-01/Domains/List-By-Subscription.yml)
-#### [List Shared Access Keys](eventgrid/version2021-12-01/Domains/List-Shared-Access-Keys.yml)
-#### [Regenerate Key](eventgrid/version2021-12-01/Domains/Regenerate-Key.yml)
-#### [Update](eventgrid/version2021-12-01/Domains/Update.yml)
-### Event Subscriptions
-#### [Overview](eventgrid/version2021-12-01/Event-Subscriptions.yml)
-#### [Create Or Update](eventgrid/version2021-12-01/Event-Subscriptions/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-12-01/Event-Subscriptions/Delete.yml)
-#### [Get](eventgrid/version2021-12-01/Event-Subscriptions/Get.yml)
-#### [Get Delivery Attributes](eventgrid/version2021-12-01/Event-Subscriptions/Get-Delivery-Attributes.yml)
-#### [Get Full Url](eventgrid/version2021-12-01/Event-Subscriptions/Get-Full-Url.yml)
-#### [List By Domain Topic](eventgrid/version2021-12-01/Event-Subscriptions/List-By-Domain-Topic.yml)
-#### [List By Resource](eventgrid/version2021-12-01/Event-Subscriptions/List-By-Resource.yml)
-#### [List Global By Resource Group](eventgrid/version2021-12-01/Event-Subscriptions/List-Global-By-Resource-Group.yml)
-#### [List Global By Resource Group For Topic Type](eventgrid/version2021-12-01/Event-Subscriptions/List-Global-By-Resource-Group-For-Topic-Type.yml)
-#### [List Global By Subscription](eventgrid/version2021-12-01/Event-Subscriptions/List-Global-By-Subscription.yml)
-#### [List Global By Subscription For Topic Type](eventgrid/version2021-12-01/Event-Subscriptions/List-Global-By-Subscription-For-Topic-Type.yml)
-#### [List Regional By Resource Group](eventgrid/version2021-12-01/Event-Subscriptions/List-Regional-By-Resource-Group.yml)
-#### [List Regional By Resource Group For Topic Type](eventgrid/version2021-12-01/Event-Subscriptions/List-Regional-By-Resource-Group-For-Topic-Type.yml)
-#### [List Regional By Subscription](eventgrid/version2021-12-01/Event-Subscriptions/List-Regional-By-Subscription.yml)
-#### [List Regional By Subscription For Topic Type](eventgrid/version2021-12-01/Event-Subscriptions/List-Regional-By-Subscription-For-Topic-Type.yml)
-#### [Update](eventgrid/version2021-12-01/Event-Subscriptions/Update.yml)
-### Extension Topics
-#### [Overview](eventgrid/version2021-12-01/Extension-Topics.yml)
-#### [Get](eventgrid/version2021-12-01/Extension-Topics/Get.yml)
-### Operations
-#### [Overview](eventgrid/version2021-12-01/Operations.yml)
-#### [List](eventgrid/version2021-12-01/Operations/List.yml)
-### Private Endpoint Connections
-#### [Overview](eventgrid/version2021-12-01/Private-Endpoint-Connections.yml)
-#### [Delete](eventgrid/version2021-12-01/Private-Endpoint-Connections/Delete.yml)
-#### [Get](eventgrid/version2021-12-01/Private-Endpoint-Connections/Get.yml)
-#### [List By Resource](eventgrid/version2021-12-01/Private-Endpoint-Connections/List-By-Resource.yml)
-#### [Update](eventgrid/version2021-12-01/Private-Endpoint-Connections/Update.yml)
-### Private Link Resources
-#### [Overview](eventgrid/version2021-12-01/Private-Link-Resources.yml)
-#### [Get](eventgrid/version2021-12-01/Private-Link-Resources/Get.yml)
-#### [List By Resource](eventgrid/version2021-12-01/Private-Link-Resources/List-By-Resource.yml)
-### System Topic Event Subscriptions
-#### [Overview](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions.yml)
-#### [Create Or Update](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions/Delete.yml)
-#### [Get](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions/Get.yml)
-#### [Get Delivery Attributes](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions/Get-Delivery-Attributes.yml)
-#### [Get Full Url](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions/Get-Full-Url.yml)
-#### [List By System Topic](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions/List-By-System-Topic.yml)
-#### [Update](eventgrid/version2021-12-01/System-Topic-Event-Subscriptions/Update.yml)
-### System Topics
-#### [Overview](eventgrid/version2021-12-01/System-Topics.yml)
-#### [Create Or Update](eventgrid/version2021-12-01/System-Topics/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-12-01/System-Topics/Delete.yml)
-#### [Get](eventgrid/version2021-12-01/System-Topics/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-12-01/System-Topics/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-12-01/System-Topics/List-By-Subscription.yml)
-#### [Update](eventgrid/version2021-12-01/System-Topics/Update.yml)
-### Topic Types
-#### [Overview](eventgrid/version2021-12-01/Topic-Types.yml)
-#### [Get](eventgrid/version2021-12-01/Topic-Types/Get.yml)
-#### [List](eventgrid/version2021-12-01/Topic-Types/List.yml)
-#### [List Event Types](eventgrid/version2021-12-01/Topic-Types/List-Event-Types.yml)
-### Topics
-#### [Overview](eventgrid/version2021-12-01/Topics.yml)
-#### [Create Or Update](eventgrid/version2021-12-01/Topics/Create-Or-Update.yml)
-#### [Delete](eventgrid/version2021-12-01/Topics/Delete.yml)
-#### [Get](eventgrid/version2021-12-01/Topics/Get.yml)
-#### [List By Resource Group](eventgrid/version2021-12-01/Topics/List-By-Resource-Group.yml)
-#### [List By Subscription](eventgrid/version2021-12-01/Topics/List-By-Subscription.yml)
-#### [List Event Types](eventgrid/version2021-12-01/Topics/List-Event-Types.yml)
-#### [List Shared Access Keys](eventgrid/version2021-12-01/Topics/List-Shared-Access-Keys.yml)
-#### [Regenerate Key](eventgrid/version2021-12-01/Topics/Regenerate-Key.yml)
-#### [Update](eventgrid/version2021-12-01/Topics/Update.yml)
 # Event Hubs
 ## [Overview](../docs-ref-conceptual/EventHub/index.md)
 ## Event Hubs service REST
@@ -8915,6 +9178,20 @@
 ### [Send batch events](../docs-ref-conceptual/EventHub/send-batch-events.md)
 ## Reference
 ### preview
+#### Clusters
+##### [Overview](EventHub/preview/Clusters.yml)
+##### [Create Or Update](EventHub/preview/Clusters/Create-Or-Update.yml)
+##### [Delete](EventHub/preview/Clusters/Delete.yml)
+##### [Get](EventHub/preview/Clusters/Get.yml)
+##### [List By Resource Group](EventHub/preview/Clusters/List-By-Resource-Group.yml)
+##### [List By Subscription](EventHub/preview/Clusters/List-By-Subscription.yml)
+##### [List Namespaces](EventHub/preview/Clusters/List-Namespaces.yml)
+##### [Update](EventHub/preview/Clusters/Update.yml)
+##### [List Available Cluster Region](EventHub/preview/Clusters/List-Available-Cluster-Region.yml)
+#### Configuration
+##### [Overview](EventHub/preview/Configuration.yml)
+##### [Get](EventHub/preview/Configuration/Get.yml)
+##### [Patch](EventHub/preview/Configuration/Patch.yml)
 #### Consumer Groups
 ##### [Overview](EventHub/preview/Consumer-Groups.yml)
 ##### [Create Or Update](EventHub/preview/Consumer-Groups/Create-Or-Update.yml)
@@ -9009,6 +9286,20 @@
 #### Check Name Availability - Namespaces
 ##### [Overview](EventHub/stable/Check-Name-Availability-Namespaces.yml)
 ##### [Check Name Availability](EventHub/stable/Check-Name-Availability-Namespaces/Check-Name-Availability.yml)
+#### Clusters
+##### [Overview](EventHub/stable/Clusters.yml)
+##### [List Available Cluster Region](EventHub/stable/Clusters/List-Available-Cluster-Region.yml)
+##### [Create Or Update](EventHub/stable/Clusters/Create-Or-Update.yml)
+##### [Delete](EventHub/stable/Clusters/Delete.yml)
+##### [Get](EventHub/stable/Clusters/Get.yml)
+##### [List By Resource Group](EventHub/stable/Clusters/List-By-Resource-Group.yml)
+##### [List By Subscription](EventHub/stable/Clusters/List-By-Subscription.yml)
+##### [List Namespaces](EventHub/stable/Clusters/List-Namespaces.yml)
+##### [Update](EventHub/stable/Clusters/Update.yml)
+#### Configuration
+##### [Overview](EventHub/stable/Configuration.yml)
+##### [Get](EventHub/stable/Configuration/Get.yml)
+##### [Patch](EventHub/stable/Configuration/Patch.yml)
 #### Consumer Groups
 ##### [Overview](EventHub/stable/Consumer-Groups.yml)
 ##### [Create Or Update](EventHub/stable/Consumer-Groups/Create-Or-Update.yml)
@@ -9035,7 +9326,6 @@
 ##### [Create Or Update](EventHub/stable/Namespaces/Create-Or-Update.yml)
 ##### [Delete](EventHub/stable/Namespaces/Delete.yml)
 ##### [Get](EventHub/stable/Namespaces/Get.yml)
-##### [Get Messaging Plan](EventHub/stable/Namespaces/Get-Messaging-Plan.yml)
 ##### [List](EventHub/stable/Namespaces/List.yml)
 ##### [List By Resource Group](EventHub/stable/Namespaces/List-By-Resource-Group.yml)
 ##### [Update](EventHub/stable/Namespaces/Update.yml)
@@ -9043,13 +9333,25 @@
 ##### [Overview](EventHub/stable/Network-Rule-Sets.yml)
 ##### [Create Or Update Network Rule Set](EventHub/stable/Network-Rule-Sets/Create-Or-Update-Network-Rule-Set.yml)
 ##### [Get Network Rule Set](EventHub/stable/Network-Rule-Sets/Get-Network-Rule-Set.yml)
-##### [List Network Rule Sets](EventHub/stable/Network-Rule-Sets/List-Network-Rule-Sets.yml)
+##### [List Network Rule Set](EventHub/stable/Network-Rule-Sets/List-Network-Rule-Set.yml)
 #### Operations
 ##### [Overview](EventHub/stable/Operations.yml)
 ##### [List](EventHub/stable/Operations/List.yml)
-#### Regions
-##### [Overview](EventHub/stable/Regions.yml)
-##### [List By Sku](EventHub/stable/Regions/List-By-Sku.yml)
+#### Private Endpoint Connections
+##### [Overview](EventHub/stable/Private-Endpoint-Connections.yml)
+##### [Create Or Update](EventHub/stable/Private-Endpoint-Connections/Create-Or-Update.yml)
+##### [Delete](EventHub/stable/Private-Endpoint-Connections/Delete.yml)
+##### [Get](EventHub/stable/Private-Endpoint-Connections/Get.yml)
+##### [List](EventHub/stable/Private-Endpoint-Connections/List.yml)
+#### Private Link Resources
+##### [Overview](EventHub/stable/Private-Link-Resources.yml)
+##### [Get](EventHub/stable/Private-Link-Resources/Get.yml)
+#### Schema Registry
+##### [Overview](EventHub/stable/Schema-Registry.yml)
+##### [Create Or Update](EventHub/stable/Schema-Registry/Create-Or-Update.yml)
+##### [Delete](EventHub/stable/Schema-Registry/Delete.yml)
+##### [Get](EventHub/stable/Schema-Registry/Get.yml)
+##### [List By Namespace](EventHub/stable/Schema-Registry/List-By-Namespace.yml)
 # ExpressRoute
 ## [Overview](../docs-ref-conceptual/expressroute/index.md)
 ## Bgp Service Communities
@@ -10165,296 +10467,326 @@
 #### [Run Bulk Operation](iot-dps/service/Individual-Enrollment/Run-Bulk-Operation.yml)
 # Key Vault
 ## [Overview](../docs-ref-conceptual/keyvault/index.md)
-## Backup Certificate
-### [Overview](keyvault/Backup-Certificate.yml)
-### [Backup Certificate](keyvault/Backup-Certificate/Backup-Certificate.yml)
-## Backup Key
-### [Overview](keyvault/Backup-Key.yml)
-### [Backup Key](keyvault/Backup-Key/Backup-Key.yml)
-## Backup Secret
-### [Overview](keyvault/Backup-Secret.yml)
-### [Backup Secret](keyvault/Backup-Secret/Backup-Secret.yml)
-## Backup Storage Account
-### [Overview](keyvault/Backup-Storage-Account.yml)
-### [Backup Storage Account](keyvault/Backup-Storage-Account/Backup-Storage-Account.yml)
-## Create Certificate
-### [Overview](keyvault/Create-Certificate.yml)
-### [Create Certificate](keyvault/Create-Certificate/Create-Certificate.yml)
-## Create Key
-### [Overview](keyvault/Create-Key.yml)
-### [Create Key](keyvault/Create-Key/Create-Key.yml)
-## Delete Certificate
-### [Overview](keyvault/Delete-Certificate.yml)
-### [Delete Certificate](keyvault/Delete-Certificate/Delete-Certificate.yml)
-## Delete Certificate Contacts
-### [Overview](keyvault/Delete-Certificate-Contacts.yml)
-### [Delete Certificate Contacts](keyvault/Delete-Certificate-Contacts/Delete-Certificate-Contacts.yml)
-## Delete Certificate Issuer
-### [Overview](keyvault/Delete-Certificate-Issuer.yml)
-### [Delete Certificate Issuer](keyvault/Delete-Certificate-Issuer/Delete-Certificate-Issuer.yml)
-## Delete Certificate Operation
-### [Overview](keyvault/Delete-Certificate-Operation.yml)
-### [Delete Certificate Operation](keyvault/Delete-Certificate-Operation/Delete-Certificate-Operation.yml)
-## Delete Key
-### [Overview](keyvault/Delete-Key.yml)
-### [Delete Key](keyvault/Delete-Key/Delete-Key.yml)
-## Delete Sas Definition
-### [Overview](keyvault/Delete-Sas-Definition.yml)
-### [Delete Sas Definition](keyvault/Delete-Sas-Definition/Delete-Sas-Definition.yml)
-## Delete Secret
-### [Overview](keyvault/Delete-Secret.yml)
-### [Delete Secret](keyvault/Delete-Secret/Delete-Secret.yml)
-## Delete Storage Account
-### [Overview](keyvault/Delete-Storage-Account.yml)
-### [Delete Storage Account](keyvault/Delete-Storage-Account/Delete-Storage-Account.yml)
-## Full Backup
-### [Overview](keyvault/Full-Backup.yml)
-### [Full Backup](keyvault/Full-Backup/Full-Backup.yml)
-## Full Backup Status
-### [Overview](keyvault/Full-Backup-Status.yml)
-### [Full Backup Status](keyvault/Full-Backup-Status/Full-Backup-Status.yml)
-## Full Restore Operation
-### [Overview](keyvault/Full-Restore-Operation.yml)
-### [Full Restore Operation](keyvault/Full-Restore-Operation/Full-Restore-Operation.yml)
-## Get Certificate
-### [Overview](keyvault/Get-Certificate.yml)
-### [Get Certificate](keyvault/Get-Certificate/Get-Certificate.yml)
-## Get Certificate Contacts
-### [Overview](keyvault/Get-Certificate-Contacts.yml)
-### [Get Certificate Contacts](keyvault/Get-Certificate-Contacts/Get-Certificate-Contacts.yml)
-## Get Certificate Issuer
-### [Overview](keyvault/Get-Certificate-Issuer.yml)
-### [Get Certificate Issuer](keyvault/Get-Certificate-Issuer/Get-Certificate-Issuer.yml)
-## Get Certificate Issuers
-### [Overview](keyvault/Get-Certificate-Issuers.yml)
-### [Get Certificate Issuers](keyvault/Get-Certificate-Issuers/Get-Certificate-Issuers.yml)
-## Get Certificate Operation
-### [Overview](keyvault/Get-Certificate-Operation.yml)
-### [Get Certificate Operation](keyvault/Get-Certificate-Operation/Get-Certificate-Operation.yml)
-## Get Certificate Policy
-### [Overview](keyvault/Get-Certificate-Policy.yml)
-### [Get Certificate Policy](keyvault/Get-Certificate-Policy/Get-Certificate-Policy.yml)
-## Get Certificate Versions
-### [Overview](keyvault/Get-Certificate-Versions.yml)
-### [Get Certificate Versions](keyvault/Get-Certificate-Versions/Get-Certificate-Versions.yml)
-## Get Certificates
-### [Overview](keyvault/Get-Certificates.yml)
-### [Get Certificates](keyvault/Get-Certificates/Get-Certificates.yml)
-## Get Deleted Certificate
-### [Overview](keyvault/Get-Deleted-Certificate.yml)
-### [Get Deleted Certificate](keyvault/Get-Deleted-Certificate/Get-Deleted-Certificate.yml)
-## Get Deleted Certificates
-### [Overview](keyvault/Get-Deleted-Certificates.yml)
-### [Get Deleted Certificates](keyvault/Get-Deleted-Certificates/Get-Deleted-Certificates.yml)
-## Get Deleted Key
-### [Overview](keyvault/Get-Deleted-Key.yml)
-### [Get Deleted Key](keyvault/Get-Deleted-Key/Get-Deleted-Key.yml)
-## Get Deleted Keys
-### [Overview](keyvault/Get-Deleted-Keys.yml)
-### [Get Deleted Keys](keyvault/Get-Deleted-Keys/Get-Deleted-Keys.yml)
-## Get Deleted Sas Definition
-### [Overview](keyvault/Get-Deleted-Sas-Definition.yml)
-### [Get Deleted Sas Definition](keyvault/Get-Deleted-Sas-Definition/Get-Deleted-Sas-Definition.yml)
-## Get Deleted Sas Definitions
-### [Overview](keyvault/Get-Deleted-Sas-Definitions.yml)
-### [Get Deleted Sas Definitions](keyvault/Get-Deleted-Sas-Definitions/Get-Deleted-Sas-Definitions.yml)
-## Get Deleted Secret
-### [Overview](keyvault/Get-Deleted-Secret.yml)
-### [Get Deleted Secret](keyvault/Get-Deleted-Secret/Get-Deleted-Secret.yml)
-## Get Deleted Secrets
-### [Overview](keyvault/Get-Deleted-Secrets.yml)
-### [Get Deleted Secrets](keyvault/Get-Deleted-Secrets/Get-Deleted-Secrets.yml)
-## Get Deleted Storage Account
-### [Overview](keyvault/Get-Deleted-Storage-Account.yml)
-### [Get Deleted Storage Account](keyvault/Get-Deleted-Storage-Account/Get-Deleted-Storage-Account.yml)
-## Get Deleted Storage Accounts
-### [Overview](keyvault/Get-Deleted-Storage-Accounts.yml)
-### [Get Deleted Storage Accounts](keyvault/Get-Deleted-Storage-Accounts/Get-Deleted-Storage-Accounts.yml)
-## Get Key
-### [Overview](keyvault/Get-Key.yml)
-### [Get Key](keyvault/Get-Key/Get-Key.yml)
-## Get Key Versions
-### [Overview](keyvault/Get-Key-Versions.yml)
-### [Get Key Versions](keyvault/Get-Key-Versions/Get-Key-Versions.yml)
-## Get Keys
-### [Overview](keyvault/Get-Keys.yml)
-### [Get Keys](keyvault/Get-Keys/Get-Keys.yml)
-## Get Sas Definition
-### [Overview](keyvault/Get-Sas-Definition.yml)
-### [Get Sas Definition](keyvault/Get-Sas-Definition/Get-Sas-Definition.yml)
-## Get Sas Definitions
-### [Overview](keyvault/Get-Sas-Definitions.yml)
-### [Get Sas Definitions](keyvault/Get-Sas-Definitions/Get-Sas-Definitions.yml)
-## Get Secret
-### [Overview](keyvault/Get-Secret.yml)
-### [Get Secret](keyvault/Get-Secret/Get-Secret.yml)
-## Get Secret Versions
-### [Overview](keyvault/Get-Secret-Versions.yml)
-### [Get Secret Versions](keyvault/Get-Secret-Versions/Get-Secret-Versions.yml)
-## Get Secrets
-### [Overview](keyvault/Get-Secrets.yml)
-### [Get Secrets](keyvault/Get-Secrets/Get-Secrets.yml)
-## Get Storage Account
-### [Overview](keyvault/Get-Storage-Account.yml)
-### [Get Storage Account](keyvault/Get-Storage-Account/Get-Storage-Account.yml)
-## Get Storage Accounts
-### [Overview](keyvault/Get-Storage-Accounts.yml)
-### [Get Storage Accounts](keyvault/Get-Storage-Accounts/Get-Storage-Accounts.yml)
-## HSM Security Domain
-### [Overview](keyvault/HSM-Security-Domain.yml)
-### [Download](keyvault/HSM-Security-Domain/Download.yml)
-### [Download Pending](keyvault/HSM-Security-Domain/Download-Pending.yml)
-### [Transfer Key](keyvault/HSM-Security-Domain/Transfer-Key.yml)
-### [Upload](keyvault/HSM-Security-Domain/Upload.yml)
-### [Upload Pending](keyvault/HSM-Security-Domain/Upload-Pending.yml)
-## Import Certificate
-### [Overview](keyvault/Import-Certificate.yml)
-### [Import Certificate](keyvault/Import-Certificate/Import-Certificate.yml)
-## Import Key
-### [Overview](keyvault/Import-Key.yml)
-### [Import Key](keyvault/Import-Key/Import-Key.yml)
-## Merge Certificate
-### [Overview](keyvault/Merge-Certificate.yml)
-### [Merge Certificate](keyvault/Merge-Certificate/Merge-Certificate.yml)
-## Private Endpoint Connections
-### [Overview](keyvault/Private-Endpoint-Connections.yml)
-### [Delete](keyvault/Private-Endpoint-Connections/Delete.yml)
-### [Get](keyvault/Private-Endpoint-Connections/Get.yml)
-### [Put](keyvault/Private-Endpoint-Connections/Put.yml)
-## Private Link Resources
-### [Overview](keyvault/Private-Link-Resources.yml)
-### [List By Vault](keyvault/Private-Link-Resources/List-By-Vault.yml)
-## Purge Deleted Certificate
-### [Overview](keyvault/Purge-Deleted-Certificate.yml)
-### [Purge Deleted Certificate](keyvault/Purge-Deleted-Certificate/Purge-Deleted-Certificate.yml)
-## Purge Deleted Key
-### [Overview](keyvault/Purge-Deleted-Key.yml)
-### [Purge Deleted Key](keyvault/Purge-Deleted-Key/Purge-Deleted-Key.yml)
-## Purge Deleted Secret
-### [Overview](keyvault/Purge-Deleted-Secret.yml)
-### [Purge Deleted Secret](keyvault/Purge-Deleted-Secret/Purge-Deleted-Secret.yml)
-## Purge Deleted Storage Account
-### [Overview](keyvault/Purge-Deleted-Storage-Account.yml)
-### [Purge Deleted Storage Account](keyvault/Purge-Deleted-Storage-Account/Purge-Deleted-Storage-Account.yml)
-## Recover Deleted Certificate
-### [Overview](keyvault/Recover-Deleted-Certificate.yml)
-### [Recover Deleted Certificate](keyvault/Recover-Deleted-Certificate/Recover-Deleted-Certificate.yml)
-## Recover Deleted Key
-### [Overview](keyvault/Recover-Deleted-Key.yml)
-### [Recover Deleted Key](keyvault/Recover-Deleted-Key/Recover-Deleted-Key.yml)
-## Recover Deleted Sas Definition
-### [Overview](keyvault/Recover-Deleted-Sas-Definition.yml)
-### [Recover Deleted Sas Definition](keyvault/Recover-Deleted-Sas-Definition/Recover-Deleted-Sas-Definition.yml)
-## Recover Deleted Secret
-### [Overview](keyvault/Recover-Deleted-Secret.yml)
-### [Recover Deleted Secret](keyvault/Recover-Deleted-Secret/Recover-Deleted-Secret.yml)
-## Recover Deleted Storage Account
-### [Overview](keyvault/Recover-Deleted-Storage-Account.yml)
-### [Recover Deleted Storage Account](keyvault/Recover-Deleted-Storage-Account/Recover-Deleted-Storage-Account.yml)
-## Regenerate Storage Account Key
-### [Overview](keyvault/Regenerate-Storage-Account-Key.yml)
-### [Regenerate Storage Account Key](keyvault/Regenerate-Storage-Account-Key/Regenerate-Storage-Account-Key.yml)
-## Restore Certificate
-### [Overview](keyvault/Restore-Certificate.yml)
-### [Restore Certificate](keyvault/Restore-Certificate/Restore-Certificate.yml)
-## Restore Key
-### [Overview](keyvault/Restore-Key.yml)
-### [Restore Key](keyvault/Restore-Key/Restore-Key.yml)
-## Restore Secret
-### [Overview](keyvault/Restore-Secret.yml)
-### [Restore Secret](keyvault/Restore-Secret/Restore-Secret.yml)
-## Restore Status
-### [Overview](keyvault/Restore-Status.yml)
-### [Restore Status](keyvault/Restore-Status/Restore-Status.yml)
-## Restore Storage Account
-### [Overview](keyvault/Restore-Storage-Account.yml)
-### [Restore Storage Account](keyvault/Restore-Storage-Account/Restore-Storage-Account.yml)
-## Role Assignments
-### [Overview](keyvault/Role-Assignments.yml)
-### [Create](keyvault/Role-Assignments/Create.yml)
-### [Delete](keyvault/Role-Assignments/Delete.yml)
-### [Get](keyvault/Role-Assignments/Get.yml)
-### [List For Scope](keyvault/Role-Assignments/List-For-Scope.yml)
-## Role Definitions
-### [Overview](keyvault/Role-Definitions.yml)
-### [Create Or Update](keyvault/Role-Definitions/Create-Or-Update.yml)
-### [Delete](keyvault/Role-Definitions/Delete.yml)
-### [Get](keyvault/Role-Definitions/Get.yml)
-### [List](keyvault/Role-Definitions/List.yml)
-## Selective Key Restore Operation
-### [Overview](keyvault/Selective-Key-Restore-Operation.yml)
-### [Selective Key Restore Operation](keyvault/Selective-Key-Restore-Operation/Selective-Key-Restore-Operation.yml)
-## Set Certificate Contacts
-### [Overview](keyvault/Set-Certificate-Contacts.yml)
-### [Set Certificate Contacts](keyvault/Set-Certificate-Contacts/Set-Certificate-Contacts.yml)
-## Set Certificate Issuer
-### [Overview](keyvault/Set-Certificate-Issuer.yml)
-### [Set Certificate Issuer](keyvault/Set-Certificate-Issuer/Set-Certificate-Issuer.yml)
-## Set Sas Definition
-### [Overview](keyvault/Set-Sas-Definition.yml)
-### [Set Sas Definition](keyvault/Set-Sas-Definition/Set-Sas-Definition.yml)
-## Set Secret
-### [Overview](keyvault/Set-Secret.yml)
-### [Set Secret](keyvault/Set-Secret/Set-Secret.yml)
-## Set Storage Account
-### [Overview](keyvault/Set-Storage-Account.yml)
-### [Set Storage Account](keyvault/Set-Storage-Account/Set-Storage-Account.yml)
-## Update Certificate
-### [Overview](keyvault/Update-Certificate.yml)
-### [Update Certificate](keyvault/Update-Certificate/Update-Certificate.yml)
-## Update Certificate Issuer
-### [Overview](keyvault/Update-Certificate-Issuer.yml)
-### [Update Certificate Issuer](keyvault/Update-Certificate-Issuer/Update-Certificate-Issuer.yml)
-## Update Certificate Operation
-### [Overview](keyvault/Update-Certificate-Operation.yml)
-### [Update Certificate Operation](keyvault/Update-Certificate-Operation/Update-Certificate-Operation.yml)
-## Update Certificate Policy
-### [Overview](keyvault/Update-Certificate-Policy.yml)
-### [Update Certificate Policy](keyvault/Update-Certificate-Policy/Update-Certificate-Policy.yml)
-## Update Key
-### [Overview](keyvault/Update-Key.yml)
-### [Update Key](keyvault/Update-Key/Update-Key.yml)
-## Update Sas Definition
-### [Overview](keyvault/Update-Sas-Definition.yml)
-### [Update Sas Definition](keyvault/Update-Sas-Definition/Update-Sas-Definition.yml)
-## Update Secret
-### [Overview](keyvault/Update-Secret.yml)
-### [Update Secret](keyvault/Update-Secret/Update-Secret.yml)
-## Update Storage Account
-### [Overview](keyvault/Update-Storage-Account.yml)
-### [Update Storage Account](keyvault/Update-Storage-Account/Update-Storage-Account.yml)
-## Vaults
-### [Overview](keyvault/Vaults.yml)
-### [Check Name Availability](keyvault/Vaults/Check-Name-Availability.yml)
-### [Create Or Update](keyvault/Vaults/Create-Or-Update.yml)
-### [Delete](keyvault/Vaults/Delete.yml)
-### [Get](keyvault/Vaults/Get.yml)
-### [Get Deleted](keyvault/Vaults/Get-Deleted.yml)
-### [List](keyvault/Vaults/List.yml)
-### [List By Resource Group](keyvault/Vaults/List-By-Resource-Group.yml)
-### [List By Subscription](keyvault/Vaults/List-By-Subscription.yml)
-### [List Deleted](keyvault/Vaults/List-Deleted.yml)
-### [Purge Deleted](keyvault/Vaults/Purge-Deleted.yml)
-### [Update](keyvault/Vaults/Update.yml)
-### [Update Access Policy](keyvault/Vaults/Update-Access-Policy.yml)
-## decrypt
-### [Overview](keyvault/decrypt.yml)
-### [decrypt](keyvault/decrypt/decrypt.yml)
-## encrypt
-### [Overview](keyvault/encrypt.yml)
-### [encrypt](keyvault/encrypt/encrypt.yml)
-## sign
-### [Overview](keyvault/sign.yml)
-### [sign](keyvault/sign/sign.yml)
-## unwrap Key
-### [Overview](keyvault/unwrap-Key.yml)
-### [unwrap Key](keyvault/unwrap-Key/unwrap-Key.yml)
-## verify
-### [Overview](keyvault/verify.yml)
-### [verify](keyvault/verify/verify.yml)
-## wrap Key
-### [Overview](keyvault/wrap-Key.yml)
-### [wrap Key](keyvault/wrap-Key/wrap-Key.yml)
+## Certificates
+### Backup Certificate
+#### [Overview](keyvault/certificates/Backup-Certificate.yml)
+#### [Backup Certificate](keyvault/certificates/Backup-Certificate/Backup-Certificate.yml)
+### Create Certificate
+#### [Overview](keyvault/certificates/Create-Certificate.yml)
+#### [Create Certificate](keyvault/certificates/Create-Certificate/Create-Certificate.yml)
+### Delete Certificate
+#### [Overview](keyvault/certificates/Delete-Certificate.yml)
+#### [Delete Certificate](keyvault/certificates/Delete-Certificate/Delete-Certificate.yml)
+### Delete Certificate Contacts
+#### [Overview](keyvault/certificates/Delete-Certificate-Contacts.yml)
+#### [Delete Certificate Contacts](keyvault/certificates/Delete-Certificate-Contacts/Delete-Certificate-Contacts.yml)
+### Delete Certificate Issuer
+#### [Overview](keyvault/certificates/Delete-Certificate-Issuer.yml)
+#### [Delete Certificate Issuer](keyvault/certificates/Delete-Certificate-Issuer/Delete-Certificate-Issuer.yml)
+### Delete Certificate Operation
+#### [Overview](keyvault/certificates/Delete-Certificate-Operation.yml)
+#### [Delete Certificate Operation](keyvault/certificates/Delete-Certificate-Operation/Delete-Certificate-Operation.yml)
+### Get Certificate
+#### [Overview](keyvault/certificates/Get-Certificate.yml)
+#### [Get Certificate](keyvault/certificates/Get-Certificate/Get-Certificate.yml)
+### Get Certificate Contacts
+#### [Overview](keyvault/certificates/Get-Certificate-Contacts.yml)
+#### [Get Certificate Contacts](keyvault/certificates/Get-Certificate-Contacts/Get-Certificate-Contacts.yml)
+### Get Certificate Issuer
+#### [Overview](keyvault/certificates/Get-Certificate-Issuer.yml)
+#### [Get Certificate Issuer](keyvault/certificates/Get-Certificate-Issuer/Get-Certificate-Issuer.yml)
+### Get Certificate Issuers
+#### [Overview](keyvault/certificates/Get-Certificate-Issuers.yml)
+#### [Get Certificate Issuers](keyvault/certificates/Get-Certificate-Issuers/Get-Certificate-Issuers.yml)
+### Get Certificate Operation
+#### [Overview](keyvault/certificates/Get-Certificate-Operation.yml)
+#### [Get Certificate Operation](keyvault/certificates/Get-Certificate-Operation/Get-Certificate-Operation.yml)
+### Get Certificate Policy
+#### [Overview](keyvault/certificates/Get-Certificate-Policy.yml)
+#### [Get Certificate Policy](keyvault/certificates/Get-Certificate-Policy/Get-Certificate-Policy.yml)
+### Get Certificate Versions
+#### [Overview](keyvault/certificates/Get-Certificate-Versions.yml)
+#### [Get Certificate Versions](keyvault/certificates/Get-Certificate-Versions/Get-Certificate-Versions.yml)
+### Get Certificates
+#### [Overview](keyvault/certificates/Get-Certificates.yml)
+#### [Get Certificates](keyvault/certificates/Get-Certificates/Get-Certificates.yml)
+### Get Deleted Certificate
+#### [Overview](keyvault/certificates/Get-Deleted-Certificate.yml)
+#### [Get Deleted Certificate](keyvault/certificates/Get-Deleted-Certificate/Get-Deleted-Certificate.yml)
+### Get Deleted Certificates
+#### [Overview](keyvault/certificates/Get-Deleted-Certificates.yml)
+#### [Get Deleted Certificates](keyvault/certificates/Get-Deleted-Certificates/Get-Deleted-Certificates.yml)
+### Import Certificate
+#### [Overview](keyvault/certificates/Import-Certificate.yml)
+#### [Import Certificate](keyvault/certificates/Import-Certificate/Import-Certificate.yml)
+### Merge Certificate
+#### [Overview](keyvault/certificates/Merge-Certificate.yml)
+#### [Merge Certificate](keyvault/certificates/Merge-Certificate/Merge-Certificate.yml)
+### Purge Deleted Certificate
+#### [Overview](keyvault/certificates/Purge-Deleted-Certificate.yml)
+#### [Purge Deleted Certificate](keyvault/certificates/Purge-Deleted-Certificate/Purge-Deleted-Certificate.yml)
+### Recover Deleted Certificate
+#### [Overview](keyvault/certificates/Recover-Deleted-Certificate.yml)
+#### [Recover Deleted Certificate](keyvault/certificates/Recover-Deleted-Certificate/Recover-Deleted-Certificate.yml)
+### Restore Certificate
+#### [Overview](keyvault/certificates/Restore-Certificate.yml)
+#### [Restore Certificate](keyvault/certificates/Restore-Certificate/Restore-Certificate.yml)
+### Set Certificate Contacts
+#### [Overview](keyvault/certificates/Set-Certificate-Contacts.yml)
+#### [Set Certificate Contacts](keyvault/certificates/Set-Certificate-Contacts/Set-Certificate-Contacts.yml)
+### Set Certificate Issuer
+#### [Overview](keyvault/certificates/Set-Certificate-Issuer.yml)
+#### [Set Certificate Issuer](keyvault/certificates/Set-Certificate-Issuer/Set-Certificate-Issuer.yml)
+### Update Certificate
+#### [Overview](keyvault/certificates/Update-Certificate.yml)
+#### [Update Certificate](keyvault/certificates/Update-Certificate/Update-Certificate.yml)
+### Update Certificate Issuer
+#### [Overview](keyvault/certificates/Update-Certificate-Issuer.yml)
+#### [Update Certificate Issuer](keyvault/certificates/Update-Certificate-Issuer/Update-Certificate-Issuer.yml)
+### Update Certificate Operation
+#### [Overview](keyvault/certificates/Update-Certificate-Operation.yml)
+#### [Update Certificate Operation](keyvault/certificates/Update-Certificate-Operation/Update-Certificate-Operation.yml)
+### Update Certificate Policy
+#### [Overview](keyvault/certificates/Update-Certificate-Policy.yml)
+#### [Update Certificate Policy](keyvault/certificates/Update-Certificate-Policy/Update-Certificate-Policy.yml)
+## Key Vault
+### Private Endpoint Connections
+#### [Overview](keyvault/keyvault/Private-Endpoint-Connections.yml)
+#### [Delete](keyvault/keyvault/Private-Endpoint-Connections/Delete.yml)
+#### [Get](keyvault/keyvault/Private-Endpoint-Connections/Get.yml)
+#### [List By Resource](keyvault/keyvault/Private-Endpoint-Connections/List-By-Resource.yml)
+#### [Put](keyvault/keyvault/Private-Endpoint-Connections/Put.yml)
+### Private Link Resources
+#### [Overview](keyvault/keyvault/Private-Link-Resources.yml)
+#### [List By Vault](keyvault/keyvault/Private-Link-Resources/List-By-Vault.yml)
+### Vaults
+#### [Overview](keyvault/keyvault/Vaults.yml)
+#### [Check Name Availability](keyvault/keyvault/Vaults/Check-Name-Availability.yml)
+#### [Create Or Update](keyvault/keyvault/Vaults/Create-Or-Update.yml)
+#### [Delete](keyvault/keyvault/Vaults/Delete.yml)
+#### [Get](keyvault/keyvault/Vaults/Get.yml)
+#### [Get Deleted](keyvault/keyvault/Vaults/Get-Deleted.yml)
+#### [List](keyvault/keyvault/Vaults/List.yml)
+#### [List By Resource Group](keyvault/keyvault/Vaults/List-By-Resource-Group.yml)
+#### [List By Subscription](keyvault/keyvault/Vaults/List-By-Subscription.yml)
+#### [List Deleted](keyvault/keyvault/Vaults/List-Deleted.yml)
+#### [Purge Deleted](keyvault/keyvault/Vaults/Purge-Deleted.yml)
+#### [Update](keyvault/keyvault/Vaults/Update.yml)
+#### [Update Access Policy](keyvault/keyvault/Vaults/Update-Access-Policy.yml)
+## Keys
+### Backup Key
+#### [Overview](keyvault/keys/Backup-Key.yml)
+#### [Backup Key](keyvault/keys/Backup-Key/Backup-Key.yml)
+### Create Key
+#### [Overview](keyvault/keys/Create-Key.yml)
+#### [Create Key](keyvault/keys/Create-Key/Create-Key.yml)
+### Delete Key
+#### [Overview](keyvault/keys/Delete-Key.yml)
+#### [Delete Key](keyvault/keys/Delete-Key/Delete-Key.yml)
+### Get Deleted Key
+#### [Overview](keyvault/keys/Get-Deleted-Key.yml)
+#### [Get Deleted Key](keyvault/keys/Get-Deleted-Key/Get-Deleted-Key.yml)
+### Get Deleted Keys
+#### [Overview](keyvault/keys/Get-Deleted-Keys.yml)
+#### [Get Deleted Keys](keyvault/keys/Get-Deleted-Keys/Get-Deleted-Keys.yml)
+### Get Key
+#### [Overview](keyvault/keys/Get-Key.yml)
+#### [Get Key](keyvault/keys/Get-Key/Get-Key.yml)
+### Get Key Versions
+#### [Overview](keyvault/keys/Get-Key-Versions.yml)
+#### [Get Key Versions](keyvault/keys/Get-Key-Versions/Get-Key-Versions.yml)
+### Get Keys
+#### [Overview](keyvault/keys/Get-Keys.yml)
+#### [Get Keys](keyvault/keys/Get-Keys/Get-Keys.yml)
+### Import Key
+#### [Overview](keyvault/keys/Import-Key.yml)
+#### [Import Key](keyvault/keys/Import-Key/Import-Key.yml)
+### Purge Deleted Key
+#### [Overview](keyvault/keys/Purge-Deleted-Key.yml)
+#### [Purge Deleted Key](keyvault/keys/Purge-Deleted-Key/Purge-Deleted-Key.yml)
+### Recover Deleted Key
+#### [Overview](keyvault/keys/Recover-Deleted-Key.yml)
+#### [Recover Deleted Key](keyvault/keys/Recover-Deleted-Key/Recover-Deleted-Key.yml)
+### Restore Key
+#### [Overview](keyvault/keys/Restore-Key.yml)
+#### [Restore Key](keyvault/keys/Restore-Key/Restore-Key.yml)
+### Update Key
+#### [Overview](keyvault/keys/Update-Key.yml)
+#### [Update Key](keyvault/keys/Update-Key/Update-Key.yml)
+### decrypt
+#### [Overview](keyvault/keys/decrypt.yml)
+#### [decrypt](keyvault/keys/decrypt/decrypt.yml)
+### encrypt
+#### [Overview](keyvault/keys/encrypt.yml)
+#### [encrypt](keyvault/keys/encrypt/encrypt.yml)
+### sign
+#### [Overview](keyvault/keys/sign.yml)
+#### [sign](keyvault/keys/sign/sign.yml)
+### unwrap Key
+#### [Overview](keyvault/keys/unwrap-Key.yml)
+#### [unwrap Key](keyvault/keys/unwrap-Key/unwrap-Key.yml)
+### verify
+#### [Overview](keyvault/keys/verify.yml)
+#### [verify](keyvault/keys/verify/verify.yml)
+### wrap Key
+#### [Overview](keyvault/keys/wrap-Key.yml)
+#### [wrap Key](keyvault/keys/wrap-Key/wrap-Key.yml)
+## Managed HSM
+### MHSM Private Endpoint Connections
+#### [Overview](keyvault/managedhsm/MHSM-Private-Endpoint-Connections.yml)
+#### [Delete](keyvault/managedhsm/MHSM-Private-Endpoint-Connections/Delete.yml)
+#### [Get](keyvault/managedhsm/MHSM-Private-Endpoint-Connections/Get.yml)
+#### [List By Resource](keyvault/managedhsm/MHSM-Private-Endpoint-Connections/List-By-Resource.yml)
+#### [Put](keyvault/managedhsm/MHSM-Private-Endpoint-Connections/Put.yml)
+### MHSM Private Link Resources
+#### [Overview](keyvault/managedhsm/MHSM-Private-Link-Resources.yml)
+#### [List By MHSM Resource](keyvault/managedhsm/MHSM-Private-Link-Resources/List-By-MHSM-Resource.yml)
+### Managed Hsms
+#### [Overview](keyvault/managedhsm/Managed-Hsms.yml)
+#### [Create Or Update](keyvault/managedhsm/Managed-Hsms/Create-Or-Update.yml)
+#### [Delete](keyvault/managedhsm/Managed-Hsms/Delete.yml)
+#### [Get](keyvault/managedhsm/Managed-Hsms/Get.yml)
+#### [Get Deleted](keyvault/managedhsm/Managed-Hsms/Get-Deleted.yml)
+#### [List By Resource Group](keyvault/managedhsm/Managed-Hsms/List-By-Resource-Group.yml)
+#### [List By Subscription](keyvault/managedhsm/Managed-Hsms/List-By-Subscription.yml)
+#### [List Deleted](keyvault/managedhsm/Managed-Hsms/List-Deleted.yml)
+#### [Purge Deleted](keyvault/managedhsm/Managed-Hsms/Purge-Deleted.yml)
+#### [Update](keyvault/managedhsm/Managed-Hsms/Update.yml)
+## Managed HSM - Backup/Restore
+### Full Backup
+#### [Overview](keyvault/managedhsm-backup/restore/Full-Backup.yml)
+#### [Full Backup](keyvault/managedhsm-backup/restore/Full-Backup/Full-Backup.yml)
+### Full Backup Status
+#### [Overview](keyvault/managedhsm-backup/restore/Full-Backup-Status.yml)
+#### [Full Backup Status](keyvault/managedhsm-backup/restore/Full-Backup-Status/Full-Backup-Status.yml)
+### Full Restore Operation
+#### [Overview](keyvault/managedhsm-backup/restore/Full-Restore-Operation.yml)
+#### [Full Restore Operation](keyvault/managedhsm-backup/restore/Full-Restore-Operation/Full-Restore-Operation.yml)
+### Restore Status
+#### [Overview](keyvault/managedhsm-backup/restore/Restore-Status.yml)
+#### [Restore Status](keyvault/managedhsm-backup/restore/Restore-Status/Restore-Status.yml)
+### Selective Key Restore Operation
+#### [Overview](keyvault/managedhsm-backup/restore/Selective-Key-Restore-Operation.yml)
+#### [Selective Key Restore Operation](keyvault/managedhsm-backup/restore/Selective-Key-Restore-Operation/Selective-Key-Restore-Operation.yml)
+## Managed HSM - HSM Security Domain
+### HSM Security Domain
+#### [Overview](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain.yml)
+#### [Download](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain/Download.yml)
+#### [Download Pending](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain/Download-Pending.yml)
+#### [Transfer Key](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain/Transfer-Key.yml)
+#### [Upload](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain/Upload.yml)
+#### [Upload Pending](keyvault/managedhsm-hsmsecuritydomain/HSM-Security-Domain/Upload-Pending.yml)
+## Managed HSM - RBAC
+### Role Assignments
+#### [Overview](keyvault/managedhsm-rbac/Role-Assignments.yml)
+#### [Create](keyvault/managedhsm-rbac/Role-Assignments/Create.yml)
+#### [Delete](keyvault/managedhsm-rbac/Role-Assignments/Delete.yml)
+#### [Get](keyvault/managedhsm-rbac/Role-Assignments/Get.yml)
+#### [List For Scope](keyvault/managedhsm-rbac/Role-Assignments/List-For-Scope.yml)
+### Role Definitions
+#### [Overview](keyvault/managedhsm-rbac/Role-Definitions.yml)
+#### [Create Or Update](keyvault/managedhsm-rbac/Role-Definitions/Create-Or-Update.yml)
+#### [Delete](keyvault/managedhsm-rbac/Role-Definitions/Delete.yml)
+#### [Get](keyvault/managedhsm-rbac/Role-Definitions/Get.yml)
+#### [List](keyvault/managedhsm-rbac/Role-Definitions/List.yml)
+## Secrets
+### Backup Secret
+#### [Overview](keyvault/secrets/Backup-Secret.yml)
+#### [Backup Secret](keyvault/secrets/Backup-Secret/Backup-Secret.yml)
+### Delete Secret
+#### [Overview](keyvault/secrets/Delete-Secret.yml)
+#### [Delete Secret](keyvault/secrets/Delete-Secret/Delete-Secret.yml)
+### Get Deleted Secret
+#### [Overview](keyvault/secrets/Get-Deleted-Secret.yml)
+#### [Get Deleted Secret](keyvault/secrets/Get-Deleted-Secret/Get-Deleted-Secret.yml)
+### Get Deleted Secrets
+#### [Overview](keyvault/secrets/Get-Deleted-Secrets.yml)
+#### [Get Deleted Secrets](keyvault/secrets/Get-Deleted-Secrets/Get-Deleted-Secrets.yml)
+### Get Secret
+#### [Overview](keyvault/secrets/Get-Secret.yml)
+#### [Get Secret](keyvault/secrets/Get-Secret/Get-Secret.yml)
+### Get Secret Versions
+#### [Overview](keyvault/secrets/Get-Secret-Versions.yml)
+#### [Get Secret Versions](keyvault/secrets/Get-Secret-Versions/Get-Secret-Versions.yml)
+### Get Secrets
+#### [Overview](keyvault/secrets/Get-Secrets.yml)
+#### [Get Secrets](keyvault/secrets/Get-Secrets/Get-Secrets.yml)
+### Purge Deleted Secret
+#### [Overview](keyvault/secrets/Purge-Deleted-Secret.yml)
+#### [Purge Deleted Secret](keyvault/secrets/Purge-Deleted-Secret/Purge-Deleted-Secret.yml)
+### Recover Deleted Secret
+#### [Overview](keyvault/secrets/Recover-Deleted-Secret.yml)
+#### [Recover Deleted Secret](keyvault/secrets/Recover-Deleted-Secret/Recover-Deleted-Secret.yml)
+### Restore Secret
+#### [Overview](keyvault/secrets/Restore-Secret.yml)
+#### [Restore Secret](keyvault/secrets/Restore-Secret/Restore-Secret.yml)
+### Set Secret
+#### [Overview](keyvault/secrets/Set-Secret.yml)
+#### [Set Secret](keyvault/secrets/Set-Secret/Set-Secret.yml)
+### Update Secret
+#### [Overview](keyvault/secrets/Update-Secret.yml)
+#### [Update Secret](keyvault/secrets/Update-Secret/Update-Secret.yml)
+## Secrets - Storage Accounts
+### Backup Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Backup-Storage-Account.yml)
+#### [Backup Storage Account](keyvault/secrets-storageaccounts/Backup-Storage-Account/Backup-Storage-Account.yml)
+### Delete Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Delete-Sas-Definition.yml)
+#### [Delete Sas Definition](keyvault/secrets-storageaccounts/Delete-Sas-Definition/Delete-Sas-Definition.yml)
+### Delete Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Delete-Storage-Account.yml)
+#### [Delete Storage Account](keyvault/secrets-storageaccounts/Delete-Storage-Account/Delete-Storage-Account.yml)
+### Get Deleted Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Get-Deleted-Sas-Definition.yml)
+#### [Get Deleted Sas Definition](keyvault/secrets-storageaccounts/Get-Deleted-Sas-Definition/Get-Deleted-Sas-Definition.yml)
+### Get Deleted Sas Definitions
+#### [Overview](keyvault/secrets-storageaccounts/Get-Deleted-Sas-Definitions.yml)
+#### [Get Deleted Sas Definitions](keyvault/secrets-storageaccounts/Get-Deleted-Sas-Definitions/Get-Deleted-Sas-Definitions.yml)
+### Get Deleted Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Get-Deleted-Storage-Account.yml)
+#### [Get Deleted Storage Account](keyvault/secrets-storageaccounts/Get-Deleted-Storage-Account/Get-Deleted-Storage-Account.yml)
+### Get Deleted Storage Accounts
+#### [Overview](keyvault/secrets-storageaccounts/Get-Deleted-Storage-Accounts.yml)
+#### [Get Deleted Storage Accounts](keyvault/secrets-storageaccounts/Get-Deleted-Storage-Accounts/Get-Deleted-Storage-Accounts.yml)
+### Get Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Get-Sas-Definition.yml)
+#### [Get Sas Definition](keyvault/secrets-storageaccounts/Get-Sas-Definition/Get-Sas-Definition.yml)
+### Get Sas Definitions
+#### [Overview](keyvault/secrets-storageaccounts/Get-Sas-Definitions.yml)
+#### [Get Sas Definitions](keyvault/secrets-storageaccounts/Get-Sas-Definitions/Get-Sas-Definitions.yml)
+### Get Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Get-Storage-Account.yml)
+#### [Get Storage Account](keyvault/secrets-storageaccounts/Get-Storage-Account/Get-Storage-Account.yml)
+### Get Storage Accounts
+#### [Overview](keyvault/secrets-storageaccounts/Get-Storage-Accounts.yml)
+#### [Get Storage Accounts](keyvault/secrets-storageaccounts/Get-Storage-Accounts/Get-Storage-Accounts.yml)
+### Purge Deleted Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Purge-Deleted-Storage-Account.yml)
+#### [Purge Deleted Storage Account](keyvault/secrets-storageaccounts/Purge-Deleted-Storage-Account/Purge-Deleted-Storage-Account.yml)
+### Recover Deleted Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Recover-Deleted-Sas-Definition.yml)
+#### [Recover Deleted Sas Definition](keyvault/secrets-storageaccounts/Recover-Deleted-Sas-Definition/Recover-Deleted-Sas-Definition.yml)
+### Recover Deleted Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Recover-Deleted-Storage-Account.yml)
+#### [Recover Deleted Storage Account](keyvault/secrets-storageaccounts/Recover-Deleted-Storage-Account/Recover-Deleted-Storage-Account.yml)
+### Regenerate Storage Account Key
+#### [Overview](keyvault/secrets-storageaccounts/Regenerate-Storage-Account-Key.yml)
+#### [Regenerate Storage Account Key](keyvault/secrets-storageaccounts/Regenerate-Storage-Account-Key/Regenerate-Storage-Account-Key.yml)
+### Restore Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Restore-Storage-Account.yml)
+#### [Restore Storage Account](keyvault/secrets-storageaccounts/Restore-Storage-Account/Restore-Storage-Account.yml)
+### Set Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Set-Sas-Definition.yml)
+#### [Set Sas Definition](keyvault/secrets-storageaccounts/Set-Sas-Definition/Set-Sas-Definition.yml)
+### Set Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Set-Storage-Account.yml)
+#### [Set Storage Account](keyvault/secrets-storageaccounts/Set-Storage-Account/Set-Storage-Account.yml)
+### Update Sas Definition
+#### [Overview](keyvault/secrets-storageaccounts/Update-Sas-Definition.yml)
+#### [Update Sas Definition](keyvault/secrets-storageaccounts/Update-Sas-Definition/Update-Sas-Definition.yml)
+### Update Storage Account
+#### [Overview](keyvault/secrets-storageaccounts/Update-Storage-Account.yml)
+#### [Update Storage Account](keyvault/secrets-storageaccounts/Update-Storage-Account/Update-Storage-Account.yml)
 # Kubernetes Configuration
 ## [Overview](../docs-ref-conceptual/kubernetesconfiguration/index.md)
 ## 2021-03-01
@@ -11291,64 +11623,26 @@
 ### [Get Traffic Incident Viewport](maps/Traffic/Get-Traffic-Incident-Viewport.yml)
 ## Weather
 ### [Overview](maps/Weather.yml)
+### [Get Air Quality Daily Forecasts](maps/Weather/Get-Air-Quality-Daily-Forecasts.yml)
+### [Get Air Quality Hourly Forecasts](maps/Weather/Get-Air-Quality-Hourly-Forecasts.yml)
+### [Get Current Air Quality](maps/Weather/Get-Current-Air-Quality.yml)
 ### [Get Current Conditions](maps/Weather/Get-Current-Conditions.yml)
 ### [Get Daily Forecast](maps/Weather/Get-Daily-Forecast.yml)
+### [Get Daily Historical Actuals](maps/Weather/Get-Daily-Historical-Actuals.yml)
+### [Get Daily Historical Normals](maps/Weather/Get-Daily-Historical-Normals.yml)
+### [Get Daily Historical Records](maps/Weather/Get-Daily-Historical-Records.yml)
 ### [Get Daily Indices](maps/Weather/Get-Daily-Indices.yml)
 ### [Get Hourly Forecast](maps/Weather/Get-Hourly-Forecast.yml)
 ### [Get Minute Forecast](maps/Weather/Get-Minute-Forecast.yml)
 ### [Get Quarter Day Forecast](maps/Weather/Get-Quarter-Day-Forecast.yml)
 ### [Get Severe Weather Alerts](maps/Weather/Get-Severe-Weather-Alerts.yml)
+### [Get Tropical Storm Active](maps/Weather/Get-Tropical-Storm-Active.yml)
+### [Get Tropical Storm Forecast](maps/Weather/Get-Tropical-Storm-Forecast.yml)
+### [Get Tropical Storm Locations](maps/Weather/Get-Tropical-Storm-Locations.yml)
+### [Get Tropical Storm Search](maps/Weather/Get-Tropical-Storm-Search.yml)
 ### [Get Weather Along Route](maps/Weather/Get-Weather-Along-Route.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
-## Alias
-### [Overview](maps/Alias.yml)
-### [Assign](maps/Alias/Assign.yml)
-### [Create](maps/Alias/Create.yml)
-### [Delete](maps/Alias/Delete.yml)
-### [Get Details](maps/Alias/Get-Details.yml)
-### [List](maps/Alias/List.yml)
-## Conversion
-### [Overview](maps/Conversion.yml)
-### [Convert](maps/Conversion/Convert.yml)
-### [Delete](maps/Conversion/Delete.yml)
-### [Get](maps/Conversion/Get.yml)
-### [Get Operation](maps/Conversion/Get-Operation.yml)
-### [List](maps/Conversion/List.yml)
-## Dataset
-### [Overview](maps/Dataset.yml)
-### [Create](maps/Dataset/Create.yml)
-### [Delete](maps/Dataset/Delete.yml)
-### [Get](maps/Dataset/Get.yml)
-### [Get Operation](maps/Dataset/Get-Operation.yml)
-### [List](maps/Dataset/List.yml)
-## Feature State
-### [Overview](maps/Feature-State.yml)
-### [Create Stateset](maps/Feature-State/Create-Stateset.yml)
-### [Delete State](maps/Feature-State/Delete-State.yml)
-### [Delete Stateset](maps/Feature-State/Delete-Stateset.yml)
-### [Get States](maps/Feature-State/Get-States.yml)
-### [Get Stateset](maps/Feature-State/Get-Stateset.yml)
-### [List Stateset](maps/Feature-State/List-Stateset.yml)
-### [Put Stateset](maps/Feature-State/Put-Stateset.yml)
-### [Update States](maps/Feature-State/Update-States.yml)
-## Tileset
-### [Overview](maps/Tileset.yml)
-### [Create](maps/Tileset/Create.yml)
-### [Delete](maps/Tileset/Delete.yml)
-### [Get](maps/Tileset/Get.yml)
-### [Get Operation](maps/Tileset/Get-Operation.yml)
-### [List](maps/Tileset/List.yml)
-## WFS
-### [Overview](maps/WFS.yml)
-### [Collection Definition](maps/WFS/Collection-Definition.yml)
-### [Collection Description](maps/WFS/Collection-Description.yml)
-### [Collections Description](maps/WFS/Collections-Description.yml)
-### [Delete Feature](maps/WFS/Delete-Feature.yml)
-### [Get Feature](maps/WFS/Get-Feature.yml)
-### [Get Features](maps/WFS/Get-Features.yml)
-### [Get Landing Page](maps/WFS/Get-Landing-Page.yml)
-### [Get Requirements Classes](maps/WFS/Get-Requirements-Classes.yml)
 ## V2
 ### Alias
 #### [Overview](maps/v2/Alias.yml)
@@ -13886,6 +14180,7 @@
 ### [List By Subscription](resources/Subscription-Feature-Registrations/List-By-Subscription.yml)
 ## Subscriptions
 ### [Overview](resources/Subscriptions.yml)
+### [Check Zone Peers](resources/Subscriptions/Check-Zone-Peers.yml)
 ### [Get](resources/Subscriptions/Get.yml)
 ### [List](resources/Subscriptions/List.yml)
 ### [List Locations](resources/Subscriptions/List-Locations.yml)
@@ -14820,19 +15115,16 @@
 ### Stable
 #### Disaster Recovery Configs
 ##### [Overview](servicebus/stable/Disaster-Recovery-Configs.yml)
-##### [Break Pairing](servicebus/stable/Disaster-Recovery-Configs/Break-Pairing.yml)
+##### [Get Authorization Rule](servicebus/stable/Disaster-Recovery-Configs/Get-Authorization-Rule.yml)
+##### [List Authorization Rules](servicebus/stable/Disaster-Recovery-Configs/List-Authorization-Rules.yml)
+##### [List Keys](servicebus/stable/Disaster-Recovery-Configs/List-Keys.yml)
 ##### [Check Name Availability](servicebus/stable/Disaster-Recovery-Configs/Check-Name-Availability.yml)
+##### [Break Pairing](servicebus/stable/Disaster-Recovery-Configs/Break-Pairing.yml)
 ##### [Create Or Update](servicebus/stable/Disaster-Recovery-Configs/Create-Or-Update.yml)
 ##### [Delete](servicebus/stable/Disaster-Recovery-Configs/Delete.yml)
 ##### [Fail Over](servicebus/stable/Disaster-Recovery-Configs/Fail-Over.yml)
 ##### [Get](servicebus/stable/Disaster-Recovery-Configs/Get.yml)
-##### [Get Authorization Rule](servicebus/stable/Disaster-Recovery-Configs/Get-Authorization-Rule.yml)
 ##### [List](servicebus/stable/Disaster-Recovery-Configs/List.yml)
-##### [List Authorization Rules](servicebus/stable/Disaster-Recovery-Configs/List-Authorization-Rules.yml)
-##### [List Keys](servicebus/stable/Disaster-Recovery-Configs/List-Keys.yml)
-#### Event Hubs
-##### [Overview](servicebus/stable/Event-Hubs.yml)
-##### [List By Namespace](servicebus/stable/Event-Hubs/List-By-Namespace.yml)
 #### Migration Configs
 ##### [Overview](servicebus/stable/Migration-Configs.yml)
 ##### [Complete Migration](servicebus/stable/Migration-Configs/Complete-Migration.yml)
@@ -14860,9 +15152,6 @@
 #### Namespaces - CheckName Availability
 ##### [Overview](servicebus/stable/Namespaces-Check-Name-Availability.yml)
 ##### [Check Name Availability](servicebus/stable/Namespaces-Check-Name-Availability/Check-Name-Availability.yml)
-#### Namespaces - Migrate
-##### [Overview](servicebus/stable/Namespaces-Migrate.yml)
-##### [Migrate](servicebus/stable/Namespaces-Migrate/Migrate.yml)
 #### Namespaces - Network Rule Sets
 ##### [Overview](servicebus/stable/Namespaces-Network-Rule-Sets.yml)
 ##### [Create Or Update Network Rule Set](servicebus/stable/Namespaces-Network-Rule-Sets/Create-Or-Update-Network-Rule-Set.yml)
@@ -14871,9 +15160,15 @@
 #### Operations
 ##### [Overview](servicebus/stable/Operations.yml)
 ##### [List](servicebus/stable/Operations/List.yml)
-#### Premium Messaging Regions
-##### [Overview](servicebus/stable/Premium-Messaging-Regions.yml)
-##### [List](servicebus/stable/Premium-Messaging-Regions/List.yml)
+#### Private Endpoint Connections
+##### [Overview](servicebus/stable/Private-Endpoint-Connections.yml)
+##### [Create Or Update](servicebus/stable/Private-Endpoint-Connections/Create-Or-Update.yml)
+##### [Delete](servicebus/stable/Private-Endpoint-Connections/Delete.yml)
+##### [Get](servicebus/stable/Private-Endpoint-Connections/Get.yml)
+##### [List](servicebus/stable/Private-Endpoint-Connections/List.yml)
+#### Private Link Resources
+##### [Overview](servicebus/stable/Private-Link-Resources.yml)
+##### [Get](servicebus/stable/Private-Link-Resources/Get.yml)
 #### Queues
 ##### [Overview](servicebus/stable/Queues.yml)
 ##### [Create Or Update](servicebus/stable/Queues/Create-Or-Update.yml)
@@ -14888,9 +15183,6 @@
 ##### [List Authorization Rules](servicebus/stable/Queues-Authorization-Rules/List-Authorization-Rules.yml)
 ##### [List Keys](servicebus/stable/Queues-Authorization-Rules/List-Keys.yml)
 ##### [Regenerate Keys](servicebus/stable/Queues-Authorization-Rules/Regenerate-Keys.yml)
-#### Regions
-##### [Overview](servicebus/stable/Regions.yml)
-##### [List By Sku](servicebus/stable/Regions/List-By-Sku.yml)
 #### Rules
 ##### [Overview](servicebus/stable/Rules.yml)
 ##### [Create Or Update](servicebus/stable/Rules/Create-Or-Update.yml)
@@ -19310,6 +19602,656 @@
 ##### [Delete](sql/2021-05-01-preview/Workload-Groups/Delete.yml)
 ##### [Get](sql/2021-05-01-preview/Workload-Groups/Get.yml)
 ##### [List By Database](sql/2021-05-01-preview/Workload-Groups/List-By-Database.yml)
+### 2021-08-01-preview
+#### Backup Short Term Retention Policies
+##### [Overview](sql/2021-08-01-preview/Backup-Short-Term-Retention-Policies.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Backup-Short-Term-Retention-Policies/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Backup-Short-Term-Retention-Policies/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Backup-Short-Term-Retention-Policies/List-By-Database.yml)
+##### [Update](sql/2021-08-01-preview/Backup-Short-Term-Retention-Policies/Update.yml)
+#### Capabilities
+##### [Overview](sql/2021-08-01-preview/Capabilities.yml)
+##### [List By Location](sql/2021-08-01-preview/Capabilities/List-By-Location.yml)
+#### Data Warehouse User Activities
+##### [Overview](sql/2021-08-01-preview/Data-Warehouse-User-Activities.yml)
+##### [Get](sql/2021-08-01-preview/Data-Warehouse-User-Activities/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Data-Warehouse-User-Activities/List-By-Database.yml)
+#### Database Advisors
+##### [Overview](sql/2021-08-01-preview/Database-Advisors.yml)
+##### [Get](sql/2021-08-01-preview/Database-Advisors/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Database-Advisors/List-By-Database.yml)
+##### [Update](sql/2021-08-01-preview/Database-Advisors/Update.yml)
+#### Database Automatic Tuning
+##### [Overview](sql/2021-08-01-preview/Database-Automatic-Tuning.yml)
+##### [Get](sql/2021-08-01-preview/Database-Automatic-Tuning/Get.yml)
+##### [Update](sql/2021-08-01-preview/Database-Automatic-Tuning/Update.yml)
+#### Database Blob Auditing Policies
+##### [Overview](sql/2021-08-01-preview/Database-Blob-Auditing-Policies.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Database-Blob-Auditing-Policies/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Database-Blob-Auditing-Policies/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Database-Blob-Auditing-Policies/List-By-Database.yml)
+#### Database Columns
+##### [Overview](sql/2021-08-01-preview/Database-Columns.yml)
+##### [Get](sql/2021-08-01-preview/Database-Columns/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Database-Columns/List-By-Database.yml)
+##### [List By Table](sql/2021-08-01-preview/Database-Columns/List-By-Table.yml)
+#### Database Extensions
+##### [Overview](sql/2021-08-01-preview/Database-Extensions.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Database-Extensions/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Database-Extensions/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Database-Extensions/List-By-Database.yml)
+#### Database Operations
+##### [Overview](sql/2021-08-01-preview/Database-Operations.yml)
+##### [Cancel](sql/2021-08-01-preview/Database-Operations/Cancel.yml)
+##### [List By Database](sql/2021-08-01-preview/Database-Operations/List-By-Database.yml)
+#### Database Recommended Actions
+##### [Overview](sql/2021-08-01-preview/Database-Recommended-Actions.yml)
+##### [Get](sql/2021-08-01-preview/Database-Recommended-Actions/Get.yml)
+##### [List By Database Advisor](sql/2021-08-01-preview/Database-Recommended-Actions/List-By-Database-Advisor.yml)
+##### [Update](sql/2021-08-01-preview/Database-Recommended-Actions/Update.yml)
+#### Database Schemas
+##### [Overview](sql/2021-08-01-preview/Database-Schemas.yml)
+##### [Get](sql/2021-08-01-preview/Database-Schemas/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Database-Schemas/List-By-Database.yml)
+#### Database Security Alert Policies
+##### [Overview](sql/2021-08-01-preview/Database-Security-Alert-Policies.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Database-Security-Alert-Policies/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Database-Security-Alert-Policies/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Database-Security-Alert-Policies/List-By-Database.yml)
+#### Database Tables
+##### [Overview](sql/2021-08-01-preview/Database-Tables.yml)
+##### [Get](sql/2021-08-01-preview/Database-Tables/Get.yml)
+##### [List By Schema](sql/2021-08-01-preview/Database-Tables/List-By-Schema.yml)
+#### Database Usages
+##### [Overview](sql/2021-08-01-preview/Database-Usages.yml)
+##### [List By Database](sql/2021-08-01-preview/Database-Usages/List-By-Database.yml)
+#### Database Vulnerability Assessment Rule Baselines
+##### [Overview](sql/2021-08-01-preview/Database-Vulnerability-Assessment-Rule-Baselines.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Database-Vulnerability-Assessment-Rule-Baselines/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Database-Vulnerability-Assessment-Rule-Baselines/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Database-Vulnerability-Assessment-Rule-Baselines/Get.yml)
+#### Database Vulnerability Assessment Scans
+##### [Overview](sql/2021-08-01-preview/Database-Vulnerability-Assessment-Scans.yml)
+##### [Export](sql/2021-08-01-preview/Database-Vulnerability-Assessment-Scans/Export.yml)
+##### [Get](sql/2021-08-01-preview/Database-Vulnerability-Assessment-Scans/Get.yml)
+##### [Initiate Scan](sql/2021-08-01-preview/Database-Vulnerability-Assessment-Scans/Initiate-Scan.yml)
+##### [List By Database](sql/2021-08-01-preview/Database-Vulnerability-Assessment-Scans/List-By-Database.yml)
+#### Database Vulnerability Assessments
+##### [Overview](sql/2021-08-01-preview/Database-Vulnerability-Assessments.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Database-Vulnerability-Assessments/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Database-Vulnerability-Assessments/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Database-Vulnerability-Assessments/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Database-Vulnerability-Assessments/List-By-Database.yml)
+#### Databases
+##### [Overview](sql/2021-08-01-preview/Databases.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Databases/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Databases/Delete.yml)
+##### [Export](sql/2021-08-01-preview/Databases/Export.yml)
+##### [Failover](sql/2021-08-01-preview/Databases/Failover.yml)
+##### [Get](sql/2021-08-01-preview/Databases/Get.yml)
+##### [Import](sql/2021-08-01-preview/Databases/Import.yml)
+##### [List By Elastic Pool](sql/2021-08-01-preview/Databases/List-By-Elastic-Pool.yml)
+##### [List By Server](sql/2021-08-01-preview/Databases/List-By-Server.yml)
+##### [List Inaccessible By Server](sql/2021-08-01-preview/Databases/List-Inaccessible-By-Server.yml)
+##### [Pause](sql/2021-08-01-preview/Databases/Pause.yml)
+##### [Rename](sql/2021-08-01-preview/Databases/Rename.yml)
+##### [Resume](sql/2021-08-01-preview/Databases/Resume.yml)
+##### [Update](sql/2021-08-01-preview/Databases/Update.yml)
+##### [Upgrade Data Warehouse](sql/2021-08-01-preview/Databases/Upgrade-Data-Warehouse.yml)
+#### Deleted Servers
+##### [Overview](sql/2021-08-01-preview/Deleted-Servers.yml)
+##### [Get](sql/2021-08-01-preview/Deleted-Servers/Get.yml)
+##### [List](sql/2021-08-01-preview/Deleted-Servers/List.yml)
+##### [List By Location](sql/2021-08-01-preview/Deleted-Servers/List-By-Location.yml)
+##### [Recover](sql/2021-08-01-preview/Deleted-Servers/Recover.yml)
+#### Distributed Availability Groups
+##### [Overview](sql/2021-08-01-preview/Distributed-Availability-Groups.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Distributed-Availability-Groups/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Distributed-Availability-Groups/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Distributed-Availability-Groups/Get.yml)
+##### [List By Instance](sql/2021-08-01-preview/Distributed-Availability-Groups/List-By-Instance.yml)
+##### [Update](sql/2021-08-01-preview/Distributed-Availability-Groups/Update.yml)
+#### Elastic Pool Operations
+##### [Overview](sql/2021-08-01-preview/Elastic-Pool-Operations.yml)
+##### [Cancel](sql/2021-08-01-preview/Elastic-Pool-Operations/Cancel.yml)
+##### [List By Elastic Pool](sql/2021-08-01-preview/Elastic-Pool-Operations/List-By-Elastic-Pool.yml)
+#### Elastic Pools
+##### [Overview](sql/2021-08-01-preview/Elastic-Pools.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Elastic-Pools/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Elastic-Pools/Delete.yml)
+##### [Failover](sql/2021-08-01-preview/Elastic-Pools/Failover.yml)
+##### [Get](sql/2021-08-01-preview/Elastic-Pools/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Elastic-Pools/List-By-Server.yml)
+##### [Update](sql/2021-08-01-preview/Elastic-Pools/Update.yml)
+#### Encryption Protectors
+##### [Overview](sql/2021-08-01-preview/Encryption-Protectors.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Encryption-Protectors/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Encryption-Protectors/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Encryption-Protectors/List-By-Server.yml)
+##### [Revalidate](sql/2021-08-01-preview/Encryption-Protectors/Revalidate.yml)
+#### Extended Database Blob Auditing Policies
+##### [Overview](sql/2021-08-01-preview/Extended-Database-Blob-Auditing-Policies.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Extended-Database-Blob-Auditing-Policies/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Extended-Database-Blob-Auditing-Policies/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Extended-Database-Blob-Auditing-Policies/List-By-Database.yml)
+#### Extended Server Blob Auditing Policies
+##### [Overview](sql/2021-08-01-preview/Extended-Server-Blob-Auditing-Policies.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Extended-Server-Blob-Auditing-Policies/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Extended-Server-Blob-Auditing-Policies/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Extended-Server-Blob-Auditing-Policies/List-By-Server.yml)
+#### Failover Groups
+##### [Overview](sql/2021-08-01-preview/Failover-Groups.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Failover-Groups/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Failover-Groups/Delete.yml)
+##### [Failover](sql/2021-08-01-preview/Failover-Groups/Failover.yml)
+##### [Force Failover Allow Data Loss](sql/2021-08-01-preview/Failover-Groups/Force-Failover-Allow-Data-Loss.yml)
+##### [Get](sql/2021-08-01-preview/Failover-Groups/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Failover-Groups/List-By-Server.yml)
+##### [Update](sql/2021-08-01-preview/Failover-Groups/Update.yml)
+#### Firewall Rules
+##### [Overview](sql/2021-08-01-preview/Firewall-Rules.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Firewall-Rules/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Firewall-Rules/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Firewall-Rules/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Firewall-Rules/List-By-Server.yml)
+##### [Replace](sql/2021-08-01-preview/Firewall-Rules/Replace.yml)
+#### IP Firewall ll Rules
+##### [Overview](sql/2021-08-01-preview/IP-Firewall-ll-Rules.yml)
+##### [Create Or Update](sql/2021-08-01-preview/IP-Firewall-ll-Rules/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/IP-Firewall-ll-Rules/Delete.yml)
+##### [Get](sql/2021-08-01-preview/IP-Firewall-ll-Rules/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/IP-Firewall-ll-Rules/List-By-Server.yml)
+#### Instance Failover Groups
+##### [Overview](sql/2021-08-01-preview/Instance-Failover-Groups.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Instance-Failover-Groups/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Instance-Failover-Groups/Delete.yml)
+##### [Failover](sql/2021-08-01-preview/Instance-Failover-Groups/Failover.yml)
+##### [Force Failover Allow Data Loss](sql/2021-08-01-preview/Instance-Failover-Groups/Force-Failover-Allow-Data-Loss.yml)
+##### [Get](sql/2021-08-01-preview/Instance-Failover-Groups/Get.yml)
+##### [List By Location](sql/2021-08-01-preview/Instance-Failover-Groups/List-By-Location.yml)
+#### Instance Pools
+##### [Overview](sql/2021-08-01-preview/Instance-Pools.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Instance-Pools/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Instance-Pools/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Instance-Pools/Get.yml)
+##### [List](sql/2021-08-01-preview/Instance-Pools/List.yml)
+##### [List By Resource Group](sql/2021-08-01-preview/Instance-Pools/List-By-Resource-Group.yml)
+##### [Update](sql/2021-08-01-preview/Instance-Pools/Update.yml)
+#### Job Agents
+##### [Overview](sql/2021-08-01-preview/Job-Agents.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Job-Agents/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Job-Agents/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Job-Agents/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Job-Agents/List-By-Server.yml)
+##### [Update](sql/2021-08-01-preview/Job-Agents/Update.yml)
+#### Job Credentials
+##### [Overview](sql/2021-08-01-preview/Job-Credentials.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Job-Credentials/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Job-Credentials/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Job-Credentials/Get.yml)
+##### [List By Agent](sql/2021-08-01-preview/Job-Credentials/List-By-Agent.yml)
+#### Job Executions
+##### [Overview](sql/2021-08-01-preview/Job-Executions.yml)
+##### [Cancel](sql/2021-08-01-preview/Job-Executions/Cancel.yml)
+##### [Create](sql/2021-08-01-preview/Job-Executions/Create.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Job-Executions/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Job-Executions/Get.yml)
+##### [List By Agent](sql/2021-08-01-preview/Job-Executions/List-By-Agent.yml)
+##### [List By Job](sql/2021-08-01-preview/Job-Executions/List-By-Job.yml)
+#### Job Step Executions
+##### [Overview](sql/2021-08-01-preview/Job-Step-Executions.yml)
+##### [Get](sql/2021-08-01-preview/Job-Step-Executions/Get.yml)
+##### [List By Job Execution](sql/2021-08-01-preview/Job-Step-Executions/List-By-Job-Execution.yml)
+#### Job Steps
+##### [Overview](sql/2021-08-01-preview/Job-Steps.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Job-Steps/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Job-Steps/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Job-Steps/Get.yml)
+##### [Get By Version](sql/2021-08-01-preview/Job-Steps/Get-By-Version.yml)
+##### [List By Job](sql/2021-08-01-preview/Job-Steps/List-By-Job.yml)
+##### [List By Version](sql/2021-08-01-preview/Job-Steps/List-By-Version.yml)
+#### Job Target Executions
+##### [Overview](sql/2021-08-01-preview/Job-Target-Executions.yml)
+##### [Get](sql/2021-08-01-preview/Job-Target-Executions/Get.yml)
+##### [List By Job Execution](sql/2021-08-01-preview/Job-Target-Executions/List-By-Job-Execution.yml)
+##### [List By Step](sql/2021-08-01-preview/Job-Target-Executions/List-By-Step.yml)
+#### Job Target Groups
+##### [Overview](sql/2021-08-01-preview/Job-Target-Groups.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Job-Target-Groups/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Job-Target-Groups/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Job-Target-Groups/Get.yml)
+##### [List By Agent](sql/2021-08-01-preview/Job-Target-Groups/List-By-Agent.yml)
+#### Job Versions
+##### [Overview](sql/2021-08-01-preview/Job-Versions.yml)
+##### [Get](sql/2021-08-01-preview/Job-Versions/Get.yml)
+##### [List By Job](sql/2021-08-01-preview/Job-Versions/List-By-Job.yml)
+#### Jobs
+##### [Overview](sql/2021-08-01-preview/Jobs.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Jobs/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Jobs/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Jobs/Get.yml)
+##### [List By Agent](sql/2021-08-01-preview/Jobs/List-By-Agent.yml)
+#### Ledger Digest Uploads
+##### [Overview](sql/2021-08-01-preview/Ledger-Digest-Uploads.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Ledger-Digest-Uploads/Create-Or-Update.yml)
+##### [Disable](sql/2021-08-01-preview/Ledger-Digest-Uploads/Disable.yml)
+##### [Get](sql/2021-08-01-preview/Ledger-Digest-Uploads/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Ledger-Digest-Uploads/List-By-Database.yml)
+#### Long Term Retention Backups
+##### [Overview](sql/2021-08-01-preview/Long-Term-Retention-Backups.yml)
+##### [Copy](sql/2021-08-01-preview/Long-Term-Retention-Backups/Copy.yml)
+##### [Copy By Resource Group](sql/2021-08-01-preview/Long-Term-Retention-Backups/Copy-By-Resource-Group.yml)
+##### [Delete](sql/2021-08-01-preview/Long-Term-Retention-Backups/Delete.yml)
+##### [Delete By Resource Group](sql/2021-08-01-preview/Long-Term-Retention-Backups/Delete-By-Resource-Group.yml)
+##### [Get](sql/2021-08-01-preview/Long-Term-Retention-Backups/Get.yml)
+##### [Get By Resource Group](sql/2021-08-01-preview/Long-Term-Retention-Backups/Get-By-Resource-Group.yml)
+##### [List By Database](sql/2021-08-01-preview/Long-Term-Retention-Backups/List-By-Database.yml)
+##### [List By Location](sql/2021-08-01-preview/Long-Term-Retention-Backups/List-By-Location.yml)
+##### [List By Resource Group Database](sql/2021-08-01-preview/Long-Term-Retention-Backups/List-By-Resource-Group-Database.yml)
+##### [List By Resource Group Location](sql/2021-08-01-preview/Long-Term-Retention-Backups/List-By-Resource-Group-Location.yml)
+##### [List By Resource Group Server](sql/2021-08-01-preview/Long-Term-Retention-Backups/List-By-Resource-Group-Server.yml)
+##### [List By Server](sql/2021-08-01-preview/Long-Term-Retention-Backups/List-By-Server.yml)
+##### [Update](sql/2021-08-01-preview/Long-Term-Retention-Backups/Update.yml)
+##### [Update By Resource Group](sql/2021-08-01-preview/Long-Term-Retention-Backups/Update-By-Resource-Group.yml)
+#### Long Term Retention Managed Instance Backups
+##### [Overview](sql/2021-08-01-preview/Long-Term-Retention-Managed-Instance-Backups.yml)
+##### [Delete](sql/2021-08-01-preview/Long-Term-Retention-Managed-Instance-Backups/Delete.yml)
+##### [Delete By Resource Group](sql/2021-08-01-preview/Long-Term-Retention-Managed-Instance-Backups/Delete-By-Resource-Group.yml)
+##### [Get](sql/2021-08-01-preview/Long-Term-Retention-Managed-Instance-Backups/Get.yml)
+##### [Get By Resource Group](sql/2021-08-01-preview/Long-Term-Retention-Managed-Instance-Backups/Get-By-Resource-Group.yml)
+##### [List By Database](sql/2021-08-01-preview/Long-Term-Retention-Managed-Instance-Backups/List-By-Database.yml)
+##### [List By Instance](sql/2021-08-01-preview/Long-Term-Retention-Managed-Instance-Backups/List-By-Instance.yml)
+##### [List By Location](sql/2021-08-01-preview/Long-Term-Retention-Managed-Instance-Backups/List-By-Location.yml)
+##### [List By Resource Group Database](sql/2021-08-01-preview/Long-Term-Retention-Managed-Instance-Backups/List-By-Resource-Group-Database.yml)
+##### [List By Resource Group Instance](sql/2021-08-01-preview/Long-Term-Retention-Managed-Instance-Backups/List-By-Resource-Group-Instance.yml)
+##### [List By Resource Group Location](sql/2021-08-01-preview/Long-Term-Retention-Managed-Instance-Backups/List-By-Resource-Group-Location.yml)
+#### Long Term Retention Policies
+##### [Overview](sql/2021-08-01-preview/Long-Term-Retention-Policies.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Long-Term-Retention-Policies/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Long-Term-Retention-Policies/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Long-Term-Retention-Policies/List-By-Database.yml)
+#### Maintenance Window Options
+##### [Overview](sql/2021-08-01-preview/Maintenance-Window-Options.yml)
+##### [Get](sql/2021-08-01-preview/Maintenance-Window-Options/Get.yml)
+#### Maintenance Windows
+##### [Overview](sql/2021-08-01-preview/Maintenance-Windows.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Maintenance-Windows/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Maintenance-Windows/Get.yml)
+#### Managed Backup Short Term Retention Policies
+##### [Overview](sql/2021-08-01-preview/Managed-Backup-Short-Term-Retention-Policies.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Backup-Short-Term-Retention-Policies/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Backup-Short-Term-Retention-Policies/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Managed-Backup-Short-Term-Retention-Policies/List-By-Database.yml)
+##### [Update](sql/2021-08-01-preview/Managed-Backup-Short-Term-Retention-Policies/Update.yml)
+#### Managed Database Columns
+##### [Overview](sql/2021-08-01-preview/Managed-Database-Columns.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Database-Columns/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Managed-Database-Columns/List-By-Database.yml)
+##### [List By Table](sql/2021-08-01-preview/Managed-Database-Columns/List-By-Table.yml)
+#### Managed Database Queries
+##### [Overview](sql/2021-08-01-preview/Managed-Database-Queries.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Database-Queries/Get.yml)
+##### [List By Query](sql/2021-08-01-preview/Managed-Database-Queries/List-By-Query.yml)
+#### Managed Database Recommended Sensitivity Labels
+##### [Overview](sql/2021-08-01-preview/Managed-Database-Recommended-Sensitivity-Labels.yml)
+##### [Update](sql/2021-08-01-preview/Managed-Database-Recommended-Sensitivity-Labels/Update.yml)
+#### Managed Database Restore Details
+##### [Overview](sql/2021-08-01-preview/Managed-Database-Restore-Details.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Database-Restore-Details/Get.yml)
+#### Managed Database Schemas
+##### [Overview](sql/2021-08-01-preview/Managed-Database-Schemas.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Database-Schemas/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Managed-Database-Schemas/List-By-Database.yml)
+#### Managed Database Security Alert Policies
+##### [Overview](sql/2021-08-01-preview/Managed-Database-Security-Alert-Policies.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Database-Security-Alert-Policies/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Database-Security-Alert-Policies/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Managed-Database-Security-Alert-Policies/List-By-Database.yml)
+#### Managed Database Security Events
+##### [Overview](sql/2021-08-01-preview/Managed-Database-Security-Events.yml)
+##### [List By Database](sql/2021-08-01-preview/Managed-Database-Security-Events/List-By-Database.yml)
+#### Managed Database Sensitivity Labels
+##### [Overview](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels/Delete.yml)
+##### [Disable Recommendation](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels/Disable-Recommendation.yml)
+##### [Enable Recommendation](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels/Enable-Recommendation.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels/Get.yml)
+##### [List Current By Database](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels/List-Current-By-Database.yml)
+##### [List Recommended By Database](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels/List-Recommended-By-Database.yml)
+##### [Update](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels/Update.yml)
+#### Managed Database Tables
+##### [Overview](sql/2021-08-01-preview/Managed-Database-Tables.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Database-Tables/Get.yml)
+##### [List By Schema](sql/2021-08-01-preview/Managed-Database-Tables/List-By-Schema.yml)
+#### Managed Database Transparent Data Encryption
+##### [Overview](sql/2021-08-01-preview/Managed-Database-Transparent-Data-Encryption.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Database-Transparent-Data-Encryption/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Database-Transparent-Data-Encryption/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Managed-Database-Transparent-Data-Encryption/List-By-Database.yml)
+#### Managed Database Vulnerability Assessment Rule Baselines
+##### [Overview](sql/2021-08-01-preview/Managed-Database-Vulnerability-Assessment-Rule-Baselines.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Database-Vulnerability-Assessment-Rule-Baselines/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Managed-Database-Vulnerability-Assessment-Rule-Baselines/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Database-Vulnerability-Assessment-Rule-Baselines/Get.yml)
+#### Managed Database Vulnerability Assessment Scans
+##### [Overview](sql/2021-08-01-preview/Managed-Database-Vulnerability-Assessment-Scans.yml)
+##### [Export](sql/2021-08-01-preview/Managed-Database-Vulnerability-Assessment-Scans/Export.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Database-Vulnerability-Assessment-Scans/Get.yml)
+##### [Initiate Scan](sql/2021-08-01-preview/Managed-Database-Vulnerability-Assessment-Scans/Initiate-Scan.yml)
+##### [List By Database](sql/2021-08-01-preview/Managed-Database-Vulnerability-Assessment-Scans/List-By-Database.yml)
+#### Managed Database Vulnerability Assessments
+##### [Overview](sql/2021-08-01-preview/Managed-Database-Vulnerability-Assessments.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Database-Vulnerability-Assessments/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Managed-Database-Vulnerability-Assessments/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Database-Vulnerability-Assessments/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Managed-Database-Vulnerability-Assessments/List-By-Database.yml)
+#### Managed Databases
+##### [Overview](sql/2021-08-01-preview/Managed-Databases.yml)
+##### [Complete Restore](sql/2021-08-01-preview/Managed-Databases/Complete-Restore.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Databases/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Managed-Databases/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Databases/Get.yml)
+##### [List By Instance](sql/2021-08-01-preview/Managed-Databases/List-By-Instance.yml)
+##### [List Inaccessible By Instance](sql/2021-08-01-preview/Managed-Databases/List-Inaccessible-By-Instance.yml)
+##### [Update](sql/2021-08-01-preview/Managed-Databases/Update.yml)
+#### Managed Instance Administrators
+##### [Overview](sql/2021-08-01-preview/Managed-Instance-Administrators.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Instance-Administrators/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Managed-Instance-Administrators/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Instance-Administrators/Get.yml)
+##### [List By Instance](sql/2021-08-01-preview/Managed-Instance-Administrators/List-By-Instance.yml)
+#### Managed Instance Azure AD Only Authentications
+##### [Overview](sql/2021-08-01-preview/Managed-Instance-Azure-AD-Only-Authentications.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Instance-Azure-AD-Only-Authentications/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Managed-Instance-Azure-AD-Only-Authentications/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Instance-Azure-AD-Only-Authentications/Get.yml)
+##### [List By Instance](sql/2021-08-01-preview/Managed-Instance-Azure-AD-Only-Authentications/List-By-Instance.yml)
+#### Managed Instance Encryption Protectors
+##### [Overview](sql/2021-08-01-preview/Managed-Instance-Encryption-Protectors.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Instance-Encryption-Protectors/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Instance-Encryption-Protectors/Get.yml)
+##### [List By Instance](sql/2021-08-01-preview/Managed-Instance-Encryption-Protectors/List-By-Instance.yml)
+##### [Revalidate](sql/2021-08-01-preview/Managed-Instance-Encryption-Protectors/Revalidate.yml)
+#### Managed Instance Keys
+##### [Overview](sql/2021-08-01-preview/Managed-Instance-Keys.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Instance-Keys/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Managed-Instance-Keys/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Instance-Keys/Get.yml)
+##### [List By Instance](sql/2021-08-01-preview/Managed-Instance-Keys/List-By-Instance.yml)
+#### Managed Instance Long Term Retention Policies
+##### [Overview](sql/2021-08-01-preview/Managed-Instance-Long-Term-Retention-Policies.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Instance-Long-Term-Retention-Policies/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Instance-Long-Term-Retention-Policies/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Managed-Instance-Long-Term-Retention-Policies/List-By-Database.yml)
+#### Managed Instance Operations
+##### [Overview](sql/2021-08-01-preview/Managed-Instance-Operations.yml)
+##### [Cancel](sql/2021-08-01-preview/Managed-Instance-Operations/Cancel.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Instance-Operations/Get.yml)
+##### [List By Managed Instance](sql/2021-08-01-preview/Managed-Instance-Operations/List-By-Managed-Instance.yml)
+#### Managed Instance Private Endpoint Connections
+##### [Overview](sql/2021-08-01-preview/Managed-Instance-Private-Endpoint-Connections.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Instance-Private-Endpoint-Connections/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Managed-Instance-Private-Endpoint-Connections/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Instance-Private-Endpoint-Connections/Get.yml)
+##### [List By Managed Instance](sql/2021-08-01-preview/Managed-Instance-Private-Endpoint-Connections/List-By-Managed-Instance.yml)
+#### Managed Instance Private Link Resources
+##### [Overview](sql/2021-08-01-preview/Managed-Instance-Private-Link-Resources.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Instance-Private-Link-Resources/Get.yml)
+##### [List By Managed Instance](sql/2021-08-01-preview/Managed-Instance-Private-Link-Resources/List-By-Managed-Instance.yml)
+#### Managed Instance Tde Certificates
+##### [Overview](sql/2021-08-01-preview/Managed-Instance-Tde-Certificates.yml)
+##### [Create](sql/2021-08-01-preview/Managed-Instance-Tde-Certificates/Create.yml)
+#### Managed Instance Vulnerability Assessments
+##### [Overview](sql/2021-08-01-preview/Managed-Instance-Vulnerability-Assessments.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Instance-Vulnerability-Assessments/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Managed-Instance-Vulnerability-Assessments/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Instance-Vulnerability-Assessments/Get.yml)
+##### [List By Instance](sql/2021-08-01-preview/Managed-Instance-Vulnerability-Assessments/List-By-Instance.yml)
+#### Managed Instances
+##### [Overview](sql/2021-08-01-preview/Managed-Instances.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Instances/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Managed-Instances/Delete.yml)
+##### [Failover](sql/2021-08-01-preview/Managed-Instances/Failover.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Instances/Get.yml)
+##### [List](sql/2021-08-01-preview/Managed-Instances/List.yml)
+##### [List By Instance Pool](sql/2021-08-01-preview/Managed-Instances/List-By-Instance-Pool.yml)
+##### [List By Managed Instance](sql/2021-08-01-preview/Managed-Instances/List-By-Managed-Instance.yml)
+##### [List By Resource Group](sql/2021-08-01-preview/Managed-Instances/List-By-Resource-Group.yml)
+##### [List Outbound Network Dependencies By Managed Instance](sql/2021-08-01-preview/Managed-Instances/List-Outbound-Network-Dependencies-By-Managed-Instance.yml)
+##### [Update](sql/2021-08-01-preview/Managed-Instances/Update.yml)
+#### Managed Restorable Dropped Database Backup Short Term Retention Policies
+##### [Overview](sql/2021-08-01-preview/Managed-Restorable-Dropped-Database-Backup-Short-Term-Retention-Policies.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Restorable-Dropped-Database-Backup-Short-Term-Retention-Policies/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Restorable-Dropped-Database-Backup-Short-Term-Retention-Policies/Get.yml)
+##### [List By Restorable Dropped Database](sql/2021-08-01-preview/Managed-Restorable-Dropped-Database-Backup-Short-Term-Retention-Policies/List-By-Restorable-Dropped-Database.yml)
+##### [Update](sql/2021-08-01-preview/Managed-Restorable-Dropped-Database-Backup-Short-Term-Retention-Policies/Update.yml)
+#### Managed Server Security Alert Policies
+##### [Overview](sql/2021-08-01-preview/Managed-Server-Security-Alert-Policies.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Managed-Server-Security-Alert-Policies/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Managed-Server-Security-Alert-Policies/Get.yml)
+##### [List By Instance](sql/2021-08-01-preview/Managed-Server-Security-Alert-Policies/List-By-Instance.yml)
+#### Operations
+##### [Overview](sql/2021-08-01-preview/Operations.yml)
+##### [List](sql/2021-08-01-preview/Operations/List.yml)
+#### Outbound Firewall Rules
+##### [Overview](sql/2021-08-01-preview/Outbound-Firewall-Rules.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Outbound-Firewall-Rules/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Outbound-Firewall-Rules/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Outbound-Firewall-Rules/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Outbound-Firewall-Rules/List-By-Server.yml)
+#### Private Endpoint Connections
+##### [Overview](sql/2021-08-01-preview/Private-Endpoint-Connections.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Private-Endpoint-Connections/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Private-Endpoint-Connections/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Private-Endpoint-Connections/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Private-Endpoint-Connections/List-By-Server.yml)
+#### Private Link Resources
+##### [Overview](sql/2021-08-01-preview/Private-Link-Resources.yml)
+##### [Get](sql/2021-08-01-preview/Private-Link-Resources/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Private-Link-Resources/List-By-Server.yml)
+#### Recommended Sensitivity Labels
+##### [Overview](sql/2021-08-01-preview/Recommended-Sensitivity-Labels.yml)
+##### [Update](sql/2021-08-01-preview/Recommended-Sensitivity-Labels/Update.yml)
+#### Recoverable Managed Databases
+##### [Overview](sql/2021-08-01-preview/Recoverable-Managed-Databases.yml)
+##### [Get](sql/2021-08-01-preview/Recoverable-Managed-Databases/Get.yml)
+##### [List By Instance](sql/2021-08-01-preview/Recoverable-Managed-Databases/List-By-Instance.yml)
+#### Replication Links
+##### [Overview](sql/2021-08-01-preview/Replication-Links.yml)
+##### [Delete](sql/2021-08-01-preview/Replication-Links/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Replication-Links/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Replication-Links/List-By-Database.yml)
+##### [List By Server](sql/2021-08-01-preview/Replication-Links/List-By-Server.yml)
+#### Restorable Dropped Databases
+##### [Overview](sql/2021-08-01-preview/Restorable-Dropped-Databases.yml)
+##### [Get](sql/2021-08-01-preview/Restorable-Dropped-Databases/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Restorable-Dropped-Databases/List-By-Server.yml)
+#### Restorable Dropped Managed Databases
+##### [Overview](sql/2021-08-01-preview/Restorable-Dropped-Managed-Databases.yml)
+##### [Get](sql/2021-08-01-preview/Restorable-Dropped-Managed-Databases/Get.yml)
+##### [List By Instance](sql/2021-08-01-preview/Restorable-Dropped-Managed-Databases/List-By-Instance.yml)
+#### Restore Points
+##### [Overview](sql/2021-08-01-preview/Restore-Points.yml)
+##### [Create](sql/2021-08-01-preview/Restore-Points/Create.yml)
+##### [Delete](sql/2021-08-01-preview/Restore-Points/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Restore-Points/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Restore-Points/List-By-Database.yml)
+#### Sensitivity Labels
+##### [Overview](sql/2021-08-01-preview/Sensitivity-Labels.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Sensitivity-Labels/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Sensitivity-Labels/Delete.yml)
+##### [Disable Recommendation](sql/2021-08-01-preview/Sensitivity-Labels/Disable-Recommendation.yml)
+##### [Enable Recommendation](sql/2021-08-01-preview/Sensitivity-Labels/Enable-Recommendation.yml)
+##### [Get](sql/2021-08-01-preview/Sensitivity-Labels/Get.yml)
+##### [List Current By Database](sql/2021-08-01-preview/Sensitivity-Labels/List-Current-By-Database.yml)
+##### [List Recommended By Database](sql/2021-08-01-preview/Sensitivity-Labels/List-Recommended-By-Database.yml)
+##### [Update](sql/2021-08-01-preview/Sensitivity-Labels/Update.yml)
+#### Server Advisors
+##### [Overview](sql/2021-08-01-preview/Server-Advisors.yml)
+##### [Get](sql/2021-08-01-preview/Server-Advisors/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Server-Advisors/List-By-Server.yml)
+##### [Update](sql/2021-08-01-preview/Server-Advisors/Update.yml)
+#### Server Automatic Tuning
+##### [Overview](sql/2021-08-01-preview/Server-Automatic-Tuning.yml)
+##### [Get](sql/2021-08-01-preview/Server-Automatic-Tuning/Get.yml)
+##### [Update](sql/2021-08-01-preview/Server-Automatic-Tuning/Update.yml)
+#### Server Azure AD Administrators
+##### [Overview](sql/2021-08-01-preview/Server-Azure-AD-Administrators.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Server-Azure-AD-Administrators/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Server-Azure-AD-Administrators/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Server-Azure-AD-Administrators/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Server-Azure-AD-Administrators/List-By-Server.yml)
+#### Server Azure AD Only Authentications
+##### [Overview](sql/2021-08-01-preview/Server-Azure-AD-Only-Authentications.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Server-Azure-AD-Only-Authentications/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Server-Azure-AD-Only-Authentications/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Server-Azure-AD-Only-Authentications/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Server-Azure-AD-Only-Authentications/List-By-Server.yml)
+#### Server Blob Auditing Policies
+##### [Overview](sql/2021-08-01-preview/Server-Blob-Auditing-Policies.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Server-Blob-Auditing-Policies/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Server-Blob-Auditing-Policies/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Server-Blob-Auditing-Policies/List-By-Server.yml)
+#### Server Connection Policies
+##### [Overview](sql/2021-08-01-preview/Server-Connection-Policies.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Server-Connection-Policies/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Server-Connection-Policies/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Server-Connection-Policies/List-By-Server.yml)
+#### Server DevOps Audit Settings
+##### [Overview](sql/2021-08-01-preview/Server-DevOps-Audit-Settings.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Server-DevOps-Audit-Settings/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Server-DevOps-Audit-Settings/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Server-DevOps-Audit-Settings/List-By-Server.yml)
+#### Server Dns Aliases
+##### [Overview](sql/2021-08-01-preview/Server-Dns-Aliases.yml)
+##### [Acquire](sql/2021-08-01-preview/Server-Dns-Aliases/Acquire.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Server-Dns-Aliases/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Server-Dns-Aliases/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Server-Dns-Aliases/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Server-Dns-Aliases/List-By-Server.yml)
+#### Server Keys
+##### [Overview](sql/2021-08-01-preview/Server-Keys.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Server-Keys/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Server-Keys/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Server-Keys/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Server-Keys/List-By-Server.yml)
+#### Server Operations
+##### [Overview](sql/2021-08-01-preview/Server-Operations.yml)
+##### [List By Server](sql/2021-08-01-preview/Server-Operations/List-By-Server.yml)
+#### Server Security Alert Policies
+##### [Overview](sql/2021-08-01-preview/Server-Security-Alert-Policies.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Server-Security-Alert-Policies/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Server-Security-Alert-Policies/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Server-Security-Alert-Policies/List-By-Server.yml)
+#### Server Trust Certificates
+##### [Overview](sql/2021-08-01-preview/Server-Trust-Certificates.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Server-Trust-Certificates/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Server-Trust-Certificates/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Server-Trust-Certificates/Get.yml)
+##### [List By Instance](sql/2021-08-01-preview/Server-Trust-Certificates/List-By-Instance.yml)
+#### Server Trust Groups
+##### [Overview](sql/2021-08-01-preview/Server-Trust-Groups.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Server-Trust-Groups/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Server-Trust-Groups/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Server-Trust-Groups/Get.yml)
+##### [List By Instance](sql/2021-08-01-preview/Server-Trust-Groups/List-By-Instance.yml)
+##### [List By Location](sql/2021-08-01-preview/Server-Trust-Groups/List-By-Location.yml)
+#### Server Vulnerability Assessments
+##### [Overview](sql/2021-08-01-preview/Server-Vulnerability-Assessments.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Server-Vulnerability-Assessments/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Server-Vulnerability-Assessments/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Server-Vulnerability-Assessments/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Server-Vulnerability-Assessments/List-By-Server.yml)
+#### Servers
+##### [Overview](sql/2021-08-01-preview/Servers.yml)
+##### [Check Name Availability](sql/2021-08-01-preview/Servers/Check-Name-Availability.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Servers/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Servers/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Servers/Get.yml)
+##### [Import Database](sql/2021-08-01-preview/Servers/Import-Database.yml)
+##### [List](sql/2021-08-01-preview/Servers/List.yml)
+##### [List By Resource Group](sql/2021-08-01-preview/Servers/List-By-Resource-Group.yml)
+##### [Update](sql/2021-08-01-preview/Servers/Update.yml)
+#### Sql Agent
+##### [Overview](sql/2021-08-01-preview/Sql-Agent.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Sql-Agent/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Sql-Agent/Get.yml)
+#### Subscription Usages
+##### [Overview](sql/2021-08-01-preview/Subscription-Usages.yml)
+##### [Get](sql/2021-08-01-preview/Subscription-Usages/Get.yml)
+##### [List By Location](sql/2021-08-01-preview/Subscription-Usages/List-By-Location.yml)
+#### Sync Agents
+##### [Overview](sql/2021-08-01-preview/Sync-Agents.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Sync-Agents/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Sync-Agents/Delete.yml)
+##### [Generate Key](sql/2021-08-01-preview/Sync-Agents/Generate-Key.yml)
+##### [Get](sql/2021-08-01-preview/Sync-Agents/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Sync-Agents/List-By-Server.yml)
+##### [List Linked Databases](sql/2021-08-01-preview/Sync-Agents/List-Linked-Databases.yml)
+#### Sync Groups
+##### [Overview](sql/2021-08-01-preview/Sync-Groups.yml)
+##### [Cancel Sync](sql/2021-08-01-preview/Sync-Groups/Cancel-Sync.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Sync-Groups/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Sync-Groups/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Sync-Groups/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Sync-Groups/List-By-Database.yml)
+##### [List Hub Schemas](sql/2021-08-01-preview/Sync-Groups/List-Hub-Schemas.yml)
+##### [List Logs](sql/2021-08-01-preview/Sync-Groups/List-Logs.yml)
+##### [List Sync Database Ids](sql/2021-08-01-preview/Sync-Groups/List-Sync-Database-Ids.yml)
+##### [Refresh Hub Schema](sql/2021-08-01-preview/Sync-Groups/Refresh-Hub-Schema.yml)
+##### [Trigger Sync](sql/2021-08-01-preview/Sync-Groups/Trigger-Sync.yml)
+##### [Update](sql/2021-08-01-preview/Sync-Groups/Update.yml)
+#### Sync Members
+##### [Overview](sql/2021-08-01-preview/Sync-Members.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Sync-Members/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Sync-Members/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Sync-Members/Get.yml)
+##### [List By Sync Group](sql/2021-08-01-preview/Sync-Members/List-By-Sync-Group.yml)
+##### [List Member Schemas](sql/2021-08-01-preview/Sync-Members/List-Member-Schemas.yml)
+##### [Refresh Member Schema](sql/2021-08-01-preview/Sync-Members/Refresh-Member-Schema.yml)
+##### [Update](sql/2021-08-01-preview/Sync-Members/Update.yml)
+#### Tde Certificates
+##### [Overview](sql/2021-08-01-preview/Tde-Certificates.yml)
+##### [Create](sql/2021-08-01-preview/Tde-Certificates/Create.yml)
+#### Time Zones
+##### [Overview](sql/2021-08-01-preview/Time-Zones.yml)
+##### [Get](sql/2021-08-01-preview/Time-Zones/Get.yml)
+##### [List By Location](sql/2021-08-01-preview/Time-Zones/List-By-Location.yml)
+#### Transparent Data Encryptions
+##### [Overview](sql/2021-08-01-preview/Transparent-Data-Encryptions.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Transparent-Data-Encryptions/Create-Or-Update.yml)
+##### [Get](sql/2021-08-01-preview/Transparent-Data-Encryptions/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Transparent-Data-Encryptions/List-By-Database.yml)
+#### Usages
+##### [Overview](sql/2021-08-01-preview/Usages.yml)
+##### [List By Instance Pool](sql/2021-08-01-preview/Usages/List-By-Instance-Pool.yml)
+#### Virtual Clusters
+##### [Overview](sql/2021-08-01-preview/Virtual-Clusters.yml)
+##### [Delete](sql/2021-08-01-preview/Virtual-Clusters/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Virtual-Clusters/Get.yml)
+##### [List](sql/2021-08-01-preview/Virtual-Clusters/List.yml)
+##### [List By Resource Group](sql/2021-08-01-preview/Virtual-Clusters/List-By-Resource-Group.yml)
+##### [Update](sql/2021-08-01-preview/Virtual-Clusters/Update.yml)
+##### [Update Dns Servers](sql/2021-08-01-preview/Virtual-Clusters/Update-Dns-Servers.yml)
+#### Virtual Network Rules
+##### [Overview](sql/2021-08-01-preview/Virtual-Network-Rules.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Virtual-Network-Rules/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Virtual-Network-Rules/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Virtual-Network-Rules/Get.yml)
+##### [List By Server](sql/2021-08-01-preview/Virtual-Network-Rules/List-By-Server.yml)
+#### Workload Classifiers
+##### [Overview](sql/2021-08-01-preview/Workload-Classifiers.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Workload-Classifiers/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Workload-Classifiers/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Workload-Classifiers/Get.yml)
+##### [List By Workload Group](sql/2021-08-01-preview/Workload-Classifiers/List-By-Workload-Group.yml)
+#### Workload Groups
+##### [Overview](sql/2021-08-01-preview/Workload-Groups.yml)
+##### [Create Or Update](sql/2021-08-01-preview/Workload-Groups/Create-Or-Update.yml)
+##### [Delete](sql/2021-08-01-preview/Workload-Groups/Delete.yml)
+##### [Get](sql/2021-08-01-preview/Workload-Groups/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Workload-Groups/List-By-Database.yml)
 # SQL VM
 ## [Overview](../docs-ref-conceptual/sqlvm/index.md)
 ## Availability Group Listeners
@@ -19515,6 +20457,7 @@
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### Previous Azure Storage services versions
 #### [Overview](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
+#### [Version 2021-02-12](../docs-ref-conceptual/storageservices/version-2021-02-12.md)
 #### [Version 2020-12-06](../docs-ref-conceptual/storageservices/version-2020-12-06.md)
 #### [Version 2020-10-02](../docs-ref-conceptual/storageservices/version-2020-10-02.md)
 #### [Version 2020-08-04](../docs-ref-conceptual/storageservices/version-2020-08-04.md)
@@ -19603,6 +20546,7 @@
 #### [Lease Container](../docs-ref-conceptual/storageservices/lease-container.md)
 #### [Restore Container](../docs-ref-conceptual/storageservices/restore-container.md)
 #### [List Blobs](../docs-ref-conceptual/storageservices/list-blobs.md)
+#### [Find Blobs by Tags](../docs-ref-conceptual/storageservices/find-blobs-by-tags-container.md)
 ### Operations on Blobs
 #### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs.md)
 #### [Put Blob](../docs-ref-conceptual/storageservices/put-blob.md)
@@ -19761,6 +20705,7 @@
 #### [Set Directory Metadata](../docs-ref-conceptual/storageservices/set-directory-metadata.md)
 #### [List Handles](../docs-ref-conceptual/storageservices/list-handles.md)
 #### [Force Close Handles](../docs-ref-conceptual/storageservices/force-close-handles.md)
+#### [Rename Directory](../docs-ref-conceptual/storageservices/rename-directory.md)
 ### Operations on Files
 #### [Overview](../docs-ref-conceptual/storageservices/operations-on-files.md)
 #### [Create File](../docs-ref-conceptual/storageservices/create-file.md)
@@ -19778,6 +20723,7 @@
 #### [List Handles](../docs-ref-conceptual/storageservices/list-handles.md)
 #### [Force Close Handles](../docs-ref-conceptual/storageservices/force-close-handles.md)
 #### [Lease File](../docs-ref-conceptual/storageservices/lease-file.md)
+#### [Rename File](../docs-ref-conceptual/storageservices/rename-file.md)
 ## Storage Analytics
 ### [Storage Analytics Metrics Table Schema (classic)](../docs-ref-conceptual/storageservices/storage-analytics-metrics-table-schema.md)
 ### [Storage Analytics Log Format](../docs-ref-conceptual/storageservices/storage-analytics-log-format.md)
@@ -19971,53 +20917,6 @@
 ### [List Metrics](storsimple/Volumes/List-Metrics.yml)
 # Stream Analytics
 ## [Overview](../docs-ref-conceptual/streamanalytics/index.md)
-## 2016-03-01
-### Functions
-#### [Overview](streamanalytics/2016-03-01/Functions.yml)
-#### [Create Or Replace](streamanalytics/2016-03-01/Functions/Create-Or-Replace.yml)
-#### [Delete](streamanalytics/2016-03-01/Functions/Delete.yml)
-#### [Get](streamanalytics/2016-03-01/Functions/Get.yml)
-#### [List By Streaming Job](streamanalytics/2016-03-01/Functions/List-By-Streaming-Job.yml)
-#### [Retrieve Default Definition](streamanalytics/2016-03-01/Functions/Retrieve-Default-Definition.yml)
-#### [Test](streamanalytics/2016-03-01/Functions/Test.yml)
-#### [Update](streamanalytics/2016-03-01/Functions/Update.yml)
-### Inputs
-#### [Overview](streamanalytics/2016-03-01/Inputs.yml)
-#### [Create Or Replace](streamanalytics/2016-03-01/Inputs/Create-Or-Replace.yml)
-#### [Delete](streamanalytics/2016-03-01/Inputs/Delete.yml)
-#### [Get](streamanalytics/2016-03-01/Inputs/Get.yml)
-#### [List By Streaming Job](streamanalytics/2016-03-01/Inputs/List-By-Streaming-Job.yml)
-#### [Test](streamanalytics/2016-03-01/Inputs/Test.yml)
-#### [Update](streamanalytics/2016-03-01/Inputs/Update.yml)
-### Operations
-#### [Overview](streamanalytics/2016-03-01/Operations.yml)
-#### [List](streamanalytics/2016-03-01/Operations/List.yml)
-### Outputs
-#### [Overview](streamanalytics/2016-03-01/Outputs.yml)
-#### [Create Or Replace](streamanalytics/2016-03-01/Outputs/Create-Or-Replace.yml)
-#### [Delete](streamanalytics/2016-03-01/Outputs/Delete.yml)
-#### [Get](streamanalytics/2016-03-01/Outputs/Get.yml)
-#### [List By Streaming Job](streamanalytics/2016-03-01/Outputs/List-By-Streaming-Job.yml)
-#### [Test](streamanalytics/2016-03-01/Outputs/Test.yml)
-#### [Update](streamanalytics/2016-03-01/Outputs/Update.yml)
-### Streaming Jobs
-#### [Overview](streamanalytics/2016-03-01/Streaming-Jobs.yml)
-#### [Create Or Replace](streamanalytics/2016-03-01/Streaming-Jobs/Create-Or-Replace.yml)
-#### [Delete](streamanalytics/2016-03-01/Streaming-Jobs/Delete.yml)
-#### [Get](streamanalytics/2016-03-01/Streaming-Jobs/Get.yml)
-#### [List](streamanalytics/2016-03-01/Streaming-Jobs/List.yml)
-#### [List By Resource Group](streamanalytics/2016-03-01/Streaming-Jobs/List-By-Resource-Group.yml)
-#### [Start](streamanalytics/2016-03-01/Streaming-Jobs/Start.yml)
-#### [Stop](streamanalytics/2016-03-01/Streaming-Jobs/Stop.yml)
-#### [Update](streamanalytics/2016-03-01/Streaming-Jobs/Update.yml)
-### Subscriptions
-#### [Overview](streamanalytics/2016-03-01/Subscriptions.yml)
-#### [List Quotas](streamanalytics/2016-03-01/Subscriptions/List-Quotas.yml)
-### Transformations
-#### [Overview](streamanalytics/2016-03-01/Transformations.yml)
-#### [Create Or Replace](streamanalytics/2016-03-01/Transformations/Create-Or-Replace.yml)
-#### [Get](streamanalytics/2016-03-01/Transformations/Get.yml)
-#### [Update](streamanalytics/2016-03-01/Transformations/Update.yml)
 ## 2017-04-01-preview
 ### Functions
 #### [Overview](streamanalytics/2017-04-01-preview/Functions.yml)
@@ -20070,6 +20969,69 @@
 #### [Create Or Replace](streamanalytics/2017-04-01-preview/Transformations/Create-Or-Replace.yml)
 #### [Get](streamanalytics/2017-04-01-preview/Transformations/Get.yml)
 #### [Update](streamanalytics/2017-04-01-preview/Transformations/Update.yml)
+## 2020-03-01
+### Clusters
+#### [Overview](streamanalytics/2020-03-01/Clusters.yml)
+#### [Create Or Update](streamanalytics/2020-03-01/Clusters/Create-Or-Update.yml)
+#### [Delete](streamanalytics/2020-03-01/Clusters/Delete.yml)
+#### [Get](streamanalytics/2020-03-01/Clusters/Get.yml)
+#### [List By Resource Group](streamanalytics/2020-03-01/Clusters/List-By-Resource-Group.yml)
+#### [List By Subscription](streamanalytics/2020-03-01/Clusters/List-By-Subscription.yml)
+#### [List Streaming Jobs](streamanalytics/2020-03-01/Clusters/List-Streaming-Jobs.yml)
+#### [Update](streamanalytics/2020-03-01/Clusters/Update.yml)
+### Functions
+#### [Overview](streamanalytics/2020-03-01/Functions.yml)
+#### [Create Or Replace](streamanalytics/2020-03-01/Functions/Create-Or-Replace.yml)
+#### [Delete](streamanalytics/2020-03-01/Functions/Delete.yml)
+#### [Get](streamanalytics/2020-03-01/Functions/Get.yml)
+#### [List By Streaming Job](streamanalytics/2020-03-01/Functions/List-By-Streaming-Job.yml)
+#### [Retrieve Default Definition](streamanalytics/2020-03-01/Functions/Retrieve-Default-Definition.yml)
+#### [Test](streamanalytics/2020-03-01/Functions/Test.yml)
+#### [Update](streamanalytics/2020-03-01/Functions/Update.yml)
+### Inputs
+#### [Overview](streamanalytics/2020-03-01/Inputs.yml)
+#### [Create Or Replace](streamanalytics/2020-03-01/Inputs/Create-Or-Replace.yml)
+#### [Delete](streamanalytics/2020-03-01/Inputs/Delete.yml)
+#### [Get](streamanalytics/2020-03-01/Inputs/Get.yml)
+#### [List By Streaming Job](streamanalytics/2020-03-01/Inputs/List-By-Streaming-Job.yml)
+#### [Test](streamanalytics/2020-03-01/Inputs/Test.yml)
+#### [Update](streamanalytics/2020-03-01/Inputs/Update.yml)
+### Operations
+#### [Overview](streamanalytics/2020-03-01/Operations.yml)
+#### [List](streamanalytics/2020-03-01/Operations/List.yml)
+### Outputs
+#### [Overview](streamanalytics/2020-03-01/Outputs.yml)
+#### [Create Or Replace](streamanalytics/2020-03-01/Outputs/Create-Or-Replace.yml)
+#### [Delete](streamanalytics/2020-03-01/Outputs/Delete.yml)
+#### [Get](streamanalytics/2020-03-01/Outputs/Get.yml)
+#### [List By Streaming Job](streamanalytics/2020-03-01/Outputs/List-By-Streaming-Job.yml)
+#### [Test](streamanalytics/2020-03-01/Outputs/Test.yml)
+#### [Update](streamanalytics/2020-03-01/Outputs/Update.yml)
+### Private Endpoints
+#### [Overview](streamanalytics/2020-03-01/Private-Endpoints.yml)
+#### [Create Or Update](streamanalytics/2020-03-01/Private-Endpoints/Create-Or-Update.yml)
+#### [Delete](streamanalytics/2020-03-01/Private-Endpoints/Delete.yml)
+#### [Get](streamanalytics/2020-03-01/Private-Endpoints/Get.yml)
+#### [List By Cluster](streamanalytics/2020-03-01/Private-Endpoints/List-By-Cluster.yml)
+### Streaming Jobs
+#### [Overview](streamanalytics/2020-03-01/Streaming-Jobs.yml)
+#### [Create Or Replace](streamanalytics/2020-03-01/Streaming-Jobs/Create-Or-Replace.yml)
+#### [Delete](streamanalytics/2020-03-01/Streaming-Jobs/Delete.yml)
+#### [Get](streamanalytics/2020-03-01/Streaming-Jobs/Get.yml)
+#### [List](streamanalytics/2020-03-01/Streaming-Jobs/List.yml)
+#### [List By Resource Group](streamanalytics/2020-03-01/Streaming-Jobs/List-By-Resource-Group.yml)
+#### [Scale](streamanalytics/2020-03-01/Streaming-Jobs/Scale.yml)
+#### [Start](streamanalytics/2020-03-01/Streaming-Jobs/Start.yml)
+#### [Stop](streamanalytics/2020-03-01/Streaming-Jobs/Stop.yml)
+#### [Update](streamanalytics/2020-03-01/Streaming-Jobs/Update.yml)
+### Subscriptions
+#### [Overview](streamanalytics/2020-03-01/Subscriptions.yml)
+#### [List Quotas](streamanalytics/2020-03-01/Subscriptions/List-Quotas.yml)
+### Transformations
+#### [Overview](streamanalytics/2020-03-01/Transformations.yml)
+#### [Create Or Replace](streamanalytics/2020-03-01/Transformations/Create-Or-Replace.yml)
+#### [Get](streamanalytics/2020-03-01/Transformations/Get.yml)
+#### [Update](streamanalytics/2020-03-01/Transformations/Update.yml)
 ## 2020-03-01-preview
 ### Clusters
 #### [Overview](streamanalytics/2020-03-01-preview/Clusters.yml)

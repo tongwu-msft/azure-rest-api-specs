@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachineextensions.update
 name: Update
 service: Compute
 groupName: Virtual Machine Extensions
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: The operation to update the extension.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}?api-version=2021-07-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,6 +47,10 @@ responses:
   description: OK
   types:
   - uid: VirtualMachineExtension
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -95,6 +99,11 @@ requestBody:
     description: Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
     types:
     - uid: boolean
+  - name: properties.protectedSettingsFromKeyVault
+    in: body
+    description: The extensions protected settings that are passed by reference, and consumed from key vault
+    types:
+    - uid: object
   - name: tags
     in: body
     description: Resource tags
@@ -155,6 +164,10 @@ definitions:
     description: Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
     types:
     - uid: boolean
+  - name: properties.protectedSettingsFromKeyVault
+    description: The extensions protected settings that are passed by reference, and consumed from key vault
+    types:
+    - uid: object
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -182,6 +195,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: VirtualMachineExtensionUpdate
   description: Describes a Virtual Machine Extension.
   kind: object
@@ -222,6 +243,10 @@ definitions:
     description: Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
     types:
     - uid: boolean
+  - name: properties.protectedSettingsFromKeyVault
+    description: The extensions protected settings that are passed by reference, and consumed from key vault
+    types:
+    - uid: object
   - name: tags
     description: Resource tags
     types:
@@ -256,6 +281,31 @@ definitions:
     types:
     - uid: InstanceViewStatus
       isArray: true
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
 - name: InstanceViewStatus
   description: Instance view status.
   kind: object
@@ -280,6 +330,34 @@ definitions:
     description: The time of the status.
     types:
     - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
 - name: StatusLevelTypes
   description: The level code.
   kind: enum
@@ -296,7 +374,7 @@ definitions:
 examples:
 - name: Update VM extension.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM/extensions/myVMExtension?api-version=2021-07-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM/extensions/myVMExtension?api-version=2021-11-01
     body: >-
       {
         "properties": {
@@ -307,6 +385,12 @@ examples:
           "suppressFailures": true,
           "settings": {
             "UserName": "xyz@microsoft.com"
+          },
+          "protectedSettingsFromKeyVault": {
+            "sourceVault": {
+              "id": "/subscriptions/a53f7094-a16c-47af-abe4-b05c05d0d79a/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/kvName"
+            },
+            "secretUrl": "https://kvName.vault.azure.net/secrets/secretName/79b88b3a6f5440ffb2e73e44a0db712e"
           }
         }
       }
@@ -327,6 +411,12 @@ examples:
           "suppressFailures": true,
           "settings": {
             "UserName": "xyz@microsoft.com"
+          },
+          "protectedSettingsFromKeyVault": {
+            "sourceVault": {
+              "id": "/subscriptions/a53f7094-a16c-47af-abe4-b05c05d0d79a/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/kvName"
+            },
+            "secretUrl": "https://kvName.vault.azure.net/secrets/secretName/79b88b3a6f5440ffb2e73e44a0db712e"
           }
         }
       }

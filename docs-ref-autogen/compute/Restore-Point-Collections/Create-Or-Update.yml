@@ -3,14 +3,14 @@ uid: management.azure.com.compute.restorepointcollections.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Restore Point Collections
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: The operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}?api-version=2021-07-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -115,6 +115,15 @@ definitions:
     description: Gets the creation time of the restore point.
     types:
     - uid: string
+  - name: properties.sourceRestorePoint
+    description: Resource Id of the source restore point from which a copy needs to be created.
+    types:
+    - uid: ApiEntityReference
+  - name: properties.instanceView
+    isReadyOnly: true
+    description: The restore point instance view.
+    types:
+    - uid: RestorePointInstanceView
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -246,6 +255,20 @@ definitions:
   - name: ApplicationConsistent
     types:
     - uid: string
+- name: RestorePointInstanceView
+  description: The instance view of a restore point.
+  kind: object
+  properties:
+  - name: diskRestorePoints
+    description: The disk restore points information.
+    types:
+    - uid: DiskRestorePointInstanceView
+      isArray: true
+  - name: statuses
+    description: The resource status information.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
 - name: ApiError
   description: Api error.
   kind: object
@@ -358,9 +381,46 @@ definitions:
     types:
     - uid: boolean
   - name: securityType
-    description: 'Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.'
+    description: 'Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set.'
     types:
     - uid: SecurityTypes
+- name: DiskRestorePointInstanceView
+  description: The instance view of a disk restore point.
+  kind: object
+  properties:
+  - name: id
+    description: Disk restore point Id.
+    types:
+    - uid: string
+  - name: replicationStatus
+    description: The disk restore point replication status information.
+    types:
+    - uid: DiskRestorePointReplicationStatus
+      isArray: true
+- name: InstanceViewStatus
+  description: Instance view status.
+  kind: object
+  properties:
+  - name: code
+    description: The status code.
+    types:
+    - uid: string
+  - name: level
+    description: The level code.
+    types:
+    - uid: StatusLevelTypes
+  - name: displayStatus
+    description: The short localizable label for the status.
+    types:
+    - uid: string
+  - name: message
+    description: The detailed status message, including for alerts and error messages.
+    types:
+    - uid: string
+  - name: time
+    description: The time of the status.
+    types:
+    - uid: string
 - name: ApiErrorBase
   description: Api error base.
   kind: object
@@ -1050,10 +1110,35 @@ definitions:
     types:
     - uid: boolean
 - name: SecurityTypes
-  description: 'Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.'
+  description: 'Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set.'
   kind: enum
   properties:
   - name: TrustedLaunch
+    types:
+    - uid: string
+  - name: ConfidentialVM
+    types:
+    - uid: string
+- name: DiskRestorePointReplicationStatus
+  description: The instance view of a disk restore point.
+  kind: object
+  properties:
+  - name: status
+    description: The resource status information.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+- name: StatusLevelTypes
+  description: The level code.
+  kind: enum
+  properties:
+  - name: Info
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
     types:
     - uid: string
 - name: OperatingSystemType
@@ -1107,6 +1192,10 @@ definitions:
     description: Specifies the customer managed disk encryption set resource id for the managed disk.
     types:
     - uid: DiskEncryptionSetParameters
+  - name: securityProfile
+    description: Specifies the security profile for the managed disk.
+    types:
+    - uid: VMDiskSecurityProfile
   - name: id
     description: Resource Id
     types:
@@ -1250,6 +1339,18 @@ definitions:
     description: Resource Id
     types:
     - uid: string
+- name: VMDiskSecurityProfile
+  description: 'Specifies the security profile settings for the managed disk. <br><br> NOTE: It can only be set for Confidential VMs'
+  kind: object
+  properties:
+  - name: securityEncryptionType
+    description: 'Specifies the EncryptionType of the managed disk. <br> It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly for encryption of just the VMGuestState blob. <br><br> NOTE: It can be set for only Confidential VMs.'
+    types:
+    - uid: securityEncryptionTypes
+  - name: diskEncryptionSet
+    description: Specifies the customer managed disk encryption set resource id for the managed disk that is used for Customer Managed Key encrypted ConfidentialVM OS Disk and VMGuest blob.
+    types:
+    - uid: DiskEncryptionSetParameters
 - name: PassNames
   description: The pass name. Currently, the only allowable value is OobeSystem.
   kind: enum
@@ -1341,6 +1442,16 @@ definitions:
   - name: AutomaticByPlatform
     types:
     - uid: string
+- name: securityEncryptionTypes
+  description: 'Specifies the EncryptionType of the managed disk. <br> It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly for encryption of just the VMGuestState blob. <br><br> NOTE: It can be set for only Confidential VMs.'
+  kind: enum
+  properties:
+  - name: VMGuestStateOnly
+    types:
+    - uid: string
+  - name: DiskWithVMGuestState
+    types:
+    - uid: string
 - name: ProtocolTypes
   description: 'Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
   kind: enum
@@ -1354,7 +1465,7 @@ definitions:
 examples:
 - name: Create or update a restore point collection.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/myRpc?api-version=2021-07-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/myRpc?api-version=2021-11-01
     body: >-
       {
         "location": "norwayeast",
@@ -1384,7 +1495,7 @@ examples:
             "location": "eastus"
           },
           "restorePointCollectionId": "638f052b-a7c2-450c-89e7-6a3b8f1d6a7c",
-          "provisioningState": "Successful"
+          "provisioningState": "Succeeded"
         }
       }
   - statusCode: "201"
@@ -1403,7 +1514,61 @@ examples:
             "location": "eastus"
           },
           "restorePointCollectionId": "638f052b-a7c2-450c-89e7-6a3b8f1d6a7c",
-          "provisioningState": "Successful"
+          "provisioningState": "Succeeded"
+        }
+      }
+- name: Create or update a restore point collection for cross region copy.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/myRpc?api-version=2021-11-01
+    body: >-
+      {
+        "location": "norwayeast",
+        "properties": {
+          "source": {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName"
+          }
+        },
+        "tags": {
+          "myTag1": "tagValue1"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "myRpc",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/myRpc",
+        "type": "Microsoft.Compute/restorePointCollections",
+        "location": "norwayeast",
+        "tags": {
+          "myTag1": "tagValue1"
+        },
+        "properties": {
+          "source": {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+            "location": "eastus"
+          },
+          "restorePointCollectionId": "638f052b-a7c2-450c-89e7-6a3b8f1d6a7c",
+          "provisioningState": "Succeeded"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "myRpc",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/myRpc",
+        "type": "Microsoft.Compute/restorePointCollections",
+        "location": "norwayeast",
+        "tags": {
+          "myTag1": "tagValue1"
+        },
+        "properties": {
+          "source": {
+            "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName",
+            "location": "eastus"
+          },
+          "restorePointCollectionId": "638f052b-a7c2-450c-89e7-6a3b8f1d6a7c",
+          "provisioningState": "Succeeded"
         }
       }
 security:

@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachines.instanceview
 name: Instance View
 service: Compute
 groupName: Virtual Machines
-apiVersion: 2021-07-01
+apiVersion: 2021-11-01
 summary: Retrieves information about the run-time state of a virtual machine.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/instanceView?api-version=2021-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/instanceView?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +41,10 @@ responses:
   description: OK
   types:
   - uid: VirtualMachineInstanceView
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: VirtualMachineInstanceView
@@ -116,6 +120,14 @@ definitions:
     description: '[Preview Feature] The status of virtual machine patch operations.'
     types:
     - uid: VirtualMachinePatchStatus
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: HyperVGenerationType
   description: Specifies the HyperVGeneration Type
   kind: enum
@@ -290,6 +302,31 @@ definitions:
     types:
     - uid: InstanceViewStatus
       isArray: true
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
 - name: VirtualMachineExtensionHandlerInstanceView
   description: The instance view of a virtual machine extension handler.
   kind: object
@@ -454,6 +491,34 @@ definitions:
     description: The errors that were encountered during execution of the operation. The details array contains the list of them.
     types:
     - uid: ApiError
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
 - name: KeyVaultSecretReference
   description: Describes a reference to Key Vault Secret
   kind: object
@@ -497,31 +562,6 @@ definitions:
   - name: CompletedWithWarnings
     types:
     - uid: string
-- name: ApiError
-  description: Api error.
-  kind: object
-  properties:
-  - name: details
-    description: The Api error details
-    types:
-    - uid: ApiErrorBase
-      isArray: true
-  - name: innererror
-    description: The Api inner error
-    types:
-    - uid: InnerError
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
 - name: SubResource
   kind: object
   properties:
@@ -529,38 +569,10 @@ definitions:
     description: Resource Id
     types:
     - uid: string
-- name: ApiErrorBase
-  description: Api error base.
-  kind: object
-  properties:
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-- name: InnerError
-  description: Inner error details.
-  kind: object
-  properties:
-  - name: exceptiontype
-    description: The exception type.
-    types:
-    - uid: string
-  - name: errordetail
-    description: The internal error message or exception dump.
-    types:
-    - uid: string
 examples:
 - name: Get Virtual Machine Instance View.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM/instanceView?api-version=2021-07-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM/instanceView?api-version=2021-11-01
   responses:
   - statusCode: "200"
     body: >-
@@ -669,12 +681,6 @@ examples:
               "time": "2020-04-24T21:02:04.2556154Z"
             },
             {
-              "code": "PatchModeConfigurationState/Pending",
-              "level": "Info",
-              "displayStatus": "Status_PatchModeConfigurationState_Pending",
-              "time": "2020-04-24T21:02:04.2556154Z"
-            },
-            {
               "code": "AssessmentModeConfigurationState/Pending",
               "level": "Info",
               "displayStatus": "Status_AssessmentModeConfigurationState_Pending",
@@ -698,7 +704,7 @@ examples:
       }
 - name: Get instance view of a virtual machine placed on a dedicated host group through automatic placement.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM/instanceView?api-version=2021-07-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM/instanceView?api-version=2021-11-01
   responses:
   - statusCode: "200"
     body: >-
@@ -714,7 +720,7 @@ examples:
               "level": "Info",
               "displayStatus": "Ready",
               "message": "GuestAgent is running and accepting new configurations.",
-              "time": "2021-07-01T23:11:22+00:00"
+              "time": "2021-11-01T23:11:22+00:00"
             }
           ]
         },
@@ -726,7 +732,7 @@ examples:
                 "code": "ProvisioningState/succeeded",
                 "level": "Info",
                 "displayStatus": "Provisioning succeeded",
-                "time": "2021-07-01T21:29:47.477089+00:00"
+                "time": "2021-11-01T21:29:47.477089+00:00"
               }
             ]
           }
@@ -738,7 +744,7 @@ examples:
             "code": "ProvisioningState/succeeded",
             "level": "Info",
             "displayStatus": "Provisioning succeeded",
-            "time": "2021-07-01T21:30:12.8051917+00:00"
+            "time": "2021-11-01T21:30:12.8051917+00:00"
           },
           {
             "code": "PowerState/running",
