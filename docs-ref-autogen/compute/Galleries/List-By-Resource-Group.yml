@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleries.listbyresourcegroup
 name: List By Resource Group
 service: Compute
 groupName: Galleries
-apiVersion: 2021-07-01
+apiVersion: 2021-10-01
 summary: List galleries under a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries?api-version=2021-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -93,6 +93,11 @@ definitions:
     description: Contains information about the soft deletion policy of the gallery.
     types:
     - uid: SoftDeletePolicy
+  - name: properties.sharingStatus
+    isReadyOnly: true
+    description: Sharing status of current gallery.
+    types:
+    - uid: SharingStatus
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -168,6 +173,11 @@ definitions:
     types:
     - uid: SharingProfileGroup
       isArray: true
+  - name: communityGalleryInfo
+    description: Information of community gallery if current gallery is shared to community.
+    types:
+    - uid: CommunityGalleryInfo
+      isArray: true
 - name: SoftDeletePolicy
   description: Contains information about the soft deletion policy of the gallery.
   kind: object
@@ -176,6 +186,20 @@ definitions:
     description: Enables soft-deletion for resources in this gallery, allowing them to be recovered within retention time.
     types:
     - uid: boolean
+- name: SharingStatus
+  description: Sharing status of current gallery.
+  kind: object
+  properties:
+  - name: aggregatedState
+    isReadyOnly: true
+    description: "The sharing state of the gallery.  \nAggregated sharing state of current gallery."
+    types:
+    - uid: SharingState
+  - name: summary
+    description: Summary of all regional sharing status.
+    types:
+    - uid: RegionalSharingStatus
+      isArray: true
 - name: ApiErrorBase
   description: Api error base.
   kind: object
@@ -219,7 +243,7 @@ definitions:
   kind: object
   properties:
   - name: type
-    description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
+    description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants** <br><br> **Community**'
     types:
     - uid: SharingProfileGroupTypes
   - name: ids
@@ -227,8 +251,72 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: CommunityGalleryInfo
+  description: Information of community gallery if current gallery is shared to community
+  kind: object
+  properties:
+  - name: publisherUri
+    description: Community gallery publisher uri
+    types:
+    - uid: string
+  - name: publisherContact
+    description: Community gallery publisher contact email
+    types:
+    - uid: string
+  - name: eula
+    description: Community gallery publisher eula
+    types:
+    - uid: string
+  - name: publicNamePrefix
+    description: Community gallery public name prefix
+    types:
+    - uid: string
+  - name: communityGalleryEnabled
+    isReadyOnly: true
+    description: Contains info about whether community gallery sharing is enabled.
+    types:
+    - uid: boolean
+  - name: publicNames
+    isReadyOnly: true
+    description: Community gallery public name list.
+    types:
+    - uid: string
+      isArray: true
+- name: SharingState
+  description: The sharing state of the gallery.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+- name: RegionalSharingStatus
+  description: Gallery regional sharing status
+  kind: object
+  properties:
+  - name: region
+    description: Region name
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: "The sharing state of the gallery.  \nGallery sharing state in current region"
+    types:
+    - uid: SharingState
+  - name: details
+    description: Details of gallery regional sharing failure.
+    types:
+    - uid: string
 - name: SharingProfileGroupTypes
-  description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
+  description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants** <br><br> **Community**'
   kind: enum
   properties:
   - name: Subscriptions
@@ -237,10 +325,13 @@ definitions:
   - name: AADTenants
     types:
     - uid: string
+  - name: Community
+    types:
+    - uid: string
 examples:
 - name: List galleries in a resource group.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries?api-version=2021-07-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-

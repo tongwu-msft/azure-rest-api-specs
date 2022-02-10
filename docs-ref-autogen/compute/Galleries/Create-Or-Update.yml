@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleries.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Galleries
-apiVersion: 2021-07-01
+apiVersion: 2021-10-01
 summary: Create or update a Shared Image Gallery.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}?api-version=2021-07-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -116,6 +116,11 @@ definitions:
     types:
     - uid: SharingProfileGroup
       isArray: true
+  - name: communityGalleryInfo
+    description: Information of community gallery if current gallery is shared to community.
+    types:
+    - uid: CommunityGalleryInfo
+      isArray: true
 - name: SoftDeletePolicy
   description: Contains information about the soft deletion policy of the gallery.
   kind: object
@@ -124,6 +129,20 @@ definitions:
     description: Enables soft-deletion for resources in this gallery, allowing them to be recovered within retention time.
     types:
     - uid: boolean
+- name: SharingStatus
+  description: Sharing status of current gallery.
+  kind: object
+  properties:
+  - name: aggregatedState
+    isReadyOnly: true
+    description: "The sharing state of the gallery.  \nAggregated sharing state of current gallery."
+    types:
+    - uid: SharingState
+  - name: summary
+    description: Summary of all regional sharing status.
+    types:
+    - uid: RegionalSharingStatus
+      isArray: true
 - name: Gallery
   description: Specifies information about the Shared Image Gallery that you want to create or update.
   kind: object
@@ -155,6 +174,11 @@ definitions:
     description: Contains information about the soft deletion policy of the gallery.
     types:
     - uid: SoftDeletePolicy
+  - name: properties.sharingStatus
+    isReadyOnly: true
+    description: Sharing status of current gallery.
+    types:
+    - uid: SharingStatus
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -205,7 +229,7 @@ definitions:
   kind: object
   properties:
   - name: type
-    description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
+    description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants** <br><br> **Community**'
     types:
     - uid: SharingProfileGroupTypes
   - name: ids
@@ -213,6 +237,70 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: CommunityGalleryInfo
+  description: Information of community gallery if current gallery is shared to community
+  kind: object
+  properties:
+  - name: publisherUri
+    description: Community gallery publisher uri
+    types:
+    - uid: string
+  - name: publisherContact
+    description: Community gallery publisher contact email
+    types:
+    - uid: string
+  - name: eula
+    description: Community gallery publisher eula
+    types:
+    - uid: string
+  - name: publicNamePrefix
+    description: Community gallery public name prefix
+    types:
+    - uid: string
+  - name: communityGalleryEnabled
+    isReadyOnly: true
+    description: Contains info about whether community gallery sharing is enabled.
+    types:
+    - uid: boolean
+  - name: publicNames
+    isReadyOnly: true
+    description: Community gallery public name list.
+    types:
+    - uid: string
+      isArray: true
+- name: SharingState
+  description: The sharing state of the gallery.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+- name: RegionalSharingStatus
+  description: Gallery regional sharing status
+  kind: object
+  properties:
+  - name: region
+    description: Region name
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: "The sharing state of the gallery.  \nGallery sharing state in current region"
+    types:
+    - uid: SharingState
+  - name: details
+    description: Details of gallery regional sharing failure.
+    types:
+    - uid: string
 - name: ApiError
   description: Api error.
   kind: object
@@ -239,13 +327,16 @@ definitions:
     types:
     - uid: string
 - name: SharingProfileGroupTypes
-  description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
+  description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants** <br><br> **Community**'
   kind: enum
   properties:
   - name: Subscriptions
     types:
     - uid: string
   - name: AADTenants
+    types:
+    - uid: string
+  - name: Community
     types:
     - uid: string
 - name: ApiErrorBase
@@ -279,7 +370,7 @@ definitions:
 examples:
 - name: Create or update a simple gallery.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-07-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-10-01
     body: >-
       {
         "location": "West US",
@@ -329,7 +420,7 @@ examples:
       }
 - name: Create or update a simple gallery with sharing profile.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-07-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-10-01
     body: >-
       {
         "location": "West US",
@@ -391,7 +482,7 @@ examples:
       }
 - name: Create or update a simple gallery with soft deletion enabled.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-07-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-10-01
     body: >-
       {
         "location": "West US",
@@ -446,6 +537,92 @@ examples:
           "provisioningState": "Updating",
           "softDeletePolicy": {
             "isSoftDeleteEnabled": true
+          }
+        },
+        "location": "West US",
+        "name": "myGalleryName"
+      }
+- name: Create a community gallery.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-10-01
+    body: >-
+      {
+        "location": "West US",
+        "properties": {
+          "description": "This is the gallery description.",
+          "sharingProfile": {
+            "permissions": "Community",
+            "communityGalleryInfo": {
+              "publisherUri": "uri",
+              "publisherContact": "pir@microsoft.com",
+              "eula": "eula",
+              "publicNamePrefix": "PirPublic"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "description": "This is the gallery description.",
+          "identifier": {
+            "uniqueName": "{subscription-id}-MYGALLERYNAME"
+          },
+          "provisioningState": "Updating",
+          "sharingProfile": {
+            "permissions": "Community",
+            "communityGalleryInfo": {
+              "publisherUri": "uri",
+              "publisherContact": "pir@microsoft.com",
+              "eula": "eula",
+              "publicNamePrefix": "PirPublic"
+            }
+          }
+        },
+        "location": "West US",
+        "name": "myGalleryName"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "description": "This is the gallery description.",
+          "identifier": {
+            "uniqueName": "{subscription-id}-MYGALLERYNAME"
+          },
+          "provisioningState": "Creating",
+          "sharingProfile": {
+            "permissions": "Community",
+            "communityGalleryInfo": {
+              "publisherUri": "uri",
+              "publisherContact": "pir@microsoft.com",
+              "eula": "eula",
+              "publicNamePrefix": "PirPublic"
+            }
+          }
+        },
+        "location": "West US",
+        "name": "myGalleryName"
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "description": "This is the gallery description.",
+          "identifier": {
+            "uniqueName": "{subscription-id}-MYGALLERYNAME"
+          },
+          "provisioningState": "Updating",
+          "sharingProfile": {
+            "permissions": "Community",
+            "communityGalleryInfo": {
+              "publisherUri": "uri",
+              "publisherContact": "pir@microsoft.com",
+              "eula": "eula",
+              "publicNamePrefix": "PirPublic"
+            }
           }
         },
         "location": "West US",
