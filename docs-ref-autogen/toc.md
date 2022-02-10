@@ -7620,6 +7620,10 @@
 #### [Overview](cost-management/Forecast.yml)
 #### [External Cloud Provider Usage](cost-management/Forecast/External-Cloud-Provider-Usage.yml)
 #### [Usage](cost-management/Forecast/Usage.yml)
+### Generate Reservation Details Report
+#### [Overview](cost-management/Generate-Reservation-Details-Report.yml)
+#### [By Billing Account Id](cost-management/Generate-Reservation-Details-Report/By-Billing-Account-Id.yml)
+#### [By Billing Profile Id](cost-management/Generate-Reservation-Details-Report/By-Billing-Profile-Id.yml)
 ### Operations
 #### [Overview](cost-management/Operations.yml)
 #### [List](cost-management/Operations/List.yml)
