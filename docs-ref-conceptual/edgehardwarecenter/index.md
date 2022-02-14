@@ -1,7 +1,7 @@
 ---
 title: Azure Edge Hardware REST API Reference
 ms.service: dns
-author: vjanardhan
+author: vaishnavi-janardhan
 ms.author: vjanardhan
 ms.manager: vishwam
 service_description: To be added
