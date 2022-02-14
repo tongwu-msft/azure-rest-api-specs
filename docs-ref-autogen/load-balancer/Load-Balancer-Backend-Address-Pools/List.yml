@@ -3,14 +3,14 @@ uid: management.azure.com.load-balancer.loadbalancerbackendaddresspools.list
 name: List
 service: Load balancer
 groupName: Load Balancer Backend Address Pools
-apiVersion: 2021-03-01
+apiVersion: 2021-05-01
 summary: Gets all the load balancer backed address pools.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools?api-version=2021-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -124,6 +124,12 @@ definitions:
     types:
     - uid: SubResource
       isArray: true
+  - name: properties.inboundNatRules
+    isReadyOnly: true
+    description: An array of references to inbound NAT rules that use this backend address pool.
+    types:
+    - uid: SubResource
+      isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the backend address pool resource.
@@ -203,6 +209,12 @@ definitions:
     description: Reference to the frontend ip address configuration defined in regional loadbalancer.
     types:
     - uid: SubResource
+  - name: properties.inboundNatRulesPortMapping
+    isReadyOnly: true
+    description: Collection of inbound NAT rule port mappings.
+    types:
+    - uid: NatRulePortMapping
+      isArray: true
 - name: NetworkInterfaceIPConfiguration
   description: IPConfiguration in a network interface.
   kind: object
@@ -337,6 +349,22 @@ definitions:
   - name: External
     types:
     - uid: string
+- name: NatRulePortMapping
+  description: Individual port mappings for inbound NAT rule created for backend pool.
+  kind: object
+  properties:
+  - name: inboundNatRuleName
+    description: Name of inbound NAT rule.
+    types:
+    - uid: string
+  - name: frontendPort
+    description: Frontend port.
+    types:
+    - uid: integer
+  - name: backendPort
+    description: Backend port.
+    types:
+    - uid: integer
 - name: VirtualNetworkTap
   description: Virtual Network Tap resource.
   kind: object
@@ -1822,6 +1850,11 @@ definitions:
     description: Whether this is a primary network interface on a virtual machine.
     types:
     - uid: boolean
+  - name: properties.vnetEncryptionSupported
+    isReadyOnly: true
+    description: Whether the virtual machine this nic is attached to supports encryption.
+    types:
+    - uid: boolean
   - name: properties.enableAcceleratedNetworking
     description: If the network interface is accelerated networking enabled.
     types:
@@ -2577,7 +2610,7 @@ definitions:
 examples:
 - name: LoadBalancerBackendAddressPoolList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools?api-version=2021-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -2606,7 +2639,7 @@ examples:
       }
 - name: Load balancer with BackendAddressPool containing BackendAddresses
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools?api-version=2021-05-01
   responses:
   - statusCode: "200"
     body: >-

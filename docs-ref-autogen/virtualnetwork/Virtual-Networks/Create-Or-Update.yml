@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.virtualnetworks.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Virtual Networks
-apiVersion: 2021-03-01
+apiVersion: 2021-05-01
 summary: Creates or updates a virtual network in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2021-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2021-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -104,6 +104,11 @@ requestBody:
     description: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
     types:
     - uid: VirtualNetworkBgpCommunities
+  - name: properties.encryption
+    in: body
+    description: Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet.
+    types:
+    - uid: VirtualNetworkEncryption
   - name: properties.ipAllocations
     in: body
     description: Array of IpAllocation which reference this VNET.
@@ -325,6 +330,11 @@ definitions:
     description: The reference to the remote virtual network's Bgp Communities.
     types:
     - uid: VirtualNetworkBgpCommunities
+  - name: properties.remoteVirtualNetworkEncryption
+    isReadyOnly: true
+    description: The reference to the remote virtual network's encryption
+    types:
+    - uid: VirtualNetworkEncryption
   - name: properties.peeringState
     description: The status of the virtual network peering.
     types:
@@ -372,6 +382,18 @@ definitions:
     description: The BGP community associated with the region of the virtual network.
     types:
     - uid: string
+- name: VirtualNetworkEncryption
+  description: Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet.
+  kind: object
+  properties:
+  - name: enabled
+    description: Indicates if encryption is enabled on the virtual network.
+    types:
+    - uid: boolean
+  - name: enforcement
+    description: If the encrypted VNet allows VM that does not support encryption
+    types:
+    - uid: VirtualNetworkEncryptionEnforcement
 - name: VirtualNetwork
   description: Virtual Network resource.
   kind: object
@@ -433,6 +455,10 @@ definitions:
     description: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
     types:
     - uid: VirtualNetworkBgpCommunities
+  - name: properties.encryption
+    description: Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet.
+    types:
+    - uid: VirtualNetworkEncryption
   - name: properties.ipAllocations
     description: Array of IpAllocation which reference this VNET.
     types:
@@ -1065,6 +1091,16 @@ definitions:
   - name: LocalAndRemoteNotInSync
     types:
     - uid: string
+- name: VirtualNetworkEncryptionEnforcement
+  description: If the encrypted VNet allows VM that does not support encryption
+  kind: enum
+  properties:
+  - name: DropUnencrypted
+    types:
+    - uid: string
+  - name: AllowUnencrypted
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -1228,6 +1264,11 @@ definitions:
   - name: properties.primary
     isReadyOnly: true
     description: Whether this is a primary network interface on a virtual machine.
+    types:
+    - uid: boolean
+  - name: properties.vnetEncryptionSupported
+    isReadyOnly: true
+    description: Whether the virtual machine this nic is attached to supports encryption.
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
@@ -2404,6 +2445,12 @@ definitions:
     types:
     - uid: SubResource
       isArray: true
+  - name: properties.inboundNatRules
+    isReadyOnly: true
+    description: An array of references to inbound NAT rules that use this backend address pool.
+    types:
+    - uid: SubResource
+      isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the backend address pool resource.
@@ -2825,6 +2872,12 @@ definitions:
     description: Reference to the frontend ip address configuration defined in regional loadbalancer.
     types:
     - uid: SubResource
+  - name: properties.inboundNatRulesPortMapping
+    isReadyOnly: true
+    description: Collection of inbound NAT rule port mappings.
+    types:
+    - uid: NatRulePortMapping
+      isArray: true
 - name: TransportProtocol
   description: The transport protocol for the endpoint.
   kind: enum
@@ -2871,10 +2924,26 @@ definitions:
   - name: External
     types:
     - uid: string
+- name: NatRulePortMapping
+  description: Individual port mappings for inbound NAT rule created for backend pool.
+  kind: object
+  properties:
+  - name: inboundNatRuleName
+    description: Name of inbound NAT rule.
+    types:
+    - uid: string
+  - name: frontendPort
+    description: Frontend port.
+    types:
+    - uid: integer
+  - name: backendPort
+    description: Backend port.
+    types:
+    - uid: integer
 examples:
 - name: Create virtual network
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -2928,7 +2997,7 @@ examples:
       }
 - name: Create virtual network with subnet
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -3005,7 +3074,7 @@ examples:
       }
 - name: Create virtual network with subnet containing address prefixes
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -3091,7 +3160,7 @@ examples:
       }
 - name: Create virtual network with Bgp Communities
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -3179,7 +3248,7 @@ examples:
       }
 - name: Create virtual network with service endpoints
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -3285,7 +3354,7 @@ examples:
       }
 - name: Create virtual network with service endpoints and service endpoint policy
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -3406,7 +3475,7 @@ examples:
       }
 - name: Create virtual network with delegated subnets
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -3510,6 +3579,95 @@ examples:
               }
             }
           ],
+          "virtualNetworkPeerings": []
+        }
+      }
+- name: Create virtual network with encryption
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-05-01
+    body: >-
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "test-1",
+              "properties": {
+                "addressPrefix": "10.0.0.0/24"
+              }
+            }
+          ],
+          "encryption": {
+            "enabled": true,
+            "enforcement": "AllowUnencrypted"
+          }
+        },
+        "location": "eastus"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "test-vnet",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet",
+        "type": "Microsoft.Network/virtualNetworks",
+        "location": "eastus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/test-1",
+              "name": "test-1",
+              "properties": {
+                "addressPrefix": "10.0.0.0/24",
+                "provisioningState": "Succeeded"
+              }
+            }
+          ],
+          "encryption": {
+            "enabled": true,
+            "enforcement": "AllowUnencrypted"
+          },
+          "virtualNetworkPeerings": []
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "test-vnet",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet",
+        "type": "Microsoft.Network/virtualNetworks",
+        "location": "eastus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/test-1",
+              "name": "test-1",
+              "properties": {
+                "addressPrefix": "10.0.0.0/24",
+                "provisioningState": "Succeeded"
+              }
+            }
+          ],
+          "encryption": {
+            "enabled": true,
+            "enforcement": "AllowUnencrypted"
+          },
           "virtualNetworkPeerings": []
         }
       }

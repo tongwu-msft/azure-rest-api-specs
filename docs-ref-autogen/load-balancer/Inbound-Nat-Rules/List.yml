@@ -3,14 +3,14 @@ uid: management.azure.com.load-balancer.inboundnatrules.list
 name: List
 service: Load balancer
 groupName: Inbound Nat Rules
-apiVersion: 2021-03-01
-summary: Gets all the inbound nat rules in a load balancer.
+apiVersion: 2021-05-01
+summary: Gets all the inbound NAT rules in a load balancer.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules?api-version=2021-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,7 +52,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: A list of inbound nat rules in a load balancer.
+    description: A list of inbound NAT rules in a load balancer.
     types:
     - uid: InboundNatRule
       isArray: true
@@ -436,6 +436,12 @@ definitions:
   - name: properties.outboundRules
     isReadyOnly: true
     description: An array of references to outbound rules that use this backend address pool.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.inboundNatRules
+    isReadyOnly: true
+    description: An array of references to inbound NAT rules that use this backend address pool.
     types:
     - uid: SubResource
       isArray: true
@@ -940,6 +946,12 @@ definitions:
     description: Reference to the frontend ip address configuration defined in regional loadbalancer.
     types:
     - uid: SubResource
+  - name: properties.inboundNatRulesPortMapping
+    isReadyOnly: true
+    description: Collection of inbound NAT rule port mappings.
+    types:
+    - uid: NatRulePortMapping
+      isArray: true
 - name: NetworkSecurityGroup
   description: NetworkSecurityGroup resource.
   kind: object
@@ -1678,6 +1690,22 @@ definitions:
   - name: External
     types:
     - uid: string
+- name: NatRulePortMapping
+  description: Individual port mappings for inbound NAT rule created for backend pool.
+  kind: object
+  properties:
+  - name: inboundNatRuleName
+    description: Name of inbound NAT rule.
+    types:
+    - uid: string
+  - name: frontendPort
+    description: Frontend port.
+    types:
+    - uid: integer
+  - name: backendPort
+    description: Backend port.
+    types:
+    - uid: integer
 - name: SecurityRule
   description: Network security rule.
   kind: object
@@ -1820,6 +1848,11 @@ definitions:
   - name: properties.primary
     isReadyOnly: true
     description: Whether this is a primary network interface on a virtual machine.
+    types:
+    - uid: boolean
+  - name: properties.vnetEncryptionSupported
+    isReadyOnly: true
+    description: Whether the virtual machine this nic is attached to supports encryption.
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
@@ -2577,7 +2610,7 @@ definitions:
 examples:
 - name: InboundNatRuleList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/inboundNatRules?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/inboundNatRules?api-version=2021-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -2633,5 +2666,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Load balancer service - Gets all the inbound nat rules in a load balancer.
+  description: Learn more about Load balancer service - Gets all the inbound NAT rules in a load balancer.
 errorCodes: []

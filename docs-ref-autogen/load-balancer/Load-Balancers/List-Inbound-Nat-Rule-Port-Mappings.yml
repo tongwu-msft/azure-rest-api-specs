@@ -1,0 +1,215 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.load-balancer.loadbalancers.listinboundnatruleportmappings
+name: List Inbound Nat Rule Port Mappings
+service: Load balancer
+groupName: Load Balancers
+apiVersion: 2021-05-01
+summary: List of inbound NAT rule port mappings.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendPoolName}/queryInboundNatRulePortMapping?api-version=2021-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: groupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: loadBalancerName
+  in: path
+  isRequired: true
+  description: The name of the load balancer.
+  types:
+  - uid: string
+- name: backendPoolName
+  in: path
+  isRequired: true
+  description: The name of the load balancer backend address pool.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successful request for query inbound NAT rule port mapping.
+  types:
+  - uid: BackendAddressInboundNatRulePortMappings
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+  types:
+  - uid: BackendAddressInboundNatRulePortMappings
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: ipConfiguration
+    in: body
+    description: NetworkInterfaceIPConfiguration set in load balancer backend address.
+    types:
+    - uid: SubResource
+  - name: ipAddress
+    in: body
+    description: IP address set in load balancer backend address.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: BackendAddressInboundNatRulePortMappings
+  description: The response for a QueryInboundNatRulePortMapping API.
+  kind: object
+  properties:
+  - name: inboundNatRulePortMappings
+    description: Collection of inbound NAT rule port mappings.
+    types:
+    - uid: InboundNatRulePortMapping
+      isArray: true
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: QueryInboundNatRulePortMappingRequest
+  description: The request for a QueryInboundNatRulePortMapping API. Either IpConfiguration or IpAddress should be set
+  kind: object
+  properties:
+  - name: ipConfiguration
+    description: NetworkInterfaceIPConfiguration set in load balancer backend address.
+    types:
+    - uid: SubResource
+  - name: ipAddress
+    description: IP address set in load balancer backend address.
+    types:
+    - uid: string
+- name: InboundNatRulePortMapping
+  description: Individual port mappings for inbound NAT rule created for backend pool.
+  kind: object
+  properties:
+  - name: inboundNatRuleName
+    isReadyOnly: true
+    description: Name of inbound NAT rule.
+    types:
+    - uid: string
+  - name: protocol
+    isReadyOnly: true
+    description: The reference to the transport protocol used by the inbound NAT rule.
+    types:
+    - uid: TransportProtocol
+  - name: frontendPort
+    isReadyOnly: true
+    description: Frontend port.
+    types:
+    - uid: integer
+  - name: backendPort
+    isReadyOnly: true
+    description: Backend port.
+    types:
+    - uid: integer
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: TransportProtocol
+  description: The transport protocol for the endpoint.
+  kind: enum
+  properties:
+  - name: Udp
+    types:
+    - uid: string
+  - name: Tcp
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
+examples:
+- name: Query inbound NAT rule port mapping
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb1/backendAddressPools/bp1/queryInboundNatRulePortMapping?api-version=2021-05-01
+    body: >-
+      {
+        "ipAddress": "10.0.0.4"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "inboundNatRulePortMappings": [
+          {
+            "inboundNatRuleName": "natRule",
+            "protocol": "Tcp",
+            "frontendPort": 3389,
+            "backendPort": 3389
+          }
+        ]
+      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb1/backendAddressPools/bp1/queryInboundNatRulePortMapping?api-version=2021-05-01
+    body: >-
+      {
+        "inboundNatRulePortMappings": [
+          {
+            "inboundNatRuleName": "natRule",
+            "protocol": "Tcp",
+            "frontendPort": 3389,
+            "backendPort": 3389
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Load balancer service - List of inbound NAT rule port mappings.
+errorCodes: []

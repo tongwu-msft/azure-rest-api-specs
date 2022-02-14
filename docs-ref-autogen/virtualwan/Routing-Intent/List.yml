@@ -1,0 +1,204 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.routingintent.list
+name: List
+service: Virtual WAN
+groupName: Routing Intent
+apiVersion: 2021-05-01
+summary: Retrieves the details of all RoutingIntent child resources of the VirtualHub.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent?api-version=2021-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name of the VirtualHub.
+  types:
+  - uid: string
+- name: virtualHubName
+  in: path
+  isRequired: true
+  description: The name of the VirtualHub.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns the details of all the RoutingIntent resources for the VirtualHub.
+  types:
+  - uid: ListRoutingIntentResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ListRoutingIntentResult
+  description: List of the routing intent result and a URL nextLink to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of RoutingIntent resource.
+    types:
+    - uid: RoutingIntent
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: RoutingIntent
+  description: The routing intent child resource of a Virtual hub.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.routingPolicies
+    description: List of routing policies.
+    types:
+    - uid: RoutingPolicy
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the RoutingIntent resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: RoutingPolicy
+  description: The routing policy object used in a RoutingIntent resource.
+  kind: object
+  properties:
+  - name: name
+    description: The unique name for the routing policy.
+    types:
+    - uid: string
+  - name: destinations
+    description: 'List of all destinations which this routing policy is applicable to (for example: Internet, PrivateTraffic).'
+    types:
+    - uid: string
+      isArray: true
+  - name: nextHop
+    description: The next hop resource id on which this routing policy is applicable to.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: RoutingIntentList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routingIntent?api-version=2021-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Intent1",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routingIntent/Intent1",
+            "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "routingPolicies": [
+                {
+                  "name": "InternetTraffic",
+                  "destinations": [
+                    "Internet"
+                  ],
+                  "nextHop": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1"
+                },
+                {
+                  "name": "PrivateTrafficPolicy",
+                  "destinations": [
+                    "PrivateTraffic"
+                  ],
+                  "nextHop": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1"
+                }
+              ]
+            },
+            "type": "Microsoft.Network/virtualHubs/routingIntent"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Virtual WAN service - Retrieves the details of all RoutingIntent child resources of the VirtualHub.
+errorCodes: []
