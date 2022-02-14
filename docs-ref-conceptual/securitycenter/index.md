@@ -1,10 +1,10 @@
 ---
 ms.assetid: 
 title: Microsoft Defender for Cloud REST APIs
-ms.service: security-center
-author: memildin
-ms.author: memildin
-ms.manager: rkarlin
+ms.service: defender-for-cloud
+author: ElazarK
+ms.author: ElazarK
+ms.manager: raynew
 service_description: Unified security management and advanced threat protection across hybrid cloud workloads
 ---
 
@@ -37,7 +37,7 @@ Microsoft Defender for Cloud provides unified security management and advanced t
 | [lot Alerts](../../docs-ref-autogen/securitycenter/Iot-Alerts.yml) | Get the IoT alerts. |
 | [lot Recommendation Types](../../docs-ref-autogen/securitycenter/Iot-Recommendation-Types.yml) | Get IoT recommendation types. |
 | [lot Recommendations](../../docs-ref-autogen/securitycenter/Iot-Recommendations.yml) | Get IoT recommendations. |
-| [Connectors](../../docs-ref-autogen/securitycenter/Connectors.yml) |Manage cloud connectors for multicloud scenarios.|
+| [Connectors](../../docs-ref-autogen/securitycenter/Connectors.yml) |Manage cloud connectors for multi-cloud scenarios.|
 | [Device Security Groups](../../docs-ref-autogen/securitycenter/Device-Security-Groups.yml) |Manage the device security group for a specified IoT Hub resource.|
 | [Discovered Security Solutions](../../docs-ref-autogen/securitycenter/Discovered-Security-Solutions.yml) | Details of specific discovered Security Solution. |
 | [External Security Solutions](../../docs-ref-autogen/securitycenter/External-Security-Solutions.yml) | External Security Solutions for the subscription and location. |
@@ -59,9 +59,9 @@ Microsoft Defender for Cloud provides unified security management and advanced t
 | [Regulatory Compliance Standards](../../docs-ref-autogen/securitycenter/Regulatory-Compliance-Standards.yml) |Get the details and state of your supported regulatory compliance standards.|
 | [Secure Score Control Definitions](../../docs-ref-autogen/securitycenter/Secure-Score-Control-Definitions.yml) | List the available security controls, their assessments, and the max score. |
 | [Secure Score Controls](../../docs-ref-autogen/securitycenter/Secure-Score-Controls.yml) | Get all security controls within a scope or for a specific initiative.|
-| [Secure Scores](../../docs-ref-autogen/securitycenter/Secure-Scores.yml) | Get secure score for a specific Security Center initiative or List secure scores for all your Security Center initiatives.|
+| [Secure Scores](../../docs-ref-autogen/securitycenter/Secure-Scores.yml) | Get secure score for a specific Defender for Cloud initiative or List secure scores for all your Defender for Cloud initiatives.|
 | [Security Contacts](../../docs-ref-autogen/securitycenter/Security-Contacts.yml) |Security contact configurations for the subscription.|
-| [Settings](../../docs-ref-autogen/securitycenter/Settings.yml)|Configuration settings for Azure Security Center.|
+| [Settings](../../docs-ref-autogen/securitycenter/Settings.yml)|Configuration settings for Defender for Cloud.|
 | [Sub Assessments](../../docs-ref-autogen/securitycenter/Sub-Assessments.yml)|Get a security sub-assessment on your scanned resources.|
 | [Tasks](../../docs-ref-autogen/securitycenter/Tasks.yml) |Recommended tasks that will help improve the security of the subscription proactively.|
 | [Topology](../../docs-ref-autogen/securitycenter/Topology.yml) |Get a topology view of a subscription, location, or component.|
