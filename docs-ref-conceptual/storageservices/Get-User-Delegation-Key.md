@@ -102,7 +102,7 @@ The format of the response body is as follows:
     <SignedExpiry>String formatted as ISO date</SignedExpiry>
     <SignedService>b</SignedService>
     <SignedVersion>String specifying REST api version to use to create the user delegation key</SignedVersion>
-    <Value>String containing the key signature</Value>
+    <Value>String containing the user delegation key</Value>
 </UserDelegationKey>
 ```
 
@@ -116,7 +116,7 @@ The following table describes the elements of the response body:
 |**SignedExpiry**|The expiry time of the user delegation key, in ISO date format.|  
 |**SignedService**|The service of the user delegation key can be used for, b represents Blob service.|
 |**SignedVersion**|The rest api version used to get user delegation key.|  
-|**Value**|The signature of the user delegation key.|  
+|**Value**|The user delegation key.|  
 
 ## Authorization
 
