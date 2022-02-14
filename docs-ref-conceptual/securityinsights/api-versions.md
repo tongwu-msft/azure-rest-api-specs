@@ -27,6 +27,7 @@ Use the latest preview version when you want to take advantage of all the latest
 
 | API version | Specification | API updates |
 |-------------|---------------|-------------|
+| `2021-10-01-preview`  | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2021-10-01-preview) | [Release note](#2021-10-01-preview) |
 | `2021-09-01-preview`  | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2021-09-01-preview) | [Release note](#2021-09-01-preview) |
 | `2021-03-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2021-03-01-preview) |
 | `2019-01-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2019-01-01-preview) |
@@ -42,12 +43,29 @@ Use the latest stable version when you want to access the latest generally avail
 
 
 ## Release notes
+<a name="2021-10-01-preview"></a>
+
+### 2021-10-01-preview
+
+This is the current Preview release of the Microsoft Sentinel REST APIs. It includes all the previously released Preview features, plus the following additions:
+
++ Alert Rules (also known as analytics rules)
+  + [MITRE tactics and technics](/azure/sentinel/whats-new#support-for-mitre-attck-techniques-public-preview) were updated in analytic rules models
++ Automation Rules
+  +  New endpoint for running playbooks on incidents on demand
++ Data connectors
+  + [Office connectors](/azure/sentinel/data-connectors-reference#microsoft-365-insider-risk-management-irm-preview) were added
++ Incidents
+  +  [Technics were added to incident schema](/azure/sentinel/whats-new#support-for-mitre-attck-techniques-public-preview)
+  +  Provider incident URL was added to incident schema
+
+
 
 <a name="2021-09-01-preview"></a>
 
 ### 2021-09-01-preview
 
-This is the current Preview release of the Microsoft Sentinel REST APIs. It includes all the previously released Preview features, plus the following additions:
+This version includes all the previously released Preview features, plus the following additions:
 
 + Alert Rules (also known as analytics rules)
   + [Template version](/azure/sentinel/manage-analytics-rule-templates)
@@ -55,7 +73,6 @@ This is the current Preview release of the Microsoft Sentinel REST APIs. It incl
   + Add [Office IRM connector](/azure/sentinel/data-connectors-reference#microsoft-365-insider-risk-management-irm-preview) support
 + Data connectors
   + [AWS S3 connector](/azure/sentinel/connect-aws?tabs=s3)
-
 
 
 <a name="2021-04-01"></a>
