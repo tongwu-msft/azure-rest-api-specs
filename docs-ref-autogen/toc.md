@@ -8926,6 +8926,71 @@
 #### [Get](dns/privatedns/Virtual-Network-Links/Get.yml)
 #### [List](dns/privatedns/Virtual-Network-Links/List.yml)
 #### [Update](dns/privatedns/Virtual-Network-Links/Update.yml)
+# Edge Hardware Center
+## [Overview](../docs-ref-conceptual/edgehardwarecenter/index.md)
+## Cancel Order Item
+### [Overview](edgehardwarecenter/Cancel-Order-Item.yml)
+### [Cancel Order Item](edgehardwarecenter/Cancel-Order-Item/Cancel-Order-Item.yml)
+## Create Address
+### [Overview](edgehardwarecenter/Create-Address.yml)
+### [Create Address](edgehardwarecenter/Create-Address/Create-Address.yml)
+## Create Order Item
+### [Overview](edgehardwarecenter/Create-Order-Item.yml)
+### [Create Order Item](edgehardwarecenter/Create-Order-Item/Create-Order-Item.yml)
+## Delete Address By Name
+### [Overview](edgehardwarecenter/Delete-Address-By-Name.yml)
+### [Delete Address By Name](edgehardwarecenter/Delete-Address-By-Name/Delete-Address-By-Name.yml)
+## Delete Order Item By Name
+### [Overview](edgehardwarecenter/Delete-Order-Item-By-Name.yml)
+### [Delete Order Item By Name](edgehardwarecenter/Delete-Order-Item-By-Name/Delete-Order-Item-By-Name.yml)
+## Get Address By Name
+### [Overview](edgehardwarecenter/Get-Address-By-Name.yml)
+### [Get Address By Name](edgehardwarecenter/Get-Address-By-Name/Get-Address-By-Name.yml)
+## Get Order By Name
+### [Overview](edgehardwarecenter/Get-Order-By-Name.yml)
+### [Get Order By Name](edgehardwarecenter/Get-Order-By-Name/Get-Order-By-Name.yml)
+## Get Order Item By Name
+### [Overview](edgehardwarecenter/Get-Order-Item-By-Name.yml)
+### [Get Order Item By Name](edgehardwarecenter/Get-Order-Item-By-Name/Get-Order-Item-By-Name.yml)
+## List Addresses At Resource Group Level
+### [Overview](edgehardwarecenter/List-Addresses-At-Resource-Group-Level.yml)
+### [List Addresses At Resource Group Level](edgehardwarecenter/List-Addresses-At-Resource-Group-Level/List-Addresses-At-Resource-Group-Level.yml)
+## List Addresses At Subscription Level
+### [Overview](edgehardwarecenter/List-Addresses-At-Subscription-Level.yml)
+### [List Addresses At Subscription Level](edgehardwarecenter/List-Addresses-At-Subscription-Level/List-Addresses-At-Subscription-Level.yml)
+## List Configurations
+### [Overview](edgehardwarecenter/List-Configurations.yml)
+### [List Configurations](edgehardwarecenter/List-Configurations/List-Configurations.yml)
+## List Operations
+### [Overview](edgehardwarecenter/List-Operations.yml)
+### [List Operations](edgehardwarecenter/List-Operations/List-Operations.yml)
+## List Order At Resource Group Level
+### [Overview](edgehardwarecenter/List-Order-At-Resource-Group-Level.yml)
+### [List Order At Resource Group Level](edgehardwarecenter/List-Order-At-Resource-Group-Level/List-Order-At-Resource-Group-Level.yml)
+## List Order At Subscription Level
+### [Overview](edgehardwarecenter/List-Order-At-Subscription-Level.yml)
+### [List Order At Subscription Level](edgehardwarecenter/List-Order-At-Subscription-Level/List-Order-At-Subscription-Level.yml)
+## List Order Items At Resource Group Level
+### [Overview](edgehardwarecenter/List-Order-Items-At-Resource-Group-Level.yml)
+### [List Order Items At Resource Group Level](edgehardwarecenter/List-Order-Items-At-Resource-Group-Level/List-Order-Items-At-Resource-Group-Level.yml)
+## List Order Items At Subscription Level
+### [Overview](edgehardwarecenter/List-Order-Items-At-Subscription-Level.yml)
+### [List Order Items At Subscription Level](edgehardwarecenter/List-Order-Items-At-Subscription-Level/List-Order-Items-At-Subscription-Level.yml)
+## List Product Families
+### [Overview](edgehardwarecenter/List-Product-Families.yml)
+### [List Product Families](edgehardwarecenter/List-Product-Families/List-Product-Families.yml)
+## List Product Families Metadata
+### [Overview](edgehardwarecenter/List-Product-Families-Metadata.yml)
+### [List Product Families Metadata](edgehardwarecenter/List-Product-Families-Metadata/List-Product-Families-Metadata.yml)
+## Return Order Item
+### [Overview](edgehardwarecenter/Return-Order-Item.yml)
+### [Return Order Item](edgehardwarecenter/Return-Order-Item/Return-Order-Item.yml)
+## Update Address
+### [Overview](edgehardwarecenter/Update-Address.yml)
+### [Update Address](edgehardwarecenter/Update-Address/Update-Address.yml)
+## Update Order Item
+### [Overview](edgehardwarecenter/Update-Order-Item.yml)
+### [Update Order Item](edgehardwarecenter/Update-Order-Item/Update-Order-Item.yml)
 # Event Grid
 ## [Overview](../docs-ref-conceptual/eventgrid/index.md)
 ## Control Plane - version 2021-06-01-preview
