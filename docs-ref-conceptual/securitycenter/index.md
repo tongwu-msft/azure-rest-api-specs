@@ -2,8 +2,8 @@
 ms.assetid: 
 title: Microsoft Defender for Cloud REST APIs
 ms.service: defender-for-cloud
-author: elkriger
-ms.author: elkriger
+author: elkrieger
+ms.author: elkrieger
 ms.manager: raynew
 service_description: Unified security management and advanced threat protection across hybrid cloud workloads
 description: Unified security management and advanced threat protection across hybrid cloud workloads
