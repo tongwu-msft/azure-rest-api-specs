@@ -1,6 +1,6 @@
 ---
 ms.assetid: 
-title: Azure Security Center REST APIs
+title: Microsoft Defender for Cloud REST APIs
 ms.service: security-center
 author: memildin
 ms.author: memildin
@@ -9,9 +9,9 @@ service_description: Unified security management and advanced threat protection 
 ---
 
 
-# Azure Security Center
+# Microsoft Defender for Cloud
 
-Azure Security Center provides unified security management and advanced threat protection across hybrid cloud workloads. With Security Center, you can apply security policies across your workloads, limit your exposure to threats, and detect and respond to attacks.
+Microsoft Defender for Cloud provides unified security management and advanced threat protection across hybrid cloud workloads. With Defender for Cloud, you can apply security policies across your workloads, limit your exposure to threats, and detect and respond to attacks.
 
 ## REST Operation Groups
 
