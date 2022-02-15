@@ -4483,9 +4483,6 @@
 ##### [List By Billing Account](billing/2020-05-01/Invoices/List-By-Billing-Account.yml)
 ##### [List By Billing Profile](billing/2020-05-01/Invoices/List-By-Billing-Profile.yml)
 ##### [List By Billing Subscription](billing/2020-05-01/Invoices/List-By-Billing-Subscription.yml)
-#### Operations
-##### [Overview](billing/2020-05-01/Operations.yml)
-##### [List](billing/2020-05-01/Operations/List.yml)
 #### Policies
 ##### [Overview](billing/2020-05-01/Policies.yml)
 ##### [Get By Billing Profile](billing/2020-05-01/Policies/Get-By-Billing-Profile.yml)
@@ -8926,6 +8923,71 @@
 #### [Get](dns/privatedns/Virtual-Network-Links/Get.yml)
 #### [List](dns/privatedns/Virtual-Network-Links/List.yml)
 #### [Update](dns/privatedns/Virtual-Network-Links/Update.yml)
+# Edge Hardware Center
+## [Overview](../docs-ref-conceptual/edgehardwarecenter/index.md)
+## Cancel Order Item
+### [Overview](edgehardwarecenter/Cancel-Order-Item.yml)
+### [Cancel Order Item](edgehardwarecenter/Cancel-Order-Item/Cancel-Order-Item.yml)
+## Create Address
+### [Overview](edgehardwarecenter/Create-Address.yml)
+### [Create Address](edgehardwarecenter/Create-Address/Create-Address.yml)
+## Create Order Item
+### [Overview](edgehardwarecenter/Create-Order-Item.yml)
+### [Create Order Item](edgehardwarecenter/Create-Order-Item/Create-Order-Item.yml)
+## Delete Address By Name
+### [Overview](edgehardwarecenter/Delete-Address-By-Name.yml)
+### [Delete Address By Name](edgehardwarecenter/Delete-Address-By-Name/Delete-Address-By-Name.yml)
+## Delete Order Item By Name
+### [Overview](edgehardwarecenter/Delete-Order-Item-By-Name.yml)
+### [Delete Order Item By Name](edgehardwarecenter/Delete-Order-Item-By-Name/Delete-Order-Item-By-Name.yml)
+## Get Address By Name
+### [Overview](edgehardwarecenter/Get-Address-By-Name.yml)
+### [Get Address By Name](edgehardwarecenter/Get-Address-By-Name/Get-Address-By-Name.yml)
+## Get Order By Name
+### [Overview](edgehardwarecenter/Get-Order-By-Name.yml)
+### [Get Order By Name](edgehardwarecenter/Get-Order-By-Name/Get-Order-By-Name.yml)
+## Get Order Item By Name
+### [Overview](edgehardwarecenter/Get-Order-Item-By-Name.yml)
+### [Get Order Item By Name](edgehardwarecenter/Get-Order-Item-By-Name/Get-Order-Item-By-Name.yml)
+## List Addresses At Resource Group Level
+### [Overview](edgehardwarecenter/List-Addresses-At-Resource-Group-Level.yml)
+### [List Addresses At Resource Group Level](edgehardwarecenter/List-Addresses-At-Resource-Group-Level/List-Addresses-At-Resource-Group-Level.yml)
+## List Addresses At Subscription Level
+### [Overview](edgehardwarecenter/List-Addresses-At-Subscription-Level.yml)
+### [List Addresses At Subscription Level](edgehardwarecenter/List-Addresses-At-Subscription-Level/List-Addresses-At-Subscription-Level.yml)
+## List Configurations
+### [Overview](edgehardwarecenter/List-Configurations.yml)
+### [List Configurations](edgehardwarecenter/List-Configurations/List-Configurations.yml)
+## List Operations
+### [Overview](edgehardwarecenter/List-Operations.yml)
+### [List Operations](edgehardwarecenter/List-Operations/List-Operations.yml)
+## List Order At Resource Group Level
+### [Overview](edgehardwarecenter/List-Order-At-Resource-Group-Level.yml)
+### [List Order At Resource Group Level](edgehardwarecenter/List-Order-At-Resource-Group-Level/List-Order-At-Resource-Group-Level.yml)
+## List Order At Subscription Level
+### [Overview](edgehardwarecenter/List-Order-At-Subscription-Level.yml)
+### [List Order At Subscription Level](edgehardwarecenter/List-Order-At-Subscription-Level/List-Order-At-Subscription-Level.yml)
+## List Order Items At Resource Group Level
+### [Overview](edgehardwarecenter/List-Order-Items-At-Resource-Group-Level.yml)
+### [List Order Items At Resource Group Level](edgehardwarecenter/List-Order-Items-At-Resource-Group-Level/List-Order-Items-At-Resource-Group-Level.yml)
+## List Order Items At Subscription Level
+### [Overview](edgehardwarecenter/List-Order-Items-At-Subscription-Level.yml)
+### [List Order Items At Subscription Level](edgehardwarecenter/List-Order-Items-At-Subscription-Level/List-Order-Items-At-Subscription-Level.yml)
+## List Product Families
+### [Overview](edgehardwarecenter/List-Product-Families.yml)
+### [List Product Families](edgehardwarecenter/List-Product-Families/List-Product-Families.yml)
+## List Product Families Metadata
+### [Overview](edgehardwarecenter/List-Product-Families-Metadata.yml)
+### [List Product Families Metadata](edgehardwarecenter/List-Product-Families-Metadata/List-Product-Families-Metadata.yml)
+## Return Order Item
+### [Overview](edgehardwarecenter/Return-Order-Item.yml)
+### [Return Order Item](edgehardwarecenter/Return-Order-Item/Return-Order-Item.yml)
+## Update Address
+### [Overview](edgehardwarecenter/Update-Address.yml)
+### [Update Address](edgehardwarecenter/Update-Address/Update-Address.yml)
+## Update Order Item
+### [Overview](edgehardwarecenter/Update-Order-Item.yml)
+### [Update Order Item](edgehardwarecenter/Update-Order-Item/Update-Order-Item.yml)
 # Event Grid
 ## [Overview](../docs-ref-conceptual/eventgrid/index.md)
 ## Control Plane - version 2021-06-01-preview
@@ -10946,6 +11008,7 @@
 ### [Get](load-balancer/Load-Balancers/Get.yml)
 ### [List](load-balancer/Load-Balancers/List.yml)
 ### [List All](load-balancer/Load-Balancers/List-All.yml)
+### [List Inbound Nat Rule Port Mappings](load-balancer/Load-Balancers/List-Inbound-Nat-Rule-Port-Mappings.yml)
 ### [Swap Public Ip Addresses](load-balancer/Load-Balancers/Swap-Public-Ip-Addresses.yml)
 ### [Update Tags](load-balancer/Load-Balancers/Update-Tags.yml)
 # Log Analytics
@@ -11028,8 +11091,11 @@
 #### [List By Workspace](loganalytics/Storage-Insights/List-By-Workspace.yml)
 ### Tables
 #### [Overview](loganalytics/Tables.yml)
+#### [Create Or Update](loganalytics/Tables/Create-Or-Update.yml)
+#### [Delete](loganalytics/Tables/Delete.yml)
 #### [Get](loganalytics/Tables/Get.yml)
 #### [List By Workspace](loganalytics/Tables/List-By-Workspace.yml)
+#### [Migrate](loganalytics/Tables/Migrate.yml)
 #### [Update](loganalytics/Tables/Update.yml)
 ### Workspace Purge
 #### [Overview](loganalytics/Workspace-Purge.yml)
@@ -19915,6 +19981,7 @@
 ##### [Disable Recommendation](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels/Disable-Recommendation.yml)
 ##### [Enable Recommendation](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels/Enable-Recommendation.yml)
 ##### [Get](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels/List-By-Database.yml)
 ##### [List Current By Database](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels/List-Current-By-Database.yml)
 ##### [List Recommended By Database](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels/List-Recommended-By-Database.yml)
 ##### [Update](sql/2021-08-01-preview/Managed-Database-Sensitivity-Labels/Update.yml)
@@ -20082,6 +20149,7 @@
 ##### [Disable Recommendation](sql/2021-08-01-preview/Sensitivity-Labels/Disable-Recommendation.yml)
 ##### [Enable Recommendation](sql/2021-08-01-preview/Sensitivity-Labels/Enable-Recommendation.yml)
 ##### [Get](sql/2021-08-01-preview/Sensitivity-Labels/Get.yml)
+##### [List By Database](sql/2021-08-01-preview/Sensitivity-Labels/List-By-Database.yml)
 ##### [List Current By Database](sql/2021-08-01-preview/Sensitivity-Labels/List-Current-By-Database.yml)
 ##### [List Recommended By Database](sql/2021-08-01-preview/Sensitivity-Labels/List-Recommended-By-Database.yml)
 ##### [Update](sql/2021-08-01-preview/Sensitivity-Labels/Update.yml)
@@ -21946,6 +22014,18 @@
 ### [Get](virtualnetwork/Firewall-Policies/Get.yml)
 ### [List](virtualnetwork/Firewall-Policies/List.yml)
 ### [List All](virtualnetwork/Firewall-Policies/List-All.yml)
+## Firewall Policy Idps Signatures
+### [Overview](virtualnetwork/Firewall-Policy-Idps-Signatures.yml)
+### [List](virtualnetwork/Firewall-Policy-Idps-Signatures/List.yml)
+## Firewall Policy Idps Signatures Filter Values
+### [Overview](virtualnetwork/Firewall-Policy-Idps-Signatures-Filter-Values.yml)
+### [List](virtualnetwork/Firewall-Policy-Idps-Signatures-Filter-Values/List.yml)
+## Firewall Policy Idps Signatures Overrides
+### [Overview](virtualnetwork/Firewall-Policy-Idps-Signatures-Overrides.yml)
+### [Get](virtualnetwork/Firewall-Policy-Idps-Signatures-Overrides/Get.yml)
+### [List](virtualnetwork/Firewall-Policy-Idps-Signatures-Overrides/List.yml)
+### [Patch](virtualnetwork/Firewall-Policy-Idps-Signatures-Overrides/Patch.yml)
+### [Put](virtualnetwork/Firewall-Policy-Idps-Signatures-Overrides/Put.yml)
 ## Firewall Policy Rule Collection Groups
 ### [Overview](virtualnetwork/Firewall-Policy-Rule-Collection-Groups.yml)
 ### [Create Or Update](virtualnetwork/Firewall-Policy-Rule-Collection-Groups/Create-Or-Update.yml)
@@ -22015,6 +22095,14 @@
 ### [List All](virtualnetwork/Network-Interfaces/List-All.yml)
 ### [List Effective Network Security Groups](virtualnetwork/Network-Interfaces/List-Effective-Network-Security-Groups.yml)
 ### [Update Tags](virtualnetwork/Network-Interfaces/Update-Tags.yml)
+## Network Profiles
+### [Overview](virtualnetwork/Network-Profiles.yml)
+### [Create Or Update](virtualnetwork/Network-Profiles/Create-Or-Update.yml)
+### [Delete](virtualnetwork/Network-Profiles/Delete.yml)
+### [Get](virtualnetwork/Network-Profiles/Get.yml)
+### [List](virtualnetwork/Network-Profiles/List.yml)
+### [List All](virtualnetwork/Network-Profiles/List-All.yml)
+### [Update Tags](virtualnetwork/Network-Profiles/Update-Tags.yml)
 ## Network Security Groups
 ### [Overview](virtualnetwork/Network-Security-Groups.yml)
 ### [Create Or Update](virtualnetwork/Network-Security-Groups/Create-Or-Update.yml)
@@ -22243,6 +22331,12 @@
 ### [List](virtualwan/P2s-Vpn-Gateways/List.yml)
 ### [List By Resource Group](virtualwan/P2s-Vpn-Gateways/List-By-Resource-Group.yml)
 ### [Update Tags](virtualwan/P2s-Vpn-Gateways/Update-Tags.yml)
+## Routing Intent
+### [Overview](virtualwan/Routing-Intent.yml)
+### [Create Or Update](virtualwan/Routing-Intent/Create-Or-Update.yml)
+### [Delete](virtualwan/Routing-Intent/Delete.yml)
+### [Get](virtualwan/Routing-Intent/Get.yml)
+### [List](virtualwan/Routing-Intent/List.yml)
 ## Supported Security Providers
 ### [Overview](virtualwan/Supported-Security-Providers.yml)
 ### [Supported Security Providers](virtualwan/Supported-Security-Providers/Supported-Security-Providers.yml)

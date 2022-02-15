@@ -3,15 +3,15 @@ uid: management.azure.com.virtualnetwork.privateendpoints.get
 name: Get
 service: Virtual Networks
 groupName: Private Endpoints
-apiVersion: 2021-03-01
+apiVersion: 2021-05-01
 summary: Gets the specified private endpoint by resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}?api-version=2021-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}?api-version=2021-03-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}?api-version=2021-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}?api-version=2021-05-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -339,6 +339,11 @@ definitions:
   - name: properties.primary
     isReadyOnly: true
     description: Whether this is a primary network interface on a virtual machine.
+    types:
+    - uid: boolean
+  - name: properties.vnetEncryptionSupported
+    isReadyOnly: true
+    description: Whether the virtual machine this nic is attached to supports encryption.
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
@@ -1850,6 +1855,12 @@ definitions:
     types:
     - uid: SubResource
       isArray: true
+  - name: properties.inboundNatRules
+    isReadyOnly: true
+    description: An array of references to inbound NAT rules that use this backend address pool.
+    types:
+    - uid: SubResource
+      isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the backend address pool resource.
@@ -2464,6 +2475,12 @@ definitions:
     description: Reference to the frontend ip address configuration defined in regional loadbalancer.
     types:
     - uid: SubResource
+  - name: properties.inboundNatRulesPortMapping
+    isReadyOnly: true
+    description: Collection of inbound NAT rule port mappings.
+    types:
+    - uid: NatRulePortMapping
+      isArray: true
 - name: TransportProtocol
   description: The transport protocol for the endpoint.
   kind: enum
@@ -2572,6 +2589,22 @@ definitions:
   - name: External
     types:
     - uid: string
+- name: NatRulePortMapping
+  description: Individual port mappings for inbound NAT rule created for backend pool.
+  kind: object
+  properties:
+  - name: inboundNatRuleName
+    description: Name of inbound NAT rule.
+    types:
+    - uid: string
+  - name: frontendPort
+    description: Frontend port.
+    types:
+    - uid: integer
+  - name: backendPort
+    description: Backend port.
+    types:
+    - uid: integer
 - name: NatGatewaySkuName
   description: Name of Nat Gateway SKU.
   kind: enum
@@ -2582,7 +2615,7 @@ definitions:
 examples:
 - name: Get private endpoint
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2021-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -2656,7 +2689,7 @@ examples:
       }
 - name: Get private endpoint with manual approval connection
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2021-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -2722,7 +2755,7 @@ examples:
       }
 - name: Get private endpoint with application security groups
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe?api-version=2021-05-01
   responses:
   - statusCode: "200"
     body: >-

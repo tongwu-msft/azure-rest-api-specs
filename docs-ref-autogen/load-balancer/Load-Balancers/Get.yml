@@ -3,15 +3,15 @@ uid: management.azure.com.load-balancer.loadbalancers.get
 name: Get
 service: Load balancer
 groupName: Load Balancers
-apiVersion: 2021-03-01
+apiVersion: 2021-05-01
 summary: Gets the specified load balancer.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2021-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2021-03-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2021-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2021-05-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -97,7 +97,7 @@ definitions:
     - uid: InboundNatRule
       isArray: true
   - name: properties.inboundNatPools
-    description: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
+    description: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound NAT rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
     types:
     - uid: InboundNatPool
       isArray: true
@@ -310,6 +310,12 @@ definitions:
   - name: properties.outboundRules
     isReadyOnly: true
     description: An array of references to outbound rules that use this backend address pool.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.inboundNatRules
+    isReadyOnly: true
+    description: An array of references to inbound NAT rules that use this backend address pool.
     types:
     - uid: SubResource
       isArray: true
@@ -1009,6 +1015,12 @@ definitions:
     description: Reference to the frontend ip address configuration defined in regional loadbalancer.
     types:
     - uid: SubResource
+  - name: properties.inboundNatRulesPortMapping
+    isReadyOnly: true
+    description: Collection of inbound NAT rule port mappings.
+    types:
+    - uid: NatRulePortMapping
+      isArray: true
 - name: NetworkInterfaceIPConfiguration
   description: IPConfiguration in a network interface.
   kind: object
@@ -1871,6 +1883,22 @@ definitions:
   - name: External
     types:
     - uid: string
+- name: NatRulePortMapping
+  description: Individual port mappings for inbound NAT rule created for backend pool.
+  kind: object
+  properties:
+  - name: inboundNatRuleName
+    description: Name of inbound NAT rule.
+    types:
+    - uid: string
+  - name: frontendPort
+    description: Frontend port.
+    types:
+    - uid: integer
+  - name: backendPort
+    description: Backend port.
+    types:
+    - uid: integer
 - name: VirtualNetworkTap
   description: Virtual Network Tap resource.
   kind: object
@@ -2179,6 +2207,11 @@ definitions:
   - name: properties.primary
     isReadyOnly: true
     description: Whether this is a primary network interface on a virtual machine.
+    types:
+    - uid: boolean
+  - name: properties.vnetEncryptionSupported
+    isReadyOnly: true
+    description: Whether the virtual machine this nic is attached to supports encryption.
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
@@ -2972,7 +3005,7 @@ definitions:
 examples:
 - name: Get load balancer
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2021-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -3097,6 +3130,162 @@ examples:
                 "idleTimeoutInMinutes": 15,
                 "protocol": "Tcp",
                 "enableTcpReset": true
+              }
+            }
+          ],
+          "inboundNatPools": []
+        }
+      }
+- name: Get load balancer with inbound NAT rule port mapping
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2021-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "lb",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
+        "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+        "type": "Microsoft.Network/loadBalancers",
+        "location": "westus",
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-00000000",
+          "frontendIPConfigurations": [
+            {
+              "name": "fe-lb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateIPAddress": "10.0.1.4",
+                "privateIPAllocationMethod": "Dynamic",
+                "privateIPAddressVersion": "IPv4",
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
+                },
+                "loadBalancingRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                  }
+                ]
+              }
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "be-lb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "loadBalancerBackendAddresses": [
+                  {
+                    "name": "8bec96ef-0a6a-45b8-9860-4ffde7bf3572",
+                    "properties": {
+                      "ipAddress": "10.0.0.4",
+                      "subnet": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
+                      },
+                      "inboundNatRulesPortMapping": [
+                        {
+                          "inboundNatRuleName": "natRule",
+                          "frontendPort": 3389,
+                          "backendPort": 3389
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "loadBalancingRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                  }
+                ],
+                "inboundNatRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/in-nat-rule"
+                  }
+                ]
+              }
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "name": "rulelb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 80,
+                "backendPort": 80,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "enableTcpReset": true,
+                "loadDistribution": "Default",
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "probe": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                },
+                "disableOutboundSnat": false
+              }
+            }
+          ],
+          "probes": [
+            {
+              "name": "probe-lb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "type": "Microsoft.Network/loadBalancers/probes",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "Http",
+                "port": 80,
+                "requestPath": "healthcheck.aspx",
+                "intervalInSeconds": 15,
+                "numberOfProbes": 2,
+                "loadBalancingRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                  }
+                ]
+              }
+            }
+          ],
+          "inboundNatRules": [
+            {
+              "name": "in-nat-rule",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/in-nat-rule",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 0,
+                "backendPort": 3389,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "enableTcpReset": true,
+                "frontendPortRangeStart": 3389,
+                "frontendPortRangeEnd": 4000,
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                }
               }
             }
           ],

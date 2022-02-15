@@ -3,14 +3,14 @@ uid: management.azure.com.application-gateway.webapplicationfirewallpolicies.get
 name: Get
 service: Application Gateway
 groupName: Web Application Firewall Policies
-apiVersion: 2021-03-01
+apiVersion: 2021-05-01
 summary: Retrieve protection policy with specified name within a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}?api-version=2021-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -1573,6 +1573,11 @@ definitions:
     description: When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to.
     types:
     - uid: string
+  - name: exclusionManagedRuleSets
+    description: The managed rule sets that are associated with the exclusion.
+    types:
+    - uid: ExclusionManagedRuleSet
+      isArray: true
 - name: ManagedRuleSet
   description: Defines a managed rule set.
   kind: object
@@ -2249,6 +2254,24 @@ definitions:
   - name: RequestArgNames
     types:
     - uid: string
+  - name: RequestHeaderKeys
+    types:
+    - uid: string
+  - name: RequestHeaderValues
+    types:
+    - uid: string
+  - name: RequestCookieKeys
+    types:
+    - uid: string
+  - name: RequestCookieValues
+    types:
+    - uid: string
+  - name: RequestArgKeys
+    types:
+    - uid: string
+  - name: RequestArgValues
+    types:
+    - uid: string
 - name: OwaspCrsExclusionEntrySelectorMatchOperator
   description: When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to.
   kind: enum
@@ -2268,6 +2291,23 @@ definitions:
   - name: EqualsAny
     types:
     - uid: string
+- name: ExclusionManagedRuleSet
+  description: Defines a managed rule set for Exclusions.
+  kind: object
+  properties:
+  - name: ruleSetType
+    description: Defines the rule set type to use.
+    types:
+    - uid: string
+  - name: ruleSetVersion
+    description: Defines the version of the rule set to use.
+    types:
+    - uid: string
+  - name: ruleGroups
+    description: Defines the rule groups to apply to the rule set.
+    types:
+    - uid: ExclusionManagedRuleGroup
+      isArray: true
 - name: ManagedRuleGroupOverride
   description: Defines a managed rule group override setting.
   kind: object
@@ -2424,6 +2464,12 @@ definitions:
   - name: properties.outboundRules
     isReadyOnly: true
     description: An array of references to outbound rules that use this backend address pool.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.inboundNatRules
+    isReadyOnly: true
+    description: An array of references to inbound NAT rules that use this backend address pool.
     types:
     - uid: SubResource
       isArray: true
@@ -2916,6 +2962,11 @@ definitions:
     description: Whether this is a primary network interface on a virtual machine.
     types:
     - uid: boolean
+  - name: properties.vnetEncryptionSupported
+    isReadyOnly: true
+    description: Whether the virtual machine this nic is attached to supports encryption.
+    types:
+    - uid: boolean
   - name: properties.enableAcceleratedNetworking
     description: If the network interface is accelerated networking enabled.
     types:
@@ -3074,6 +3125,19 @@ definitions:
     description: A private ip address obtained from the private endpoint's subnet.
     types:
     - uid: string
+- name: ExclusionManagedRuleGroup
+  description: Defines a managed rule group to use for exclusion.
+  kind: object
+  properties:
+  - name: ruleGroupName
+    description: The managed rule group for exclusion.
+    types:
+    - uid: string
+  - name: rules
+    description: List of rules that will be excluded. If none specified, all rules in the group will be excluded.
+    types:
+    - uid: ExclusionManagedRule
+      isArray: true
 - name: ManagedRuleOverride
   description: Defines a managed rule group override setting.
   kind: object
@@ -3250,6 +3314,12 @@ definitions:
     description: Reference to the frontend ip address configuration defined in regional loadbalancer.
     types:
     - uid: SubResource
+  - name: properties.inboundNatRulesPortMapping
+    isReadyOnly: true
+    description: Collection of inbound NAT rule port mappings.
+    types:
+    - uid: NatRulePortMapping
+      isArray: true
 - name: TransportProtocol
   description: The transport protocol for the endpoint.
   kind: enum
@@ -4030,6 +4100,14 @@ definitions:
   - name: Committed
     types:
     - uid: string
+- name: ExclusionManagedRule
+  description: Defines a managed rule to use for exclusion.
+  kind: object
+  properties:
+  - name: ruleId
+    description: Identifier for the managed rule.
+    types:
+    - uid: string
 - name: ManagedRuleEnabledState
   description: The state of the managed rule. Defaults to Disabled if not specified.
   kind: enum
@@ -4063,6 +4141,22 @@ definitions:
   - name: External
     types:
     - uid: string
+- name: NatRulePortMapping
+  description: Individual port mappings for inbound NAT rule created for backend pool.
+  kind: object
+  properties:
+  - name: inboundNatRuleName
+    description: Name of inbound NAT rule.
+    types:
+    - uid: string
+  - name: frontendPort
+    description: Frontend port.
+    types:
+    - uid: integer
+  - name: backendPort
+    description: Backend port.
+    types:
+    - uid: integer
 - name: SecurityRule
   description: Network security rule.
   kind: object
@@ -4583,7 +4677,7 @@ definitions:
 examples:
 - name: Gets a WAF policy within a resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/Policy1?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/Policy1?api-version=2021-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -4710,6 +4804,47 @@ examples:
                 "matchVariable": "RequestHeaderNames",
                 "selectorMatchOperator": "StartsWith",
                 "selector": "testHeader2"
+              },
+              {
+                "matchVariable": "RequestArgValues",
+                "selectorMatchOperator": "StartsWith",
+                "selector": "hello"
+              },
+              {
+                "matchVariable": "RequestArgNames",
+                "selectorMatchOperator": "StartsWith",
+                "selector": "hello",
+                "exclusionManagedRuleSets": [
+                  {
+                    "ruleSetType": "OWASP",
+                    "ruleSetVersion": "3.2",
+                    "ruleGroups": [
+                      {
+                        "ruleGroupName": "REQUEST-930-APPLICATION-ATTACK-LFI",
+                        "rules": [
+                          {
+                            "ruleId": "930120"
+                          }
+                        ]
+                      },
+                      {
+                        "ruleGroupName": "REQUEST-932-APPLICATION-ATTACK-RCE"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "matchVariable": "RequestArgNames",
+                "selectorMatchOperator": "EndsWith",
+                "selector": "hello",
+                "exclusionManagedRuleSets": [
+                  {
+                    "ruleSetType": "OWASP",
+                    "ruleSetVersion": "3.1",
+                    "ruleGroups": []
+                  }
+                ]
               }
             ]
           }

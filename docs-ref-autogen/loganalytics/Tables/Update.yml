@@ -3,14 +3,14 @@ uid: management.azure.com.loganalytics.tables.update
 name: Update
 service: Log Analytics
 groupName: Tables
-apiVersion: 2020-10-01
-summary: Updates a Log Analytics workspace table properties.
+apiVersion: 2021-12-01-preview
+summary: Update a Log Analytics workspace table.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}?api-version=2020-10-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}?api-version=2021-12-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,6 +48,8 @@ responses:
   description: OK response definition.
   types:
   - uid: Table
+- name: 202 Accepted
+  description: Accepted response definition (Long running operation).
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -57,38 +59,250 @@ requestBody:
   parameters:
   - name: properties.retentionInDays
     in: body
-    description: The data table data retention in days, between 7 and 730. Setting this property to null will default to the workspace retention.
+    description: The table retention in days, between 4 and 730. Setting this property to -1 will default to the workspace retention.
     types:
     - uid: integer
-  - name: properties.isTroubleshootEnabled
+  - name: properties.totalRetentionInDays
     in: body
-    description: Enable or disable troubleshoot for this table.
+    description: The table total retention in days, between 4 and 2555. Setting this property to -1 will default to table retention.
     types:
-    - uid: boolean
+    - uid: integer
+  - name: properties.searchResults
+    in: body
+    description: Parameters of the search job that initiated this table.
+    types:
+    - uid: SearchResults
+  - name: properties.restoredLogs
+    in: body
+    description: Parameters of the restore operation that initiated this table.
+    types:
+    - uid: RestoredLogs
+  - name: properties.resultStatistics
+    in: body
+    description: Search job execution statistics.
+    types:
+    - uid: ResultStatistics
+  - name: properties.plan
+    in: body
+    description: Instruct the system how to handle and charge the logs ingested to this table.
+    types:
+    - uid: TablePlanEnum
+  - name: properties.schema
+    in: body
+    description: Table schema.
+    types:
+    - uid: Schema
 requestHeader: []
 definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: SearchResults
+  description: Parameters of the search job that initiated this table.
+  kind: object
+  properties:
+  - name: query
+    description: Search job query.
+    types:
+    - uid: string
+  - name: description
+    description: Search job Description.
+    types:
+    - uid: string
+  - name: limit
+    description: Limit the search job to return up to specified number of rows.
+    types:
+    - uid: integer
+  - name: startSearchTime
+    description: The timestamp to start the search from (UTC)
+    types:
+    - uid: string
+  - name: endSearchTime
+    description: The timestamp to end the search by (UTC)
+    types:
+    - uid: string
+  - name: sourceTable
+    isReadyOnly: true
+    description: The table used in the search job.
+    types:
+    - uid: string
+- name: RestoredLogs
+  description: Restore parameters.
+  kind: object
+  properties:
+  - name: startRestoreTime
+    description: The timestamp to start the restore from (UTC).
+    types:
+    - uid: string
+  - name: endRestoreTime
+    description: The timestamp to end the restore by (UTC).
+    types:
+    - uid: string
+  - name: sourceTable
+    description: The table to restore data from.
+    types:
+    - uid: string
+- name: ResultStatistics
+  description: Search job execution statistics.
+  kind: object
+  properties:
+  - name: progress
+    isReadyOnly: true
+    description: Search job completion percentage.
+    types:
+    - uid: number
+  - name: ingestedRecords
+    isReadyOnly: true
+    description: The number of rows that were returned by the search job.
+    types:
+    - uid: integer
+- name: Schema
+  description: Table's schema.
+  kind: object
+  properties:
+  - name: name
+    description: Table name.
+    types:
+    - uid: string
+  - name: displayName
+    description: Table display name.
+    types:
+    - uid: string
+  - name: description
+    description: Table description.
+    types:
+    - uid: string
+  - name: columns
+    description: A list of table custom columns.
+    types:
+    - uid: Column
+      isArray: true
+  - name: standardColumns
+    isReadyOnly: true
+    description: A list of table standard columns.
+    types:
+    - uid: Column
+      isArray: true
+  - name: categories
+    isReadyOnly: true
+    description: Table category.
+    types:
+    - uid: string
+      isArray: true
+  - name: labels
+    isReadyOnly: true
+    description: Table labels.
+    types:
+    - uid: string
+      isArray: true
+  - name: source
+    isReadyOnly: true
+    description: Table's creator.
+    types:
+    - uid: SourceEnum
+  - name: tableType
+    isReadyOnly: true
+    description: Table's creator.
+    types:
+    - uid: TableTypeEnum
+  - name: tableSubType
+    isReadyOnly: true
+    description: The subtype describes what APIs can be used to interact with the table, and what features are available against it.
+    types:
+    - uid: TableSubTypeEnum
+  - name: solutions
+    isReadyOnly: true
+    description: List of solutions the table is affiliated with
+    types:
+    - uid: string
+      isArray: true
+  - name: searchResults
+    isReadyOnly: true
+    description: Parameters of the search job that initiated this table.
+    types:
+    - uid: SearchResults
+  - name: restoredLogs
+    isReadyOnly: true
+    description: Parameters of the restore operation that initiated this table.
+    types:
+    - uid: RestoredLogs
 - name: Table
   description: Workspace data table definition.
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: properties.retentionInDays
-    description: The data table data retention in days, between 7 and 730. Setting this property to null will default to the workspace retention.
+    description: The table retention in days, between 4 and 730. Setting this property to -1 will default to the workspace retention.
     types:
     - uid: integer
-  - name: properties.isTroubleshootingAllowed
-    isReadyOnly: true
-    description: Specifies if IsTroubleshootingEnabled property can be set for this table.
+  - name: properties.totalRetentionInDays
+    description: The table total retention in days, between 4 and 2555. Setting this property to -1 will default to table retention.
     types:
-    - uid: boolean
-  - name: properties.isTroubleshootEnabled
-    description: Enable or disable troubleshoot for this table.
-    types:
-    - uid: boolean
-  - name: properties.lastTroubleshootDate
+    - uid: integer
+  - name: properties.archiveRetentionInDays
     isReadyOnly: true
-    description: Last time when troubleshooting was set for this table.
+    description: The table data archive retention in days. Calculated as (totalRetentionInDays-retentionInDays)
+    types:
+    - uid: integer
+  - name: properties.searchResults
+    description: Parameters of the search job that initiated this table.
+    types:
+    - uid: SearchResults
+  - name: properties.restoredLogs
+    description: Parameters of the restore operation that initiated this table.
+    types:
+    - uid: RestoredLogs
+  - name: properties.resultStatistics
+    description: Search job execution statistics.
+    types:
+    - uid: ResultStatistics
+  - name: properties.plan
+    description: Instruct the system how to handle and charge the logs ingested to this table.
+    types:
+    - uid: TablePlanEnum
+  - name: properties.lastPlanModifiedDate
+    isReadyOnly: true
+    description: The timestamp that table plan was last modified (UTC).
     types:
     - uid: string
+  - name: properties.schema
+    description: Table schema.
+    types:
+    - uid: Schema
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Table's current provisioning state. If set to 'updating', indicates a resource lock due to ongoing operation, forbidding any update to the table until the ongoing operation is concluded.
+    types:
+    - uid: ProvisioningStateEnum
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -112,6 +326,132 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: Column
+  description: Table column.
+  kind: object
+  properties:
+  - name: name
+    description: Column name.
+    types:
+    - uid: string
+  - name: type
+    description: Column data type.
+    types:
+    - uid: ColumnTypeEnum
+  - name: dataTypeHint
+    description: Column data type logical hint.
+    types:
+    - uid: ColumnDataTypeHintEnum
+  - name: displayName
+    description: Column display name.
+    types:
+    - uid: string
+  - name: description
+    description: Column description.
+    types:
+    - uid: string
+  - name: isDefaultDisplay
+    isReadyOnly: true
+    description: Is displayed by default.
+    types:
+    - uid: boolean
+  - name: isHidden
+    isReadyOnly: true
+    description: Is column hidden.
+    types:
+    - uid: boolean
+- name: SourceEnum
+  description: Table's creator.
+  kind: enum
+  properties:
+  - name: microsoft
+    description: Tables provisioned by the system, as collected via Diagnostic Settings, the Agents, or any other standard data collection means.
+    types:
+    - uid: string
+  - name: customer
+    description: Tables created by the owner of the Workspace, and only found in this Workspace.
+    types:
+    - uid: string
+- name: TableTypeEnum
+  description: Table's creator.
+  kind: enum
+  properties:
+  - name: Microsoft
+    description: Standard data collected by Azure Monitor.
+    types:
+    - uid: string
+  - name: CustomLog
+    description: Custom log table.
+    types:
+    - uid: string
+  - name: RestoredLogs
+    description: Restored data.
+    types:
+    - uid: string
+  - name: SearchResults
+    description: Data collected by a search job.
+    types:
+    - uid: string
+- name: TableSubTypeEnum
+  description: The subtype describes what APIs can be used to interact with the table, and what features are available against it.
+  kind: enum
+  properties:
+  - name: Any
+    description: The default subtype with which built-in tables are created.
+    types:
+    - uid: string
+  - name: Classic
+    description: Indicates a table created through the Data Collector API or with the custom logs feature of the MMA agent, or any table against which Custom Fields were created.
+    types:
+    - uid: string
+  - name: DataCollectionRuleBased
+    description: 'A table eligible to have data sent into it via any of the means supported by Data Collection Rules: the Data Collection Endpoint API, ingestion-time transformations, or any other mechanism provided by Data Collection Rules'
+    types:
+    - uid: string
+- name: TablePlanEnum
+  description: Instruct the system how to handle and charge the logs ingested to this table.
+  kind: enum
+  properties:
+  - name: Basic
+    description: Logs  that are adjusted to support high volume low value verbose logs.
+    types:
+    - uid: string
+  - name: Analytics
+    description: Logs  that allow monitoring and analytics.
+    types:
+    - uid: string
+- name: ProvisioningStateEnum
+  description: Table's current provisioning state. If set to 'updating', indicates a resource lock due to ongoing operation, forbidding any update to the table until the ongoing operation is concluded.
+  kind: enum
+  properties:
+  - name: Updating
+    description: Table schema is still being built and updated, table is currently locked for any changes till the procedure is done.
+    types:
+    - uid: string
+  - name: InProgress
+    description: Table schema is stable and without changes, table data is being updated.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: Table state is stable and without changes, table is unlocked and open for new updates.
+    types:
+    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -143,6 +483,54 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: ColumnTypeEnum
+  description: Column data type.
+  kind: enum
+  properties:
+  - name: string
+    types:
+    - uid: string
+  - name: int
+    types:
+    - uid: string
+  - name: long
+    types:
+    - uid: string
+  - name: real
+    types:
+    - uid: string
+  - name: boolean
+    types:
+    - uid: string
+  - name: dateTime
+    types:
+    - uid: string
+  - name: guid
+    types:
+    - uid: string
+  - name: dynamic
+    types:
+    - uid: string
+- name: ColumnDataTypeHintEnum
+  description: Column data type logical hint.
+  kind: enum
+  properties:
+  - name: uri
+    description: A string that matches the pattern of a URI, for example, scheme://username:password@host:1234/this/is/a/path?k1=v1&k2=v2#fragment
+    types:
+    - uid: string
+  - name: guid
+    description: A standard 128-bit GUID following the standard shape, xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    types:
+    - uid: string
+  - name: armPath
+    description: 'An Azure Resource Model (ARM) path: /subscriptions/{...}/resourceGroups/{...}/providers/Microsoft.{...}/{...}/{...}/{...}...'
+    types:
+    - uid: string
+  - name: ip
+    description: A standard V4/V6 ip address following the standard shape, x.x.x.x/y:y:y:y:y:y:y:y
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -158,14 +546,23 @@ definitions:
     types:
     - uid: object
 examples:
-- name: TablesSet
+- name: TablesUpsert
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685/tables/table1?api-version=2020-10-01
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685/tables/AzureNetworkFlow?api-version=2021-12-01-preview
     body: >-
       {
         "properties": {
-          "retentionInDays": 40,
-          "isTroubleshootEnabled": true
+          "schema": {
+            "name": "AzureNetworkFlow",
+            "columns": [
+              {
+                "name": "MyNewColumn",
+                "type": "guid"
+              }
+            ]
+          },
+          "retentionInDays": 45,
+          "totalRetentionInDays": 70
         }
       }
   responses:
@@ -173,13 +570,124 @@ examples:
     body: >-
       {
         "properties": {
-          "retentionInDays": 40,
-          "isTroubleshootingAllowed": true,
-          "isTroubleshootEnabled": true
+          "schema": {
+            "name": "AzureNetworkFlow",
+            "tableSubType": "DataCollectionRuleBased",
+            "tableType": "Microsoft",
+            "columns": [
+              {
+                "isHidden": false,
+                "name": "MyNewColumn",
+                "type": "guid",
+                "isDefaultDisplay": false
+              }
+            ],
+            "standardColumns": [
+              {
+                "isHidden": true,
+                "name": "TenantId",
+                "type": "guid",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "SourceSystem",
+                "type": "string",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "TimeGenerated",
+                "type": "dateTime",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "AgentID",
+                "type": "string",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "SourceIP",
+                "type": "string",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "Protocol",
+                "type": "string",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "SourcePort",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "DestinationPort",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "TcpFlags",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "Packets",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "Bytes",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "BytesOut",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "DurationInMs",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "RstCount",
+                "type": "int",
+                "isDefaultDisplay": false
+              },
+              {
+                "isHidden": false,
+                "name": "MaxSampleRtt",
+                "type": "int",
+                "isDefaultDisplay": false
+              }
+            ],
+            "solutions": [
+              "LogManagement"
+            ]
+          },
+          "provisioningState": "Succeeded",
+          "retentionInDays": 45,
+          "totalRetentionInDays": 70,
+          "archiveRetentionInDays": 25,
+          "plan": "Analytics"
         },
-        "id": "/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685/tables/table1",
-        "name": "table1"
+        "id": "/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685/tables/AzureNetworkFlow",
+        "name": "AzureNetworkFlow"
       }
+  - statusCode: "202"
 security:
 - name: azure_auth
   type: oauth2
@@ -190,5 +698,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Log Analytics service - Updates a Log Analytics workspace table properties.
+  description: Learn more about Log Analytics service - Update a Log Analytics workspace table.
 errorCodes: []

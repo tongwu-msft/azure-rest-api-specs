@@ -1,0 +1,300 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.firewallpolicyidpssignatures.list
+name: List
+service: Virtual Networks
+groupName: Firewall Policy Idps Signatures
+apiVersion: 2021-05-01
+summary: Retrieves the current status of IDPS signatures for the relevant policy
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsSignatures
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: firewallPolicyName
+  in: path
+  isRequired: true
+  description: The name of the Firewall Policy.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The operation returns an IDPS Query Response
+  types:
+  - uid: QueryResults
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: filters
+    in: body
+    description: Contain all filters names and values
+    types:
+    - uid: FilterItems
+      isArray: true
+  - name: search
+    in: body
+    description: Search term in all columns
+    types:
+    - uid: string
+  - name: orderBy
+    in: body
+    description: Column to sort response by
+    types:
+    - uid: OrderBy
+  - name: resultsPerPage
+    in: body
+    description: The number of the results to return in each page
+    types:
+    - uid: integer
+  - name: skip
+    in: body
+    description: The number of records matching the filter to skip
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: FilterItems
+  description: Will contain the filter name and values to operate on
+  kind: object
+  properties:
+  - name: field
+    description: The name of the field we would like to filter
+    types:
+    - uid: string
+  - name: values
+    description: List of values to filter the current field by
+    types:
+    - uid: string
+      isArray: true
+- name: OrderBy
+  description: Describes a column to sort
+  kind: object
+  properties:
+  - name: field
+    description: Describes the actual column name to sort by
+    types:
+    - uid: string
+  - name: order
+    description: Describes if results should be in ascending/descending order
+    types:
+    - uid: Ascending
+    - uid: Descending
+    typesTitle: enum
+- name: QueryResults
+  description: Query result
+  kind: object
+  properties:
+  - name: matchingRecordsCount
+    description: Number of total records matching the query.
+    types:
+    - uid: integer
+  - name: signatures
+    description: Array containing the results of the query
+    types:
+    - uid: SingleQueryResult
+      isArray: true
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: IDPSQueryObject
+  description: Will describe the query to run against the IDPS signatures DB
+  kind: object
+  properties:
+  - name: filters
+    description: Contain all filters names and values
+    types:
+    - uid: FilterItems
+      isArray: true
+  - name: search
+    description: Search term in all columns
+    types:
+    - uid: string
+  - name: orderBy
+    description: Column to sort response by
+    types:
+    - uid: OrderBy
+  - name: resultsPerPage
+    description: The number of the results to return in each page
+    types:
+    - uid: integer
+  - name: skip
+    description: The number of records matching the filter to skip
+    types:
+    - uid: integer
+- name: SingleQueryResult
+  kind: object
+  properties:
+  - name: signatureId
+    description: The ID of the signature
+    types:
+    - uid: integer
+  - name: mode
+    description: The current mode enforced, 0 - Disabled, 1 - Alert, 2 -Deny
+    types:
+    - uid: "0"
+    - uid: "1"
+    - uid: "2"
+    typesTitle: enum
+  - name: severity
+    description: 'Describes the severity of signature: 1 - Low, 2 - Medium, 3 - High'
+    types:
+    - uid: "1"
+    - uid: "2"
+    - uid: "3"
+    typesTitle: enum
+  - name: direction
+    description: 'Describes in which direction signature is being enforced: 0 - Inbound, 1 - OutBound, 2 - Bidirectional'
+    types:
+    - uid: "0"
+    - uid: "1"
+    - uid: "2"
+    typesTitle: enum
+  - name: group
+    description: Describes the groups the signature belongs to
+    types:
+    - uid: string
+  - name: description
+    description: Describes what is the signature enforces
+    types:
+    - uid: string
+  - name: protocol
+    description: Describes the protocol the signatures is being enforced in
+    types:
+    - uid: string
+  - name: sourcePorts
+    description: Describes the list of source ports related to this signature
+    types:
+    - uid: string
+      isArray: true
+  - name: destinationPorts
+    description: Describes the list of destination ports related to this signature
+    types:
+    - uid: string
+      isArray: true
+  - name: lastUpdated
+    description: Describes the last updated time of the signature (provided from 3rd party vendor)
+    types:
+    - uid: string
+  - name: inheritedFromParentPolicy
+    description: Describes if this override is inherited from base policy or not
+    types:
+    - uid: boolean
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: query signature overrides
+  request:
+    uri: POST https://management.azure.com/subscriptions/e747cc13-97d4-4a79-b463-42d7f4e558f2/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/listIdpsSignatures
+    body: >-
+      {
+        "filters": [
+          {
+            "field": "Mode",
+            "values": [
+              "Deny"
+            ]
+          }
+        ],
+        "search": "",
+        "orderBy": {
+          "field": "severity",
+          "order": "Ascending"
+        },
+        "resultsPerPage": 20,
+        "skip": 0
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "signatures": [
+          {
+            "signatureId": 2000015,
+            "mode": 2,
+            "severity": 1,
+            "direction": 2,
+            "group": "A Network Trojan was detected",
+            "description": "P2P Phatbot Control Connection",
+            "sourcePorts": [
+              "any"
+            ],
+            "destinationPorts": [
+              "any"
+            ],
+            "lastUpdated": "2010-07-30T00:00:00",
+            "inheritedFromParentPolicy": false,
+            "protocol": "tcp"
+          },
+          {
+            "signatureId": 2000106,
+            "mode": 2,
+            "severity": 1,
+            "direction": 1,
+            "group": "Attempted User Privilege Gain",
+            "description": "WEB_SERVER SQL sp_delete_alert attempt",
+            "sourcePorts": [
+              "any"
+            ],
+            "destinationPorts": [
+              "any"
+            ],
+            "lastUpdated": "2019-09-27T00:00:00",
+            "inheritedFromParentPolicy": false,
+            "protocol": "http"
+          }
+        ],
+        "matchingRecordsCount": 2
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Virtual Networks service - Retrieves the current status of IDPS signatures for the relevant policy
+errorCodes: []

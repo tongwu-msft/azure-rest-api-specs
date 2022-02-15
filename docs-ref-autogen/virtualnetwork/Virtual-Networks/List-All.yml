@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.virtualnetworks.listall
 name: List All
 service: Virtual Networks
 groupName: Virtual Networks
-apiVersion: 2021-03-01
+apiVersion: 2021-05-01
 summary: Gets all virtual networks in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworks?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworks?api-version=2021-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -117,6 +117,10 @@ definitions:
     description: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
     types:
     - uid: VirtualNetworkBgpCommunities
+  - name: properties.encryption
+    description: Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet.
+    types:
+    - uid: VirtualNetworkEncryption
   - name: properties.ipAllocations
     description: Array of IpAllocation which reference this VNET.
     types:
@@ -363,6 +367,11 @@ definitions:
     description: The reference to the remote virtual network's Bgp Communities.
     types:
     - uid: VirtualNetworkBgpCommunities
+  - name: properties.remoteVirtualNetworkEncryption
+    isReadyOnly: true
+    description: The reference to the remote virtual network's encryption
+    types:
+    - uid: VirtualNetworkEncryption
   - name: properties.peeringState
     description: The status of the virtual network peering.
     types:
@@ -426,6 +435,18 @@ definitions:
     description: The BGP community associated with the region of the virtual network.
     types:
     - uid: string
+- name: VirtualNetworkEncryption
+  description: Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet.
+  kind: object
+  properties:
+  - name: enabled
+    description: Indicates if encryption is enabled on the virtual network.
+    types:
+    - uid: boolean
+  - name: enforcement
+    description: If the encrypted VNet allows VM that does not support encryption
+    types:
+    - uid: VirtualNetworkEncryptionEnforcement
 - name: ExtendedLocationTypes
   description: The type of the extended location.
   kind: enum
@@ -1003,6 +1024,16 @@ definitions:
   - name: LocalAndRemoteNotInSync
     types:
     - uid: string
+- name: VirtualNetworkEncryptionEnforcement
+  description: If the encrypted VNet allows VM that does not support encryption
+  kind: enum
+  properties:
+  - name: DropUnencrypted
+    types:
+    - uid: string
+  - name: AllowUnencrypted
+    types:
+    - uid: string
 - name: SecurityRule
   description: Network security rule.
   kind: object
@@ -1145,6 +1176,11 @@ definitions:
   - name: properties.primary
     isReadyOnly: true
     description: Whether this is a primary network interface on a virtual machine.
+    types:
+    - uid: boolean
+  - name: properties.vnetEncryptionSupported
+    isReadyOnly: true
+    description: Whether the virtual machine this nic is attached to supports encryption.
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
@@ -2321,6 +2357,12 @@ definitions:
     types:
     - uid: SubResource
       isArray: true
+  - name: properties.inboundNatRules
+    isReadyOnly: true
+    description: An array of references to inbound NAT rules that use this backend address pool.
+    types:
+    - uid: SubResource
+      isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the backend address pool resource.
@@ -2742,6 +2784,12 @@ definitions:
     description: Reference to the frontend ip address configuration defined in regional loadbalancer.
     types:
     - uid: SubResource
+  - name: properties.inboundNatRulesPortMapping
+    isReadyOnly: true
+    description: Collection of inbound NAT rule port mappings.
+    types:
+    - uid: NatRulePortMapping
+      isArray: true
 - name: TransportProtocol
   description: The transport protocol for the endpoint.
   kind: enum
@@ -2788,10 +2836,26 @@ definitions:
   - name: External
     types:
     - uid: string
+- name: NatRulePortMapping
+  description: Individual port mappings for inbound NAT rule created for backend pool.
+  kind: object
+  properties:
+  - name: inboundNatRuleName
+    description: Name of inbound NAT rule.
+    types:
+    - uid: string
+  - name: frontendPort
+    description: Frontend port.
+    types:
+    - uid: integer
+  - name: backendPort
+    description: Backend port.
+    types:
+    - uid: integer
 examples:
 - name: List all virtual networks
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/virtualNetworks?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/virtualNetworks?api-version=2021-05-01
   responses:
   - statusCode: "200"
     body: >-
