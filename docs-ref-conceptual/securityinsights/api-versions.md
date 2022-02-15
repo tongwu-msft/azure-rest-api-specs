@@ -52,7 +52,7 @@ This is the current Preview release of the Microsoft Sentinel REST APIs. It incl
 + Alert Rules (also known as analytics rules)
   + [MITRE tactics and techniques](/azure/sentinel/whats-new#support-for-mitre-attck-techniques-public-preview) have been updated in analytics rules models.
 + Automation Rules
-  +  New endpoint for running playbooks on incidents on demand
+  +  New endpoint added for running playbooks on-demand on incidents.
 + Data connectors
   + [Office connectors](/azure/sentinel/data-connectors-reference#microsoft-365-insider-risk-management-irm-preview) have been added.
 + Incidents
