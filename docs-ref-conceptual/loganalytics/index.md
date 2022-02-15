@@ -25,6 +25,7 @@ The Log Analytics REST API provides operations for managing the following resour
 | [Saved Searches](xref:management.azure.com.loganalytics.savedsearches) | Create or update saved searches. |
 | [Storage Insights](xref:management.azure.com.loganalytics.storageinsights) | Create or update storage insights. |
 | [Clusters](xref:management.azure.com.loganalytics.clusters) | Manage Log Analytics clusters. |
+| [Tables](xref:management.azure.com.loganalytics.tables) | Manage Log Analytics workspace tables. |
 
 ## Send Custom Log Data to Log Analytics
 

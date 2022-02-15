@@ -11091,8 +11091,11 @@
 #### [List By Workspace](loganalytics/Storage-Insights/List-By-Workspace.yml)
 ### Tables
 #### [Overview](loganalytics/Tables.yml)
+#### [Create Or Update](loganalytics/Tables/Create-Or-Update.yml)
+#### [Delete](loganalytics/Tables/Delete.yml)
 #### [Get](loganalytics/Tables/Get.yml)
 #### [List By Workspace](loganalytics/Tables/List-By-Workspace.yml)
+#### [Migrate](loganalytics/Tables/Migrate.yml)
 #### [Update](loganalytics/Tables/Update.yml)
 ### Workspace Purge
 #### [Overview](loganalytics/Workspace-Purge.yml)
