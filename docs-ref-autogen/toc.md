@@ -4483,9 +4483,6 @@
 ##### [List By Billing Account](billing/2020-05-01/Invoices/List-By-Billing-Account.yml)
 ##### [List By Billing Profile](billing/2020-05-01/Invoices/List-By-Billing-Profile.yml)
 ##### [List By Billing Subscription](billing/2020-05-01/Invoices/List-By-Billing-Subscription.yml)
-#### Operations
-##### [Overview](billing/2020-05-01/Operations.yml)
-##### [List](billing/2020-05-01/Operations/List.yml)
 #### Policies
 ##### [Overview](billing/2020-05-01/Policies.yml)
 ##### [Get By Billing Profile](billing/2020-05-01/Policies/Get-By-Billing-Profile.yml)
