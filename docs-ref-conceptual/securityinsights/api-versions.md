@@ -57,7 +57,7 @@ This is the current Preview release of the Microsoft Sentinel REST APIs. It incl
   + [Office connectors](/azure/sentinel/data-connectors-reference#microsoft-365-insider-risk-management-irm-preview) have been added.
 + Incidents
   +  [Techniques have been added to the incident schema](/azure/sentinel/whats-new#support-for-mitre-attck-techniques-public-preview).
-  +  Provider incident URL was added to incident schema
+  +  Provider incident URL has been added to incident schema.
 
 
 
