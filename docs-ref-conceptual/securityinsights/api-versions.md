@@ -50,7 +50,7 @@ Use the latest stable version when you want to access the latest generally avail
 This is the current Preview release of the Microsoft Sentinel REST APIs. It includes all the previously released Preview features, plus the following additions:
 
 + Alert Rules (also known as analytics rules)
-  + [MITRE tactics and technics](/azure/sentinel/whats-new#support-for-mitre-attck-techniques-public-preview) were updated in analytic rules models
+  + [MITRE tactics and techniques](/azure/sentinel/whats-new#support-for-mitre-attck-techniques-public-preview) have been updated in analytics rules models.
 + Automation Rules
   +  New endpoint for running playbooks on incidents on demand
 + Data connectors
