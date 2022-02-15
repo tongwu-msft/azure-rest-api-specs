@@ -59,4 +59,4 @@ Now you can use the bearer token associated to this service principal user to ma
 ## Next steps
 
 Try making your first API request
-* [List devices](/rest/api/iotcentral/devices/list)
+* [List devices](/rest/api/iotcentral/1.0dataplane/devices/list)
