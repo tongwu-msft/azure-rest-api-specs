@@ -53,6 +53,9 @@ This is the current Preview release of the Microsoft Sentinel REST APIs. It incl
   + [MITRE tactics and techniques](/azure/sentinel/whats-new#support-for-mitre-attck-techniques-public-preview) have been updated in analytics rules models.
 + Automation Rules
   +  New endpoint added for running playbooks on-demand on incidents.
++ Bookmarks
+  +  MITRE techniques have been added.
+  +  Extended entity mapping support has been added.
 + Data connectors
   + [Office connectors](/azure/sentinel/data-connectors-reference#microsoft-365-insider-risk-management-irm-preview) have been added.
 + Incidents
