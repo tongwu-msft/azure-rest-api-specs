@@ -12126,8 +12126,10 @@
 #### [Delete](monitor/Action-Groups/Delete.yml)
 #### [Enable Receiver](monitor/Action-Groups/Enable-Receiver.yml)
 #### [Get](monitor/Action-Groups/Get.yml)
+#### [Get Test Notifications](monitor/Action-Groups/Get-Test-Notifications.yml)
 #### [List By Resource Group](monitor/Action-Groups/List-By-Resource-Group.yml)
 #### [List By Subscription Id](monitor/Action-Groups/List-By-Subscription-Id.yml)
+#### [Post Test Notifications](monitor/Action-Groups/Post-Test-Notifications.yml)
 #### [Update](monitor/Action-Groups/Update.yml)
 ### Activity Log Alerts
 #### [Overview](monitor/Activity-Log-Alerts.yml)
