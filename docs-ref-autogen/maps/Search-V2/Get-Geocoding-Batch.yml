@@ -3,7 +3,7 @@ uid: atlas.microsoft.com.maps.searchv2.getgeocodingbatch
 name: Get Geocoding Batch
 service: Maps
 groupName: Search V2
-apiVersion: 2021-11-01-preview
+apiVersion: 2022-02-01-preview
 summary: >+
   **Geocoding Batch API**
 
@@ -27,7 +27,7 @@ summary: >+
 
   ```
 
-  POST https://atlas.microsoft.com/geocode/batch?api-version=2021-11-01-preview
+  POST https://atlas.microsoft.com/geocode/batch?api-version=2022-02-01-preview
 
   ```
 
@@ -57,7 +57,7 @@ summary: >+
   ```
 
 
-  A _geocoding_ batchItem object can accept any of the supported _geocoding_ [URI parameters](https://docs.microsoft.com/en-us/rest/api/maps/search-v2/get-geocoding#uri-parameters).
+  A _geocoding_ batchItem object can accept any of the supported _geocoding_ [URI parameters](https://docs.microsoft.com/en-us/rest/api/maps/search-v2/get-geocoding#uri-parameters) except query.
 
 
 
@@ -78,7 +78,7 @@ consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://atlas.microsoft.com/geocode/batch?api-version=2021-11-01-preview
+- content: POST https://atlas.microsoft.com/geocode/batch?api-version=2022-02-01-preview
 uriParameters:
 - name: api-version
   in: query
@@ -307,8 +307,7 @@ definitions:
   - name: type
     description: must be Feature
     types:
-    - uid: Feature
-    typesTitle: enum
+    - uid: FeaturesItemTypeEnum
   - name: id
     description: ID for feature returned
     types:
@@ -340,6 +339,13 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: FeaturesItemTypeEnum
+  description: must be Feature
+  kind: enum
+  properties:
+  - name: Feature
+    types:
+    - uid: string
 - name: Properties
   kind: object
   properties:
@@ -359,7 +365,7 @@ definitions:
       If the confidence is set to `High`, one or more strong matches were found. Multiple `High` confidence matches are sorted in ranked order by importance when applicable. For example, landmarks have importance but addresses do not.
 
 
-      If a request includes a user location or a map area (see User Context Parameters), then the ranking may change appropriately. For example, a location query for "Paris" returns "Paris, France" and "Paris, TX" both with `High` confidence. "Paris, France" is always ranked first due to importance unless a user location indicates that the user is in or very close to Paris, TX or the map view indicates that the user is searching in that area.
+      If a request includes a location or a view, then the ranking may change appropriately. For example, a location query for "Paris" returns "Paris, France" and "Paris, TX" both with `High` confidence. "Paris, France" is always ranked first due to importance unless a user location indicates that the user is in or very close to Paris, TX or the map view indicates that the user is searching in that area.
 
 
       In some situations, the returned match may not be at the same level as the information provided in the request. For example, a request may specify address information and the geocode service may only be able to match a postal code. In this case, if the geocode service has a confidence that the postal code matches the data, the confidence is set to `Medium` and the match code is set to `UpHierarchy` to specify that it could not match all of the information and had to search up-hierarchy.
@@ -411,8 +417,7 @@ definitions:
   - name: type
     description: Specifies the `type` for the geometry. Value should always be equal to "Point".
     types:
-    - uid: Point
-    typesTitle: enum
+    - uid: GeoJSONPointTypeEnum
   - name: coordinates
     description: Coordinates for the `Point` geometry.
     types:
@@ -429,7 +434,7 @@ definitions:
     If the confidence is set to `High`, one or more strong matches were found. Multiple `High` confidence matches are sorted in ranked order by importance when applicable. For example, landmarks have importance but addresses do not.
 
 
-    If a request includes a user location or a map area (see User Context Parameters), then the ranking may change appropriately. For example, a location query for "Paris" returns "Paris, France" and "Paris, TX" both with `High` confidence. "Paris, France" is always ranked first due to importance unless a user location indicates that the user is in or very close to Paris, TX or the map view indicates that the user is searching in that area.
+    If a request includes a location or a view, then the ranking may change appropriately. For example, a location query for "Paris" returns "Paris, France" and "Paris, TX" both with `High` confidence. "Paris, France" is always ranked first due to importance unless a user location indicates that the user is in or very close to Paris, TX or the map view indicates that the user is searching in that area.
 
 
     In some situations, the returned match may not be at the same level as the information provided in the request. For example, a request may specify address information and the geocode service may only be able to match a postal code. In this case, if the geocode service has a confidence that the postal code matches the data, the confidence is set to `Medium` and the match code is set to `UpHierarchy` to specify that it could not match all of the information and had to search up-hierarchy.
@@ -523,6 +528,13 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: GeoJSONPointTypeEnum
+  description: Specifies the `type` for the geometry. Value should always be equal to "Point".
+  kind: enum
+  properties:
+  - name: Point
+    types:
+    - uid: string
 - name: AdminDistricts
   description: The subdivision name in the country or region for an address. This element is typically treated as the first order administrative subdivision, but in some cases it also contains the second, third, or fourth order subdivision in a country, dependency, or region.
   kind: object
@@ -551,7 +563,7 @@ definitions:
 examples:
 - name: A Geocoding Batch API call containing 2 Geocoding queries
   request:
-    uri: POST https://atlas.microsoft.com/geocode/batch?api-version=2021-11-01-preview
+    uri: POST https://atlas.microsoft.com/geocode/batch?api-version=2022-02-01-preview
     body: >-
       {
         "batchItems": [
