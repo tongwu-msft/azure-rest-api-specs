@@ -3,14 +3,14 @@ uid: management.azure.com.monitor.datacollectionrules.get
 name: Get
 service: Monitor
 groupName: Data Collection Rules
-apiVersion: 2019-11-01-preview
+apiVersion: 2021-04-01
 summary: Returns the specified data collection rule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dataCollectionRuleName}?api-version=2019-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dataCollectionRuleName}?api-version=2021-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,7 +44,7 @@ responses:
 - name: Other Status Codes
   description: Error
   types:
-  - uid: ErrorResponse
+  - uid: ErrorResponseCommonV2
 requestHeader: []
 definitions:
 - name: DataCollectionRuleResource
@@ -87,6 +87,11 @@ definitions:
     description: Resource entity tag (ETag).
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
   - name: properties.description
     description: Description of the data collection rule.
     types:
@@ -114,7 +119,7 @@ definitions:
     description: The resource provisioning state.
     types:
     - uid: KnownDataCollectionRuleProvisioningState
-- name: ErrorResponse
+- name: ErrorResponseCommonV2
   description: Error response
   kind: object
   properties:
@@ -130,6 +135,34 @@ definitions:
     types:
     - uid: string
   - name: Windows
+    types:
+    - uid: string
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: DataSources
@@ -233,6 +266,22 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: PerfCounterDataSource
   description: >-
     Definition of which performance counters will be collected and how they will be collected by this data collection rule.
@@ -393,7 +442,7 @@ definitions:
 examples:
 - name: Get data collection rule
   request:
-    uri: GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule?api-version=2019-11-01-preview
+    uri: GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule?api-version=2021-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -507,6 +556,14 @@ examples:
               ]
             }
           ]
+        },
+        "systemData": {
+          "createdBy": "user1",
+          "createdByType": "User",
+          "createdAt": "2021-04-01T12:34:56.1234567Z",
+          "lastModifiedBy": "user2",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-04-02T12:34:56.1234567Z"
         },
         "etag": "070057da-0000-0000-0000-5ba70d6c0000"
       }

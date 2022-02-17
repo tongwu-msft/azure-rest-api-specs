@@ -12168,6 +12168,14 @@
 ### Baselines
 #### [Overview](monitor/Baselines.yml)
 #### [List](monitor/Baselines/List.yml)
+### Data Collection Endpoints
+#### [Overview](monitor/Data-Collection-Endpoints.yml)
+#### [Create](monitor/Data-Collection-Endpoints/Create.yml)
+#### [Delete](monitor/Data-Collection-Endpoints/Delete.yml)
+#### [Get](monitor/Data-Collection-Endpoints/Get.yml)
+#### [List By Resource Group](monitor/Data-Collection-Endpoints/List-By-Resource-Group.yml)
+#### [List By Subscription](monitor/Data-Collection-Endpoints/List-By-Subscription.yml)
+#### [Update](monitor/Data-Collection-Endpoints/Update.yml)
 ### Data Collection Rule Associations
 #### [Overview](monitor/Data-Collection-Rule-Associations.yml)
 #### [Create](monitor/Data-Collection-Rule-Associations/Create.yml)

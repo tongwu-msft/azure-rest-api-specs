@@ -1,28 +1,33 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.monitor.datacollectionruleassociations.get
+uid: management.azure.com.monitor.datacollectionendpoints.get
 name: Get
 service: Monitor
-groupName: Data Collection Rule Associations
+groupName: Data Collection Endpoints
 apiVersion: 2021-04-01
-summary: Returns the specified association.
+summary: Returns the specified data collection endpoint.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}?api-version=2021-04-01
 uriParameters:
-- name: resourceUri
+- name: subscriptionId
   in: path
   isRequired: true
-  skipUrlEncoding: true
-  description: The identifier of the resource.
+  description: The ID of the target subscription.
   types:
   - uid: string
-- name: associationName
+- name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the association. The name is case insensitive.
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: dataCollectionEndpointName
+  in: path
+  isRequired: true
+  description: The name of the data collection endpoint. The name is case insensitive.
   types:
   - uid: string
 - name: api-version
@@ -35,17 +40,33 @@ responses:
 - name: 200 OK
   description: Request completed successfully
   types:
-  - uid: DataCollectionRuleAssociationProxyOnlyResource
+  - uid: DataCollectionEndpointResource
 - name: Other Status Codes
   description: Error
   types:
   - uid: ErrorResponseCommonV2
 requestHeader: []
 definitions:
-- name: DataCollectionRuleAssociationProxyOnlyResource
-  description: Definition of generic ARM proxy resource.
+- name: DataCollectionEndpointResource
+  description: Definition of ARM tracked top level resource.
   kind: object
   properties:
+  - name: location
+    description: The geo-location where the resource lives.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: kind
+    description: The kind of the resource.
+    types:
+    - uid: KnownDataCollectionEndpointResourceKind
   - name: id
     isReadyOnly: true
     description: Fully qualified ID of the resource.
@@ -72,22 +93,30 @@ definitions:
     types:
     - uid: SystemData
   - name: properties.description
-    description: Description of the association.
+    description: Description of the data collection endpoint.
     types:
     - uid: string
-  - name: properties.dataCollectionRuleId
-    description: The resource ID of the data collection rule that is to be associated.
+  - name: properties.immutableId
+    description: The immutable ID of this data collection endpoint resource. This property is READ-ONLY.
     types:
     - uid: string
-  - name: properties.dataCollectionEndpointId
-    description: The resource ID of the data collection endpoint that is to be associated.
+  - name: properties.configurationAccess
+    description: The endpoint used by agents to access their configuration.
     types:
-    - uid: string
+    - uid: ConfigurationAccess
+  - name: properties.logsIngestion
+    description: The endpoint used by clients to ingest logs.
+    types:
+    - uid: LogsIngestion
+  - name: properties.networkAcls
+    description: Network access control rules for the endpoints.
+    types:
+    - uid: NetworkAcls
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The resource provisioning state.
+    description: The resource provisioning state. This property is READ-ONLY.
     types:
-    - uid: KnownDataCollectionRuleAssociationProvisioningState
+    - uid: KnownDataCollectionEndpointProvisioningState
 - name: ErrorResponseCommonV2
   description: Error response
   kind: object
@@ -96,6 +125,16 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: KnownDataCollectionEndpointResourceKind
+  description: The kind of the resource.
+  kind: enum
+  properties:
+  - name: Linux
+    types:
+    - uid: string
+  - name: Windows
+    types:
+    - uid: string
 - name: SystemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -124,8 +163,34 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: KnownDataCollectionRuleAssociationProvisioningState
-  description: The resource provisioning state.
+- name: ConfigurationAccess
+  description: The endpoint used by agents to access their configuration.
+  kind: object
+  properties:
+  - name: endpoint
+    isReadyOnly: true
+    description: The endpoint. This property is READ-ONLY.
+    types:
+    - uid: string
+- name: LogsIngestion
+  description: The endpoint used by clients to ingest logs.
+  kind: object
+  properties:
+  - name: endpoint
+    isReadyOnly: true
+    description: The endpoint. This property is READ-ONLY.
+    types:
+    - uid: string
+- name: NetworkAcls
+  description: Network access control rules for the endpoints.
+  kind: object
+  properties:
+  - name: publicNetworkAccess
+    description: The configuration to set whether network access from public internet to the endpoints are allowed.
+    types:
+    - uid: KnownPublicNetworkAccessOptions
+- name: KnownDataCollectionEndpointProvisioningState
+  description: The resource provisioning state. This property is READ-ONLY.
   kind: enum
   properties:
   - name: Creating
@@ -190,6 +255,16 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: KnownPublicNetworkAccessOptions
+  description: The configuration to set whether network access from public internet to the endpoints are allowed.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -205,19 +280,31 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Get association
+- name: Get data collection endpoint
   request:
-    uri: GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVm/providers/Microsoft.Insights/dataCollectionRuleAssociations/myAssociation?api-version=2021-04-01
+    uri: GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionEndpoints/myCollectionEndpoint?api-version=2021-04-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVm/providers/Microsoft.Insights/dataCollectionRuleAssociations/myAssociation",
-        "name": "myAssociation",
-        "type": "Microsoft.Insights/dataCollectionRuleAssociations",
+        "id": "/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionEndpoints/myCollectionEndpoint",
+        "name": "myCollectionEndpoint",
+        "type": "Microsoft.Insights/dataCollectionEndpoints",
+        "location": "eastus",
+        "tags": {
+          "tag1": "A",
+          "tag2": "B"
+        },
         "properties": {
-          "dataCollectionRuleId": "/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule",
-          "provisioningState": "Succeeded"
+          "configurationAccess": {
+            "endpoint": "https://mycollectionendpoint-abcd.eastus-1.control.monitor.azure.com"
+          },
+          "logsIngestion": {
+            "endpoint": "https://mycollectionendpoint-abcd.eastus-1.ingest.monitor.azure.com"
+          },
+          "networkAcls": {
+            "publicNetworkAccess": "Enabled"
+          }
         },
         "systemData": {
           "createdBy": "user1",
@@ -239,5 +326,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Monitor service - Returns the specified association.
+  description: Learn more about Monitor service - Returns the specified data collection endpoint.
 errorCodes: []
