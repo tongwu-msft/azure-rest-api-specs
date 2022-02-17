@@ -3027,6 +3027,9 @@
 ## Operations Results
 ### [Overview](azurerekusto/Operations-Results.yml)
 ### [Get](azurerekusto/Operations-Results/Get.yml)
+## Operations Results Location
+### [Overview](azurerekusto/Operations-Results-Location.yml)
+### [Get](azurerekusto/Operations-Results-Location/Get.yml)
 ## Private Endpoint Connections
 ### [Overview](azurerekusto/Private-Endpoint-Connections.yml)
 ### [Create Or Update](azurerekusto/Private-Endpoint-Connections/Create-Or-Update.yml)

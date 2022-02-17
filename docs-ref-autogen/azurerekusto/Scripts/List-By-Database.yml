@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.scripts.listbydatabase
 name: List By Database
 service: Azure Kusto
 groupName: Scripts
-apiVersion: 2021-08-27
+apiVersion: 2022-02-01
 summary: Returns the list of database scripts for given database.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts?api-version=2021-08-27
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts?api-version=2022-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -80,11 +80,15 @@ definitions:
     types:
     - uid: systemData
   - name: properties.scriptUrl
-    description: The url to the KQL script blob file.
+    description: The url to the KQL script blob file. Must not be used together with scriptContent property
     types:
     - uid: string
   - name: properties.scriptUrlSasToken
-    description: The SaS token.
+    description: The SaS token that provide read access to the file which contain the script. Must be provided when using scriptUrl property.
+    types:
+    - uid: string
+  - name: properties.scriptContent
+    description: The script content. This property should be used when the script is provide inline and not through file in a SA. Must not be used together with scriptUrl and scriptUrlSasToken properties.
     types:
     - uid: string
   - name: properties.forceUpdateTag
@@ -205,15 +209,15 @@ definitions:
 examples:
 - name: KustoScriptsList
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/databases/Kustodatabase8/scripts?api-version=2021-08-27
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/Kustodatabase8/scripts?api-version=2022-02-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoclusterrptest4/Databases/Kustodatabase8/Scripts/kustoScript1",
-            "name": "kustoclusterrptest4/Kustodatabase8/kustoScript1",
+            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoCluster/Databases/Kustodatabase8/Scripts/kustoScript1",
+            "name": "kustoCluster/Kustodatabase8/kustoScript1",
             "type": "Microsoft.Kusto/Clusters/Databases/Scripts",
             "properties": {
               "scriptUrl": "https://mysa.blob.core.windows.net/container/script.txt",
@@ -230,8 +234,8 @@ examples:
             }
           },
           {
-            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoclusterrptest4/Databases/Kustodatabase8/Scripts/kustoScript2",
-            "name": "kustoclusterrptest4/Kustodatabase8/kustoScript2",
+            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoCluster/Databases/Kustodatabase8/Scripts/kustoScript2",
+            "name": "kustoCluster/Kustodatabase8/kustoScript2",
             "type": "Microsoft.Kusto/Clusters/Databases/Scripts",
             "properties": {
               "scriptUrl": "https://mysa.blob.core.windows.net/container/script2.txt",
