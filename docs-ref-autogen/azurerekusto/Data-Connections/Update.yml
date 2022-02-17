@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.dataconnections.update
 name: Update
 service: Azure Kusto
 groupName: Data Connections
-apiVersion: 2021-08-27
+apiVersion: 2022-02-01
 summary: Updates a data connection.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}?api-version=2021-08-27
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}?api-version=2022-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -57,6 +57,9 @@ responses:
   - uid: EventGridDataConnection
   typesTitle: DataConnection
 - name: 201 Created
+  headers:
+  - name: Azure-AsyncOperation
+    value: string
   description: Successfully updated the data connection.
   types:
   - uid: EventHubDataConnection
@@ -64,6 +67,9 @@ responses:
   - uid: EventGridDataConnection
   typesTitle: DataConnection
 - name: 202 Accepted
+  headers:
+  - name: Azure-AsyncOperation
+    value: string
   description: Accepted the update data connection request.
   types:
   - uid: EventHubDataConnection
@@ -121,6 +127,11 @@ requestBody:
     description: The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub.
     types:
     - uid: string
+  - name: properties.databaseRouting
+    in: body
+    description: Indication for database routing information from the data connection, by default only database routing information is allowed
+    types:
+    - uid: DatabaseRouting
   - name: location
     in: body
     description: Resource location.
@@ -175,6 +186,11 @@ requestBody:
     description: The name of the share access policy
     types:
     - uid: string
+  - name: properties.databaseRouting
+    in: body
+    description: Indication for database routing information from the data connection, by default only database routing information is allowed
+    types:
+    - uid: DatabaseRouting
   - name: location
     in: body
     description: Resource location.
@@ -194,6 +210,11 @@ requestBody:
     in: body
     isRequired: true
     description: The resource ID of the storage account where the data resides.
+    types:
+    - uid: string
+  - name: properties.eventGridResourceId
+    in: body
+    description: The resource ID of the event grid that is subscribed to the storage account events.
     types:
     - uid: string
   - name: properties.eventHubResourceId
@@ -233,6 +254,16 @@ requestBody:
     description: The name of blob storage event type to process.
     types:
     - uid: blobStorageEventType
+  - name: properties.managedIdentityResourceId
+    in: body
+    description: The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub and storage account.
+    types:
+    - uid: string
+  - name: properties.databaseRouting
+    in: body
+    description: Indication for database routing information from the data connection, by default only database routing information is allowed
+    types:
+    - uid: DatabaseRouting
   - name: location
     in: body
     description: Resource location.
@@ -289,6 +320,15 @@ definitions:
     description: The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub.
     types:
     - uid: string
+  - name: properties.managedIdentityObjectId
+    isReadyOnly: true
+    description: The object ID of the managedIdentityResourceId
+    types:
+    - uid: string
+  - name: properties.databaseRouting
+    description: Indication for database routing information from the data connection, by default only database routing information is allowed
+    types:
+    - uid: DatabaseRouting
   - name: location
     description: Resource location.
     types:
@@ -346,6 +386,10 @@ definitions:
     description: The name of the share access policy
     types:
     - uid: string
+  - name: properties.databaseRouting
+    description: Indication for database routing information from the data connection, by default only database routing information is allowed
+    types:
+    - uid: DatabaseRouting
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioned state of the resource.
@@ -383,6 +427,10 @@ definitions:
     description: The resource ID of the storage account where the data resides.
     types:
     - uid: string
+  - name: properties.eventGridResourceId
+    description: The resource ID of the event grid that is subscribed to the storage account events.
+    types:
+    - uid: string
   - name: properties.eventHubResourceId
     description: The resource ID where the event grid is configured to send events.
     types:
@@ -411,6 +459,19 @@ definitions:
     description: The name of blob storage event type to process.
     types:
     - uid: blobStorageEventType
+  - name: properties.managedIdentityResourceId
+    description: The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub and storage account.
+    types:
+    - uid: string
+  - name: properties.managedIdentityObjectId
+    isReadyOnly: true
+    description: The object ID of managedIdentityResourceId
+    types:
+    - uid: string
+  - name: properties.databaseRouting
+    description: Indication for database routing information from the data connection, by default only database routing information is allowed
+    types:
+    - uid: DatabaseRouting
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioned state of the resource.
@@ -530,6 +591,16 @@ definitions:
     types:
     - uid: string
   - name: Moving
+    types:
+    - uid: string
+- name: DatabaseRouting
+  description: Indication for database routing information from the data connection, by default only database routing information is allowed
+  kind: enum
+  properties:
+  - name: Single
+    types:
+    - uid: string
+  - name: Multi
     types:
     - uid: string
 - name: iotHubDataFormat
@@ -670,7 +741,7 @@ definitions:
 examples:
 - name: KustoDataConnectionsUpdate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/databases/KustoDatabase8/dataConnections/DataConnections8?api-version=2021-08-27
+    uri: PATCH https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnections/dataConnectionTest?api-version=2022-02-01
     body: >-
       {
         "location": "westus",
@@ -685,8 +756,8 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest4/Databases/KustoDatabase8/DataConnections/DataConnections8",
-        "name": "KustoClusterRPTest4/KustoDatabase8/DataConnections8",
+        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoCluster/Databases/KustoDatabase8/DataConnections/dataConnectionTest",
+        "name": "kustoCluster/KustoDatabase8/dataConnectionTest",
         "type": "Microsoft.Kusto/Clusters/Databases/DataConnections",
         "location": "westus",
         "kind": "EventHub",
@@ -698,10 +769,13 @@ examples:
         }
       }
   - statusCode: "201"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/providers/Microsoft.Kusto/locations/westus/operationResults/742bef43-608b-4b58-ba96-6f7a32ec5f0f?api-version=2021-02-01
     body: >-
       {
-        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest4/Databases/KustoDatabase8/DataConnections/DataConnections8",
-        "name": "KustoClusterRPTest4/KustoDatabase8/DataConnections8",
+        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoCluster/Databases/KustoDatabase8/DataConnections/dataConnectionTest",
+        "name": "kustoCluster/KustoDatabase8/dataConnectionTest",
         "type": "Microsoft.Kusto/Clusters/Databases/DataConnections",
         "location": "westus",
         "kind": "EventHub",
@@ -713,10 +787,13 @@ examples:
         }
       }
   - statusCode: "202"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/providers/Microsoft.Kusto/locations/westus/operationResults/742bef43-608b-4b58-ba96-6f7a32ec5f0f?api-version=2021-02-01
     body: >-
       {
-        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest4/Databases/KustoDatabase8/DataConnections/DataConnections8",
-        "name": "KustoClusterRPTest4/KustoDatabase8/DataConnections8",
+        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoCluster/Databases/KustoDatabase8/DataConnections/dataConnectionTest",
+        "name": "kustoCluster/KustoDatabase8/dataConnectionTest",
         "type": "Microsoft.Kusto/Clusters/Databases/DataConnections",
         "location": "westus",
         "kind": "EventHub",
@@ -725,6 +802,103 @@ examples:
           "managedIdentityResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1",
           "consumerGroup": "testConsumerGroup1",
           "compression": "None"
+        }
+      }
+- name: KustoDataConnectionsEventGridUpdate
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnections/dataConnectionTest?api-version=2022-02-01
+    body: >-
+      {
+        "location": "westus",
+        "kind": "EventGrid",
+        "properties": {
+          "ignoreFirstRecord": false,
+          "storageAccountResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount",
+          "eventGridResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount/providers/Microsoft.EventGrid/eventSubscriptions/eventSubscriptionTest",
+          "eventHubResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest2",
+          "consumerGroup": "$Default",
+          "tableName": "TestTable",
+          "mappingRuleName": "TestMapping",
+          "dataFormat": "JSON",
+          "blobStorageEventType": "Microsoft.Storage.BlobCreated",
+          "managedIdentityResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1",
+          "databaseRouting": "Single"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoCluster/Databases/KustoDatabase8/DataConnections/KustoDataConnection9",
+        "name": "kustoCluster/KustoDatabase8/dataConnectionTest",
+        "type": "Microsoft.Kusto/Clusters/Databases/DataConnections",
+        "location": "westus",
+        "kind": "EventGrid",
+        "properties": {
+          "ignoreFirstRecord": false,
+          "storageAccountResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount",
+          "eventGridResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount/providers/Microsoft.EventGrid/eventSubscriptions/eventSubscriptionTest",
+          "eventHubResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest2",
+          "consumerGroup": "$Default",
+          "tableName": "TestTable",
+          "mappingRuleName": "TestMapping",
+          "dataFormat": "JSON",
+          "blobStorageEventType": "Microsoft.Storage.BlobCreated",
+          "managedIdentityResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1",
+          "managedIdentityObjectId": "87654321-1234-1234-1234-123456789123",
+          "databaseRouting": "Single"
+        }
+      }
+  - statusCode: "201"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/providers/Microsoft.Kusto/locations/westus/operationResults/742bef43-608b-4b58-ba96-6f7a32ec5f0f?api-version=2021-02-01
+    body: >-
+      {
+        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoCluster/Databases/KustoDatabase8/DataConnections/KustoDataConnection9",
+        "name": "kustoCluster/KustoDatabase8/dataConnectionTest",
+        "type": "Microsoft.Kusto/Clusters/Databases/DataConnections",
+        "location": "westus",
+        "kind": "EventGrid",
+        "properties": {
+          "ignoreFirstRecord": false,
+          "storageAccountResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount",
+          "eventGridResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount/providers/Microsoft.EventGrid/eventSubscriptions/eventSubscriptionTest",
+          "eventHubResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest2",
+          "consumerGroup": "$Default",
+          "tableName": "TestTable",
+          "mappingRuleName": "TestMapping",
+          "dataFormat": "JSON",
+          "blobStorageEventType": "Microsoft.Storage.BlobCreated",
+          "managedIdentityResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1",
+          "managedIdentityObjectId": "87654321-1234-1234-1234-123456789123",
+          "databaseRouting": "Single"
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/providers/Microsoft.Kusto/locations/westus/operationResults/742bef43-608b-4b58-ba96-6f7a32ec5f0f?api-version=2021-02-01
+    body: >-
+      {
+        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoCluster/Databases/KustoDatabase8/DataConnections/KustoDataConnection9",
+        "name": "kustoCluster/KustoDatabase8/dataConnectionTest",
+        "type": "Microsoft.Kusto/Clusters/Databases/DataConnections",
+        "location": "westus",
+        "kind": "EventGrid",
+        "properties": {
+          "ignoreFirstRecord": false,
+          "storageAccountResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount",
+          "eventGridResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount/providers/Microsoft.EventGrid/eventSubscriptions/eventSubscriptionTest",
+          "eventHubResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest2",
+          "consumerGroup": "$Default",
+          "tableName": "TestTable",
+          "mappingRuleName": "TestMapping",
+          "dataFormat": "JSON",
+          "blobStorageEventType": "Microsoft.Storage.BlobCreated",
+          "managedIdentityResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1",
+          "managedIdentityObjectId": "87654321-1234-1234-1234-123456789123",
+          "databaseRouting": "Single"
         }
       }
 security: []

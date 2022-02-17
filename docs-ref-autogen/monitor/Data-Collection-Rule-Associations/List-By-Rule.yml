@@ -3,14 +3,14 @@ uid: management.azure.com.monitor.datacollectionruleassociations.listbyrule
 name: List By Rule
 service: Monitor
 groupName: Data Collection Rule Associations
-apiVersion: 2019-11-01-preview
+apiVersion: 2021-04-01
 summary: Lists associations for the specified data collection rule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dataCollectionRuleName}/associations?api-version=2019-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dataCollectionRuleName}/associations?api-version=2021-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,7 +44,7 @@ responses:
 - name: Other Status Codes
   description: Error
   types:
-  - uid: ErrorResponse
+  - uid: ErrorResponseCommonV2
 requestHeader: []
 definitions:
 - name: DataCollectionRuleAssociationProxyOnlyResourceListResult
@@ -60,7 +60,7 @@ definitions:
     description: The URL to use for getting the next set of results.
     types:
     - uid: string
-- name: ErrorResponse
+- name: ErrorResponseCommonV2
   description: Error response
   kind: object
   properties:
@@ -92,12 +92,21 @@ definitions:
     description: Resource entity tag (ETag).
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
   - name: properties.description
     description: Description of the association.
     types:
     - uid: string
   - name: properties.dataCollectionRuleId
     description: The resource ID of the data collection rule that is to be associated.
+    types:
+    - uid: string
+  - name: properties.dataCollectionEndpointId
+    description: The resource ID of the data collection endpoint that is to be associated.
     types:
     - uid: string
   - name: properties.provisioningState
@@ -136,6 +145,34 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: KnownDataCollectionRuleAssociationProvisioningState
   description: The resource provisioning state.
   kind: enum
@@ -169,10 +206,26 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: List associations for specified data collection rule
   request:
-    uri: GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule/associations?api-version=2019-11-01-preview
+    uri: GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule/associations?api-version=2021-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -185,6 +238,14 @@ examples:
             "properties": {
               "dataCollectionRuleId": "/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule",
               "provisioningState": "Succeeded"
+            },
+            "systemData": {
+              "createdBy": "user1",
+              "createdByType": "User",
+              "createdAt": "2021-04-01T12:34:56.1234567Z",
+              "lastModifiedBy": "user2",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-04-02T12:34:56.1234567Z"
             },
             "etag": "070057da-0000-0000-0000-5ba70d6c0000"
           }

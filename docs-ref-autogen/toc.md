@@ -3027,6 +3027,9 @@
 ## Operations Results
 ### [Overview](azurerekusto/Operations-Results.yml)
 ### [Get](azurerekusto/Operations-Results/Get.yml)
+## Operations Results Location
+### [Overview](azurerekusto/Operations-Results-Location.yml)
+### [Get](azurerekusto/Operations-Results-Location/Get.yml)
 ## Private Endpoint Connections
 ### [Overview](azurerekusto/Private-Endpoint-Connections.yml)
 ### [Create Or Update](azurerekusto/Private-Endpoint-Connections/Create-Or-Update.yml)
@@ -12126,8 +12129,10 @@
 #### [Delete](monitor/Action-Groups/Delete.yml)
 #### [Enable Receiver](monitor/Action-Groups/Enable-Receiver.yml)
 #### [Get](monitor/Action-Groups/Get.yml)
+#### [Get Test Notifications](monitor/Action-Groups/Get-Test-Notifications.yml)
 #### [List By Resource Group](monitor/Action-Groups/List-By-Resource-Group.yml)
 #### [List By Subscription Id](monitor/Action-Groups/List-By-Subscription-Id.yml)
+#### [Post Test Notifications](monitor/Action-Groups/Post-Test-Notifications.yml)
 #### [Update](monitor/Action-Groups/Update.yml)
 ### Activity Log Alerts
 #### [Overview](monitor/Activity-Log-Alerts.yml)
@@ -12163,6 +12168,14 @@
 ### Baselines
 #### [Overview](monitor/Baselines.yml)
 #### [List](monitor/Baselines/List.yml)
+### Data Collection Endpoints
+#### [Overview](monitor/Data-Collection-Endpoints.yml)
+#### [Create](monitor/Data-Collection-Endpoints/Create.yml)
+#### [Delete](monitor/Data-Collection-Endpoints/Delete.yml)
+#### [Get](monitor/Data-Collection-Endpoints/Get.yml)
+#### [List By Resource Group](monitor/Data-Collection-Endpoints/List-By-Resource-Group.yml)
+#### [List By Subscription](monitor/Data-Collection-Endpoints/List-By-Subscription.yml)
+#### [Update](monitor/Data-Collection-Endpoints/Update.yml)
 ### Data Collection Rule Associations
 #### [Overview](monitor/Data-Collection-Rule-Associations.yml)
 #### [Create](monitor/Data-Collection-Rule-Associations/Create.yml)

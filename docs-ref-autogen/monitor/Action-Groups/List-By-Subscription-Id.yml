@@ -3,14 +3,14 @@ uid: management.azure.com.monitor.actiongroups.listbysubscriptionid
 name: List By Subscription Id
 service: Monitor
 groupName: Action Groups
-apiVersion: 2019-06-01
+apiVersion: 2021-09-01
 summary: Get a list of all action groups in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/microsoft.insights/actionGroups?api-version=2019-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Insights/actionGroups?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -121,6 +121,11 @@ definitions:
     description: The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported.
     types:
     - uid: ArmRoleReceiver
+      isArray: true
+  - name: properties.eventHubReceivers
+    description: The list of event hub receivers that are part of this action group.
+    types:
+    - uid: EventHubReceiver
       isArray: true
   - name: id
     isReadyOnly: true
@@ -377,6 +382,34 @@ definitions:
     description: Indicates whether to use common alert schema.
     types:
     - uid: boolean
+- name: EventHubReceiver
+  description: An Event hub receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the Event hub receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: eventHubNameSpace
+    description: The Event Hub namespace
+    types:
+    - uid: string
+  - name: eventHubName
+    description: The name of the specific Event Hub queue
+    types:
+    - uid: string
+  - name: useCommonAlertSchema
+    description: Indicates whether to use common alert schema.
+    types:
+    - uid: boolean
+  - name: tenantId
+    description: The tenant Id for the subscription containing this event hub
+    types:
+    - uid: string
+  - name: subscriptionId
+    description: The Id for the subscription containing this event hub
+    types:
+    - uid: string
 - name: ReceiverStatus
   description: Indicates the status of the receiver. Receivers that are not Enabled will not receive any communications.
   kind: enum
@@ -393,7 +426,7 @@ definitions:
 examples:
 - name: List action groups
   request:
-    uri: GET https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/providers/microsoft.insights/actionGroups?api-version=2019-06-01
+    uri: GET https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/providers/Microsoft.Insights/actionGroups?api-version=2021-09-01
   responses:
   - statusCode: "200"
     body: >-
@@ -458,7 +491,8 @@ examples:
               "voiceReceivers": [],
               "logicAppReceivers": [],
               "azureFunctionReceivers": [],
-              "armRoleReceivers": []
+              "armRoleReceivers": [],
+              "eventHubReceivers": []
             }
           },
           {
@@ -493,7 +527,8 @@ examples:
               "voiceReceivers": [],
               "logicAppReceivers": [],
               "azureFunctionReceivers": [],
-              "armRoleReceivers": []
+              "armRoleReceivers": [],
+              "eventHubReceivers": []
             }
           }
         ]
