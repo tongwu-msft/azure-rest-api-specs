@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.netapp.volumes.revert
-name: Revert
+uid: management.azure.com.netapp.subvolumes.delete
+name: Delete
 service: Azure NetApp Files
-groupName: Volumes
+groupName: Subvolumes
 apiVersion: 2021-10-01
-summary: "Revert a volume to one of its snapshots  \nRevert a volume to the snapshot specified in the body"
+summary: "Delete a subvolume  \nDelete subvolume"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/revert?api-version=2021-10-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,6 +45,13 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z][a-zA-Z0-9\-_]{0,63}$
+- name: subvolumeName
+  in: path
+  isRequired: true
+  description: The name of the subvolume.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z][a-zA-Z0-9\-_]{0,63}$
 - name: api-version
   in: query
   isRequired: true
@@ -53,40 +60,23 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - terminal state
+  description: OK
 - name: 202 Accepted
-  description: Accepted
+  description: Accepted -- Delete request accepted; operation will complete asynchronously
+- name: 204 No Content
+  description: NoContent -- Resource does not exist.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
-requestBody:
-- name: default
-  parameters:
-  - name: snapshotId
-    in: body
-    description: Resource id of the snapshot
-    types:
-    - uid: string
 requestHeader: []
-definitions:
-- name: volumeRevert
-  description: revert a volume to the snapshot
-  kind: object
-  properties:
-  - name: snapshotId
-    description: Resource id of the snapshot
-    types:
-    - uid: string
+definitions: []
 examples:
-- name: Volumes_Revert
+- name: Subvolumes_Delete
   request:
-    uri: POST https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/revert?api-version=2021-10-01
-    body: >-
-      {
-        "snapshotId": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/snapshots/snapshot1"
-      }
+    uri: DELETE https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/subvolumes/subvolume1?api-version=2021-10-01
   responses:
-  - statusCode: "200"
+  - statusCode: "204"
   - statusCode: "202"
+  - statusCode: "200"
 security:
 - name: azure_auth
   type: oauth2
@@ -97,5 +87,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Learn more about Azure NetApp Files service - Revert a volume to one of its snapshots  \nRevert a volume to the snapshot specified in the body"
+  description: "Learn more about Azure NetApp Files service - Delete a subvolume  \nDelete subvolume"
 errorCodes: []

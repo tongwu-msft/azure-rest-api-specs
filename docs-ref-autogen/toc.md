@@ -3293,7 +3293,16 @@
 ### [Delete](netapp/Snapshots/Delete.yml)
 ### [Get](netapp/Snapshots/Get.yml)
 ### [List](netapp/Snapshots/List.yml)
+### [Restore Files](netapp/Snapshots/Restore-Files.yml)
 ### [Update](netapp/Snapshots/Update.yml)
+## Subvolumes
+### [Overview](netapp/Subvolumes.yml)
+### [Create](netapp/Subvolumes/Create.yml)
+### [Delete](netapp/Subvolumes/Delete.yml)
+### [Get](netapp/Subvolumes/Get.yml)
+### [Get Metadata](netapp/Subvolumes/Get-Metadata.yml)
+### [List By Volume](netapp/Subvolumes/List-By-Volume.yml)
+### [Update](netapp/Subvolumes/Update.yml)
 ## Vaults
 ### [Overview](netapp/Vaults.yml)
 ### [List](netapp/Vaults/List.yml)

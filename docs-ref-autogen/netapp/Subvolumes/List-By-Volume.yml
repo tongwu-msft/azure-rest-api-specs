@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.netapp.netappresourcequotalimits.get
-name: Get
+uid: management.azure.com.netapp.subvolumes.listbyvolume
+name: List By Volume
 service: Azure NetApp Files
-groupName: NetApp Resource Quota Limits
+groupName: Subvolumes
 apiVersion: 2021-10-01
-summary: "Get quota limits  \nGet the default and current subscription quota limit"
+summary: "List of all the subvolumes  \nReturns a list of the subvolumes in the volume"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/quotaLimits/{quotaLimitName}?api-version=2021-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -18,18 +18,33 @@ uriParameters:
   description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-- name: location
+- name: resourceGroupName
   in: path
   isRequired: true
-  description: The location
+  description: The name of the resource group.
   types:
   - uid: string
-- name: quotaLimitName
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
   in: path
   isRequired: true
-  description: The name of the Quota Limit
+  description: The name of the NetApp account
   types:
   - uid: string
+- name: poolName
+  in: path
+  isRequired: true
+  description: The name of the capacity pool
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,63}$
+- name: volumeName
+  in: path
+  isRequired: true
+  description: The name of the volume
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z][a-zA-Z0-9\-_]{0,63}$
 - name: api-version
   in: query
   isRequired: true
@@ -40,13 +55,26 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SubscriptionQuotaItem
+  - uid: subvolumesList
 - name: Other Status Codes
   description: Error response describing why the operation failed.
 requestHeader: []
 definitions:
-- name: SubscriptionQuotaItem
-  description: Information regarding Subscription Quota Item.
+- name: subvolumesList
+  description: List of Subvolumes
+  kind: object
+  properties:
+  - name: value
+    description: A list of Subvolumes
+    types:
+    - uid: subvolumeInfo
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of results.
+    types:
+    - uid: string
+- name: subvolumeInfo
+  description: Subvolume Information properties
   kind: object
   properties:
   - name: systemData
@@ -54,16 +82,23 @@ definitions:
     description: The system meta data relating to this resource.
     types:
     - uid: systemData
-  - name: properties.current
-    isReadyOnly: true
-    description: The current quota value.
+  - name: properties.path
+    description: "path  \nPath to the subvolume"
+    types:
+    - uid: string
+  - name: properties.size
+    description: "size  \nTruncate subvolume to the provided size in bytes"
     types:
     - uid: integer
-  - name: properties.default
-    isReadyOnly: true
-    description: The default quota value.
+  - name: properties.parentPath
+    description: "name  \nparent path to the subvolume"
     types:
-    - uid: integer
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Azure lifecycle management
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -124,20 +159,23 @@ definitions:
     types:
     - uid: string
 examples:
-- name: QuotaLimits
+- name: Subvolumes_List
   request:
-    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/providers/Microsoft.NetApp/locations/eastus/quotaLimits/totalCoolAccessVolumesPerSubscription?api-version=2021-10-01
+    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/subvolumes?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/providers/Microsoft.NetApp/locations/eastus/quotaLimits/totalCoolAccessVolumesPerSubscription",
-        "name": "eastus/totalCoolAccessVolumesPerSubscription",
-        "type": "Microsoft.NetApp/locations/quotaLimits",
-        "properties": {
-          "current": 10,
-          "default": 10
-        }
+        "value": [
+          {
+            "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/subvolumes/subvolume1",
+            "name": "account1/pool1/volume1/subvolume1",
+            "type": "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/subvolumes",
+            "properties": {
+              "path": "/pathToSubvol"
+            }
+          }
+        ]
       }
 security:
 - name: azure_auth
@@ -149,5 +187,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Learn more about Azure NetApp Files service - Get quota limits  \nGet the default and current subscription quota limit"
+  description: "Learn more about Azure NetApp Files service - List of all the subvolumes  \nReturns a list of the subvolumes in the volume"
 errorCodes: []
