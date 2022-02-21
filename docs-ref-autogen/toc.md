@@ -3389,6 +3389,19 @@
 #### [Resources](azureresourcegraph/resourcegraph(2021-03-01)/Resources/Resources.yml)
 # Azure Spring Cloud
 ## [Overview](../docs-ref-conceptual/azurespringcloud/index.md)
+## Api Portal Custom Domains
+### [Overview](azurespringcloud/Api-Portal-Custom-Domains.yml)
+### [Create Or Update](azurespringcloud/Api-Portal-Custom-Domains/Create-Or-Update.yml)
+### [Delete](azurespringcloud/Api-Portal-Custom-Domains/Delete.yml)
+### [Get](azurespringcloud/Api-Portal-Custom-Domains/Get.yml)
+### [List](azurespringcloud/Api-Portal-Custom-Domains/List.yml)
+## Api Portals
+### [Overview](azurespringcloud/Api-Portals.yml)
+### [Create Or Update](azurespringcloud/Api-Portals/Create-Or-Update.yml)
+### [Delete](azurespringcloud/Api-Portals/Delete.yml)
+### [Get](azurespringcloud/Api-Portals/Get.yml)
+### [List](azurespringcloud/Api-Portals/List.yml)
+### [Validate Domain](azurespringcloud/Api-Portals/Validate-Domain.yml)
 ## Apps
 ### [Overview](azurespringcloud/Apps.yml)
 ### [Create Or Update](azurespringcloud/Apps/Create-Or-Update.yml)
@@ -3396,6 +3409,7 @@
 ### [Get](azurespringcloud/Apps/Get.yml)
 ### [Get Resource Upload Url](azurespringcloud/Apps/Get-Resource-Upload-Url.yml)
 ### [List](azurespringcloud/Apps/List.yml)
+### [Set Active Deployments](azurespringcloud/Apps/Set-Active-Deployments.yml)
 ### [Update](azurespringcloud/Apps/Update.yml)
 ### [Validate Domain](azurespringcloud/Apps/Validate-Domain.yml)
 ## Bindings
@@ -3405,6 +3419,38 @@
 ### [Get](azurespringcloud/Bindings/Get.yml)
 ### [List](azurespringcloud/Bindings/List.yml)
 ### [Update](azurespringcloud/Bindings/Update.yml)
+## Build Service
+### [Overview](azurespringcloud/Build-Service.yml)
+### [Create Or Update Build](azurespringcloud/Build-Service/Create-Or-Update-Build.yml)
+### [Get Build](azurespringcloud/Build-Service/Get-Build.yml)
+### [Get Build Result](azurespringcloud/Build-Service/Get-Build-Result.yml)
+### [Get Build Result Log](azurespringcloud/Build-Service/Get-Build-Result-Log.yml)
+### [Get Build Service](azurespringcloud/Build-Service/Get-Build-Service.yml)
+### [Get Resource Upload Url](azurespringcloud/Build-Service/Get-Resource-Upload-Url.yml)
+### [Get Supported Buildpack](azurespringcloud/Build-Service/Get-Supported-Buildpack.yml)
+### [Get Supported Stack](azurespringcloud/Build-Service/Get-Supported-Stack.yml)
+### [List Build Results](azurespringcloud/Build-Service/List-Build-Results.yml)
+### [List Build Services](azurespringcloud/Build-Service/List-Build-Services.yml)
+### [List Builds](azurespringcloud/Build-Service/List-Builds.yml)
+### [List Supported Buildpacks](azurespringcloud/Build-Service/List-Supported-Buildpacks.yml)
+### [List Supported Stacks](azurespringcloud/Build-Service/List-Supported-Stacks.yml)
+## Build Service Agent Pool
+### [Overview](azurespringcloud/Build-Service-Agent-Pool.yml)
+### [Get](azurespringcloud/Build-Service-Agent-Pool/Get.yml)
+### [List](azurespringcloud/Build-Service-Agent-Pool/List.yml)
+### [Update Put](azurespringcloud/Build-Service-Agent-Pool/Update-Put.yml)
+## Build Service Builder
+### [Overview](azurespringcloud/Build-Service-Builder.yml)
+### [Create Or Update](azurespringcloud/Build-Service-Builder/Create-Or-Update.yml)
+### [Delete](azurespringcloud/Build-Service-Builder/Delete.yml)
+### [Get](azurespringcloud/Build-Service-Builder/Get.yml)
+### [List](azurespringcloud/Build-Service-Builder/List.yml)
+## Buildpack Binding
+### [Overview](azurespringcloud/Buildpack-Binding.yml)
+### [Create Or Update](azurespringcloud/Buildpack-Binding/Create-Or-Update.yml)
+### [Delete](azurespringcloud/Buildpack-Binding/Delete.yml)
+### [Get](azurespringcloud/Buildpack-Binding/Get.yml)
+### [List](azurespringcloud/Buildpack-Binding/List.yml)
 ## Certificates
 ### [Overview](azurespringcloud/Certificates.yml)
 ### [Create Or Update](azurespringcloud/Certificates/Create-Or-Update.yml)
@@ -3417,6 +3463,13 @@
 ### [Update Patch](azurespringcloud/Config-Servers/Update-Patch.yml)
 ### [Update Put](azurespringcloud/Config-Servers/Update-Put.yml)
 ### [Validate](azurespringcloud/Config-Servers/Validate.yml)
+## Configuration Services
+### [Overview](azurespringcloud/Configuration-Services.yml)
+### [Create Or Update](azurespringcloud/Configuration-Services/Create-Or-Update.yml)
+### [Delete](azurespringcloud/Configuration-Services/Delete.yml)
+### [Get](azurespringcloud/Configuration-Services/Get.yml)
+### [List](azurespringcloud/Configuration-Services/List.yml)
+### [Validate](azurespringcloud/Configuration-Services/Validate.yml)
 ## Custom Domains
 ### [Overview](azurespringcloud/Custom-Domains.yml)
 ### [Create Or Update](azurespringcloud/Custom-Domains/Create-Or-Update.yml)
@@ -3439,6 +3492,25 @@
 ### [Start JFR](azurespringcloud/Deployments/Start-JFR.yml)
 ### [Stop](azurespringcloud/Deployments/Stop.yml)
 ### [Update](azurespringcloud/Deployments/Update.yml)
+## Gateway Custom Domains
+### [Overview](azurespringcloud/Gateway-Custom-Domains.yml)
+### [Create Or Update](azurespringcloud/Gateway-Custom-Domains/Create-Or-Update.yml)
+### [Delete](azurespringcloud/Gateway-Custom-Domains/Delete.yml)
+### [Get](azurespringcloud/Gateway-Custom-Domains/Get.yml)
+### [List](azurespringcloud/Gateway-Custom-Domains/List.yml)
+## Gateway Route Configs
+### [Overview](azurespringcloud/Gateway-Route-Configs.yml)
+### [Create Or Update](azurespringcloud/Gateway-Route-Configs/Create-Or-Update.yml)
+### [Delete](azurespringcloud/Gateway-Route-Configs/Delete.yml)
+### [Get](azurespringcloud/Gateway-Route-Configs/Get.yml)
+### [List](azurespringcloud/Gateway-Route-Configs/List.yml)
+## Gateways
+### [Overview](azurespringcloud/Gateways.yml)
+### [Create Or Update](azurespringcloud/Gateways/Create-Or-Update.yml)
+### [Delete](azurespringcloud/Gateways/Delete.yml)
+### [Get](azurespringcloud/Gateways/Get.yml)
+### [List](azurespringcloud/Gateways/List.yml)
+### [Validate Domain](azurespringcloud/Gateways/Validate-Domain.yml)
 ## Monitoring Settings
 ### [Overview](azurespringcloud/Monitoring-Settings.yml)
 ### [Get](azurespringcloud/Monitoring-Settings/Get.yml)
@@ -3450,6 +3522,12 @@
 ## Runtime Versions
 ### [Overview](azurespringcloud/Runtime-Versions.yml)
 ### [List Runtime Versions](azurespringcloud/Runtime-Versions/List-Runtime-Versions.yml)
+## Service Registries
+### [Overview](azurespringcloud/Service-Registries.yml)
+### [Create Or Update](azurespringcloud/Service-Registries/Create-Or-Update.yml)
+### [Delete](azurespringcloud/Service-Registries/Delete.yml)
+### [Get](azurespringcloud/Service-Registries/Get.yml)
+### [List](azurespringcloud/Service-Registries/List.yml)
 ## Services
 ### [Overview](azurespringcloud/Services.yml)
 ### [Check Name Availability](azurespringcloud/Services/Check-Name-Availability.yml)
