@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.volumegroups.create
 name: Create
 service: Azure NetApp Files
 groupName: Volume Groups
-apiVersion: 2021-08-01
+apiVersion: 2021-10-01
 summary: "Create the specified volume group and volumes. Creating volume group will create all the volumes specified in request body implicitly. Once volumes are created using volume group, those will be treated as regular volumes thereafter.  \nCreate a volume group along with specified volumes"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups/{volumeGroupName}?api-version=2021-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups/{volumeGroupName}?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -282,6 +282,11 @@ definitions:
     description: Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies.
     types:
     - uid: integer
+  - name: properties.maximumNumberOfFiles
+    isReadyOnly: true
+    description: Maximum number of files allowed. Needs a service request in order to be changed. Only allowed to be changed if volume quota is more than 4TiB.
+    types:
+    - uid: integer
   - name: properties.volumeGroupName
     isReadyOnly: true
     description: Volume Group Name
@@ -309,6 +314,10 @@ definitions:
     types:
     - uid: placementKeyValuePairs
       isArray: true
+  - name: properties.enableSubvolumes
+    description: Flag indicating whether subvolume operations are enabled on the volume
+    types:
+    - uid: enableSubvolumes
 - name: volumeGroupDetails
   description: Volume group resource for create
   kind: object
@@ -490,6 +499,18 @@ definitions:
     description: avsDataStore is disabled
     types:
     - uid: string
+- name: enableSubvolumes
+  description: Flag indicating whether subvolume operations are enabled on the volume
+  kind: enum
+  properties:
+  - name: Enabled
+    description: subvolumes are enabled
+    types:
+    - uid: string
+  - name: Disabled
+    description: subvolumes are not enabled
+    types:
+    - uid: string
 - name: exportPolicyRule
   description: Volume Export Policy Rule
   kind: object
@@ -642,7 +663,7 @@ definitions:
 examples:
 - name: VolumeGroups_Create
   request:
-    uri: PUT https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/volumeGroups/group1?api-version=2021-08-01
+    uri: PUT https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/volumeGroups/group1?api-version=2021-10-01
     body: >-
       {
         "location": "westus",

@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringcloud.services.listbysubscription
 name: List By Subscription
 service: Azure Spring Cloud
 groupName: Services
-apiVersion: 2021-09-01-preview
+apiVersion: 2022-01-01-preview
 summary: Handles requests to list all resources in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.AppPlatform/Spring?api-version=2021-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.AppPlatform/Spring?api-version=2022-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -98,6 +98,11 @@ definitions:
     description: The type of the resource.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -147,6 +152,15 @@ definitions:
     description: Power state of the Service
     types:
     - uid: PowerState
+  - name: zoneRedundant
+    description: ''
+    types:
+    - uid: boolean
+  - name: fqdn
+    isReadyOnly: true
+    description: Fully qualified dns name of the service instance
+    types:
+    - uid: string
 - name: Sku
   description: Sku of Azure Spring Cloud
   kind: object
@@ -163,6 +177,34 @@ definitions:
     description: Current capacity of the target resource
     types:
     - uid: integer
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: lastModifiedByType
+  - name: lastModifiedAt
+    description: The timestamp of resource modification (UTC).
+    types:
+    - uid: string
 - name: ProvisioningState
   description: Provisioning state of the Service
   kind: enum
@@ -239,6 +281,38 @@ definitions:
   - name: Stopped
     types:
     - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: lastModifiedByType
+  description: The type of identity that last modified the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: OutboundIPs
   description: Desired outbound IP resources for Azure Spring Cloud instance.
   kind: object
@@ -293,7 +367,7 @@ definitions:
 examples:
 - name: Services_ListBySubscription
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AppPlatform/Spring?api-version=2021-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AppPlatform/Spring?api-version=2022-01-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -340,6 +414,14 @@ examples:
                   }
                 ]
               }
+            },
+            "systemData": {
+              "createdBy": "sample-user",
+              "createdByType": "User",
+              "createdAt": "2021-08-11T03:16:03.944Z",
+              "lastModifiedBy": "sample-user",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-08-11T03:17:03.944Z"
             },
             "type": "Microsoft.AppPlatform/Spring",
             "sku": {

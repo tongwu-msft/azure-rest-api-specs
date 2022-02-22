@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringcloud.deployments.createorupdate
 name: Create Or Update
 service: Azure Spring Cloud
 groupName: Deployments
-apiVersion: 2021-09-01-preview
+apiVersion: 2022-01-01-preview
 summary: Create a new Deployment or update an exiting Deployment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}?api-version=2021-09-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}?api-version=2022-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -49,15 +49,12 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 201 Created
-  description: >-
-    Created. The response describes the new Deployment and contains a Location header to query the
-
-    operation result.
-  types:
-  - uid: DeploymentResource
 - name: 200 OK
   description: Success. The response describes the updated Deployment.
+  types:
+  - uid: DeploymentResource
+- name: 201 Created
+  description: Created. The response describes the new Deployment and contains an Azure-AsyncOperation header to query the operation result.
   types:
   - uid: DeploymentResource
 - name: 202 Accepted
@@ -93,12 +90,9 @@ definitions:
   - name: source
     description: Uploaded source information of the deployment.
     types:
-    - uid: UserSourceInfo
-  - name: appName
-    isReadyOnly: true
-    description: App name of the deployment
-    types:
-    - uid: string
+    - uid: BuildResultUserSourceInfo
+    - uid: CustomContainerUserSourceInfo
+    typesTitle: UserSourceInfo
   - name: deploymentSettings
     description: Deployment settings of the Deployment
     types:
@@ -114,15 +108,9 @@ definitions:
     types:
     - uid: DeploymentResourceStatus
   - name: active
-    isReadyOnly: true
     description: Indicates whether the Deployment is active
     types:
     - uid: boolean
-  - name: createdTime
-    isReadyOnly: true
-    description: Date time when the resource is created
-    types:
-    - uid: string
   - name: instances
     isReadyOnly: true
     description: Collection of instances belong to the Deployment
@@ -145,6 +133,34 @@ definitions:
     description: Current capacity of the target resource
     types:
     - uid: integer
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: lastModifiedByType
+  - name: lastModifiedAt
+    description: The timestamp of resource modification (UTC).
+    types:
+    - uid: string
 - name: DeploymentResource
   description: Deployment resource payload
   kind: object
@@ -172,6 +188,11 @@ definitions:
     description: The type of the resource.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
 - name: CloudError
   description: An error response from the service.
   kind: object
@@ -180,57 +201,14 @@ definitions:
     description: An error response from the service.
     types:
     - uid: CloudErrorBody
-- name: UserSourceInfo
-  description: Source information for a deployment
-  kind: object
-  properties:
-  - name: type
-    description: Type of the source uploaded
-    types:
-    - uid: UserSourceType
-  - name: relativePath
-    description: Relative path of the storage which stores the source
-    types:
-    - uid: string
-  - name: version
-    description: Version of the source
-    types:
-    - uid: string
-  - name: artifactSelector
-    description: >-
-      Selector for the artifact to be used for the deployment for multi-module projects. This should be
-
-      the relative path to the target module/project.
-    types:
-    - uid: string
-  - name: customContainer
-    description: Custom container payload
-    types:
-    - uid: CustomContainer
 - name: DeploymentSettings
   description: Deployment settings payload
   kind: object
   properties:
-  - name: cpu
-    description: Required CPU. This should be 1 for Basic tier, and in range [1, 4] for Standard tier. This is deprecated starting from API version 2021-09-01-preview. Please use the resourceRequests field to set the CPU size.
-    types:
-    - uid: integer
-  - name: memoryInGB
-    description: Required Memory size in GB. This should be in range [1, 2] for Basic tier, and in range [1, 8] for Standard tier. This is deprecated starting from API version 2021-09-01-preview. Please use the resourceRequests field to set the the memory size.
-    types:
-    - uid: integer
   - name: resourceRequests
     description: The requested resource quantity for required CPU and Memory. It is recommended that using this field to represent the required CPU and Memory, the old field cpu and memoryInGB will be deprecated later.
     types:
     - uid: ResourceRequests
-  - name: jvmOptions
-    description: JVM parameter
-    types:
-    - uid: string
-  - name: netCoreMainEntryPath
-    description: The path to the .NET executable relative to zip root
-    types:
-    - uid: string
   - name: environmentVariables
     description: Collection of environment variables
     types:
@@ -239,10 +217,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: runtimeVersion
-    description: Runtime version
+  - name: addonConfigs
+    description: Collection of addons
     types:
-    - uid: RuntimeVersion
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
   - name: containerProbeSettings
     description: Container liveness and readiness probe settings
     types:
@@ -267,25 +249,10 @@ definitions:
   description: Status of the Deployment
   kind: enum
   properties:
-  - name: Unknown
-    types:
-    - uid: string
   - name: Stopped
     types:
     - uid: string
   - name: Running
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Allocating
-    types:
-    - uid: string
-  - name: Upgrading
-    types:
-    - uid: string
-  - name: Compiling
     types:
     - uid: string
 - name: DeploymentInstance
@@ -317,6 +284,43 @@ definitions:
     description: Start time of the deployment instance
     types:
     - uid: string
+  - name: zone
+    isReadyOnly: true
+    description: Availability zone information of the deployment instance
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: lastModifiedByType
+  description: The type of identity that last modified the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -338,22 +342,60 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: UserSourceType
-  description: Type of the source uploaded
-  kind: enum
+- name: BuildResultUserSourceInfo
+  description: Reference to a build result
+  kind: object
   properties:
-  - name: Jar
+  - name: buildResultId
+    description: Resource id of an existing succeeded build result under the same Spring instance.
     types:
     - uid: string
-  - name: NetCoreZip
+  - name: type
+    description: Type of the source uploaded
+    types:
+    - uid: BuildResult
+    typesTitle: string
+  - name: version
+    description: Version of the source
     types:
     - uid: string
-  - name: Source
+- name: CustomContainerUserSourceInfo
+  description: Custom container user source info
+  kind: object
+  properties:
+  - name: customContainer
+    description: Custom container payload
+    types:
+    - uid: CustomContainer
+  - name: type
+    description: Type of the source uploaded
+    types:
+    - uid: Container
+    typesTitle: string
+  - name: version
+    description: Version of the source
     types:
     - uid: string
-  - name: Container
+- name: ResourceRequests
+  description: Deployment resource request payload
+  kind: object
+  properties:
+  - name: cpu
+    description: Required CPU. 1 core can be represented by 1 or 1000m. This should be 500m or 1 for Basic tier, and {500m, 1, 2, 3, 4} for Standard tier.
     types:
     - uid: string
+  - name: memory
+    description: Required memory. 1 GB can be represented by 1Gi or 1024Mi. This should be {512Mi, 1Gi, 2Gi} for Basic tier, and {512Mi, 1Gi, 2Gi, ..., 8Gi} for Standard tier.
+    types:
+    - uid: string
+- name: ContainerProbeSettings
+  description: Container liveness and readiness probe settings
+  kind: object
+  properties:
+  - name: disableProbe
+    description: Indicates whether disable the liveness and readiness probe
+    types:
+    - uid: boolean
 - name: CustomContainer
   description: Custom container payload
   kind: object
@@ -380,39 +422,6 @@ definitions:
     description: Credential of the image registry
     types:
     - uid: ImageRegistryCredential
-- name: ResourceRequests
-  description: Deployment resource request payload
-  kind: object
-  properties:
-  - name: cpu
-    description: Required CPU. 1 core can be represented by 1 or 1000m. This should be 500m or 1 for Basic tier, and {500m, 1, 2, 3, 4} for Standard tier.
-    types:
-    - uid: string
-  - name: memory
-    description: Required memory. 1 GB can be represented by 1Gi or 1024Mi. This should be {512Mi, 1Gi, 2Gi} for Basic tier, and {512Mi, 1Gi, 2Gi, ..., 8Gi} for Standard tier.
-    types:
-    - uid: string
-- name: RuntimeVersion
-  description: Runtime version
-  kind: enum
-  properties:
-  - name: Java_8
-    types:
-    - uid: string
-  - name: Java_11
-    types:
-    - uid: string
-  - name: NetCore_31
-    types:
-    - uid: string
-- name: ContainerProbeSettings
-  description: Container liveness and readiness probe settings
-  kind: object
-  properties:
-  - name: disableProbe
-    description: Indicates whether disable the liveness and readiness probe
-    types:
-    - uid: boolean
 - name: ImageRegistryCredential
   description: Credential of the image registry
   kind: object
@@ -428,7 +437,7 @@ definitions:
 examples:
 - name: Deployments_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment?api-version=2021-09-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment?api-version=2022-01-01-preview
     body: >-
       {
         "properties": {
@@ -443,13 +452,23 @@ examples:
               "cpu": "1000m",
               "memory": "3Gi"
             },
-            "jvmOptions": "-Xms1G -Xmx3G",
+            "addonConfigs": {
+              "ApplicationConfigurationService": {
+                "patterns": [
+                  "mypattern"
+                ]
+              }
+            },
             "environmentVariables": {
               "env": "test"
-            },
-            "runtimeVersion": "Java_8"
+            }
           },
           "instances": null
+        },
+        "sku": {
+          "name": "S0",
+          "tier": "Standard",
+          "capacity": 1
         }
       }
   responses:
@@ -463,19 +482,14 @@ examples:
             "version": "1.0",
             "artifactSelector": "sub-module-1"
           },
-          "appName": "myapp",
           "deploymentSettings": {
-            "cpu": 1,
-            "memoryInGB": 3,
             "resourceRequests": {
               "cpu": "1000m",
               "memory": "3Gi"
             },
-            "jvmOptions": "-Xms1G -Xmx3G",
             "environmentVariables": {
               "env": "test"
-            },
-            "runtimeVersion": "Java_8"
+            }
           },
           "provisioningState": "Creating",
           "status": "Running",
@@ -494,6 +508,14 @@ examples:
           "tier": "Standard",
           "capacity": 1
         },
+        "systemData": {
+          "createdBy": "sample-user",
+          "createdByType": "User",
+          "createdAt": "2021-08-11T03:16:03.944Z",
+          "lastModifiedBy": "sample-user",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-08-11T03:17:03.944Z"
+        },
         "type": "Microsoft.AppPlatform/Spring/apps/deployments",
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment",
         "name": "mydeployment"
@@ -508,19 +530,14 @@ examples:
             "version": "1.0",
             "artifactSelector": "sub-module-1"
           },
-          "appName": "myapp",
           "deploymentSettings": {
-            "cpu": 1,
-            "memoryInGB": 3,
             "resourceRequests": {
               "cpu": "1000m",
               "memory": "3Gi"
             },
-            "jvmOptions": "-Xms1G -Xmx3G",
             "environmentVariables": {
               "env": "test"
-            },
-            "runtimeVersion": "Java_8"
+            }
           },
           "provisioningState": "Succeeded",
           "status": "Running",
@@ -539,6 +556,14 @@ examples:
           "tier": "Standard",
           "capacity": 1
         },
+        "systemData": {
+          "createdBy": "sample-user",
+          "createdByType": "User",
+          "createdAt": "2021-08-11T03:16:03.944Z",
+          "lastModifiedBy": "sample-user",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-08-11T03:17:03.944Z"
+        },
         "type": "Microsoft.AppPlatform/Spring/apps/deployments",
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment",
         "name": "mydeployment"
@@ -553,19 +578,14 @@ examples:
             "version": "1.0",
             "artifactSelector": "sub-module-1"
           },
-          "appName": "myapp",
           "deploymentSettings": {
-            "cpu": 1,
-            "memoryInGB": 3,
             "resourceRequests": {
               "cpu": "1000m",
               "memory": "3Gi"
             },
-            "jvmOptions": "-Xms1G -Xmx3G",
             "environmentVariables": {
               "env": "test"
-            },
-            "runtimeVersion": "Java_8"
+            }
           },
           "provisioningState": "Updating",
           "status": "Running",
@@ -584,13 +604,21 @@ examples:
           "tier": "Standard",
           "capacity": 1
         },
+        "systemData": {
+          "createdBy": "sample-user",
+          "createdByType": "User",
+          "createdAt": "2021-08-11T03:16:03.944Z",
+          "lastModifiedBy": "sample-user",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-08-11T03:17:03.944Z"
+        },
         "type": "Microsoft.AppPlatform/Spring/apps/deployments",
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment",
         "name": "mydeployment"
       }
 - name: Deployments_CreateOrUpdate_CustomContainer
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment?api-version=2021-09-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment?api-version=2022-01-01-preview
     body: >-
       {
         "properties": {
@@ -640,10 +668,7 @@ examples:
               }
             }
           },
-          "appName": "myapp",
           "deploymentSettings": {
-            "cpu": 1,
-            "memoryInGB": 3,
             "resourceRequests": {
               "cpu": "1000m",
               "memory": "3Gi"
@@ -669,6 +694,14 @@ examples:
           "tier": "Standard",
           "capacity": 1
         },
+        "systemData": {
+          "createdBy": "sample-user",
+          "createdByType": "User",
+          "createdAt": "2021-08-11T03:16:03.944Z",
+          "lastModifiedBy": "sample-user",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-08-11T03:17:03.944Z"
+        },
         "type": "Microsoft.AppPlatform/Spring/apps/deployments",
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment",
         "name": "mydeployment"
@@ -688,10 +721,7 @@ examples:
               }
             }
           },
-          "appName": "myapp",
           "deploymentSettings": {
-            "cpu": 1,
-            "memoryInGB": 3,
             "resourceRequests": {
               "cpu": "1000m",
               "memory": "3Gi"
@@ -712,6 +742,14 @@ examples:
             }
           ]
         },
+        "systemData": {
+          "createdBy": "sample-user",
+          "createdByType": "User",
+          "createdAt": "2021-08-11T03:16:03.944Z",
+          "lastModifiedBy": "sample-user",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-08-11T03:17:03.944Z"
+        },
         "sku": {
           "name": "S0",
           "tier": "Standard",
@@ -726,7 +764,7 @@ examples:
       {
         "properties": {
           "source": {
-            "type": "Source",
+            "type": "Container",
             "customContainer": {
               "server": "myacr.azurecr.io",
               "containerImage": "myContainerImage:v1",
@@ -736,10 +774,7 @@ examples:
               }
             }
           },
-          "appName": "myapp",
           "deploymentSettings": {
-            "cpu": 1,
-            "memoryInGB": 3,
             "resourceRequests": {
               "cpu": "1000m",
               "memory": "3Gi"
@@ -759,6 +794,14 @@ examples:
               "startTime": "2020-08-26T01:55:02Z"
             }
           ]
+        },
+        "systemData": {
+          "createdBy": "sample-user",
+          "createdByType": "User",
+          "createdAt": "2021-08-11T03:16:03.944Z",
+          "lastModifiedBy": "sample-user",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-08-11T03:17:03.944Z"
         },
         "sku": {
           "name": "S0",
