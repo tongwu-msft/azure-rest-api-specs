@@ -26,6 +26,14 @@
 ### [Delete](advisor/Suppressions/Delete.yml)
 ### [Get](advisor/Suppressions/Get.yml)
 ### [List](advisor/Suppressions/List.yml)
+## Advisor Score(preview)
+### Advisor Score
+#### [Overview](advisor/advisorscore(preview)/Advisor-Score.yml)
+#### [Get](advisor/advisorscore(preview)/Advisor-Score/Get.yml)
+#### [List](advisor/advisorscore(preview)/Advisor-Score/List.yml)
+### Operations
+#### [Overview](advisor/advisorscore(preview)/Operations.yml)
+#### [List](advisor/advisorscore(preview)/Operations/List.yml)
 # AKS
 ## [Overview](../docs-ref-conceptual/aks/index.md)
 ## Agent Pools
