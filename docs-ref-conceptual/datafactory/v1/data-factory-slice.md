@@ -1,7 +1,7 @@
 ---
 title: "Slice (Azure Data Factory)"
 ---
-# Slice
+# Slice version 1 (V1)
 
 ## Get
 Gets data slices for a table in data factory.  
