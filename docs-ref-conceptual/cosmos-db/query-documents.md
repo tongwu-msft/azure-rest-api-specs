@@ -1,7 +1,7 @@
 ---
 title: "Query Documents - Azure Cosmos DB REST API"
 description: Query documents using REST API. Request and response headers, body, status codes and examples.
-ms.date: "03/29/2016"
+ms.date: "02/22/2022"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 6fd30626-2d87-4090-8a29-b0c83da9aa2c
@@ -41,7 +41,10 @@ translation.priority.mt:
 |**x-ms-continuation**|Optional|String|A string token returned for queries and read-feed operations if there are more results to be read. Clients can retrieve the next page of results by resubmitting the request with the x-ms-continuation request header set to this value.|  
 |**x-ms-documentdb-query-enablecrosspartition**|Optional|Boolean|If the collection is partitioned, this must be set to True to allow execution across multiple partitions. Queries that filter against a single partition key, or against single-partitioned collections do not need to set the header.|  
 |**x-ms-consistency-level**|Optional|String|It is the consistency level override. The valid values are: Strong, Bounded, Session, or Eventual (in order of strongest to weakest). The override must be the same or weaker than the account’s configured consistency level.|  
-|**x-ms-session-token**|Optional|String|A string token used with session level consistency. Clients must echo the latest read value of this header during read requests for session consistency.|  
+|**x-ms-session-token**|Optional|String|A string token used with session level consistency. Clients must echo the latest read value of this header during read requests for session consistency.|
+
+> [!IMPORTANT]
+> For the `Content-Type` header do NOT include the charset (i.e. “application/query+json; charset-utf-8”). The header must be exactly as shown above.
   
 ### Body  
   
