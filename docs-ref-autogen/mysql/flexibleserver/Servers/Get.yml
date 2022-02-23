@@ -60,6 +60,28 @@ definitions:
     description: The system metadata relating to this resource.
     types:
     - uid: systemData
+  - name: identity.principalId
+    isReadyOnly: true
+    description: ObjectId from the KeyVault
+    types:
+    - uid: string
+  - name: identity.tenantId
+    isReadyOnly: true
+    description: TenantId from the KeyVault
+    types:
+    - uid: string
+  - name: identity.type
+    description: Type of managed service identity.
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: identity.userAssignedIdentities
+    description: Metadata of user assigned identity.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
   - name: properties.administratorLogin
     description: The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation).
     types:
@@ -97,6 +119,10 @@ definitions:
     description: The maximum number of replicas that a primary server can have.
     types:
     - uid: integer
+  - name: properties.dataEncryption
+    description: The Data Encryption for CMK.
+    types:
+    - uid: DataEncryption
   - name: properties.state
     isReadyOnly: true
     description: The state of a server.
@@ -202,6 +228,13 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity.
+  kind: enum
+  properties:
+  - name: UserAssigned
+    types:
+    - uid: string
 - name: ServerVersion
   description: The version of a server.
   kind: enum
@@ -241,6 +274,30 @@ definitions:
   - name: Replica
     types:
     - uid: string
+- name: DataEncryption
+  description: The date encryption for cmk.
+  kind: object
+  properties:
+  - name: primaryUserAssignedIdentityId
+    description: Primary user identity resource id
+    types:
+    - uid: string
+  - name: primaryKeyUri
+    description: Primary key uri
+    types:
+    - uid: string
+  - name: geoBackupUserAssignedIdentityId
+    description: Geo backup user identity resource id as identity can't cross region, need identity in same region as geo backup
+    types:
+    - uid: string
+  - name: geoBackupKeyUri
+    description: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
+    types:
+    - uid: string
+  - name: type
+    description: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.
+    types:
+    - uid: DataEncryptionType
 - name: ServerState
   description: The state of a server.
   kind: enum
@@ -416,6 +473,16 @@ definitions:
     types:
     - uid: string
   - name: Key
+    types:
+    - uid: string
+- name: DataEncryptionType
+  description: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.
+  kind: enum
+  properties:
+  - name: AzureKeyVault
+    types:
+    - uid: string
+  - name: SystemManaged
     types:
     - uid: string
 - name: EnableStatusEnum
