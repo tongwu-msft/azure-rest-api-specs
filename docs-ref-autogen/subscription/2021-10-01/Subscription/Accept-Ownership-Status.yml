@@ -1,0 +1,142 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.subscription.2021-10-01.subscription.acceptownershipstatus
+name: Accept Ownership Status
+service: Subscription
+groupName: Subscription
+apiVersion: 2021-10-01
+summary: Accept subscription ownership status.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Subscription/subscriptions/{subscriptionId}/acceptOwnershipStatus?api-version=2021-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription Id.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2021-10-01
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Subscription details.
+  types:
+  - uid: AcceptOwnershipStatusResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponseBody
+requestHeader: []
+definitions:
+- name: AcceptOwnershipStatusResponse
+  description: Subscription Accept Ownership Response
+  kind: object
+  properties:
+  - name: subscriptionId
+    isReadyOnly: true
+    description: Newly created subscription Id.
+    types:
+    - uid: string
+  - name: acceptOwnershipState
+    isReadyOnly: true
+    description: The accept ownership state of the resource.
+    types:
+    - uid: AcceptOwnership
+  - name: billingOwner
+    isReadyOnly: true
+    description: UPN of the billing owner
+    types:
+    - uid: string
+  - name: subscriptionTenantId
+    description: Tenant Id of the subscription
+    types:
+    - uid: string
+  - name: displayName
+    description: The display name of the subscription.
+    types:
+    - uid: string
+  - name: tags
+    description: Tags for the subscription
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorResponseBody
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorResponse
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: AcceptOwnership
+  description: The accept ownership state of the resource.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+  - name: Expired
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: AcceptOwnershipStatus
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Subscription/subscriptions/291bba3f-e0a5-47bc-a099-3bdcb2a50a05/acceptOwnershipStatus?api-version=2021-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "subscriptionId": "291bba3f-e0a5-47bc-a099-3bdcb2a50a05",
+        "acceptOwnershipState": "Pending",
+        "billingOwner": "abc@test.com",
+        "subscriptionTenantId": "6c541ca7-1cab-4ea0-adde-6305e1d534e2",
+        "displayName": "Test Subscription",
+        "tags": {
+          "tag1": "TagValue1"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Subscription service - Accept subscription ownership status.
+errorCodes: []
