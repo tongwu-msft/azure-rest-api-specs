@@ -1,7 +1,7 @@
 ---
 title: "Gateway (Azure Data Factory)"
 ---
-# Gateway
+# Gateway version 1 (V1)
 
 ## Create
 Creates a new gateway.  
