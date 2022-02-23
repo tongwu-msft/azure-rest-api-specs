@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleryapplicationversions.listbygalleryapplic
 name: List By Gallery Application
 service: Compute
 groupName: Gallery Application Versions
-apiVersion: 2021-07-01
+apiVersion: 2021-10-01
 summary: List gallery Application Versions in a gallery Application Definition.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions?api-version=2021-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -196,6 +196,11 @@ definitions:
     description: Optional parameter which specifies the mode to be used for replication. This property is not updatable.
     types:
     - uid: ReplicationMode
+  - name: targetExtendedLocations
+    description: The target extended locations where the Image Version is going to be replicated to. This property is updatable.
+    types:
+    - uid: GalleryTargetExtendedLocation
+      isArray: true
 - name: ReplicationStatus
   description: This is the replication status of the gallery image version.
   kind: object
@@ -309,6 +314,29 @@ definitions:
   - name: Shallow
     types:
     - uid: string
+- name: GalleryTargetExtendedLocation
+  kind: object
+  properties:
+  - name: name
+    description: The name of the region.
+    types:
+    - uid: string
+  - name: extendedLocation
+    description: The name of the extended location.
+    types:
+    - uid: GalleryExtendedLocation
+  - name: extendedLocationReplicaCount
+    description: The number of replicas of the Image Version to be created per extended location. This property is updatable.
+    types:
+    - uid: integer
+  - name: storageAccountType
+    description: Specifies the storage account type to be used to store the image. This property is not updatable.
+    types:
+    - uid: StorageAccountType
+  - name: encryption
+    description: Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact.
+    types:
+    - uid: EncryptionImages
 - name: AggregatedReplicationState
   description: This is the aggregated replication status based on all the regional replication status flags.
   kind: enum
@@ -362,6 +390,18 @@ definitions:
     types:
     - uid: DataDiskImageEncryption
       isArray: true
+- name: GalleryExtendedLocation
+  description: The name of the extended location.
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: type
+    description: It is type of the extended location.
+    types:
+    - uid: GalleryExtendedLocationType
 - name: ReplicationState
   description: This is the regional replication state.
   kind: enum
@@ -382,6 +422,10 @@ definitions:
   description: Contains encryption settings for an OS disk image.
   kind: object
   properties:
+  - name: securityProfile
+    description: This property specifies the security profile of an OS disk image.
+    types:
+    - uid: OSDiskImageSecurityProfile
   - name: diskEncryptionSetId
     description: A relative URI containing the resource ID of the disk encryption set.
     types:
@@ -398,10 +442,45 @@ definitions:
     description: A relative URI containing the resource ID of the disk encryption set.
     types:
     - uid: string
+- name: GalleryExtendedLocationType
+  description: It is type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+- name: OSDiskImageSecurityProfile
+  description: Contains security profile for an OS disk image.
+  kind: object
+  properties:
+  - name: confidentialVMEncryptionType
+    description: confidential VM encryption types
+    types:
+    - uid: ConfidentialVMEncryptionType
+  - name: secureVMDiskEncryptionSetId
+    description: secure VM disk encryption set id
+    types:
+    - uid: string
+- name: ConfidentialVMEncryptionType
+  description: confidential VM encryption types
+  kind: enum
+  properties:
+  - name: EncryptedVMGuestStateOnlyWithPmk
+    types:
+    - uid: string
+  - name: EncryptedWithPmk
+    types:
+    - uid: string
+  - name: EncryptedWithCmk
+    types:
+    - uid: string
 examples:
 - name: List gallery Application Versions in a gallery Application Definition.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/applications/myGalleryApplicationName/versions?api-version=2021-07-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/applications/myGalleryApplicationName/versions?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
