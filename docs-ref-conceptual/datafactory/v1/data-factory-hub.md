@@ -1,7 +1,7 @@
 ---
 title: "Hub (Azure Data Factory)"
 ---
-# Hub
+# Hub version 1 (V1)
 
 ## Create or Update
 Creates a new hub, or updates the content of an existing hub.  
