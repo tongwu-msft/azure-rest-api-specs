@@ -2,7 +2,7 @@
 title: "Linked service (Azure Data Factory)"
 description: REST API for Linked service in Azure Data Factory 
 ---
-# Linked service
+# Linked service version 1 (V1)
 
 ## Create or Update
 Creates a new linked service, or updates the content of an existing linked service.  
