@@ -3,6 +3,9 @@ title: "Slice (Azure Data Factory)"
 ---
 # Slice version 1 (V1)
 
+> [!NOTE]
+> This reference documentation applies to Azure Data Factory version 1 (V1).
+
 ## Get
 Gets data slices for a table in data factory.  
   
