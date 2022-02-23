@@ -1,7 +1,7 @@
 ---
 title: "Replace a Document - Azure Cosmos DB REST API"
 description: Learn how to replace a document's properties by using a REST API request, the request and response object formats for this operation. 
-ms.date: "03/29/2016"
+ms.date: "02/22/2022"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 8c811a34-a7fc-48c3-8896-6f24099ddf45
@@ -30,7 +30,7 @@ The `Replace Document` operation replaces the entire content of a document.
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|PUT|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs/{doc-name}|Note that the {databaseaccount} is the name of the Cosmos DB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated ID (rid). The {coll-id} value is the name of the collection. The {doc-name} value is the name of the document to be replaced.|  
+|PUT|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs/{doc-id}|Note that the {databaseaccount} is the name of the Cosmos DB account created under your subscription. The {db-id} value is the user generated name/id of the database, not the system generated ID (rid). The {coll-id} value is the name of the collection. The {doc-id} value is the id of the document to be replaced.|  
   
 ### Headers  
  See [Common Azure Cosmos DB REST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests. The important headers for this request are:  

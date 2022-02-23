@@ -1,7 +1,7 @@
 ---
 title: "Access Control on Azure Cosmos DB Resources"
 description: Learn how to use REST API to query resource tokens, master keys, authorization header, and how to construct hash tokens.  
-ms.date: "04/20/2021"
+ms.date: "02/22/2022"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: c3c3324c-9a3f-4cad-8a74-bd73d8b4e40b
@@ -22,7 +22,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Access control in the Azure Cosmos DB SQL API
-Azure Cosmos DB is a globally distributed multi-model database with support for multiple APIs. This article covers the SQL API for Azure Cosmos DB. Access to resources in the SQL API is governed by a master key token or a resource token. To access a resource, the selected token is included in the REST authorization header, as part of the authorization string.  
+Azure Cosmos DB is a fully managed NoSQL database service for modern app development. This article covers the SQL API for Azure Cosmos DB. Access to resources in the SQL API is governed by a master key token or a resource token. To access a resource, the selected token is included in the REST authorization header, as part of the authorization string.  
   
 ## Master key tokens  
 The master key token is the all access key token that allows users to have full control of Cosmos DB resources in a particular account. The master key is created during the creation of an account. There are two sets of master keys, the primary key and the secondary key. The administrator of the account can then exercise key rotation using the secondary key. In addition, the account administrator can also regenerate the keys as needed. For instructions on regenerating and rolling keys, see [Secure access to data in Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/secure-access-to-data).  
@@ -53,56 +53,85 @@ The parts enclosed in brackets are as follows:
   
  The authorization string should be encoded before adding it to the REST request to ensure that it contains no invalid characters. Ensure that it's Base64 encoded using MIME RFC2045. Also, the master key used in the hashsignature should be decoded using MIME RFC2045 as it's Base64 encoded. If you see any issues with authorization, see how to [Diagnose and troubleshoot unauthorized exceptions.](/azure/cosmos-db/troubleshoot-unauthorized)
   
-##  <a name="constructkeytoken"></a> Constructing the hashed token signature for a master token  
-The hash signature for the master key token can be constructed from the following parameters: **Verb**, **ResourceType**, **ResourceLink**, and **Date**.  
-  
- When constructing the hash signature for the master key token, keep these things in mind:  
-  
-1.  The **Verb** portion of the string is the HTTP verb, such as GET, POST, or PUT. 
-  
-2.  The **ResourceType** portion of the string identifies the type of resource that the request is for, Eg. "dbs", "colls", "docs".
-  
-3.  The **ResourceLink** portion of the string is the identity property of the resource that the request is directed at.           **ResourceLink** must maintain its case for the ID of the resource. Example, for a collection it looks like: "dbs/MyDatabase/colls/MyCollection".
-  
-4.  The **Date** portion of the string is the UTC date and time the message was sent (in "HTTP-date" format as defined by [RFC 7231 Date/Time Formats](http://tools.ietf.org/html/rfc7231#section-7.1.1.1)), for example, `Tue, 01 Nov 1994 08:12:31 GMT`. In C#, it can be obtained by using the "R" format specifier on the DateTime.UtcNow value. This same date(in same format) also needs to be passed as **x-ms-date** header in the request.
-    
-5.  All new line characters (\n) shown are required within the signature string including the last empty string("").
-  
- To encode the signature string for a request against Cosmos DB, use the following format:  
-  
-StringToSign = Verb.toLowerCase() + "\n" + ResourceType.toLowerCase() + "\n" + ResourceLink + "\n" + Date.toLowerCase() + "\n" + "" + "\n";  
-  
- Example [C#] method to generate a valid Authorization header:  
-  
- For examples on how to use this method, and what values should be passed for each parameter for each type of operation, refer to   
-      [Using REST from a .NET client](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+##  <a name="constructkeytoken"></a> Constructing the hashed token signature for a master token
+
+The hash signature for the master key token can be constructed from the following parameters: **Verb**, **ResourceType**, **ResourceLink**, and **Date**.
+
+1. The Verb represents the HTTP verb of your request. Possible values are: get, post, put, patch, delete
+
+  **Note:**: The values must be lowercase.
+
+1. The ResourceType portion of the string identifies the type of resource that the request is for. Possible values are: 
+    - Database operations: `dbs`
+    - Container operations: `colls`
+    - Stored Procedures: `sprocs`
+    - User Defined Functions: `udfs`
+    - Triggers: `triggers`
+    - Users: `users`
+    - Permissions: `permissions`
+    - Item level operations: `docs`
+
+  **Note:** The values are case sensitive and must be lowercase.
+
+1. The ResourceLink portion of the string is the identity property of the resource that the request is directed at.
+ The ResourceLink value is dependent on the operation you are trying to execute. 
+ Each operation will have its own corresponding ResourceLink following this convention: 
+    - If the operation is performed against a specific resource then the value is the link to that resource. 
+    Examples:
+        - For Get Database use: `dbs/{databaseId}`
+        - For Get Document use: `dbs/{databaseId}/colls/{containerId}/docs/{docId}`
+
+    - If the operation is performed against a set of resources (List, Create, Query) then the value is the link of the parent resource. Examples:
+        - For Create Document use: `dbs/{databaseId}/colls/{containerId}`
+        - For Create Stored Procedure use: `dbs/{databaseId}/colls/{containerId}`
+        - For Create a Container use: `dbs/{databaseId}`
+        - For Create Database use: "" -> an empty string since Databases do not have a parent resource
+
+  **Note:** The resource names that are being referenced as part of the ResourceLink value are case sensitive and must match the casing of how they were declared in the database. The other components must be lowercase.
+
+1. The Date portion of the string is the UTC date and time the message was sent (in "HTTP-date" format as defined by [RFC 7231 Date/Time Formats](http://tools.ietf.org/html/rfc7231#section-7.1.1.1)), for example, "Tue, 01 Nov 1994 08:12:31 GMT". 
+
+    In C#, it can be obtained by using the "R" format specifier on the `DateTime.UtcNow` value.
+
+    This same date(in same format) also needs to be passed as `x-ms-date` header in the request.
+
+  **Note:** The value is case sensitive and must be all lowercase.
+
+To compute the signature we use the SHA256 based Hash-based Message Authentication Code (HMAC) function with the CosmosDB Key as the secret.
+
+The payload for the hashing function is based on the 4 components presented above using the following format: `"{verb}\n{resourceType}\n{resourceLink}\n{date}\n\n"` (note the extra new line at the end of the payload).
+
+The Base64 encoded result of the function will be used as the signature when constructing the Authorization header for the call.
+
+Example [C#] for a valid Authorization header:
+
+```csharp
+    httpClient.DefaultRequestHeaders.Clear();
+    httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+    httpClient.DefaultRequestHeaders.Add("authorization", auth); //generated using method below
+    httpClient.DefaultRequestHeaders.Add("x-ms-date", requestDateString);
+    httpClient.DefaultRequestHeaders.Add("x-ms-version", "2018-12-31");
+```
+
+Example [C#] method to generate a valid Authorization signature:
+
+To see complete samples for Cosmos DB REST API visit [Cosmos DB REST API Samples repo on GitHub](https://github.com/Azure-Samples/cosmos-db-rest-samples)
   
 ```c#  
   
-string GenerateAuthToken(string verb, string resourceType, string resourceId, string date, string key, string keyType, string tokenVersion)  
-{  
-    var hmacSha256 = new System.Security.Cryptography.HMACSHA256 { Key = Convert.FromBase64String(key) };  
-    
-    verb = verb ?? "";  
-    resourceType = resourceType ?? "";
-    resourceId = resourceId ?? "";
-  
-    string payLoad = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}\n{1}\n{2}\n{3}\n{4}\n",  
-            verb.ToLowerInvariant(),  
-            resourceType.ToLowerInvariant(),  
-            resourceId,  
-            date.ToLowerInvariant(),  
-            ""  
-    );  
-  
-    byte[] hashPayLoad = hmacSha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(payLoad));  
-    string signature = Convert.ToBase64String(hashPayLoad);  
-  
-    return System.Web.HttpUtility.UrlEncode(String.Format(System.Globalization.CultureInfo.InvariantCulture, "type={0}&ver={1}&sig={2}",  
-        keyType,  
-        tokenVersion,  
-        signature));  
-}  
+string GenerateMasterKeyAuthorizationSignature(HttpMethod verb, ResourceType resourceType, string resourceLink, string date, string key)
+{
+    var keyType = "master";
+    var tokenVersion = "1.0";
+    var payload = $"{verb.ToString().ToLowerInvariant()}\n{resourceType.ToString().ToLowerInvariant()}\n{resourceLink}\n{date.ToLowerInvariant()}\n\n";
+
+    var hmacSha256 = new System.Security.Cryptography.HMACSHA256 { Key = Convert.FromBase64String(key) };
+    var hashPayload = hmacSha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(payload));
+    var signature = Convert.ToBase64String(hashPayload);
+    var authSet = WebUtility.UrlEncode($"type={keyType}&ver={tokenVersion}&sig={signature}");
+
+    return authSet;
+}
   
 ```  
   
