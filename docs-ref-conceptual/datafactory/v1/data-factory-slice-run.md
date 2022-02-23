@@ -3,6 +3,9 @@ title: "Slice Run (Azure Data Factory)"
 ---
 # Slice Run version 1 (V1)
 
+> [!NOTE]
+> This reference documentation applies to Azure Data Factory version 1 (V1).
+
 ## Get run
 Gets runs for a data slice of a table in a data factory.  
   
