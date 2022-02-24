@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: webpubsub.dataplane.webpubsub.closeconnection
-name: Close Connection
+uid: webpubsub.dataplane.webpubsub.generateclienttoken
+name: Generate Client Token
 service: Azure Web PubSub Service
 groupName: Web Pub Sub
 apiVersion: 2021-10-01
-summary: Close the client connection.
+summary: Generate token for the client to connect Azure Web PubSub service.
 produces:
 - text/plain
 - application/json
 - text/json
 paths:
-- content: DELETE {Endpoint}/api/hubs/{hub}/connections/{connectionId}?api-version=2021-10-01
-- content: DELETE {Endpoint}/api/hubs/{hub}/connections/{connectionId}?reason={reason}&api-version=2021-10-01
+- content: POST {Endpoint}/api/hubs/{hub}/:generateToken?api-version=2021-10-01
+- content: POST {Endpoint}/api/hubs/{hub}/:generateToken?userId={userId}&role={role}&minutesToExpire={minutesToExpire}&api-version=2021-10-01
   isOptional: true
 uriParameters:
 - name: Endpoint
@@ -28,17 +28,22 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[A-Za-z][A-Za-z0-9_`,.[\]]{0,127}$
-- name: connectionId
-  in: path
-  isRequired: true
-  description: Target connection Id.
-  types:
-  - uid: string
-- name: reason
+- name: userId
   in: query
-  description: The reason closing the client connection.
+  description: User Id.
   types:
   - uid: string
+- name: role
+  in: query
+  description: Roles that the connection with the generated token will have.
+  types:
+  - uid: array
+- name: minutesToExpire
+  in: query
+  description: The expire time of the generated token.
+  types:
+  - uid: integer
+  format: int32
 - name: api-version
   in: query
   isRequired: true
@@ -46,8 +51,10 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 204 No Content
+- name: 200 OK
   description: Success
+  types:
+  - uid: ClientTokenResponse
 - name: Other Status Codes
   headers:
   - name: x-ms-error-code
@@ -57,6 +64,14 @@ responses:
   - uid: ErrorDetail
 requestHeader: []
 definitions:
+- name: ClientTokenResponse
+  description: The response object containing the token for the client
+  kind: object
+  properties:
+  - name: token
+    description: The token value for the WebSocket client to connect to the service
+    types:
+    - uid: string
 - name: ErrorDetail
   description: The error object.
   kind: object
@@ -96,5 +111,5 @@ definitions:
 examples: []
 security: []
 metadata:
-  description: Learn more about Azure Web PubSub Service service - Close the client connection.
+  description: Learn more about Azure Web PubSub Service service - Generate token for the client to connect Azure Web PubSub service.
 errorCodes: []

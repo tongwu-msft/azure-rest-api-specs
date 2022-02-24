@@ -3,12 +3,14 @@ uid: webpubsub.dataplane.webpubsub.userexists
 name: User Exists
 service: Azure Web PubSub Service
 groupName: Web Pub Sub
-apiVersion: 2021-05-01-preview
+apiVersion: 2021-10-01
 summary: Check if there are any client connections connected for the given user.
+produces:
+- text/plain
+- application/json
+- text/json
 paths:
-- content: HEAD {Endpoint}/api/hubs/{hub}/users/{userId}
-- content: HEAD {Endpoint}/api/hubs/{hub}/users/{userId}?api-version=2021-05-01-preview
-  isOptional: true
+- content: HEAD {Endpoint}/api/hubs/{hub}/users/{userId}?api-version=2021-10-01
 uriParameters:
 - name: Endpoint
   in: path
@@ -32,6 +34,7 @@ uriParameters:
   - uid: string
 - name: api-version
   in: query
+  isRequired: true
   description: The version of the REST APIs.
   types:
   - uid: string
@@ -41,9 +44,50 @@ responses:
 - name: 404 Not Found
   description: Not Found
 - name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
   description: Error response
+  types:
+  - uid: ErrorDetail
 requestHeader: []
-definitions: []
+definitions:
+- name: ErrorDetail
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: inner
+    description: ''
+    types:
+    - uid: InnerError
+- name: InnerError
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than was provided by the containing error.
+    types:
+    - uid: string
+  - name: inner
+    description: ''
+    types:
+    - uid: InnerError
 examples: []
 security: []
 metadata:

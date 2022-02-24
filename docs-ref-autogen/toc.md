@@ -4062,7 +4062,7 @@
 ### [List](videoindexer/Operations/List.yml)
 # Azure Web PubSub Service
 ## [Overview](../docs-ref-conceptual/webpubsub/index.md)
-## control plane
+## Control plane
 ### Operations
 #### [Overview](webpubsub/controlplane/Operations.yml)
 #### [List](webpubsub/controlplane/Operations/List.yml)
@@ -4112,8 +4112,12 @@
 #### [Add Connection To Group](webpubsub/dataplane/Web-Pub-Sub/Add-Connection-To-Group.yml)
 #### [Add User To Group](webpubsub/dataplane/Web-Pub-Sub/Add-User-To-Group.yml)
 #### [Check Permission](webpubsub/dataplane/Web-Pub-Sub/Check-Permission.yml)
+#### [Close All Connections](webpubsub/dataplane/Web-Pub-Sub/Close-All-Connections.yml)
 #### [Close Connection](webpubsub/dataplane/Web-Pub-Sub/Close-Connection.yml)
+#### [Close Group Connections](webpubsub/dataplane/Web-Pub-Sub/Close-Group-Connections.yml)
+#### [Close User Connections](webpubsub/dataplane/Web-Pub-Sub/Close-User-Connections.yml)
 #### [Connection Exists](webpubsub/dataplane/Web-Pub-Sub/Connection-Exists.yml)
+#### [Generate Client Token](webpubsub/dataplane/Web-Pub-Sub/Generate-Client-Token.yml)
 #### [Grant Permission](webpubsub/dataplane/Web-Pub-Sub/Grant-Permission.yml)
 #### [Group Exists](webpubsub/dataplane/Web-Pub-Sub/Group-Exists.yml)
 #### [Remove Connection From Group](webpubsub/dataplane/Web-Pub-Sub/Remove-Connection-From-Group.yml)
