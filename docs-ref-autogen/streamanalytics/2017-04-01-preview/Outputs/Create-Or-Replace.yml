@@ -217,10 +217,6 @@ definitions:
   description: Describes a blob output data source.
   kind: object
   properties:
-  - name: properties.authenticationMode
-    description: Authentication Mode.
-    types:
-    - uid: AuthenticationMode
   - name: type
     description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
@@ -247,6 +243,10 @@ definitions:
     description: The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead.
     types:
     - uid: string
+  - name: properties.authenticationMode
+    description: 'Authentication Mode. '
+    types:
+    - uid: AuthenticationMode
 - name: AzureTableOutputDataSource
   description: Describes an Azure Table output data source.
   kind: object
@@ -751,6 +751,18 @@ definitions:
     description: The human-readable message describing the condition in detail. Localized in the Accept-Language of the client request.
     types:
     - uid: string
+- name: StorageAccount
+  description: The properties that are associated with an Azure Storage account
+  kind: object
+  properties:
+  - name: accountName
+    description: The name of the Azure Storage account. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: accountKey
+    description: The account key for the Azure Storage account. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
 - name: AuthenticationMode
   description: Authentication Mode. Valid modes are `ConnectionString`, `Msi` and 'UserToken'.
   kind: enum
@@ -762,18 +774,6 @@ definitions:
     types:
     - uid: string
   - name: ConnectionString
-    types:
-    - uid: string
-- name: StorageAccount
-  description: The properties that are associated with an Azure Storage account
-  kind: object
-  properties:
-  - name: accountName
-    description: The name of the Azure Storage account. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: accountKey
-    description: The account key for the Azure Storage account. Required on PUT (CreateOrReplace) requests.
     types:
     - uid: string
 - name: EventSerializationType
@@ -1109,6 +1109,134 @@ examples:
               "documentId": "documentId"
             }
           }
+        }
+      }
+- name: Create an Azure Data Warehouse output
+  request:
+    uri: PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/outputs/dwOutput?api-version=2017-04-01-preview
+    body: >-
+      {
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.Sql/Server/DataWarehouse",
+            "properties": {
+              "table": "test2",
+              "server": "asatestserver",
+              "database": "zhayaSQLpool",
+              "user": "tolladmin",
+              "password": "password123"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: ETag
+      value: 731a47c6-ff67-4439-bde6-a2a3da4c1ecf
+    body: >-
+      {
+        "id": "/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourceGroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/outputs/dwOutput",
+        "name": "dwOutput",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/outputs",
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.Sql/Server/DataWarehouse",
+            "properties": {
+              "table": "test2",
+              "server": "asatestserver",
+              "database": "zhayaSQLpool",
+              "user": "tolladmin",
+              "password": "password123"
+            }
+          }
+        }
+      }
+  - statusCode: "200"
+    headers:
+    - name: ETag
+      value: 731a47c6-ff67-4439-bde6-a2a3da4c1ecf
+    body: >-
+      {
+        "id": "/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourceGroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/outputs/dwOutput",
+        "name": "dwOutput",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/outputs",
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.Sql/Server/DataWarehouse",
+            "properties": {
+              "table": "test2",
+              "server": "asatestserver",
+              "database": "zhayaSQLpool",
+              "user": "tolladmin",
+              "password": "password123"
+            }
+          }
+        }
+      }
+- name: Create an Azure Function output
+  request:
+    uri: PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/outputs/azureFunction1?api-version=2017-04-01-preview
+    body: >-
+      {
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.AzureFunction",
+            "properties": {
+              "functionAppName": "functionappforasaautomation",
+              "functionName": "HttpTrigger2",
+              "apiKey": null,
+              "maxBatchSize": 256,
+              "maxBatchCount": 100
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: ETag
+      value: 731a47c6-ff67-4439-bde6-a2a3da4c1ecf
+    body: >-
+      {
+        "id": "/subscriptions/7f31cba8-b597-4129-b158-8f21a7395bd0/resourceGroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/outputs/azureFunction1",
+        "name": "azureFunction1",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/outputs",
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.AzureFunction",
+            "properties": {
+              "functionAppName": "functionappforasaautomation",
+              "functionName": "HttpTrigger2",
+              "apiKey": null,
+              "maxBatchSize": 256,
+              "maxBatchCount": 100
+            }
+          },
+          "etag": "7b912929-346d-432e-9495-6972dbd63179"
+        }
+      }
+  - statusCode: "200"
+    headers:
+    - name: ETag
+      value: 731a47c6-ff67-4439-bde6-a2a3da4c1ecf
+    body: >-
+      {
+        "id": "/subscriptions/7f31cba8-b597-4129-b158-8f21a7395bd0/resourceGroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/outputs/azureFunction1",
+        "name": "azureFunction1",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/outputs",
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.AzureFunction",
+            "properties": {
+              "functionAppName": "functionappforasaautomation",
+              "functionName": "HttpTrigger2",
+              "apiKey": null,
+              "maxBatchSize": 256,
+              "maxBatchCount": 100
+            }
+          },
+          "etag": "7b912929-346d-432e-9495-6972dbd63179"
         }
       }
 - name: Create an Event Hub output with JSON serialization
