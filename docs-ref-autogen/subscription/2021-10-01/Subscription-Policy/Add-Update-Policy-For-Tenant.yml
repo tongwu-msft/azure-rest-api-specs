@@ -1,0 +1,231 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.subscription.2021-10-01.subscriptionpolicy.addupdatepolicyfortenant
+name: Add Update Policy For Tenant
+service: Subscription
+groupName: Subscription Policy
+apiVersion: 2021-10-01
+summary: Create or Update Subscription tenant policy for user's tenant.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/providers/Microsoft.Subscription/policies/default?api-version=2021-10-01
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2021-10-01
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Subscription tenant policy has been successfully created/updated.
+  types:
+  - uid: GetTenantPolicyResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponseBody
+requestBody:
+- name: default
+  parameters:
+  - name: blockSubscriptionsLeavingTenant
+    in: body
+    description: Blocks the leaving of subscriptions from user's tenant.
+    types:
+    - uid: boolean
+  - name: blockSubscriptionsIntoTenant
+    in: body
+    description: Blocks the entering of subscriptions into user's tenant.
+    types:
+    - uid: boolean
+  - name: exemptedPrincipals
+    in: body
+    description: List of user objectIds that are exempted from the set subscription tenant policies for the user's tenant.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: GetTenantPolicyResponse
+  description: Tenant policy Information.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Policy Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Policy name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties
+    description: Tenant policy properties.
+    types:
+    - uid: TenantPolicy
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+- name: ErrorResponseBody
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorResponse
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: PutTenantPolicyRequestProperties
+  description: Put tenant policy request properties.
+  kind: object
+  properties:
+  - name: blockSubscriptionsLeavingTenant
+    description: Blocks the leaving of subscriptions from user's tenant.
+    types:
+    - uid: boolean
+  - name: blockSubscriptionsIntoTenant
+    description: Blocks the entering of subscriptions into user's tenant.
+    types:
+    - uid: boolean
+  - name: exemptedPrincipals
+    description: List of user objectIds that are exempted from the set subscription tenant policies for the user's tenant.
+    types:
+    - uid: string
+      isArray: true
+- name: TenantPolicy
+  description: Tenant policy.
+  kind: object
+  properties:
+  - name: policyId
+    isReadyOnly: true
+    description: Policy Id.
+    types:
+    - uid: string
+  - name: blockSubscriptionsLeavingTenant
+    description: Blocks the leaving of subscriptions from user's tenant.
+    types:
+    - uid: boolean
+  - name: blockSubscriptionsIntoTenant
+    description: Blocks the entering of subscriptions into user's tenant.
+    types:
+    - uid: boolean
+  - name: exemptedPrincipals
+    description: List of user objectIds that are exempted from the set subscription tenant policies for the user's tenant.
+    types:
+    - uid: string
+      isArray: true
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: TenantPolicy
+  request:
+    uri: PUT https://management.azure.com/providers/Microsoft.Subscription/policies/default?api-version=2021-10-01
+    body: >-
+      {
+        "blockSubscriptionsLeavingTenant": true,
+        "blockSubscriptionsIntoTenant": true,
+        "exemptedPrincipals": [
+          "e879cf0f-2b4d-5431-109a-f72fc9868693",
+          "9792da87-c97b-410d-a97d-27021ba09ce6"
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "providers/Microsoft.Subscription/policies/default",
+        "name": "default",
+        "type": "providers/Microsoft.Subscription/policies",
+        "properties": {
+          "policyId": "291bba3f-e0a5-47bc-a099-3bdcb2a50a05",
+          "blockSubscriptionsLeavingTenant": true,
+          "blockSubscriptionsIntoTenant": true,
+          "exemptedPrincipals": [
+            "e879cf0f-2b4d-5431-109a-f72fc9868693",
+            "9792da87-c97b-410d-a97d-27021ba09ce6"
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Subscription service - Create or Update Subscription tenant policy for user's tenant.
+errorCodes: []

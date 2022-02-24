@@ -21442,6 +21442,31 @@
 #### [Cancel](subscription/2020-09-01/Subscription/Cancel.yml)
 #### [Enable](subscription/2020-09-01/Subscription/Enable.yml)
 #### [Rename](subscription/2020-09-01/Subscription/Rename.yml)
+## 2021-10-01
+### Alias
+#### [Overview](subscription/2021-10-01/Alias.yml)
+#### [Create](subscription/2021-10-01/Alias/Create.yml)
+#### [Delete](subscription/2021-10-01/Alias/Delete.yml)
+#### [Get](subscription/2021-10-01/Alias/Get.yml)
+#### [List](subscription/2021-10-01/Alias/List.yml)
+### Billing Account
+#### [Overview](subscription/2021-10-01/Billing-Account.yml)
+#### [Get Policy](subscription/2021-10-01/Billing-Account/Get-Policy.yml)
+### Operations
+#### [Overview](subscription/2021-10-01/Operations.yml)
+#### [List](subscription/2021-10-01/Operations/List.yml)
+### Subscription
+#### [Overview](subscription/2021-10-01/Subscription.yml)
+#### [Accept Ownership](subscription/2021-10-01/Subscription/Accept-Ownership.yml)
+#### [Accept Ownership Status](subscription/2021-10-01/Subscription/Accept-Ownership-Status.yml)
+#### [Cancel](subscription/2021-10-01/Subscription/Cancel.yml)
+#### [Enable](subscription/2021-10-01/Subscription/Enable.yml)
+#### [Rename](subscription/2021-10-01/Subscription/Rename.yml)
+### Subscription Policy
+#### [Overview](subscription/2021-10-01/Subscription-Policy.yml)
+#### [Add Update Policy For Tenant](subscription/2021-10-01/Subscription-Policy/Add-Update-Policy-For-Tenant.yml)
+#### [Get Policy For Tenant](subscription/2021-10-01/Subscription-Policy/Get-Policy-For-Tenant.yml)
+#### [List Policy For Tenant](subscription/2021-10-01/Subscription-Policy/List-Policy-For-Tenant.yml)
 # Support
 ## [Overview](../docs-ref-conceptual/support/index.md)
 ## [Increase Quota limits via Support API](../docs-ref-conceptual/support/quota-payload.md)
