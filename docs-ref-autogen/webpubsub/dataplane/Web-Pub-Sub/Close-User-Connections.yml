@@ -1,0 +1,105 @@
+### YamlMime:RESTOperation
+uid: webpubsub.dataplane.webpubsub.closeuserconnections
+name: Close User Connections
+service: Azure Web PubSub Service
+groupName: Web Pub Sub
+apiVersion: 2021-10-01
+summary: Close connections for the specific user.
+produces:
+- text/plain
+- application/json
+- text/json
+paths:
+- content: POST {Endpoint}/api/hubs/{hub}/users/{userId}/:closeConnections?api-version=2021-10-01
+- content: POST {Endpoint}/api/hubs/{hub}/users/{userId}/:closeConnections?excluded={excluded}&reason={reason}&api-version=2021-10-01
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: HTTP or HTTPS endpoint for the Web PubSub service instance.
+  types:
+  - uid: string
+- name: hub
+  in: path
+  isRequired: true
+  description: Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z][A-Za-z0-9_`,.[\]]{0,127}$
+- name: userId
+  in: path
+  isRequired: true
+  description: The user Id.
+  types:
+  - uid: string
+- name: excluded
+  in: query
+  description: Exclude these connectionIds when closing the connections for the user.
+  types:
+  - uid: array
+- name: reason
+  in: query
+  description: The reason closing the client connection.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the REST APIs.
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: Success
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Error response
+  types:
+  - uid: ErrorDetail
+requestHeader: []
+definitions:
+- name: ErrorDetail
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: inner
+    description: ''
+    types:
+    - uid: InnerError
+- name: InnerError
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than was provided by the containing error.
+    types:
+    - uid: string
+  - name: inner
+    description: ''
+    types:
+    - uid: InnerError
+examples: []
+security: []
+metadata:
+  description: Learn more about Azure Web PubSub Service service - Close connections for the specific user.
+errorCodes: []

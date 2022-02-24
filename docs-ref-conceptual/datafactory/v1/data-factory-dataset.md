@@ -1,7 +1,10 @@
 ---
 title: "Dataset (Azure Data Factory)"
 ---
-# Dataset
+# Dataset version 1 (V1)
+
+> [!NOTE]
+> This reference documentation applies to Azure Data Factory version 1 (V1).
 
 ## Create or update
 Creates a new dataset, or updates the content of an existing dataset.  
