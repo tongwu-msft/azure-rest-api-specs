@@ -21,27 +21,21 @@ Operations provided by the Batch service REST API may have multiple versions for
 
 To specify which version of an operation to use, set the *api-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format ‘YYYY-MM-DD’ and Major is an integer and Minor is an integer.
 
-## Latest version: 2021-06-01.14.0
+## Latest version: 2022-01-01.15.0
 
-- Add ability to assign user-assigned managed identities to [`CloudPool`](/rest/api/batchservice/pool/get#cloudpool). These identities will be made available on each node in the pool, and can be used to access various resources.
-- Added `identityReference` property to the following models to support accessing resources via managed identity:
-  - [`AzureBlobFileSystemConfiguration`](/rest/api/batchservice/job/get#azureblobFileSystemConfiguration)
-  - [`OutputFileBlobContainerDestination`](/rest/api/batchservice/job/get#outputfileblobcontainerdestination)
-  - [`ContainerRegistry`](/rest/api/batchservice/job/get#containerregistry)
-  - [`ResourceFile`](/rest/api/batchservice/task/add#resourcefile)
-  - [`UploadBatchServiceLogs`](/rest/api/batchservice/computenode/uploadbatchservicelogs)
-- Added new `extensions` property to [VirtualMachineConfiguration][1] on [`CloudPool`](/rest/api/batchservice/pool/get#cloudpool) to specify virtual machine extensions for nodes
-- Added the ability to specify availability zones using a new property `nodePlacementConfiguration` on [VirtualMachineConfiguration][1]
-- Added new `osDisk` property to [VirtualMachineConfiguration][1], which contains settings for the operating system disk of the Virtual Machine.
-  - The `placement` property on `DiffDiskSettings` specifies the ephemeral disk placement for operating system disks for all VMs in the pool. Setting it to "CacheDisk" will store the ephemeral OS disk on the VM cache.
-- Added `maxParallelTasks` property on [`CloudJob`](/rest/api/batchservice/job/get#cloudjob) to control the maximum number of tasks that can run at the same time per job (defaults to -1 meaning unlimited). This property is currently in private preview.
-- Added `virtualMachineInfo` property on  [`ComputeNode`](/rest/api/batchservice/computenode/get) which contains information about the current state of the virtual machine, including the exact version of the marketplace image the VM is using.
-- Added `recurrenceInterval` property to [`Schedule`](/rest/api/batchservice//job-schedule/add#schedule) to control the interval between the start times of two successive job under a job schedule.
+- Added new `uploadHeaders` property to the [`OutputFileBlobContainerDestination`](/rest/api/batchservice/task/add#outputfileblobcontainerdestination) model to allow users to set custom HTTP headers on resource file uploads.
+- Added new `allowTaskPreemption` property to the following models to support task preemption for higher priority tasks (requires Comms-Enabled or Single Tenant Pool):
+    - [`JobSpecification`](/rest/api/batchservice/job-schedule/add#jobspecification)
+    - [`CloudJob`](/rest/api/batchservice/job/get#cloudjob)
+    - [`JobAddParameter`](/rest/api/batchservice/job/add)
+    - [`JobPatchParameter`](/rest/api/batchservice/job/patch)
+    - [`JobUpdateParameter`](/rest/api/batchservice/job/update)
 
 ## Previous Versions
 
  Previous versions include:
 
+- [2021-06-01.14.0](#version-2021-06-01140)
 - [2020-09-01.12.0](#version-2020-09-01120)
 - [2020-03-01.11.0](#version-2020-03-01110)
 - [2019-08-01.10.0](#version-2019-08-01100)
@@ -60,6 +54,23 @@ To specify which version of an operation to use, set the *api-version* query par
 - 2015-06-01.2.0
 - 2015-03-01.1.1
 - 2014-10-01.1.0
+
+## Version: 2021-06-01.14.0
+
+- Add ability to assign user-assigned managed identities to [`CloudPool`](/rest/api/batchservice/pool/get#cloudpool). These identities will be made available on each node in the pool, and can be used to access various resources.
+- Added `identityReference` property to the following models to support accessing resources via managed identity:
+  - [`AzureBlobFileSystemConfiguration`](/rest/api/batchservice/job/get#azureblobFileSystemConfiguration)
+  - [`OutputFileBlobContainerDestination`](/rest/api/batchservice/job/get#outputfileblobcontainerdestination)
+  - [`ContainerRegistry`](/rest/api/batchservice/job/get#containerregistry)
+  - [`ResourceFile`](/rest/api/batchservice/task/add#resourcefile)
+  - [`UploadBatchServiceLogs`](/rest/api/batchservice/computenode/uploadbatchservicelogs)
+- Added new `extensions` property to [VirtualMachineConfiguration][1] on [`CloudPool`](/rest/api/batchservice/pool/get#cloudpool) to specify virtual machine extensions for nodes
+- Added the ability to specify availability zones using a new property `nodePlacementConfiguration` on [VirtualMachineConfiguration][1]
+- Added new `osDisk` property to [VirtualMachineConfiguration][1], which contains settings for the operating system disk of the Virtual Machine.
+  - The `placement` property on `DiffDiskSettings` specifies the ephemeral disk placement for operating system disks for all VMs in the pool. Setting it to "CacheDisk" will store the ephemeral OS disk on the VM cache.
+- Added `maxParallelTasks` property on [`CloudJob`](/rest/api/batchservice/job/get#cloudjob) to control the maximum number of tasks that can run at the same time per job (defaults to -1 meaning unlimited). This property is currently in private preview.
+- Added `virtualMachineInfo` property on  [`ComputeNode`](/rest/api/batchservice/computenode/get) which contains information about the current state of the virtual machine, including the exact version of the marketplace image the VM is using.
+- Added `recurrenceInterval` property to [`Schedule`](/rest/api/batchservice//job-schedule/add#schedule) to control the interval between the start times of two successive job under a job schedule.
 
 ## Version: 2020-09-01.12.0
 
