@@ -20617,32 +20617,62 @@
 ##### [List By Database](sql/2021-08-01-preview/Workload-Groups/List-By-Database.yml)
 # SQL VM
 ## [Overview](../docs-ref-conceptual/sqlvm/index.md)
-## Availability Group Listeners
-### [Overview](sqlvm/Availability-Group-Listeners.yml)
-### [Create Or Update](sqlvm/Availability-Group-Listeners/Create-Or-Update.yml)
-### [Delete](sqlvm/Availability-Group-Listeners/Delete.yml)
-### [Get](sqlvm/Availability-Group-Listeners/Get.yml)
-### [List By Group](sqlvm/Availability-Group-Listeners/List-By-Group.yml)
-## Operations
-### [Overview](sqlvm/Operations.yml)
-### [List](sqlvm/Operations/List.yml)
-## Sql Virtual Machine Groups
-### [Overview](sqlvm/Sql-Virtual-Machine-Groups.yml)
-### [Create Or Update](sqlvm/Sql-Virtual-Machine-Groups/Create-Or-Update.yml)
-### [Delete](sqlvm/Sql-Virtual-Machine-Groups/Delete.yml)
-### [Get](sqlvm/Sql-Virtual-Machine-Groups/Get.yml)
-### [List](sqlvm/Sql-Virtual-Machine-Groups/List.yml)
-### [List By Resource Group](sqlvm/Sql-Virtual-Machine-Groups/List-By-Resource-Group.yml)
-### [Update](sqlvm/Sql-Virtual-Machine-Groups/Update.yml)
-## Sql Virtual Machines
-### [Overview](sqlvm/Sql-Virtual-Machines.yml)
-### [Create Or Update](sqlvm/Sql-Virtual-Machines/Create-Or-Update.yml)
-### [Delete](sqlvm/Sql-Virtual-Machines/Delete.yml)
-### [Get](sqlvm/Sql-Virtual-Machines/Get.yml)
-### [List](sqlvm/Sql-Virtual-Machines/List.yml)
-### [List By Resource Group](sqlvm/Sql-Virtual-Machines/List-By-Resource-Group.yml)
-### [List By Sql Vm Group](sqlvm/Sql-Virtual-Machines/List-By-Sql-Vm-Group.yml)
-### [Update](sqlvm/Sql-Virtual-Machines/Update.yml)
+## 2017-03-01-preview
+### Availability Group Listeners
+#### [Overview](sqlvm/2017-03-01-preview/Availability-Group-Listeners.yml)
+#### [Create Or Update](sqlvm/2017-03-01-preview/Availability-Group-Listeners/Create-Or-Update.yml)
+#### [Delete](sqlvm/2017-03-01-preview/Availability-Group-Listeners/Delete.yml)
+#### [Get](sqlvm/2017-03-01-preview/Availability-Group-Listeners/Get.yml)
+#### [List By Group](sqlvm/2017-03-01-preview/Availability-Group-Listeners/List-By-Group.yml)
+### Operations
+#### [Overview](sqlvm/2017-03-01-preview/Operations.yml)
+#### [List](sqlvm/2017-03-01-preview/Operations/List.yml)
+### Sql Virtual Machine Groups
+#### [Overview](sqlvm/2017-03-01-preview/Sql-Virtual-Machine-Groups.yml)
+#### [Create Or Update](sqlvm/2017-03-01-preview/Sql-Virtual-Machine-Groups/Create-Or-Update.yml)
+#### [Delete](sqlvm/2017-03-01-preview/Sql-Virtual-Machine-Groups/Delete.yml)
+#### [Get](sqlvm/2017-03-01-preview/Sql-Virtual-Machine-Groups/Get.yml)
+#### [List](sqlvm/2017-03-01-preview/Sql-Virtual-Machine-Groups/List.yml)
+#### [List By Resource Group](sqlvm/2017-03-01-preview/Sql-Virtual-Machine-Groups/List-By-Resource-Group.yml)
+#### [Update](sqlvm/2017-03-01-preview/Sql-Virtual-Machine-Groups/Update.yml)
+### Sql Virtual Machines
+#### [Overview](sqlvm/2017-03-01-preview/Sql-Virtual-Machines.yml)
+#### [Create Or Update](sqlvm/2017-03-01-preview/Sql-Virtual-Machines/Create-Or-Update.yml)
+#### [Delete](sqlvm/2017-03-01-preview/Sql-Virtual-Machines/Delete.yml)
+#### [Get](sqlvm/2017-03-01-preview/Sql-Virtual-Machines/Get.yml)
+#### [List](sqlvm/2017-03-01-preview/Sql-Virtual-Machines/List.yml)
+#### [List By Resource Group](sqlvm/2017-03-01-preview/Sql-Virtual-Machines/List-By-Resource-Group.yml)
+#### [List By Sql Vm Group](sqlvm/2017-03-01-preview/Sql-Virtual-Machines/List-By-Sql-Vm-Group.yml)
+#### [Update](sqlvm/2017-03-01-preview/Sql-Virtual-Machines/Update.yml)
+## 2021-11-01-preview
+### Availability Group Listeners
+#### [Overview](sqlvm/2021-11-01-preview/Availability-Group-Listeners.yml)
+#### [Create Or Update](sqlvm/2021-11-01-preview/Availability-Group-Listeners/Create-Or-Update.yml)
+#### [Delete](sqlvm/2021-11-01-preview/Availability-Group-Listeners/Delete.yml)
+#### [Get](sqlvm/2021-11-01-preview/Availability-Group-Listeners/Get.yml)
+#### [List By Group](sqlvm/2021-11-01-preview/Availability-Group-Listeners/List-By-Group.yml)
+### Operations
+#### [Overview](sqlvm/2021-11-01-preview/Operations.yml)
+#### [List](sqlvm/2021-11-01-preview/Operations/List.yml)
+### Sql Virtual Machine Groups
+#### [Overview](sqlvm/2021-11-01-preview/Sql-Virtual-Machine-Groups.yml)
+#### [Create Or Update](sqlvm/2021-11-01-preview/Sql-Virtual-Machine-Groups/Create-Or-Update.yml)
+#### [Delete](sqlvm/2021-11-01-preview/Sql-Virtual-Machine-Groups/Delete.yml)
+#### [Get](sqlvm/2021-11-01-preview/Sql-Virtual-Machine-Groups/Get.yml)
+#### [List](sqlvm/2021-11-01-preview/Sql-Virtual-Machine-Groups/List.yml)
+#### [List By Resource Group](sqlvm/2021-11-01-preview/Sql-Virtual-Machine-Groups/List-By-Resource-Group.yml)
+#### [Update](sqlvm/2021-11-01-preview/Sql-Virtual-Machine-Groups/Update.yml)
+### Sql Virtual Machines
+#### [Overview](sqlvm/2021-11-01-preview/Sql-Virtual-Machines.yml)
+#### [Create Or Update](sqlvm/2021-11-01-preview/Sql-Virtual-Machines/Create-Or-Update.yml)
+#### [Delete](sqlvm/2021-11-01-preview/Sql-Virtual-Machines/Delete.yml)
+#### [Get](sqlvm/2021-11-01-preview/Sql-Virtual-Machines/Get.yml)
+#### [List](sqlvm/2021-11-01-preview/Sql-Virtual-Machines/List.yml)
+#### [List By Resource Group](sqlvm/2021-11-01-preview/Sql-Virtual-Machines/List-By-Resource-Group.yml)
+#### [List By Sql Vm Group](sqlvm/2021-11-01-preview/Sql-Virtual-Machines/List-By-Sql-Vm-Group.yml)
+#### [Redeploy](sqlvm/2021-11-01-preview/Sql-Virtual-Machines/Redeploy.yml)
+#### [Start Assessment](sqlvm/2021-11-01-preview/Sql-Virtual-Machines/Start-Assessment.yml)
+#### [Update](sqlvm/2021-11-01-preview/Sql-Virtual-Machines/Update.yml)
 # Storage Import-Export
 ## [Overview](../docs-ref-conceptual/storageimportexport/index.md)
 ## Bit Locker Keys
