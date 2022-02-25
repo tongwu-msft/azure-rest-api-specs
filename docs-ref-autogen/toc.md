@@ -2405,6 +2405,16 @@
 #### [List By Component](application-insights/Web-Tests/List-By-Component.yml)
 #### [List By Resource Group](application-insights/Web-Tests/List-By-Resource-Group.yml)
 #### [Update Tags](application-insights/Web-Tests/Update-Tags.yml)
+### Workbooks
+#### [Overview](application-insights/Workbooks.yml)
+#### [Create Or Update](application-insights/Workbooks/Create-Or-Update.yml)
+#### [Delete](application-insights/Workbooks/Delete.yml)
+#### [Get](application-insights/Workbooks/Get.yml)
+#### [List By Resource Group](application-insights/Workbooks/List-By-Resource-Group.yml)
+#### [List By Subscription](application-insights/Workbooks/List-By-Subscription.yml)
+#### [Revision Get](application-insights/Workbooks/Revision-Get.yml)
+#### [Revisions List](application-insights/Workbooks/Revisions-List.yml)
+#### [Update](application-insights/Workbooks/Update.yml)
 # Authorization
 ## [Overview](../docs-ref-conceptual/authorization/index.md)
 ## [Versions](../docs-ref-conceptual/authorization/versions.md)
