@@ -14180,6 +14180,9 @@
 ### [List](openshift/Operations/List.yml)
 # Redis Cache
 ## [Overview](../docs-ref-conceptual/redis/index.md)
+## Async Operation Status
+### [Overview](redis/Async-Operation-Status.yml)
+### [Get](redis/Async-Operation-Status/Get.yml)
 ## Firewall Rules
 ### [Overview](redis/Firewall-Rules.yml)
 ### [Create Or Update](redis/Firewall-Rules/Create-Or-Update.yml)
