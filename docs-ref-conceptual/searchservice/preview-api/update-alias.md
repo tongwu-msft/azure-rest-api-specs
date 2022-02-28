@@ -18,7 +18,7 @@ ms.manager: nitinme
 > [!Important]
 > The entire API is a preview feature. For more information, see [aliases]().
 
-In Azure Cognitive Search, an alias is a secondary name that can be used to refer to an index for querying, indexing, and other operations. Updating an alias allows you to map that alias to a new search index. This is valuable for swapping indexes.
+In Azure Cognitive Search, an alias is a secondary name that can be used to refer to an index for querying, indexing, and other operations. Updating an alias allows you to map that alias to a new search index.
 
 ```http
 PUT https://[service name].search.windows.net/aliases/[alias name]?api-version=[api-version]      
