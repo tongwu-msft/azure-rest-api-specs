@@ -14504,12 +14504,12 @@
 #### [Analyze Text](../docs-ref-conceptual/searchservice/preview-api/test-analyzer.md)
 #### [Create or Update Index](../docs-ref-conceptual/searchservice/preview-api/create-or-update-index.md)
 ## Aliases
-### [Overview](alias-operations.md)
-### [Create Alias](create-alias.md)
-### [Delete Alias](delete-alias.md)
-### [Get Alias](get-alias.md)
-### [List Alias](list-alias.md)
-### [Update Alias](update-alias.md)
+### [Overview](../docs-ref-conceptual/searchservice/preview-api/alias-operations.md)
+### [Create Alias](../docs-ref-conceptual/searchservice/preview-api/create-alias.md)
+### [Delete Alias](../docs-ref-conceptual/searchservice/preview-api/delete-alias.md)
+### [Get Alias](../docs-ref-conceptual/searchservice/preview-api/get-alias.md)
+### [List Alias](../docs-ref-conceptual/searchservice/preview-api/list-alias.md)
+### [Update Alias](../docs-ref-conceptual/searchservice/preview-api/update-alias.md)
 ### Documents
 #### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
 #### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)

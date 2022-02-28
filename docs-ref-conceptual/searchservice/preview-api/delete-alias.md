@@ -34,7 +34,7 @@ If you attempt to delete an index that is currently mapped to an alias, the oper
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | alias name  | Required. The request URI specifies the name of the alias to delete.  |
-| api-version | Required. The current stable version is `api-version=2021-04-30-Preview`. See [API versions](search-service-api-versions.md) for more versions.|
+| api-version | Required. The current stable version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
 
 ## Request Headers
 

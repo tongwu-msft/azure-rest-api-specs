@@ -9,12 +9,12 @@
 ## Indexes
 ### [Analyze Text](preview-api/test-analyzer.md)
 ### [Create or Update Index](preview-api/create-or-update-index.md)
-## [Aliases](alias-operations.md)
-### [Create Alias](create-alias.md)
-### [Delete Alias](delete-alias.md)
-### [Get Alias](get-alias.md)
-### [List Alias](list-alias.md)
-### [Update Alias](update-alias.md)
+## [Aliases](preview-api/alias-operations.md)
+### [Create Alias](preview-api/create-alias.md)
+### [Delete Alias](preview-api/delete-alias.md)
+### [Get Alias](preview-api/get-alias.md)
+### [List Alias](preview-api/list-alias.md)
+### [Update Alias](preview-api/update-alias.md)
 ## Documents
 ### [Reset Documents](preview-api/reset-documents.md)
 ### [Search Documents](preview-api/search-documents.md)
