@@ -41,7 +41,7 @@ An admin API key is required for all Alias operations.
 
 + [Create Alias](create-alias.md)  
 + [Update Alias](update-alias.md)  
-+ [List Aliass](list-aliases.md)  
++ [List Aliases](list-aliases.md)  
 + [Get Alias](get-alias.md)  
 + [Delete Alias](delete-alias.md)  
 
