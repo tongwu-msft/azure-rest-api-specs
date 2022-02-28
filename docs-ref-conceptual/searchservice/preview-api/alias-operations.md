@@ -18,9 +18,9 @@ ms.manager: nitinme
 > [!Important]
 > The entire API is a preview feature.
 
-In Azure Cognitive Search, an alias is a secondary name that can be used to refer to an index for querying, indexing, and other operations. You can create and manage aliases in Azure Cognitive Search service via simple HTTP requests (POST, GET, PUT, DELETE) against a given alias resource.
+In Azure Cognitive Search, an alias is a secondary name that can be used to refer to an index for querying, indexing, and other operations. You can create an alias that maps to a search index and substitute the alias name in places where you would otherwise reference an index name. This gives you added flexibility if you ever need to change which index your application is pointing to. Instead of updating the references to the index name in your application, you can just update the mapping for your alias.
 
-Aliases are service level resources and maintained independently from search indexes. Once a search index is created, you can create an alias that maps to that search index.
+You can create and manage aliases in Azure Cognitive Search service via simple HTTP requests (POST, GET, PUT, DELETE) against a given alias resource. Aliases are service level resources and maintained independently from search indexes. Once a search index is created, you can create an alias that maps to that search index.
 
 
 ## Example
