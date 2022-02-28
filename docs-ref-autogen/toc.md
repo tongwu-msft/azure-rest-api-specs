@@ -14508,7 +14508,7 @@
 ### [Create Alias](../docs-ref-conceptual/searchservice/preview-api/create-alias.md)
 ### [Delete Alias](../docs-ref-conceptual/searchservice/preview-api/delete-alias.md)
 ### [Get Alias](../docs-ref-conceptual/searchservice/preview-api/get-alias.md)
-### [List Alias](../docs-ref-conceptual/searchservice/preview-api/list-alias.md)
+### [List Alias](../docs-ref-conceptual/searchservice/preview-api/list-aliases.md)
 ### [Update Alias](../docs-ref-conceptual/searchservice/preview-api/update-alias.md)
 ### Documents
 #### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)

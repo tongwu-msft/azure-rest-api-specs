@@ -13,7 +13,7 @@
 ### [Create Alias](preview-api/create-alias.md)
 ### [Delete Alias](preview-api/delete-alias.md)
 ### [Get Alias](preview-api/get-alias.md)
-### [List Alias](preview-api/list-alias.md)
+### [List Alias](preview-api/list-aliases.md)
 ### [Update Alias](preview-api/update-alias.md)
 ## Documents
 ### [Reset Documents](preview-api/reset-documents.md)
