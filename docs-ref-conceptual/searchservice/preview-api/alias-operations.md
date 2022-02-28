@@ -39,8 +39,7 @@ POST /aliases?api-version=2021-04-30-preview
 
 An admin API key is required for all Alias operations.
 
-+ [Create or Update Alias](create-or-update-alias.md)  
-+ [Update Alias](update-alias.md)  
++ [Create or Update Alias](create-or-update-alias.md)
 + [List Aliases](list-aliases.md)  
 + [Get Alias](get-alias.md)  
 + [Delete Alias](delete-alias.md)  
