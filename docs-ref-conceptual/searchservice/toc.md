@@ -20,6 +20,8 @@
 ## Indexers
 ### [Create or Update Indexer](preview-api/create-or-update-indexer.md)
 ### [Create or Update Data Source](preview-api/create-or-update-data-source.md)
+## Services
+### [Get Service Statistics](preview-api/get-service-statistics.md)
 ## Skillsets
 ### [Reset Skills](preview-api/reset-skills.md)
 # Reference (Stable)
