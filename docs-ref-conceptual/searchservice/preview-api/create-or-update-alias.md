@@ -1,5 +1,5 @@
 ---
-title: "Create or Update Alias (Azure Cognitive Search REST API)"
+title: "Create or Update Alias (2021-04-30-Preview)"
 description: Create an alias to define a secondary name that can be used to refer to an index for querying, indexing, and other operations.
 ms.date: 03/01/2022
 
@@ -11,7 +11,7 @@ author: dereklegenzoff
 ms.author: delegenz
 ms.manager: nitinme
 ---
-# Create or Update Alias (Azure Cognitive Search REST API)
+# Create or Update Alias (Preview REST API)
 
 **API Version: 2021-04-30-Preview**
 

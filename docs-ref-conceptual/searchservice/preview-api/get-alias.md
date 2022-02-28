@@ -1,5 +1,5 @@
 ---
-title: "Get Alias (Azure Cognitive Search REST API)"
+title: "Get Alias (2021-04-30-Preview)"
 description: The content of an alias can be retrieved using REST API in Azure Cognitive Search
 ms.date: 03/01/2022
 
@@ -11,7 +11,7 @@ author: dereklegenzoff
 ms.author: delegenz
 ms.manager: nitinme
 ---
-# Get Alias (Azure Cognitive Search REST API)
+# Get Alias (Preview REST API)
 
 **API Version: 2021-04-30-Preview**
 

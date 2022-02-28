@@ -1,6 +1,6 @@
 ---
-title: "Service Statistics in Azure Cognitive Search"
-description: Get statistics about the usage of service-level resources in your Azure Cognitive Search service
+title: "Service Statistics in Azure Cognitive Search (2021-04-30-Preview)"
+description: Preview version of get statistics about the usage of service-level resources in your Azure Cognitive Search service
 ms.date: 03/01/2022
 
 ms.service: cognitive-search
@@ -11,7 +11,7 @@ author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager:  nitime
 ---
-# Service Statistics in Azure Cognitive Search
+# Service Statistics in Azure Cognitive Search (Preview REST API)
 
 **API Version: 2021-04-30-Preview**
 
@@ -33,7 +33,7 @@ GET https://[service name].search.windows.net/servicestats?api-version=[api-vers
 | Parameter	  | Description  | 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. The request URI specifies the name of the index for which statistics should be returned. |
-| api-version | Required. The current stable version is `api-version=2020-06-30`. See [API versions](search-service-api-versions.md) for more versions.|
+| api-version | Required. The current stable version is `api-version=2020-06-30`. See [API versions](../search-service-api-versions.md) for more versions.|
 
 ## Request Headers 
 
@@ -142,4 +142,4 @@ None.
 
 ## See also  
 
-+ [Azure Cognitive Search REST APIs](index.md)   
++ [Azure Cognitive Search REST APIs](../index.md)   

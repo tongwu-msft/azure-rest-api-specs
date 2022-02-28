@@ -1,5 +1,5 @@
 ---
-title: "List Aliases (Azure Cognitive Search REST API)"
+title: "List Aliases (2021-04-30-Preview)"
 description: A list of aliases can be retrieved using REST API in Azure Cognitive Search
 ms.date: 03/01/2022
 
@@ -11,7 +11,7 @@ author: dereklegenzoff
 ms.author: delegenz
 ms.manager: nitinme
 ---
-# List Aliases (Azure Cognitive Search REST API)
+# List Aliases (Preview REST API)
 
 **API Version: 2021-04-30-Preview**
 

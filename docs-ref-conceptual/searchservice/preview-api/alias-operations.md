@@ -1,5 +1,5 @@
 ---
-title: Alias Operations (Azure Cognitive Search REST API)
+title: Alias Operations (2021-04-30-Preview)
 description: Aliases define a secondary name that can be used to refer to an index for querying, indexing, and other operations.
 ms.date: 03/01/2022
 
@@ -11,7 +11,7 @@ author: dereklegenzoff
 ms.author: delegenz
 ms.manager: nitinme
 ---
-# Alias Operations (Azure Cognitive Search REST API)
+# Alias Operations (Preview REST API)
 
 **API Version: 2021-04-30-Preview**
 

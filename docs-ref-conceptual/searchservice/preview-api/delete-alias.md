@@ -1,5 +1,5 @@
 ---
-title: "Delete Alias (Azure Cognitive Search REST API)"
+title: "Delete Alias (2021-04-30-Preview)"
 description: An alias can be deleted using the REST APIs in Azure Cognitive Search
 ms.date: 03/01/2022
 
@@ -11,7 +11,7 @@ author: dereklegenzoff
 ms.author: delegenz
 ms.manager: nitinme
 ---
-# Delete Alias (Azure Cognitive Search REST API)
+# Delete Alias (Preview REST API)
 
 **API Version: 2021-04-30-Preview**
 
