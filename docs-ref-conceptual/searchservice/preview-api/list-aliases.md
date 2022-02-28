@@ -16,7 +16,7 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> The entire API is a preview feature. For more information, see [aliases]().
+> The entire API is a preview feature.
 
 The **List Aliases** operation returns a list of the aliases in your Azure Cognitive Search service.  
 
@@ -31,7 +31,7 @@ GET https://[service name].search.windows.net/aliases?api-version=[api-version]
 | Parameter	  | Description  | 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
-| api-version | Required. The current stable version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
+| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
 
 ## Request Headers
 
@@ -60,7 +60,7 @@ For a successful request: 200 OK. Here is an example response body:
     }  
 ```  
 
- You can filter the response down to just the properties you're interested in. For example, if you want only a list of synonym map names, use the OData **select** query option:  
+You can filter the response down to just the properties you're interested in. For example, if you want only a list of alias names, use the OData **select** query option:  
 
 ```http
 GET https://[service name].search.windows.net/aliases?api-version=[api-version]&$select=name

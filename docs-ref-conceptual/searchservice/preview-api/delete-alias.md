@@ -16,7 +16,7 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> The entire API is a preview feature. For more information, see [aliases]().
+> The entire API is a preview feature.
 
 The **Delete Alias** operation removes an alias from your Azure Cognitive Search service.  
 
@@ -26,7 +26,7 @@ DELETE https://[service name].search.windows.net/aliases/[alias name]?api-versio
   api-key: [admin key]  
 ```  
 
-If you attempt to delete an index that is currently mapped to an alias, the operation will fail with 400 (Bad Request) and an error message stating that the alias(es) that's mapped to that index must be deleted or mapped to a different index before the alias can be deleted
+If you attempt to delete an index that is currently mapped to an alias, the operation will fail with 400 (Bad Request) and an error message stating that the alias(es) that's mapped to that index must be deleted or mapped to a different index before the index can be deleted.
 
 ## URI Parameters
 
@@ -34,7 +34,7 @@ If you attempt to delete an index that is currently mapped to an alias, the oper
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | alias name  | Required. The request URI specifies the name of the alias to delete.  |
-| api-version | Required. The current stable version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
+| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
 
 ## Request Headers
 

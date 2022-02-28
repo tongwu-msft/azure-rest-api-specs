@@ -16,9 +16,9 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> The entire API is a preview feature. For more information, see [aliases]().
+> The entire API is a preview feature.
 
-You can create and manage aliases in Azure Cognitive Search service via simple HTTP requests (POST, GET, PUT, DELETE) against a given alias resource. In Azure Cognitive Search, an alias is a secondary name that can be used to refer to an index for querying, indexing, and other operations. 
+In Azure Cognitive Search, an alias is a secondary name that can be used to refer to an index for querying, indexing, and other operations. You can create and manage aliases in Azure Cognitive Search service via simple HTTP requests (POST, GET, PUT, DELETE) against a given alias resource.
 
 Aliases are service level resources and maintained independently from search indexes. Once a search index is created, you can create an alias that maps to that search index.
 
@@ -39,7 +39,7 @@ POST /aliases?api-version=2021-04-30-preview
 
 An admin API key is required for all Alias operations.
 
-+ [Create Alias](create-alias.md)  
++ [Create or Update Alias](create-or-update-alias.md)  
 + [Update Alias](update-alias.md)  
 + [List Aliases](list-aliases.md)  
 + [Get Alias](get-alias.md)  

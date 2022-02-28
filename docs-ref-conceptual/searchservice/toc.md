@@ -10,11 +10,10 @@
 ### [Analyze Text](preview-api/test-analyzer.md)
 ### [Create or Update Index](preview-api/create-or-update-index.md)
 ## [Aliases](preview-api/alias-operations.md)
-### [Create Alias](preview-api/create-alias.md)
+### [Create or Update Alias](preview-api/create-or-update-alias.md)
 ### [Delete Alias](preview-api/delete-alias.md)
 ### [Get Alias](preview-api/get-alias.md)
-### [List Alias](preview-api/list-aliases.md)
-### [Update Alias](preview-api/update-alias.md)
+### [List Aliases](preview-api/list-aliases.md)
 ## Documents
 ### [Reset Documents](preview-api/reset-documents.md)
 ### [Search Documents](preview-api/search-documents.md)

@@ -16,7 +16,7 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> The entire API is a preview feature. For more information, see [aliases]().
+> The entire API is a preview feature.
 
 The **Get Alias** operation gets the alias definition from Azure Cognitive Search.  
 
@@ -32,7 +32,7 @@ GET https://[service name].search.windows.net/aliases/[alias name]?api-version=[
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | alias name  | Required. The request URI specifies the name of the alias to update. |
-| api-version | Required. The current stable version is `api-version=2021-04-30-preview`. See [API versions](../search-service-api-versions.md) for more versions.|
+| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
 
 ## Request Headers
 

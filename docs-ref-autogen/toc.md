@@ -14503,13 +14503,12 @@
 ### Indexes
 #### [Analyze Text](../docs-ref-conceptual/searchservice/preview-api/test-analyzer.md)
 #### [Create or Update Index](../docs-ref-conceptual/searchservice/preview-api/create-or-update-index.md)
-## Aliases
-### [Overview](../docs-ref-conceptual/searchservice/preview-api/alias-operations.md)
-### [Create Alias](../docs-ref-conceptual/searchservice/preview-api/create-alias.md)
-### [Delete Alias](../docs-ref-conceptual/searchservice/preview-api/delete-alias.md)
-### [Get Alias](../docs-ref-conceptual/searchservice/preview-api/get-alias.md)
-### [List Alias](../docs-ref-conceptual/searchservice/preview-api/list-aliases.md)
-### [Update Alias](../docs-ref-conceptual/searchservice/preview-api/update-alias.md)
+### Aliases
+#### [Overview](../docs-ref-conceptual/searchservice/preview-api/alias-operations.md)
+#### [Create or Update Alias](../docs-ref-conceptual/searchservice/preview-api/create-or-update-alias.md)
+#### [Delete Alias](../docs-ref-conceptual/searchservice/preview-api/delete-alias.md)
+#### [Get Alias](../docs-ref-conceptual/searchservice/preview-api/get-alias.md)
+#### [List Aliases](../docs-ref-conceptual/searchservice/preview-api/list-aliases.md)
 ### Documents
 #### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
 #### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
