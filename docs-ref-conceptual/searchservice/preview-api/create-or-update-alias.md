@@ -38,7 +38,14 @@ PUT https://[service name].search.windows.net/aliases/[alias name]?api-version=[
 
  HTTPS is required for all service requests. In the case of PUT, if the alias doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
- > [!NOTE]  
+ **Creating an alias** establishes a mapping between an alias name and an index name. If the request is successful, the alias can be used for indexing, querying, and other operations. 
+
+**Updating an alias** allows you to map that alias to a different search index. When updating an existing alias, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the alias definition with a GET, modify it, and then update it with PUT.
+
+> [!NOTE]
+> An update to an alias may take up to 10 seconds to propogate through the system so you should wait at least 10 seconds before deleting the index that the alias was previously mapped to. 
+
+> [!NOTE]  
 > The maximum number of aliases that you can create varies by pricing tier. For more information, see [Service limits](/azure/search/search-limits-quotas-capacity).  
 
 ## URI Parameters
@@ -81,7 +88,9 @@ The following JSON is a high-level representation of the main parts of the defin
 
 ## Response
 
-For a successful request: 201 Created.  
+For a successful create request, you should see status code "201 Created".
+
+For a successful update request, you should see "204 No Content". 
 
 ## Examples
 
