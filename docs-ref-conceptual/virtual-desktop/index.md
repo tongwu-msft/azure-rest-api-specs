@@ -10,12 +10,13 @@ ms.devlang: rest-api
 service_description: To be added
 ---
 
-# Windows Virtual Desktop Preview REST API
+# Azure Virtual Desktop (classic) REST API
 
-Windows Virtual Desktop Preview is a desktop and app virtualization service that runs on the cloud. It delivers virtual desktop experience and remote apps to any device.  For a more detailed overview, see the [Windows Virtual Desktop Preview Product Page](https://azure.microsoft.com/services/virtual-desktop/)
+Azure Virtual Desktop (classic) is a desktop and app virtualization service that runs on the cloud. It delivers virtual desktop experience and remote apps to any device. For a more information, see the Azure Virtual Desktop (classic) documentation (https://docs.microsoft.com/en-us/azure/virtual-desktop/virtual-desktop-fall-2019/tenant-setup-azure-active-directory).
 
-## See also
 
-- [Windows Virtual Desktop Documentation](/azure/virtual-desktop/) 
+This content applies to Azure Virtual Desktop (classic), which doesn't support Azure Resource Manager Azure Virtual Desktop objects. See Desktop Virtualization (https://docs.microsoft.com/en-us/rest/api/desktopvirtualization/) for REST API documentation for Azure Virtual Desktop.
+
+
 
 
