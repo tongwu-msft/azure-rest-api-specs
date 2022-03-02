@@ -5,20 +5,24 @@ description: Preview version of the Create or Update Indexer REST API for Azure 
 ms.date: 07/20/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
-author: HeidiSteen
-ms.author: heidist
-ms.manager: nitinme
+author: bevloh
+ms.author: beloh
 ---
 
 # Create or Update Indexer (Preview REST API)
 
-**API Version: 2021-04-30-Preview**
+**API Version: 2021-04-30-Preview, 2020-06-30-Preview**
 
 > [!Important]
-> If you are using [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds an **identity** property and managed identity support to key vault connections. Previously introduced preview features from 2020-06-30-Preview that are carried forward to this preview include the [cache property](#cache) used during [incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it.
+> This preview API adds:
+> + New **"identity"** property under **"encryptionKey"** for retrieving a customer-managed encryption key in Azure Key Vault using a user-assigned managed identity.
+> New [**"cache"**](#cache)  property used to [cache and reuse enriched content](/azure/search/cognitive-search-incremental-indexing-conceptual) created by a skillset (introduced in 2020-06-30-Preview).
+
+<!-- > [!Important]
+> If you are using [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds an **identity** property and managed identity support to key vault connections. Previously introduced preview features from 2020-06-30-Preview that are carried forward to this preview include the [cache property](#cache) used during [incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it. -->
 
 An [indexer](/azure/search/search-indexer-overview) automates indexing from supported data sources by connecting to a predefined *data source*, retrieving and serializing data, and passing it to a search service for data ingestion. For AI enrichment of image and unstructured text, indexers can also accept a *skillset* that adds image and natural language processing. 
 
@@ -350,6 +354,7 @@ While indexers are encrypted by default using [service-managed keys](/azure/secu
 
 ## See also
 
++ [Customer-managed encryption](/azure/search/search-security-manage-encryption-keys)
 + [Indexer overview](/azure/search/search-indexer-overview)
 + [AI enrichment overview](/azure/search/cognitive-search-concept-intro)
 + [Quickstart: Try AI enrichment in the portal](/azure/search/cognitive-search-quickstart-blob)

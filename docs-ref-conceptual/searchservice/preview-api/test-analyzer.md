@@ -1,22 +1,25 @@
 ---
 title: Analyze Text (2021-04-30-Preview Rest API)
-description: Test predefined and custom analyzers/normalizers used for preprocessing text during Azure Cognitive Search indexing.
+description: Preview version of the Analyze Text REST API for Azure Cognitive Search.
 ms.date: 09/30/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: dereklegenzoff
 ms.author: delegenz
-ms.manager: beloh
 ---
 # Analyze Text (Preview REST API)
 
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> The Analyze Text API is now extended to support testing normalizers which preprocess content for filterable, facetable, or sortable fields.
+> This preview API adds support for testing normalizers:
+> + New **"normalizer"** property specifies a normalizer defined in a search index.
+
+<!-- > [!Important]
+> The Analyze Text API is now extended to support testing normalizers which preprocess content for filterable, facetable, or sortable fields. -->
 
 The **Analyze Text API** shows how an analyzer breaks text into tokens and how a normalizer preprocesses text. It's intended for interactive testing so that you can see how a given analyzer or normalizer will process a string input.
 

@@ -1,24 +1,29 @@
 ---
-title: "Create or Update Index (2021-04-30-Preview)"
+title: Create or Update Index (2021-04-30-Preview)
 titleSuffix: Azure Cognitive Search
 description: Preview version of the Create or Update Index REST API for Azure Cognitive Search.
 ms.date: 07/20/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
-author: Brjohnstmsft
-ms.author: brjohnst
-ms.manager: beloh
+author: bevloh
+ms.author: beloh
 ---
 
 # Create or Update Index (Preview REST API)
 
-**API Version: 2021-04-30-Preview**
+**API Version: 2021-04-30-Preview, 2020-06-30-Preview** 
 
 > [!Important]
-> If you are using [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds an **identity** property and managed identity support to key vault connections. Previously introduced features from 2020-06-30-Preview that are carried forward to this preview include [normalizers](/azure/search/search-normalizers), used to produce case-insensitive sorting and filtering output. [Semantic configurations](/azure/search/semantic-how-to-query-request), which allow you to specify which fields should be used by semantic search, have been added to the 2021-04-30-Preview.
+> This preview API adds:
+> + New **"semanticConfiguration"** property for scoping semantic ranking to specific fields
+> + New **"identity"** property under **"encryptionKey"** for retrieving a customer-managed encryption key in Azure Key Vault using a user-assigned managed identity.
+> + New **"normalizers"** property for case-insensitive sorting and filtering (introduced in 2020-06-30-Preview).
+<!-- 
+> [!Important]
+> If you are using [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds an **identity** property and managed identity support to key vault connections. Previously introduced features from 2020-06-30-Preview that are carried forward to this preview include [normalizers](/azure/search/search-normalizers), used to produce case-insensitive sorting and filtering output. [Semantic configurations](/azure/search/semantic-how-to-query-request), which allow you to specify which fields should be used by semantic search, have been added to the 2021-04-30-Preview. -->
 
 An [index](/azure/search/search-what-is-an-index) specifies the index schema, including the fields collection (field names, data types, and attributes), but also additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.
 

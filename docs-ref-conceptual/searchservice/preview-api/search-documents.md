@@ -5,20 +5,25 @@ description: Preview version of the Search Documents REST API for Azure Cognitiv
 ms.date: 07/20/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
-author: Brjohnstmsft
-ms.author: brjohnst
-ms.manager: beloh
+author: bevloh
+ms.author: beloh
 ---
 
 # Search Documents (Preview REST API)
 
-**API Version: 2021-04-30-Preview**
+**API Version: 2021-04-30-Preview, 2020-06-30-Preview**
 
 > [!Important]
-> Preview features for this API include a **semantic** query type and responses, a **speller** parameter that provides spell correction, and a **featuresMode** parameter that can report on per-field term frequency, per-field similarity score, and per-field number of unique matches. A new **queryLanguage** parameter is required for both semantic queries and **speller**. All of these preview features are also supported in 2020-06-30-Preview. The 2021-04-30-Preview adds a **semanticConfiguration** parameter, which is now required for semantic queries as well as a **captions** parameter.
+> This preview adds:
+> + New **"semanticConfiguration"** property for scoping semantic ranking to specific fields.
+> + New **"captions"** property returns  phrases extracted from key passages in the highest semantically ranked documents.
+> + New **"queryType=semantic"** to support semantic reranking and responses (introduced in 2020-06-30-Preview).
+> + New **"speller"** parameter that enables spell correction on query input (introduced in 2020-06-30-Preview).
+> + New **"queryLanguage"** parameter is required for both "queryType=semantic" and **speller** (introduced in 2020-06-30-Preview).
+> + New **"featuresMode"** parameter that can report on per-field term frequency, per-field similarity score, and per-field number of unique matches (introduced in 2020-06-30-Preview).
 
 A query request targets the documents collection of a single index on a search service. It includes parameters that define the match criteria, and parameters that shape the response.
 

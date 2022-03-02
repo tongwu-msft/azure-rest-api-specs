@@ -4,7 +4,7 @@ titleSuffix: Azure Cognitive Search
 description: Lists the generally available and preview versions of the management REST APIs for Azure Cognitive Search.
 
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: reference
 ms.devlang: rest-api
 
 ms.date: 06/29/2021
