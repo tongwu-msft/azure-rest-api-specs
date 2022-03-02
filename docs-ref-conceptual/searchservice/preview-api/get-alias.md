@@ -59,7 +59,3 @@ The response body will look similar to the example below.
   "indexes" : ["my-index"]
 }  
 ```  
-
-## See also  
-
-+ [Aliases]()

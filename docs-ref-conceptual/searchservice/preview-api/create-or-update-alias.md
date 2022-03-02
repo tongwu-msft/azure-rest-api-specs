@@ -102,7 +102,3 @@ For a successful update request, you should see "204 No Content".
   "indexes" : ["my-index"]
 }  
 ```  
-
-## See also  
-
-+ [Aliases]()

@@ -43,7 +43,3 @@ An admin API key is required for all Alias operations.
 + [List Aliases](list-aliases.md)  
 + [Get Alias](get-alias.md)  
 + [Delete Alias](delete-alias.md)  
-
-## See also  
-
-+ [Aliases]()

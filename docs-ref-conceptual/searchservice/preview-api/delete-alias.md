@@ -50,8 +50,3 @@ If you attempt to delete an index that is currently mapped to an alias, the oper
 
 ## Response  
  Status Code: 204 No Content is returned for a successful response.  
-
-
-## See also  
-
-+ [Aliases]()
