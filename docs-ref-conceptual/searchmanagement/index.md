@@ -57,7 +57,7 @@ The REST APIs are foundational to Azure Cognitive Search, and any changes to the
 Alternatives include the following Azure SDKs, which are independently updated on separate release schedules:
 
 + [.NET](/dotnet/api/overview/azure/search/management)
-+ [Python](/python/api/overview/azure/search/management?view=azure-python)
++ [Python](/python/api/overview/azure/search/management)
 + [Node.js (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.nodejs.md)
 + [TypeScript (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.typescript.md)
 

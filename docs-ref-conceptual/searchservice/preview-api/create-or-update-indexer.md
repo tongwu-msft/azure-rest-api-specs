@@ -18,8 +18,8 @@ ms.author: beloh
 
 > [!Important]
 > This preview API adds:
-> + New **"identity"** property under **"encryptionKey"** for retrieving a customer-managed encryption key in Azure Key Vault using a user-assigned managed identity.
-> New [**"cache"**](#cache)  property used to [cache and reuse enriched content](/azure/search/cognitive-search-incremental-indexing-conceptual) created by a skillset (introduced in 2020-06-30-Preview).
+> + **"identity"** property under **"encryptionKey"** for retrieving a customer-managed encryption key in Azure Key Vault using a user-assigned managed identity.
+> [**"cache"**](#cache)  property used to [cache and reuse enriched content](/azure/search/cognitive-search-incremental-indexing-conceptual) created by a skillset (introduced in 2020-06-30-Preview).
 
 <!-- > [!Important]
 > If you are using [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds an **identity** property and managed identity support to key vault connections. Previously introduced preview features from 2020-06-30-Preview that are carried forward to this preview include the [cache property](#cache) used during [incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it. -->

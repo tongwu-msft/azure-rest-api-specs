@@ -18,9 +18,9 @@ ms.author: beloh
 
 > [!Important]
 > This preview API adds:
-> + New **"semanticConfiguration"** property for scoping semantic ranking to specific fields
-> + New **"identity"** property under **"encryptionKey"** for retrieving a customer-managed encryption key in Azure Key Vault using a user-assigned managed identity.
-> + New **"normalizers"** property for case-insensitive sorting and filtering (introduced in 2020-06-30-Preview).
+> + **"semanticConfiguration"** property for scoping semantic ranking to specific fields.
+> + **"identity"** property under **"encryptionKey"** for retrieving a customer-managed encryption key in Azure Key Vault using a user-assigned managed identity.
+> + **"normalizers"** property for case-insensitive sorting and filtering (introduced in 2020-06-30-Preview).
 <!-- 
 > [!Important]
 > If you are using [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds an **identity** property and managed identity support to key vault connections. Previously introduced features from 2020-06-30-Preview that are carried forward to this preview include [normalizers](/azure/search/search-normalizers), used to produce case-insensitive sorting and filtering output. [Semantic configurations](/azure/search/semantic-how-to-query-request), which allow you to specify which fields should be used by semantic search, have been added to the 2021-04-30-Preview. -->

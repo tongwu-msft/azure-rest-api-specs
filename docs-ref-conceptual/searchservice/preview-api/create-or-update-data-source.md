@@ -18,8 +18,8 @@ ms.author: beloh
 
 > [!Important]
 > This preview API adds indexer connections to Azure resources using a managed identity:
-> + Updated **"credentials"** property accepts a resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant read access to data.
-> + New **"identity"** property specifies a user-assigned managed identity. This property is first-level for data connections. It's also under **"encryptionKey"** for retrieving a customer-managed key in Azure Key Vault.
+> + **"credentials"** property is updated to accept a resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant read access to data.
+> + **"identity"** property specifies a user-assigned managed identity. This property is first-level for data connections. It's also under **"encryptionKey"** for retrieving a customer-managed key in Azure Key Vault.
 
 <!-- support for indexer connections using a managed identity and Azure role assignments. The **Credentials** property now accepts a resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant read access to data. The **Identity** property accepts the resource ID of services that have user-managed identities assigned to them. Additionally, if you are using [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds an **identity** property and managed identity support to key vault connections. -->
 
