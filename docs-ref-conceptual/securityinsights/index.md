@@ -19,9 +19,18 @@ Microsoft Sentinel REST APIs allow you to create and manage data connectors, ana
 | [Actions](/rest/api/securityinsights/stable/actions) | List all alert rules for an action |
 | [Alerts Rule Template](/rest/api/securityinsights/stable/alert-rule-templates) | List your Alert rules templates available in your Microsoft Sentinel workspace  |
 | [Alert Rules](/rest/api/securityinsights/stable/alert-rules) | Configure Alert rules and actions for your Microsoft Sentinel workspace |
+| [Automation Rules](/rest/api/securityinsights/stable/automation-rules) | Configure automation rules for your Microsoft Sentinel workspace |
 | [Bookmarks](/rest/api/securityinsights/stable/bookmarks) | Preserve, tag, map entities, and annotate Log Analytics query results. Create or add a bookmark to an Incident |
 | [Data Connectors](/rest/api/securityinsights/stable/data-connectors) | List, enable, or disable data connectors to your Microsoft Sentinel workspace|
 | [Incident Comments](/rest/api/securityinsights/stable/incident-comments) | Read and create incident comments in your Microsoft Sentinel workspace |
+| [Incident Relations](/rest/api/securityinsights/stable/incident-relations) | Read and create incident relations in your Microsoft Sentinel workspace |
 | [Incidents](/rest/api/securityinsights/stable/incidents) | Read, create, and delete incidents in your Microsoft Sentinel workspace |
 | [Operations](/rest/api/securityinsights/stable/operations) | All available operations
+| [Sentinel Onboarding States](/rest/api/securityinsights/stable/sentinel-onboarding-states) | Create, delete, get and list onboarding states.
+| [Threat Intelligence Indicator](/rest/api/securityinsights/stable/threat-intelligence-indicator) | Create, append tags, delete, get, query indicators.
+| [Threat Intelligence Indicator Metrics](/rest/api/securityinsights/stable/threat-intelligence-indicator-metrics) | List threat intelligence indicator metrics.
+| [Threat Intelligence Indicators](/rest/api/securityinsights/stable/threat-intelligence-indicators) | List all indicators.
+| [Watchlist Items](/rest/api/securityinsights/stable/watchlist-items) |  Read and create watchlist items.
+| [Watchlists](/rest/api/securityinsights/stable/watchlists) | Read and create watchlists.
+
 
