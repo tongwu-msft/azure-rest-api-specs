@@ -15264,6 +15264,7 @@
 ##### [List](securityinsights/preview/Incident-Relations/List.yml)
 #### Incidents
 ##### [Overview](securityinsights/preview/Incidents.yml)
+##### [Run Playbook](securityinsights/preview/Incidents/Run-Playbook.yml)
 ##### [Create Or Update](securityinsights/preview/Incidents/Create-Or-Update.yml)
 ##### [Create Team](securityinsights/preview/Incidents/Create-Team.yml)
 ##### [Delete](securityinsights/preview/Incidents/Delete.yml)
@@ -15352,6 +15353,12 @@
 ##### [Delete](securityinsights/stable/Alert-Rules/Delete.yml)
 ##### [Get](securityinsights/stable/Alert-Rules/Get.yml)
 ##### [List](securityinsights/stable/Alert-Rules/List.yml)
+#### Automation Rules
+##### [Overview](securityinsights/stable/Automation-Rules.yml)
+##### [Create Or Update](securityinsights/stable/Automation-Rules/Create-Or-Update.yml)
+##### [Delete](securityinsights/stable/Automation-Rules/Delete.yml)
+##### [Get](securityinsights/stable/Automation-Rules/Get.yml)
+##### [List](securityinsights/stable/Automation-Rules/List.yml)
 #### Bookmarks
 ##### [Overview](securityinsights/stable/Bookmarks.yml)
 ##### [Create Or Update](securityinsights/stable/Bookmarks/Create-Or-Update.yml)
@@ -15366,15 +15373,15 @@
 ##### [List](securityinsights/stable/Data-Connectors/List.yml)
 #### Incident Comments
 ##### [Overview](securityinsights/stable/Incident-Comments.yml)
-##### [Create Comment](securityinsights/stable/Incident-Comments/Create-Comment.yml)
-##### [Delete Comment](securityinsights/stable/Incident-Comments/Delete-Comment.yml)
+##### [Create Or Update](securityinsights/stable/Incident-Comments/Create-Or-Update.yml)
+##### [Delete](securityinsights/stable/Incident-Comments/Delete.yml)
 ##### [Get](securityinsights/stable/Incident-Comments/Get.yml)
-##### [List By Incident](securityinsights/stable/Incident-Comments/List-By-Incident.yml)
+##### [List](securityinsights/stable/Incident-Comments/List.yml)
 #### Incident Relations
 ##### [Overview](securityinsights/stable/Incident-Relations.yml)
-##### [Create Or Update Relation](securityinsights/stable/Incident-Relations/Create-Or-Update-Relation.yml)
-##### [Delete Relation](securityinsights/stable/Incident-Relations/Delete-Relation.yml)
-##### [Get Relation](securityinsights/stable/Incident-Relations/Get-Relation.yml)
+##### [Create Or Update](securityinsights/stable/Incident-Relations/Create-Or-Update.yml)
+##### [Delete](securityinsights/stable/Incident-Relations/Delete.yml)
+##### [Get](securityinsights/stable/Incident-Relations/Get.yml)
 ##### [List](securityinsights/stable/Incident-Relations/List.yml)
 #### Incidents
 ##### [Overview](securityinsights/stable/Incidents.yml)
@@ -15382,12 +15389,33 @@
 ##### [Delete](securityinsights/stable/Incidents/Delete.yml)
 ##### [Get](securityinsights/stable/Incidents/Get.yml)
 ##### [List](securityinsights/stable/Incidents/List.yml)
-##### [List Of Alerts](securityinsights/stable/Incidents/List-Of-Alerts.yml)
-##### [List Of Bookmarks](securityinsights/stable/Incidents/List-Of-Bookmarks.yml)
-##### [List Of Entities](securityinsights/stable/Incidents/List-Of-Entities.yml)
+##### [List Alerts](securityinsights/stable/Incidents/List-Alerts.yml)
+##### [List Bookmarks](securityinsights/stable/Incidents/List-Bookmarks.yml)
+##### [List Entities](securityinsights/stable/Incidents/List-Entities.yml)
 #### Operations
 ##### [Overview](securityinsights/stable/Operations.yml)
 ##### [List](securityinsights/stable/Operations/List.yml)
+#### Sentinel Onboarding States
+##### [Overview](securityinsights/stable/Sentinel-Onboarding-States.yml)
+##### [Create](securityinsights/stable/Sentinel-Onboarding-States/Create.yml)
+##### [Delete](securityinsights/stable/Sentinel-Onboarding-States/Delete.yml)
+##### [Get](securityinsights/stable/Sentinel-Onboarding-States/Get.yml)
+##### [List](securityinsights/stable/Sentinel-Onboarding-States/List.yml)
+#### Threat Intelligence Indicator
+##### [Overview](securityinsights/stable/Threat-Intelligence-Indicator.yml)
+##### [Append Tags](securityinsights/stable/Threat-Intelligence-Indicator/Append-Tags.yml)
+##### [Create](securityinsights/stable/Threat-Intelligence-Indicator/Create.yml)
+##### [Create Indicator](securityinsights/stable/Threat-Intelligence-Indicator/Create-Indicator.yml)
+##### [Delete](securityinsights/stable/Threat-Intelligence-Indicator/Delete.yml)
+##### [Get](securityinsights/stable/Threat-Intelligence-Indicator/Get.yml)
+##### [Query Indicators](securityinsights/stable/Threat-Intelligence-Indicator/Query-Indicators.yml)
+##### [Replace Tags](securityinsights/stable/Threat-Intelligence-Indicator/Replace-Tags.yml)
+#### Threat Intelligence Indicator Metrics
+##### [Overview](securityinsights/stable/Threat-Intelligence-Indicator-Metrics.yml)
+##### [List](securityinsights/stable/Threat-Intelligence-Indicator-Metrics/List.yml)
+#### Threat Intelligence Indicators
+##### [Overview](securityinsights/stable/Threat-Intelligence-Indicators.yml)
+##### [List](securityinsights/stable/Threat-Intelligence-Indicators/List.yml)
 #### Watchlist Items
 ##### [Overview](securityinsights/stable/Watchlist-Items.yml)
 ##### [Create Or Update](securityinsights/stable/Watchlist-Items/Create-Or-Update.yml)

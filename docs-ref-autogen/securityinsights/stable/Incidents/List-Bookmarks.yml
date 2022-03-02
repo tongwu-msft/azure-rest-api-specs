@@ -1,31 +1,29 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.securityinsights.stable.incidents.listofbookmarks
-name: List Of Bookmarks
+uid: management.azure.com.securityinsights.stable.incidents.listbookmarks
+name: List Bookmarks
 service: Sentinel
 groupName: Incidents
-apiVersion: 2021-04-01
+apiVersion: 2021-10-01
 summary: Gets all bookmarks for an incident.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/bookmarks?api-version=2021-04-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/bookmarks?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Azure subscription ID
+  description: The ID of the target subscription.
   types:
   - uid: string
-  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: workspaceName
   in: path
   isRequired: true
@@ -65,13 +63,13 @@ definitions:
     - uid: HuntingBookmark
       isArray: true
 - name: CloudError
-  description: An error response for a resource management request.
+  description: Error response structure.
   kind: object
   properties:
   - name: error
-    description: "Error Response  \nThe error object of the CloudError response"
+    description: Error data
     types:
-    - uid: ErrorResponse
+    - uid: CloudErrorBody
 - name: HuntingBookmark
   description: Represents a Hunting bookmark entity.
   kind: object
@@ -121,19 +119,24 @@ definitions:
     description: Describes an incident that relates to bookmark
     types:
     - uid: IncidentInfo
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: Bookmark
+    typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: systemData
@@ -141,10 +144,6 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
   - name: properties.additionalData
     isReadyOnly: true
     description: A bag of custom fields that should be part of the entity and will be presented to the user.
@@ -159,37 +158,20 @@ definitions:
     description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error Response
+- name: CloudErrorBody
+  description: Error details.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The error code.
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: The error message.
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The error target.
-    types:
-    - uid: string
-  - name: details
-    isReadyOnly: true
-    description: The error details.
-    types:
-    - uid: ErrorResponse
-      isArray: true
-  - name: additionalInfo
-    isReadyOnly: true
-    description: The error additional info.
-    types:
-    - uid: ErrorAdditionalInfo
-      isArray: true
 - name: UserInfo
   description: User information that made some action
   kind: object
@@ -219,7 +201,7 @@ definitions:
   - name: severity
     description: The severity of the incident
     types:
-    - uid: CaseSeverity
+    - uid: IncidentSeverity
   - name: title
     description: The title of the incident
     types:
@@ -228,36 +210,8 @@ definitions:
     description: Relation Name
     types:
     - uid: string
-- name: systemData
-  description: Metadata pertaining to creation and last modification of the resource.
-  kind: object
-  properties:
-  - name: createdBy
-    description: The identity that created the resource.
-    types:
-    - uid: string
-  - name: createdByType
-    description: The type of identity that created the resource.
-    types:
-    - uid: createdByType
-  - name: createdAt
-    description: The timestamp of resource creation (UTC).
-    types:
-    - uid: string
-  - name: lastModifiedBy
-    description: The identity that last modified the resource.
-    types:
-    - uid: string
-  - name: lastModifiedByType
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: createdByType
-  - name: lastModifiedAt
-    description: The timestamp of resource last modification (UTC)
-    types:
-    - uid: string
 - name: EntityKindEnum
-  description: The kind of the entity.
+  description: The kind of the aggregated entity.
   kind: enum
   properties:
   - name: Account
@@ -344,28 +298,38 @@ definitions:
     description: Entity represents submission mail in the system.
     types:
     - uid: string
-- name: ErrorAdditionalInfo
-  description: The resource management error additional info.
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
   kind: object
   properties:
-  - name: type
-    isReadyOnly: true
-    description: The additional info type.
+  - name: createdBy
+    description: The identity that created the resource.
     types:
     - uid: string
-  - name: info
-    isReadyOnly: true
-    description: The additional info.
+  - name: createdByType
+    description: The type of identity that created the resource.
     types:
-    - uid: object
-- name: CaseSeverity
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: IncidentSeverity
   description: The severity of the incident
   kind: enum
   properties:
-  - name: Critical
-    description: Critical severity
-    types:
-    - uid: string
   - name: High
     description: High severity
     types:
@@ -401,7 +365,7 @@ definitions:
 examples:
 - name: Get all incident bookmarks.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/afbd324f-6c48-459c-8710-8d1e1cd03812/bookmarks?api-version=2021-04-01
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/afbd324f-6c48-459c-8710-8d1e1cd03812/bookmarks?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-

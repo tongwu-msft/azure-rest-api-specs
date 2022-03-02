@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.alertrules.list
 name: List
 service: Sentinel
 groupName: Alert Rules
-apiVersion: 2021-09-01-preview
+apiVersion: 2021-10-01-preview
 summary: Gets all alert rules.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules?api-version=2021-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules?api-version=2021-10-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -132,6 +132,12 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.techniques
+    isReadyOnly: true
+    description: The techniques of the alert rule
+    types:
+    - uid: string
+      isArray: true
   - name: kind
     description: The kind of the alert rule
     types:
@@ -183,6 +189,16 @@ definitions:
     description: Determines whether this alert rule is enabled or disabled.
     types:
     - uid: boolean
+  - name: properties.sourceSettings
+    description: Configuration for all supported source signals in fusion detection.
+    types:
+    - uid: FusionSourceSettings
+      isArray: true
+  - name: properties.scenarioExclusionPatterns
+    description: Configuration to exclude scenarios in fusion detection.
+    types:
+    - uid: FusionScenarioExclusionPattern
+      isArray: true
   - name: properties.lastModifiedUtc
     isReadyOnly: true
     description: The last time that this alert has been modified.
@@ -196,6 +212,12 @@ definitions:
   - name: properties.tactics
     isReadyOnly: true
     description: The tactics of the alert rule
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.techniques
+    isReadyOnly: true
+    description: The techniques of the alert rule
     types:
     - uid: string
       isArray: true
@@ -263,6 +285,12 @@ definitions:
   - name: properties.tactics
     isReadyOnly: true
     description: The tactics of the alert rule
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.techniques
+    isReadyOnly: true
+    description: The techniques of the alert rule
     types:
     - uid: string
       isArray: true
@@ -437,6 +465,16 @@ definitions:
     description: The query that creates alerts for this rule.
     types:
     - uid: string
+  - name: properties.tactics
+    description: The tactics of the alert rule
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.techniques
+    description: The techniques of the alert rule
+    types:
+    - uid: string
+      isArray: true
   - name: properties.displayName
     description: The display name for alerts created by this alert rule.
     types:
@@ -462,11 +500,6 @@ definitions:
     description: The severity for alerts created by this alert rule.
     types:
     - uid: AlertSeverity
-  - name: properties.tactics
-    description: The tactics of the alert rule
-    types:
-    - uid: string
-      isArray: true
   - name: properties.incidentConfiguration
     description: The settings of the incidents that created from alerts triggered by this analytics rule
     types:
@@ -537,6 +570,16 @@ definitions:
     description: The query that creates alerts for this rule.
     types:
     - uid: string
+  - name: properties.tactics
+    description: The tactics of the alert rule
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.techniques
+    description: The techniques of the alert rule
+    types:
+    - uid: string
+      isArray: true
   - name: properties.displayName
     description: The display name for alerts created by this alert rule.
     types:
@@ -562,11 +605,6 @@ definitions:
     description: The severity for alerts created by this alert rule.
     types:
     - uid: AlertSeverity
-  - name: properties.tactics
-    description: The tactics of the alert rule
-    types:
-    - uid: string
-      isArray: true
   - name: properties.incidentConfiguration
     description: The settings of the incidents that created from alerts triggered by this analytics rule
     types:
@@ -634,6 +672,35 @@ definitions:
     - uid: createdByType
   - name: lastModifiedAt
     description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: FusionSourceSettings
+  description: Represents a supported source signal configuration in Fusion detection.
+  kind: object
+  properties:
+  - name: enabled
+    description: Determines whether this source signal is enabled or disabled in Fusion detection.
+    types:
+    - uid: boolean
+  - name: sourceName
+    description: Name of the Fusion source signal. Refer to Fusion alert rule template for supported values.
+    types:
+    - uid: string
+  - name: sourceSubTypes
+    description: Configuration for all source subtypes under this source signal consumed in fusion detection.
+    types:
+    - uid: FusionSourceSubTypeSetting
+      isArray: true
+- name: FusionScenarioExclusionPattern
+  description: Represents a Fusion scenario exclusion patterns in Fusion detection.
+  kind: object
+  properties:
+  - name: exclusionPattern
+    description: Scenario exclusion pattern.
+    types:
+    - uid: string
+  - name: dateAddedInUTC
+    description: DateTime when scenario exclusion pattern is added in UTC.
     types:
     - uid: string
 - name: MicrosoftSecurityProductName
@@ -746,6 +813,27 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: FusionSourceSubTypeSetting
+  description: Represents a supported source subtype configuration under a source signal in Fusion detection.
+  kind: object
+  properties:
+  - name: enabled
+    description: Determines whether this source subtype under source signal is enabled or disabled in Fusion detection.
+    types:
+    - uid: boolean
+  - name: sourceSubTypeName
+    description: The Name of the source subtype under a given source signal in Fusion detection. Refer to Fusion alert rule template for supported values.
+    types:
+    - uid: string
+  - name: sourceSubTypeDisplayName
+    isReadyOnly: true
+    description: The display name of source subtype under a source signal consumed in Fusion detection.
+    types:
+    - uid: string
+  - name: severityFilters
+    description: Severity configuration for a source subtype consumed in fusion detection.
+    types:
+    - uid: FusionSubTypeSeverityFilter
 - name: EventGroupingAggregationKind
   description: The event grouping aggregation kinds
   kind: enum
@@ -879,6 +967,20 @@ definitions:
     description: the column name to be mapped to the identifier
     types:
     - uid: string
+- name: FusionSubTypeSeverityFilter
+  description: Represents severity configuration for a source subtype consumed in Fusion detection.
+  kind: object
+  properties:
+  - name: isSupported
+    isReadyOnly: true
+    description: Determines whether this source subtype supports severity configuration or not.
+    types:
+    - uid: boolean
+  - name: filters
+    description: Individual Severity configuration settings for a given source subtype consumed in Fusion detection.
+    types:
+    - uid: FusionSubTypeSeverityFiltersItem
+      isArray: true
 - name: MatchingMethod
   description: Grouping matching method. When method is Selected at least one of groupByEntities, groupByAlertDetails, groupByCustomDetails must be provided and not empty.
   kind: enum
@@ -895,10 +997,22 @@ definitions:
     description: Grouping alerts into a single incident if the selected entities, custom details and alert details match
     types:
     - uid: string
+- name: FusionSubTypeSeverityFiltersItem
+  description: Represents a Severity filter setting for a given source subtype consumed in Fusion detection.
+  kind: object
+  properties:
+  - name: severity
+    description: The Severity for a given source subtype consumed in Fusion detection.
+    types:
+    - uid: AlertSeverity
+  - name: enabled
+    description: Determines whether this severity is enabled or disabled for this source subtype consumed in Fusion detection.
+    types:
+    - uid: boolean
 examples:
 - name: Get all alert rules.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules?api-version=2021-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules?api-version=2021-10-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -919,6 +1033,10 @@ examples:
               "tactics": [
                 "Persistence",
                 "LateralMovement"
+              ],
+              "techniques": [
+                "T1037",
+                "T1021"
               ],
               "query": "Heartbeat",
               "queryFrequency": "PT1H",
@@ -1007,17 +1125,293 @@ examples:
             "kind": "Fusion",
             "properties": {
               "displayName": "Advanced Multi-Stage Attack Detection",
-              "description": "In this mode, Sentinel combines low fidelity alerts, which themselves may not be actionable, and events across multiple products, into high fidelity security interesting incidents. The system looks at multiple products to produce actionable incidents. Custom tailored to each tenant, Fusion not only reduces false positive rates but also can detect attacks with limited or missing information. \nIncidents generated by Fusion system will encase two or more alerts. By design, Fusion incidents are low volume, high fidelity and will be high severity, which is why Fusion is turned ON by default in Azure Sentinel.\n\nFor Fusion to work, please configure the following data sources in Data Connectors tab:\nRequired - Azure Active Directory Identity Protection\nRequired - Microsoft Cloud App Security\nIf Available - Palo Alto Network\n\nFor full list of scenarios covered by Fusion, and detail instructions on how to configure the required data sources, go to aka.ms/SentinelFusion",
+              "description": "Microsoft Sentinel uses Fusion, a correlation engine based on scalable machine learning algorithms, to automatically detect multistage attacks by identifying combinations of anomalous behaviors and suspicious activities that are observed at various stages of the kill chain. On the basis of these discoveries, Azure Sentinel generates incidents that would otherwise be very difficult to catch. By design, these incidents are low-volume, high-fidelity, and high-severity, which is why this detection is turned ON by default.\n\nSince Fusion correlates multiple signals from various products to detect advanced multistage attacks, successful Fusion detections are presented as Fusion incidents on the Microsoft Sentinel Incidents page. This rule covers the following detections:\n- Fusion for emerging threats\n- Fusion for ransomware\n- Scenario-based Fusion detections (122 scenarios)\n\nTo enable these detections, we recommend you configure the following data connectors for best results:\n- Out-of-the-box anomaly detections\n- Azure Active Directory Identity Protection\n- Azure Defender\n- Azure Defender for IoT\n- Microsoft 365 Defender\n- Microsoft Cloud App Security    \n- Microsoft Defender for Endpoint\n- Microsoft Defender for Identity\n- Microsoft Defender for Office 365\n- Palo Alto Networks\n- Scheduled analytics rules, both built-in and those created by your security analysts. Analytics rules must contain kill-chain (tactics) and entity mapping information in order to be used by Fusion.\n\nFor the full description of each detection that is supported by Fusion, go to https://aka.ms/SentinelFusion.",
               "alertRuleTemplateName": "f71aba3d-28fb-450b-b192-4e76a83015c8",
               "tactics": [
-                "Persistence",
-                "LateralMovement",
+                "Collection",
+                "CommandAndControl",
+                "CredentialAccess",
+                "DefenseEvasion",
+                "Discovery",
+                "Execution",
                 "Exfiltration",
-                "CommandAndControl"
+                "Impact",
+                "InitialAccess",
+                "LateralMovement",
+                "Persistence",
+                "PrivilegeEscalation"
+              ],
+              "sourceSettings": [
+                {
+                  "enabled": true,
+                  "sourceName": "Anomalies",
+                  "sourceSubTypes": null
+                },
+                {
+                  "enabled": true,
+                  "sourceName": "Alert providers",
+                  "sourceSubTypes": [
+                    {
+                      "sourceSubTypeName": "Azure Active Directory Identity Protection",
+                      "sourceSubTypeDisplayName": "Azure Active Directory Identity Protection",
+                      "enabled": true,
+                      "severityFilters": {
+                        "isSupported": true,
+                        "filters": [
+                          {
+                            "severity": "High",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Medium",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Low",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Informational",
+                            "enabled": true
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "sourceSubTypeName": "Azure Defender",
+                      "sourceSubTypeDisplayName": "Microsoft Defender for Cloud",
+                      "enabled": true,
+                      "severityFilters": {
+                        "isSupported": true,
+                        "filters": [
+                          {
+                            "severity": "High",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Medium",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Low",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Informational",
+                            "enabled": true
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "sourceSubTypeName": "Azure Defender for IoT",
+                      "sourceSubTypeDisplayName": "Microsoft Defender for IoT",
+                      "enabled": true,
+                      "severityFilters": {
+                        "isSupported": true,
+                        "filters": [
+                          {
+                            "severity": "High",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Medium",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Low",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Informational",
+                            "enabled": true
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "sourceSubTypeName": "Microsoft 365 Defender",
+                      "sourceSubTypeDisplayName": "Microsoft 365 Defender",
+                      "enabled": true,
+                      "severityFilter": [
+                        "High",
+                        "Medium",
+                        "Low",
+                        "Informational"
+                      ],
+                      "severityFilters": {
+                        "isSupported": true,
+                        "filters": [
+                          {
+                            "severity": "High",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Medium",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Low",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Informational",
+                            "enabled": true
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "sourceSubTypeName": "Microsoft Cloud App Security",
+                      "sourceSubTypeDisplayName": "Microsoft Cloud App Security",
+                      "enabled": true,
+                      "severityFilters": {
+                        "isSupported": true,
+                        "filters": [
+                          {
+                            "severity": "High",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Medium",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Low",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Informational",
+                            "enabled": true
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "sourceSubTypeName": "Microsoft Defender for Endpoint",
+                      "sourceSubTypeDisplayName": "Microsoft Defender for Endpoint",
+                      "enabled": true,
+                      "severityFilters": {
+                        "isSupported": true,
+                        "filters": [
+                          {
+                            "severity": "High",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Medium",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Low",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Informational",
+                            "enabled": true
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "sourceSubTypeName": "Microsoft Defender for Identity",
+                      "sourceSubTypeDisplayName": "Microsoft Defender for Identity",
+                      "enabled": true,
+                      "severityFilters": {
+                        "isSupported": true,
+                        "filters": [
+                          {
+                            "severity": "High",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Medium",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Low",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Informational",
+                            "enabled": true
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "sourceSubTypeName": "Microsoft Defender for Office 365",
+                      "sourceSubTypeDisplayName": "Microsoft Defender for Office 365",
+                      "enabled": true,
+                      "severityFilters": {
+                        "isSupported": true,
+                        "filters": [
+                          {
+                            "severity": "High",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Medium",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Low",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Informational",
+                            "enabled": true
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "sourceSubTypeName": "Azure Sentinel scheduled analytics rules",
+                      "sourceSubTypeDisplayName": "Azure Sentinel scheduled analytics rules",
+                      "enabled": true,
+                      "severityFilters": {
+                        "isSupported": true,
+                        "filters": [
+                          {
+                            "severity": "High",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Medium",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Low",
+                            "enabled": true
+                          },
+                          {
+                            "severity": "Informational",
+                            "enabled": true
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "enabled": true,
+                  "sourceName": "Raw logs from other sources",
+                  "sourceSubTypes": [
+                    {
+                      "sourceSubTypeName": "Palo Alto Networks",
+                      "sourceSubTypeDisplayName": "Palo Alto Networks",
+                      "enabled": true,
+                      "severityFilters": {
+                        "isSupported": false,
+                        "filters": null
+                      }
+                    }
+                  ]
+                }
               ],
               "severity": "High",
-              "enabled": false,
-              "lastModifiedUtc": "2019-09-02T07:12:34.9065092Z"
+              "enabled": true,
+              "lastModifiedUtc": "2021-10-22T07:12:34.9065092Z"
             }
           }
         ]

@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.automationrules.list
 name: List
 service: Sentinel
 groupName: Automation Rules
-apiVersion: 2021-09-01-preview
+apiVersion: 2021-10-01-preview
 summary: Gets all automation rules.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/automationRules?api-version=2021-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/automationRules?api-version=2021-10-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,7 +38,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
+  description: Ok
   types:
   - uid: AutomationRulesList
 - name: Other Status Codes
@@ -48,19 +48,17 @@ responses:
 requestHeader: []
 definitions:
 - name: AutomationRulesList
-  description: List all the automation rules.
   kind: object
   properties:
-  - name: nextLink
-    isReadyOnly: true
-    description: URL to fetch the next set of automation rules.
-    types:
-    - uid: string
   - name: value
-    description: Array of automation rules.
+    description: ''
     types:
     - uid: AutomationRule
       isArray: true
+  - name: nextLink
+    description: ''
+    types:
+    - uid: string
 - name: CloudError
   description: Error response structure.
   kind: object
@@ -70,11 +68,10 @@ definitions:
     types:
     - uid: CloudErrorBody
 - name: AutomationRule
-  description: Represents an automation rule.
   kind: object
   properties:
   - name: properties.displayName
-    description: The display name of the automation  rule
+    description: The display name of the automation rule
     types:
     - uid: string
   - name: properties.order
@@ -82,35 +79,35 @@ definitions:
     types:
     - uid: integer
   - name: properties.triggeringLogic
-    description: The triggering logic of the automation rule
+    description: Describes automation rule triggering logic
     types:
     - uid: AutomationRuleTriggeringLogic
   - name: properties.actions
     description: The actions to execute when the automation rule is triggered
     types:
-    - uid: AutomationRuleRunPlaybookAction
-      isArray: true
     - uid: AutomationRuleModifyPropertiesAction
       isArray: true
+    - uid: AutomationRuleRunPlaybookAction
+      isArray: true
     typesTitle: AutomationRuleAction[]
-  - name: properties.createdTimeUtc
-    isReadyOnly: true
-    description: The time the automation rule was created
-    types:
-    - uid: string
   - name: properties.lastModifiedTimeUtc
     isReadyOnly: true
     description: The last time the automation rule was updated
     types:
     - uid: string
-  - name: properties.createdBy
+  - name: properties.createdTimeUtc
     isReadyOnly: true
-    description: Describes the client that created the automation rule
+    description: The time the automation rule was created
     types:
-    - uid: ClientInfo
+    - uid: string
   - name: properties.lastModifiedBy
     isReadyOnly: true
-    description: Describes the client that last updated the automation rule
+    description: Information on the client (user or application) that made some action
+    types:
+    - uid: ClientInfo
+  - name: properties.createdBy
+    isReadyOnly: true
+    description: Information on the client (user or application) that made some action
     types:
     - uid: ClientInfo
   - name: etag
@@ -156,7 +153,7 @@ definitions:
   kind: object
   properties:
   - name: isEnabled
-    description: Determines whether the automation rule is enabled or disabled.
+    description: Determines whether the automation rule is enabled or disabled
     types:
     - uid: boolean
   - name: expirationTimeUtc
@@ -164,17 +161,17 @@ definitions:
     types:
     - uid: string
   - name: triggersOn
-    description: The type of object the automation rule triggers on
+    description: ''
     types:
-    - uid: TriggersOn
+    - uid: triggersOn
   - name: triggersWhen
-    description: The type of event the automation rule triggers on
+    description: ''
     types:
-    - uid: TriggersWhen
+    - uid: triggersWhen
   - name: conditions
     description: The conditions to evaluate to determine if the automation rule should be triggered on a given object
     types:
-    - uid: AutomationRulePropertyValuesCondition
+    - uid: PropertyConditionProperties
       isArray: true
     typesTitle: AutomationRuleCondition[]
 - name: ClientInfo
@@ -225,55 +222,53 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: TriggersOn
-  description: The type of object the automation rule triggers on
+- name: triggersOn
   kind: enum
   properties:
   - name: Incidents
     description: Trigger on Incidents
     types:
     - uid: string
-- name: TriggersWhen
-  description: The type of event the automation rule triggers on
+- name: triggersWhen
   kind: enum
   properties:
   - name: Created
     description: Trigger on created objects
     types:
     - uid: string
-- name: AutomationRuleRunPlaybookAction
-  description: Describes an automation rule action to run a playbook
-  kind: object
-  properties:
-  - name: actionConfiguration
-    description: The configuration of the run playbook automation rule action
-    types:
-    - uid: ActionConfiguration
-  - name: order
-    description: The order of execution of the automation rule action
-    types:
-    - uid: integer
-  - name: actionType
-    description: The type of the automation rule action
-    types:
-    - uid: RunPlaybook
-    typesTitle: string
 - name: AutomationRuleModifyPropertiesAction
   description: Describes an automation rule action to modify an object's properties
   kind: object
   properties:
   - name: actionConfiguration
-    description: The configuration of the modify properties automation rule action
+    description: ''
     types:
-    - uid: ActionConfiguration
+    - uid: IncidentPropertiesAction
   - name: order
-    description: The order of execution of the automation rule action
+    description: ''
     types:
     - uid: integer
   - name: actionType
     description: The type of the automation rule action
     types:
     - uid: ModifyProperties
+    typesTitle: string
+- name: AutomationRuleRunPlaybookAction
+  description: Describes an automation rule action to run a playbook
+  kind: object
+  properties:
+  - name: actionConfiguration
+    description: ''
+    types:
+    - uid: PlaybookActionProperties
+  - name: order
+    description: ''
+    types:
+    - uid: integer
+  - name: actionType
+    description: The type of the automation rule action
+    types:
+    - uid: RunPlaybook
     typesTitle: string
 - name: createdByType
   description: The type of identity that created the resource.
@@ -291,21 +286,64 @@ definitions:
   - name: Key
     types:
     - uid: string
-- name: AutomationRulePropertyValuesCondition
+- name: PropertyConditionProperties
   description: Describes an automation rule condition that evaluates a property's value
   kind: object
   properties:
   - name: conditionProperties
-    description: The configuration of the automation rule condition
+    description: ''
     types:
-    - uid: ConditionProperties
+    - uid: AutomationRulePropertyValuesCondition
   - name: conditionType
-    description: The type of the automation rule condition
+    description: ''
     types:
     - uid: Property
     typesTitle: string
-- name: ActionConfiguration
-  description: The configuration of the run playbook automation rule action
+- name: IncidentPropertiesAction
+  kind: object
+  properties:
+  - name: severity
+    description: The severity of the incident
+    types:
+    - uid: IncidentSeverity
+  - name: status
+    description: The status of the incident
+    types:
+    - uid: IncidentStatus
+  - name: classification
+    description: The reason the incident was closed
+    types:
+    - uid: IncidentClassification
+  - name: classificationReason
+    description: The classification reason the incident was closed with
+    types:
+    - uid: IncidentClassificationReason
+  - name: classificationComment
+    description: Describes the reason the incident was closed
+    types:
+    - uid: string
+  - name: owner
+    description: Information on the user an incident is assigned to
+    types:
+    - uid: IncidentOwnerInfo
+  - name: labels
+    description: List of labels to add to the incident
+    types:
+    - uid: IncidentLabel
+      isArray: true
+- name: ActionType
+  description: The type of the automation rule action
+  kind: enum
+  properties:
+  - name: ModifyProperties
+    description: Modify an object's properties
+    types:
+    - uid: string
+  - name: RunPlaybook
+    description: Run a playbook on an object
+    types:
+    - uid: string
+- name: PlaybookActionProperties
   kind: object
   properties:
   - name: logicAppResourceId
@@ -316,23 +354,143 @@ definitions:
     description: The tenant id of the playbook resource
     types:
     - uid: string
-- name: ConditionProperties
-  description: The configuration of the automation rule condition
+- name: AutomationRulePropertyValuesCondition
   kind: object
   properties:
   - name: propertyName
-    description: The property to evaluate
+    description: The property to evaluate in an automation rule property condition
     types:
     - uid: AutomationRulePropertyConditionSupportedProperty
   - name: operator
-    description: The operator to use for evaluation the condition
+    description: ''
     types:
     - uid: AutomationRulePropertyConditionSupportedOperator
   - name: propertyValues
-    description: The values to use for evaluating the condition
+    description: ''
     types:
     - uid: string
       isArray: true
+- name: ConditionType
+  kind: enum
+  properties:
+  - name: Property
+    description: Evaluate an object property value
+    types:
+    - uid: string
+- name: IncidentSeverity
+  description: The severity of the incident
+  kind: enum
+  properties:
+  - name: High
+    description: High severity
+    types:
+    - uid: string
+  - name: Medium
+    description: Medium severity
+    types:
+    - uid: string
+  - name: Low
+    description: Low severity
+    types:
+    - uid: string
+  - name: Informational
+    description: Informational severity
+    types:
+    - uid: string
+- name: IncidentStatus
+  description: The status of the incident
+  kind: enum
+  properties:
+  - name: New
+    description: An active incident which isn't being handled currently
+    types:
+    - uid: string
+  - name: Active
+    description: An active incident which is being handled
+    types:
+    - uid: string
+  - name: Closed
+    description: A non-active incident
+    types:
+    - uid: string
+- name: IncidentClassification
+  description: The reason the incident was closed
+  kind: enum
+  properties:
+  - name: Undetermined
+    description: Incident classification was undetermined
+    types:
+    - uid: string
+  - name: TruePositive
+    description: Incident was true positive
+    types:
+    - uid: string
+  - name: BenignPositive
+    description: Incident was benign positive
+    types:
+    - uid: string
+  - name: FalsePositive
+    description: Incident was false positive
+    types:
+    - uid: string
+- name: IncidentClassificationReason
+  description: The classification reason the incident was closed with
+  kind: enum
+  properties:
+  - name: SuspiciousActivity
+    description: Classification reason was suspicious activity
+    types:
+    - uid: string
+  - name: SuspiciousButExpected
+    description: Classification reason was suspicious but expected
+    types:
+    - uid: string
+  - name: IncorrectAlertLogic
+    description: Classification reason was incorrect alert logic
+    types:
+    - uid: string
+  - name: InaccurateData
+    description: Classification reason was inaccurate data
+    types:
+    - uid: string
+- name: IncidentOwnerInfo
+  description: Information on the user an incident is assigned to
+  kind: object
+  properties:
+  - name: email
+    description: The email of the user the incident is assigned to.
+    types:
+    - uid: string
+  - name: assignedTo
+    description: The name of the user the incident is assigned to.
+    types:
+    - uid: string
+  - name: objectId
+    description: The object id of the user the incident is assigned to.
+    types:
+    - uid: string
+  - name: userPrincipalName
+    description: The user principal name of the user the incident is assigned to.
+    types:
+    - uid: string
+  - name: ownerType
+    isReadyOnly: true
+    description: The type of the owner the incident is assigned to.
+    types:
+    - uid: OwnerType
+- name: IncidentLabel
+  description: Represents an incident label
+  kind: object
+  properties:
+  - name: labelName
+    description: The name of the label
+    types:
+    - uid: string
+  - name: labelType
+    isReadyOnly: true
+    description: The type of the label
+    types:
+    - uid: IncidentLabelType
 - name: AutomationRulePropertyConditionSupportedProperty
   description: The property to evaluate in an automation rule property condition
   kind: enum
@@ -353,12 +511,16 @@ definitions:
     description: The status of the incident
     types:
     - uid: string
+  - name: IncidentRelatedAnalyticRuleIds
+    description: The related Analytic rule ids of the incident
+    types:
+    - uid: string
   - name: IncidentTactics
     description: The tactics of the incident
     types:
     - uid: string
-  - name: IncidentRelatedAnalyticRuleIds
-    description: The related Analytic rule ids of the incident
+  - name: IncidentLabel
+    description: The labels of the incident
     types:
     - uid: string
   - name: IncidentProviderName
@@ -370,7 +532,7 @@ definitions:
     types:
     - uid: string
   - name: AccountAadUserId
-    description: The account Azure Active Directory user id.
+    description: The account Azure Active Directory user id
     types:
     - uid: string
   - name: AccountName
@@ -395,6 +557,10 @@ definitions:
     - uid: string
   - name: AccountUPNSuffix
     description: The account user principal name suffix
+    types:
+    - uid: string
+  - name: AlertProductNames
+    description: The name of the product of the alert
     types:
     - uid: string
   - name: AzureResourceResourceId
@@ -450,7 +616,7 @@ definitions:
     types:
     - uid: string
   - name: IoTDeviceId
-    description: The IoT device id
+    description: "\"The IoT device id"
     types:
     - uid: string
   - name: IoTDeviceName
@@ -546,7 +712,6 @@ definitions:
     types:
     - uid: string
 - name: AutomationRulePropertyConditionSupportedOperator
-  description: The operator to use for evaluation the condition
   kind: enum
   properties:
   - name: Equals
@@ -581,10 +746,38 @@ definitions:
     description: Evaluates if the property does not end with any of the condition values
     types:
     - uid: string
+- name: OwnerType
+  description: The type of the owner the incident is assigned to.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: The incident owner type is unknown
+    types:
+    - uid: string
+  - name: User
+    description: The incident owner type is an AAD user
+    types:
+    - uid: string
+  - name: Group
+    description: The incident owner type is an AAD group
+    types:
+    - uid: string
+- name: IncidentLabelType
+  description: The type of the label
+  kind: enum
+  properties:
+  - name: User
+    description: Label manually created by a user
+    types:
+    - uid: string
+  - name: System
+    description: Label automatically created by the system
+    types:
+    - uid: string
 examples:
-- name: Get all automation rules.
+- name: AutomationRules_List
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/automationRules?api-version=2021-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/automationRules?api-version=2021-10-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -593,25 +786,11 @@ examples:
           {
             "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/automationRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5",
             "name": "73e01a99-5cd7-4139-a149-9f2736ff2ab5",
-            "type": "Microsoft.SecurityInsights/automationRules",
             "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
+            "type": "Microsoft.SecurityInsights/automationRules",
             "properties": {
-              "order": 1,
               "displayName": "High severity incidents escalation",
-              "createdTimeUtc": "2021-09-01T13:00:30Z",
-              "lastModifiedTimeUtc": "2021-09-01T13:00:30Z",
-              "createdBy": {
-                "objectId": "2046feea-040d-4a46-9e2b-91c2941bfa70",
-                "email": "john.doe@contoso.com",
-                "userPrincipalName": "john@contoso.com",
-                "name": "john doe"
-              },
-              "lastModifiedBy": {
-                "objectId": "2046feea-040d-4a46-9e2b-91c2941bfa70",
-                "email": "john.doe@contoso.com",
-                "userPrincipalName": "john@contoso.com",
-                "name": "john doe"
-              },
+              "order": 1,
               "triggeringLogic": {
                 "isEnabled": true,
                 "triggersOn": "Incidents",
@@ -638,7 +817,21 @@ examples:
                     "severity": "High"
                   }
                 }
-              ]
+              ],
+              "lastModifiedTimeUtc": "2019-01-01T13:00:30Z",
+              "createdTimeUtc": "2019-01-01T13:00:00Z",
+              "lastModifiedBy": {
+                "objectId": "2046feea-040d-4a46-9e2b-91c2941bfa70",
+                "email": "john.doe@contoso.com",
+                "name": "john doe",
+                "userPrincipalName": "john@contoso.com"
+              },
+              "createdBy": {
+                "objectId": "2046feea-040d-4a46-9e2b-91c2941bfa70",
+                "email": "john.doe@contoso.com",
+                "name": "john doe",
+                "userPrincipalName": "john@contoso.com"
+              }
             }
           }
         ]
