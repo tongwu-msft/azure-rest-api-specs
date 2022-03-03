@@ -15,7 +15,7 @@ ms.author: delegenz
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview API adds support for testing normalizers. It adds a **"normalizer"** property that specifies a normalizer definition in a search index.
+> 2021-04-30-Preview adds support for testing normalizers. It adds a **"normalizer"** property that specifies a normalizer definition in a search index.
 
 <!-- > [!Important]
 > The Analyze Text API is now extended to support testing normalizers which preprocess content for filterable, facetable, or sortable fields. -->

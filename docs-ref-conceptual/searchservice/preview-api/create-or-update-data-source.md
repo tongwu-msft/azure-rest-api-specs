@@ -17,7 +17,7 @@ ms.author: beloh
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview API adds managed identity support for indexer connections to other Azure resources:
+> 2021-04-30-Preview adds managed identity support for indexer connections to other Azure resources:
 > + **"credentials"** accepts an Azure resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant read access to data.
 > + **"identity"** accepts a user-assigned managed identity. This property is first-level for data connections. It's also under **"encryptionKey"** for retrieving a customer-managed key in Azure Key Vault.
 
