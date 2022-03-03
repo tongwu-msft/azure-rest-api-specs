@@ -49,7 +49,7 @@ Use the latest stable version when you want to access the latest generally avail
 
 ### 2021-10-01
 
-This is the current Generally available release of the Microsoft Sentinel REST APIs. It includes all the previously released Generally available features, plus the following additions:
+This is the current generally available (GA) release of the Microsoft Sentinel REST APIs. It includes all the previously released GA features, plus the following additions:
 
 + Alert Rules (also known as analytics rules)
   + Alert grouping alignment
