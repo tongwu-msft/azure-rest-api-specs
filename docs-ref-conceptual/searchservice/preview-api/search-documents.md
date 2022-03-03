@@ -20,6 +20,7 @@ ms.author: beloh
 > 2021-04-30-Preview adds:
 > + **"semanticConfiguration"** supports scoping semantic ranking to specific fields.
 > + **"captions"** returns phrases extracted from key passages in the highest semantically ranked documents.
+>
 > 2020-06-30-Preview adds:
 > + **"queryType=semantic"** supports semantic reranking and responses.
 > + **"speller"** enables spell correction on query input.

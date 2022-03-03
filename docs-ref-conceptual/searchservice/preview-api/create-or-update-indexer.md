@@ -18,6 +18,7 @@ ms.author: beloh
 
 > [!Important]
 > 2021-04-30-Preview adds **"identity"**, under **"encryptionKey"**, for retrieving an encryption key from Azure Key Vault using a user-assigned managed identity.
+>
 > 2020-06-30-Preview adds [**"cache"**](#cache), used to [cache and reuse enriched content](/azure/search/cognitive-search-incremental-indexing-conceptual) created by a skillset.
 
 <!-- > [!Important]
