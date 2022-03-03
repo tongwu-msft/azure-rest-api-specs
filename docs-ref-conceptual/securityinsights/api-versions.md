@@ -20,7 +20,7 @@ This article lists the current and past versions of the Microsoft Sentinel REST 
 ## Preview versions
 
 > [!Note] 
-> Starting from the 2021-09-01-preview, every Preview version contains all operation groups. If an operation group hasn’t changed since last version, it will carry over as-is to the new version.
+> Starting from the 2021-09-01-preview, every Preview version contains all Preview operation groups. Starting from the 2021-10-01, every Stable version contains all Stable operation groups. If an operation group hasn’t changed since last version, it will carry over as-is to the new version.
 
 Use the latest preview version when you want to take advantage of all the latest Public Preview features. Note that preview versions are also released to test new functionality, gather feedback, and discover and fix issues. Preview APIs are available under the [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/).
 
@@ -38,11 +38,27 @@ Use the latest stable version when you want to access the latest generally avail
 
 | API version | Specification | API updates |
 |-------------|---------------|-------------|
+| `2021-10-01` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/stable/2021-10-01) | [Release note](#2021-10-01) |
 | `2021-04-01` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/stable/2021-04-01) | [Release note](#2021-04-01) |
 | `2020-01-01` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/stable/2020-01-01) | [Release note](#2020-01-01) |
 
 
 ## Release notes
+
+<a name="2021-10-01"></a>
+
+### 2021-10-01
+
+This is the current Generally available release of the Microsoft Sentinel REST APIs. It includes all the previously released Generally available features, plus the following additions:
+
++ Alert Rules (also known as analytics rules)
+  + Alert grouping alignment
+  + [Entity mapping](https://docs.microsoft.com/azure/sentinel/map-data-fields-to-entities)
+  + [Custom details](https://docs.microsoft.com/azure/sentinel/surface-custom-details-in-alerts)
+  + [Alert details](https://docs.microsoft.com/azure/sentinel/customize-alert-details)
++ [Automation Rules](https://docs.microsoft.com/azure/sentinel/automate-incident-handling-with-automation-rules)
++ [Onboarding States](https://techcommunity.microsoft.com/t5/microsoft-sentinel-blog/what-s-new-azure-sentinel-new-onboarding-offboarding-api/ba-p/2640471)
+
 <a name="2021-10-01-preview"></a>
 
 ### 2021-10-01-preview
