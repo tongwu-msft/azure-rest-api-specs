@@ -4,14 +4,12 @@ name: Get IP To Location
 service: Maps
 groupName: Geolocation
 apiVersion: "1.0"
-summary: "\n**Applies to**: S0 and S1 pricing tiers.\n\n\nThis service will return the ISO country code for the provided IP address. Developers can use this information to block or alter certain content based on geographical locations where the application is being viewed from."
+summary: "\n**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\n\nThis service will return the ISO country code for the provided IP address. Developers can use this information  to block or alter certain content based on geographical locations where the application is being viewed from."
 consumes: []
 produces:
 - application/json
 paths:
 - content: GET https://atlas.microsoft.com/geolocation/ip/json?api-version=1.0&ip={ip}
-- content: GET https://atlas.microsoft.com/geolocation/ip/json?subscription-key={subscription-key}&api-version=1.0&ip={ip}
-  isOptional: true
 uriParameters:
 - name: format
   in: path
@@ -19,15 +17,10 @@ uriParameters:
   description: Desired format of the response. Only `json` format is supported.
   types:
   - uid: JsonFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: ip
@@ -41,29 +34,10 @@ responses:
   description: OK
   types:
   - uid: IpAddressToLocationResult
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -93,14 +67,14 @@ definitions:
     description: The IP Address of the request.
     types:
     - uid: string
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
+    - uid: ErrorDetail
 - name: CountryRegion
   description: The object containing the country/region information.
   kind: object
@@ -110,34 +84,55 @@ definitions:
     description: The IP Address's 2-character code [(ISO 3166-1)](https://www.iso.org/iso-3166-country-codes.html) of the country or region. Please note, IP address in ranges reserved for special purpose will return Null for country/region.
     types:
     - uid: string
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
-- name: GetLocationByIpAddress
+- name: Successfully retrieve country code from IP address
   request:
-    uri: GET https://atlas.microsoft.com/geolocation/ip/json?subscription-key=[subscription-key]&api-version=1.0&ip=2001:4898:80e8:b::189
+    uri: GET https://atlas.microsoft.com/geolocation/ip/json?api-version=1.0&ip=2001:4898:80e8:b::189
   responses:
   - statusCode: "200"
     body: >-
@@ -146,46 +141,6 @@ examples:
           "isoCode": "US"
         },
         "ipAddress": "2001:4898:80e8:b::189"
-      }
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
       }
 security:
 - name: AADToken
@@ -215,5 +170,5 @@ security:
      For publicly exposed applications, our recommendation is to configure a specific list of allowed origins on the [Map account resource](https://aka.ms/amauth) to limit rendering abuse and regularly renew the SAS Token.
   in: header
 metadata:
-  description: "\n**Applies to**: S0 and S1 pricing tiers.\n\n\nThis service will return the ISO country code for the provided IP address."
+  description: "\n**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\n\nThis service will return the ISO country code for the provided IP address."
 errorCodes: []
