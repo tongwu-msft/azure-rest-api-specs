@@ -20,7 +20,7 @@ This article lists the current and past versions of the Microsoft Sentinel REST 
 ## Preview versions
 
 > [!Note] 
-> Starting from the 2021-09-01-preview, every Preview version contains all Preview operation groups. Starting from the 2021-10-01, every Stable version contains all Stable operation groups. If an operation group hasn’t changed since last version, it will carry over as-is to the new version.
+> Starting from the 2021-09-01-preview release, every Preview version contains all Preview operation groups. Starting from the 2021-10-01 release, every Stable version contains all Stable operation groups. If an operation group hasn’t changed since last version, it will carry over as-is to the new version.
 
 Use the latest preview version when you want to take advantage of all the latest Public Preview features. Note that preview versions are also released to test new functionality, gather feedback, and discover and fix issues. Preview APIs are available under the [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/).
 
