@@ -18,12 +18,12 @@ ms.author: beloh
 
 > [!Important]
 > This preview API adds:
-> + **"semanticConfiguration"** property for scoping semantic ranking to specific fields.
-> + **"captions"** property returns  phrases extracted from key passages in the highest semantically ranked documents.
-> + **"queryType=semantic"** to support semantic reranking and responses (introduced in 2020-06-30-Preview).
-> + **"speller"** parameter that enables spell correction on query input (introduced in 2020-06-30-Preview).
-> + **"queryLanguage"** parameter is required for both "queryType=semantic" and **speller** (introduced in 2020-06-30-Preview).
-> + **"featuresMode"** parameter that can report on per-field term frequency, per-field similarity score, and per-field number of unique matches (introduced in 2020-06-30-Preview).
+> + **"semanticConfiguration"** for scoping semantic ranking to specific fields.
+> + **"captions"** returns phrases extracted from key passages in the highest semantically ranked documents.
+> + **"queryType=semantic"** supports semantic reranking and responses (introduced in 2020-06-30-Preview).
+> + **"speller"** enables spell correction on query input (introduced in 2020-06-30-Preview).
+> + **"queryLanguage"** is required for both "queryType=semantic" and **speller** (introduced in 2020-06-30-Preview).
+> + **"featuresMode"** unpacks a search score, reporting on per-field term frequency, per-field similarity score, and per-field number of unique matches (introduced in 2020-06-30-Preview).
 
 A query request targets the documents collection of a single index on a search service. It includes parameters that define the match criteria, and parameters that shape the response.
 
