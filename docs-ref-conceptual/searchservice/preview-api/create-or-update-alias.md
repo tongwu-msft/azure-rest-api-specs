@@ -43,7 +43,7 @@ PUT https://[service name].search.windows.net/aliases/[alias name]?api-version=[
 **Updating an alias** allows you to map that alias to a different search index. When updating an existing alias, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the alias definition with a GET, modify it, and then update it with PUT.
 
 > [!NOTE]
-> An update to an alias may take up to 10 seconds to propogate through the system so you should wait at least 10 seconds before deleting the index that the alias was previously mapped to. 
+> An update to an alias may take up to 10 seconds to propagate through the system so you should wait at least 10 seconds before deleting the index that the alias was previously mapped to. 
 
 > [!NOTE]  
 > The maximum number of aliases that you can create varies by pricing tier. For more information, see [Service limits](/azure/search/search-limits-quotas-capacity).  
