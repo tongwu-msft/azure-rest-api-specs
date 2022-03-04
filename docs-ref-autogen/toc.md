@@ -14515,8 +14515,8 @@
 ### Indexers
 #### [Create or Update Indexer](../docs-ref-conceptual/searchservice/preview-api/create-or-update-indexer.md)
 #### [Create or Update Data Source](../docs-ref-conceptual/searchservice/preview-api/create-or-update-data-source.md)
-## Services
-### [Get Service Statistics](../docs-ref-conceptual/searchservice/preview-api/get-service-statistics.md)
+### Services
+#### [Get Service Statistics](../docs-ref-conceptual/searchservice/preview-api/get-service-statistics.md)
 ### Skillsets
 #### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
 ## Reference (Stable)
