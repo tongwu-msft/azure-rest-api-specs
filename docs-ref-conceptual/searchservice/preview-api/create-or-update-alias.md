@@ -1,6 +1,6 @@
 ---
 title: "Create or Update Alias (2021-04-30-Preview)"
-description: Create an alias to define a secondary name that can be used to refer to an index for querying, indexing, and other operations.
+description: Create an index alias to define a secondary name that can be used to refer to an index for querying, indexing, and other operations.
 ms.date: 03/01/2022
 
 ms.service: cognitive-search
