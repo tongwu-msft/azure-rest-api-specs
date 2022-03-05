@@ -3,7 +3,7 @@ title: Create Directory (FileREST API) - Azure Files
 description: The Create Directory operation creates a new directory under the specified share or parent directory. The directory resource includes the properties for that directory. It does not include a list of the files or subdirectories contained by the directory.
 author: wmgries
 
-ms.date: 06/05/2021
+ms.date: 03/05/2022
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -59,9 +59,10 @@ The following table describes required and optional request headers.
 | `x-ms-file-permission` | Required if `x-ms-file-permission-key` is not specified. Version 2019-02-02 and newer. This permission is the security descriptor for the directory specified in the [Security Descriptor Definition Language (SDDL)](/windows/win32/secauthz/security-descriptor-definition-language). This header can be used if the permissions size is over 8 KiB, otherwise the `x-ms-file-permission-key` may be used. If specified, it must have an owner, group, and [discretionary access control list (DACL)](/windows/win32/secauthz/access-control-lists). A value of `inherit` may be passed to inherit from the parent directory.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
 | `x-ms-file-permission-key` | Required if `x-ms-file-permission` is not specified. Version 2019-02-02 and newer. The key of the permission to be set for the directory. This can be created using the `Create-Permission` API.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
 | `x-ms-file-attributes` | Required. Version 2019-02-02 and newer. The file system attributes to be set on the directory. See the list of [available attributes](#file-system-attributes). |
-| `x-ms-file-creation-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) creation time property for the directory. A value of `now` may be used to indicate the time of the request. |
-| `x-ms-file-last-write-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) last write property for the directory. A value of `now` may be used to indicate the time of the request. |
+| `x-ms-file-creation-time: { <DateTime> | now }` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) creation time property for the directory. A value of `now` may be used to indicate the time of the request. |
+| `x-ms-file-last-write-time: { <DateTime> | now }` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) last write property for the directory. A value of `now` may be used to indicate the time of the request. |
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
+| `x-ms-file-change-time` | Optional. Version 2021-06-08 and newer. The Coordinated Universal Time (UTC) change time property for the directory, formatted in the ISO 8601 format. |
   
 ### Sample request  
   
