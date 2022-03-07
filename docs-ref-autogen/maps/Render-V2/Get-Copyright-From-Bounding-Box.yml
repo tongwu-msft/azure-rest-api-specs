@@ -1,85 +1,56 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.render.getmapimagerytile
-name: Get Map Imagery Tile
+uid: atlas.microsoft.com.maps.renderv2.getcopyrightfromboundingbox
+name: Get Copyright From Bounding Box
 service: Maps
-groupName: Render
-apiVersion: "1.0"
+groupName: Render V2
+apiVersion: "2.1"
 summary: >-
-  **Applies to**: S0 and S1 pricing tiers.
+  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
-  This service returns a map image tile with size 256x256, given the x and y coordinates and zoom
-
-  level. Zoom level ranges from 1 to 19. The current available style value is 'satellite' which provides satellite
-
-  imagery alone.
-
-
-
-  **Note**: We recommend to start to use the new [Get Map Tile V2 API](https://aka.ms/GetMapTileV2).
+  Returns copyright information for a given bounding box. Bounding-box requests should specify the minimum and maximum longitude and latitude (EPSG-3857) coordinates
 consumes: []
 produces:
 - application/json
-- image/jpeg
-- image/png
 paths:
-- content: GET https://atlas.microsoft.com/map/imagery/png?api-version=1.0&style=satellite&zoom={zoom}&x={x}&y={y}
+- content: GET https://atlas.microsoft.com/map/copyright/bounding/{format}?api-version=2.1&mincoordinates={mincoordinates}&maxcoordinates={maxcoordinates}
+- content: GET https://atlas.microsoft.com/map/copyright/bounding/{format}?api-version=2.1&mincoordinates={mincoordinates}&maxcoordinates={maxcoordinates}&text={text}
+  isOptional: true
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: 'Desired format of the response. Possible value: png.'
+  description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
-  - uid: RasterTileFormat
+  - uid: ResponseFormat
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API.
+  description: Version number of Azure Maps API. Current version is 2.1
   types:
   - uid: string
-- name: style
+- name: mincoordinates
   in: query
   isRequired: true
-  description: Map style to be returned. __Possible values:__ satellite.
+  description: Minimum coordinates (south-west point) of bounding box in latitude longitude coordinate system. E.g. 52.41064,4.84228
   types:
-  - uid: MapImageryStyle
-- name: zoom
+  - uid: array
+- name: maxcoordinates
   in: query
   isRequired: true
-  description: "Zoom level for the desired tile. \n\nPlease see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details."
+  description: Maximum coordinates (north-east point) of bounding box in latitude longitude coordinate system. E.g. 52.41064,4.84228
   types:
-  - uid: integer
-  format: int32
-- name: x
+  - uid: array
+- name: text
   in: query
-  isRequired: true
-  description: >-
-    X coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
-
-
-    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+  description: Yes/no value to exclude textual data from response. Only images and country names will be in response.
   types:
-  - uid: integer
-  format: int32
-- name: y
-  in: query
-  isRequired: true
-  description: >-
-    Y coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
-
-
-    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
-  types:
-  - uid: integer
-  format: int32
+  - uid: IncludeText
 responses:
 - name: 200 OK
-  headers:
-  - name: Content-Type
-    value: string
-  description: This image is returned from a successful Get Map Imagery Tile call
+  description: OK
   types:
-  - uid: object
+  - uid: Copyright
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
@@ -91,22 +62,51 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: RasterTileFormat
-  description: 'Desired format of the response. Possible value: png.'
+- name: ResponseFormat
+  description: Desired format of the response. Value can be either _json_ or _xml_.
   kind: enum
   properties:
-  - name: png
-    description: An image in the png format. Supports zoom levels 0 through 18.
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
-- name: MapImageryStyle
-  description: Map style to be returned. __Possible values:__ satellite.
+  - name: xml
+    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
+    types:
+    - uid: string
+- name: IncludeText
+  description: Yes/no value to exclude textual data from response. Only images and country names will be in response.
   kind: enum
   properties:
-  - name: satellite
-    description: Satellite imagery
+  - name: yes
+    description: Include all textual data in response.
     types:
     - uid: string
+  - name: no
+    description: Exclude textual data from response. Only images and country names will be in response.
+    types:
+    - uid: string
+- name: Copyright
+  description: This object is returned from a successful copyright request
+  kind: object
+  properties:
+  - name: formatVersion
+    isReadyOnly: true
+    description: Format Version property
+    types:
+    - uid: string
+  - name: generalCopyrights
+    isReadyOnly: true
+    description: General Copyrights array
+    types:
+    - uid: string
+      isArray: true
+  - name: regions
+    isReadyOnly: true
+    description: Regions array
+    types:
+    - uid: RegionCopyrights
+      isArray: true
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -115,6 +115,20 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: RegionCopyrights
+  kind: object
+  properties:
+  - name: copyrights
+    isReadyOnly: true
+    description: Copyrights array
+    types:
+    - uid: string
+      isArray: true
+  - name: country
+    isReadyOnly: true
+    description: Country property
+    types:
+    - uid: Country
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -146,6 +160,20 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: Country
+  description: Country property
+  kind: object
+  properties:
+  - name: ISO3
+    isReadyOnly: true
+    description: ISO3 property
+    types:
+    - uid: string
+  - name: label
+    isReadyOnly: true
+    description: Label property
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -161,15 +189,44 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Successful Imagery Tile Request
+- name: SuccessfulBoundingBoxCopyrightRequest
   request:
-    uri: GET https://atlas.microsoft.com/map/imagery/png?api-version=1.0&style=satellite&zoom=6&x=10&y=22
+    uri: >-
+      GET https://atlas.microsoft.com/map/copyright/bounding/json?api-version=2.1&mincoordinates=[
+
+        52.41064,
+
+        4.84228
+
+      ]&maxcoordinates=[
+
+        52.41072,
+
+        4.84239
+
+      ]&text=yes
   responses:
   - statusCode: "200"
-    headers:
-    - name: Content-Type
-      value: image/png
-    body: "\"{file}\""
+    body: >-
+      {
+        "formatVersion": "0.0.1",
+        "generalCopyrights": [
+          "© 1992 – 2016 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection, database right protection and other intellectual property rights owned by TomTom or its suppliers. The use of this material is subject to the terms of a license agreement. Any unauthorized copying or disclosure of this material will lead to criminal and civil liabilities.",
+          "Data Source © 2016 TomTom",
+          "based on"
+        ],
+        "regions": [
+          {
+            "copyrights": [
+              "Topografische onderground Copyright © dienst voor het kadaster en de openbare registers, Apeldoorn 2016."
+            ],
+            "country": {
+              "ISO3": "NLD",
+              "label": "Netherlands"
+            }
+          }
+        ]
+      }
 security:
 - name: AADToken
   type: oauth2
@@ -199,10 +256,8 @@ security:
   in: header
 metadata:
   description: >-
-    **Applies to**: S0 and S1 pricing tiers.
+    **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
-    This service returns a map image tile with size 256x256, given the x and y coordinates and zoom
-
-    level.
+    Returns copyright information for a given bounding box.
 errorCodes: []

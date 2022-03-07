@@ -1,85 +1,33 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.render.getmapimagerytile
-name: Get Map Imagery Tile
+uid: atlas.microsoft.com.maps.renderv2.getcopyrightcaption
+name: Get Copyright Caption
 service: Maps
-groupName: Render
-apiVersion: "1.0"
-summary: >-
-  **Applies to**: S0 and S1 pricing tiers.
-
-
-  This service returns a map image tile with size 256x256, given the x and y coordinates and zoom
-
-  level. Zoom level ranges from 1 to 19. The current available style value is 'satellite' which provides satellite
-
-  imagery alone.
-
-
-
-  **Note**: We recommend to start to use the new [Get Map Tile V2 API](https://aka.ms/GetMapTileV2).
+groupName: Render V2
+apiVersion: "2.1"
+summary: "**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nCopyrights API is designed to serve copyright information for Render Tile \nservice. In addition to basic copyright for the whole map, API is serving \nspecific groups of copyrights for some countries.\n\nAs an alternative to copyrights for map request, one can receive captions\nfor displaying the map provider information on the map."
 consumes: []
 produces:
 - application/json
-- image/jpeg
-- image/png
 paths:
-- content: GET https://atlas.microsoft.com/map/imagery/png?api-version=1.0&style=satellite&zoom={zoom}&x={x}&y={y}
+- content: GET https://atlas.microsoft.com/map/copyright/caption/{format}?api-version=2.1
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: 'Desired format of the response. Possible value: png.'
+  description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
-  - uid: RasterTileFormat
+  - uid: ResponseFormat
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API.
+  description: Version number of Azure Maps API. Current version is 2.1
   types:
   - uid: string
-- name: style
-  in: query
-  isRequired: true
-  description: Map style to be returned. __Possible values:__ satellite.
-  types:
-  - uid: MapImageryStyle
-- name: zoom
-  in: query
-  isRequired: true
-  description: "Zoom level for the desired tile. \n\nPlease see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details."
-  types:
-  - uid: integer
-  format: int32
-- name: x
-  in: query
-  isRequired: true
-  description: >-
-    X coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
-
-
-    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
-  types:
-  - uid: integer
-  format: int32
-- name: y
-  in: query
-  isRequired: true
-  description: >-
-    Y coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
-
-
-    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
-  types:
-  - uid: integer
-  format: int32
 responses:
 - name: 200 OK
-  headers:
-  - name: Content-Type
-    value: string
-  description: This image is returned from a successful Get Map Imagery Tile call
+  description: OK
   types:
-  - uid: object
+  - uid: CopyrightCaption
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
@@ -91,20 +39,30 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: RasterTileFormat
-  description: 'Desired format of the response. Possible value: png.'
+- name: ResponseFormat
+  description: Desired format of the response. Value can be either _json_ or _xml_.
   kind: enum
   properties:
-  - name: png
-    description: An image in the png format. Supports zoom levels 0 through 18.
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
-- name: MapImageryStyle
-  description: Map style to be returned. __Possible values:__ satellite.
-  kind: enum
+  - name: xml
+    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
+    types:
+    - uid: string
+- name: CopyrightCaption
+  description: This object is returned from a successful copyright call
+  kind: object
   properties:
-  - name: satellite
-    description: Satellite imagery
+  - name: formatVersion
+    isReadyOnly: true
+    description: Format Version property
+    types:
+    - uid: string
+  - name: copyrightsCaption
+    isReadyOnly: true
+    description: Copyrights Caption property
     types:
     - uid: string
 - name: ErrorResponse
@@ -161,15 +119,16 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Successful Imagery Tile Request
+- name: Successful Copyright Caption Request
   request:
-    uri: GET https://atlas.microsoft.com/map/imagery/png?api-version=1.0&style=satellite&zoom=6&x=10&y=22
+    uri: GET https://atlas.microsoft.com/map/copyright/caption/json?api-version=2.1
   responses:
   - statusCode: "200"
-    headers:
-    - name: Content-Type
-      value: image/png
-    body: "\"{file}\""
+    body: >-
+      {
+        "formatVersion": "0.0.1",
+        "copyrightsCaption": "© 1992 - 2017 TomTom."
+      }
 security:
 - name: AADToken
   type: oauth2
@@ -198,11 +157,5 @@ security:
      For publicly exposed applications, our recommendation is to configure a specific list of allowed origins on the [Map account resource](https://aka.ms/amauth) to limit rendering abuse and regularly renew the SAS Token.
   in: header
 metadata:
-  description: >-
-    **Applies to**: S0 and S1 pricing tiers.
-
-
-    This service returns a map image tile with size 256x256, given the x and y coordinates and zoom
-
-    level.
+  description: "**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nCopyrights API is designed to serve copyright information for Render Tile \nservice."
 errorCodes: []

@@ -9,16 +9,20 @@ summary: >-
 
 
 
-  **Applies to**: S0 and S1 pricing tiers.
+  **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
   This service serves 256 x 256 pixel tiles showing traffic incidents. All tiles use the same grid system. Because the traffic tiles use transparent images, they can be layered on top of map tiles to create a compound display. Traffic tiles render graphics to indicate traffic on the roads in the specified area.
 consumes: []
 produces:
 - application/json
+- image/jpeg
+- image/png
+- image/pbf
+- application/vnd.mapbox-vector-tile
 paths:
 - content: GET https://atlas.microsoft.com/traffic/incident/tile/{format}?api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}
-- content: GET https://atlas.microsoft.com/traffic/incident/tile/{format}?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}&t={t}
+- content: GET https://atlas.microsoft.com/traffic/incident/tile/{format}?api-version=1.0&style={style}&zoom={zoom}&x={x}&y={y}&t={t}
   isOptional: true
 uriParameters:
 - name: format
@@ -27,15 +31,10 @@ uriParameters:
   description: Desired format of the response. Possible values are png & pbf.
   types:
   - uid: TileFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: style
@@ -61,7 +60,7 @@ uriParameters:
     X coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
 
 
-    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
   types:
   - uid: integer
   format: int32
@@ -72,7 +71,7 @@ uriParameters:
     Y coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
 
 
-    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
   types:
   - uid: integer
   format: int32
@@ -83,32 +82,16 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
-  types:
-  - uid: TrafficIncidentTileResult
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
-  types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
   headers:
-  - name: WWW-Authenticate
+  - name: Content-Type
     value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
+  description: This object is returned from a successful Traffic Incident Tile call
   types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
+  - uid: object
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -141,101 +124,73 @@ definitions:
     types:
     - uid: string
   - name: s3
-    description: Creates plain lines with certain degree of glow.
+    description: Creates plain lines with certain degree of glow, different from the s2 style.
     types:
     - uid: string
   - name: night
     description: Night style.
     types:
     - uid: string
-- name: TrafficIncidentTileResult
-  description: This object is returned from a successful Traffic Incident Tile call
-  kind: object
-  properties:
-  - name: image
-    isReadyOnly: true
-    description: Image property
-    types:
-    - uid: string
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+    - uid: ErrorDetail
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
-- name: GetTrafficIncidentTile
+- name: Request a tile depicting a traffic incident
   request:
-    uri: GET https://atlas.microsoft.com/traffic/incident/tile/png?subscription-key=[subscription-key]&api-version=1.0&style=night&zoom=10&x=175&y=408
+    uri: GET https://atlas.microsoft.com/traffic/incident/tile/png?api-version=1.0&style=night&zoom=10&x=175&y=408
   responses:
   - statusCode: "200"
     body: '{}'
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
-      }
 security:
 - name: AADToken
   type: oauth2
@@ -269,8 +224,5 @@ metadata:
 
 
 
-    **Applies to**: S0 and S1 pricing tiers.
-
-
-    This service serves 256 x 256 pixel tiles showing traffic incidents.
+    **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 errorCodes: []

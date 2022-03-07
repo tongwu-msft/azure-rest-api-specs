@@ -1,18 +1,18 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.search.postsearchaddressreversebatch
-name: Post Search Address Reverse Batch
+uid: atlas.microsoft.com.maps.search.getsearchaddressbatch
+name: Get Search Address Batch
 service: Maps
 groupName: Search
 apiVersion: "1.0"
 summary: >-
-  **Search Address Reverse Batch API**
+  **Search Address Batch API**
 
 
 
   **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
-  The Search Address Batch API sends batches of queries to [Search Address Reverse API](https://docs.microsoft.com/rest/api/maps/search/getsearchaddressreverse) using just a single API call. You can call Search Address Reverse Batch API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **10,000** queries and sync API up to **100** queries.
+  The Search Address Batch API sends batches of queries to [Search Address API](https://docs.microsoft.com/rest/api/maps/search/getsearchaddress) using just a single API call. You can call Search Address Batch API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **10,000** queries and sync API up to **100** queries.
 
   ### Submit Synchronous Batch Request
 
@@ -20,7 +20,7 @@ summary: >-
 
   ```
 
-  POST https://atlas.microsoft.com/search/address/reverse/batch/sync/json?api-version=1.0&subscription-key={subscription-key}
+  POST https://atlas.microsoft.com/search/address/batch/sync/json?api-version=1.0&subscription-key={subscription-key}
 
   ```
 
@@ -54,7 +54,7 @@ summary: >-
       This status URI looks like following:
 
   ```
-      GET https://atlas.microsoft.com/search/address/reverse/batch/{batch-id}?api-version=1.0&subscription-key={subscription-key}
+      GET https://atlas.microsoft.com/search/address/batch/{batch-id}?api-version=1.0&subscription-key={subscription-key}
   ```
 
   4. Client issues a `GET` request on the _download URL_ obtained in Step 3 to download the batch results.
@@ -62,7 +62,7 @@ summary: >-
 
   ### POST Body for Batch Request
 
-  To send the _search address reverse_ queries you will use a `POST` request where the request body will contain the `batchItems` array in `json` format and the `Content-Type` header will be set to `application/json`. Here's a sample request body containing 5 _search address reverse_ queries:
+  To send the _search address_ queries you will use a `POST` request where the request body will contain the `batchItems` array in `json` format and the `Content-Type` header will be set to `application/json`. Here's a sample request body containing 5 _search address_ queries:
 
 
 
@@ -70,18 +70,18 @@ summary: >-
 
   {
       "batchItems": [
-          {"query": "?query=48.858561,2.294911"},
-          {"query": "?query=47.639765,-122.127896&radius=5000&limit=2"},
-          {"query": "?query=47.621028,-122.348170"},
-          {"query": "?query=43.722990,10.396695"},
-          {"query": "?query=40.750958,-73.982336"}
+          {"query": "?query=400 Broad St, Seattle, WA 98109&limit=3"},
+          {"query": "?query=One, Microsoft Way, Redmond, WA 98052&limit=3"},
+          {"query": "?query=350 5th Ave, New York, NY 10118&limit=1"},
+          {"query": "?query=Pike Pl, Seattle, WA 98101&lat=47.610970&lon=-122.342469&radius=1000"},
+          {"query": "?query=Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France&limit=1"}
       ]
   }
 
   ```
 
 
-  A _search address reverse_ query in a batch is just a partial URL _without_ the protocol, base URL, path, api-version and subscription-key. It can accept any of the supported _search address reverse_ [URI parameters](https://docs.microsoft.com/rest/api/maps/search/getsearchaddressreverse#uri-parameters). The string values in the _search address reverse_ query must be properly escaped (e.g. " character should be escaped with \\ ) and it should also be properly URL-encoded.
+  A _search address_ query in a batch is just a partial URL _without_ the protocol, base URL, path, api-version and subscription-key. It can accept any of the supported _search address_ [URI parameters](https://docs.microsoft.com/rest/api/maps/search/getsearchaddress#uri-parameters). The string values in the _search address_ query must be properly escaped (e.g. " character should be escaped with \\ ) and it should also be properly URL-encoded.
 
 
 
@@ -96,7 +96,7 @@ summary: >-
 
   ```
 
-  https://atlas.microsoft.com/search/address/reverse/batch/{batch-id}?api-version=1.0&subscription-key={subscription-key}
+  https://atlas.microsoft.com/search/address/batch/{batch-id}?api-version=1.0&subscription-key={subscription-key}
 
   ```
 
@@ -116,7 +116,7 @@ summary: >-
 
   The returned data content is similar for async and sync requests. When downloading the results of an async batch request, if the batch has finished processing, the response body contains the batch response. This batch response contains a `summary` component that indicates the `totalRequests` that were part of the original batch request and `successfulRequests`i.e. queries which were executed successfully. The batch response also includes a `batchItems` array which contains a response for each and every query in the batch request. The `batchItems` will contain the results in the exact same order the original queries were sent in the batch request. Each item in `batchItems` contains `statusCode` and `response` fields. Each `response` in `batchItems` is of one of the following types:
 
-    - [`SearchAddressReverseResponse`](https://docs.microsoft.com/rest/api/maps/search/getsearchaddressreverse#searchaddressreverseresponse) - If the query completed successfully.
+    - [`SearchAddressResponse`](https://docs.microsoft.com/rest/api/maps/search/getsearchaddress#SearchAddressResponse) - If the query completed successfully.
 
     - `Error` - If the query failed. The response will contain a `code` and a `message` in this case.
 
@@ -138,15 +138,14 @@ summary: >-
               "response":
               {
                   "summary": {
-                      "queryTime": 11
+                      "query": "one microsoft way redmond wa 98052"
                   },
-                  "addresses": [
+                  "results": [
                       {
-                          "address": {
-                              "country": "France",
-                              "freeformAddress": "Avenue Anatole France, 75007 Paris"
-                          },
-                          "position": "48.858490,2.294820"
+                          "position": {
+                              "lat": 47.63989,
+                              "lon": -122.12509
+                          }
                       }
                   ]
               }
@@ -156,15 +155,14 @@ summary: >-
               "response":
               {
                   "summary": {
-                      "queryTime": 1
+                      "query": "pike pl seattle wa 98101"
                   },
-                  "addresses": [
+                  "results": [
                       {
-                          "address": {
-                              "country": "United States of America",
-                              "freeformAddress": "157th Pl NE, Redmond WA 98052"
-                          },
-                          "position": "47.640470,-122.129430"
+                          "position": {
+                              "lat": 47.60963,
+                              "lon": -122.34215
+                          }
                       }
                   ]
               }
@@ -188,14 +186,14 @@ consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://atlas.microsoft.com/search/address/reverse/batch/json?api-version=1.0
+- content: GET https://atlas.microsoft.com/search/address/batch/{format}?api-version=1.0
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Only `json` format is supported.
+  description: Batch id for querying the operation.
   types:
-  - uid: JsonFormat
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -206,7 +204,7 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: ReverseSearchAddressBatchProcessResult
+  - uid: SearchAddressBatchProcessResult
 - name: 202 Accepted
   headers:
   - name: Location
@@ -219,15 +217,6 @@ responses:
   description: An unexpected error occurred.
   types:
   - uid: ErrorResponse
-requestBody:
-- name: default
-  parameters:
-  - name: batchItems
-    in: body
-    description: The list of queries to process.
-    types:
-    - uid: BatchRequestItem
-      isArray: true
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -235,31 +224,15 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: JsonFormat
-  description: Desired format of the response. Only `json` format is supported.
-  kind: enum
-  properties:
-  - name: json
-    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
-    types:
-    - uid: string
-- name: BatchRequestItem
-  description: Batch request object
-  kind: object
-  properties:
-  - name: query
-    description: This parameter contains a query string used to perform an unstructured geocoding operation. The query string will be passed verbatim to the search API for processing.
-    types:
-    - uid: string
-- name: ReverseSearchAddressBatchProcessResult
-  description: This object is returned from a successful Search Address Reverse Batch service call.
+- name: SearchAddressBatchProcessResult
+  description: This object is returned from a successful Search Address Batch service call.
   kind: object
   properties:
   - name: batchItems
     isReadyOnly: true
     description: Array containing the batch results.
     types:
-    - uid: ReverseSearchAddressBatchItem
+    - uid: SearchAddressBatchItem
       isArray: true
   - name: summary
     isReadyOnly: true
@@ -274,22 +247,13 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: BatchRequest
-  description: This type represents the request body for the Batch service.
-  kind: object
-  properties:
-  - name: batchItems
-    description: The list of queries to process.
-    types:
-    - uid: BatchRequestItem
-      isArray: true
-- name: ReverseSearchAddressBatchItem
-  description: An item returned from Search Address Reverse Batch service call.
+- name: SearchAddressBatchItem
+  description: An item returned from Search Address Batch service call.
   kind: object
   properties:
   - name: response
     isReadyOnly: true
-    description: The result of the query. SearchAddressReverseResponse if the query completed successfully, ErrorResponse otherwise.
+    description: The result of the query. SearchAddressResponse if the query completed successfully, ErrorResponse otherwise.
     types:
     - uid: Response
   - name: statusCode
@@ -981,23 +945,9 @@ definitions:
     types:
     - uid: integer
 examples:
-- name: A Reverse Geocoding Batch API call containing 5 Reverse Geocoding API queries
+- name: An Address Geocoding Batch API GET call containing 5 Address Geocoding API queries
   request:
-    uri: POST https://atlas.microsoft.com/search/address/reverse/batch/json?api-version=1.0
-    body: >-
-      {
-        "batchItems": [
-          {
-            "query": "?query=48.858561,2.294911"
-          },
-          {
-            "query": "?query=47.639765,-122.127896&radius=5000&limit=2"
-          },
-          {
-            "query": "?query=47.621028,-122.348170"
-          }
-        ]
-      }
+    uri: GET https://atlas.microsoft.com/search/address/batch/11111111-2222-3333-4444-555555555555?api-version=1.0
   responses:
   - statusCode: "200"
     body: >-
@@ -1011,101 +961,266 @@ examples:
             "statusCode": 200,
             "response": {
               "summary": {
-                "queryTime": 8,
-                "numResults": 1
+                "query": "400 broad st seattle wa 98109",
+                "queryType": "NON_NEAR",
+                "queryTime": 127,
+                "numResults": 3,
+                "offset": 0,
+                "totalResults": 9,
+                "fuzzyLevel": 1
               },
-              "addresses": [
+              "results": [
                 {
+                  "type": "Point Address",
+                  "id": "US/PAD/p0/20843845",
+                  "score": 11.966,
                   "address": {
-                    "streetNumber": "7",
-                    "routeNumbers": [],
-                    "streetName": "Avenue Anatole France",
-                    "streetNameAndNumber": "7 Avenue Anatole France",
-                    "countryCode": "FR",
-                    "countrySubdivision": "Île-de-France",
-                    "countrySecondarySubdivision": "Paris",
-                    "municipality": "Paris",
-                    "postalCode": "75007",
-                    "municipalitySubdivision": "7ème Arrondissement",
-                    "country": "France",
-                    "countryCodeISO3": "FRA",
-                    "freeformAddress": "7 Avenue Anatole France, Paris, 75007",
-                    "boundingBox": {
-                      "northEast": "48.858321,2.295167",
-                      "southWest": "48.858136,2.295027",
-                      "entity": "position"
-                    }
-                  },
-                  "position": "48.858231,2.295089"
-                }
-              ]
-            }
-          },
-          {
-            "statusCode": 200,
-            "response": {
-              "summary": {
-                "queryTime": 8,
-                "numResults": 1
-              },
-              "addresses": [
-                {
-                  "address": {
-                    "routeNumbers": [],
-                    "countryCode": "US",
-                    "countrySubdivision": "WA",
-                    "countrySecondarySubdivision": "King",
-                    "countryTertiarySubdivision": "Seattle East",
-                    "municipality": "Redmond",
-                    "postalCode": "98052",
-                    "country": "United States",
-                    "countryCodeISO3": "USA",
-                    "freeformAddress": "Redmond, WA 98052",
-                    "boundingBox": {
-                      "northEast": "47.639765,-122.128661",
-                      "southWest": "47.639502,-122.129456",
-                      "entity": "position"
-                    },
-                    "countrySubdivisionName": "Washington"
-                  },
-                  "position": "47.639687,-122.128677"
-                }
-              ]
-            }
-          },
-          {
-            "statusCode": 200,
-            "response": {
-              "summary": {
-                "queryTime": 19,
-                "numResults": 1
-              },
-              "addresses": [
-                {
-                  "address": {
-                    "streetNumber": "410",
-                    "routeNumbers": [],
-                    "streetName": "Thomas Street",
-                    "streetNameAndNumber": "410 Thomas Street",
-                    "countryCode": "US",
-                    "countrySubdivision": "WA",
+                    "streetNumber": "400",
+                    "streetName": "Broad Street",
+                    "municipalitySubdivision": "Seattle, South Lake Union, Lower Queen Anne",
+                    "municipality": "Seattle",
                     "countrySecondarySubdivision": "King",
                     "countryTertiarySubdivision": "Seattle",
-                    "municipality": "Seattle",
+                    "countrySubdivision": "WA",
                     "postalCode": "98109",
-                    "municipalitySubdivision": "Seattle, Lower Queen Anne",
-                    "country": "United States",
+                    "countryCode": "US",
+                    "country": "United States Of America",
                     "countryCodeISO3": "USA",
-                    "freeformAddress": "410 Thomas Street, Seattle, WA 98109",
-                    "boundingBox": {
-                      "northEast": "47.620954,-122.347601",
-                      "southWest": "47.620944,-122.348498",
-                      "entity": "position"
-                    },
-                    "extendedPostalCode": "981094621",
+                    "freeformAddress": "400 Broad Street, Seattle, WA 98109",
                     "countrySubdivisionName": "Washington"
                   },
-                  "position": "47.620945,-122.348175"
+                  "position": {
+                    "lat": 47.62039,
+                    "lon": -122.34928
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.62129,
+                      "lon": -122.35061
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.61949,
+                      "lon": -122.34795
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 47.61982,
+                        "lon": -122.34886
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "Street",
+                  "id": "US/STR/p0/388442",
+                  "score": 10.225,
+                  "address": {
+                    "streetName": "Broad Street",
+                    "municipalitySubdivision": "Seattle, South Lake Union",
+                    "municipality": "Seattle",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98109",
+                    "extendedPostalCode": "981094612",
+                    "countryCode": "US",
+                    "country": "United States Of America",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "Broad Street, Seattle, WA 98109",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.62001,
+                    "lon": -122.34843
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.61965,
+                      "lon": -122.34761
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.62066,
+                      "lon": -122.349
+                    }
+                  }
+                },
+                {
+                  "type": "Street",
+                  "id": "US/STR/p0/388680",
+                  "score": 10.225,
+                  "address": {
+                    "streetName": "Broad Street",
+                    "municipalitySubdivision": "Seattle, Belltown",
+                    "municipality": "Seattle",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98109,98121",
+                    "extendedPostalCode": "981094991,981211117,981211237,981213206",
+                    "countryCode": "US",
+                    "country": "United States Of America",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "Broad Street, Seattle, WA",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.61691,
+                    "lon": -122.35251
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.61502,
+                      "lon": -122.35041
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.61857,
+                      "lon": -122.35484
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "query": "one microsoft way redmond wa 98052",
+                "queryType": "NON_NEAR",
+                "queryTime": 169,
+                "numResults": 2,
+                "offset": 0,
+                "totalResults": 3292,
+                "fuzzyLevel": 2
+              },
+              "results": [
+                {
+                  "type": "Street",
+                  "id": "US/STR/p0/1692663",
+                  "score": 10.225,
+                  "address": {
+                    "streetName": "Microsoft Way",
+                    "municipality": "Redmond",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98052",
+                    "extendedPostalCode": "980526399,980528300",
+                    "countryCode": "US",
+                    "country": "United States Of America",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "Microsoft Way, Redmond, WA 98052",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.63989,
+                    "lon": -122.12509
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.63748,
+                      "lon": -122.12309
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.64223,
+                      "lon": -122.13061
+                    }
+                  }
+                },
+                {
+                  "type": "Cross Street",
+                  "id": "US/XSTR/p1/4779971",
+                  "score": 8.506,
+                  "address": {
+                    "streetName": "Microsoft Way & 157th Avenue Northeast, Microsoft Way",
+                    "municipality": "Redmond",
+                    "countrySecondarySubdivision": "King",
+                    "countryTertiarySubdivision": "Seattle East",
+                    "countrySubdivision": "WA",
+                    "postalCode": "98052",
+                    "countryCode": "US",
+                    "country": "United States Of America",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "Microsoft Way & 157th Avenue Northeast, Redmond, WA 98052",
+                    "countrySubdivisionName": "Washington"
+                  },
+                  "position": {
+                    "lat": 47.63962,
+                    "lon": -122.13061
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 47.64052,
+                      "lon": -122.13194
+                    },
+                    "btmRightPoint": {
+                      "lat": 47.63872,
+                      "lon": -122.12928
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "statusCode": 200,
+            "response": {
+              "summary": {
+                "query": "350 5th ave new york ny 10118",
+                "queryType": "NON_NEAR",
+                "queryTime": 233,
+                "numResults": 1,
+                "offset": 0,
+                "totalResults": 8032,
+                "fuzzyLevel": 1
+              },
+              "results": [
+                {
+                  "type": "Point Address",
+                  "id": "US/PAD/p0/48052000",
+                  "score": 14.334,
+                  "address": {
+                    "streetNumber": "350",
+                    "streetName": "5th Avenue",
+                    "municipalitySubdivision": "New York, Midtown South",
+                    "municipality": "New York, Manhattan",
+                    "countrySecondarySubdivision": "New York",
+                    "countryTertiarySubdivision": "Manhattan",
+                    "countrySubdivision": "NY",
+                    "postalCode": "10118",
+                    "extendedPostalCode": "1011800",
+                    "countryCode": "US",
+                    "country": "United States Of America",
+                    "countryCodeISO3": "USA",
+                    "freeformAddress": "350 5th Avenue, NYC, NY 10118",
+                    "countrySubdivisionName": "New York"
+                  },
+                  "position": {
+                    "lat": 40.74817,
+                    "lon": -73.985
+                  },
+                  "viewport": {
+                    "topLeftPoint": {
+                      "lat": 40.74907,
+                      "lon": -73.98619
+                    },
+                    "btmRightPoint": {
+                      "lat": 40.74727,
+                      "lon": -73.98381
+                    }
+                  },
+                  "entryPoints": [
+                    {
+                      "type": "main",
+                      "position": {
+                        "lat": 40.74808,
+                        "lon": -73.98482
+                      }
+                    }
+                  ]
                 }
               ]
             }
@@ -1113,9 +1228,6 @@ examples:
         ]
       }
   - statusCode: "202"
-    headers:
-    - name: Location
-      value: URL to download the results of the long-running batch request.
 security:
 - name: AADToken
   type: oauth2
@@ -1145,7 +1257,7 @@ security:
   in: header
 metadata:
   description: >-
-    **Search Address Reverse Batch API**
+    **Search Address Batch API**
 
 
 

@@ -1,6 +1,6 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.search.postsearchfuzzybatch
-name: Post Search Fuzzy Batch
+uid: atlas.microsoft.com.maps.search.postsearchfuzzybatchsync
+name: Post Search Fuzzy Batch Sync
 service: Maps
 groupName: Search
 apiVersion: "1.0"
@@ -194,7 +194,7 @@ consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://atlas.microsoft.com/search/fuzzy/batch/json?api-version=1.0
+- content: POST https://atlas.microsoft.com/search/fuzzy/batch/sync/json?api-version=1.0
 uriParameters:
 - name: format
   in: path
@@ -213,14 +213,10 @@ responses:
   description: OK
   types:
   - uid: SearchAddressBatchProcessResult
-- name: 202 Accepted
-  headers:
-  - name: Location
-    value: string
-  description: >-
-    **Supported only for async request.**
-
-    Request Accepted: The request has been accepted for processing. Please use the URL in the Location Header to retry or access the results.
+- name: Other Status Codes
+  description: 'Timeout: The request took longer to finish than the maximum amount of time defined in the api.'
+  types:
+  - uid: ErrorResponse
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
@@ -987,9 +983,9 @@ definitions:
     types:
     - uid: integer
 examples:
-- name: A Search Fuzzy Batch API call containing 5 Search Fuzzy API queries
+- name: A Sync Search Fuzzy Batch API call containing 5 Search Fuzzy API queries
   request:
-    uri: POST https://atlas.microsoft.com/search/fuzzy/batch/json?api-version=1.0
+    uri: POST https://atlas.microsoft.com/search/fuzzy/batch/sync/json?api-version=1.0
     body: >-
       {
         "batchItems": [
@@ -2386,10 +2382,14 @@ examples:
           "totalRequests": 3
         }
       }
-  - statusCode: "202"
-    headers:
-    - name: Location
-      value: URL to download the results of the long-running batch request.
+  - statusCode: "408"
+    body: >-
+      {
+        "error": {
+          "code": "408 Timeout",
+          "message": "Timeout: The request took longer to finish than the maximum amount of time defined in the api."
+        }
+      }
 security:
 - name: AADToken
   type: oauth2

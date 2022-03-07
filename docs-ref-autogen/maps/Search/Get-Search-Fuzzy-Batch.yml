@@ -1,6 +1,6 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.search.postsearchfuzzybatch
-name: Post Search Fuzzy Batch
+uid: atlas.microsoft.com.maps.search.getsearchfuzzybatch
+name: Get Search Fuzzy Batch
 service: Maps
 groupName: Search
 apiVersion: "1.0"
@@ -194,14 +194,14 @@ consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://atlas.microsoft.com/search/fuzzy/batch/json?api-version=1.0
+- content: GET https://atlas.microsoft.com/search/fuzzy/batch/{format}?api-version=1.0
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: Desired format of the response. Only `json` format is supported.
+  description: Batch id for querying the operation.
   types:
-  - uid: JsonFormat
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -225,15 +225,6 @@ responses:
   description: An unexpected error occurred.
   types:
   - uid: ErrorResponse
-requestBody:
-- name: default
-  parameters:
-  - name: batchItems
-    in: body
-    description: The list of queries to process.
-    types:
-    - uid: BatchRequestItem
-      isArray: true
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -241,22 +232,6 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: JsonFormat
-  description: Desired format of the response. Only `json` format is supported.
-  kind: enum
-  properties:
-  - name: json
-    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
-    types:
-    - uid: string
-- name: BatchRequestItem
-  description: Batch request object
-  kind: object
-  properties:
-  - name: query
-    description: This parameter contains a query string used to perform an unstructured geocoding operation. The query string will be passed verbatim to the search API for processing.
-    types:
-    - uid: string
 - name: SearchAddressBatchProcessResult
   description: This object is returned from a successful Search Address Batch service call.
   kind: object
@@ -280,15 +255,6 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: BatchRequest
-  description: This type represents the request body for the Batch service.
-  kind: object
-  properties:
-  - name: batchItems
-    description: The list of queries to process.
-    types:
-    - uid: BatchRequestItem
-      isArray: true
 - name: SearchAddressBatchItem
   description: An item returned from Search Address Batch service call.
   kind: object
@@ -987,23 +953,9 @@ definitions:
     types:
     - uid: integer
 examples:
-- name: A Search Fuzzy Batch API call containing 5 Search Fuzzy API queries
+- name: A Search Fuzzy Batch API GET call containing 5 Search Fuzzy API queries
   request:
-    uri: POST https://atlas.microsoft.com/search/fuzzy/batch/json?api-version=1.0
-    body: >-
-      {
-        "batchItems": [
-          {
-            "query": "?query=atm&lat=47.639769&lon=-122.128362&radius=5000&limit=5"
-          },
-          {
-            "query": "?query=Statue Of Liberty&limit=2"
-          },
-          {
-            "query": "?query=Starbucks&lat=47.639769&lon=-122.128362&radius=5000"
-          }
-        ]
-      }
+    uri: GET https://atlas.microsoft.com/search/fuzzy/batch/11111111-2222-3333-4444-555555555555?api-version=1.0
   responses:
   - statusCode: "200"
     body: >-
@@ -2387,9 +2339,6 @@ examples:
         }
       }
   - statusCode: "202"
-    headers:
-    - name: Location
-      value: URL to download the results of the long-running batch request.
 security:
 - name: AADToken
   type: oauth2

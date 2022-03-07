@@ -5,7 +5,7 @@ service: Maps
 groupName: Route
 apiVersion: "1.0"
 summary: >-
-  **Applies to**: S0 and S1 pricing tiers.
+  **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
 
@@ -19,10 +19,9 @@ summary: >-
 consumes: []
 produces:
 - application/json
-- application/xml
 paths:
 - content: POST https://atlas.microsoft.com/route/directions/{format}?api-version=1.0&query={query}
-- content: POST https://atlas.microsoft.com/route/directions/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&maxAlternatives={maxAlternatives}&alternativeType={alternativeType}&minDeviationDistance={minDeviationDistance}&minDeviationTime={minDeviationTime}&instructionsType={instructionsType}&language={language}&computeBestOrder={computeBestOrder}&routeRepresentation={routeRepresentation}&computeTravelTimeFor={computeTravelTimeFor}&vehicleHeading={vehicleHeading}&report={report}&sectionType={sectionType}&arriveAt={arriveAt}&departAt={departAt}&vehicleAxleWeight={vehicleAxleWeight}&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleMaxSpeed={vehicleMaxSpeed}&vehicleWeight={vehicleWeight}&vehicleCommercial={vehicleCommercial}&windingness={windingness}&hilliness={hilliness}&travelMode={travelMode}&avoid={avoid}&traffic={traffic}&routeType={routeType}&vehicleLoadType={vehicleLoadType}&vehicleEngineType={vehicleEngineType}&constantSpeedConsumptionInLitersPerHundredkm={constantSpeedConsumptionInLitersPerHundredkm}&currentFuelInLiters={currentFuelInLiters}&auxiliaryPowerInLitersPerHour={auxiliaryPowerInLitersPerHour}&fuelEnergyDensityInMJoulesPerLiter={fuelEnergyDensityInMJoulesPerLiter}&accelerationEfficiency={accelerationEfficiency}&decelerationEfficiency={decelerationEfficiency}&uphillEfficiency={uphillEfficiency}&downhillEfficiency={downhillEfficiency}&constantSpeedConsumptionInkWhPerHundredkm={constantSpeedConsumptionInkWhPerHundredkm}&currentChargeInkWh={currentChargeInkWh}&maxChargeInkWh={maxChargeInkWh}&auxiliaryPowerInkW={auxiliaryPowerInkW}
+- content: POST https://atlas.microsoft.com/route/directions/{format}?api-version=1.0&query={query}&maxAlternatives={maxAlternatives}&alternativeType={alternativeType}&minDeviationDistance={minDeviationDistance}&minDeviationTime={minDeviationTime}&instructionsType={instructionsType}&language={language}&computeBestOrder={computeBestOrder}&routeRepresentation={routeRepresentation}&computeTravelTimeFor={computeTravelTimeFor}&vehicleHeading={vehicleHeading}&report=effectiveSettings&sectionType={sectionType}&arriveAt={arriveAt}&departAt={departAt}&vehicleAxleWeight={vehicleAxleWeight}&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleMaxSpeed={vehicleMaxSpeed}&vehicleWeight={vehicleWeight}&vehicleCommercial={vehicleCommercial}&windingness={windingness}&hilliness={hilliness}&travelMode={travelMode}&avoid={avoid}&traffic={traffic}&routeType={routeType}&vehicleLoadType={vehicleLoadType}&vehicleEngineType={vehicleEngineType}&constantSpeedConsumptionInLitersPerHundredkm={constantSpeedConsumptionInLitersPerHundredkm}&currentFuelInLiters={currentFuelInLiters}&auxiliaryPowerInLitersPerHour={auxiliaryPowerInLitersPerHour}&fuelEnergyDensityInMJoulesPerLiter={fuelEnergyDensityInMJoulesPerLiter}&accelerationEfficiency={accelerationEfficiency}&decelerationEfficiency={decelerationEfficiency}&uphillEfficiency={uphillEfficiency}&downhillEfficiency={downhillEfficiency}&constantSpeedConsumptionInkWhPerHundredkm={constantSpeedConsumptionInkWhPerHundredkm}&currentChargeInkWh={currentChargeInkWh}&maxChargeInkWh={maxChargeInkWh}&auxiliaryPowerInkW={auxiliaryPowerInkW}
   isOptional: true
 uriParameters:
 - name: format
@@ -30,22 +29,17 @@ uriParameters:
   isRequired: true
   description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
-  - uid: TextFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
+  - uid: ResponseFormat
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: query
   in: query
   isRequired: true
-  description: The Coordinates through which the route is calculated. Needs two coordinates at least. Delimited by colon. First one is the origin and the last is the destination of the route. The coordinates are in a  lat,long format. Optional coordinates in between act as WayPoints in the route.
+  description: The Coordinates through which the route is calculated, delimited by a colon.  A minimum of two coordinates is required.  The first one is the origin and the last is the destination of the route. Optional coordinates in-between act as WayPoints in the route.  You can pass up to 150 WayPoints.
   types:
   - uid: string
 - name: maxAlternatives
@@ -103,12 +97,12 @@ uriParameters:
   in: query
   description: Specifies the representation of the set of routes provided as response. This parameter value can only be used in conjunction with computeBestOrder=true.
   types:
-  - uid: RouteRepresentation
+  - uid: RouteRepresentationForBestOrder
 - name: computeTravelTimeFor
   in: query
   description: Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time.
   types:
-  - uid: ComputeTravelTimeFor
+  - uid: ComputeTravelTime
 - name: vehicleHeading
   in: query
   description: The directional heading of the vehicle in degrees starting at true North and continuing in clockwise direction. North is 0 degrees, east is 90 degrees, south is 180 degrees, west is 270 degrees. Possible values 0-359
@@ -118,7 +112,7 @@ uriParameters:
   in: query
   description: Specifies which data should be reported for diagnosis purposes. The only possible value is _effectiveSettings_. Reports the effective parameters or data used when calling the API. In the case of defaulted parameters the default will be reflected where the parameter was not specified by the caller.
   types:
-  - uid: string
+  - uid: Report
 - name: sectionType
   in: query
   description: Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car
@@ -146,19 +140,19 @@ uriParameters:
   description: Length of the vehicle in meters. A value of 0 means that length restrictions are not considered.
   types:
   - uid: number
-  format: float
+  format: double
 - name: vehicleHeight
   in: query
   description: Height of the vehicle in meters. A value of 0 means that height restrictions are not considered.
   types:
   - uid: number
-  format: float
+  format: double
 - name: vehicleWidth
   in: query
   description: Width of the vehicle in meters. A value of 0 means that width restrictions are not considered.
   types:
   - uid: number
-  format: float
+  format: double
 - name: vehicleMaxSpeed
   in: query
   description: "Maximum speed of the vehicle in km/hour. The max speed in the vehicle profile is used to check whether a vehicle is allowed on motorways. \n\n* A value of 0 means that an appropriate value for the vehicle will be determined and applied during route planning.\n\n* A non-zero value may be overridden during route planning. For example, the current traffic flow is 60 km/hour. If the vehicle  maximum speed is set to 50 km/hour, the routing engine will consider 60 km/hour as this is the current situation.  If the maximum speed of the vehicle is provided as 80 km/hour but the current traffic flow is 60 km/hour, then routing engine will again use 60 km/hour."
@@ -187,19 +181,19 @@ uriParameters:
   - uid: integer
 - name: vehicleCommercial
   in: query
-  description: Vehicle is used for commercial purposes and thus may not be allowed to drive  on some roads.
+  description: Whether the vehicle is used for commercial purposes. Commercial vehicles may not be allowed to drive on some roads.
   types:
   - uid: boolean
 - name: windingness
   in: query
   description: Level of turns for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
   types:
-  - uid: Windingness
+  - uid: WindingnessLevel
 - name: hilliness
   in: query
   description: Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
   types:
-  - uid: Hilliness
+  - uid: InclineLevel
 - name: travelMode
   in: query
   description: The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used.
@@ -209,7 +203,7 @@ uriParameters:
   in: query
   description: Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times in one request, for example, '&avoid=motorways&avoid=tollRoads&avoid=ferries'. In calculateReachableRange requests, the value alreadyUsedRoads must not be used.
   types:
-  - uid: Avoid
+  - uid: array
 - name: traffic
   in: query
   description: "Possible values: \n  * true - Do consider all available traffic information during routing\n  * false - Ignore current traffic data during routing. Note that although the current traffic data is ignored \n  during routing, the effect of historic traffic on effective road speeds is still incorporated."
@@ -234,8 +228,7 @@ uriParameters:
   in: query
   description: "\n\nSpecifies the speed-dependent component of consumption.\n\nProvided as an unordered list of colon-delimited speed & consumption-rate pairs. The list defines points on a consumption curve. Consumption rates for speeds not in the list are found as follows:\n\n * by linear interpolation, if the given speed lies in between two speeds in the list\n\n * by linear extrapolation otherwise, assuming a constant (ΔConsumption/ΔSpeed) determined by the nearest two points in the list\n\nThe list must contain between 1 and 25 points (inclusive), and may not contain duplicate points for the same speed. If it only contains a single point, then the consumption rate of that point is used without further processing.\n\nConsumption specified for the largest speed must be greater than or equal to that of the penultimate largest speed. This ensures that extrapolation does not lead to negative consumption rates.\n\nSimilarly, consumption values specified for the two smallest speeds in the list cannot lead to a negative consumption rate for any smaller speed.\n\nThe valid range for the consumption values(expressed in l/100km) is between 0.01 and 100000.0.\n\nSensible Values : 50,6.3:130,11.5\n\n**Note** : This parameter is required for **The Combustion Consumption Model**."
   types:
-  - uid: number
-  format: float
+  - uid: string
 - name: currentFuelInLiters
   in: query
   description: >-
@@ -245,7 +238,7 @@ uriParameters:
     Sensible Values : 55
   types:
   - uid: number
-  format: float
+  format: double
 - name: auxiliaryPowerInLitersPerHour
   in: query
   description: >-
@@ -258,7 +251,7 @@ uriParameters:
     Sensible Values : 0.2
   types:
   - uid: number
-  format: float
+  format: double
 - name: fuelEnergyDensityInMJoulesPerLiter
   in: query
   description: >-
@@ -271,7 +264,7 @@ uriParameters:
     Sensible Values : 34.2
   types:
   - uid: number
-  format: float
+  format: double
 - name: accelerationEfficiency
   in: query
   description: >-
@@ -287,7 +280,7 @@ uriParameters:
     Sensible Values : for **Combustion Model** : 0.33, for **Electric Model** : 0.66
   types:
   - uid: number
-  format: float
+  format: double
 - name: decelerationEfficiency
   in: query
   description: >-
@@ -303,7 +296,7 @@ uriParameters:
     Sensible Values : for **Combustion Model** : 0.83, for **Electric Model** : 0.91
   types:
   - uid: number
-  format: float
+  format: double
 - name: uphillEfficiency
   in: query
   description: >-
@@ -319,7 +312,7 @@ uriParameters:
     Sensible Values : for **Combustion Model** : 0.27, for **Electric Model** : 0.74
   types:
   - uid: number
-  format: float
+  format: double
 - name: downhillEfficiency
   in: query
   description: >-
@@ -335,7 +328,7 @@ uriParameters:
     Sensible Values : for **Combustion Model** : 0.51, for **Electric Model** : 0.73
   types:
   - uid: number
-  format: float
+  format: double
 - name: constantSpeedConsumptionInkWhPerHundredkm
   in: query
   description: >-
@@ -383,7 +376,8 @@ uriParameters:
 
     Sensible Values : 43
   types:
-  - uid: string
+  - uid: number
+  format: double
 - name: maxChargeInkWh
   in: query
   description: >-
@@ -398,7 +392,8 @@ uriParameters:
 
     Sensible Values : 85
   types:
-  - uid: string
+  - uid: number
+  format: double
 - name: auxiliaryPowerInkW
   in: query
   description: >-
@@ -410,35 +405,17 @@ uriParameters:
 
     Sensible Values : 1.7
   types:
-  - uid: string
+  - uid: number
+  format: double
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: RouteDirectionsResponse
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  - uid: RouteDirections
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -453,8 +430,9 @@ requestBody:
         - Intermediate locations (_waypoints_) are not supported when using <_supportingPoints_>.
         - The reference route may contain traffic incidents of type _ROAD_CLOSURE_, which are
         ignored for the calculation of the reference route's travel time and traffic delay.
+       Please refer to [Supporting Points](https://docs.microsoft.com/azure/azure-maps/how-to-use-best-practices-for-routing#calculate-and-bias-alternative-routes-using-supporting-points) for details.
     types:
-    - uid: SupportingPoints
+    - uid: GeoJsonGeometryCollection
   - name: avoidVignette
     in: body
     description: 'This is a list of 3-character, ISO 3166-1, alpha-3 country codes of countries in which all toll roads with vignettes are to be avoided, e.g. "AUS,CHE". Toll roads with vignettes in countries not in the list are unaffected. Note: It is an error to specify both **avoidVignette** and **allowVignette**.'
@@ -471,7 +449,7 @@ requestBody:
     in: body
     description: A GeoJSON MultiPolygon representing list of areas to avoid. Only rectangle polygons are supported. The maximum size of a rectangle is about 160x160 km. Maximum number of avoided areas is **10**. It cannot cross the 180th meridian. It must be between -80 and +80 degrees of latitude.
     types:
-    - uid: MultiPolygon
+    - uid: GeoJsonMultiPolygon
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -479,7 +457,7 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: TextFormat
+- name: ResponseFormat
   description: Desired format of the response. Value can be either _json_ or _xml_.
   kind: enum
   properties:
@@ -532,7 +510,7 @@ definitions:
       ```
     types:
     - uid: string
-- name: RouteRepresentation
+- name: RouteRepresentationForBestOrder
   description: Specifies the representation of the set of routes provided as response. This parameter value can only be used in conjunction with computeBestOrder=true.
   kind: enum
   properties:
@@ -548,7 +526,7 @@ definitions:
     description: Includes only the optimized waypoint indices but does not include the route geometry in the response.
     types:
     - uid: string
-- name: ComputeTravelTimeFor
+- name: ComputeTravelTime
   description: Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time.
   kind: enum
   properties:
@@ -560,51 +538,67 @@ definitions:
     description: Computes travel times for all types of traffic information and specifies all results in the fields noTrafficTravelTimeInSeconds, historicTrafficTravelTimeInSeconds and liveTrafficIncidentsTravelTimeInSeconds being included in the summaries in the route response.
     types:
     - uid: string
+- name: Report
+  description: Specifies which data should be reported for diagnosis purposes. The only possible value is _effectiveSettings_. Reports the effective parameters or data used when calling the API. In the case of defaulted parameters the default will be reflected where the parameter was not specified by the caller.
+  kind: enum
+  properties:
+  - name: effectiveSettings
+    description: Reports the effective parameters or data used when calling the API.
+    types:
+    - uid: string
 - name: SectionType
   description: Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car
   kind: enum
   properties:
   - name: carTrain
-    description: Get sections if the route includes car trains.
+    description: Sections of the route that are cars or trains.
     types:
     - uid: string
   - name: country
-    description: Countries the route has parts in.
+    description: Sections indicating which countries the route is in.
     types:
     - uid: string
   - name: ferry
-    description: Get sections if the route includes ferries.
+    description: Sections of the route that are ferries.
     types:
     - uid: string
   - name: motorway
-    description: Get sections if the route includes motorways.
+    description: Sections of the route that are motorways.
     types:
     - uid: string
   - name: pedestrian
-    description: Get sections which are suited for pedestrians.
+    description: Sections of the route that are only suited for pedestrians.
     types:
     - uid: string
   - name: tollRoad
-    description: Get sections which require a toll to be payed.
+    description: Sections of the route that require a toll to be payed.
     types:
     - uid: string
   - name: tollVignette
-    description: Get sections which require a toll vignette to be present.
+    description: Sections of the route that require a toll vignette to be present.
     types:
     - uid: string
   - name: traffic
-    description: Get sections which contain traffic information.
+    description: Sections of the route that contain traffic information.
     types:
     - uid: string
   - name: travelMode
-    description: Get sections in relation to the request parameter `travelMode`.
+    description: Sections in relation to the request parameter `travelMode`.
     types:
     - uid: string
   - name: tunnel
-    description: Get sections if the route includes tunnels.
+    description: Sections of the route that are tunnels.
     types:
     - uid: string
-- name: Windingness
+  - name: carpool
+    description: Sections of the route that require use of carpool (HOV/High Occupancy Vehicle) lanes.
+    types:
+    - uid: string
+  - name: urban
+    description: Sections of the route that are located within urban areas.
+    types:
+    - uid: string
+- name: WindingnessLevel
   description: Level of turns for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
   kind: enum
   properties:
@@ -620,7 +614,7 @@ definitions:
     description: high
     types:
     - uid: string
-- name: Hilliness
+- name: InclineLevel
   description: Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
   kind: enum
   properties:
@@ -670,38 +664,6 @@ definitions:
     - uid: string
   - name: pedestrian
     description: The returned routes are optimized for pedestrians, including the use of sidewalks.
-    types:
-    - uid: string
-- name: Avoid
-  description: Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times in one request, for example, '&avoid=motorways&avoid=tollRoads&avoid=ferries'. In calculateReachableRange requests, the value alreadyUsedRoads must not be used.
-  kind: enum
-  properties:
-  - name: tollRoads
-    description: Avoids toll roads.
-    types:
-    - uid: string
-  - name: motorways
-    description: Avoids motorways
-    types:
-    - uid: string
-  - name: ferries
-    description: Avoids ferries
-    types:
-    - uid: string
-  - name: unpavedRoads
-    description: Avoids unpaved roads
-    types:
-    - uid: string
-  - name: carpools
-    description: Avoids routes that require the use of carpool (HOV/High Occupancy Vehicle) lanes.
-    types:
-    - uid: string
-  - name: alreadyUsedRoads
-    description: Avoids using the same road multiple times. Most useful in conjunction with `routeType`=thrilling.
-    types:
-    - uid: string
-  - name: borderCrossings
-    description: Avoids border crossings in route calculation.
     types:
     - uid: string
 - name: RouteType
@@ -788,41 +750,48 @@ definitions:
     description: Electric engine.
     types:
     - uid: string
-- name: SupportingPoints
-  description: >-
-    A GeoJSON Geometry collection representing sequence of coordinates used as input for route reconstruction and for calculating zero or more alternative routes to this reference route.
-      - The provided sequence of supporting points is used as input for route reconstruction.
-      - The alternative routes are calculated between the origin and destination points specified in the base path parameter locations.
-      - If both _minDeviationDistance_ and _minDeviationTime_ are set to zero, then these origin and destination points are
-      expected to be at (or very near) the beginning and end of the reference route, respectively.
-      - Intermediate locations (_waypoints_) are not supported when using <_supportingPoints_>.
-      - The reference route may contain traffic incidents of type _ROAD_CLOSURE_, which are
-      ignored for the calculation of the reference route's travel time and traffic delay.
+- name: GeoJsonGeometryCollection
+  description: A valid `GeoJSON GeometryCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.8) for details.
   kind: object
   properties:
   - name: type
-    description: Specifies the `type` for the object. Value should always be equal to "GeometryCollection".
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
     types:
-    - uid: string
+    - uid: GeometryCollection
+    typesTitle: string
   - name: geometries
     description: Contains a list of valid `GeoJSON` geometry objects. **Note** that coordinates in GeoJSON are in x, y order (longitude, latitude).
     types:
-    - uid: GeoJSONGeometry
+    - uid: GeoJsonGeometryCollection
       isArray: true
-- name: MultiPolygon
+    - uid: GeoJsonMultiPolygon
+      isArray: true
+    - uid: GeoJsonMultiPoint
+      isArray: true
+    - uid: GeoJsonPoint
+      isArray: true
+    - uid: GeoJsonLineString
+      isArray: true
+    - uid: GeoJsonMultiLineString
+      isArray: true
+    - uid: GeoJsonPolygon
+      isArray: true
+    typesTitle: GeoJsonGeometry[]
+- name: GeoJsonMultiPolygon
   description: A valid `GeoJSON MultiPolygon` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.7) for details.
   kind: object
   properties:
   - name: type
-    description: Specifies the `GeoJSON` geometry type. Must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
     types:
-    - uid: GeoJSONGeometryType
+    - uid: MultiPolygon
+    typesTitle: string
   - name: coordinates
-    description: Contains a list of valid `GeoJSON` Polygon objects. **Note** that coordinates in GeoJSON are in x, y order (longitude, latitude).
+    description: Contains a list of valid `GeoJSON Polygon` objects. **Note** that coordinates in GeoJSON are in x, y order (longitude, latitude).
     types:
     - uid: array
       isArray: true
-- name: RouteDirectionsResponse
+- name: RouteDirections
   description: This object is returned from a successful Route Directions call
   kind: object
   properties:
@@ -835,7 +804,7 @@ definitions:
     isReadyOnly: true
     description: Routes array
     types:
-    - uid: RouteDirectionsResult
+    - uid: Route
       isArray: true
   - name: optimizedWaypoints
     isReadyOnly: true
@@ -846,16 +815,16 @@ definitions:
   - name: report
     description: Reports the effective settings used in the current call.
     types:
-    - uid: RouteResponseReport
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+    - uid: RouteReport
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
-- name: RouteDirectionsRequestBody
+    - uid: ErrorDetail
+- name: RouteDirectionParameters
   description: Post body parameters for Route directions.
   kind: object
   properties:
@@ -869,8 +838,9 @@ definitions:
         - Intermediate locations (_waypoints_) are not supported when using <_supportingPoints_>.
         - The reference route may contain traffic incidents of type _ROAD_CLOSURE_, which are
         ignored for the calculation of the reference route's travel time and traffic delay.
+       Please refer to [Supporting Points](https://docs.microsoft.com/azure/azure-maps/how-to-use-best-practices-for-routing#calculate-and-bias-alternative-routes-using-supporting-points) for details.
     types:
-    - uid: SupportingPoints
+    - uid: GeoJsonGeometryCollection
   - name: avoidVignette
     description: 'This is a list of 3-character, ISO 3166-1, alpha-3 country codes of countries in which all toll roads with vignettes are to be avoided, e.g. "AUS,CHE". Toll roads with vignettes in countries not in the list are unaffected. Note: It is an error to specify both **avoidVignette** and **allowVignette**.'
     types:
@@ -884,32 +854,40 @@ definitions:
   - name: avoidAreas
     description: A GeoJSON MultiPolygon representing list of areas to avoid. Only rectangle polygons are supported. The maximum size of a rectangle is about 160x160 km. Maximum number of avoided areas is **10**. It cannot cross the 180th meridian. It must be between -80 and +80 degrees of latitude.
     types:
-    - uid: MultiPolygon
-- name: RouteDirectionsResult
+    - uid: GeoJsonMultiPolygon
+- name: GeoJsonGeometry
+  description: A valid `GeoJSON` geometry object. The type must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: GeoJsonObjectType
+- name: Route
   kind: object
   properties:
   - name: summary
     isReadyOnly: true
     description: Summary object
     types:
-    - uid: RouteDirectionsSummary
+    - uid: RouteSummary
   - name: legs
     isReadyOnly: true
     description: Legs array
     types:
-    - uid: RouteResultLeg
+    - uid: RouteLeg
       isArray: true
   - name: sections
     isReadyOnly: true
     description: Sections array
     types:
-    - uid: RouteResultSection
+    - uid: RouteSection
       isArray: true
   - name: guidance
     isReadyOnly: true
     description: Contains guidance related elements. This field is present only when guidance was requested and is available.
     types:
-    - uid: RouteResultGuidance
+    - uid: RouteGuidance
 - name: RouteOptimizedWaypoint
   description: Optimized way point object.
   kind: object
@@ -924,7 +902,7 @@ definitions:
     description: Optimized way point index from the system.
     types:
     - uid: integer
-- name: RouteResponseReport
+- name: RouteReport
   description: Reports the effective settings used in the current call.
   kind: object
   properties:
@@ -932,33 +910,110 @@ definitions:
     isReadyOnly: true
     description: Effective parameters or data used when calling this Route API.
     types:
-    - uid: RouteResponseReportEffectiveSetting
+    - uid: EffectiveSetting
       isArray: true
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
     types:
-    - uid: string
-- name: RouteDirectionsSummary
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: GeoJsonMultiPoint
+  description: A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: MultiPoint
+    typesTitle: string
+  - name: coordinates
+    description: Coordinates for the `GeoJson MultiPoint` geometry.
+    types:
+    - uid: array
+      isArray: true
+- name: GeoJsonPoint
+  description: A valid `GeoJSON Point` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.2) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: Point
+    typesTitle: string
+  - name: coordinates
+    description: A `Position` is an array of numbers with two or more elements. The first two elements are _longitude_ and _latitude_, precisely in that order. _Altitude/Elevation_ is an optional third element. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.1) for details.
+    types:
+    - uid: number
+      isArray: true
+- name: GeoJsonLineString
+  description: A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: LineString
+    typesTitle: string
+  - name: coordinates
+    description: Coordinates for the `GeoJson LineString` geometry.
+    types:
+    - uid: array
+      isArray: true
+- name: GeoJsonMultiLineString
+  description: A valid `GeoJSON MultiLineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.5) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: MultiLineString
+    typesTitle: string
+  - name: coordinates
+    description: Coordinates for the `GeoJson MultiLineString` geometry.
+    types:
+    - uid: array
+      isArray: true
+- name: GeoJsonPolygon
+  description: A valid `GeoJSON Polygon` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.6) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: Polygon
+    typesTitle: string
+  - name: coordinates
+    description: Coordinates for the `GeoJson Polygon` geometry type.
+    types:
+    - uid: array
+      isArray: true
+- name: RouteSummary
   description: Summary object
   kind: object
   properties:
@@ -979,56 +1034,58 @@ definitions:
     - uid: integer
   - name: departureTime
     isReadyOnly: true
-    description: Departure Time property
+    description: The estimated departure time for the route or leg.
     types:
     - uid: string
   - name: arrivalTime
     isReadyOnly: true
-    description: Arrival Time property
+    description: The estimated arrival time for the route or leg.
     types:
     - uid: string
-- name: RouteResultLeg
+- name: RouteLeg
+  description: A description of a part of a route, comprised of a list of points. Each additional waypoint provided in the request will result in an additional leg in the returned route.
   kind: object
   properties:
   - name: summary
     isReadyOnly: true
     description: Summary object for route section.
     types:
-    - uid: RouteResultLegSummary
+    - uid: RouteLegSummary
   - name: points
     isReadyOnly: true
     description: Points array
     types:
-    - uid: Coordinate
+    - uid: LatLongPair
       isArray: true
-- name: RouteResultSection
+- name: RouteSection
+  description: Route sections contain additional information about parts of a route. Each section contains at least the elements `startPointIndex`, `endPointIndex`, and `sectionType`.
   kind: object
   properties:
   - name: startPointIndex
     isReadyOnly: true
-    description: Start Point Index property
+    description: Index of the first point (offset 0) in the route this section applies to.
     types:
     - uid: integer
   - name: endPointIndex
     isReadyOnly: true
-    description: End Point Index property
+    description: Index of the last point (offset 0) in the route this section applies to.
     types:
     - uid: integer
   - name: sectionType
     isReadyOnly: true
-    description: Section Type property
+    description: Section types of the reported route response
     types:
-    - uid: string
+    - uid: ResponseSectionType
   - name: travelMode
     isReadyOnly: true
-    description: Travel Mode property
+    description: Travel mode for the calculated route. The value will be set to `other` if the requested mode of transport is not possible in this section
     types:
-    - uid: string
+    - uid: ResponseTravelMode
   - name: simpleCategory
     isReadyOnly: true
     description: Type of the incident. Can currently be JAM, ROAD_WORK, ROAD_CLOSURE, or OTHER. See "tec" for detailed information.
     types:
-    - uid: string
+    - uid: SimpleCategory
   - name: effectiveSpeedInKmh
     isReadyOnly: true
     description: Effective speed of the incident in km/h, averaged over its entire length.
@@ -1043,12 +1100,12 @@ definitions:
     isReadyOnly: true
     description: 'The magnitude of delay caused by the incident. These values correspond to the values of the response field ty of the [Get Traffic Incident Detail API](https://docs.microsoft.com/rest/api/maps/traffic/gettrafficincidentdetail). '
     types:
-    - uid: MagnitudeOfDelay
+    - uid: DelayMagnitude
   - name: tec
     description: Details of the traffic event, using definitions in the [TPEG2-TEC](https://www.iso.org/standard/63116.html) standard. Can contain effectCode and causes elements.
     types:
-    - uid: RouteResultSectionTec
-- name: RouteResultGuidance
+    - uid: RouteSectionTec
+- name: RouteGuidance
   description: Contains guidance related elements. This field is present only when guidance was requested and is available.
   kind: object
   properties:
@@ -1056,15 +1113,15 @@ definitions:
     isReadyOnly: true
     description: A list of instructions describing maneuvers.
     types:
-    - uid: RouteResultInstruction
+    - uid: RouteInstruction
       isArray: true
   - name: instructionGroups
     isReadyOnly: true
     description: Groups a sequence of instruction elements which are related to each other.
     types:
-    - uid: RouteResultInstructionGroup
+    - uid: RouteInstructionGroup
       isArray: true
-- name: RouteResponseReportEffectiveSetting
+- name: EffectiveSetting
   description: Effective parameter or data used when calling this Route API.
   kind: object
   properties:
@@ -1078,7 +1135,21 @@ definitions:
     description: Value of the parameter used.
     types:
     - uid: string
-- name: RouteResultLegSummary
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: RouteLegSummary
   description: Summary object for route section.
   kind: object
   properties:
@@ -1099,12 +1170,12 @@ definitions:
     - uid: integer
   - name: departureTime
     isReadyOnly: true
-    description: Departure Time property
+    description: The estimated departure time for the route or leg.
     types:
     - uid: string
   - name: arrivalTime
     isReadyOnly: true
-    description: Arrival Time property
+    description: The estimated arrival time for the route or leg.
     types:
     - uid: string
   - name: noTrafficTravelTimeInSeconds
@@ -1132,21 +1203,131 @@ definitions:
     description: Estimated electric energy consumption in kilowatt hours (kWh) using the Electric Consumption Model. Included if vehicleEngineType is set to electric and constantSpeedConsumptionInkWhPerHundredkm is specified. The value of batteryConsumptionInkWh includes the recuperated electric energy and can therefore be negative (which indicates gaining energy). If both maxChargeInkWh and currentChargeInkWh are specified, recuperation will be capped to ensure that the battery charge level never exceeds maxChargeInkWh. If neither maxChargeInkWh nor currentChargeInkWh are specified, unconstrained recuperation is assumed in the consumption calculation.
     types:
     - uid: number
-- name: Coordinate
+- name: LatLongPair
   description: A location represented as a latitude and longitude.
   kind: object
   properties:
   - name: latitude
-    isReadyOnly: true
     description: Latitude property
     types:
     - uid: number
   - name: longitude
-    isReadyOnly: true
     description: Longitude property
     types:
     - uid: number
-- name: MagnitudeOfDelay
+- name: ResponseSectionType
+  description: Section types of the reported route response
+  kind: enum
+  properties:
+  - name: CAR_TRAIN
+    description: Sections of the route that are cars or trains.
+    types:
+    - uid: string
+  - name: COUNTRY
+    description: Sections indicating which countries the route is in.
+    types:
+    - uid: string
+  - name: FERRY
+    description: Sections of the route that are ferries.
+    types:
+    - uid: string
+  - name: MOTORWAY
+    description: Sections of the route that are motorways.
+    types:
+    - uid: string
+  - name: PEDESTRIAN
+    description: Sections of the route that are only suited for pedestrians.
+    types:
+    - uid: string
+  - name: TOLL_ROAD
+    description: Sections of the route that require a toll to be payed.
+    types:
+    - uid: string
+  - name: TOLL_VIGNETTE
+    description: Sections of the route that require a toll vignette to be present.
+    types:
+    - uid: string
+  - name: TRAFFIC
+    description: Sections of the route that contain traffic information.
+    types:
+    - uid: string
+  - name: TRAVEL_MODE
+    description: Sections in relation to the request parameter `travelMode`.
+    types:
+    - uid: string
+  - name: TUNNEL
+    description: Sections of the route that are tunnels.
+    types:
+    - uid: string
+  - name: CARPOOL
+    description: Sections of the route that require use of carpool (HOV/High Occupancy Vehicle) lanes.
+    types:
+    - uid: string
+  - name: URBAN
+    description: Sections of the route that are located within urban areas.
+    types:
+    - uid: string
+- name: ResponseTravelMode
+  description: Travel mode for the calculated route. The value will be set to `other` if the requested mode of transport is not possible in this section
+  kind: enum
+  properties:
+  - name: car
+    description: The returned routes are optimized for cars.
+    types:
+    - uid: string
+  - name: truck
+    description: The returned routes are optimized for commercial vehicles, like for trucks.
+    types:
+    - uid: string
+  - name: taxi
+    description: The returned routes are optimized for taxis. BETA functionality.
+    types:
+    - uid: string
+  - name: bus
+    description: The returned routes are optimized for buses, including the use of bus only lanes. BETA functionality.
+    types:
+    - uid: string
+  - name: van
+    description: The returned routes are optimized for vans. BETA functionality.
+    types:
+    - uid: string
+  - name: motorcycle
+    description: The returned routes are optimized for motorcycles. BETA functionality.
+    types:
+    - uid: string
+  - name: bicycle
+    description: The returned routes are optimized for bicycles, including use of bicycle lanes.
+    types:
+    - uid: string
+  - name: pedestrian
+    description: The returned routes are optimized for pedestrians, including the use of sidewalks.
+    types:
+    - uid: string
+  - name: other
+    description: The given mode of transport is not possible in this section
+    types:
+    - uid: string
+- name: SimpleCategory
+  description: Type of the incident. Can currently be JAM, ROAD_WORK, ROAD_CLOSURE, or OTHER. See "tec" for detailed information.
+  kind: enum
+  properties:
+  - name: JAM
+    description: Traffic jam.
+    types:
+    - uid: string
+  - name: ROAD_WORK
+    description: Road work.
+    types:
+    - uid: string
+  - name: ROAD_CLOSURE
+    description: Road closure.
+    types:
+    - uid: string
+  - name: OTHER
+    description: Other.
+    types:
+    - uid: string
+- name: DelayMagnitude
   description: 'The magnitude of delay caused by the incident. These values correspond to the values of the response field ty of the [Get Traffic Incident Detail API](https://docs.microsoft.com/rest/api/maps/traffic/gettrafficincidentdetail). '
   kind: enum
   properties:
@@ -1170,7 +1351,7 @@ definitions:
     description: Undefined, used for road closures and other indefinite delays.
     types:
     - uid: string
-- name: RouteResultSectionTec
+- name: RouteSectionTec
   description: Details of the traffic event, using definitions in the [TPEG2-TEC](https://www.iso.org/standard/63116.html) standard. Can contain effectCode and causes elements.
   kind: object
   properties:
@@ -1182,9 +1363,9 @@ definitions:
   - name: causes
     description: Causes array
     types:
-    - uid: RouteResultSectionTecCause
+    - uid: RouteSectionTecCause
       isArray: true
-- name: RouteResultInstruction
+- name: RouteInstruction
   description: A set of attributes describing a maneuver, e.g. 'Turn right', 'Keep left', 'Take the ferry', 'Take the motorway', 'Arrive'.
   kind: object
   properties:
@@ -1201,7 +1382,7 @@ definitions:
   - name: point
     description: A location represented as a latitude and longitude.
     types:
-    - uid: Coordinate
+    - uid: LatLongPair
   - name: pointIndex
     isReadyOnly: true
     description: The index of the point in the list of polyline "points" corresponding to the point of the instruction.
@@ -1315,18 +1496,18 @@ definitions:
       ```
     types:
     - uid: string
-- name: RouteResultInstructionGroup
+- name: RouteInstructionGroup
   description: Groups a sequence of instruction elements which are related to each other. The sequence range is constrained with firstInstructionIndex and lastInstructionIndex. When human-readable text messages are requested for guidance (instructionType=text or tagged), then the instructionGroup has a summary message returned when available.
   kind: object
   properties:
   - name: firstInstructionIndex
     isReadyOnly: true
-    description: Index of the first instruction.
+    description: Index of the first instruction in the instructions and belonging to this group.
     types:
     - uid: integer
   - name: lastInstructionIndex
     isReadyOnly: true
-    description: Index of the last instruction.
+    description: Index of the last instruction in the instructions and belonging to this group.
     types:
     - uid: integer
   - name: groupLengthInMeters
@@ -1339,7 +1520,7 @@ definitions:
     description: Summary message when human-readable text messages are requested for guidance (instructionType=text or tagged).
     types:
     - uid: string
-- name: RouteResultSectionTecCause
+- name: RouteSectionTecCause
   description: The cause of the traffic event. Can contain mainCauseCode and subCauseCode elements. Can be used to define iconography and descriptions.
   kind: object
   properties:
@@ -1546,9 +1727,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: PostRouteDirections
+- name: Successfully retrieve a route between an origin and a destination with additional parameters in the body
   request:
-    uri: POST https://atlas.microsoft.com/route/directions/json?subscription-key=[subscription-key]&api-version=1.0&query=52.50931,13.42936:52.50274,13.43872
+    uri: POST https://atlas.microsoft.com/route/directions/json?api-version=1.0&query=52.50931,13.42936:52.50274,13.43872&report=effectiveSettings
     body: >-
       {
         "supportingPoints": {
@@ -1730,46 +1911,6 @@ examples:
           }
         ]
       }
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
-      }
 security:
 - name: AADToken
   type: oauth2
@@ -1799,9 +1940,9 @@ security:
   in: header
 metadata:
   description: >-
-    **Applies to**: S0 and S1 pricing tiers.
+    **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
 
-    Returns  a route between an origin and a destination, passing through waypoints if they are specified.
+    Returns  a route between an origin and a destination, passing through waypoints if t
 errorCodes: []

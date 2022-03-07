@@ -1,85 +1,73 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.render.getmapimagerytile
-name: Get Map Imagery Tile
+uid: atlas.microsoft.com.maps.route.getroutematrix
+name: Get Route Matrix
 service: Maps
-groupName: Render
+groupName: Route
 apiVersion: "1.0"
 summary: >-
-  **Applies to**: S0 and S1 pricing tiers.
+  **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
-  This service returns a map image tile with size 256x256, given the x and y coordinates and zoom
+  If the Matrix Route request was accepted successfully, the Location header in the response contains the URL to download the results of the request. This status URI looks like the following:
 
-  level. Zoom level ranges from 1 to 19. The current available style value is 'satellite' which provides satellite
+    ```
+      GET https://atlas.microsoft.com/route/matrix/{matrixId}?api-version=1.0?subscription-key={subscription-key}
+    ```
 
-  imagery alone.
+
+  4. Client issues a GET request on the download URL obtained in Step 3 to download the results
 
 
+  ### Download Sync Results
 
-  **Note**: We recommend to start to use the new [Get Map Tile V2 API](https://aka.ms/GetMapTileV2).
+  When you make a POST request for Route Matrix Sync API, the service returns 200 response code for successful request and a response array. The response body will contain the data and there will be no possibility to retrieve the results later.
+
+
+  ### Download Async Results
+
+  When a request issues a `202 Accepted` response, the request is being processed using our async pipeline. You will be given a URL to check the progress of your  async request in the location header of the response. This status URI looks like the following:
+
+  ```
+    GET https://atlas.microsoft.com/route/matrix/{matrixId}?api-version=1.0?subscription-key={subscription-key}
+  ```
+
+
+  The URL provided by the location header will return the following responses when a `GET` request is issued.
+
+    > HTTP `202 Accepted` - Matrix request was accepted but is still being processed. Please try again in some time.
+
+    > HTTP `200 OK` - Matrix request successfully processed. The response body contains all of the results.
 consumes: []
 produces:
 - application/json
-- image/jpeg
-- image/png
 paths:
-- content: GET https://atlas.microsoft.com/map/imagery/png?api-version=1.0&style=satellite&zoom={zoom}&x={x}&y={y}
+- content: GET https://atlas.microsoft.com/route/matrix/{format}?api-version=1.0
 uriParameters:
 - name: format
   in: path
   isRequired: true
-  description: 'Desired format of the response. Possible value: png.'
+  description: Matrix id received after the Matrix Route request was accepted successfully.
   types:
-  - uid: RasterTileFormat
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
   description: Version number of Azure Maps API.
   types:
   - uid: string
-- name: style
-  in: query
-  isRequired: true
-  description: Map style to be returned. __Possible values:__ satellite.
-  types:
-  - uid: MapImageryStyle
-- name: zoom
-  in: query
-  isRequired: true
-  description: "Zoom level for the desired tile. \n\nPlease see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details."
-  types:
-  - uid: integer
-  format: int32
-- name: x
-  in: query
-  isRequired: true
-  description: >-
-    X coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
-
-
-    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
-  types:
-  - uid: integer
-  format: int32
-- name: y
-  in: query
-  isRequired: true
-  description: >-
-    Y coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
-
-
-    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
-  types:
-  - uid: integer
-  format: int32
 responses:
 - name: 200 OK
-  headers:
-  - name: Content-Type
-    value: string
-  description: This image is returned from a successful Get Map Imagery Tile call
+  description: Matrix request successfully processed. The response body contains all of the results.
   types:
-  - uid: object
+  - uid: RouteMatrixResult
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  description: >-
+    **Supported only for async request.**
+
+    Request Accepted: The request has been accepted for processing. Please use the URL in the Location Header to retry or access the results.
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
@@ -91,22 +79,26 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: RasterTileFormat
-  description: 'Desired format of the response. Possible value: png.'
-  kind: enum
+- name: RouteMatrixResult
+  description: This object is returned from a successful Route Matrix call. For ex, if 2 origins and 3 destinations are provided, there are going to 2 arrays with 3 elements in each. Each element's content depends on the options provided in the query.
+  kind: object
   properties:
-  - name: png
-    description: An image in the png format. Supports zoom levels 0 through 18.
+  - name: formatVersion
+    isReadyOnly: true
+    description: Format Version property
     types:
     - uid: string
-- name: MapImageryStyle
-  description: Map style to be returned. __Possible values:__ satellite.
-  kind: enum
-  properties:
-  - name: satellite
-    description: Satellite imagery
+  - name: matrix
+    isReadyOnly: true
+    description: Results as a 2 dimensional array of route summaries.
     types:
-    - uid: string
+    - uid: array
+      isArray: true
+  - name: summary
+    isReadyOnly: true
+    description: Summary object
+    types:
+    - uid: RouteMatrixSummary
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -115,6 +107,20 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: RouteMatrixSummary
+  description: Summary object
+  kind: object
+  properties:
+  - name: successfulRoutes
+    isReadyOnly: true
+    description: Number of successful routes in the response.
+    types:
+    - uid: integer
+  - name: totalRoutes
+    isReadyOnly: true
+    description: Total number of routes requested. Number of cells in the input matrix.
+    types:
+    - uid: integer
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -161,15 +167,74 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Successful Imagery Tile Request
+- name: Successfully retrieve the status for a route matrix request
   request:
-    uri: GET https://atlas.microsoft.com/map/imagery/png?api-version=1.0&style=satellite&zoom=6&x=10&y=22
+    uri: GET https://atlas.microsoft.com/route/matrix/11111111-2222-3333-4444-555555555555?api-version=1.0
   responses:
   - statusCode: "200"
-    headers:
-    - name: Content-Type
-      value: image/png
-    body: "\"{file}\""
+    body: >-
+      {
+        "formatVersion": "0.0.1",
+        "matrix": [
+          [
+            {
+              "statusCode": 200,
+              "response": {
+                "routeSummary": {
+                  "lengthInMeters": 495,
+                  "travelTimeInSeconds": 134,
+                  "trafficDelayInSeconds": 0,
+                  "departureTime": "2018-07-27T22:55:29+00:00",
+                  "arrivalTime": "2018-07-27T22:57:43+00:00"
+                }
+              }
+            },
+            {
+              "statusCode": 200,
+              "response": {
+                "routeSummary": {
+                  "lengthInMeters": 647651,
+                  "travelTimeInSeconds": 26835,
+                  "trafficDelayInSeconds": 489,
+                  "departureTime": "2018-07-27T22:55:29+00:00",
+                  "arrivalTime": "2018-07-28T06:22:44+00:00"
+                }
+              }
+            }
+          ],
+          [
+            {
+              "statusCode": 200,
+              "response": {
+                "routeSummary": {
+                  "lengthInMeters": 338,
+                  "travelTimeInSeconds": 104,
+                  "trafficDelayInSeconds": 0,
+                  "departureTime": "2018-07-27T22:55:29+00:00",
+                  "arrivalTime": "2018-07-27T22:57:13+00:00"
+                }
+              }
+            },
+            {
+              "statusCode": 200,
+              "response": {
+                "routeSummary": {
+                  "lengthInMeters": 647494,
+                  "travelTimeInSeconds": 26763,
+                  "trafficDelayInSeconds": 469,
+                  "departureTime": "2018-07-27T22:55:29+00:00",
+                  "arrivalTime": "2018-07-28T06:21:32+00:00"
+                }
+              }
+            }
+          ]
+        ],
+        "summary": {
+          "successfulRoutes": 4,
+          "totalRoutes": 4
+        }
+      }
+  - statusCode: "202"
 security:
 - name: AADToken
   type: oauth2
@@ -199,10 +264,8 @@ security:
   in: header
 metadata:
   description: >-
-    **Applies to**: S0 and S1 pricing tiers.
+    **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
-    This service returns a map image tile with size 256x256, given the x and y coordinates and zoom
-
-    level.
+    If the Matrix Route request was accepted successfully, the Location header in the res
 errorCodes: []

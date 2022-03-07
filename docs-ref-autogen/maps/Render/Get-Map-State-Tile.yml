@@ -1,48 +1,28 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.render.getmapimagerytile
-name: Get Map Imagery Tile
+uid: atlas.microsoft.com.maps.render.getmapstatetile
+name: Get Map State Tile
 service: Maps
 groupName: Render
 apiVersion: "1.0"
 summary: >-
-  **Applies to**: S0 and S1 pricing tiers.
-
-
-  This service returns a map image tile with size 256x256, given the x and y coordinates and zoom
-
-  level. Zoom level ranges from 1 to 19. The current available style value is 'satellite' which provides satellite
-
-  imagery alone.
+  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
 
-  **Note**: We recommend to start to use the new [Get Map Tile V2 API](https://aka.ms/GetMapTileV2).
+  Fetches state tiles in vector format typically to be integrated into indoor maps module of map control or SDK. The map control will call this API after user turns on dynamic styling (see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid))
 consumes: []
 produces:
+- application/vnd.mapbox-vector-tile
 - application/json
-- image/jpeg
-- image/png
 paths:
-- content: GET https://atlas.microsoft.com/map/imagery/png?api-version=1.0&style=satellite&zoom={zoom}&x={x}&y={y}
+- content: GET https://atlas.microsoft.com/map/statetile?api-version=1.0&zoom={zoom}&x={x}&y={y}&statesetId={statesetId}
 uriParameters:
-- name: format
-  in: path
-  isRequired: true
-  description: 'Desired format of the response. Possible value: png.'
-  types:
-  - uid: RasterTileFormat
 - name: api-version
   in: query
   isRequired: true
   description: Version number of Azure Maps API.
   types:
   - uid: string
-- name: style
-  in: query
-  isRequired: true
-  description: Map style to be returned. __Possible values:__ satellite.
-  types:
-  - uid: MapImageryStyle
 - name: zoom
   in: query
   isRequired: true
@@ -72,12 +52,18 @@ uriParameters:
   types:
   - uid: integer
   format: int32
+- name: statesetId
+  in: query
+  isRequired: true
+  description: The stateset id.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
   headers:
   - name: Content-Type
     value: string
-  description: This image is returned from a successful Get Map Imagery Tile call
+  description: This tile is returned from a successful Get Map State Tile call
   types:
   - uid: object
 - name: Other Status Codes
@@ -91,22 +77,6 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: RasterTileFormat
-  description: 'Desired format of the response. Possible value: png.'
-  kind: enum
-  properties:
-  - name: png
-    description: An image in the png format. Supports zoom levels 0 through 18.
-    types:
-    - uid: string
-- name: MapImageryStyle
-  description: Map style to be returned. __Possible values:__ satellite.
-  kind: enum
-  properties:
-  - name: satellite
-    description: Satellite imagery
-    types:
-    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -161,14 +131,14 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Successful Imagery Tile Request
+- name: Successful State Tile Request
   request:
-    uri: GET https://atlas.microsoft.com/map/imagery/png?api-version=1.0&style=satellite&zoom=6&x=10&y=22
+    uri: GET https://atlas.microsoft.com/map/statetile?api-version=1.0&zoom=6&x=10&y=22&statesetId=[statesetId]
   responses:
   - statusCode: "200"
     headers:
     - name: Content-Type
-      value: image/png
+      value: application/vnd.mapbox-vector-tile
     body: "\"{file}\""
 security:
 - name: AADToken
@@ -199,10 +169,9 @@ security:
   in: header
 metadata:
   description: >-
-    **Applies to**: S0 and S1 pricing tiers.
+    **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
-    This service returns a map image tile with size 256x256, given the x and y coordinates and zoom
 
-    level.
+    Fetches state tiles in vector format typically to be integrated into indoor maps mod
 errorCodes: []

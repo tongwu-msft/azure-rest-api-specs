@@ -1,6 +1,6 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.route.postroutematrix
-name: Post Route Matrix
+uid: atlas.microsoft.com.maps.route.postroutematrixsync
+name: Post Route Matrix Sync
 service: Maps
 groupName: Route
 apiVersion: "1.0"
@@ -9,8 +9,8 @@ consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://atlas.microsoft.com/route/matrix/json?api-version=1.0
-- content: POST https://atlas.microsoft.com/route/matrix/json?api-version=1.0&waitForResults={waitForResults}&computeTravelTimeFor={computeTravelTimeFor}&sectionType={sectionType}&arriveAt={arriveAt}&departAt={departAt}&vehicleAxleWeight={vehicleAxleWeight}&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleMaxSpeed={vehicleMaxSpeed}&vehicleWeight={vehicleWeight}&windingness={windingness}&hilliness={hilliness}&travelMode={travelMode}&avoid={avoid}&traffic={traffic}&routeType={routeType}&vehicleLoadType={vehicleLoadType}
+- content: POST https://atlas.microsoft.com/route/matrix/sync/json?api-version=1.0
+- content: POST https://atlas.microsoft.com/route/matrix/sync/json?api-version=1.0&waitForResults={waitForResults}&computeTravelTimeFor={computeTravelTimeFor}&sectionType={sectionType}&arriveAt={arriveAt}&departAt={departAt}&vehicleAxleWeight={vehicleAxleWeight}&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleMaxSpeed={vehicleMaxSpeed}&vehicleWeight={vehicleWeight}&windingness={windingness}&hilliness={hilliness}&travelMode={travelMode}&avoid={avoid}&traffic={traffic}&routeType={routeType}&vehicleLoadType={vehicleLoadType}
   isOptional: true
 uriParameters:
 - name: format
@@ -125,14 +125,10 @@ responses:
   description: Matrix request successfully processed. The response body contains all of the results.
   types:
   - uid: RouteMatrixResult
-- name: 202 Accepted
-  headers:
-  - name: Location
-    value: string
-  description: >-
-    **Supported only for async request.**
-
-    Request Accepted: The request has been accepted for processing. Please use the URL in the Location Header to retry or access the results.
+- name: Other Status Codes
+  description: 'Timeout: The request took longer to finish than the maximum amount of time defined in the api.'
+  types:
+  - uid: ErrorResponse
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
@@ -483,9 +479,9 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Successfully submit a route matrix request
+- name: Successfully retrieve a route matrix request result synchronously
   request:
-    uri: POST https://atlas.microsoft.com/route/matrix/json?api-version=1.0&routeType=shortest
+    uri: POST https://atlas.microsoft.com/route/matrix/sync/json?api-version=1.0&routeType=shortest
     body: >-
       {
         "origins": {
@@ -579,10 +575,14 @@ examples:
           "totalRoutes": 4
         }
       }
-  - statusCode: "202"
-    headers:
-    - name: Location
-      value: New URL to check the status of the long running request.
+  - statusCode: "408"
+    body: >-
+      {
+        "error": {
+          "code": "408 Timeout",
+          "message": "Timeout: The request took longer to finish than the maximum amount of time defined in the api."
+        }
+      }
 security:
 - name: AADToken
   type: oauth2

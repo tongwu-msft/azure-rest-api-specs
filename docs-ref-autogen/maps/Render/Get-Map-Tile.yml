@@ -5,7 +5,7 @@ service: Maps
 groupName: Render
 apiVersion: "1.0"
 summary: >-
-  **Applies to**: S0 and S1 pricing tiers.
+  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
 
@@ -18,9 +18,11 @@ produces:
 - application/json
 - image/jpeg
 - image/png
+- image/pbf
+- application/vnd.mapbox-vector-tile
 paths:
 - content: GET https://atlas.microsoft.com/map/tile/{format}?api-version=1.0&layer={layer}&style={style}&zoom={zoom}&x={x}&y={y}
-- content: GET https://atlas.microsoft.com/map/tile/{format}?subscription-key={subscription-key}&api-version=1.0&layer={layer}&style={style}&zoom={zoom}&x={x}&y={y}&tileSize={tileSize}&language={language}&view={view}
+- content: GET https://atlas.microsoft.com/map/tile/{format}?api-version=1.0&layer={layer}&style={style}&zoom={zoom}&x={x}&y={y}&tileSize={tileSize}&language={language}&view={view}
   isOptional: true
 uriParameters:
 - name: format
@@ -29,15 +31,10 @@ uriParameters:
   description: Desired format of the response. Possible values are png & pbf.
   types:
   - uid: TileFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: layer
@@ -55,10 +52,7 @@ uriParameters:
 - name: zoom
   in: query
   isRequired: true
-  description: >-
-    Zoom level for the desired tile. For _raster_ tiles, value must be in the range: 0-18 (inclusive). Terra raster tiles, values must be in the range 0-6 (inclusive). For _vector_ tiles, value must be in the range: 0-22 (inclusive).
-
-    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+  description: "Zoom level for the desired tile. \n\nPlease see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details."
   types:
   - uid: integer
   format: int32
@@ -69,7 +63,7 @@ uriParameters:
     X coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
 
 
-    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
   types:
   - uid: integer
   format: int32
@@ -80,7 +74,7 @@ uriParameters:
     Y coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
 
 
-    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
   types:
   - uid: integer
   format: int32
@@ -95,46 +89,30 @@ uriParameters:
     Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used.
 
 
-    Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages) for details.
+    Please refer to [Supported Languages](https://docs.microsoft.com/azure/azure-maps/supported-languages) for details.
   types:
   - uid: string
 - name: view
   in: query
   description: >-
-    The View parameter specifies which set of geopolitically disputed content is returned via Azure Maps services, including  borders and labels displayed on the map. The View parameter (also referred to as “user region parameter”) will show the  correct maps for that country/region. By default, the View parameter is set to “Unified” even if you haven’t defined it in  the request. It is your responsibility to determine the location of your users, and then set the View parameter correctly  for that location. Alternatively, you have the option to set ‘View=Auto’, which will return the map data based on the IP  address of the request. The View parameter in Azure Maps must be used in compliance with applicable laws, including those  regarding mapping, of the country where maps, images and other data and third party content that you are authorized to  access via Azure Maps is made available. Example: view=IN.
+    The View parameter (also called the "user region" parameter) allows you to show the correct maps for a certain country/region for geopolitically disputed regions. Different countries have different views of such regions, and the View parameter allows your application to comply with the view required by the country your application will be serving. By default, the View parameter is set to “Unified” even if you haven’t defined it in  the request. It is your responsibility to determine the location of your users, and then set the View parameter correctly for that location. Alternatively, you have the option to set ‘View=Auto’, which will return the map data based on the IP  address of the request. The View parameter in Azure Maps must be used in compliance with applicable laws, including those  regarding mapping, of the country where maps, images and other data and third party content that you are authorized to  access via Azure Maps is made available. Example: view=IN.
 
 
     Please refer to [Supported Views](https://aka.ms/AzureMapsLocalizationViews) for details and to see the available Views.
   types:
-  - uid: string
+  - uid: LocalizedMapView
 responses:
 - name: 200 OK
-  description: OK
+  headers:
+  - name: Content-Type
+    value: string
+  description: This image is returned from a successful Get Map Tile call
   types:
   - uid: object
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -202,85 +180,149 @@ definitions:
     description: Return a 512 by 512 pixel tile.
     types:
     - uid: string
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: LocalizedMapView
+  description: >-
+    The View parameter (also called the "user region" parameter) allows you to show the correct maps for a certain country/region for geopolitically disputed regions. Different countries have different views of such regions, and the View parameter allows your application to comply with the view required by the country your application will be serving. By default, the View parameter is set to “Unified” even if you haven’t defined it in  the request. It is your responsibility to determine the location of your users, and then set the View parameter correctly for that location. Alternatively, you have the option to set ‘View=Auto’, which will return the map data based on the IP  address of the request. The View parameter in Azure Maps must be used in compliance with applicable laws, including those  regarding mapping, of the country where maps, images and other data and third party content that you are authorized to  access via Azure Maps is made available. Example: view=IN.
+
+
+    Please refer to [Supported Views](https://aka.ms/AzureMapsLocalizationViews) for details and to see the available Views.
+  kind: enum
+  properties:
+  - name: AE
+    description: United Arab Emirates (Arabic View)
+    types:
+    - uid: string
+  - name: AR
+    description: Argentina (Argentinian View)
+    types:
+    - uid: string
+  - name: BH
+    description: Bahrain (Arabic View)
+    types:
+    - uid: string
+  - name: IN
+    description: India (Indian View)
+    types:
+    - uid: string
+  - name: IQ
+    description: Iraq (Arabic View)
+    types:
+    - uid: string
+  - name: JO
+    description: Jordan (Arabic View)
+    types:
+    - uid: string
+  - name: KW
+    description: Kuwait (Arabic View)
+    types:
+    - uid: string
+  - name: LB
+    description: Lebanon (Arabic View)
+    types:
+    - uid: string
+  - name: MA
+    description: Morocco (Moroccan View)
+    types:
+    - uid: string
+  - name: OM
+    description: Oman (Arabic View)
+    types:
+    - uid: string
+  - name: PK
+    description: Pakistan (Pakistani View)
+    types:
+    - uid: string
+  - name: PS
+    description: Palestinian Authority (Arabic View)
+    types:
+    - uid: string
+  - name: QA
+    description: Qatar (Arabic View)
+    types:
+    - uid: string
+  - name: SA
+    description: Saudi Arabia (Arabic View)
+    types:
+    - uid: string
+  - name: SY
+    description: Syria (Arabic View)
+    types:
+    - uid: string
+  - name: YE
+    description: Yemen (Arabic View)
+    types:
+    - uid: string
+  - name: Auto
+    description: Return the map data based on the IP address of the request.
+    types:
+    - uid: string
+  - name: Unified
+    description: Unified View (Others)
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+    - uid: ErrorDetail
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
-- name: GetMapTile
+- name: Successful Tile Request
   request:
-    uri: GET https://atlas.microsoft.com/map/tile/png?subscription-key=[subscription-key]&api-version=1.0&layer=basic&style=main&zoom=6&x=10&y=22
+    uri: GET https://atlas.microsoft.com/map/tile/png?api-version=1.0&layer=basic&style=main&zoom=6&x=10&y=22
   responses:
   - statusCode: "200"
-    body: "\"binary string image\""
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
-      }
+    headers:
+    - name: Content-Type
+      value: image/png
+    body: "\"{file}\""
 security:
 - name: AADToken
   type: oauth2
@@ -310,9 +352,9 @@ security:
   in: header
 metadata:
   description: >-
-    **Applies to**: S0 and S1 pricing tiers.
+    **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
 
-    Fetches map tiles in vector or raster format typically to be integrated into a new map control or SDK.
+    Fetches map tiles in vector or raster format typically to be integrated into a new m
 errorCodes: []
