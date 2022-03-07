@@ -51,7 +51,7 @@ The following table describes required and optional request headers.
 |`x-ms-source-if-none-match-crc64`|Optional. A CRC64 checksum value. Specify this header to perform the operation only if the checksum of the given range read from source is different from the provided checksum.<br /><br />If the specified condition isn't met, Azure Files returns status code 412 (Precondition Failed). | 
 |`x-ms-lease-id:<ID>`|Required if the file has an active lease. To perform this operation on a file with an active lease, specify the valid lease ID for this header.|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
-| `x-ms-file-last-write-time: { now | preserve }` | Optional. Version 2021-06-08 and newer. You may specify one of the following options: <ul><li>(Default) `now`: Updates the last write time timestamp to the time of the request.</li><li>`preserve`: Keeps the existing last write timestamp unchanged.</li></ul> |
+| `x-ms-file-last-write-time: { now ¦ preserve }` | Optional. Version 2021-06-08 and newer. You may specify one of the following options: <ul><li>(Default) `now`: Updates the last write time timestamp to the time of the request.</li><li>`preserve`: Keeps the existing last write timestamp unchanged.</li></ul> |
   
 ### Request body
 No request body.  
