@@ -3,29 +3,27 @@ uid: management.azure.com.securityinsights.stable.actions.get
 name: Get
 service: Sentinel
 groupName: Actions
-apiVersion: 2020-01-01
+apiVersion: 2021-10-01
 summary: Gets the action of alert rule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules/{ruleId}/actions/{actionId}?api-version=2020-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules/{ruleId}/actions/{actionId}?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Azure subscription ID
+  description: The ID of the target subscription.
   types:
   - uid: string
-  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: workspaceName
   in: path
   isRequired: true
@@ -47,7 +45,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: API version for the operation
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -75,85 +73,103 @@ definitions:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
   - name: properties.logicAppResourceId
     description: Logic App Resource Id, /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.
     types:
     - uid: string
 - name: CloudError
-  description: An error response for a resource management request.
+  description: Error response structure.
   kind: object
   properties:
   - name: error
-    description: "Error Response  \nThe error object of the CloudError response"
+    description: Error data
     types:
-    - uid: ErrorResponse
-- name: ErrorResponse
-  description: Error Response
+    - uid: CloudErrorBody
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: Error details.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The error code.
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: The error message.
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The error target.
-    types:
-    - uid: string
-  - name: details
-    isReadyOnly: true
-    description: The error details.
-    types:
-    - uid: ErrorResponse
-      isArray: true
-  - name: additionalInfo
-    isReadyOnly: true
-    description: The error additional info.
-    types:
-    - uid: ErrorAdditionalInfo
-      isArray: true
-- name: ErrorAdditionalInfo
-  description: The resource management error additional info.
-  kind: object
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
   properties:
-  - name: type
-    isReadyOnly: true
-    description: The additional info type.
+  - name: User
     types:
     - uid: string
-  - name: info
-    isReadyOnly: true
-    description: The additional info.
+  - name: Application
     types:
-    - uid: object
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: Get an action of alert rule.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5/actions/912bec42-cb66-4c03-ac63-1761b6898c3e?api-version=2020-01-01
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5/actions/912bec42-cb66-4c03-ac63-1761b6898c3e?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5/actions/912bec42-cb66-4c03-ac63-1761b6898c3e",
+        "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalIinsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5/actions/912bec42-cb66-4c03-ac63-1761b6898c3e",
         "name": "912bec42-cb66-4c03-ac63-1761b6898c3e",
         "type": "Microsoft.SecurityInsights/alertRules/actions",
         "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",

@@ -3,29 +3,27 @@ uid: management.azure.com.securityinsights.stable.alertrules.createorupdate
 name: Create Or Update
 service: Sentinel
 groupName: Alert Rules
-apiVersion: 2020-01-01
+apiVersion: 2021-10-01
 summary: Creates or updates the alert rule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules/{ruleId}?api-version=2020-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules/{ruleId}?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Azure subscription ID
+  description: The ID of the target subscription.
   types:
   - uid: string
-  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: workspaceName
   in: path
   isRequired: true
@@ -41,7 +39,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: API version for the operation
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -195,6 +193,11 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: properties.incidentConfiguration
+    in: body
+    description: The settings of the incidents that created from alerts triggered by this analytics rule
+    types:
+    - uid: IncidentConfiguration
   - name: kind
     in: body
     isRequired: true
@@ -243,6 +246,31 @@ requestBody:
     description: The threshold triggers this alert rule.
     types:
     - uid: integer
+  - name: properties.eventGroupingSettings
+    in: body
+    description: The event grouping settings.
+    types:
+    - uid: EventGroupingSettings
+  - name: properties.customDetails
+    in: body
+    description: Dictionary of string key-value pairs of columns to be attached to the alert
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.entityMappings
+    in: body
+    description: Array of the entity mappings of the alert rule
+    types:
+    - uid: EntityMapping
+      isArray: true
+  - name: properties.alertDetailsOverride
+    in: body
+    description: The alert details override settings
+    types:
+    - uid: AlertDetailsOverride
 requestHeader: []
 definitions:
 - name: FusionAlertRule
@@ -288,25 +316,30 @@ definitions:
     types:
     - uid: Fusion
     typesTitle: string
-  - name: id
-    isReadyOnly: true
-    description: Azure resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Azure resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Azure resource type
-    types:
-    - uid: string
   - name: etag
     description: Etag of the azure resource
     types:
     - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: MicrosoftSecurityIncidentCreationAlertRule
   description: Represents MicrosoftSecurityIncidentCreation rule.
   kind: object
@@ -337,25 +370,30 @@ definitions:
     types:
     - uid: MicrosoftSecurityIncidentCreation
     typesTitle: string
-  - name: id
-    isReadyOnly: true
-    description: Azure resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Azure resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Azure resource type
-    types:
-    - uid: string
   - name: etag
     description: Etag of the azure resource
     types:
     - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
   - name: properties.displayNamesFilter
     description: the alerts' displayNames on which the cases will be generated
     types:
@@ -413,30 +451,39 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.incidentConfiguration
+    description: The settings of the incidents that created from alerts triggered by this analytics rule
+    types:
+    - uid: IncidentConfiguration
   - name: kind
     description: The alert rule kind
     types:
     - uid: Scheduled
     typesTitle: string
-  - name: id
-    isReadyOnly: true
-    description: Azure resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Azure resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Azure resource type
-    types:
-    - uid: string
   - name: etag
     description: Etag of the azure resource
     types:
     - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
   - name: properties.query
     description: The query that creates alerts for this rule.
     types:
@@ -461,16 +508,65 @@ definitions:
     description: The threshold triggers this alert rule.
     types:
     - uid: integer
+  - name: properties.eventGroupingSettings
+    description: The event grouping settings.
+    types:
+    - uid: EventGroupingSettings
+  - name: properties.customDetails
+    description: Dictionary of string key-value pairs of columns to be attached to the alert
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.entityMappings
+    description: Array of the entity mappings of the alert rule
+    types:
+    - uid: EntityMapping
+      isArray: true
+  - name: properties.alertDetailsOverride
+    description: The alert details override settings
+    types:
+    - uid: AlertDetailsOverride
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: CloudError
-  description: An error response for a resource management request.
+  description: Error response structure.
   kind: object
   properties:
   - name: error
-    description: "Error Response  \nThe error object of the CloudError response"
+    description: Error data
     types:
-    - uid: ErrorResponse
+    - uid: CloudErrorBody
 - name: AlertSeverity
-  description: The severity of the alert
+  description: The severity for alerts created by this alert rule.
   kind: enum
   properties:
   - name: High
@@ -487,19 +583,6 @@ definitions:
     - uid: string
   - name: Informational
     description: Informational severity
-    types:
-    - uid: string
-- name: AlertRuleKind
-  description: The kind of the alert rule
-  kind: enum
-  properties:
-  - name: Scheduled
-    types:
-    - uid: string
-  - name: MicrosoftSecurityIncidentCreation
-    types:
-    - uid: string
-  - name: Fusion
     types:
     - uid: string
 - name: MicrosoftSecurityProductName
@@ -521,6 +604,18 @@ definitions:
   - name: Azure Security Center for IoT
     types:
     - uid: string
+- name: IncidentConfiguration
+  description: Incident Configuration property bag.
+  kind: object
+  properties:
+  - name: createIncident
+    description: Create incidents from alerts triggered by this analytics rule
+    types:
+    - uid: boolean
+  - name: groupingConfiguration
+    description: Set how the alerts that are triggered by this analytics rule, are grouped into incidents
+    types:
+    - uid: GroupingConfiguration
 - name: TriggerOperator
   description: The operation against the threshold that triggers alert rule.
   kind: enum
@@ -537,75 +632,300 @@ definitions:
   - name: NotEqual
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error Response
+- name: EventGroupingSettings
+  description: Event grouping settings property bag.
+  kind: object
+  properties:
+  - name: aggregationKind
+    description: The event grouping aggregation kinds
+    types:
+    - uid: EventGroupingAggregationKind
+- name: EntityMapping
+  description: Single entity mapping for the alert rule
+  kind: object
+  properties:
+  - name: entityType
+    description: The V3 type of the mapped entity
+    types:
+    - uid: EntityMappingType
+  - name: fieldMappings
+    description: array of field mappings for the given entity mapping
+    types:
+    - uid: FieldMapping
+      isArray: true
+- name: AlertDetailsOverride
+  description: Settings for how to dynamically override alert static details
+  kind: object
+  properties:
+  - name: alertDisplayNameFormat
+    description: the format containing columns name(s) to override the alert name
+    types:
+    - uid: string
+  - name: alertDescriptionFormat
+    description: the format containing columns name(s) to override the alert description
+    types:
+    - uid: string
+  - name: alertTacticsColumnName
+    description: the column name to take the alert tactics from
+    types:
+    - uid: string
+  - name: alertSeverityColumnName
+    description: the column name to take the alert severity from
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: Error details.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The error code.
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: The error message.
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The error target.
-    types:
-    - uid: string
-  - name: details
-    isReadyOnly: true
-    description: The error details.
-    types:
-    - uid: ErrorResponse
-      isArray: true
-  - name: additionalInfo
-    isReadyOnly: true
-    description: The error additional info.
-    types:
-    - uid: ErrorAdditionalInfo
-      isArray: true
-- name: ErrorAdditionalInfo
-  description: The resource management error additional info.
+- name: GroupingConfiguration
+  description: Grouping configuration property bag.
   kind: object
   properties:
-  - name: type
-    isReadyOnly: true
-    description: The additional info type.
+  - name: enabled
+    description: Grouping enabled
+    types:
+    - uid: boolean
+  - name: reopenClosedIncident
+    description: Re-open closed matching incidents
+    types:
+    - uid: boolean
+  - name: lookbackDuration
+    description: Limit the group to alerts created within the lookback duration (in ISO 8601 duration format)
     types:
     - uid: string
-  - name: info
-    isReadyOnly: true
-    description: The additional info.
+  - name: matchingMethod
+    description: Grouping matching method. When method is Selected at least one of groupByEntities, groupByAlertDetails, groupByCustomDetails must be provided and not empty.
     types:
-    - uid: object
+    - uid: MatchingMethod
+  - name: groupByEntities
+    description: A list of entity types to group by (when matchingMethod is Selected). Only entities defined in the current alert rule may be used.
+    types:
+    - uid: string
+      isArray: true
+  - name: groupByAlertDetails
+    description: A list of alert details to group by (when matchingMethod is Selected)
+    types:
+    - uid: string
+      isArray: true
+  - name: groupByCustomDetails
+    description: A list of custom details keys to group by (when matchingMethod is Selected). Only keys defined in the current alert rule may be used.
+    types:
+    - uid: string
+      isArray: true
+- name: EventGroupingAggregationKind
+  description: The event grouping aggregation kinds
+  kind: enum
+  properties:
+  - name: SingleAlert
+    types:
+    - uid: string
+  - name: AlertPerResult
+    types:
+    - uid: string
+- name: EntityMappingType
+  description: The V3 type of the mapped entity
+  kind: enum
+  properties:
+  - name: Account
+    description: User account entity type
+    types:
+    - uid: string
+  - name: Host
+    description: Host entity type
+    types:
+    - uid: string
+  - name: IP
+    description: IP address entity type
+    types:
+    - uid: string
+  - name: Malware
+    description: Malware entity type
+    types:
+    - uid: string
+  - name: File
+    description: System file entity type
+    types:
+    - uid: string
+  - name: Process
+    description: Process entity type
+    types:
+    - uid: string
+  - name: CloudApplication
+    description: Cloud app entity type
+    types:
+    - uid: string
+  - name: DNS
+    description: DNS entity type
+    types:
+    - uid: string
+  - name: AzureResource
+    description: Azure resource entity type
+    types:
+    - uid: string
+  - name: FileHash
+    description: File-hash entity type
+    types:
+    - uid: string
+  - name: RegistryKey
+    description: Registry key entity type
+    types:
+    - uid: string
+  - name: RegistryValue
+    description: Registry value entity type
+    types:
+    - uid: string
+  - name: SecurityGroup
+    description: Security group entity type
+    types:
+    - uid: string
+  - name: URL
+    description: URL entity type
+    types:
+    - uid: string
+  - name: Mailbox
+    description: Mailbox entity type
+    types:
+    - uid: string
+  - name: MailCluster
+    description: Mail cluster entity type
+    types:
+    - uid: string
+  - name: MailMessage
+    description: Mail message entity type
+    types:
+    - uid: string
+  - name: SubmissionMail
+    description: Submission mail entity type
+    types:
+    - uid: string
+- name: FieldMapping
+  description: A single field mapping of the mapped entity
+  kind: object
+  properties:
+  - name: identifier
+    description: the V3 identifier of the entity
+    types:
+    - uid: string
+  - name: columnName
+    description: the column name to be mapped to the identifier
+    types:
+    - uid: string
+- name: MatchingMethod
+  description: Grouping matching method. When method is Selected at least one of groupByEntities, groupByAlertDetails, groupByCustomDetails must be provided and not empty.
+  kind: enum
+  properties:
+  - name: AllEntities
+    description: Grouping alerts into a single incident if all the entities match
+    types:
+    - uid: string
+  - name: AnyAlert
+    description: Grouping any alerts triggered by this rule into a single incident
+    types:
+    - uid: string
+  - name: Selected
+    description: Grouping alerts into a single incident if the selected entities, custom details and alert details match
+    types:
+    - uid: string
 examples:
 - name: Creates or updates a Scheduled alert rule.
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2020-01-01
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01
     body: >-
       {
         "kind": "Scheduled",
         "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
         "properties": {
-          "displayName": "Rule2",
-          "description": "",
+          "displayName": "My scheduled rule",
+          "description": "An example for a scheduled rule",
           "severity": "High",
           "enabled": true,
           "tactics": [
             "Persistence",
             "LateralMovement"
           ],
-          "query": "ProtectionStatus | extend HostCustomEntity = Computer | extend IPCustomEntity = ComputerIP_Hidden",
+          "query": "Heartbeat",
           "queryFrequency": "PT1H",
           "queryPeriod": "P2DT1H30M",
           "triggerOperator": "GreaterThan",
           "triggerThreshold": 0,
           "suppressionDuration": "PT1H",
-          "suppressionEnabled": false
+          "suppressionEnabled": false,
+          "eventGroupingSettings": {
+            "aggregationKind": "AlertPerResult"
+          },
+          "customDetails": {
+            "OperatingSystemName": "OSName",
+            "OperatingSystemType": "OSType"
+          },
+          "entityMappings": [
+            {
+              "entityType": "Host",
+              "fieldMappings": [
+                {
+                  "identifier": "FullName",
+                  "columnName": "Computer"
+                }
+              ]
+            },
+            {
+              "entityType": "IP",
+              "fieldMappings": [
+                {
+                  "identifier": "Address",
+                  "columnName": "ComputerIP"
+                }
+              ]
+            }
+          ],
+          "alertDetailsOverride": {
+            "alertDisplayNameFormat": "Alert from {{Computer}}",
+            "alertDescriptionFormat": "Suspicious activity was made by {{ComputerIP}}"
+          },
+          "incidentConfiguration": {
+            "createIncident": true,
+            "groupingConfiguration": {
+              "enabled": true,
+              "reopenClosedIncident": false,
+              "lookbackDuration": "PT5H",
+              "matchingMethod": "Selected",
+              "groupByEntities": [
+                "Host"
+              ],
+              "groupByAlertDetails": [
+                "DisplayName"
+              ],
+              "groupByCustomDetails": [
+                "OperatingSystemType",
+                "OperatingSystemName"
+              ]
+            }
+          }
         }
       }
   responses:
@@ -619,22 +939,74 @@ examples:
         "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
         "properties": {
           "alertRuleTemplateName": null,
-          "displayName": "Rule2",
-          "description": "",
+          "displayName": "My scheduled rule",
+          "description": "An example for a scheduled rule",
           "severity": "High",
           "enabled": true,
           "tactics": [
             "Persistence",
             "LateralMovement"
           ],
-          "query": "ProtectionStatus | extend HostCustomEntity = Computer | extend IPCustomEntity = ComputerIP_Hidden",
+          "query": "Heartbeat",
           "queryFrequency": "PT1H",
           "queryPeriod": "P2DT1H30M",
           "triggerOperator": "GreaterThan",
           "triggerThreshold": 0,
           "suppressionDuration": "PT1H",
           "suppressionEnabled": false,
-          "lastModifiedUtc": "2019-01-01T13:15:30Z"
+          "lastModifiedUtc": "2021-03-01T13:17:30Z",
+          "eventGroupingSettings": {
+            "aggregationKind": "AlertPerResult"
+          },
+          "customDetails": {
+            "OperatingSystemName": "OSName",
+            "OperatingSystemType": "OSType"
+          },
+          "entityMappings": [
+            {
+              "entityType": "Host",
+              "fieldMappings": [
+                {
+                  "identifier": "FullName",
+                  "columnName": "Computer"
+                }
+              ]
+            },
+            {
+              "entityType": "IP",
+              "fieldMappings": [
+                {
+                  "identifier": "Address",
+                  "columnName": "ComputerIP"
+                }
+              ]
+            }
+          ],
+          "alertDetailsOverride": {
+            "alertDisplayNameFormat": "Alert from {{Computer}}",
+            "alertDescriptionFormat": "Suspicious activity was made by {{ComputerIP}}",
+            "alertTacticsColumnName": null,
+            "alertSeverityColumnName": null
+          },
+          "incidentConfiguration": {
+            "createIncident": true,
+            "groupingConfiguration": {
+              "enabled": true,
+              "reopenClosedIncident": false,
+              "lookbackDuration": "PT5H",
+              "matchingMethod": "Selected",
+              "groupByEntities": [
+                "Host"
+              ],
+              "groupByAlertDetails": [
+                "DisplayName"
+              ],
+              "groupByCustomDetails": [
+                "OperatingSystemType",
+                "OperatingSystemName"
+              ]
+            }
+          }
         }
       }
   - statusCode: "201"
@@ -647,27 +1019,79 @@ examples:
         "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
         "properties": {
           "alertRuleTemplateName": null,
-          "displayName": "Rule2",
-          "description": "",
+          "displayName": "My scheduled rule",
+          "description": "An example for a scheduled rule",
           "severity": "High",
           "enabled": true,
           "tactics": [
             "Persistence",
             "LateralMovement"
           ],
-          "query": "ProtectionStatus | extend HostCustomEntity = Computer | extend IPCustomEntity = ComputerIP_Hidden",
+          "query": "Heartbeat",
           "queryFrequency": "PT1H",
           "queryPeriod": "P2DT1H30M",
-          "triggerOperator": "GreaterThan",
           "triggerThreshold": 0,
+          "triggerOperator": "GreaterThan",
           "suppressionDuration": "PT1H",
           "suppressionEnabled": false,
-          "lastModifiedUtc": "2019-01-01T13:15:30Z"
+          "lastModifiedUtc": "2021-03-01T13:15:30Z",
+          "eventGroupingSettings": {
+            "aggregationKind": "AlertPerResult"
+          },
+          "customDetails": {
+            "OperatingSystemName": "OSName",
+            "OperatingSystemType": "OSType"
+          },
+          "entityMappings": [
+            {
+              "entityType": "Host",
+              "fieldMappings": [
+                {
+                  "identifier": "FullName",
+                  "columnName": "Computer"
+                }
+              ]
+            },
+            {
+              "entityType": "IP",
+              "fieldMappings": [
+                {
+                  "identifier": "Address",
+                  "columnName": "ComputerIP"
+                }
+              ]
+            }
+          ],
+          "alertDetailsOverride": {
+            "alertDisplayNameFormat": "Alert from {{Computer}}",
+            "alertDescriptionFormat": "Suspicious activity was made by {{ComputerIP}}",
+            "alertTacticsColumnName": null,
+            "alertSeverityColumnName": null
+          },
+          "incidentConfiguration": {
+            "createIncident": true,
+            "groupingConfiguration": {
+              "enabled": true,
+              "reopenClosedIncident": false,
+              "lookbackDuration": "PT5H",
+              "matchingMethod": "Selected",
+              "groupByEntities": [
+                "Host"
+              ],
+              "groupByAlertDetails": [
+                "DisplayName"
+              ],
+              "groupByCustomDetails": [
+                "OperatingSystemType",
+                "OperatingSystemName"
+              ]
+            }
+          }
         }
       }
 - name: Creates or updates a Fusion alert rule.
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/myFirstFusionRule?api-version=2020-01-01
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/myFirstFusionRule?api-version=2021-10-01
     body: >-
       {
         "kind": "Fusion",
@@ -726,7 +1150,7 @@ examples:
       }
 - name: Creates or updates a MicrosoftSecurityIncidentCreation rule.
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/microsoftSecurityIncidentCreationRuleExample?api-version=2020-01-01
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/microsoftSecurityIncidentCreationRuleExample?api-version=2021-10-01
     body: >-
       {
         "etag": "\"260097e0-0000-0d00-0000-5d6fa88f0000\"",

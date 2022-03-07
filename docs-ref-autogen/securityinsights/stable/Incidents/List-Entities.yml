@@ -1,31 +1,29 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.securityinsights.stable.incidents.listofentities
-name: List Of Entities
+uid: management.azure.com.securityinsights.stable.incidents.listentities
+name: List Entities
 service: Sentinel
 groupName: Incidents
-apiVersion: 2021-04-01
+apiVersion: 2021-10-01
 summary: Gets all entities for an incident.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/entities?api-version=2021-04-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/entities?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Azure subscription ID
+  description: The ID of the target subscription.
   types:
   - uid: string
-  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: workspaceName
   in: path
   isRequired: true
@@ -62,6 +60,10 @@ definitions:
   - name: entities
     description: Array of the incident related entities.
     types:
+    - uid: SecurityAlert
+      isArray: true
+    - uid: HuntingBookmark
+      isArray: true
     - uid: AccountEntity
       isArray: true
     - uid: AzureResourceEntity
@@ -75,10 +77,6 @@ definitions:
     - uid: FileHashEntity
       isArray: true
     - uid: HostEntity
-      isArray: true
-    - uid: HuntingBookmark
-      isArray: true
-    - uid: SecurityAlert
       isArray: true
     - uid: IoTDeviceEntity
       isArray: true
@@ -111,13 +109,13 @@ definitions:
     - uid: IncidentEntitiesResultsMetadata
       isArray: true
 - name: CloudError
-  description: An error response for a resource management request.
+  description: Error response structure.
   kind: object
   properties:
   - name: error
-    description: "Error Response  \nThe error object of the CloudError response"
+    description: Error data
     types:
-    - uid: ErrorResponse
+    - uid: CloudErrorBody
 - name: IncidentEntitiesResultsMetadata
   description: Information of a specific aggregation in the incident related entities result.
   kind: object
@@ -130,597 +128,18 @@ definitions:
     description: The kind of the aggregated entity.
     types:
     - uid: EntityKindEnum
-- name: ErrorResponse
-  description: Error Response
+- name: CloudErrorBody
+  description: Error details.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The error code.
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The error target.
-    types:
-    - uid: string
-  - name: details
-    isReadyOnly: true
-    description: The error details.
-    types:
-    - uid: ErrorResponse
-      isArray: true
-  - name: additionalInfo
-    isReadyOnly: true
-    description: The error additional info.
-    types:
-    - uid: ErrorAdditionalInfo
-      isArray: true
-- name: AccountEntity
-  description: Represents an account entity.
-  kind: object
-  properties:
-  - name: properties.aadTenantId
-    isReadyOnly: true
-    description: The Azure Active Directory tenant id.
-    types:
-    - uid: string
-  - name: properties.aadUserId
-    isReadyOnly: true
-    description: The Azure Active Directory user id.
-    types:
-    - uid: string
-  - name: properties.accountName
-    isReadyOnly: true
-    description: The name of the account. This field should hold only the name without any domain added to it, i.e. administrator.
-    types:
-    - uid: string
-  - name: properties.displayName
-    isReadyOnly: true
-    description: The display name of the account.
-    types:
-    - uid: string
-  - name: properties.hostEntityId
-    isReadyOnly: true
-    description: The Host entity id that contains the account in case it is a local account (not domain joined)
-    types:
-    - uid: string
-  - name: properties.isDomainJoined
-    isReadyOnly: true
-    description: Determines whether this is a domain account.
-    types:
-    - uid: boolean
-  - name: properties.ntDomain
-    isReadyOnly: true
-    description: 'The NetBIOS domain name as it appears in the alert format – domain\username. Examples: NT AUTHORITY.'
-    types:
-    - uid: string
-  - name: properties.objectGuid
-    isReadyOnly: true
-    description: The objectGUID attribute is a single-value attribute that is the unique identifier for the object, assigned by active directory.
-    types:
-    - uid: string
-  - name: properties.puid
-    isReadyOnly: true
-    description: The Azure Active Directory Passport User ID.
-    types:
-    - uid: string
-  - name: properties.sid
-    isReadyOnly: true
-    description: The account security identifier, e.g. S-1-5-18.
-    types:
-    - uid: string
-  - name: properties.upnSuffix
-    isReadyOnly: true
-    description: 'The user principal name suffix for the account, in some cases it is also the domain name. Examples: contoso.com.'
-    types:
-    - uid: string
-  - name: properties.dnsDomain
-    isReadyOnly: true
-    description: The fully qualified domain DNS name.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Azure resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Azure resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Azure resource type
-    types:
-    - uid: string
-  - name: systemData
-    isReadyOnly: true
-    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
-    types:
-    - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
-  - name: properties.additionalData
-    isReadyOnly: true
-    description: A bag of custom fields that should be part of the entity and will be presented to the user.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-  - name: properties.friendlyName
-    isReadyOnly: true
-    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
-    types:
-    - uid: string
-- name: AzureResourceEntity
-  description: Represents an azure resource entity.
-  kind: object
-  properties:
-  - name: properties.resourceId
-    isReadyOnly: true
-    description: The azure resource id of the resource
-    types:
-    - uid: string
-  - name: properties.subscriptionId
-    isReadyOnly: true
-    description: The subscription id of the resource
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Azure resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Azure resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Azure resource type
-    types:
-    - uid: string
-  - name: systemData
-    isReadyOnly: true
-    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
-    types:
-    - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
-  - name: properties.additionalData
-    isReadyOnly: true
-    description: A bag of custom fields that should be part of the entity and will be presented to the user.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-  - name: properties.friendlyName
-    isReadyOnly: true
-    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
-    types:
-    - uid: string
-- name: CloudApplicationEntity
-  description: Represents a cloud application entity.
-  kind: object
-  properties:
-  - name: properties.appId
-    isReadyOnly: true
-    description: The technical identifier of the application.
-    types:
-    - uid: integer
-  - name: properties.appName
-    isReadyOnly: true
-    description: The name of the related cloud application.
-    types:
-    - uid: string
-  - name: properties.instanceName
-    isReadyOnly: true
-    description: The user defined instance name of the cloud application. It is often used to distinguish between several applications of the same type that a customer has.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Azure resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Azure resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Azure resource type
-    types:
-    - uid: string
-  - name: systemData
-    isReadyOnly: true
-    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
-    types:
-    - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
-  - name: properties.additionalData
-    isReadyOnly: true
-    description: A bag of custom fields that should be part of the entity and will be presented to the user.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-  - name: properties.friendlyName
-    isReadyOnly: true
-    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
-    types:
-    - uid: string
-- name: DnsEntity
-  description: Represents a dns entity.
-  kind: object
-  properties:
-  - name: properties.dnsServerIpEntityId
-    isReadyOnly: true
-    description: An ip entity id for the dns server resolving the request
-    types:
-    - uid: string
-  - name: properties.domainName
-    isReadyOnly: true
-    description: The name of the dns record associated with the alert
-    types:
-    - uid: string
-  - name: properties.hostIpAddressEntityId
-    isReadyOnly: true
-    description: An ip entity id for the dns request client
-    types:
-    - uid: string
-  - name: properties.ipAddressEntityIds
-    isReadyOnly: true
-    description: Ip entity identifiers for the resolved ip address.
-    types:
-    - uid: string
-      isArray: true
-  - name: id
-    isReadyOnly: true
-    description: Azure resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Azure resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Azure resource type
-    types:
-    - uid: string
-  - name: systemData
-    isReadyOnly: true
-    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
-    types:
-    - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
-  - name: properties.additionalData
-    isReadyOnly: true
-    description: A bag of custom fields that should be part of the entity and will be presented to the user.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-  - name: properties.friendlyName
-    isReadyOnly: true
-    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
-    types:
-    - uid: string
-- name: FileEntity
-  description: Represents a file entity.
-  kind: object
-  properties:
-  - name: properties.directory
-    isReadyOnly: true
-    description: The full path to the file.
-    types:
-    - uid: string
-  - name: properties.fileHashEntityIds
-    isReadyOnly: true
-    description: The file hash entity identifiers associated with this file
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.fileName
-    isReadyOnly: true
-    description: The file name without path (some alerts might not include path).
-    types:
-    - uid: string
-  - name: properties.hostEntityId
-    isReadyOnly: true
-    description: The Host entity id which the file belongs to
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Azure resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Azure resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Azure resource type
-    types:
-    - uid: string
-  - name: systemData
-    isReadyOnly: true
-    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
-    types:
-    - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
-  - name: properties.additionalData
-    isReadyOnly: true
-    description: A bag of custom fields that should be part of the entity and will be presented to the user.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-  - name: properties.friendlyName
-    isReadyOnly: true
-    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
-    types:
-    - uid: string
-- name: FileHashEntity
-  description: Represents a file hash entity.
-  kind: object
-  properties:
-  - name: properties.algorithm
-    isReadyOnly: true
-    description: The hash algorithm type.
-    types:
-    - uid: FileHashAlgorithm
-  - name: properties.hashValue
-    isReadyOnly: true
-    description: The file hash value.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Azure resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Azure resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Azure resource type
-    types:
-    - uid: string
-  - name: systemData
-    isReadyOnly: true
-    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
-    types:
-    - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
-  - name: properties.additionalData
-    isReadyOnly: true
-    description: A bag of custom fields that should be part of the entity and will be presented to the user.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-  - name: properties.friendlyName
-    isReadyOnly: true
-    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
-    types:
-    - uid: string
-- name: HostEntity
-  description: Represents a host entity.
-  kind: object
-  properties:
-  - name: properties.azureID
-    isReadyOnly: true
-    description: The azure resource id of the VM.
-    types:
-    - uid: string
-  - name: properties.dnsDomain
-    isReadyOnly: true
-    description: The DNS domain that this host belongs to. Should contain the compete DNS suffix for the domain
-    types:
-    - uid: string
-  - name: properties.hostName
-    isReadyOnly: true
-    description: The hostname without the domain suffix.
-    types:
-    - uid: string
-  - name: properties.isDomainJoined
-    isReadyOnly: true
-    description: Determines whether this host belongs to a domain.
-    types:
-    - uid: boolean
-  - name: properties.netBiosName
-    isReadyOnly: true
-    description: The host name (pre-windows2000).
-    types:
-    - uid: string
-  - name: properties.ntDomain
-    isReadyOnly: true
-    description: The NT domain that this host belongs to.
-    types:
-    - uid: string
-  - name: properties.omsAgentID
-    isReadyOnly: true
-    description: The OMS agent id, if the host has OMS agent installed.
-    types:
-    - uid: string
-  - name: properties.osFamily
-    description: The operating system type.
-    types:
-    - uid: OSFamily
-  - name: properties.osVersion
-    isReadyOnly: true
-    description: A free text representation of the operating system. This field is meant to hold specific versions the are more fine grained than OSFamily or future values not supported by OSFamily enumeration
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Azure resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Azure resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Azure resource type
-    types:
-    - uid: string
-  - name: systemData
-    isReadyOnly: true
-    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
-    types:
-    - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
-  - name: properties.additionalData
-    isReadyOnly: true
-    description: A bag of custom fields that should be part of the entity and will be presented to the user.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-  - name: properties.friendlyName
-    isReadyOnly: true
-    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
-    types:
-    - uid: string
-- name: HuntingBookmark
-  description: Represents a Hunting bookmark entity.
-  kind: object
-  properties:
-  - name: properties.created
-    description: The time the bookmark was created
-    types:
-    - uid: string
-  - name: properties.createdBy
-    description: Describes a user that created the bookmark
-    types:
-    - uid: UserInfo
-  - name: properties.displayName
-    description: The display name of the bookmark
-    types:
-    - uid: string
-  - name: properties.eventTime
-    description: The time of the event
-    types:
-    - uid: string
-  - name: properties.labels
-    description: List of labels relevant to this bookmark
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.notes
-    description: The notes of the bookmark
-    types:
-    - uid: string
-  - name: properties.query
-    description: The query of the bookmark.
-    types:
-    - uid: string
-  - name: properties.queryResult
-    description: The query result of the bookmark.
-    types:
-    - uid: string
-  - name: properties.updated
-    description: The last time the bookmark was updated
-    types:
-    - uid: string
-  - name: properties.updatedBy
-    description: Describes a user that updated the bookmark
-    types:
-    - uid: UserInfo
-  - name: properties.incidentInfo
-    description: Describes an incident that relates to bookmark
-    types:
-    - uid: IncidentInfo
-  - name: id
-    isReadyOnly: true
-    description: Azure resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Azure resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Azure resource type
-    types:
-    - uid: string
-  - name: systemData
-    isReadyOnly: true
-    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
-    types:
-    - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
-  - name: properties.additionalData
-    isReadyOnly: true
-    description: A bag of custom fields that should be part of the entity and will be presented to the user.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-  - name: properties.friendlyName
-    isReadyOnly: true
-    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
 - name: SecurityAlert
@@ -855,19 +274,24 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: SecurityAlert
+    typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: systemData
@@ -875,10 +299,576 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
+  - name: properties.additionalData
+    isReadyOnly: true
+    description: A bag of custom fields that should be part of the entity and will be presented to the user.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.friendlyName
+    isReadyOnly: true
+    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
+    types:
+    - uid: string
+- name: HuntingBookmark
+  description: Represents a Hunting bookmark entity.
+  kind: object
+  properties:
+  - name: properties.created
+    description: The time the bookmark was created
+    types:
+    - uid: string
+  - name: properties.createdBy
+    description: Describes a user that created the bookmark
+    types:
+    - uid: UserInfo
+  - name: properties.displayName
+    description: The display name of the bookmark
+    types:
+    - uid: string
+  - name: properties.eventTime
+    description: The time of the event
+    types:
+    - uid: string
+  - name: properties.labels
+    description: List of labels relevant to this bookmark
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.notes
+    description: The notes of the bookmark
+    types:
+    - uid: string
+  - name: properties.query
+    description: The query of the bookmark.
+    types:
+    - uid: string
+  - name: properties.queryResult
+    description: The query result of the bookmark.
+    types:
+    - uid: string
+  - name: properties.updated
+    description: The last time the bookmark was updated
+    types:
+    - uid: string
+  - name: properties.updatedBy
+    description: Describes a user that updated the bookmark
+    types:
+    - uid: UserInfo
+  - name: properties.incidentInfo
+    description: Describes an incident that relates to bookmark
+    types:
+    - uid: IncidentInfo
   - name: kind
     description: The kind of the entity.
     types:
-    - uid: EntityKindEnum
+    - uid: Bookmark
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.additionalData
+    isReadyOnly: true
+    description: A bag of custom fields that should be part of the entity and will be presented to the user.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.friendlyName
+    isReadyOnly: true
+    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
+    types:
+    - uid: string
+- name: AccountEntity
+  description: Represents an account entity.
+  kind: object
+  properties:
+  - name: properties.aadTenantId
+    isReadyOnly: true
+    description: The Azure Active Directory tenant id.
+    types:
+    - uid: string
+  - name: properties.aadUserId
+    isReadyOnly: true
+    description: The Azure Active Directory user id.
+    types:
+    - uid: string
+  - name: properties.accountName
+    isReadyOnly: true
+    description: The name of the account. This field should hold only the name without any domain added to it, i.e. administrator.
+    types:
+    - uid: string
+  - name: properties.displayName
+    isReadyOnly: true
+    description: The display name of the account.
+    types:
+    - uid: string
+  - name: properties.hostEntityId
+    isReadyOnly: true
+    description: The Host entity id that contains the account in case it is a local account (not domain joined)
+    types:
+    - uid: string
+  - name: properties.isDomainJoined
+    isReadyOnly: true
+    description: Determines whether this is a domain account.
+    types:
+    - uid: boolean
+  - name: properties.ntDomain
+    isReadyOnly: true
+    description: 'The NetBIOS domain name as it appears in the alert format � domain\username. Examples: NT AUTHORITY.'
+    types:
+    - uid: string
+  - name: properties.objectGuid
+    isReadyOnly: true
+    description: The objectGUID attribute is a single-value attribute that is the unique identifier for the object, assigned by active directory.
+    types:
+    - uid: string
+  - name: properties.puid
+    isReadyOnly: true
+    description: The Azure Active Directory Passport User ID.
+    types:
+    - uid: string
+  - name: properties.sid
+    isReadyOnly: true
+    description: The account security identifier, e.g. S-1-5-18.
+    types:
+    - uid: string
+  - name: properties.upnSuffix
+    isReadyOnly: true
+    description: 'The user principal name suffix for the account, in some cases it is also the domain name. Examples: contoso.com.'
+    types:
+    - uid: string
+  - name: properties.dnsDomain
+    isReadyOnly: true
+    description: The fully qualified domain DNS name.
+    types:
+    - uid: string
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: Account
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.additionalData
+    isReadyOnly: true
+    description: A bag of custom fields that should be part of the entity and will be presented to the user.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.friendlyName
+    isReadyOnly: true
+    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
+    types:
+    - uid: string
+- name: AzureResourceEntity
+  description: Represents an azure resource entity.
+  kind: object
+  properties:
+  - name: properties.resourceId
+    isReadyOnly: true
+    description: The azure resource id of the resource
+    types:
+    - uid: string
+  - name: properties.subscriptionId
+    isReadyOnly: true
+    description: The subscription id of the resource
+    types:
+    - uid: string
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: AzureResource
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.additionalData
+    isReadyOnly: true
+    description: A bag of custom fields that should be part of the entity and will be presented to the user.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.friendlyName
+    isReadyOnly: true
+    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
+    types:
+    - uid: string
+- name: CloudApplicationEntity
+  description: Represents a cloud application entity.
+  kind: object
+  properties:
+  - name: properties.appId
+    isReadyOnly: true
+    description: The technical identifier of the application.
+    types:
+    - uid: integer
+  - name: properties.appName
+    isReadyOnly: true
+    description: The name of the related cloud application.
+    types:
+    - uid: string
+  - name: properties.instanceName
+    isReadyOnly: true
+    description: The user defined instance name of the cloud application. It is often used to distinguish between several applications of the same type that a customer has.
+    types:
+    - uid: string
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: CloudApplication
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.additionalData
+    isReadyOnly: true
+    description: A bag of custom fields that should be part of the entity and will be presented to the user.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.friendlyName
+    isReadyOnly: true
+    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
+    types:
+    - uid: string
+- name: DnsEntity
+  description: Represents a dns entity.
+  kind: object
+  properties:
+  - name: properties.dnsServerIpEntityId
+    isReadyOnly: true
+    description: An ip entity id for the dns server resolving the request
+    types:
+    - uid: string
+  - name: properties.domainName
+    isReadyOnly: true
+    description: The name of the dns record associated with the alert
+    types:
+    - uid: string
+  - name: properties.hostIpAddressEntityId
+    isReadyOnly: true
+    description: An ip entity id for the dns request client
+    types:
+    - uid: string
+  - name: properties.ipAddressEntityIds
+    isReadyOnly: true
+    description: Ip entity identifiers for the resolved ip address.
+    types:
+    - uid: string
+      isArray: true
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: DnsResolution
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.additionalData
+    isReadyOnly: true
+    description: A bag of custom fields that should be part of the entity and will be presented to the user.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.friendlyName
+    isReadyOnly: true
+    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
+    types:
+    - uid: string
+- name: FileEntity
+  description: Represents a file entity.
+  kind: object
+  properties:
+  - name: properties.directory
+    isReadyOnly: true
+    description: The full path to the file.
+    types:
+    - uid: string
+  - name: properties.fileHashEntityIds
+    isReadyOnly: true
+    description: The file hash entity identifiers associated with this file
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.fileName
+    isReadyOnly: true
+    description: The file name without path (some alerts might not include path).
+    types:
+    - uid: string
+  - name: properties.hostEntityId
+    isReadyOnly: true
+    description: The Host entity id which the file belongs to
+    types:
+    - uid: string
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: File
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.additionalData
+    isReadyOnly: true
+    description: A bag of custom fields that should be part of the entity and will be presented to the user.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.friendlyName
+    isReadyOnly: true
+    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
+    types:
+    - uid: string
+- name: FileHashEntity
+  description: Represents a file hash entity.
+  kind: object
+  properties:
+  - name: properties.algorithm
+    isReadyOnly: true
+    description: The hash algorithm type.
+    types:
+    - uid: FileHashAlgorithm
+  - name: properties.hashValue
+    isReadyOnly: true
+    description: The file hash value.
+    types:
+    - uid: string
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: FileHash
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.additionalData
+    isReadyOnly: true
+    description: A bag of custom fields that should be part of the entity and will be presented to the user.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.friendlyName
+    isReadyOnly: true
+    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
+    types:
+    - uid: string
+- name: HostEntity
+  description: Represents a host entity.
+  kind: object
+  properties:
+  - name: properties.azureID
+    isReadyOnly: true
+    description: The azure resource id of the VM.
+    types:
+    - uid: string
+  - name: properties.dnsDomain
+    isReadyOnly: true
+    description: The DNS domain that this host belongs to. Should contain the compete DNS suffix for the domain
+    types:
+    - uid: string
+  - name: properties.hostName
+    isReadyOnly: true
+    description: The hostname without the domain suffix.
+    types:
+    - uid: string
+  - name: properties.isDomainJoined
+    isReadyOnly: true
+    description: Determines whether this host belongs to a domain.
+    types:
+    - uid: boolean
+  - name: properties.netBiosName
+    isReadyOnly: true
+    description: The host name (pre-windows2000).
+    types:
+    - uid: string
+  - name: properties.ntDomain
+    isReadyOnly: true
+    description: The NT domain that this host belongs to.
+    types:
+    - uid: string
+  - name: properties.omsAgentID
+    isReadyOnly: true
+    description: The OMS agent id, if the host has OMS agent installed.
+    types:
+    - uid: string
+  - name: properties.osFamily
+    description: The operating system type.
+    types:
+    - uid: OSFamily
+  - name: properties.osVersion
+    isReadyOnly: true
+    description: A free text representation of the operating system. This field is meant to hold specific versions the are more fine grained than OSFamily or future values not supported by OSFamily enumeration
+    types:
+    - uid: string
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: Host
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
   - name: properties.additionalData
     isReadyOnly: true
     description: A bag of custom fields that should be part of the entity and will be presented to the user.
@@ -984,19 +974,24 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: IoTDevice
+    typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: systemData
@@ -1004,10 +999,6 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
   - name: properties.additionalData
     isReadyOnly: true
     description: A bag of custom fields that should be part of the entity and will be presented to the user.
@@ -1042,19 +1033,24 @@ definitions:
     types:
     - uid: ThreatIntelligence
       isArray: true
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: Ip
+    typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: systemData
@@ -1062,10 +1058,6 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
   - name: properties.additionalData
     isReadyOnly: true
     description: A bag of custom fields that should be part of the entity and will be presented to the user.
@@ -1104,19 +1096,24 @@ definitions:
     description: The AzureAD identifier of mailbox. Similar to AadUserId in account entity but this property is specific to mailbox object on office side
     types:
     - uid: string
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: Mailbox
+    typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: systemData
@@ -1124,10 +1121,6 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
   - name: properties.additionalData
     isReadyOnly: true
     description: A bag of custom fields that should be part of the entity and will be presented to the user.
@@ -1223,19 +1216,24 @@ definitions:
     description: The cluster group
     types:
     - uid: string
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: MailCluster
+    typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: systemData
@@ -1243,10 +1241,6 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
   - name: properties.additionalData
     isReadyOnly: true
     description: A bag of custom fields that should be part of the entity and will be presented to the user.
@@ -1386,19 +1380,24 @@ definitions:
     description: The delivery location of this mail message like Inbox, JunkFolder etc
     types:
     - uid: DeliveryLocation
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: MailMessage
+    typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: systemData
@@ -1406,10 +1405,6 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
   - name: properties.additionalData
     isReadyOnly: true
     description: A bag of custom fields that should be part of the entity and will be presented to the user.
@@ -1450,19 +1445,24 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: Malware
+    typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: systemData
@@ -1470,10 +1470,6 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
   - name: properties.additionalData
     isReadyOnly: true
     description: A bag of custom fields that should be part of the entity and will be presented to the user.
@@ -1536,19 +1532,24 @@ definitions:
     description: The process ID
     types:
     - uid: string
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: Process
+    typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: systemData
@@ -1556,10 +1557,6 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
   - name: properties.additionalData
     isReadyOnly: true
     description: A bag of custom fields that should be part of the entity and will be presented to the user.
@@ -1588,19 +1585,24 @@ definitions:
     description: The registry key path.
     types:
     - uid: string
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: RegistryKey
+    typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: systemData
@@ -1608,10 +1610,6 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
   - name: properties.additionalData
     isReadyOnly: true
     description: A bag of custom fields that should be part of the entity and will be presented to the user.
@@ -1650,19 +1648,24 @@ definitions:
     description: Specifies the data types to use when storing values in the registry, or identifies the data type of a value in the registry.
     types:
     - uid: RegistryValueKind
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: RegistryValue
+    typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: systemData
@@ -1670,10 +1673,6 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
   - name: properties.additionalData
     isReadyOnly: true
     description: A bag of custom fields that should be part of the entity and will be presented to the user.
@@ -1707,19 +1706,24 @@ definitions:
     description: The SID attribute is a single-value attribute that specifies the security identifier (SID) of the group
     types:
     - uid: string
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: SecurityGroup
+    typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: systemData
@@ -1727,10 +1731,6 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
   - name: properties.additionalData
     isReadyOnly: true
     description: A bag of custom fields that should be part of the entity and will be presented to the user.
@@ -1799,19 +1799,24 @@ definitions:
     description: The submission type for the given instance. This maps to Junk, Phish, Malware or NotJunk.
     types:
     - uid: string
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: SubmissionMail
+    typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: systemData
@@ -1819,10 +1824,6 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
   - name: properties.additionalData
     isReadyOnly: true
     description: A bag of custom fields that should be part of the entity and will be presented to the user.
@@ -1846,19 +1847,24 @@ definitions:
     description: A full URL the entity points to
     types:
     - uid: string
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: Url
+    typesTitle: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: systemData
@@ -1866,10 +1872,6 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-  - name: kind
-    description: The kind of the entity.
-    types:
-    - uid: EntityKindEnum
   - name: properties.additionalData
     isReadyOnly: true
     description: A bag of custom fields that should be part of the entity and will be presented to the user.
@@ -1885,7 +1887,7 @@ definitions:
     types:
     - uid: string
 - name: EntityKindEnum
-  description: The kind of the entity.
+  description: The kind of the aggregated entity.
   kind: enum
   properties:
   - name: Account
@@ -1970,134 +1972,6 @@ definitions:
     - uid: string
   - name: SubmissionMail
     description: Entity represents submission mail in the system.
-    types:
-    - uid: string
-- name: ErrorAdditionalInfo
-  description: The resource management error additional info.
-  kind: object
-  properties:
-  - name: type
-    isReadyOnly: true
-    description: The additional info type.
-    types:
-    - uid: string
-  - name: info
-    isReadyOnly: true
-    description: The additional info.
-    types:
-    - uid: object
-- name: systemData
-  description: Metadata pertaining to creation and last modification of the resource.
-  kind: object
-  properties:
-  - name: createdBy
-    description: The identity that created the resource.
-    types:
-    - uid: string
-  - name: createdByType
-    description: The type of identity that created the resource.
-    types:
-    - uid: createdByType
-  - name: createdAt
-    description: The timestamp of resource creation (UTC).
-    types:
-    - uid: string
-  - name: lastModifiedBy
-    description: The identity that last modified the resource.
-    types:
-    - uid: string
-  - name: lastModifiedByType
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: createdByType
-  - name: lastModifiedAt
-    description: The timestamp of resource last modification (UTC)
-    types:
-    - uid: string
-- name: FileHashAlgorithm
-  description: The hash algorithm type.
-  kind: enum
-  properties:
-  - name: Unknown
-    description: Unknown hash algorithm
-    types:
-    - uid: string
-  - name: MD5
-    description: MD5 hash type
-    types:
-    - uid: string
-  - name: SHA1
-    description: SHA1 hash type
-    types:
-    - uid: string
-  - name: SHA256
-    description: SHA256 hash type
-    types:
-    - uid: string
-  - name: SHA256AC
-    description: SHA256 Authenticode hash type
-    types:
-    - uid: string
-- name: OSFamily
-  description: The operating system type.
-  kind: enum
-  properties:
-  - name: Linux
-    description: Host with Linux operating system.
-    types:
-    - uid: string
-  - name: Windows
-    description: Host with Windows operating system.
-    types:
-    - uid: string
-  - name: Android
-    description: Host with Android operating system.
-    types:
-    - uid: string
-  - name: IOS
-    description: Host with IOS operating system.
-    types:
-    - uid: string
-  - name: Unknown
-    description: Host with Unknown operating system.
-    types:
-    - uid: string
-- name: UserInfo
-  description: User information that made some action
-  kind: object
-  properties:
-  - name: email
-    isReadyOnly: true
-    description: The email of the user.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the user.
-    types:
-    - uid: string
-  - name: objectId
-    description: The object id of the user.
-    types:
-    - uid: string
-- name: IncidentInfo
-  description: Describes related incident information for the bookmark
-  kind: object
-  properties:
-  - name: incidentId
-    description: Incident Id
-    types:
-    - uid: string
-  - name: severity
-    description: The severity of the incident
-    types:
-    - uid: CaseSeverity
-  - name: title
-    description: The title of the incident
-    types:
-    - uid: string
-  - name: relationName
-    description: Relation Name
     types:
     - uid: string
 - name: ConfidenceLevel
@@ -2252,6 +2126,120 @@ definitions:
     - uid: string
   - name: InProgress
     description: Alert is being handled
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: UserInfo
+  description: User information that made some action
+  kind: object
+  properties:
+  - name: email
+    isReadyOnly: true
+    description: The email of the user.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the user.
+    types:
+    - uid: string
+  - name: objectId
+    description: The object id of the user.
+    types:
+    - uid: string
+- name: IncidentInfo
+  description: Describes related incident information for the bookmark
+  kind: object
+  properties:
+  - name: incidentId
+    description: Incident Id
+    types:
+    - uid: string
+  - name: severity
+    description: The severity of the incident
+    types:
+    - uid: IncidentSeverity
+  - name: title
+    description: The title of the incident
+    types:
+    - uid: string
+  - name: relationName
+    description: Relation Name
+    types:
+    - uid: string
+- name: FileHashAlgorithm
+  description: The hash algorithm type.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Unknown hash algorithm
+    types:
+    - uid: string
+  - name: MD5
+    description: MD5 hash type
+    types:
+    - uid: string
+  - name: SHA1
+    description: SHA1 hash type
+    types:
+    - uid: string
+  - name: SHA256
+    description: SHA256 hash type
+    types:
+    - uid: string
+  - name: SHA256AC
+    description: SHA256 Authenticode hash type
+    types:
+    - uid: string
+- name: OSFamily
+  description: The operating system type.
+  kind: enum
+  properties:
+  - name: Linux
+    description: Host with Linux operating system.
+    types:
+    - uid: string
+  - name: Windows
+    description: Host with Windows operating system.
+    types:
+    - uid: string
+  - name: Android
+    description: Host with Android operating system.
+    types:
+    - uid: string
+  - name: IOS
+    description: Host with IOS operating system.
+    types:
+    - uid: string
+  - name: Unknown
+    description: Host with Unknown operating system.
     types:
     - uid: string
 - name: ThreatIntelligence
@@ -2523,14 +2511,10 @@ definitions:
   - name: Key
     types:
     - uid: string
-- name: CaseSeverity
+- name: IncidentSeverity
   description: The severity of the incident
   kind: enum
   properties:
-  - name: Critical
-    description: Critical severity
-    types:
-    - uid: string
   - name: High
     description: High severity
     types:
@@ -2550,7 +2534,7 @@ definitions:
 examples:
 - name: Gets all incident related entities
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/afbd324f-6c48-459c-8710-8d1e1cd03812/entities?api-version=2021-04-01
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/afbd324f-6c48-459c-8710-8d1e1cd03812/entities?api-version=2021-10-01
   responses:
   - statusCode: "200"
     body: >-
