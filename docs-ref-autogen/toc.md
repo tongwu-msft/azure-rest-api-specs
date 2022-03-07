@@ -9329,6 +9329,40 @@
 ## Update Order Item
 ### [Overview](edgehardwarecenter/Update-Order-Item.yml)
 ### [Update Order Item](edgehardwarecenter/Update-Order-Item/Update-Order-Item.yml)
+# Elastic
+## [Overview](../docs-ref-conceptual/elastic/index.md)
+## Deployment Info
+### [Overview](elastic/Deployment-Info.yml)
+### [List](elastic/Deployment-Info/List.yml)
+## Monitored Resources
+### [Overview](elastic/Monitored-Resources.yml)
+### [List](elastic/Monitored-Resources/List.yml)
+## Monitors
+### [Overview](elastic/Monitors.yml)
+### [Create](elastic/Monitors/Create.yml)
+### [Delete](elastic/Monitors/Delete.yml)
+### [Get](elastic/Monitors/Get.yml)
+### [List](elastic/Monitors/List.yml)
+### [List By Resource Group](elastic/Monitors/List-By-Resource-Group.yml)
+### [Update](elastic/Monitors/Update.yml)
+## Operations
+### [Overview](elastic/Operations.yml)
+### [List](elastic/Operations/List.yml)
+## Tag Rules
+### [Overview](elastic/Tag-Rules.yml)
+### [Create Or Update](elastic/Tag-Rules/Create-Or-Update.yml)
+### [Delete](elastic/Tag-Rules/Delete.yml)
+### [Get](elastic/Tag-Rules/Get.yml)
+### [List](elastic/Tag-Rules/List.yml)
+## VM Collection
+### [Overview](elastic/VM-Collection.yml)
+### [Update](elastic/VM-Collection/Update.yml)
+## VM Host
+### [Overview](elastic/VM-Host.yml)
+### [List](elastic/VM-Host/List.yml)
+## VM Ingestion
+### [Overview](elastic/VM-Ingestion.yml)
+### [Details](elastic/VM-Ingestion/Details.yml)
 # Event Grid
 ## [Overview](../docs-ref-conceptual/eventgrid/index.md)
 ## Control Plane - version 2021-06-01-preview
