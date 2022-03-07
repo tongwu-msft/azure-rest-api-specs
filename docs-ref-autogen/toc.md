@@ -14836,12 +14836,20 @@
 ### Indexes
 #### [Analyze Text](../docs-ref-conceptual/searchservice/preview-api/test-analyzer.md)
 #### [Create or Update Index](../docs-ref-conceptual/searchservice/preview-api/create-or-update-index.md)
+### Aliases
+#### [Overview](../docs-ref-conceptual/searchservice/preview-api/alias-operations.md)
+#### [Create or Update Alias](../docs-ref-conceptual/searchservice/preview-api/create-or-update-alias.md)
+#### [Delete Alias](../docs-ref-conceptual/searchservice/preview-api/delete-alias.md)
+#### [Get Alias](../docs-ref-conceptual/searchservice/preview-api/get-alias.md)
+#### [List Aliases](../docs-ref-conceptual/searchservice/preview-api/list-aliases.md)
 ### Documents
 #### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
 #### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
 ### Indexers
 #### [Create or Update Indexer](../docs-ref-conceptual/searchservice/preview-api/create-or-update-indexer.md)
 #### [Create or Update Data Source](../docs-ref-conceptual/searchservice/preview-api/create-or-update-data-source.md)
+### Services
+#### [Get Service Statistics](../docs-ref-conceptual/searchservice/preview-api/get-service-statistics.md)
 ### Skillsets
 #### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
 ## Reference (Stable)
