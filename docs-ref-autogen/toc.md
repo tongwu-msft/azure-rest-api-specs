@@ -7971,6 +7971,14 @@
 #### [Get By Scope](cost-management/Views/Get-By-Scope.yml)
 #### [List](cost-management/Views/List.yml)
 #### [List By Scope](cost-management/Views/List-By-Scope.yml)
+### 2022-02-01-preview
+#### Operations
+##### [Overview](cost-management/2022-02-01-preview/Operations.yml)
+##### [List](cost-management/2022-02-01-preview/Operations/List.yml)
+#### Price Sheet
+##### [Overview](cost-management/2022-02-01-preview/Price-Sheet.yml)
+##### [Download](cost-management/2022-02-01-preview/Price-Sheet/Download.yml)
+##### [Download By Billing Profile](cost-management/2022-02-01-preview/Price-Sheet/Download-By-Billing-Profile.yml)
 # Custom Providers
 ## [Overview](../docs-ref-conceptual/customproviders/index.md)
 ## Associations
