@@ -1,5 +1,6 @@
 ---
 title: Alias Operations (2021-04-30-Preview)
+titleSuffix: Azure Cognitive Search
 description: Index aliases define a secondary name that can be used to refer to an index for querying, indexing, and other operations.
 ms.date: 03/01/2022
 

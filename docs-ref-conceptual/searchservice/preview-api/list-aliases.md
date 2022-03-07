@@ -1,5 +1,6 @@
 ---
-title: "List Aliases (2021-04-30-Preview)"
+title: List Aliases (2021-04-30-Preview)
+titleSuffix: Azure Cognitive Search
 description: A list of aliases can be retrieved using REST API in Azure Cognitive Search
 ms.date: 03/01/2022
 

@@ -1,5 +1,6 @@
 ---
-title: "Get Alias (2021-04-30-Preview)"
+title: Get Alias (2021-04-30-Preview)
+titleSuffix: Azure Cognitive Search
 description: The content of an alias can be retrieved using REST API in Azure Cognitive Search
 ms.date: 03/01/2022
 

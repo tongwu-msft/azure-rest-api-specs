@@ -1,5 +1,6 @@
 ---
-title: "Delete Alias (2021-04-30-Preview)"
+title: Delete Alias (2021-04-30-Preview)
+titleSuffix: Azure Cognitive Search
 description: An alias can be deleted using the REST APIs in Azure Cognitive Search
 ms.date: 03/01/2022
 
