@@ -15,8 +15,7 @@ ms.author: delegenz
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> 2021-04-30-Preview adds:
-> + **"normalizer"** used for testing case-insensitivity and other text processing on normalizers.
+> This preview adds **"normalizer"**, used for testing case-insensitivity and other text processing on normalizers.
 
 <!-- > [!Important]
 > The Analyze Text API is now extended to support testing normalizers which preprocess content for filterable, facetable, or sortable fields. -->
