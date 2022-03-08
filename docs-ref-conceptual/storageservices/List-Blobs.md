@@ -146,12 +146,16 @@ For version 2020-06-12 and above, `List Blobs` returns the `ImmutabilityPolicyUn
 For version 2020-06-12 and above, `List Blobs` returns the `LegalHold` element when this operation includes the `include={legalhold}` parameter.
 
 For version 2020-06-12 and above, for accounts with a hierarchical namespace enabled, `List Blobs` returns `Owner`, `Group`, `Permissions` and `Acl` element when the request contains `include={permissions}` parameter. Note that `Acl` element will be a combined list of Access and Default Acl's that were set on the file/directory.
+  
+For version 2020-06-12 and above, for accounts with a hierarchical namespace enabled, `List Blobs` with a delimiter returns the `Properties` element in the `BlobPrefix` element, that corresponds with the Properties on the directory.
 
 For version 2020-08-04 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `DeletionId` element for deleted blobs. `DeletionId` is an unsigned 64 bit identifier that uniquely identifies a soft deleted path to distinguish it from other deleted blobs with the same path.
 
 For version 2020-10-02 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `ResourceType` property element for the path, which can be either `file`/`directory`.   
 
 For version 2021-02-12 and above, `List Blobs` will percent-encode (per RFC 2396) all `Blob` `Name` or `BlobPrefix` `Name` element values which contain characters invalid in XML (specifically, U+FFFE or U+FFFF). If encoded, the `Name` element will include an `Encoded=true` attribute. Note that this will only occur for the `Name` element values containing the characters invalid in XML, not the remaining `Name` elements in the response.
+  
+For version 2021-06-08 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `Placeholder` properties element for placeholder directories when listing deleted blobs with a delimiter. These directories only exist to help navigate down to soft deleted blobs.
 
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
