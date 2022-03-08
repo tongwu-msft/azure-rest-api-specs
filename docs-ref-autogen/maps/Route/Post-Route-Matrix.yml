@@ -4,13 +4,13 @@ name: Post Route Matrix
 service: Maps
 groupName: Route
 apiVersion: "1.0"
-summary: "\n\n**Applies to**: S1 pricing tier.\n\nThe Matrix Routing service allows calculation of a matrix of route summaries for a set of routes defined by origin and destination locations by using an asynchronous (async) or synchronous (sync) POST request. For every given origin, the service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. As an example, let's say a food delivery company has 20 drivers and they need to find the closest driver to pick up the delivery from the restaurant. To solve this use case, they can call Matrix Route API.\n\n\nFor each route, the travel times and distances are returned. You can use the computed costs to determine which detailed routes to calculate using the Route Directions API.\n\n\nThe maximum size of a matrix for async request is **700** and for sync request it's **100** (the number of origins multiplied by the number of destinations).\n\n\n\n### Submit Synchronous Route Matrix Request\nIf your scenario requires synchronous requests and the maximum size of the matrix is less than or equal to 100, you might want to make synchronous request. The maximum size of a matrix for this API is **100** (the number of origins multiplied by the number of destinations). With that constraint in mind, examples of possible matrix dimensions are: 10x10, 6x8, 9x8 (it does not need to be square).\n\n```\nPOST https://atlas.microsoft.com/route/matrix/sync/json?api-version=1.0&subscription-key={subscription-key}\n```\n\n### Submit Asynchronous Route Matrix Request\nThe Asynchronous API is appropriate for processing big volumes of relatively complex routing requests. When you make a request by using async request, by default the service returns a 202 response code along a redirect URL in the Location field of the response header. This URL should be checked periodically until the response data or error information is available. If `waitForResults` parameter in the request is set to true, user will get a 200 response if the request is finished under 120 seconds.\n\n\nThe maximum size of a matrix for this API is **700** (the number of origins multiplied by the number of destinations). With that constraint in mind, examples of possible matrix dimensions are: 50x10, 10x10, 28x25. 10x70 (it does not need to be square).\n\n\nThe asynchronous responses are stored for **14** days. The redirect URL returns a 404 response if used after the expiration period.\n\n\n\n\n```\nPOST https://atlas.microsoft.com/route/matrix/json?api-version=1.0&subscription-key={subscription-key}\n```\n\nHere's a typical sequence of asynchronous operations:\n1. Client sends a Route Matrix POST request to Azure Maps\n\n2. The server will respond with one of the following:\n\n    > HTTP `202 Accepted` -  Route Matrix request has been accepted.\n\n    > HTTP `Error` - There was an error processing your Route Matrix request. This could either be a 400 Bad Request or any other Error status code.\n\n\n3. If the Matrix Route request was accepted successfully, the Location header in the response contains the URL to download the results of the request. This status URI looks like the following:\n\n  ```\n    GET https://atlas.microsoft.com/route/matrix/{matrixId}?api-version=1.0?subscription-key={subscription-key}\n  ```\n\n\n4. Client issues a GET request on the download URL obtained in Step 3 to download the results\n\n### Download Sync Results\nWhen you make a POST request for Route Matrix Sync API, the service returns 200 response code for successful request and a response array. The response body will contain the data and there will be no possibility to retrieve the results later.\n\n### Download Async Results\nWhen a request issues a `202 Accepted` response, the request is being processed using our async pipeline. You will be given a URL to check the progress of your  async request in the location header of the response. This status URI looks like the following:\n```\n  GET https://atlas.microsoft.com/route/matrix/{matrixId}?api-version=1.0?subscription-key={subscription-key}\n```\n\nThe URL provided by the location header will return the following responses when a `GET` request is issued.\n\n  > HTTP `202 Accepted` - Matrix request was accepted but is still being processed. Please try again in some time.\n\n  > HTTP `200 OK` - Matrix request successfully processed. The response body contains all of the results."
+summary: "\n\n**Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nThe Matrix Routing service allows calculation of a matrix of route summaries for a set of routes defined by origin and destination locations by using an asynchronous (async) or synchronous (sync) POST request. For every given origin, the service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. As an example, let's say a food delivery company has 20 drivers and they need to find the closest driver to pick up the delivery from the restaurant. To solve this use case, they can call Matrix Route API.\n\n\nFor each route, the travel times and distances are returned. You can use the computed costs to determine which detailed routes to calculate using the Route Directions API.\n\n\nThe maximum size of a matrix for async request is **700** and for sync request it's **100** (the number of origins multiplied by the number of destinations).\n\n\n\n### Submit Synchronous Route Matrix Request\nIf your scenario requires synchronous requests and the maximum size of the matrix is less than or equal to 100, you might want to make synchronous request. The maximum size of a matrix for this API is **100** (the number of origins multiplied by the number of destinations). With that constraint in mind, examples of possible matrix dimensions are: 10x10, 6x8, 9x8 (it does not need to be square).\n\n```\nPOST https://atlas.microsoft.com/route/matrix/sync/json?api-version=1.0&subscription-key={subscription-key}\n```\n\n### Submit Asynchronous Route Matrix Request\nThe Asynchronous API is appropriate for processing big volumes of relatively complex routing requests. When you make a request by using async request, by default the service returns a 202 response code along a redirect URL in the Location field of the response header. This URL should be checked periodically until the response data or error information is available. If `waitForResults` parameter in the request is set to true, user will get a 200 response if the request is finished under 120 seconds.\n\n\nThe maximum size of a matrix for this API is **700** (the number of origins multiplied by the number of destinations). With that constraint in mind, examples of possible matrix dimensions are: 50x10, 10x10, 28x25. 10x70 (it does not need to be square).\n\n\nThe asynchronous responses are stored for **14** days. The redirect URL returns a 404 response if used after the expiration period.\n\n\n\n\n```\nPOST https://atlas.microsoft.com/route/matrix/json?api-version=1.0&subscription-key={subscription-key}\n```\n\nHere's a typical sequence of asynchronous operations:\n1. Client sends a Route Matrix POST request to Azure Maps\n\n2. The server will respond with one of the following:\n\n    > HTTP `202 Accepted` -  Route Matrix request has been accepted.\n\n    > HTTP `Error` - There was an error processing your Route Matrix request. This could either be a 400 Bad Request or any other Error status code.\n\n\n3. If the Matrix Route request was accepted successfully, the Location header in the response contains the URL to download the results of the request. This status URI looks like the following:\n\n  ```\n    GET https://atlas.microsoft.com/route/matrix/{matrixId}?api-version=1.0?subscription-key={subscription-key}\n  ```\n\n\n4. Client issues a GET request on the download URL obtained in Step 3 to download the results\n\n### Download Sync Results\nWhen you make a POST request for Route Matrix Sync API, the service returns 200 response code for successful request and a response array. The response body will contain the data and there will be no possibility to retrieve the results later.\n\n### Download Async Results\nWhen a request issues a `202 Accepted` response, the request is being processed using our async pipeline. You will be given a URL to check the progress of your  async request in the location header of the response. This status URI looks like the following:\n```\n  GET https://atlas.microsoft.com/route/matrix/{matrixId}?api-version=1.0?subscription-key={subscription-key}\n```\n\nThe URL provided by the location header will return the following responses when a `GET` request is issued.\n\n  > HTTP `202 Accepted` - Matrix request was accepted but is still being processed. Please try again in some time.\n\n  > HTTP `200 OK` - Matrix request successfully processed. The response body contains all of the results."
 consumes: []
 produces:
 - application/json
 paths:
 - content: POST https://atlas.microsoft.com/route/matrix/json?api-version=1.0
-- content: POST https://atlas.microsoft.com/route/matrix/json?subscription-key={subscription-key}&api-version=1.0&waitForResults={waitForResults}&computeTravelTimeFor={computeTravelTimeFor}&sectionType={sectionType}&arriveAt={arriveAt}&departAt={departAt}&vehicleAxleWeight={vehicleAxleWeight}&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleMaxSpeed={vehicleMaxSpeed}&vehicleWeight={vehicleWeight}&windingness={windingness}&hilliness={hilliness}&travelMode={travelMode}&avoid={avoid}&traffic={traffic}&routeType={routeType}&vehicleLoadType={vehicleLoadType}
+- content: POST https://atlas.microsoft.com/route/matrix/json?api-version=1.0&waitForResults={waitForResults}&computeTravelTimeFor={computeTravelTimeFor}&sectionType={sectionType}&arriveAt={arriveAt}&departAt={departAt}&vehicleAxleWeight={vehicleAxleWeight}&vehicleLength={vehicleLength}&vehicleHeight={vehicleHeight}&vehicleWidth={vehicleWidth}&vehicleMaxSpeed={vehicleMaxSpeed}&vehicleWeight={vehicleWeight}&windingness={windingness}&hilliness={hilliness}&travelMode={travelMode}&avoid={avoid}&traffic={traffic}&routeType={routeType}&vehicleLoadType={vehicleLoadType}
   isOptional: true
 uriParameters:
 - name: format
@@ -19,15 +19,10 @@ uriParameters:
   description: Desired format of the response. Only `json` format is supported.
   types:
   - uid: JsonFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: waitForResults
@@ -39,7 +34,7 @@ uriParameters:
   in: query
   description: Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time.
   types:
-  - uid: ComputeTravelTimeFor
+  - uid: ComputeTravelTime
 - name: sectionType
   in: query
   description: Specifies which of the section types is reported in the route response. <br><br>For example if sectionType = pedestrian the sections which are suited for pedestrians only are returned. Multiple types can be used. The default sectionType refers to the travelMode input. By default travelMode is set to car
@@ -67,19 +62,19 @@ uriParameters:
   description: Length of the vehicle in meters. A value of 0 means that length restrictions are not considered.
   types:
   - uid: number
-  format: float
+  format: double
 - name: vehicleHeight
   in: query
   description: Height of the vehicle in meters. A value of 0 means that height restrictions are not considered.
   types:
   - uid: number
-  format: float
+  format: double
 - name: vehicleWidth
   in: query
   description: Width of the vehicle in meters. A value of 0 means that width restrictions are not considered.
   types:
   - uid: number
-  format: float
+  format: double
 - name: vehicleMaxSpeed
   in: query
   description: "Maximum speed of the vehicle in km/hour. The max speed in the vehicle profile is used to check whether a vehicle is allowed on motorways. \n\n* A value of 0 means that an appropriate value for the vehicle will be determined and applied during route planning.\n\n* A non-zero value may be overridden during route planning. For example, the current traffic flow is 60 km/hour. If the vehicle  maximum speed is set to 50 km/hour, the routing engine will consider 60 km/hour as this is the current situation.  If the maximum speed of the vehicle is provided as 80 km/hour but the current traffic flow is 60 km/hour, then routing engine will again use 60 km/hour."
@@ -94,12 +89,12 @@ uriParameters:
   in: query
   description: Level of turns for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
   types:
-  - uid: Windingness
+  - uid: WindingnessLevel
 - name: hilliness
   in: query
   description: Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
   types:
-  - uid: Hilliness
+  - uid: InclineLevel
 - name: travelMode
   in: query
   description: The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used.
@@ -109,7 +104,7 @@ uriParameters:
   in: query
   description: Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times in one request, for example, '&avoid=motorways&avoid=tollRoads&avoid=ferries'. In calculateReachableRange requests, the value alreadyUsedRoads must not be used.
   types:
-  - uid: Avoid
+  - uid: array
 - name: traffic
   in: query
   description: "Possible values: \n  * true - Do consider all available traffic information during routing\n  * false - Ignore current traffic data during routing. Note that although the current traffic data is ignored \n  during routing, the effect of historic traffic on effective road speeds is still incorporated."
@@ -127,9 +122,9 @@ uriParameters:
   - uid: VehicleLoadType
 responses:
 - name: 200 OK
-  description: OK
+  description: Matrix request successfully processed. The response body contains all of the results.
   types:
-  - uid: RouteMatrixResponse
+  - uid: RouteMatrixResult
 - name: 202 Accepted
   headers:
   - name: Location
@@ -138,29 +133,10 @@ responses:
     **Supported only for async request.**
 
     Request Accepted: The request has been accepted for processing. Please use the URL in the Location Header to retry or access the results.
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -168,12 +144,12 @@ requestBody:
     in: body
     description: A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details.
     types:
-    - uid: MultiPoint
+    - uid: GeoJsonMultiPoint
   - name: destinations
     in: body
     description: A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details.
     types:
-    - uid: MultiPoint
+    - uid: GeoJsonMultiPoint
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -189,7 +165,7 @@ definitions:
     description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
-- name: ComputeTravelTimeFor
+- name: ComputeTravelTime
   description: Specifies whether to return additional travel times using different types of traffic information (none, historic, live) as well as the default best-estimate travel time.
   kind: enum
   properties:
@@ -206,46 +182,54 @@ definitions:
   kind: enum
   properties:
   - name: carTrain
-    description: Get sections if the route includes car trains.
+    description: Sections of the route that are cars or trains.
     types:
     - uid: string
   - name: country
-    description: Countries the route has parts in.
+    description: Sections indicating which countries the route is in.
     types:
     - uid: string
   - name: ferry
-    description: Get sections if the route includes ferries.
+    description: Sections of the route that are ferries.
     types:
     - uid: string
   - name: motorway
-    description: Get sections if the route includes motorways.
+    description: Sections of the route that are motorways.
     types:
     - uid: string
   - name: pedestrian
-    description: Get sections which are suited for pedestrians.
+    description: Sections of the route that are only suited for pedestrians.
     types:
     - uid: string
   - name: tollRoad
-    description: Get sections which require a toll to be payed.
+    description: Sections of the route that require a toll to be payed.
     types:
     - uid: string
   - name: tollVignette
-    description: Get sections which require a toll vignette to be present.
+    description: Sections of the route that require a toll vignette to be present.
     types:
     - uid: string
   - name: traffic
-    description: Get sections which contain traffic information.
+    description: Sections of the route that contain traffic information.
     types:
     - uid: string
   - name: travelMode
-    description: Get sections in relation to the request parameter `travelMode`.
+    description: Sections in relation to the request parameter `travelMode`.
     types:
     - uid: string
   - name: tunnel
-    description: Get sections if the route includes tunnels.
+    description: Sections of the route that are tunnels.
     types:
     - uid: string
-- name: Windingness
+  - name: carpool
+    description: Sections of the route that require use of carpool (HOV/High Occupancy Vehicle) lanes.
+    types:
+    - uid: string
+  - name: urban
+    description: Sections of the route that are located within urban areas.
+    types:
+    - uid: string
+- name: WindingnessLevel
   description: Level of turns for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
   kind: enum
   properties:
@@ -261,7 +245,7 @@ definitions:
     description: high
     types:
     - uid: string
-- name: Hilliness
+- name: InclineLevel
   description: Degree of hilliness for thrilling route. This parameter can only be used in conjunction with `routeType`=thrilling.
   kind: enum
   properties:
@@ -311,38 +295,6 @@ definitions:
     - uid: string
   - name: pedestrian
     description: The returned routes are optimized for pedestrians, including the use of sidewalks.
-    types:
-    - uid: string
-- name: Avoid
-  description: Specifies something that the route calculation should try to avoid when determining the route. Can be specified multiple times in one request, for example, '&avoid=motorways&avoid=tollRoads&avoid=ferries'. In calculateReachableRange requests, the value alreadyUsedRoads must not be used.
-  kind: enum
-  properties:
-  - name: tollRoads
-    description: Avoids toll roads.
-    types:
-    - uid: string
-  - name: motorways
-    description: Avoids motorways
-    types:
-    - uid: string
-  - name: ferries
-    description: Avoids ferries
-    types:
-    - uid: string
-  - name: unpavedRoads
-    description: Avoids unpaved roads
-    types:
-    - uid: string
-  - name: carpools
-    description: Avoids routes that require the use of carpool (HOV/High Occupancy Vehicle) lanes.
-    types:
-    - uid: string
-  - name: alreadyUsedRoads
-    description: Avoids using the same road multiple times. Most useful in conjunction with `routeType`=thrilling.
-    types:
-    - uid: string
-  - name: borderCrossings
-    description: Avoids border crossings in route calculation.
     types:
     - uid: string
 - name: RouteType
@@ -417,20 +369,21 @@ definitions:
     description: Harmful to water
     types:
     - uid: string
-- name: MultiPoint
+- name: GeoJsonMultiPoint
   description: A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details.
   kind: object
   properties:
   - name: type
-    description: Specifies the `GeoJSON` geometry type. Must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection.
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
     types:
-    - uid: GeoJSONGeometryType
+    - uid: MultiPoint
+    typesTitle: string
   - name: coordinates
-    description: Coordinates for the `MultiPoint` geometry.
+    description: Coordinates for the `GeoJson MultiPoint` geometry.
     types:
     - uid: array
       isArray: true
-- name: RouteMatrixResponse
+- name: RouteMatrixResult
   description: This object is returned from a successful Route Matrix call. For ex, if 2 origins and 3 destinations are provided, there are going to 2 arrays with 3 elements in each. Each element's content depends on the options provided in the query.
   kind: object
   properties:
@@ -450,26 +403,26 @@ definitions:
     description: Summary object
     types:
     - uid: RouteMatrixSummary
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
-- name: RouteMatrixRequestBody
+    - uid: ErrorDetail
+- name: RouteMatrixQuery
   description: An object with a matrix of coordinates.
   kind: object
   properties:
   - name: origins
     description: A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details.
     types:
-    - uid: MultiPoint
+    - uid: GeoJsonMultiPoint
   - name: destinations
     description: A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details.
     types:
-    - uid: MultiPoint
+    - uid: GeoJsonMultiPoint
 - name: RouteMatrixSummary
   description: Summary object
   kind: object
@@ -484,34 +437,55 @@ definitions:
     description: Total number of routes requested. Number of cells in the input matrix.
     types:
     - uid: integer
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
-- name: MatrixRoute
+- name: Successfully submit a route matrix request
   request:
-    uri: POST https://atlas.microsoft.com/route/matrix/json?subscription-key=[subscription-key]&api-version=1.0&routeType=shortest
+    uri: POST https://atlas.microsoft.com/route/matrix/json?api-version=1.0&routeType=shortest
     body: >-
       {
         "origins": {
@@ -609,46 +583,6 @@ examples:
     headers:
     - name: Location
       value: New URL to check the status of the long running request.
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
-      }
 security:
 - name: AADToken
   type: oauth2
@@ -677,5 +611,5 @@ security:
      For publicly exposed applications, our recommendation is to configure a specific list of allowed origins on the [Map account resource](https://aka.ms/amauth) to limit rendering abuse and regularly renew the SAS Token.
   in: header
 metadata:
-  description: "\n\n**Applies to**: S1 pricing tier.\n\nThe Matrix Routing service allows calculation of a matrix of route summaries for a set of routes defined by origin and desti"
+  description: "\n\n**Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nThe Matrix Routing service allows calculation of a matrix of route summaries for a "
 errorCodes: []

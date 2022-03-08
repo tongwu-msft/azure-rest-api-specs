@@ -1,0 +1,130 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.elastic.deploymentinfo.list
+name: List
+service: Elastic
+groupName: Deployment Info
+apiVersion: 2020-07-01
+summary: Fetch information regarding Elastic cloud deployment corresponding to the Elastic monitor resource.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listDeploymentInfo?api-version=2020-07-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the Elastic resource belongs.
+  types:
+  - uid: string
+- name: monitorName
+  in: path
+  isRequired: true
+  description: Monitor resource name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: DeploymentInfoResponse
+- name: Other Status Codes
+  description: Default error response.
+  types:
+  - uid: ResourceProviderDefaultErrorResponse
+requestHeader: []
+definitions:
+- name: DeploymentInfoResponse
+  description: The properties of deployment in Elastic cloud corresponding to the Elastic monitor resource.
+  kind: object
+  properties:
+  - name: status
+    isReadyOnly: true
+    description: The Elastic deployment status.
+    types:
+    - uid: ElasticDeploymentStatus
+  - name: version
+    isReadyOnly: true
+    description: Version of the elasticsearch in Elastic cloud deployment.
+    types:
+    - uid: string
+  - name: memoryCapacity
+    isReadyOnly: true
+    description: RAM capacity of the elasticsearch in Elastic cloud deployment.
+    types:
+    - uid: string
+  - name: diskCapacity
+    isReadyOnly: true
+    description: Disk capacity of the elasticsearch in Elastic cloud deployment.
+    types:
+    - uid: string
+- name: ResourceProviderDefaultErrorResponse
+  description: RP default error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: "ErrorResponseBody  \nResponse body of Error"
+    types:
+    - uid: ErrorResponseBody
+- name: ElasticDeploymentStatus
+  description: Flag specifying if the Elastic deployment status is healthy or not.
+  kind: enum
+  properties:
+  - name: Healthy
+    types:
+    - uid: string
+  - name: Unhealthy
+    types:
+    - uid: string
+- name: ErrorResponseBody
+  description: ErrorResponseBody
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: ErrorResponseBody
+      isArray: true
+examples:
+- name: DeploymentInfo_List
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Elastic/monitors/myMonitor/listDeploymentInfo?api-version=2020-07-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "Healthy",
+        "version": "7.9.3",
+        "memoryCapacity": "1024",
+        "diskCapacity": "245760"
+      }
+security: []
+metadata:
+  description: Learn more about Elastic service - Fetch information regarding Elastic cloud deployment corresponding to the Elastic monitor resource.
+errorCodes: []

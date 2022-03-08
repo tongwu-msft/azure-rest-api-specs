@@ -5,7 +5,7 @@ service: Maps
 groupName: Render
 apiVersion: "1.0"
 summary: >-
-  **Applies to**: S0 and S1 pricing tiers.
+  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
 
@@ -15,10 +15,9 @@ summary: >-
 consumes: []
 produces:
 - application/json
-- application/xml
 paths:
 - content: GET https://atlas.microsoft.com/map/copyright/world/{format}?api-version=1.0
-- content: GET https://atlas.microsoft.com/map/copyright/world/{format}?subscription-key={subscription-key}&api-version=1.0&text={text}
+- content: GET https://atlas.microsoft.com/map/copyright/world/{format}?api-version=1.0&text={text}
   isOptional: true
 uriParameters:
 - name: format
@@ -26,51 +25,27 @@ uriParameters:
   isRequired: true
   description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
-  - uid: TextFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
+  - uid: ResponseFormat
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: text
   in: query
   description: Yes/no value to exclude textual data from response. Only images and country names will be in response.
   types:
-  - uid: string
+  - uid: IncludeText
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: CopyrightWorldResult
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  - uid: Copyright
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -78,7 +53,7 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: TextFormat
+- name: ResponseFormat
   description: Desired format of the response. Value can be either _json_ or _xml_.
   kind: enum
   properties:
@@ -90,8 +65,20 @@ definitions:
     description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
     types:
     - uid: string
-- name: CopyrightWorldResult
-  description: This object is returned from a successful Copyright World call
+- name: IncludeText
+  description: Yes/no value to exclude textual data from response. Only images and country names will be in response.
+  kind: enum
+  properties:
+  - name: yes
+    description: Include all textual data in response.
+    types:
+    - uid: string
+  - name: no
+    description: Exclude textual data from response. Only images and country names will be in response.
+    types:
+    - uid: string
+- name: Copyright
+  description: This object is returned from a successful copyright request
   kind: object
   properties:
   - name: formatVersion
@@ -109,17 +96,17 @@ definitions:
     isReadyOnly: true
     description: Regions array
     types:
-    - uid: Region
+    - uid: RegionCopyrights
       isArray: true
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
-- name: Region
+    - uid: ErrorDetail
+- name: RegionCopyrights
   kind: object
   properties:
   - name: copyrights
@@ -133,30 +120,37 @@ definitions:
     description: Country property
     types:
     - uid: Country
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
     types:
-    - uid: string
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: Country
   description: Country property
   kind: object
@@ -171,10 +165,24 @@ definitions:
     description: Label property
     types:
     - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
-- name: GetCopyrightWorld
+- name: Successful World Copyright Request
   request:
-    uri: GET https://atlas.microsoft.com/map/copyright/world/json?subscription-key=[subscription-key]&api-version=1.0
+    uri: GET https://atlas.microsoft.com/map/copyright/world/json?api-version=1.0
   responses:
   - statusCode: "200"
     body: >-
@@ -506,46 +514,6 @@ examples:
           }
         ]
       }
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
-      }
 security:
 - name: AADToken
   type: oauth2
@@ -575,7 +543,7 @@ security:
   in: header
 metadata:
   description: >-
-    **Applies to**: S0 and S1 pricing tiers.
+    **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
 

@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.bookmarks.list
 name: List
 service: Sentinel
 groupName: Bookmarks
-apiVersion: 2021-09-01-preview
+apiVersion: 2021-10-01-preview
 summary: Gets all bookmarks.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks?api-version=2021-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks?api-version=2021-10-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -53,7 +53,7 @@ definitions:
   properties:
   - name: nextLink
     isReadyOnly: true
-    description: URL to fetch the next set of cases.
+    description: URL to fetch the next set of bookmarks.
     types:
     - uid: string
   - name: value
@@ -126,6 +126,21 @@ definitions:
     description: Describes an incident that relates to bookmark
     types:
     - uid: IncidentInfo
+  - name: properties.entityMappings
+    description: Describes the entity mappings of the bookmark
+    types:
+    - uid: BookmarkEntityMappings
+      isArray: true
+  - name: properties.tactics
+    description: A list of relevant mitre attacks
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.techniques
+    description: A list of relevant mitre techniques
+    types:
+    - uid: string
+      isArray: true
   - name: etag
     description: Etag of the azure resource
     types:
@@ -202,6 +217,19 @@ definitions:
     description: Relation Name
     types:
     - uid: string
+- name: BookmarkEntityMappings
+  description: Describes the entity mappings of a single entity
+  kind: object
+  properties:
+  - name: entityType
+    description: The entity type
+    types:
+    - uid: string
+  - name: fieldMappings
+    description: Array of fields mapping for that entity type
+    types:
+    - uid: EntityFieldMapping
+      isArray: true
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -250,6 +278,18 @@ definitions:
     description: Informational severity
     types:
     - uid: string
+- name: EntityFieldMapping
+  description: Map identifiers of a single entity
+  kind: object
+  properties:
+  - name: identifier
+    description: Alert V3 identifier
+    types:
+    - uid: string
+  - name: value
+    description: The value of the identifier
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -269,7 +309,7 @@ definitions:
 examples:
 - name: Get all bookmarks.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/bookmarks?api-version=2021-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/bookmarks?api-version=2021-10-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -306,7 +346,24 @@ examples:
                 "severity": "Low",
                 "title": "New case 1",
                 "relationName": "4bb36b7b-26ff-4d1c-9cbe-0d8ab3da0018"
-              }
+              },
+              "tactics": [
+                "Execution"
+              ],
+              "techniques": [
+                "T1609"
+              ],
+              "entityMappings": [
+                {
+                  "entityType": "Account",
+                  "fieldMappings": [
+                    {
+                      "identifier": "Fullname",
+                      "value": "johndoe@microsoft.com"
+                    }
+                  ]
+                }
+              ]
             }
           }
         ]

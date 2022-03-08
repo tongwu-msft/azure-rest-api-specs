@@ -6808,6 +6808,7 @@
 ### [Overview](consumption/Lots.yml)
 ### [List By Billing Account](consumption/Lots/List-By-Billing-Account.yml)
 ### [List By Billing Profile](consumption/Lots/List-By-Billing-Profile.yml)
+### [List By Customer](consumption/Lots/List-By-Customer.yml)
 ## Marketplaces
 ### [Overview](consumption/Marketplaces.yml)
 ### [List](consumption/Marketplaces/List.yml)
@@ -7971,6 +7972,14 @@
 #### [Get By Scope](cost-management/Views/Get-By-Scope.yml)
 #### [List](cost-management/Views/List.yml)
 #### [List By Scope](cost-management/Views/List-By-Scope.yml)
+### 2022-02-01-preview
+#### Operations
+##### [Overview](cost-management/2022-02-01-preview/Operations.yml)
+##### [List](cost-management/2022-02-01-preview/Operations/List.yml)
+#### Price Sheet
+##### [Overview](cost-management/2022-02-01-preview/Price-Sheet.yml)
+##### [Download](cost-management/2022-02-01-preview/Price-Sheet/Download.yml)
+##### [Download By Billing Profile](cost-management/2022-02-01-preview/Price-Sheet/Download-By-Billing-Profile.yml)
 # Custom Providers
 ## [Overview](../docs-ref-conceptual/customproviders/index.md)
 ## Associations
@@ -9321,6 +9330,40 @@
 ## Update Order Item
 ### [Overview](edgehardwarecenter/Update-Order-Item.yml)
 ### [Update Order Item](edgehardwarecenter/Update-Order-Item/Update-Order-Item.yml)
+# Elastic
+## [Overview](../docs-ref-conceptual/elastic/index.md)
+## Deployment Info
+### [Overview](elastic/Deployment-Info.yml)
+### [List](elastic/Deployment-Info/List.yml)
+## Monitored Resources
+### [Overview](elastic/Monitored-Resources.yml)
+### [List](elastic/Monitored-Resources/List.yml)
+## Monitors
+### [Overview](elastic/Monitors.yml)
+### [Create](elastic/Monitors/Create.yml)
+### [Delete](elastic/Monitors/Delete.yml)
+### [Get](elastic/Monitors/Get.yml)
+### [List](elastic/Monitors/List.yml)
+### [List By Resource Group](elastic/Monitors/List-By-Resource-Group.yml)
+### [Update](elastic/Monitors/Update.yml)
+## Operations
+### [Overview](elastic/Operations.yml)
+### [List](elastic/Operations/List.yml)
+## Tag Rules
+### [Overview](elastic/Tag-Rules.yml)
+### [Create Or Update](elastic/Tag-Rules/Create-Or-Update.yml)
+### [Delete](elastic/Tag-Rules/Delete.yml)
+### [Get](elastic/Tag-Rules/Get.yml)
+### [List](elastic/Tag-Rules/List.yml)
+## VM Collection
+### [Overview](elastic/VM-Collection.yml)
+### [Update](elastic/VM-Collection/Update.yml)
+## VM Host
+### [Overview](elastic/VM-Host.yml)
+### [List](elastic/VM-Host/List.yml)
+## VM Ingestion
+### [Overview](elastic/VM-Ingestion.yml)
+### [Details](elastic/VM-Ingestion/Details.yml)
 # Event Grid
 ## [Overview](../docs-ref-conceptual/eventgrid/index.md)
 ## Control Plane - version 2021-06-01-preview
@@ -11957,36 +12000,52 @@
 ### [Get Copyright From Bounding Box](maps/Render/Get-Copyright-From-Bounding-Box.yml)
 ### [Get Map Image](maps/Render/Get-Map-Image.yml)
 ### [Get Map Imagery Tile](maps/Render/Get-Map-Imagery-Tile.yml)
-### [Get Map State Tile Preview](maps/Render/Get-Map-State-Tile-Preview.yml)
+### [Get Map State Tile](maps/Render/Get-Map-State-Tile.yml)
 ### [Get Map Tile](maps/Render/Get-Map-Tile.yml)
 ## Render V2
 ### [Overview](maps/Render-V2.yml)
+### [Get Copyright Caption](maps/Render-V2/Get-Copyright-Caption.yml)
+### [Get Copyright For Tile](maps/Render-V2/Get-Copyright-For-Tile.yml)
+### [Get Copyright For World](maps/Render-V2/Get-Copyright-For-World.yml)
+### [Get Copyright From Bounding Box](maps/Render-V2/Get-Copyright-From-Bounding-Box.yml)
 ### [Get Map Attribution](maps/Render-V2/Get-Map-Attribution.yml)
+### [Get Map State Tile](maps/Render-V2/Get-Map-State-Tile.yml)
+### [Get Map Static Image](maps/Render-V2/Get-Map-Static-Image.yml)
 ### [Get Map Tile](maps/Render-V2/Get-Map-Tile.yml)
 ### [Get Map Tileset](maps/Render-V2/Get-Map-Tileset.yml)
 ## Route
 ### [Overview](maps/Route.yml)
 ### [Get Route Directions](maps/Route/Get-Route-Directions.yml)
+### [Get Route Directions Batch](maps/Route/Get-Route-Directions-Batch.yml)
+### [Get Route Matrix](maps/Route/Get-Route-Matrix.yml)
 ### [Get Route Range](maps/Route/Get-Route-Range.yml)
 ### [Post Route Directions](maps/Route/Post-Route-Directions.yml)
 ### [Post Route Directions Batch](maps/Route/Post-Route-Directions-Batch.yml)
+### [Post Route Directions Batch Sync](maps/Route/Post-Route-Directions-Batch-Sync.yml)
 ### [Post Route Matrix](maps/Route/Post-Route-Matrix.yml)
+### [Post Route Matrix Sync](maps/Route/Post-Route-Matrix-Sync.yml)
 ## Search
 ### [Overview](maps/Search.yml)
 ### [Get Search Address](maps/Search/Get-Search-Address.yml)
+### [Get Search Address Batch](maps/Search/Get-Search-Address-Batch.yml)
 ### [Get Search Address Reverse](maps/Search/Get-Search-Address-Reverse.yml)
+### [Get Search Address Reverse Batch](maps/Search/Get-Search-Address-Reverse-Batch.yml)
 ### [Get Search Address Reverse Cross Street](maps/Search/Get-Search-Address-Reverse-Cross-Street.yml)
 ### [Get Search Address Structured](maps/Search/Get-Search-Address-Structured.yml)
 ### [Get Search Fuzzy](maps/Search/Get-Search-Fuzzy.yml)
+### [Get Search Fuzzy Batch](maps/Search/Get-Search-Fuzzy-Batch.yml)
 ### [Get Search Nearby](maps/Search/Get-Search-Nearby.yml)
 ### [Get Search POI](maps/Search/Get-Search-POI.yml)
 ### [Get Search POI Category](maps/Search/Get-Search-POI-Category.yml)
-### [Get Search POI Category Tree Preview](maps/Search/Get-Search-POI-Category-Tree-Preview.yml)
+### [Get Search POI Category Tree](maps/Search/Get-Search-POI-Category-Tree.yml)
 ### [Get Search Polygon](maps/Search/Get-Search-Polygon.yml)
 ### [Post Search Address Batch](maps/Search/Post-Search-Address-Batch.yml)
+### [Post Search Address Batch Sync](maps/Search/Post-Search-Address-Batch-Sync.yml)
 ### [Post Search Address Reverse Batch](maps/Search/Post-Search-Address-Reverse-Batch.yml)
+### [Post Search Address Reverse Batch Sync](maps/Search/Post-Search-Address-Reverse-Batch-Sync.yml)
 ### [Post Search Along Route](maps/Search/Post-Search-Along-Route.yml)
 ### [Post Search Fuzzy Batch](maps/Search/Post-Search-Fuzzy-Batch.yml)
+### [Post Search Fuzzy Batch Sync](maps/Search/Post-Search-Fuzzy-Batch-Sync.yml)
 ### [Post Search Inside Geometry](maps/Search/Post-Search-Inside-Geometry.yml)
 ## Search V2
 ### [Overview](maps/Search-V2.yml)
@@ -14828,12 +14887,20 @@
 ### Indexes
 #### [Analyze Text](../docs-ref-conceptual/searchservice/preview-api/test-analyzer.md)
 #### [Create or Update Index](../docs-ref-conceptual/searchservice/preview-api/create-or-update-index.md)
+### Aliases
+#### [Overview](../docs-ref-conceptual/searchservice/preview-api/alias-operations.md)
+#### [Create or Update Alias](../docs-ref-conceptual/searchservice/preview-api/create-or-update-alias.md)
+#### [Delete Alias](../docs-ref-conceptual/searchservice/preview-api/delete-alias.md)
+#### [Get Alias](../docs-ref-conceptual/searchservice/preview-api/get-alias.md)
+#### [List Aliases](../docs-ref-conceptual/searchservice/preview-api/list-aliases.md)
 ### Documents
 #### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
 #### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
 ### Indexers
 #### [Create or Update Indexer](../docs-ref-conceptual/searchservice/preview-api/create-or-update-indexer.md)
 #### [Create or Update Data Source](../docs-ref-conceptual/searchservice/preview-api/create-or-update-data-source.md)
+### Services
+#### [Get Service Statistics](../docs-ref-conceptual/searchservice/preview-api/get-service-statistics.md)
 ### Skillsets
 #### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
 ## Reference (Stable)
@@ -15266,6 +15333,7 @@
 ##### [List](securityinsights/preview/Incident-Relations/List.yml)
 #### Incidents
 ##### [Overview](securityinsights/preview/Incidents.yml)
+##### [Run Playbook](securityinsights/preview/Incidents/Run-Playbook.yml)
 ##### [Create Or Update](securityinsights/preview/Incidents/Create-Or-Update.yml)
 ##### [Create Team](securityinsights/preview/Incidents/Create-Team.yml)
 ##### [Delete](securityinsights/preview/Incidents/Delete.yml)
@@ -15354,6 +15422,12 @@
 ##### [Delete](securityinsights/stable/Alert-Rules/Delete.yml)
 ##### [Get](securityinsights/stable/Alert-Rules/Get.yml)
 ##### [List](securityinsights/stable/Alert-Rules/List.yml)
+#### Automation Rules
+##### [Overview](securityinsights/stable/Automation-Rules.yml)
+##### [Create Or Update](securityinsights/stable/Automation-Rules/Create-Or-Update.yml)
+##### [Delete](securityinsights/stable/Automation-Rules/Delete.yml)
+##### [Get](securityinsights/stable/Automation-Rules/Get.yml)
+##### [List](securityinsights/stable/Automation-Rules/List.yml)
 #### Bookmarks
 ##### [Overview](securityinsights/stable/Bookmarks.yml)
 ##### [Create Or Update](securityinsights/stable/Bookmarks/Create-Or-Update.yml)
@@ -15368,15 +15442,15 @@
 ##### [List](securityinsights/stable/Data-Connectors/List.yml)
 #### Incident Comments
 ##### [Overview](securityinsights/stable/Incident-Comments.yml)
-##### [Create Comment](securityinsights/stable/Incident-Comments/Create-Comment.yml)
-##### [Delete Comment](securityinsights/stable/Incident-Comments/Delete-Comment.yml)
+##### [Create Or Update](securityinsights/stable/Incident-Comments/Create-Or-Update.yml)
+##### [Delete](securityinsights/stable/Incident-Comments/Delete.yml)
 ##### [Get](securityinsights/stable/Incident-Comments/Get.yml)
-##### [List By Incident](securityinsights/stable/Incident-Comments/List-By-Incident.yml)
+##### [List](securityinsights/stable/Incident-Comments/List.yml)
 #### Incident Relations
 ##### [Overview](securityinsights/stable/Incident-Relations.yml)
-##### [Create Or Update Relation](securityinsights/stable/Incident-Relations/Create-Or-Update-Relation.yml)
-##### [Delete Relation](securityinsights/stable/Incident-Relations/Delete-Relation.yml)
-##### [Get Relation](securityinsights/stable/Incident-Relations/Get-Relation.yml)
+##### [Create Or Update](securityinsights/stable/Incident-Relations/Create-Or-Update.yml)
+##### [Delete](securityinsights/stable/Incident-Relations/Delete.yml)
+##### [Get](securityinsights/stable/Incident-Relations/Get.yml)
 ##### [List](securityinsights/stable/Incident-Relations/List.yml)
 #### Incidents
 ##### [Overview](securityinsights/stable/Incidents.yml)
@@ -15384,12 +15458,33 @@
 ##### [Delete](securityinsights/stable/Incidents/Delete.yml)
 ##### [Get](securityinsights/stable/Incidents/Get.yml)
 ##### [List](securityinsights/stable/Incidents/List.yml)
-##### [List Of Alerts](securityinsights/stable/Incidents/List-Of-Alerts.yml)
-##### [List Of Bookmarks](securityinsights/stable/Incidents/List-Of-Bookmarks.yml)
-##### [List Of Entities](securityinsights/stable/Incidents/List-Of-Entities.yml)
+##### [List Alerts](securityinsights/stable/Incidents/List-Alerts.yml)
+##### [List Bookmarks](securityinsights/stable/Incidents/List-Bookmarks.yml)
+##### [List Entities](securityinsights/stable/Incidents/List-Entities.yml)
 #### Operations
 ##### [Overview](securityinsights/stable/Operations.yml)
 ##### [List](securityinsights/stable/Operations/List.yml)
+#### Sentinel Onboarding States
+##### [Overview](securityinsights/stable/Sentinel-Onboarding-States.yml)
+##### [Create](securityinsights/stable/Sentinel-Onboarding-States/Create.yml)
+##### [Delete](securityinsights/stable/Sentinel-Onboarding-States/Delete.yml)
+##### [Get](securityinsights/stable/Sentinel-Onboarding-States/Get.yml)
+##### [List](securityinsights/stable/Sentinel-Onboarding-States/List.yml)
+#### Threat Intelligence Indicator
+##### [Overview](securityinsights/stable/Threat-Intelligence-Indicator.yml)
+##### [Append Tags](securityinsights/stable/Threat-Intelligence-Indicator/Append-Tags.yml)
+##### [Create](securityinsights/stable/Threat-Intelligence-Indicator/Create.yml)
+##### [Create Indicator](securityinsights/stable/Threat-Intelligence-Indicator/Create-Indicator.yml)
+##### [Delete](securityinsights/stable/Threat-Intelligence-Indicator/Delete.yml)
+##### [Get](securityinsights/stable/Threat-Intelligence-Indicator/Get.yml)
+##### [Query Indicators](securityinsights/stable/Threat-Intelligence-Indicator/Query-Indicators.yml)
+##### [Replace Tags](securityinsights/stable/Threat-Intelligence-Indicator/Replace-Tags.yml)
+#### Threat Intelligence Indicator Metrics
+##### [Overview](securityinsights/stable/Threat-Intelligence-Indicator-Metrics.yml)
+##### [List](securityinsights/stable/Threat-Intelligence-Indicator-Metrics/List.yml)
+#### Threat Intelligence Indicators
+##### [Overview](securityinsights/stable/Threat-Intelligence-Indicators.yml)
+##### [List](securityinsights/stable/Threat-Intelligence-Indicators/List.yml)
 #### Watchlist Items
 ##### [Overview](securityinsights/stable/Watchlist-Items.yml)
 ##### [Create Or Update](securityinsights/stable/Watchlist-Items/Create-Or-Update.yml)

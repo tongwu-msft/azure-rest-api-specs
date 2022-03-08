@@ -9,11 +9,10 @@ summary: >-
 
 
 
-  **Applies to**: S1 pricing tier.
+  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
-
-  The Get Polygon service allows you to request the geometry data such as a city or country  outline for a set of entities, previously retrieved from an Online Search request in GeoJSON format. The geometry  ID is returned in the dataSources object under "geometry" and "id" in either a Search Address or Search Fuzzy call.
+  The Get Polygon service allows you to request the geometry data such as a city or country  outline for a set of entities, previously retrieved from an Online Search request in GeoJSON format. The geometry ID is returned in the sourceGeometry object under "geometry" and "id" in either a Search Address or Search Fuzzy call.
 
 
   Please note that any geometry ID retrieved from an Online Search endpoint has a limited lifetime. The client  should not store geometry IDs in persistent storage for later referral, as the stability of these identifiers is  not guaranteed for a long period of time. It is expected that a request to the Polygon method is made within a  few minutes of the request to the Online Search method that provided the ID. The service allows for batch  requests up to 20 identifiers.
@@ -22,8 +21,6 @@ produces:
 - application/json
 paths:
 - content: GET https://atlas.microsoft.com/search/polygon/json?api-version=1.0&geometries={geometries}
-- content: GET https://atlas.microsoft.com/search/polygon/json?subscription-key={subscription-key}&api-version=1.0&geometries={geometries}
-  isOptional: true
 uriParameters:
 - name: format
   in: path
@@ -31,15 +28,10 @@ uriParameters:
   description: Desired format of the response. Only `json` format is supported.
   types:
   - uid: JsonFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: geometries
@@ -47,35 +39,16 @@ uriParameters:
   isRequired: true
   description: Comma separated list of geometry UUIDs, previously retrieved from an Online Search request.
   types:
-  - uid: string
+  - uid: array
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SearchPolygonResponse
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  - uid: PolygonResult
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -91,7 +64,7 @@ definitions:
     description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
-- name: SearchPolygonResponse
+- name: PolygonResult
   description: This object is returned from a successful Search Polygon call
   kind: object
   properties:
@@ -99,17 +72,17 @@ definitions:
     isReadyOnly: true
     description: Results array
     types:
-    - uid: SearchPolygonResult
+    - uid: Polygon
       isArray: true
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
-- name: SearchPolygonResult
+    - uid: ErrorDetail
+- name: Polygon
   kind: object
   properties:
   - name: providerID
@@ -117,43 +90,229 @@ definitions:
     description: ID of the returned entity
     types:
     - uid: string
-  - name: error
-    isReadyOnly: true
-    description: Reason for the failure to obtain data for this provider.
-    types:
-    - uid: string
   - name: geometryData
     description: Geometry data in GeoJSON format. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946) for details. Present only if "error" is not present.
     types:
-    - uid: object
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+    - uid: GeoJsonFeature
+    - uid: GeoJsonFeatureCollection
+    typesTitle: GeoJsonObject
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: GeoJsonFeature
+  description: A valid `GeoJSON Feature` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.2) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: Feature
+    typesTitle: string
+  - name: geometry
+    description: A valid `GeoJSON` geometry object. The type must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
+    types:
+    - uid: GeoJsonLineString
+    - uid: GeoJsonPoint
+    - uid: GeoJsonMultiPoint
+    - uid: GeoJsonMultiLineString
+    - uid: GeoJsonPolygon
+    - uid: GeoJsonMultiPolygon
+    - uid: GeoJsonGeometryCollection
+    typesTitle: GeoJsonGeometry
+  - name: id
+    description: Identifier for the feature.
+    types:
+    - uid: string
+  - name: featureType
+    description: The type of the feature. The value depends on the data model the current feature is part of. Some data models may have an empty value.
+    types:
+    - uid: string
+- name: GeoJsonFeatureCollection
+  description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: FeatureCollection
+    typesTitle: string
+  - name: features
+    description: Contains a list of valid `GeoJSON Feature` objects.
+    types:
+    - uid: GeoJsonFeature
+      isArray: true
+- name: GeoJsonGeometry
+  description: A valid `GeoJSON` geometry object. The type must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: GeoJsonObjectType
+- name: GeoJsonLineString
+  description: A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: LineString
+    typesTitle: string
+  - name: coordinates
+    description: Coordinates for the `GeoJson LineString` geometry.
+    types:
+    - uid: array
+      isArray: true
+- name: GeoJsonPoint
+  description: A valid `GeoJSON Point` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.2) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: Point
+    typesTitle: string
+  - name: coordinates
+    description: A `Position` is an array of numbers with two or more elements. The first two elements are _longitude_ and _latitude_, precisely in that order. _Altitude/Elevation_ is an optional third element. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.1) for details.
+    types:
+    - uid: number
+      isArray: true
+- name: GeoJsonMultiPoint
+  description: A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: MultiPoint
+    typesTitle: string
+  - name: coordinates
+    description: Coordinates for the `GeoJson MultiPoint` geometry.
+    types:
+    - uid: array
+      isArray: true
+- name: GeoJsonMultiLineString
+  description: A valid `GeoJSON MultiLineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.5) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: MultiLineString
+    typesTitle: string
+  - name: coordinates
+    description: Coordinates for the `GeoJson MultiLineString` geometry.
+    types:
+    - uid: array
+      isArray: true
+- name: GeoJsonPolygon
+  description: A valid `GeoJSON Polygon` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.6) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: Polygon
+    typesTitle: string
+  - name: coordinates
+    description: Coordinates for the `GeoJson Polygon` geometry type.
+    types:
+    - uid: array
+      isArray: true
+- name: GeoJsonMultiPolygon
+  description: A valid `GeoJSON MultiPolygon` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.7) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: MultiPolygon
+    typesTitle: string
+  - name: coordinates
+    description: Contains a list of valid `GeoJSON Polygon` objects. **Note** that coordinates in GeoJSON are in x, y order (longitude, latitude).
+    types:
+    - uid: array
+      isArray: true
+- name: GeoJsonGeometryCollection
+  description: A valid `GeoJSON GeometryCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.8) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: GeometryCollection
+    typesTitle: string
+  - name: geometries
+    description: Contains a list of valid `GeoJSON` geometry objects. **Note** that coordinates in GeoJSON are in x, y order (longitude, latitude).
+    types:
+    - uid: GeoJsonLineString
+      isArray: true
+    - uid: GeoJsonPoint
+      isArray: true
+    - uid: GeoJsonMultiPoint
+      isArray: true
+    - uid: GeoJsonMultiLineString
+      isArray: true
+    - uid: GeoJsonPolygon
+      isArray: true
+    - uid: GeoJsonMultiPolygon
+      isArray: true
+    - uid: GeoJsonGeometryCollection
+      isArray: true
+    typesTitle: GeoJsonGeometry[]
 examples:
 - name: Get the Geometry using the geometry id returned by the previous Search
   request:
-    uri: GET https://atlas.microsoft.com/search/polygon/json?subscription-key=[subscription-key]&api-version=1.0&geometries=[geometry-ids]
+    uri: >-
+      GET https://atlas.microsoft.com/search/polygon/json?api-version=1.0&geometries=[
+
+        "8bceafe8-3d98-4445-b29b-fd81d3e9adf5",
+
+        "00005858-5800-1200-0000-0000773694ca"
+
+      ]
   responses:
   - statusCode: "200"
     body: >-
@@ -225,46 +384,6 @@ examples:
           }
         ]
       }
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
-      }
 security:
 - name: AADToken
   type: oauth2
@@ -298,9 +417,8 @@ metadata:
 
 
 
-    **Applies to**: S1 pricing tier.
+    **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
-
-    The Get Polygon service allows you to request the geometry data such as a city or country  outline for a se
+    The Get Polygon service allows you to request the geometry data suc
 errorCodes: []
