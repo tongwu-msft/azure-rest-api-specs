@@ -6808,6 +6808,7 @@
 ### [Overview](consumption/Lots.yml)
 ### [List By Billing Account](consumption/Lots/List-By-Billing-Account.yml)
 ### [List By Billing Profile](consumption/Lots/List-By-Billing-Profile.yml)
+### [List By Customer](consumption/Lots/List-By-Customer.yml)
 ## Marketplaces
 ### [Overview](consumption/Marketplaces.yml)
 ### [List](consumption/Marketplaces/List.yml)
