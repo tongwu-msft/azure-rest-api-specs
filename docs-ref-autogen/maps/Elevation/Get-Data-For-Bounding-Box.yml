@@ -4,14 +4,12 @@ name: Get Data For Bounding Box
 service: Maps
 groupName: Elevation
 apiVersion: "1.0"
-summary: "Get Elevation Data at Equally Spaced Locations Within a Bounding Box  \n**Applies to**: S1 pricing tier.\n\nThe Get Data for Bounding Box API provides elevation data at equally spaced locations within a bounding box. A bounding box is defined by the coordinates for two corners (southwest, northeast) and then subsequently  divided into rows and columns.\n\n Elevations are returned for the vertices of the grid created by the rows and  columns. Up to 2,000 elevations can be returned in a single request. The returned elevation values are ordered,  starting at the southwest corner, and then proceeding west to east along the row. At the end of the row,  it moves north to the next row, and repeats the process until it reaches the far northeast corner."
+summary: "Get Elevation Data at Equally Spaced Locations Within a Bounding Box  \n**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nThe Get Data for Bounding Box API provides elevation data at equally spaced locations within a bounding box. A bounding box is defined by the coordinates for two corners (southwest, northeast) and then subsequently  divided into rows and columns.\n\n Elevations are returned for the vertices of the grid created by the rows and  columns. Up to 2,000 elevations can be returned in a single request. The returned elevation values are ordered,  starting at the southwest corner, and then proceeding west to east along the row. At the end of the row,  it moves north to the next row, and repeats the process until it reaches the far northeast corner."
 consumes: []
 produces:
 - application/json
 paths:
 - content: GET https://atlas.microsoft.com/elevation/lattice/json?api-version=1.0&bounds={bounds}&rows={rows}&columns={columns}
-- content: GET https://atlas.microsoft.com/elevation/lattice/json?subscription-key={subscription-key}&api-version=1.0&bounds={bounds}&rows={rows}&columns={columns}
-  isOptional: true
 uriParameters:
 - name: format
   in: path
@@ -19,15 +17,10 @@ uriParameters:
   description: Desired format of the response. Only `json` format is supported.
   types:
   - uid: JsonFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: bounds
@@ -39,43 +32,24 @@ uriParameters:
 - name: rows
   in: query
   isRequired: true
-  description: 'Specifies the number of rows to use to divide the bounding box area into a grid. The number of vertices  in the grid should be less than 2,000. '
+  description: 'Specifies the number of rows to use to divide the bounding box area into a grid. The number of vertices (rows x columns) in the grid should be less than 2,000. '
   types:
-  - uid: number
+  - uid: integer
 - name: columns
   in: query
   isRequired: true
-  description: 'Specifies the number of columns to use to divide the bounding box area into a grid. The number of vertices  in the grid should be less than 2,000. '
+  description: 'Specifies the number of columns to use to divide the bounding box area into a grid. The number of vertices (rows x columns) in the grid should be less than 2,000. '
   types:
-  - uid: number
+  - uid: integer
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: BoundingBoxResult
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  - uid: ElevationResult
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -91,79 +65,109 @@ definitions:
     description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
-- name: BoundingBoxResult
+- name: ElevationResult
   description: The response from a successful Get Data for Bounding Box API.
   kind: object
   properties:
   - name: data
     isReadyOnly: true
-    description: The response from the Get Data for Bounding Box API. The results are ordered starting with the southwest corner, and then proceed west to east and south to north.
+    description: The response for point/points elevation API. The result will be in same sequence of points listed in request.
     types:
-    - uid: PointElevationResult
+    - uid: Elevation
       isArray: true
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
-- name: PointElevationResult
+    - uid: ErrorDetail
+- name: Elevation
   description: The elevation data.
   kind: object
   properties:
   - name: coordinate
     description: A location represented as a latitude and longitude.
     types:
-    - uid: Coordinate
+    - uid: LatLongPair
   - name: elevationInMeter
     isReadyOnly: true
     description: The elevation value in meters.
     types:
     - uid: number
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
     types:
-    - uid: string
-- name: Coordinate
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: LatLongPair
   description: A location represented as a latitude and longitude.
   kind: object
   properties:
   - name: latitude
-    isReadyOnly: true
     description: Latitude property
     types:
     - uid: number
   - name: longitude
-    isReadyOnly: true
     description: Longitude property
     types:
     - uid: number
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
-- name: GetDataForBoundingBox
+- name: Successfully retrieve elevation data within a bounding box
   request:
-    uri: GET https://atlas.microsoft.com/elevation/lattice/json?subscription-key=[subscription-key]&api-version=1.0&bounds=-121.66853362143818, 46.84646479863713,-121.65853362143818, 46.85646479863713&rows=2&columns=3
+    uri: >-
+      GET https://atlas.microsoft.com/elevation/lattice/json?api-version=1.0&bounds=[
+
+        -121.66853362143819,
+
+        46.846464798637129,
+
+        -121.65853362143818,
+
+        46.856464798637127
+
+      ]&rows=2&columns=3
   responses:
   - statusCode: "200"
     body: >-
@@ -213,46 +217,6 @@ examples:
           }
         ]
       }
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
-      }
 security:
 - name: AADToken
   type: oauth2
@@ -281,5 +245,5 @@ security:
      For publicly exposed applications, our recommendation is to configure a specific list of allowed origins on the [Map account resource](https://aka.ms/amauth) to limit rendering abuse and regularly renew the SAS Token.
   in: header
 metadata:
-  description: "Get Elevation Data at Equally Spaced Locations Within a Bounding Box  \n**Applies to**: S1 pricing tier."
+  description: "Get Elevation Data at Equally Spaced Locations Within a Bounding Box  \n**Applies to:** see pricing [tiers](https://aka."
 errorCodes: []

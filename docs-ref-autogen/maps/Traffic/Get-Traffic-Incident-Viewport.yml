@@ -9,17 +9,16 @@ summary: >-
 
 
 
-  **Applies to**: S0 and S1 pricing tiers.
+  **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
   This API returns legal and technical information for the viewport described in the request. It should be called  by client applications whenever the viewport changes (for instance, through zooming, panning, going to a  location, or displaying a route). The request should contain the bounding box and zoom level of the viewport  whose information is needed. The return will contain map version information, as well as the current Traffic  Model ID and copyright IDs. The Traffic Model ID returned by the Viewport Description is used by other APIs to  retrieve last traffic information for further processing.
 consumes: []
 produces:
 - application/json
-- application/xml
 paths:
+- content: GET https://atlas.microsoft.com/traffic/incident/viewport/{format}?api-version=1.0&boundingbox={boundingbox}&boundingzoom={boundingzoom}&overviewbox={overviewbox}&overviewzoom={overviewzoom}
 - content: GET https://atlas.microsoft.com/traffic/incident/viewport/{format}?api-version=1.0&boundingbox={boundingbox}&boundingzoom={boundingzoom}&overviewbox={overviewbox}&overviewzoom={overviewzoom}&copyright={copyright}
-- content: GET https://atlas.microsoft.com/traffic/incident/viewport/{format}?subscription-key={subscription-key}&api-version=1.0&boundingbox={boundingbox}&boundingzoom={boundingzoom}&overviewbox={overviewbox}&overviewzoom={overviewzoom}&copyright={copyright}
   isOptional: true
 uriParameters:
 - name: format
@@ -27,24 +26,19 @@ uriParameters:
   isRequired: true
   description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
-  - uid: TextFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
+  - uid: ResponseFormat
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: boundingbox
   in: query
   isRequired: true
-  description: "Bounding box of the map viewport in [EPSG900913](http://docs.openlayers.org/library/spherical_mercator.html) projection. The `boundingbox` is represented by two value pairs describing it's corners (first pair for lower left corner and second for upper right). All values should be separated by commas (e.g., _minY,minX,maxY,maxX_). The maximum size of the bounding box that can be passed is dependent on the requested zoom level. The width and height cannot exceed 4092 pixels when rendered on the given zoom level.<br><br>NOTE: Bounding boxes that cross the 180° meridian require special treatment. For such boxes, the eastern _maxX_ value will be negative, and thus less than the _minX_ value west of the 180° meridian. To address that, the value 40075016.6855874 should be added to the true _maxX_ value before it is passed in the request."
+  description: "Bounding box of the map viewport in [EPSG900913](http://docs.openlayers.org/library/spherical_mercator.html) projection. The `boundingbox` is represented by two value pairs describing it's corners (first pair for lower left corner and second for upper right). When this endpoint is called directly, all values should be separated by commas (e.g., _minY,minX,maxY,maxX_). The maximum size of the bounding box that can be passed is dependent on the requested zoom level. The width and height cannot exceed 4092 pixels when rendered on the given zoom level.<br><br>NOTE: Bounding boxes that cross the 180° meridian require special treatment. For such boxes, the eastern _maxX_ value will be negative, and thus less than the _minX_ value west of the 180° meridian. To address that, the value 40075016.6855874 should be added to the true _maxX_ value before it is passed in the request."
   types:
-  - uid: string
+  - uid: array
 - name: boundingzoom
   in: query
   isRequired: true
@@ -55,9 +49,9 @@ uriParameters:
 - name: overviewbox
   in: query
   isRequired: true
-  description: Bounding box of the overview map in [EPSG900913](http://docs.openlayers.org/library/spherical_mercator.html) projection.<br><br>Used in case the overview box/mini map has different copyright data than the main map. If there is no mini map, the same coordinates as `boundingBox` is used.
+  description: Bounding box of the overview map in [EPSG900913](http://docs.openlayers.org/library/spherical_mercator.html) projection.<br><br>Used in case the overview box/mini map has different copyright data than the main map. If there is no mini map, the same coordinates as `boundingBox` is used. When this endpoint is called directly, coordinates are passed in as a single string containing four coordinates, separated by commas.
   types:
-  - uid: string
+  - uid: array
 - name: overviewzoom
   in: query
   isRequired: true
@@ -67,7 +61,6 @@ uriParameters:
   format: int32
 - name: copyright
   in: query
-  isRequired: true
   description: Determines what copyright information to return. When true the copyright text is returned; when false only the copyright index is returned.
   types:
   - uid: boolean
@@ -75,30 +68,11 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: TrafficIncidentViewportResult
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  - uid: TrafficIncidentViewport
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -106,7 +80,7 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: TextFormat
+- name: ResponseFormat
   description: Desired format of the response. Value can be either _json_ or _xml_.
   kind: enum
   properties:
@@ -118,7 +92,7 @@ definitions:
     description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
     types:
     - uid: string
-- name: TrafficIncidentViewportResult
+- name: TrafficIncidentViewport
   description: This object is returned from a successful Traffic Incident Viewport call
   kind: object
   properties:
@@ -127,80 +101,122 @@ definitions:
     description: Viewport Response object
     types:
     - uid: ViewpResp
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
+    - uid: ErrorDetail
 - name: ViewpResp
   description: Viewport Response object
   kind: object
   properties:
   - name: trafficState
     isReadyOnly: true
-    description: Traffic State array
+    description: Traffic State information
     types:
     - uid: TrafficState
   - name: copyrightIds
     isReadyOnly: true
-    description: Copyright Ids property
+    description: When the copyright parameter value is true, this contains the full text of the copyright information that must be displayed with the tiles in the viewport
     types:
     - uid: string
   - name: '@version'
     isReadyOnly: true
-    description: '@Version property'
+    description: Indicates the software version used to generate the information. For use with support queries.
     types:
     - uid: string
   - name: '@maps'
     isReadyOnly: true
-    description: '@maps property'
+    description: Indicates the data provider's internal names for the map data used in the viewport. For use with support queries.
     types:
     - uid: string
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
     types:
-    - uid: string
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: TrafficState
-  description: Traffic State array
+  description: Traffic State information
   kind: object
   properties:
   - name: '@trafficAge'
     isReadyOnly: true
-    description: '@Traffic Age property'
+    description: The elapsed time (in seconds) from the Traffic Model ID creation.
     types:
     - uid: integer
   - name: '@trafficModelId'
     isReadyOnly: true
-    description: '@Traffic Model Id property'
+    description: The unique ID called Traffic Model ID is used in calls to Traffic Incident services. It allows to obtain information from particular traffic updates. Traffic Model ID is updated every minute, and is valid for two minutes before it times out.
     types:
     - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
-- name: GetTrafficIncidentViewport
+- name: Request traffic incident information for the selected viewport
   request:
-    uri: GET https://atlas.microsoft.com/traffic/incident/viewport/json?subscription-key=[subscription-key]&api-version=1.0&boundingbox=-939584.4813015489,-23954526.723651607,14675583.153020501,25043442.895825107&boundingzoom=2&overviewbox=-939584.4813018347,-23954526.723651607,14675583.153020501,25043442.8958229083&overviewzoom=2&copyright=True
+    uri: >-
+      GET https://atlas.microsoft.com/traffic/incident/viewport/json?api-version=1.0&boundingbox=[
+
+        -939584.48130154889,
+
+        -23954526.723651607,
+
+        14675583.153020501,
+
+        25043442.895825107
+
+      ]&boundingzoom=2&overviewbox=[
+
+        -939584.48130183469,
+
+        -23954526.723651607,
+
+        14675583.153020501,
+
+        25043442.895822909
+
+      ]&overviewzoom=2&copyright=True
   responses:
   - statusCode: "200"
     body: >-
@@ -213,46 +229,6 @@ examples:
           "copyrightIds": "&copy; 2017 GeoSmart^&copy; 2017 TomTom^&copy; 2017 Whereis",
           "@version": "1.0.51-mascoma",
           "@maps": "europe,taiwan,latam,northamerica,israel,middleeast,iraq,guam,australia,newzealand,india,africa,world,southeastasia"
-        }
-      }
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
         }
       }
 security:
@@ -288,8 +264,5 @@ metadata:
 
 
 
-    **Applies to**: S0 and S1 pricing tiers.
-
-
-    This API returns legal and technical information for the viewport described in the req
+    **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 errorCodes: []

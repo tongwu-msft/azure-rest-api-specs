@@ -5,7 +5,7 @@ service: Maps
 groupName: Render V2
 apiVersion: "2.1"
 summary: >-
-  **Applies to**: S0 and S1 pricing tiers.
+  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
   The Get Map Attribution API allows users to request map copyright attribution information for a section of a tileset.
@@ -14,14 +14,7 @@ produces:
 - application/json
 paths:
 - content: GET https://atlas.microsoft.com/map/attribution?api-version=2.1&tilesetId={tilesetId}&zoom={zoom}&bounds={bounds}
-- content: GET https://atlas.microsoft.com/map/attribution?subscription-key={subscription-key}&api-version=2.1&tilesetId={tilesetId}&zoom={zoom}&bounds={bounds}
-  isOptional: true
 uriParameters:
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -37,11 +30,7 @@ uriParameters:
 - name: zoom
   in: query
   isRequired: true
-  description: >-
-    Zoom level for the desired tile. Please find TilesetID list below for more details on supported zoom level for each tilesetId.<br>
-
-
-    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+  description: Zoom level for the desired map attribution.
   types:
   - uid: integer
   format: int32
@@ -55,34 +44,15 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: MapAttributionResultV2
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  - uid: MapAttribution
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
-  description: Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.
+  description: Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from the Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.
   types:
   - uid: string
 definitions:
@@ -146,9 +116,25 @@ definitions:
       Supports zoom levels 0 through 22. Format: raster (png).
     types:
     - uid: string
+  - name: microsoft.base.labels.darkgrey
+    description: >-
+      Label data in our dark grey style.<br>
+
+
+      Supports zoom levels 0 through 22. Format: raster (png).
+    types:
+    - uid: string
   - name: microsoft.base.hybrid.road
     description: >-
       Road, boundary and label data in our main style.<br>
+
+
+      Supports zoom levels 0 through 22. Format: raster (png).
+    types:
+    - uid: string
+  - name: microsoft.base.hybrid.darkgrey
+    description: >-
+      Road, boundary and label data in our dark grey style.<br>
 
 
       Supports zoom levels 0 through 22. Format: raster (png).
@@ -208,7 +194,43 @@ definitions:
       Supports zoom levels 9 through 14. Format: vector (pbf).
     types:
     - uid: string
-- name: MapAttributionResultV2
+  - name: microsoft.traffic.absolute
+    description: absolute traffic tiles in vector
+    types:
+    - uid: string
+  - name: microsoft.traffic.absolute.main
+    description: absolute traffic tiles in raster in our main style.
+    types:
+    - uid: string
+  - name: microsoft.traffic.relative
+    description: relative traffic tiles in vector
+    types:
+    - uid: string
+  - name: microsoft.traffic.relative.main
+    description: relative traffic tiles in raster in our main style.
+    types:
+    - uid: string
+  - name: microsoft.traffic.relative.dark
+    description: relative traffic tiles in raster in our dark style.
+    types:
+    - uid: string
+  - name: microsoft.traffic.delay
+    description: traffic tiles in vector
+    types:
+    - uid: string
+  - name: microsoft.traffic.delay.main
+    description: traffic tiles in raster in our main style
+    types:
+    - uid: string
+  - name: microsoft.traffic.reduced.main
+    description: reduced traffic tiles in raster in our main style
+    types:
+    - uid: string
+  - name: microsoft.traffic.incident
+    description: incident tiles in vector
+    types:
+    - uid: string
+- name: MapAttribution
   description: Copyright attribution for the requested section of a tileset.
   kind: object
   properties:
@@ -217,42 +239,74 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Maps API.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
-- name: ODataError
-  description: This object is returned when an error occurs in the Maps API.
+    - uid: ErrorDetail
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
-- name: GetMapTile
+- name: Successful Attribution Request
   request:
-    uri: GET https://atlas.microsoft.com/map/attribution?subscription-key=[subscription-key]&api-version=2.1&tilesetId=microsoft.base&zoom=6&bounds=-122.414162,47.579490,-122.247157,47.668372
+    uri: >-
+      GET https://atlas.microsoft.com/map/attribution?api-version=2.1&tilesetId=microsoft.base&zoom=6&bounds=[
+
+        -122.414162,
+
+        47.57949,
+
+        -122.247157,
+
+        47.668372
+
+      ]
   responses:
   - statusCode: "200"
     body: >-
@@ -260,46 +314,6 @@ examples:
         "copyrights": [
           "<a>&copy; 2021 TomTom</a>"
         ]
-      }
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
       }
 security:
 - name: AADToken
@@ -330,8 +344,8 @@ security:
   in: header
 metadata:
   description: >-
-    **Applies to**: S0 and S1 pricing tiers.
+    **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
-    The Get Map Attribution API allows users to request map copyright attribution information for a section of a tileset.
+    The Get Map Attribution API allows users to request map copyright attribution informa
 errorCodes: []

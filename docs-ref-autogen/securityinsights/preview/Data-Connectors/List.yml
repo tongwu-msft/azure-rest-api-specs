@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.dataconnectors.list
 name: List
 service: Sentinel
 groupName: Data Connectors
-apiVersion: 2021-09-01-preview
+apiVersion: 2021-10-01-preview
 summary: Gets all data connectors.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors?api-version=2021-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors?api-version=2021-10-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -78,6 +78,10 @@ definitions:
     - uid: Dynamics365DataConnector
       isArray: true
     - uid: OfficeATPDataConnector
+      isArray: true
+    - uid: Office365ProjectDataConnector
+      isArray: true
+    - uid: OfficePowerBIDataConnector
       isArray: true
     - uid: OfficeIRMDataConnector
       isArray: true
@@ -535,6 +539,88 @@ definitions:
     description: The available data types for the connector.
     types:
     - uid: AlertsDataTypeOfDataConnector
+- name: Office365ProjectDataConnector
+  description: Represents Office Microsoft Project data connector.
+  kind: object
+  properties:
+  - name: properties.dataTypes
+    description: The available data types for the connector.
+    types:
+    - uid: Office365ProjectConnectorDataTypes
+  - name: kind
+    description: The data connector kind
+    types:
+    - uid: Office365Project
+    typesTitle: string
+  - name: etag
+    description: Etag of the azure resource
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.tenantId
+    description: The tenant id to connect to, and get the data from.
+    types:
+    - uid: string
+- name: OfficePowerBIDataConnector
+  description: Represents Office Microsoft PowerBI data connector.
+  kind: object
+  properties:
+  - name: properties.dataTypes
+    description: The available data types for the connector.
+    types:
+    - uid: OfficePowerBIConnectorDataTypes
+  - name: kind
+    description: The data connector kind
+    types:
+    - uid: OfficePowerBI
+    typesTitle: string
+  - name: etag
+    description: Etag of the azure resource
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.tenantId
+    description: The tenant id to connect to, and get the data from.
+    types:
+    - uid: string
 - name: OfficeIRMDataConnector
   description: Represents OfficeIRM (Microsoft Insider Risk Management) data connector.
   kind: object
@@ -882,6 +968,12 @@ definitions:
   - name: OfficeIRM
     types:
     - uid: string
+  - name: Office365Project
+    types:
+    - uid: string
+  - name: OfficePowerBI
+    types:
+    - uid: string
   - name: AmazonWebServicesCloudTrail
     types:
     - uid: string
@@ -1001,6 +1093,22 @@ definitions:
     description: Common Data Service data type connection.
     types:
     - uid: Dynamics365CdsActivities
+- name: Office365ProjectConnectorDataTypes
+  description: The available data types for Office Microsoft Project data connector.
+  kind: object
+  properties:
+  - name: logs
+    description: Logs data type.
+    types:
+    - uid: Logs
+- name: OfficePowerBIConnectorDataTypes
+  description: The available data types for Office Microsoft PowerBI data connector.
+  kind: object
+  properties:
+  - name: logs
+    description: Logs data type.
+    types:
+    - uid: Logs
 - name: OfficeDataConnectorDataTypes
   description: The available data types for office data connector.
   kind: object
@@ -1650,7 +1758,7 @@ definitions:
 examples:
 - name: Get all data connectors.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors?api-version=2021-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors?api-version=2021-10-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -1836,6 +1944,36 @@ examples:
               "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
               "dataTypes": {
                 "alerts": {
+                  "state": "Enabled"
+                }
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/3d3e955e-33eb-401d-89a7-251c81ddd660",
+            "name": "3d3e955e-33eb-401d-89a7-251c81ddd660",
+            "type": "Microsoft.SecurityInsights/dataConnectors",
+            "kind": "Office365Project",
+            "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
+            "properties": {
+              "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+              "dataTypes": {
+                "logs": {
+                  "state": "Enabled"
+                }
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/3d3e955e-33eb-401d-89a7-251c81ddd660",
+            "name": "3d3e955e-33eb-401d-89a7-251c81ddd660",
+            "type": "Microsoft.SecurityInsights/dataConnectors",
+            "kind": "OfficePowerBI",
+            "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
+            "properties": {
+              "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+              "dataTypes": {
+                "logs": {
                   "state": "Enabled"
                 }
               }

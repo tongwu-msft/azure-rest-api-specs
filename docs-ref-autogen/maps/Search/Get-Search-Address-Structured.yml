@@ -8,18 +8,16 @@ summary: >-
   **Structured Address Geocoding**
 
 
-  **Applies to**: S0 and S1 pricing tiers.
-
+  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
   Azure Address Geocoding can also be accessed for  structured address look up exclusively. The geocoding search index will be queried for everything above the  street level data. No POIs will be returned. Note that the geocoder is very tolerant of typos and incomplete  addresses. It will also handle everything from exact  street addresses or street or intersections as well as higher level geographies such as city centers,  counties, states etc.
 consumes: []
 produces:
 - application/json
-- application/xml
 paths:
 - content: GET https://atlas.microsoft.com/search/address/structured/{format}?api-version=1.0&countryCode={countryCode}
-- content: GET https://atlas.microsoft.com/search/address/structured/{format}?subscription-key={subscription-key}&api-version=1.0&language={language}&countryCode={countryCode}&limit={limit}&ofs={ofs}&streetNumber={streetNumber}&streetName={streetName}&crossStreet={crossStreet}&municipality={municipality}&municipalitySubdivision={municipalitySubdivision}&countryTertiarySubdivision={countryTertiarySubdivision}&countrySecondarySubdivision={countrySecondarySubdivision}&countrySubdivision={countrySubdivision}&postalCode={postalCode}&extendedPostalCodesFor={extendedPostalCodesFor}&view={view}
+- content: GET https://atlas.microsoft.com/search/address/structured/{format}?api-version=1.0&language={language}&countryCode={countryCode}&limit={limit}&ofs={ofs}&streetNumber={streetNumber}&streetName={streetName}&crossStreet={crossStreet}&municipality={municipality}&municipalitySubdivision={municipalitySubdivision}&countryTertiarySubdivision={countryTertiarySubdivision}&countrySecondarySubdivision={countrySecondarySubdivision}&countrySubdivision={countrySubdivision}&postalCode={postalCode}&extendedPostalCodesFor={extendedPostalCodesFor}&entityType={entityType}&view={view}
   isOptional: true
 uriParameters:
 - name: format
@@ -27,16 +25,11 @@ uriParameters:
   isRequired: true
   description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
-  - uid: TextFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
+  - uid: ResponseFormat
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: language
@@ -45,7 +38,7 @@ uriParameters:
     Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used.
 
 
-    Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages) for details.
+    Please refer to [Supported Languages](https://docs.microsoft.com/azure/azure-maps/supported-languages) for details.
   types:
   - uid: string
 - name: countryCode
@@ -113,44 +106,44 @@ uriParameters:
   in: query
   description: "Indexes for which extended postal codes should be included in the results.\n\nAvailable indexes are: \n\n **Addr** = Address ranges \n\n **Geo** = Geographies \n\n **PAD** = Point Addresses \n\n **POI** = Points of Interest \n\n **Str** = Streets \n\n **XStr** = Cross Streets (intersections)\n\nValue should be a comma separated list of index types (in any order) or **None** for no indexes.\n\nBy default extended postal codes are included for all indexes except Geo. Extended postal code lists for geographies can be quite long so they have to be explicitly requested when needed.\n\nUsage examples:\n\n extendedPostalCodesFor=POI \n\n extendedPostalCodesFor=PAD,Addr,POI \n\n extendedPostalCodesFor=None\n\nExtended postal code is returned as an **extendedPostalCode** property of an address. Availability is region-dependent."
   types:
-  - uid: string
+  - uid: array
+- name: entityType
+  in: query
+  description: >-
+    Specifies the level of filtering performed on geographies. Narrows the search for specified geography entity types, e.g. return only municipality. The resulting response will contain the geography ID as well as the entity type matched. If you provide more than one entity as a comma separated list, endpoint will return the 'smallest entity available'. Returned Geometry ID can be used to get the geometry of that geography via [Get Search Polygon](https://docs.microsoft.com/rest/api/maps/search/getsearchpolygon) API. The following parameters are ignored when entityType is set:
+
+
+    * heading
+
+    * number
+
+    * returnRoadUse
+
+    * returnSpeedLimit
+
+    * roadUse
+
+    * returnMatchType
+  types:
+  - uid: GeographicEntityType
 - name: view
   in: query
   description: >-
-    The View parameter specifies which set of geopolitically disputed content is returned via Azure Maps services, including  borders and labels displayed on the map. The View parameter (also referred to as “user region parameter”) will show the  correct maps for that country/region. By default, the View parameter is set to “Unified” even if you haven’t defined it in  the request. It is your responsibility to determine the location of your users, and then set the View parameter correctly  for that location. Alternatively, you have the option to set ‘View=Auto’, which will return the map data based on the IP  address of the request. The View parameter in Azure Maps must be used in compliance with applicable laws, including those  regarding mapping, of the country where maps, images and other data and third party content that you are authorized to  access via Azure Maps is made available. Example: view=IN.
+    The View parameter (also called the "user region" parameter) allows you to show the correct maps for a certain country/region for geopolitically disputed regions. Different countries have different views of such regions, and the View parameter allows your application to comply with the view required by the country your application will be serving. By default, the View parameter is set to “Unified” even if you haven’t defined it in  the request. It is your responsibility to determine the location of your users, and then set the View parameter correctly for that location. Alternatively, you have the option to set ‘View=Auto’, which will return the map data based on the IP  address of the request. The View parameter in Azure Maps must be used in compliance with applicable laws, including those  regarding mapping, of the country where maps, images and other data and third party content that you are authorized to  access via Azure Maps is made available. Example: view=IN.
 
 
     Please refer to [Supported Views](https://aka.ms/AzureMapsLocalizationViews) for details and to see the available Views.
   types:
-  - uid: string
+  - uid: LocalizedMapView
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SearchAddressStructuredResponse
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  - uid: SearchAddressResult
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -158,7 +151,7 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: TextFormat
+- name: ResponseFormat
   description: Desired format of the response. Value can be either _json_ or _xml_.
   kind: enum
   properties:
@@ -170,51 +163,167 @@ definitions:
     description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
     types:
     - uid: string
-- name: SearchAddressStructuredResponse
-  description: This object is returned from a successful Search Address Structured call
+- name: GeographicEntityType
+  description: Geography entity type. Present only when entityType was requested and is available.
+  kind: enum
+  properties:
+  - name: Country
+    description: Country name
+    types:
+    - uid: string
+  - name: CountrySubdivision
+    description: State or Province
+    types:
+    - uid: string
+  - name: CountrySecondarySubdivision
+    description: County
+    types:
+    - uid: string
+  - name: CountryTertiarySubdivision
+    description: Named Area
+    types:
+    - uid: string
+  - name: Municipality
+    description: City / Town
+    types:
+    - uid: string
+  - name: MunicipalitySubdivision
+    description: Sub / Super City
+    types:
+    - uid: string
+  - name: Neighbourhood
+    description: Neighbourhood
+    types:
+    - uid: string
+  - name: PostalCodeArea
+    description: Postal Code / Zip Code
+    types:
+    - uid: string
+- name: LocalizedMapView
+  description: >-
+    The View parameter (also called the "user region" parameter) allows you to show the correct maps for a certain country/region for geopolitically disputed regions. Different countries have different views of such regions, and the View parameter allows your application to comply with the view required by the country your application will be serving. By default, the View parameter is set to “Unified” even if you haven’t defined it in  the request. It is your responsibility to determine the location of your users, and then set the View parameter correctly for that location. Alternatively, you have the option to set ‘View=Auto’, which will return the map data based on the IP  address of the request. The View parameter in Azure Maps must be used in compliance with applicable laws, including those  regarding mapping, of the country where maps, images and other data and third party content that you are authorized to  access via Azure Maps is made available. Example: view=IN.
+
+
+    Please refer to [Supported Views](https://aka.ms/AzureMapsLocalizationViews) for details and to see the available Views.
+  kind: enum
+  properties:
+  - name: AE
+    description: United Arab Emirates (Arabic View)
+    types:
+    - uid: string
+  - name: AR
+    description: Argentina (Argentinian View)
+    types:
+    - uid: string
+  - name: BH
+    description: Bahrain (Arabic View)
+    types:
+    - uid: string
+  - name: IN
+    description: India (Indian View)
+    types:
+    - uid: string
+  - name: IQ
+    description: Iraq (Arabic View)
+    types:
+    - uid: string
+  - name: JO
+    description: Jordan (Arabic View)
+    types:
+    - uid: string
+  - name: KW
+    description: Kuwait (Arabic View)
+    types:
+    - uid: string
+  - name: LB
+    description: Lebanon (Arabic View)
+    types:
+    - uid: string
+  - name: MA
+    description: Morocco (Moroccan View)
+    types:
+    - uid: string
+  - name: OM
+    description: Oman (Arabic View)
+    types:
+    - uid: string
+  - name: PK
+    description: Pakistan (Pakistani View)
+    types:
+    - uid: string
+  - name: PS
+    description: Palestinian Authority (Arabic View)
+    types:
+    - uid: string
+  - name: QA
+    description: Qatar (Arabic View)
+    types:
+    - uid: string
+  - name: SA
+    description: Saudi Arabia (Arabic View)
+    types:
+    - uid: string
+  - name: SY
+    description: Syria (Arabic View)
+    types:
+    - uid: string
+  - name: YE
+    description: Yemen (Arabic View)
+    types:
+    - uid: string
+  - name: Auto
+    description: Return the map data based on the IP address of the request.
+    types:
+    - uid: string
+  - name: Unified
+    description: Unified View (Others)
+    types:
+    - uid: string
+- name: SearchAddressResult
+  description: This object is returned from a successful Search calls.
   kind: object
   properties:
   - name: summary
     isReadyOnly: true
-    description: Summary object for a Search Address Structured response
+    description: Summary object for a Search API response
     types:
-    - uid: SearchAddressStructuredSummary
+    - uid: SearchSummary
   - name: results
     isReadyOnly: true
-    description: Results array
+    description: A list of Search API results.
     types:
-    - uid: SearchAddressStructuredResult
+    - uid: SearchAddressResultItem
       isArray: true
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
-- name: SearchAddressStructuredSummary
-  description: Summary object for a Search Address Structured response
+    - uid: ErrorDetail
+- name: SearchSummary
+  description: Summary object for a Search API response.
   kind: object
   properties:
   - name: query
     isReadyOnly: true
-    description: Query property
+    description: The query parameter that was used to produce these search results.
     types:
     - uid: string
   - name: queryType
     isReadyOnly: true
-    description: QueryType property
+    description: 'The type of query being returned: NEARBY or NON_NEAR.'
     types:
-    - uid: string
+    - uid: QueryType
   - name: queryTime
     isReadyOnly: true
-    description: QueryTime property
+    description: Time spent resolving the query, in milliseconds.
     types:
     - uid: integer
   - name: numResults
     isReadyOnly: true
-    description: NumResults property
+    description: Number of results in the response.
     types:
     - uid: integer
   - name: limit
@@ -224,32 +333,46 @@ definitions:
     - uid: integer
   - name: offset
     isReadyOnly: true
-    description: Offset property
+    description: The starting offset of the returned Results within the full Result set.
     types:
     - uid: integer
   - name: totalResults
     isReadyOnly: true
-    description: TotalResults property
+    description: The total number of Results found.
     types:
     - uid: integer
   - name: fuzzyLevel
     isReadyOnly: true
-    description: FuzzyLevel property
+    description: The maximum fuzzy level required to provide Results.
     types:
     - uid: integer
   - name: geoBias
     isReadyOnly: true
     description: Indication when the internal search engine has applied a geospatial bias to improve the ranking of results.  In  some methods, this can be affected by setting the lat and lon parameters where available.  In other cases it is  purely internal.
     types:
-    - uid: SearchSummaryGeoBias
-- name: SearchAddressStructuredResult
+    - uid: LatLongPairAbbreviated
+- name: SearchAddressResultItem
+  description: Result object for a Search API response.
   kind: object
   properties:
   - name: type
     isReadyOnly: true
-    description: Type property
+    description: >-
+      One of:
+
+      * POI
+
+      * Street
+
+      * Geography
+
+      * Point Address
+
+      * Address Range
+
+      * Cross Street
     types:
-    - uid: string
+    - uid: SearchAddressResultType
   - name: id
     isReadyOnly: true
     description: Id property
@@ -265,163 +388,303 @@ definitions:
     description: Straight line distance between the result and geobias location in meters.
     types:
     - uid: number
+  - name: info
+    isReadyOnly: true
+    description: Information about the original data source of the Result. Used for support requests.
+    types:
+    - uid: string
+  - name: entityType
+    isReadyOnly: true
+    description: Geography entity type. Present only when entityType was requested and is available.
+    types:
+    - uid: GeographicEntityType
+  - name: poi
+    isReadyOnly: true
+    description: Details of the returned POI including information such as the name, phone, url address, and classifications.
+    types:
+    - uid: PointOfInterest
   - name: address
+    isReadyOnly: true
     description: The address of the result
     types:
-    - uid: SearchResultAddress
+    - uid: Address
   - name: position
-    description: A location represented as a latitude and longitude.
+    description: A location represented as a latitude and longitude using short names 'lat' & 'lon'.
     types:
-    - uid: CoordinateAbbreviated
+    - uid: LatLongPairAbbreviated
   - name: viewport
-    description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the  viewport.
+    isReadyOnly: true
+    description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the viewport.
     types:
-    - uid: SearchResultViewport
+    - uid: BoundingBox
   - name: entryPoints
-    description: Entry Points array
+    isReadyOnly: true
+    description: Array of EntryPoints. Those describe the types of entrances available at the location. The type can be "main" for main entrances such as a front door, or a lobby, and "minor", for side and back doors.
     types:
-    - uid: SearchResultEntryPoint
+    - uid: EntryPoint
       isArray: true
   - name: addressRanges
+    isReadyOnly: true
     description: Describes the address range on both sides of the street for a search result. Coordinates for the start and end locations of the address range are included.
     types:
-    - uid: SearchResultAddressRanges
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+    - uid: AddressRanges
+  - name: dataSources
+    isReadyOnly: true
+    description: Optional section. Reference geometry id for use with the [Get Search Polygon](https://docs.microsoft.com/rest/api/maps/search/getsearchpolygon) API.
+    types:
+    - uid: DataSources
+  - name: matchType
+    isReadyOnly: true
+    description: >-
+      Information on the type of match.
+
+
+      One of:
+        * AddressPoint
+        * HouseNumberRange
+        * Street
+    types:
+    - uid: MatchType
+  - name: detourTime
+    isReadyOnly: true
+    description: Detour time in seconds. Only returned for calls to the Search Along Route API.
+    types:
+    - uid: integer
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: QueryType
+  description: 'The type of query being returned: NEARBY or NON_NEAR.'
+  kind: enum
+  properties:
+  - name: NEARBY
+    description: Search was performed around a certain latitude and longitude with a defined radius
     types:
     - uid: string
-- name: SearchSummaryGeoBias
-  description: Indication when the internal search engine has applied a geospatial bias to improve the ranking of results.  In  some methods, this can be affected by setting the lat and lon parameters where available.  In other cases it is  purely internal.
+  - name: NON_NEAR
+    description: Search was performed globally, without biasing to a certain latitude and longitude, and no defined radius
+    types:
+    - uid: string
+- name: LatLongPairAbbreviated
+  description: A location represented as a latitude and longitude using short names 'lat' & 'lon'.
   kind: object
   properties:
   - name: lat
-    isReadyOnly: true
     description: Latitude property
     types:
     - uid: number
   - name: lon
-    isReadyOnly: true
     description: Longitude property
     types:
     - uid: number
-- name: SearchResultAddress
+- name: SearchAddressResultType
+  description: >-
+    One of:
+
+    * POI
+
+    * Street
+
+    * Geography
+
+    * Point Address
+
+    * Address Range
+
+    * Cross Street
+  kind: enum
+  properties:
+  - name: POI
+    types:
+    - uid: string
+  - name: Street
+    types:
+    - uid: string
+  - name: Geography
+    types:
+    - uid: string
+  - name: Point Address
+    types:
+    - uid: string
+  - name: Address Range
+    types:
+    - uid: string
+  - name: Cross Street
+    types:
+    - uid: string
+- name: PointOfInterest
+  description: Details of the returned POI including information such as the name, phone, url address, and classifications.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the POI property
+    types:
+    - uid: string
+  - name: phone
+    isReadyOnly: true
+    description: Telephone number property
+    types:
+    - uid: string
+  - name: url
+    isReadyOnly: true
+    description: Website URL property
+    types:
+    - uid: string
+  - name: categorySet
+    isReadyOnly: true
+    description: The list of the most specific POI categories
+    types:
+    - uid: PointOfInterestCategorySet
+      isArray: true
+  - name: categories
+    isReadyOnly: true
+    description: Categories array
+    types:
+    - uid: string
+      isArray: true
+  - name: classifications
+    isReadyOnly: true
+    description: Classification array
+    types:
+    - uid: Classification
+      isArray: true
+  - name: brands
+    isReadyOnly: true
+    description: Brands array. The name of the brand for the POI being returned.
+    types:
+    - uid: BrandName
+      isArray: true
+  - name: openingHours
+    description: Opening hours for a POI (Points of Interest).
+    types:
+    - uid: OperatingHours
+- name: Address
   description: The address of the result
   kind: object
   properties:
   - name: buildingNumber
     isReadyOnly: true
-    description: Building Number property
+    description: The building number on the street. DEPRECATED, use streetNumber instead.
     types:
     - uid: string
   - name: street
     isReadyOnly: true
-    description: Street property
+    description: The street name. DEPRECATED, use streetName instead.
     types:
     - uid: string
   - name: crossStreet
     isReadyOnly: true
-    description: Cross Street property
+    description: The name of the street being crossed.
     types:
     - uid: string
   - name: streetNumber
     isReadyOnly: true
-    description: Street Number property
+    description: The building number on the street.
     types:
     - uid: string
   - name: routeNumbers
     isReadyOnly: true
-    description: number of routes
+    description: The codes used to unambiguously identify the street
     types:
-    - uid: integer
+    - uid: string
       isArray: true
   - name: streetName
     isReadyOnly: true
-    description: Street Name property
+    description: The street name.
     types:
     - uid: string
   - name: streetNameAndNumber
     isReadyOnly: true
-    description: Street Name and Number property
+    description: The street name and number.
     types:
     - uid: string
   - name: municipality
     isReadyOnly: true
-    description: Municipality property
+    description: City / Town
     types:
     - uid: string
   - name: municipalitySubdivision
     isReadyOnly: true
-    description: Municipality Subdivision property
+    description: Sub / Super City
     types:
     - uid: string
   - name: countryTertiarySubdivision
     isReadyOnly: true
-    description: Country Tertiary Subdivision property
+    description: Named Area
     types:
     - uid: string
   - name: countrySecondarySubdivision
     isReadyOnly: true
-    description: Country Secondary Subdivision property
+    description: County
     types:
     - uid: string
   - name: countrySubdivision
     isReadyOnly: true
-    description: Country Subdivision property
+    description: State or Province
     types:
     - uid: string
   - name: postalCode
     isReadyOnly: true
-    description: Postal Code property
+    description: Postal Code / Zip Code
     types:
     - uid: string
   - name: extendedPostalCode
     isReadyOnly: true
-    description: Extended Postal Code property
+    description: Extended postal code (availability is dependent on the region).
     types:
     - uid: string
   - name: countryCode
     isReadyOnly: true
-    description: Country Code property
+    description: 'Country (Note: This is a two-letter code, not a country name.)'
     types:
     - uid: string
   - name: country
     isReadyOnly: true
-    description: Country property
+    description: Country name
     types:
     - uid: string
   - name: countryCodeISO3
     isReadyOnly: true
-    description: Country Code ISO3 property
+    description: ISO alpha-3 country code
     types:
     - uid: string
   - name: freeformAddress
     isReadyOnly: true
-    description: Free form Address property
+    description: An address line formatted according to the formatting rules of a Result's country of origin, or in the case of a country, its full country name.
     types:
     - uid: string
   - name: countrySubdivisionName
     isReadyOnly: true
-    description: Country Subdivision Name property
+    description: The full name of a first level of country administrative hierarchy. This field appears only in case countrySubdivision is presented in an abbreviated form. Only supported for USA, Canada, and Great Britain.
     types:
     - uid: string
   - name: localName
@@ -429,33 +692,24 @@ definitions:
     description: An address component which represents the name of a geographic area or locality that groups a number of addressable objects for addressing purposes, without being an administrative unit. This field is used to build the `freeformAddress` property.
     types:
     - uid: string
-- name: CoordinateAbbreviated
-  description: A location represented as a latitude and longitude.
-  kind: object
-  properties:
-  - name: lat
+  - name: boundingBox
     isReadyOnly: true
-    description: Latitude property
+    description: The bounding box of the location.
     types:
-    - uid: number
-  - name: lon
-    isReadyOnly: true
-    description: Longitude property
-    types:
-    - uid: number
-- name: SearchResultViewport
-  description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the  viewport.
+    - uid: BoundingBoxCompassNotation
+- name: BoundingBox
+  description: The viewport that covers the result represented by the top-left and bottom-right coordinates of the viewport.
   kind: object
   properties:
   - name: topLeftPoint
-    description: A location represented as a latitude and longitude.
+    description: A location represented as a latitude and longitude using short names 'lat' & 'lon'.
     types:
-    - uid: CoordinateAbbreviated
+    - uid: LatLongPairAbbreviated
   - name: btmRightPoint
-    description: A location represented as a latitude and longitude.
+    description: A location represented as a latitude and longitude using short names 'lat' & 'lon'.
     types:
-    - uid: CoordinateAbbreviated
-- name: SearchResultEntryPoint
+    - uid: LatLongPairAbbreviated
+- name: EntryPoint
   description: The entry point for the POI being returned.
   kind: object
   properties:
@@ -463,37 +717,209 @@ definitions:
     isReadyOnly: true
     description: The type of entry point. Value can be either _main_ or _minor_.
     types:
-    - uid: main
-    - uid: minor
-    typesTitle: enum
+    - uid: EntryPointType
   - name: position
-    description: A location represented as a latitude and longitude.
+    description: A location represented as a latitude and longitude using short names 'lat' & 'lon'.
     types:
-    - uid: CoordinateAbbreviated
-- name: SearchResultAddressRanges
+    - uid: LatLongPairAbbreviated
+- name: AddressRanges
   description: Describes the address range on both sides of the street for a search result. Coordinates for the start and end locations of the address range are included.
   kind: object
   properties:
   - name: rangeLeft
-    description: ''
+    description: Address range on the left side of the street.
     types:
     - uid: string
   - name: rangeRight
-    description: ''
+    description: Address range on the right side of the street.
     types:
     - uid: string
   - name: from
-    description: A location represented as a latitude and longitude.
+    description: A location represented as a latitude and longitude using short names 'lat' & 'lon'.
     types:
-    - uid: CoordinateAbbreviated
+    - uid: LatLongPairAbbreviated
   - name: to
-    description: A location represented as a latitude and longitude.
+    description: A location represented as a latitude and longitude using short names 'lat' & 'lon'.
     types:
-    - uid: CoordinateAbbreviated
+    - uid: LatLongPairAbbreviated
+- name: DataSources
+  description: Optional section. Reference ids for use with the [Get Search Polygon](https://docs.microsoft.com/rest/api/maps/search/getsearchpolygon) API.
+  kind: object
+  properties:
+  - name: geometry
+    description: Information about the geometric shape of the result. Only present if type == Geography.
+    types:
+    - uid: Geometry
+- name: MatchType
+  description: Types of match for a reverse address search operation.
+  kind: enum
+  properties:
+  - name: AddressPoint
+    types:
+    - uid: string
+  - name: HouseNumberRange
+    types:
+    - uid: string
+  - name: Street
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: PointOfInterestCategorySet
+  description: POI category
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Category ID
+    types:
+    - uid: integer
+- name: Classification
+  description: The classification for the POI being returned
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Code property
+    types:
+    - uid: string
+  - name: names
+    isReadyOnly: true
+    description: Names array
+    types:
+    - uid: ClassificationName
+      isArray: true
+- name: BrandName
+  description: The name of the brand for the POI being returned
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the brand
+    types:
+    - uid: string
+- name: OperatingHours
+  description: Opening hours for a POI (Points of Interest).
+  kind: object
+  properties:
+  - name: mode
+    isReadyOnly: true
+    description: 'Value used in the request: none or "nextSevenDays"'
+    types:
+    - uid: string
+  - name: timeRanges
+    isReadyOnly: true
+    description: List of time ranges for the next 7 days
+    types:
+    - uid: OperatingHoursTimeRange
+      isArray: true
+- name: BoundingBoxCompassNotation
+  description: The bounding box of the location.
+  kind: object
+  properties:
+  - name: northEast
+    isReadyOnly: true
+    description: North-east latitude,longitude coordinate of the bounding box as comma-separated floats
+    types:
+    - uid: string
+  - name: southWest
+    isReadyOnly: true
+    description: South-west latitude,longitude coordinate of the bounding box as comma-separated floats
+    types:
+    - uid: string
+  - name: entity
+    isReadyOnly: true
+    description: Entity type source of the bounding box. For reverse-geocoding this is always equal to position.
+    types:
+    - uid: Entity
+- name: EntryPointType
+  description: The type of entry point. Value can be either _main_ or _minor_.
+  kind: enum
+  properties:
+  - name: main
+    types:
+    - uid: string
+  - name: minor
+    types:
+    - uid: string
+- name: Geometry
+  description: Information about the geometric shape of the result. Only present if type == Geography.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Pass this as geometryId to the [Get Search Polygon](https://docs.microsoft.com/rest/api/maps/search/getsearchpolygon) API to fetch geometry information for this result.
+    types:
+    - uid: string
+- name: ClassificationName
+  description: Name for the classification
+  kind: object
+  properties:
+  - name: nameLocale
+    isReadyOnly: true
+    description: Name Locale property
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name property
+    types:
+    - uid: string
+- name: OperatingHoursTimeRange
+  description: Open time range for a day
+  kind: object
+  properties:
+  - name: startTime
+    description: The point in the next 7 days range when a given POI is being opened, or the beginning of the range if it was opened before the range.
+    types:
+    - uid: OperatingHoursTime
+  - name: endTime
+    description: The point in the next 7 days range when a given POI is being closed, or the beginning of the range if it was closed before the range.
+    types:
+    - uid: OperatingHoursTime
+- name: Entity
+  description: Entity type source of the bounding box. For reverse-geocoding this is always equal to position.
+  kind: enum
+  properties:
+  - name: position
+    description: Position entity
+    types:
+    - uid: string
+- name: OperatingHoursTime
+  description: Represents a date and time
+  kind: object
+  properties:
+  - name: date
+    isReadyOnly: true
+    description: Represents current calendar date in POI time zone, e.g. "2019-02-07".
+    types:
+    - uid: string
+  - name: hour
+    isReadyOnly: true
+    description: Hours are in the 24 hour format in the local time of a POI; possible values are 0 - 23.
+    types:
+    - uid: integer
+  - name: minute
+    isReadyOnly: true
+    description: Minutes are in the local time of a POI; possible values are 0 - 59.
+    types:
+    - uid: integer
 examples:
-- name: GetSearchAddressStructured
+- name: Search address in Redmond, WA in structured form
   request:
-    uri: GET https://atlas.microsoft.com/search/address/structured/json?subscription-key=[subscription-key]&api-version=1.0&countryCode=US&streetNumber=15127&streetName=NE%2024th%20Street&municipality=Redmond&countrySubdivision=WA&postalCode=98052
+    uri: GET https://atlas.microsoft.com/search/address/structured/json?api-version=1.0&countryCode=US&streetNumber=15127&streetName=NE%2024th%20Street&municipality=Redmond&countrySubdivision=WA&postalCode=98052
   responses:
   - statusCode: "200"
     body: >-
@@ -559,46 +985,6 @@ examples:
           }
         ]
       }
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
-      }
 security:
 - name: AADToken
   type: oauth2
@@ -631,9 +1017,5 @@ metadata:
     **Structured Address Geocoding**
 
 
-    **Applies to**: S0 and S1 pricing tiers.
-
-
-
-    Azure Address Geocoding can also be accessed for  structured address look up exclus
+    **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.bookmarks.createorupdate
 name: Create Or Update
 service: Sentinel
 groupName: Bookmarks
-apiVersion: 2021-09-01-preview
+apiVersion: 2021-10-01-preview
 summary: Creates or updates the bookmark.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}?api-version=2021-09-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}?api-version=2021-10-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -126,6 +126,24 @@ requestBody:
     description: Describes an incident that relates to bookmark
     types:
     - uid: IncidentInfo
+  - name: properties.entityMappings
+    in: body
+    description: Describes the entity mappings of the bookmark
+    types:
+    - uid: BookmarkEntityMappings
+      isArray: true
+  - name: properties.tactics
+    in: body
+    description: A list of relevant mitre attacks
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.techniques
+    in: body
+    description: A list of relevant mitre techniques
+    types:
+    - uid: string
+      isArray: true
   - name: etag
     in: body
     description: Etag of the azure resource
@@ -171,6 +189,19 @@ definitions:
     description: Relation Name
     types:
     - uid: string
+- name: BookmarkEntityMappings
+  description: Describes the entity mappings of a single entity
+  kind: object
+  properties:
+  - name: entityType
+    description: The entity type
+    types:
+    - uid: string
+  - name: fieldMappings
+    description: Array of fields mapping for that entity type
+    types:
+    - uid: EntityFieldMapping
+      isArray: true
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -256,6 +287,21 @@ definitions:
     description: Describes an incident that relates to bookmark
     types:
     - uid: IncidentInfo
+  - name: properties.entityMappings
+    description: Describes the entity mappings of the bookmark
+    types:
+    - uid: BookmarkEntityMappings
+      isArray: true
+  - name: properties.tactics
+    description: A list of relevant mitre attacks
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.techniques
+    description: A list of relevant mitre techniques
+    types:
+    - uid: string
+      isArray: true
   - name: etag
     description: Etag of the azure resource
     types:
@@ -308,6 +354,18 @@ definitions:
     description: Informational severity
     types:
     - uid: string
+- name: EntityFieldMapping
+  description: Map identifiers of a single entity
+  kind: object
+  properties:
+  - name: identifier
+    description: Alert V3 identifier
+    types:
+    - uid: string
+  - name: value
+    description: The value of the identifier
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -341,7 +399,7 @@ definitions:
 examples:
 - name: Creates or updates a bookmark.
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/bookmarks/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-09-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/bookmarks/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
     body: >-
       {
         "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
@@ -361,7 +419,24 @@ examples:
             "Tag2"
           ],
           "query": "SecurityEvent | where TimeGenerated > ago(1d) and TimeGenerated < ago(2d)",
-          "queryResult": "Security Event query result"
+          "queryResult": "Security Event query result",
+          "tactics": [
+            "Execution"
+          ],
+          "techniques": [
+            "T1609"
+          ],
+          "entityMappings": [
+            {
+              "entityType": "Account",
+              "fieldMappings": [
+                {
+                  "identifier": "Fullname",
+                  "value": "johndoe@microsoft.com"
+                }
+              ]
+            }
+          ]
         }
       }
   responses:
@@ -392,7 +467,24 @@ examples:
             "Tag2"
           ],
           "query": "SecurityEvent | where TimeGenerated > ago(1d) and TimeGenerated < ago(2d)",
-          "queryResult": "Security Event query result"
+          "queryResult": "Security Event query result",
+          "tactics": [
+            "Execution"
+          ],
+          "techniques": [
+            "T1609"
+          ],
+          "entityMappings": [
+            {
+              "entityType": "Account",
+              "fieldMappings": [
+                {
+                  "identifier": "Fullname",
+                  "value": "johndoe@microsoft.com"
+                }
+              ]
+            }
+          ]
         }
       }
   - statusCode: "201"
@@ -422,7 +514,24 @@ examples:
             "Tag2"
           ],
           "query": "SecurityEvent | where TimeGenerated > ago(1d) and TimeGenerated < ago(2d)",
-          "queryResult": "Security Event query result"
+          "queryResult": "Security Event query result",
+          "tactics": [
+            "Execution"
+          ],
+          "techniques": [
+            "T1609"
+          ],
+          "entityMappings": [
+            {
+              "entityType": "Account",
+              "fieldMappings": [
+                {
+                  "identifier": "Fullname",
+                  "value": "johndoe@microsoft.com"
+                }
+              ]
+            }
+          ]
         }
       }
 security:
