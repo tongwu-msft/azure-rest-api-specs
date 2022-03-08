@@ -113,7 +113,7 @@ For a successful request: 201 Created if a new data source was created, and 204 
 
 ## Examples
 
-**Example: Connect using Azure role-based access and a user-assigned managed identity (preview)**
+**Example: Azure roles and a user-assigned managed identity (preview)**
 
 ```json
 {
@@ -175,7 +175,6 @@ Recall that the properties for deletion detection are `softDeleteColumnName` and
     "container" : { "name" : "sometable" },   
     "dataDeletionDetectionPolicy" : { "@odata.type" : "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy", "softDeleteColumnName" : "IsDeleted", "softDeleteMarkerValue" : "true" }  
 }  
-
 ```
 
 **Example: Data source with required properties only**
@@ -258,7 +257,7 @@ This example omits accessCredentials. For a resource that has a [user-assigned m
 | [container](#container) | Specifies the container, collection, table, or view containing the data to be indexed. |
 | [credentials](#credentials) |  Contains a `connectionString` property that specifies how an indexer connects to an Azure resource. |
 | [dataChangeDetectionPolicy](#datachangedetectionpolicy) | Specifies the mechanism provided by the data platform for identifying changed data. |
-| [datadeletiondetectionpolicy](#datadeletiondetectionpolicy) Specifies the mechanism for detecting deleted data. |
+| [dataDeletionDetectionPolicy](#datadeletiondetectionpolicy) Specifies the mechanism for detecting deleted data. |
 | [encryptionKey](#encryptionkey) | Configures a connection to Azure Key Vault for customer-managed encryption. |
 
 <a name="container"> </a>
@@ -296,7 +295,9 @@ Specifies the mechanism provided by the data platform for identifying changed da
 
 |Attribute|Description|  
 |---------------|-----------------|  
-| dataChangeDetectionPolicy | Optional. Valid policies are "High Watermark Change Detection Policy" and "SQL Integrated Change Detection Policy". </p>High Watermark Change Detection Policy depends on an existing column or property that is updated in tandem with other updates (all inserts result in an update to the watermark column), and the change in value is higher. For Cosmos DB data sources, you must use the `_ts` property. For Azure SQL, an indexed `rowversion` column is the ideal candidate for use with the high water mark policy. For Azure Storage, change detection is built-in using lastModified values, eliminating any need to set the dataChangeDetectionPolicy for blob or table storage. </br></br>SQL Integrated Change Detection Policy is used to reference the native change detection features in SQL Server.  This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](/sql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions. For more information about change detection support in the indexer, see [Connect to and index Azure SQL content](/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers).|
+| dataChangeDetectionPolicy | Optional. Valid policies include </br>`HighWatermarkChangeDetectionPolicy` or `SqlIntegratedChangeDetectionPolicy`. </br>`HighWatermarkChangeDetectionPolicy` depends on an existing column or property that is updated in tandem with other updates (all inserts result in an update to the watermark column), and the change in value is higher. </br>`SqlIntegratedChangeDetectionPolicy` is used to reference the native change detection features in SQL Server.  This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](/sql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions. | 
+| highWaterMarkColumnName | Required for `HighWatermarkChangeDetectionPolicy`. For Cosmos DB, the column must be `_ts` property. For Azure SQL, an indexed `rowversion` column is recommended. For Azure Storage, change detection is built-in using lastModified values, eliminating any need to set the dataChangeDetectionPolicy. |
+
 
 <a name="dataDeletionDetectionPolicy"> <a/>
 
@@ -306,7 +307,9 @@ Specifies the mechanism provided by the data platform for identifying deleted da
 
 |Attribute|Description|  
 |---------------|-----------------| 
-|dataDeletionDetectionPolicy | Optional. Valid values are `softDeleteMarkerValue` or `NativeBlobSoftDeleteDeletionDetectionPolicy` (see [Native blob soft delete (preview)](/azure/search/search-howto-index-changed-deleted-blobs#native-blob-soft-delete-preview)). </p>Currently, the only generally available policy is the "Soft Delete Policy", which identifies deleted items based on the value of a 'soft delete' column or property in the data source. </br></br> Only columns with string, integer, or boolean values are supported. The value used as `softDeleteMarkerValue` must be a string, even if the corresponding column holds integers or booleans. For example, if the value that appears in your data source is 1, use "1" as the `softDeleteMarkerValue`. |
+|dataDeletionDetectionPolicy | Optional. Valid values are `SoftDeleteColumnDeletionDetectionPolicy` or `NativeBlobSoftDeleteDeletionDetectionPolicy` (see [Native blob soft delete (preview)](/azure/search/search-howto-index-changed-deleted-blobs#native-blob-soft-delete-preview)). </p>Currently, the only generally available policy is`SoftDeleteColumnDeletionDetectionPolicy`, which identifies deleted items based on the value of a 'soft delete' column or property in the data source. </br></br>  |
+| softDeleteColumnName" | Required. Name of a column in your data source providing a value that specifies a row's deletion status. For example, you could create a column named "IsDeleted". Only columns with string, integer, or boolean values are supported. |
+| softDeleteMarkerValue | Required. The value of the soft delete column. The value used as `softDeleteMarkerValue` must be a string, even if the corresponding column holds integers or booleans. For example, if the value that appears in your data source is 1, use "1" as the `softDeleteMarkerValue`. If the indexer reads this value from the soft delete column, it deletes the corresponding search document from the search index. |
 
 <a name="encryptionKey"> </a>
 
