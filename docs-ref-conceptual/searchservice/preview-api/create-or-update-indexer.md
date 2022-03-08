@@ -95,10 +95,11 @@ The following JSON is a high-level representation of the main parts of the defin
 
 |Property|Description|  
 |--------------|-----------------|  
-|name|Required. The name must be lower case, start with a letter or number, have no slashes or dots, and be fewer 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes aren't consecutive.|  
-|[dataSourceName](#dataSourceName) |Required. Name of an existing data source. |
-|[targetIndexName](#targetIndexName)|Required. Name of an existing index. |  
-|[skillsetName](#skillset)|Required for AI enrichment. Name of an existing skillset. |
+|name|Required. The name must be lower case, start with a letter or number, have no slashes or dots, and be fewer 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes aren't consecutive.| 
+|description| Optional. Description of the indexer. |
+|dataSourceName |Required. Name of an existing data source that provides connection information and other properties.|
+|targetIndexName|Required. Name of an existing index. |  
+|skillsetName|Required for AI enrichment. Name of an existing skillset. |
 |[cache](#cache) |Optional for AI enrichment, enables reuse of unchanged documents. |
 |[schedule](#indexer-schedule)| Optional, but runs once immediately if unspecified. |
 |[parameters](#indexer-parameters)| Optional. Properties for modifying runtime behavior.|
@@ -168,23 +169,14 @@ New in this preview, you can specify the [cache property](#cache) to reuse docum
 
 ## Definitions
 
-<a name="dataSourceName"></a>
-
-### dataSourceName
-
-A [data source definition](../create-data-source.md) often includes properties that an indexer can use to exploit source platform characteristics. As such, the data source you pass to the indexer determines the availability of certain properties and parameters, such content type filtering in Azure blobs or query timeout for Azure SQL Database. 
-
-<a name="targetIndexName"></a>
-
-### targetIndexName
-
-An [index schema](../create-index.md) defines the fields collection containing searchable, filterable, retrievable, and other attributions that determine how the field is used. During indexing, the indexer crawls the data source, optionally cracks documents and extracts information, serializes the results to JSON, and indexes the payload based on the schema defined for your index.
-
-<a name="skillset"></a>
-
-### skillsetName
-
-[AI enrichment](/azure/search/cognitive-search-concept-intro) refers to natural language and image processing capabilities in Azure Cognitive Search, applied during data ingestion to extract entities, key phrases, language, information from images, and so forth. Transformations applied to content are through *skills*, which you combine into a single [*skillset*](../create-skillset.md), one per indexer. As with data sources and indexes, a skillset is an independent component that you attach to an indexer. You can repurpose a skillset with other indexers, but each indexer can only use one skillset at a time.
+| | |
+|---|---|
+| [cache](#cache) | Configures caching for AI enrichment and skillset execution.  |
+| [encryptionKey](#encryptionkey) | Configures a connection to Azure Key Vault for customer-managed encryption. |
+| [fieldMappings](#field-mappings) | Source-to-destination field mappings for fields that don't match by name and type. |
+| [outputFieldMappings](#outputfieldmappings) | Maps nodes in an enriched document to fields in an index. Required if you are using skillsets. |
+| [parameters](#parameters) Configures an indexer. Parameters include general parameters and source-specific parameters.|
+| [schedule](#schedule) | Specifies interval and frequency of scheduled indexer execution.|
 
 <a name="cache"></a>
 
@@ -208,31 +200,38 @@ The cache object has required and optional properties.
 |enableReprocessing | Optional. Boolean property (`true` by default) to control processing over incoming documents already represented in the cache. When `true` (default), documents already in the cache are reprocessed when you rerun the indexer, assuming your skill update affects that doc. When `false`, existing documents aren't reprocessed, effectively prioritizing new, incoming content over existing content. You should only set `enableReprocessing` to `false` on a temporary basis. To ensure consistency across the corpus, `enableReprocessing` should be `true` most of the time, ensuring that all documents, both new and existing, are valid per the current skillset definition.|
 | ID | Read-only. Generated once the cache is created. The `ID` is the identifier of the container within the `annotationCache` storage account that will be used as the cache for this indexer. This cache will be unique to this indexer and if the indexer is deleted and recreated with the same name, the `ID` will be regenerated. The `ID` can't be set, it's always generated by the service. |
 
- <a name="indexer-schedule"></a>
+ <a name="schedule"></a>
 
 ### schedule
 
 An indexer can optionally specify a schedule. Without a schedule, the indexer runs immediately when you send the request: connecting to, crawling, and indexing the data source. For some scenarios including long-running indexing jobs, schedules are used to [extend the processing window](/azure/search/search-howto-large-index) beyond the 24-hour maximum. If a schedule is present, the indexer runs periodically as per schedule. The scheduler is built in; you can't use an external scheduler. A **Schedule** has the following attributes: 
 
--   **interval**: Required. A duration value that specifies an interval or period for indexer runs. The smallest allowed interval is five minutes; the longest is one day. It must be formatted as an XSD "dayTimeDuration" value (a restricted subset of an [ISO 8601 duration](https://www.w3.org/TR/xmlschema11-2/#dayTimeDuration) value). The pattern for this is: `"P[nD][T[nH][nM]]".` Examples:  `PT15M` for every 15 minutes, `PT2H` for every 2 hours.  
+- **interval**: Required. A duration value that specifies an interval or period for indexer runs. The smallest allowed interval is five minutes; the longest is one day. It must be formatted as an XSD "dayTimeDuration" value (a restricted subset of an [ISO 8601 duration](https://www.w3.org/TR/xmlschema11-2/#dayTimeDuration) value). The pattern for this is: `"P[nD][T[nH][nM]]".` Examples:  `PT15M` for every 15 minutes, `PT2H` for every 2 hours.  
 
--   **startTime**: Optional. A UTC datetime when the indexer should start running.  
+- **startTime**: Optional. A UTC datetime when the indexer should start running.  
 
 > [!NOTE]
 > If an indexer is set to a certain schedule but repeatedly fails on the same document over and over again each time it runs, the indexer will begin running on a less frequent interval (up to the maximum of at least once every 24 hours) until it successfully makes progress again.  If you believe you have fixed whatever the issue that was causing the indexer to be stuck at a certain point, you can perform an on demand run of the indexer, and if that successfully makes progress, the indexer will return to its set schedule interval again.
 
-<a name="indexer-parameters"></a>
+<a name="parameters"></a>
 
 ### parameters
 
 An indexer can optionally take configuration parameters that modify runtime behaviors. Configuration parameters are comma-delimited on the indexer request. 
 
 ```json
-    {
-      "name" : "my-blob-indexer-for-cognitive-search",
-      ... other indexer properties
-      "parameters" : { "maxFailedItems" : "15", "batchSize" : "100", "configuration" : { "parsingMode" : "json", "indexedFileNameExtensions" : ".json, .jpg, .png", "imageAction" : "generateNormalizedImages", "dataToExtract" : "contentAndMetadata" } }
-    }
+{
+  "name" : "my-blob-indexer-for-cognitive-search",
+  ... other indexer properties
+  "parameters" : { 
+      "maxFailedItems" : "15",
+      "batchSize" : "100", 
+      "configuration" : { 
+          "parsingMode" : "json", 
+          "indexedFileNameExtensions" : ".json, .jpg, .png", 
+          "imageAction" : "generateNormalizedImages", 
+          "dataToExtract" : "contentAndMetadata" } }
+}
 ```
 
 #### General parameters for all indexers
@@ -277,35 +276,19 @@ The following parameters are specific to Azure SQL Database.
 
 ### fieldMappings
 
-Indexer definitions contain field associations for mapping a source field to a destination field in an Azure Cognitive Search index. There are two types of associations depending on whether the content transfer follows a direct or enriched path:
+Create these when source-destination field names or types don't match, or when you want to specify a function. Field mappings are case-insensitive. See [Define field mappings](/azure/search/search-indexer-field-mappings).
 
-+ **fieldMappings** are optional, applied when source-destination field names don't match, or when you want to specify a function.
-+ **outputFieldMappings** are required if you're building [an enrichment pipeline](/azure/search/cognitive-search-concept-intro). In an enrichment pipeline, the output field is a construct defined during the enrichment process. For example, the output field might be a compound structure built during enrichment from two separate fields in the source document. 
-
-In the following example, consider a source table with a field `_id`. Azure Cognitive Search doesn't allow a field name starting with an underscore, so the field must be renamed. This can be done using the `fieldMappings` property of the indexer as follows:
-
-```json
-"fieldMappings" : [ { "sourceFieldName" : "_id", "targetFieldName" : "id" } ]
-```
-
-You can specify multiple field mappings:
-
-```json
-"fieldMappings" : [
-    { "sourceFieldName" : "_id", "targetFieldName" : "id" },
-    { "sourceFieldName" : "_timestamp", "targetFieldName" : "timestamp" }
-]
-```
-
-Both source and target field names are case-insensitive.
-
-To learn about scenarios where field mappings are useful, see [Search Indexer Field Mappings](/azure/search/search-indexer-field-mappings).
+|Attribute|Description|  
+|---------------|-----------------|  
+| sourceFieldName | Required. Name of the source column. |
+| targetFieldName | Required. Name of the corresponding field in the search index. 
+| mappingFunction | Optional. Adds processing to source values en route to the search engine. For example, an arbitrary string value can be base64-encoded so it can be used to populate a document key field. A mapping function has a name and parameters. Valid values include:  </br></br>base64Encode </br>base64Decode </br>extractTokenAtPosition </br>jsonArrayToStringCollection </br>urlEncode </br>urlDecode| 
 
 <a name="output-fieldmappings"></a>
 
 ### outputFieldMappings
 
-In [AI enrichment](/azure/search/cognitive-search-concept-intro) scenarios in which a skillset is bound to an indexer, you must add `outputFieldMappings` to associate any output of an enrichment step that provides content to a searchable field in the index.
+Specifies skill outputs (or nodes in an enrichment tree) to fields in a search index.
 
 ```json
   "outputFieldMappings" : [
@@ -325,31 +308,23 @@ In [AI enrichment](/azure/search/cognitive-search-concept-intro) scenarios in wh
    ],
 ```
 
-<a name="FieldMappingFunctions"></a>
-
-### Field mapping functions
-
-Field mappings can also be used to transform source field values using *field mapping functions*. For example, an arbitrary string value can be base64-encoded so it can be used to populate a document key field.
-
-To learn more about when and how to use field mapping functions, see [Field Mapping Functions](/azure/search/search-indexer-field-mappings#field-mapping-functions).
-
-<a name="encryption-key"></a>
+<a name="encryptionKey"> </a>
 
 ### encryptionKey
 
-While indexers are encrypted by default using [service-managed keys](/azure/security/fundamentals/encryption-models#server-side-encryption-using-service-managed-keys), you can also encrypt them with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](/azure/search/search-security-manage-encryption-keys).
+Configures a connection to Azure Key Vault for supplemental [customer-managed encryption keys (CMK)](/azure/search/search-security-manage-encryption-keys). Available for billable search services created on or after 2019-01-01. 
 
-```json
-"encryptionKey": (optional) { 
-  "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
-  "keyVaultKeyVersion": "Version of the Azure Key Vault key",
-  "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
-  "identity": (optional),
-  "accessCredentials": (omit if you are using a managed identity) {
-    "applicationId": "Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault",
-    "applicationSecret": "Authentication key of the specified Azure AD application)"}
-  }
-```
+A connection to the key vault must be authenticated. You can use either "accessCredentials" or a managed identity for this purpose. 
+
+Managed identities can be system or user-assigned (preview). If the search service has both a system-assigned managed identity and a role assignment that grants read access to the key vault, you can omit both "identity" and "accessCredentials", and the request will authenticate using the managed identity. If the search service has user-assigned identity and role assignment, set the "identity" property to the resource ID of that identity.
+
+|Attribute|Description|  
+|---------------|-----------------|  
+| keyVaultKeyName | Required. Name of the Azure Key Vault key used for encryption. |
+| keyVaultKeyVersion | Required. Version of the Azure Key Vault key. |
+| keyVaultUri  | Required. URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be `https://my-keyvault-name.vault.azure.net` |
+| accessCredentials | Optional. Omit this property if you are using a managed identity. Otherwise, the properties of "accessCredentials" include: </br>"applicationId" (an Azure Active Directory Application ID that has access permissions to your specified Azure Key Vault). </br>"applicationSecret" (the authentication key of the specified Azure AD application). |
+| identity | Optional unless you are using a user-assigned managed identity for the search service connection to Azure Key Vault. The format is `"/subscriptions/[subscription ID]/resourceGroups/[resource group name]/providers/Microsoft.ManagedIdentity/userAssignedIdentities/[managed identity name]"`. |
 
 > [!NOTE]
 > Encryption with customer-managed keys is not available for free services. For billable services, it's only available for search services created on or after 2019-01-01.
