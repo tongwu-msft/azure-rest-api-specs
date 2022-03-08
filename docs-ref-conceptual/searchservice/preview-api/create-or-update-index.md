@@ -2,7 +2,7 @@
 title: Create or Update Index (2021-04-30-Preview)
 titleSuffix: Azure Cognitive Search
 description: Preview version of the Create or Update Index REST API for Azure Cognitive Search.
-ms.date: 07/20/2021
+ms.date: 03/20/2022
 
 ms.service: cognitive-search
 ms.topic: reference
@@ -19,13 +19,10 @@ ms.author: beloh
 > [!Important]
 > 2021-04-30-Preview adds:
 > + [**"semanticConfiguration"**](#semantic) used for scoping semantic ranking to specific fields.
-> + **"identity"**, under [**"encryptionKey"**](#encryptionkey), used for retrieving an encryption key from Azure Key Vault using a user-assigned managed identity.
+> + **"identity"**, under [**"encryptionKey"**](#encryptionkey), used to retrieve an encryption key from Azure Key Vault using a user-assigned managed identity for [customer-managed encryption](/azure/search/search-security-manage-encryption-keys).
 > 
 > 2020-06-30-Preview adds:
 > + **"normalizers"**, used for case-insensitive sorting and filtering.
-<!-- 
-> [!Important]
-> If you are using [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds an **identity** property and managed identity support to key vault connections. Previously introduced features from 2020-06-30-Preview that are carried forward to this preview include [normalizers](/azure/search/search-normalizers), used to produce case-insensitive sorting and filtering output. [Semantic configurations](/azure/search/semantic-how-to-query-request), which allow you to specify which fields should be used by semantic search, have been added to the 2021-04-30-Preview. -->
 
 An [index](/azure/search/search-what-is-an-index) specifies the index schema, including the fields collection (field names, data types, and attributes), but also additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.
 
@@ -100,7 +97,8 @@ The following JSON is a high-level representation of the main parts of the defin
 
 ```json
 {  
-  "name": (optional on PUT; required on POST) "Name of the index",  
+  "name": (optional on PUT; required on POST) "Name of the index",
+  "description": (optional) "Description of the index",  
   "fields": [  
     {  
       "name": "name_of_field",  
@@ -121,9 +119,9 @@ The following JSON is a high-level representation of the main parts of the defin
   "similarity": (optional) { },
   "suggesters": (optional) [ ... ],  
   "scoringProfiles": (optional) [ ... ],  
-  "semantic": (optional) { },  
-  "analyzers":(optional) [ ... ],
+  "semantic": (optional) { },
   "normalizers":(optional) [ ... ],
+  "analyzers":(optional) [ ... ],
   "charFilters":(optional) [ ... ],
   "tokenizers":(optional) [ ... ],
   "tokenFilters":(optional) [ ... ],
@@ -139,15 +137,15 @@ The following JSON is a high-level representation of the main parts of the defin
 |--------------|-----------------|  
 |name|Required. The name of the index. An index name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
 |description|An optional description.|  
-|[fields](#bkmk_indexAttrib)| A collection of fields for this index, where each field has a name, data type, and attributes that define allowable actions on that field. [Supported data types](../supported-data-types.md) conform to the Entity Data Model (EDM). The collection must have one field of type `Edm.String` with "key" set to "true". This field represents the unique identifier, sometimes called the document ID, for each document stored with the index.  |
+|[fields](#bkmk_indexAttrib)| A collection of fields for this index, where each field has a name, a [supported data type](../supported-data-types.md) that conforms to the Entity Data Model (EDM), and attributes that define allowable actions on that field. The fields collection must have one field of type `Edm.String` with "key" set to "true". This field represents the unique identifier, sometimes called the document ID, for each document stored with the index.  |
 | similarity  | Optional. For services created before July 15, 2020, set this property to use the BM25 ranking algorithm. Valid values include `"#Microsoft.Azure.Search.ClassicSimilarity"` or `"#Microsoft.Azure.Search.BM25Similarity"`. API versions that support this property include 2020-06-30 and 2019-05-06-Preview. For more information, see [Ranking algorithms in Azure Cognitive Search](/azure/search/index-ranking-similarity).|
 | suggesters| Optional. Used for autocompleted queries or suggested search results, one per index. It is a data structure that stores prefixes for matching on partial queries like autocomplete and suggestions. Consists of a `name` and suggester-aware fields that provide content for autocompleted queries and suggested results. `searchMode` is required, and always set to `analyzingInfixMatching`. It specifies that matching will occur on any term in the query string. |
 | scoringProfiles | Optional. Used for custom search score ranking. Set `defaultScoringProfile` to use a custom profile as the default, invoked whenever a custom profile is not specified on the query string. For more information about elements, see [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](/azure/search/index-add-scoring-profiles) and the example in the next section. |
 | [semantic](#semantic) | Optional.  Defines the parameters of a search index that influence semantic search capabilities. A semantic configuration is required for semantic queries. For more information, see [Create a semantic query](/azure/search/semantic-how-to-query-request).|
+| [normalizers](#normalizers) | Normalizes the lexicographical ordering of strings, producing case-insensitive sorting and filtering output. |
 | analyzers, charFilters, tokenizers, tokenFilters| Optional. Specify these sections of the index if you are defining [custom analyzers](/azure/search/index-add-custom-analyzers). By default, these sections are null. |  
-| normalizers| Normalizes the lexicographical ordering of strings, producing case-insensitive sorting and filtering output. For more information, see [Add normalizers to a search index](/azure/search/search-normalizers).
 | defaultScoringProfile | Name of a custom scoring profile that overwrites the default scoring behaviors. |
-| corsOptions| Optional. Client-side JavaScript cannot call any APIs by default since the browser will prevent all cross-origin requests. To allow cross-origin queries to your index, enable CORS (Cross-Origin Resource Sharing) by setting the **corsOptions** attribute. For security reasons, only query APIs support CORS. The `corsOptions` section includes: </br></br>`allowedOrigins` (Required) A comma-delimited list of origins that will be granted access to your index, where each origin is typically of the form protocol://\<fully-qualified-domain-name>:\<port> (although the \<port> is often omitted).  This means that any JavaScript code served from those origins will be allowed to query your index (assuming it provides the correct `api-key`). If you want to allow access to all origins, specify `*` as a single item in the `allowedOrigins` array. This is not recommended for production, but might be useful for development or debugging. </br></br>`maxAgeInSeconds` (Optional) Browsers use this value to determine the duration (in seconds) to cache CORS preflight responses. This must be a non-negative integer. The larger this value is, the better performance will be, but the longer it will take for CORS policy changes to take effect. If it is not set, a default duration of 5 minutes will be used.| 
+| [corsOptions](#corsoptions) | Optional. Used for cross-origin queries to your index. | 
 | [encryptionKey](#encryptionkey) | Optional. Used for additional encryption of the index, through [customer-managed encryption keys (CMK)](/azure/search/search-security-manage-encryption-keys) in Azure Key Vault. Available for billable search services created on or after 2019-01-01.|
 
 ## Response
@@ -395,17 +393,27 @@ A semantic configuration is a part of an index definition that's used to configu
 
 ## Definitions
 
-| - | -|
+|||
+|---|---|
 | [encryptionKey](#encryptionkey) | Configures a connection to Azure Key Vault for customer-managed encryption. |
 | [fields](#bkmk_indexAttrib) | Sets definitions and attributes of a field in a search index. |
 | [normalizers](#normalizers) |  |
 | [semantic](#semantic) | Configures fields used by semantic search for ranking, captions, highlights, and answers.  |
 
+<a name="corsoptions"> </a>
+
+## corsOptions
+
+Client-side JavaScript cannot call any APIs by default since the browser will prevent all cross-origin requests. To allow cross-origin queries to your index, enable CORS (Cross-Origin Resource Sharing) by setting the "corsOptions" attribute. For security reasons, only query APIs support CORS. 
+
+|Attribute|Description|  
+|---------------|-----------------|  
+| allowedOrigins | Required. A comma-delimited list of origins that will be granted access to your index, where each origin is typically of the form protocol://\<fully-qualified-domain-name>:\<port> (although the \<port> is often omitted).  This means that any JavaScript code served from those origins will be allowed to query your index (assuming it provides the correct `api-key`). If you want to allow access to all origins, specify `*` as a single item in the "allowedOrigins" array. This is not recommended for production, but might be useful for development or debugging. |
+| maxAgeInSeconds | Optional. Browsers use this value to determine the duration (in seconds) to cache CORS preflight responses. This must be a non-negative integer. The larger this value is, the better performance will be, but the longer it will take for CORS policy changes to take effect. If it is not set, a default duration of 5 minutes will be used. |
+
 <a name="encryptionKey"> </a>
 
 ### encryptionKey
-
- <a name="bkmk_indexAttrib"> </a>
 
 Configures a connection to Azure Key Vault for supplemental [customer-managed encryption keys (CMK)](/azure/search/search-security-manage-encryption-keys). Available for billable search services created on or after 2019-01-01. 
 
@@ -420,6 +428,8 @@ Managed identities can be system or user-assigned (preview). If the search servi
 | keyVaultUri  | Required. URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net |
 | accessCredentials | Optional if you are using a managed identity. Otherwise, the properties of `accessCredentials` include `applicationId` (an Azure Active Directory Application ID that has access permissions to your specified Azure Key Vault), and `applicationSecret` (the authentication key of the specified Azure AD application). |
 | identity | Optional unless you are using a user-assigned managed identity for the search service connection to Azure Key Vault. The format is `"/subscriptions/[subscription ID]/resourceGroups/[resource group name]/providers/Microsoft.ManagedIdentity/userAssignedIdentities/[managed identity name]"`. |
+
+ <a name="bkmk_indexAttrib"> </a>
 
 ### fields
 
@@ -453,11 +463,13 @@ Contains information about attributes set on a search field when creating an ind
 
 ### normalizers
 
+Normalizes the lexicographical ordering of strings, producing case-insensitive sorting and filtering output. For more information, see [Add normalizers to a search index](/azure/search/search-normalizers).
+
 |Attribute|Description|  
 |---------------|-----------------|  
 | name | Required. String field that specifies either a user-defined custom normalized or predefined normalizer. Valid values for a predefined normalizer include: </p>`standard`- Lowercases the text followed by asciifolding. </p>`lowercase`	- Transforms characters to lowercase.  </p>`uppercase	- Transforms characters to uppercase. </p>`asciifolding`- Transforms characters that are not in the Basic Latin Unicode block to their ASCII equivalent, if one exists. For example, changing à to a.  </p>`elision`- Removes elision from beginning of the tokens.|
-| charFilters| Used in a custom normalizer. It can be one or more the [available character filters](index-add-custom-analyzers.md#CharFilter) supported for use in a custom normalizer: </p>[mapping](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/charfilter/MappingCharFilter.html)  </p>[pattern_replace](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/pattern/PatternReplaceCharFilter.html) |
-| tokenFilters | Used in a custom normalizer. It can be one or more of the [available token tilters](index-add-custom-analyzers.md#TokenFilters) supported for use in a custom normalizer: </p>[arabic_normalization](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/ar/ArabicNormalizationFilter.html) </p>[asciifolding](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/miscellaneous/ASCIIFoldingFilter.html) </p>[cjk_width](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/cjk/CJKWidthFilter.html) </p>[elision](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/util/ElisionFilter.html) </p>[german_normalization](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/de/GermanNormalizationFilter.html) </p>[hindi_normalization](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/hi/HindiNormalizationFilter.html) </p>[indic_normalization](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/in/IndicNormalizationFilter.html) </p>[persian_normalization](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/fa/PersianNormalizationFilter.html) </p>[scandinavian_normalization](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/miscellaneous/ScandinavianNormalizationFilter.html) </p>[scandinavian_folding](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/miscellaneous/ScandinavianFoldingFilter.html) </p>[sorani_normalization](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/ckb/SoraniNormalizationFilter.html)  </p>[lowercase](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/core/LowerCaseFilter.html) </p>[uppercase](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/core/UpperCaseFilter.html)|
+| charFilters| Used in a custom normalizer. It can be one or more the [available character filters](/azure/search/index-add-custom-analyzers#character-filters) supported for use in a custom normalizer: </p>[mapping](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/charfilter/MappingCharFilter.html)  </p>[pattern_replace](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/pattern/PatternReplaceCharFilter.html) |
+| tokenFilters | Used in a custom normalizer. It can be one or more of the [available token tilters](/azure/search/index-add-custom-analyzers#token-filters) supported for use in a custom normalizer: </p>[arabic_normalization](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/ar/ArabicNormalizationFilter.html) </p>[asciifolding](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/miscellaneous/ASCIIFoldingFilter.html) </p>[cjk_width](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/cjk/CJKWidthFilter.html) </p>[elision](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/util/ElisionFilter.html) </p>[german_normalization](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/de/GermanNormalizationFilter.html) </p>[hindi_normalization](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/hi/HindiNormalizationFilter.html) </p>[indic_normalization](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/in/IndicNormalizationFilter.html) </p>[persian_normalization](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/fa/PersianNormalizationFilter.html) </p>[scandinavian_normalization](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/miscellaneous/ScandinavianNormalizationFilter.html) </p>[scandinavian_folding](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/miscellaneous/ScandinavianFoldingFilter.html) </p>[sorani_normalization](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/ckb/SoraniNormalizationFilter.html)  </p>[lowercase](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/core/LowerCaseFilter.html) </p>[uppercase](https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/core/UpperCaseFilter.html)|
 
 <a name="semantic"></a>
 

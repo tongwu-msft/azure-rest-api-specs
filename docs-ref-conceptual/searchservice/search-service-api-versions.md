@@ -50,6 +50,8 @@ Preview versions are released to test new functionality, gather feedback, and di
 
 This preview version includes all of the features introduced in 2020-06-30-Preview, plus the following additions:
 
++ [Alias operations](preview-api/alias-operations.md) add an index alias to assign a secondary name used to reference indexes in query and indexing requests. Alias operations include create, update, delete, get, and list.
+
 + [Managed identities for outbound access](/azure/search/search-howto-managed-identities-data-sources) to external data sources is now supported in the REST API. This preview adds new values for connection strings in [Create or Update Data Source](./preview-api/create-or-update-data-source.md) so that you can connect using Azure Active Directory authentication and roles instead of hard-coded database credentials or keys. 
 
 + Managed identity support is also supported for key vault connections, for search solutions that supplement default encryption with [customer-managed encryption](/azure/search/search-security-manage-encryption-keys). When specifying an encryption key, you can now also set a user-assigned managed identity for connections to the key vault.

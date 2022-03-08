@@ -18,13 +18,10 @@ ms.author: beloh
 
 > [!Important]
 > 2021-04-30-Preview adds:
-> + **"identity"**, under **"encryptionKey"**, for retrieving an encryption key from Azure Key Vault using a user-assigned managed identity.
+> + **"identity"**, under [**"encryptionKey"**](#encryptionkey), used to retrieve an encryption key from Azure Key Vault using a user-assigned managed identity for [customer-managed encryption](/azure/search/search-security-manage-encryption-keys).
 >
 > 2020-06-30-Preview adds:
 > + [**"cache"**](#cache), used to [cache and reuse enriched content](/azure/search/cognitive-search-incremental-indexing-conceptual) created by a skillset.
-
-<!-- > [!Important]
-> If you are using [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds an **identity** property and managed identity support to key vault connections. Previously introduced preview features from 2020-06-30-Preview that are carried forward to this preview include the [cache property](#cache) used during [incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it. -->
 
 An [indexer](/azure/search/search-indexer-overview) automates indexing from supported data sources by connecting to a predefined *data source*, retrieving and serializing data, and passing it to a search service for data ingestion. For AI enrichment of image and unstructured text, indexers can also accept a *skillset* that adds image and natural language processing. 
 

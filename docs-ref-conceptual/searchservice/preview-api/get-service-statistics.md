@@ -16,7 +16,7 @@ ms.manager:  nitime
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview adds an **aliasesCount**** to the existing service statistics.
+> This preview adds an **aliasesCount** to the existing service statistics.
 
 The **Service Statistics** operation returns the number and type of objects in your service, the maximum allowed for each object type given the service tier, actual and maximum storage, and other limits that vary by tier. This request pulls information from the service so that you don't have to look up or calculate [service limits](/azure/search/search-limits-quotas-capacity).
 

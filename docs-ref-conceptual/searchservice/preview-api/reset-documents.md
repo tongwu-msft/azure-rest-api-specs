@@ -19,11 +19,6 @@ ms.author: beloh
 > [!Important]
 > This entire API is a preview feature that was introduced in 2019-05-06-Preview. It supports [reset scenarios](/azure/search/search-howto-run-reset-indexers).
 
-<!-- **API Version: 2019-05-06-Preview, 2020-06-30-Preview, 2021-04-30-Preview**
-
-> [!Important]
-> This preview API adds the ability to flag specific documents for reprocessing by an indexer. The entire API is a preview feature. For more information, see [Reset and run an indexer](/azure/search/search-howto-run-reset-indexers).  -->
-
 Reset Documents is an asynchronous API. It allows you to selectively reprocess documents from your data source. 
 
 The API accepts two types of document identifiers as input. They are document keys (keys that uniquely identify documents in a search index) and datasource document identifiers (keys that uniquely identify documents in a data source). Invoking the API adds the document keys or data source document identifiers to be reset to the indexer metadata. On the next scheduled or on-demand run of the indexer, the indexer processes only the reset documents. 

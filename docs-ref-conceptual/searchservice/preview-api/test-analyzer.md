@@ -17,9 +17,6 @@ ms.author: delegenz
 > [!Important]
 > This preview adds **"normalizer"**, used for testing case-insensitivity and other text processing on normalizers.
 
-<!-- > [!Important]
-> The Analyze Text API is now extended to support testing normalizers which preprocess content for filterable, facetable, or sortable fields. -->
-
 The **Analyze Text API** shows how an analyzer breaks text into tokens and how a normalizer preprocesses text. It's intended for interactive testing so that you can see how a given analyzer or normalizer will process a string input.
 
 ```http
