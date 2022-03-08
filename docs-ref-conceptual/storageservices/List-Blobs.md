@@ -155,7 +155,7 @@ For version 2020-10-02 and above, for Hierarchical Namespace enabled accounts, `
 
 For version 2021-02-12 and above, `List Blobs` will percent-encode (per RFC 2396) all `Blob` `Name` or `BlobPrefix` `Name` element values which contain characters invalid in XML (specifically, U+FFFE or U+FFFF). If encoded, the `Name` element will include an `Encoded=true` attribute. Note that this will only occur for the `Name` element values containing the characters invalid in XML, not the remaining `Name` elements in the response.
   
-For version 2021-06-08 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `Placeholder` properties element for placeholder directories when listing deleted blobs with a delimiter. These directories only exist to help navigate down to soft deleted blobs.
+For version 2021-06-08 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `Placeholder` properties element in the `BlobPrefix` element for placeholder directories when listing deleted blobs with a delimiter. These placeholder directories only exist to help navigate down to soft deleted blobs.
 
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -180,6 +180,7 @@ For version 2021-06-08 and above, for Hierarchical Namespace enabled accounts, `
         <Permissions>permission string</Permissions>
         <Acl>access control list</Acl>
         <ResourceType>file | directory</ResourceType>
+        <Placeholder>true</Placeholder>
         <Content-Length>size-in-bytes</Content-Length>  
         <Content-Type>blob-content-type</Content-Type>  
         <Content-Encoding />  
