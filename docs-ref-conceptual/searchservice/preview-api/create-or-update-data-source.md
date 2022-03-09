@@ -253,11 +253,10 @@ This example omits accessCredentials. For a resource that has a [user-assigned m
 ## Definitions
 
 |&nbsp;&nbsp;|&nbsp;&nbsp;|
-|--|--|
 | [container](#container) | Specifies the container, collection, table, or view containing the data to be indexed. |
 | [credentials](#credentials) |  Contains a `connectionString` property that specifies how an indexer connects to an Azure resource. |
 | [dataChangeDetectionPolicy](#datachangedetectionpolicy) | Specifies the mechanism provided by the data platform for identifying changed data. |
-| [dataDeletionDetectionPolicy](#datadeletiondetectionpolicy) Specifies the mechanism for detecting deleted data. |
+| [dataDeletionDetectionPolicy](#datadeletiondetectionpolicy) | Specifies the mechanism for detecting deleted data. |
 | [encryptionKey](#encryptionkey) | Configures a connection to Azure Key Vault for customer-managed encryption. |
 
 <a name="container"> </a>

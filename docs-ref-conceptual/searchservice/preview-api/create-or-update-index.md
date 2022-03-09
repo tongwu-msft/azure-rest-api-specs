@@ -393,6 +393,8 @@ A semantic configuration is a part of an index definition that's used to configu
 
 ## Definitions
 
+|&nbsp;&nbsp;|&nbsp;&nbsp;|
+|--|--|
 | [corsOptions](#corsoptions) | Lists the domains or origins that will be granted to your index. |
 | [encryptionKey](#encryptionkey) | Configures a connection to Azure Key Vault for customer-managed encryption. |
 | [fields](#bkmk_indexAttrib) | Sets definitions and attributes of a field in a search index. |

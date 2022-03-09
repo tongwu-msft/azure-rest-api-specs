@@ -170,12 +170,11 @@ New in this preview, you can specify the [cache property](#cache) to reuse docum
 ## Definitions
 
 |&nbsp;&nbsp;|&nbsp;&nbsp;|
-|--|--|
 | [cache](#cache) | Configures caching for AI enrichment and skillset execution.  |
 | [encryptionKey](#encryptionkey) | Configures a connection to Azure Key Vault for customer-managed encryption. |
 | [fieldMappings](#field-mappings) | Source-to-destination field mappings for fields that don't match by name and type. |
 | [outputFieldMappings](#outputfieldmappings) | Maps nodes in an enriched document to fields in an index. Required if you are using skillsets. |
-| [parameters](#parameters) Configures an indexer. Parameters include general parameters and source-specific parameters.|
+| [parameters](#parameters) | Configures an indexer. Parameters include general parameters and source-specific parameters.|
 | [schedule](#schedule) | Specifies the interval and frequency of scheduled indexer execution.|
 
 <a name="cache"></a>
