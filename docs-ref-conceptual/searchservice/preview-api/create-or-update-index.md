@@ -60,9 +60,9 @@ Because an existing index contains content, many index modifications require an 
   + Change the analyzer used at query time (`searchAnalyzer`)
   + Add or edit the synonymMap used at query time (`synonymMaps`) 
 
-To make any of the above schema changes to an existing index, specify the name of the index on the request URI, and then include a fully-specified index definition with the new or changed elements. 
+To make any of the above schema changes to an existing index, specify the name of the index on the request URI, and then include a fully specified index definition with the new or changed elements. 
 
-When a new field is added, all existing documents in the index automatically have a null value for that field. No additional storage space is consumed until one of two things occur: a value is provided for the new field ([using merge](../addupdate-or-delete-documents.md)), or new documents are added.
+When a new field is added, all existing documents in the index automatically have a null value for that field. No additional storage space is consumed until one of two things occurs: a value is provided for the new field ([using merge](../addupdate-or-delete-documents.md)), or new documents are added.
 
 **Updates to a [`suggester`](/azure/search/index-add-suggesters)** have similar constraints: new fields can be added to a `suggester` at the same time fields are added, but existing fields cannot be removed from nor added to `suggesters` without an index rebuild.
 
@@ -77,7 +77,7 @@ This operation takes your index offline for at least a few seconds, which means 
 | Parameter      | Description  |
 |----------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
-| index name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  |
+| index name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. Dashes can't be consecutive.  |
 | api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
 
 ## Request Headers
@@ -232,7 +232,7 @@ A [suggester](/azure/search/index-add-suggesters) definition should specify "sea
 
 **Example: Analyzers and normalizers**
 
-[Analyzers](/azure/search/search-analyzers) and [normalizers](/azure/search/search-normalizers) are referenced on field definitions and can be either predefined or custom. If you're using a custom analyzers or normalizers, you'll specify them in the index in the "analyzers" and "normalizers" section. 
+[Analyzers](/azure/search/search-analyzers) and [normalizers](/azure/search/search-normalizers) are referenced on field definitions and can be either predefined or custom. If you're using custom analyzers or normalizers, you'll specify them in the index in the "analyzers" and "normalizers" sections. 
 
 The following example illustrates custom analyzers and normalizers for "Tags". It also demonstrates a predefined normalizer (standard) and analyzer (en.microsoft) for "HotelName" and "Description", respectively.
 

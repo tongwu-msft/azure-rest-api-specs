@@ -306,7 +306,7 @@ Role assignments scoped to the external data source determine whether the indexe
 
 If the `identity` property is also specified, the connection is made using the user-assigned managed identity provided by the `identity` property. Otherwise, if `identity` is unspecified or null, the connection is through the system-managed identity.
 
-<a name="dataChangeDetectionPolicy"></a>
+<a name="dataChangeDetectionPolicy"> </a>
 
 ### dataChangeDetectionPolicy
 
@@ -317,7 +317,7 @@ Specifies the mechanism provided by the data platform for identifying changed da
 | dataChangeDetectionPolicy | Optional. Valid policies include </br>`HighWatermarkChangeDetectionPolicy` or `SqlIntegratedChangeDetectionPolicy`. </br>`HighWatermarkChangeDetectionPolicy` depends on an existing column or property that is updated in tandem with other updates (all inserts result in an update to the watermark column), and the change in value is higher. </br>`SqlIntegratedChangeDetectionPolicy` is used to reference the native change detection features in SQL Server.  This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](/sql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions. | 
 | highWaterMarkColumnName | Required for `HighWatermarkChangeDetectionPolicy`. For Cosmos DB, the column must be `_ts` property. For Azure SQL, an indexed `rowversion` column is recommended. For Azure Storage, change detection is built-in using lastModified values, eliminating any need to set the dataChangeDetectionPolicy. |
 
-<a name="dataDeletionDetectionPolicy"> <a/>
+<a name="dataDeletionDetectionPolicy"> </a>
 
 ### dataDeletionDetectionPolicy
 
