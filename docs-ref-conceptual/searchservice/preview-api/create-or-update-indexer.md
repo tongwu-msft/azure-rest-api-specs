@@ -18,7 +18,7 @@ ms.author: beloh
 
 > [!Important]
 > 2021-04-30-Preview adds:
-> + **"identity"**, under [**"encryptionKey"**](#encryptionkey), used to retrieve an encryption key from Azure Key Vault using a user-assigned managed identity for [customer-managed encryption](/azure/search/search-security-manage-encryption-keys).
+> + **"identity"**, under [**"encryptionKey"**](#encryptionkey), used to retrieve a customer managed encryption key from Azure Key Vault using a user-assigned managed identity.
 >
 > 2020-06-30-Preview adds:
 > + [**"cache"**](#cache), used to [cache and reuse enriched content](/azure/search/cognitive-search-incremental-indexing-conceptual) created by a skillset.
@@ -101,11 +101,11 @@ The following JSON is a high-level representation of the main parts of the defin
 |targetIndexName|Required. Name of an existing index. |  
 |skillsetName|Required for AI enrichment. Name of an existing skillset. |
 |[cache](#cache) |Optional for AI enrichment, enables reuse of unchanged documents. |
-|[schedule](#indexer-schedule)| Optional, but runs once immediately if unspecified. |
-|[parameters](#indexer-parameters)| Optional. Properties for modifying runtime behavior.|
-|[fieldMappings](#field-mappings)| Optional. Used when source and destination fields have different names. |
-|[outputFieldMappings](#output-fieldmappings)| Required for AI enrichment. Maps output from a skillset to an index or projection. |
-|[encryptionKey](#encryption-key)| Optional. Used to encrypt indexer data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](/azure/search/search-security-manage-encryption-keys). |
+|[schedule](#schedule)| Optional, but runs once immediately if unspecified. |
+|[parameters](#parameters)| Optional. Properties for modifying runtime behavior.|
+|[fieldMappings](#fieldmappings)| Optional. Used when source and destination fields have different names. |
+|[outputFieldMappings](#outputfieldmappings)| Required for AI enrichment. Maps output from a skillset to an index or projection. |
+|[encryptionKey](#encryptionkey)| Optional. Used to encrypt indexer data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](/azure/search/search-security-manage-encryption-keys). |
 |disabled| Optional. Boolean value indicating whether the indexer is disabled. False by default. |
 
 ## Response  
@@ -170,13 +170,12 @@ New in this preview, you can specify the [cache property](#cache) to reuse docum
 ## Definitions
 
 | | |
-|---|---|
 | [cache](#cache) | Configures caching for AI enrichment and skillset execution.  |
 | [encryptionKey](#encryptionkey) | Configures a connection to Azure Key Vault for customer-managed encryption. |
 | [fieldMappings](#field-mappings) | Source-to-destination field mappings for fields that don't match by name and type. |
 | [outputFieldMappings](#outputfieldmappings) | Maps nodes in an enriched document to fields in an index. Required if you are using skillsets. |
 | [parameters](#parameters) Configures an indexer. Parameters include general parameters and source-specific parameters.|
-| [schedule](#schedule) | Specifies interval and frequency of scheduled indexer execution.|
+| [schedule](#schedule) | Specifies the interval and frequency of scheduled indexer execution.|
 
 <a name="cache"></a>
 

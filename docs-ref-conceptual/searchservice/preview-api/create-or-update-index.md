@@ -19,10 +19,10 @@ ms.author: beloh
 > [!Important]
 > 2021-04-30-Preview adds:
 > + [**"semanticConfiguration"**](#semantic) used for scoping semantic ranking to specific fields.
-> + **"identity"**, under [**"encryptionKey"**](#encryptionkey), used to retrieve an encryption key from Azure Key Vault using a user-assigned managed identity for [customer-managed encryption](/azure/search/search-security-manage-encryption-keys).
+> + **"identity"**, under [**"encryptionKey"**](#encryptionkey), used to retrieve a customer-managed encryption key from Azure Key Vault using a user-assigned managed identity.
 > 
 > 2020-06-30-Preview adds:
-> + **"normalizers"**, used for case-insensitive sorting and filtering.
+> + [**"normalizers"**](#normalizers), used for case-insensitivity on sorts and filters.
 
 An [index](/azure/search/search-what-is-an-index) specifies the index schema, including the fields collection (field names, data types, and attributes), but also additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.
 
@@ -393,8 +393,6 @@ A semantic configuration is a part of an index definition that's used to configu
 
 ## Definitions
 
-| | |
-|---|---|
 | [corsOptions](#corsoptions) | Lists the domains or origins that will be granted to your index. |
 | [encryptionKey](#encryptionkey) | Configures a connection to Azure Key Vault for customer-managed encryption. |
 | [fields](#bkmk_indexAttrib) | Sets definitions and attributes of a field in a search index. |

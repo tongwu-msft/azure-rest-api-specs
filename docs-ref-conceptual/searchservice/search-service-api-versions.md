@@ -50,11 +50,11 @@ Preview versions are released to test new functionality, gather feedback, and di
 
 This preview version includes all of the features introduced in 2020-06-30-Preview, plus the following additions:
 
-+ [Alias operations](preview-api/alias-operations.md) add an index alias to assign a secondary name used to reference indexes in query and indexing requests. Alias operations include create, update, delete, get, and list.
++ [Index alias](preview-api/alias-operations.md) adds a secondary name used for referencing indexes in query and indexing requests. Alias operations include create, update, delete, get, and list.
 
-+ [Managed identities for outbound access](/azure/search/search-howto-managed-identities-data-sources) to external data sources is now supported in the REST API. This preview adds new values for connection strings in [Create or Update Data Source](./preview-api/create-or-update-data-source.md) so that you can connect using Azure Active Directory authentication and roles instead of hard-coded database credentials or keys. 
++ [Managed identities for outbound connections](/azure/search/search-howto-managed-identities-data-sources). New values for connection strings in [Create or Update Data Source](./preview-api/create-or-update-data-source.md) support connections using Azure Active Directory authentication and roles instead of hard-coded database credentials or keys. 
 
-+ Managed identity support is also supported for key vault connections, for search solutions that supplement default encryption with [customer-managed encryption](/azure/search/search-security-manage-encryption-keys). When specifying an encryption key, you can now also set a user-assigned managed identity for connections to the key vault.
++ Managed identity support is also supported for key vault connections, for search solutions that supplement default encryption with [customer-managed encryption](/azure/search/search-security-manage-encryption-keys).
 
 + More languages for the Text Translation cognitive skill.
 
@@ -62,7 +62,7 @@ This preview version includes all of the features introduced in 2020-06-30-Previ
 
 + A captions parameter to optionally request captions from semantic search in [Search Documents (preview)](./preview-api/search-documents.md).
 
-+ [Semantic configurations](/azure/search/semantic-how-to-query-request) have been added in [Create or Update Index](./preview-api/create-or-update-index.md) which allow you to specify a configuration that determines which fields should be used by semantic search for semantic ranking, captions, highlights, and answers.
++ [Semantic configurations](/azure/search/semantic-how-to-query-request) are specified in [Create or Update Index](./preview-api/create-or-update-index.md). A semantic configuration determines which fields should be used for semantic ranking, captions, highlights, and answers.
 
 + A semanticConfiguration parameter that is required for semantic queries in [Search Documents (preview)](./preview-api/search-documents.md).
 

@@ -18,11 +18,11 @@ ms.author: beloh
 
 > [!Important]
 > 2021-04-30-Preview adds managed identity support for indexer connections to other Azure resources:
-> + **"credentials"** accepts an Azure resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant read access to data.
-> + **"identity"** accepts a user-assigned managed identity. This property is first-level for data connections. It's also under **"encryptionKey"** for retrieving a customer-managed key in Azure Key Vault.
+> + [**"credentials"**](#credentials) accepts an Azure resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant read access to data.
+> + **"identity"** accepts a user-assigned managed identity. This property is first-level for data connections. It's also under [**"encryptionKey"**](#encryptionkey) for retrieving a customer-managed key in Azure Key Vault.
 > 
 > 2020-06-30-Preview adds:
-> + **"dataDeletionDetectionPolicy"** accepts "NativeBlobSoftDeleteDeletionDetectionPolicy" for blob indexers.
+> + [**"dataDeletionDetectionPolicy"**](#datadeletiondetectionpolicy) accepts "NativeBlobSoftDeleteDeletionDetectionPolicy" for blob indexers.
 
 In Azure Cognitive Search, a data source is used with [indexers](../create-indexer.md), providing the connection information for on demand or scheduled data refresh of a target index, pulling data from [supported data sources](/azure/search/search-indexer-overview#supported-data-sources). 
 
@@ -253,7 +253,6 @@ This example omits accessCredentials. For a resource that has a [user-assigned m
 ## Definitions
 
 | | |
-|---|---|
 | [container](#container) | Specifies the container, collection, table, or view containing the data to be indexed. |
 | [credentials](#credentials) |  Contains a `connectionString` property that specifies how an indexer connects to an Azure resource. |
 | [dataChangeDetectionPolicy](#datachangedetectionpolicy) | Specifies the mechanism provided by the data platform for identifying changed data. |
