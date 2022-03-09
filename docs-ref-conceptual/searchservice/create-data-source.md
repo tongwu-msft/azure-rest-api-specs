@@ -7,8 +7,8 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
+author: bevloh
+ms.author: beloh
 ms.manager: nitinme
 ---
 # Create Data Source (Azure Cognitive Search REST API)
