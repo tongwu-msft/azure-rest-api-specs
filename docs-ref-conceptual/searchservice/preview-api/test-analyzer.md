@@ -15,9 +15,9 @@ ms.author: delegenz
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview adds **"normalizer"**, used for testing case-insensitivity and other text processing on normalizers.
+> This preview adds **"normalizer"**, used for testing case-insensitivity and text processing on filters and sorts.
 
-The **Analyze Text API** shows how an analyzer breaks text into tokens and how a normalizer preprocesses text. It's intended for interactive testing so that you can see how a given analyzer or normalizer will process a string input.
+The **Analyze Text API** shows how an analyzer breaks text into tokens, and how a normalizer preprocesses text. It's intended for interactive testing so that you can evaluate a given analyzer or normalizer for debugging purposes.
 
 ```http
 POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-version=[api-version]
@@ -25,15 +25,15 @@ POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-
     api-key: [admin key]
 ```
 
-To specify an analyzer used during indexing and query execution, set the analyzer property on string fields in the index. Likewise, to specify a normalizer, set the normalizer property on the string field in the index. More details can be found in [Create or Update Index (Preview REST API)](create-or-update-index.md).
+Testing an analyzer or normalizer is a standalone task. If you're using an analyzer or normalizer during indexing or query execution, you'll specify it in [Create or Update Index](create-or-update-index.md) on individual fields.
 
 ## URI parameters
 
 | Parameter	  | Description  | 
 |-------------|--------------|
-| service name | Required. Set this to the unique, user-defined name of your search service. |
-| index name  | Required. The request URI specifies the name of the index that contains the field you want to analyze.   |
-| api-version | Required. The current version is `api-version=2021-04-30-Preview` See [API versions](../search-service-api-versions.md) for more versions. |
+| service name | Required. The name of your search service. |
+| index name  | Required. The name of the index containing the field you want to analyze.   |
+| api-version | Required. The current preview version is `2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for the full list. |
 
 ## Request headers
 
@@ -52,7 +52,7 @@ The following table describes the required and optional request headers.
   "analyzer": "analyzer_name"
 }
 ```
- 
+
 or
 
 ```json
@@ -78,11 +78,11 @@ Request contains the following properties:
 | Property	  | Description  | 
 |-------------|--------------|
 | text | Required. The text to be analyzed or normalized. |
-| analyzer  | The analyzer used to break the text into tokens. This property needs to be the name of a [built-in analyzer](/azure/search/index-add-custom-analyzers#built-in-analyzers), the name of a [language analyzer](/azure/search/index-add-language-analyzers#supported-language-analyzers), or the name of [custom analyzer](/azure/search/index-add-custom-analyzers#create-a-custom-analyzer) in the index definition. To learn more about the process of lexical analysis, see [Analysis in Azure Cognitive Search](https://aka.ms/azsanalysis).|
-| tokenizer | The tokenizer used to break the text into tokens. This property needs to be the name of a [predefined tokenizer](/azure/search/index-add-custom-analyzers#tokenizers) or the name of a custom tokenizer in the index definition.|
+| analyzer  | The analyzer used to break the text into tokens. This property is the name of a [built-in analyzer](/azure/search/index-add-custom-analyzers#built-in-analyzers), the name of a [language analyzer](/azure/search/index-add-language-analyzers#supported-language-analyzers), or the name of [custom analyzer](/azure/search/index-add-custom-analyzers#create-a-custom-analyzer) in the index definition. To learn more about the process of lexical analysis, see [Analysis in Azure Cognitive Search](https://aka.ms/azsanalysis).|
+| tokenizer | The tokenizer used to break the text into tokens. This property is the name of a [predefined tokenizer](/azure/search/index-add-custom-analyzers#tokenizers) or the name of a custom tokenizer in the index definition.|
 | tokenFilters | A collection of token filters used to process the text. The values of the collection need to be the names of [predefined token filters](/azure/search/index-add-custom-analyzers#token-filters) or the names of custom token filters in the index definition. For testing analyzers, this property must be used alongside the tokenizer property. For testing normalizers, this property can be used independently.|
 | charFilters | A collection of character filters used to process the text. The values of the collection need to be the names of [predefined character filters](/azure/search/index-add-custom-analyzers#character-filters) or the names of custom character filters in the index definition. For testing analyzers, this property must be used alongside the tokenizer property. For testing normalizers, this property can be used independently.|
-| normalizer | The normalizer used to process the text. This property needs to be the name of a [predefined normalizer](/azure/search/search-normalizers#predefined-normalizers) or the name of [custom normalizer](/azure/search/search-normalizers#custom-normalizer-example) in the index definition. To learn more about normalizers, see [Text normalization for filtering, faceting, and sorting](/azure/search/search-normalizers.md). |
+| normalizer | The normalizer used to process the text. This property is the name of a [predefined normalizer](/azure/search/search-normalizers#predefined-normalizers) or the name of [custom normalizer](/azure/search/search-normalizers#custom-normalizer-example) in the index definition. To learn more about normalizers, see [Text normalization for filtering, faceting, and sorting](/azure/search/search-normalizers.md). |
 
 ## Response  
 
@@ -106,7 +106,7 @@ The response body is in the following format:
 
 ## Examples
 
-Request body includes the string and analyzer you want to use.
+Request body includes the string and analyzer or normalizer you want to use.
 
 ```json
      {
@@ -153,5 +153,4 @@ The response shows the tokens emitted by the analyzer for the string you provide
 + [Analyzers in Azure Cognitive Search](/azure/search/search-analyzers)  
 + [Add a custom analyzer](/azure/search/index-add-custom-analyzers)  
 + [Add a language analyzer](/azure/search/index-add-language-analyzers) 
-+ [Text normalization for filtering, faceting, and sorting](/azure/search/search-normalizers) 
-
++ [Add a text normalizer for filtering, faceting, and sorting](/azure/search/search-normalizers) 

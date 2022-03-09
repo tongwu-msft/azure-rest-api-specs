@@ -60,7 +60,7 @@ This preview API has all of the features of the previous preview API, and adds t
 
 ### 2020-08-01-Preview
 
-This preview API is equivalent to the generally available version `2020-08-01`, and and adds the following functionality:
+This preview API is equivalent to the generally available version `2020-08-01`, and adds the following functionality:
 
 + Added `sharedPrivateLinkResources` support for two new resource types. New `groupId` values include `mysqlServer` (Azure database for MySQL) and `sites` (Azure Functions/app services).
 

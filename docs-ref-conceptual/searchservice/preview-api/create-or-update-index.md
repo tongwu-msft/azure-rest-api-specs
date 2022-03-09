@@ -152,13 +152,13 @@ The following JSON is a high-level representation of the main parts of the defin
 
 For a successful create request, you should see status code "201 Created". By default, the response body will contain the JSON for the index definition that was created. However, if the Prefer request header is set to return=minimal, the response body will be empty, and the success status code will be "204 No Content" instead of "201 Created". This is true regardless of whether PUT or POST is used to create the index.
 
-For a successful update request, you should see "204 No Content".  By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the index definition that was updated. In this case, the success status code will be "200 OK.  
+For a successful update request, you should see "204 No Content".  By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the index definition that was updated. In this case, the success status code will be "200 OK".  
 
 ## Examples
 
-**Example: An index schema with normalizer**
+**Example: An index schema with simple and complex fields**
 
-The following example is a JSON representation of a request payload that provides an index schema.
+The first example shows a complete index schema with simple and complex fields. At least one string field must have "key" set to true.
 
 ```json
 {
@@ -196,8 +196,58 @@ The following example is a JSON representation of a request payload that provide
         ]
     }
   ],
+  "suggesters": [ ],
+  "analyzers": [ ],
+  "normalizers": [ ],
+  "encryptionKey": [ ]
+}  
+```
+
+**Example: Suggesters**
+
+A [suggester](/azure/search/index-add-suggesters) definition should specify "searchable" and "retrievable" string fields (in the REST APIs, all simple fields are `"retrievable": true` by default). After a suggester is defined, you can reference it by name on query requests that use either the [Suggestions API](../suggestions.md) or [Autocomplete API](../autocomplete.md), depending on whether you want to return a match or the remainder of a query term.
+
+```json
+{
+  "name": "hotels",  
+  "fields": [
+    { "name": "HotelId", "type": "Edm.String", "key": true, "filterable": true },
+    { "name": "HotelName", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": true, "facetable": false },
+    { "name": "Description", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "en.microsoft" },
+    { "name": "Description_fr", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "fr.microsoft" },
+    { "name": "Category", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
+    { "name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "sortable": false, "facetable": true, "analyzer": "tagsAnalyzer", "normalizer": "tagsNormalizer" },
+    { "name": "Rating", "type": "Edm.Double", "filterable": true, "sortable": true, "facetable": true },
+
+  ],
   "suggesters": [
-      { "name": "sg", "searchMode": "analyzingInfixMatching", "sourceFields": ["HotelName"] }
+    {  
+      "name": "sg",  
+      "searchMode": "analyzingInfixMatching",  
+      "sourceFields": ["HotelName", "Category", "Tags"]  
+    } 
+  ]
+} 
+```
+
+**Example: Analyzers and normalizers**
+
+[Analyzers](/azure/search/search-analyzers) and [normalizers](/azure/search/search-normalizers) are referenced on field definitions and can be either predefined or custom. If you're using a custom analyzers or normalizers, you'll specify them in the index in the "analyzers" and "normalizers" section. 
+
+The following example illustrates custom analyzers and normalizers for "Tags". It also demonstrates a predefined normalizer (standard) and analyzer (en.microsoft) for "HotelName" and "Description", respectively.
+
+```json
+{
+  "name": "hotels",  
+  "fields": [
+    { "name": "HotelId", "type": "Edm.String", "key": true, "filterable": true },
+    { "name": "HotelName", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": true, "facetable": false, "normalizer": standard  },
+    { "name": "Description", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "en.microsoft"},
+    { "name": "Description_fr", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "fr.microsoft" },
+    { "name": "Category", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
+    { "name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "sortable": false, "facetable": true, "analyzer": "tagsAnalyzer", "normalizer": "tagsNormalizer" },
+    { "name": "Rating", "type": "Edm.Double", "filterable": true, "sortable": true, "facetable": true },
+
   ],
   "analyzers": [
     {
@@ -216,20 +266,6 @@ The following example is a JSON representation of a request payload that provide
   ]
 }  
 ```
-
-**Example: Suggesters**
- 
- ```json
-  "suggesters": [  
-    {  
-      "name": "name of suggester",  
-      "searchMode": "analyzingInfixMatching",  
-      "sourceFields": ["field1", "field2", ...]  
-    }  
-  ]
- ```
-
- A **suggester** is referenced by name on query requests that include either the [Suggestions API](../suggestions.md) or [Autocomplete API](../autocomplete.md), depending on whether you want to return a match or the remainder of a query term. For more information about creating and using a suggester, see [Create a suggester](/azure/search/index-add-suggesters).  
 
 **Example: Similarity for search relevance**
 
@@ -393,14 +429,14 @@ A semantic configuration is a part of an index definition that's used to configu
 
 ## Definitions
 
-|&nbsp;&nbsp;|&nbsp;&nbsp;|
+|Link|Description|
 |--|--|
 | [corsOptions](#corsoptions) | Lists the domains or origins that will be granted to your index. |
 | [encryptionKey](#encryptionkey) | Configures a connection to Azure Key Vault for customer-managed encryption. |
 | [fields](#bkmk_indexAttrib) | Sets definitions and attributes of a field in a search index. |
-| [normalizers](#normalizers) | Normalizes the lexicographical ordering of strings, producing case-insensitive sorting and filtering output. |
+| [normalizers](#normalizers) | Configures a custom normalizer. Normalizes the lexicographical ordering of strings, producing case-insensitive sorting, faceting, and filtering output. |
 | [semantic](#semantic) | Configures fields used by semantic search for ranking, captions, highlights, and answers.  |
-| [suggesters](#suggesters) | Specifies a construct that stores prefixes for matching on partial queries like autocomplete and suggestions. |
+| [suggesters](#suggesters) | Configures internal prefix storage for matching on partial queries like autocomplete and suggestions. |
 
 <a name="corsoptions"> </a>
 
@@ -450,7 +486,7 @@ Contains information about attributes set on a search field when creating an ind
 |analyzer|Sets the lexical analyzer for tokenizing strings during indexing and query operations. Valid values for this property include [language analyzers](/azure/search/index-add-language-analyzers), [built-in analyzers](/azure/search/index-add-custom-analyzers#built-in-analyzers), and [custom analyzers](/azure/search/index-add-custom-analyzers). The default is `standard.lucene`. This attribute can only be used with searchable fields, and it can't be set together with either searchAnalyzer or indexAnalyzer. Once the analyzer is chosen and the field is created in the index, it cannot be changed for the field. Must be `null` for [complex fields](/azure/search/search-howto-complex-data-types). |  
 |searchAnalyzer|Set this property in conjunction with indexAnalyzer to specify different lexical analyzers for indexing and queries. If you use this property, set analyzer to `null` and make sure indexAnalyzer is set to an allowed value. Valid values for this property include [built-in analyzers](/azure/search/index-add-custom-analyzers#built-in-analyzers) and [custom analyzers](/azure/search/index-add-custom-analyzers). This attribute can be used only with searchable fields. The search analyzer can be updated on an existing field since it is only used at query-time. Must be `null` for [complex fields](/azure/search/search-howto-complex-data-types).|
 |indexAnalyzer|Set this property in conjunction with searchAnalyzer to specify different lexical analyzers for indexing and queries.  If you use this property, set analyzer to `null` and make sure searchAnalyzer is set to an allowed value. Valid values for this property include [built-in analyzers](/azure/search/index-add-custom-analyzers#built-in-analyzers) and [custom analyzers](/azure/search/index-add-custom-analyzers). This attribute can be used only with searchable fields. Once the index analyzer is chosen, it cannot be changed for the field. Must be `null` for [complex fields](/azure/search/search-howto-complex-data-types).|
-|normalizer |Sets the normalizer for filtering, sorting, and faceting operations. The default is `null`, which results in an exact match on verbatim, un-analyzed text. This attribute can be used only with `Edm.String` and `Collection(Edm.String)` fields that have at least one of filterable, sortable, or facetable set to true. A normalizer can only be set on the field when added to the index and cannot be changed later. Must be `null` for [complex fields](/azure/search/search-howto-complex-data-types). Valid values for a predefined normalizer include: </br>`standard`- Lowercases the text followed by asciifolding. </br>`lowercase`- Transforms characters to lowercase.  </br>`uppercase` - Transforms characters to uppercase. </br>`asciifolding` - Transforms characters that are not in the Basic Latin Unicode block to their ASCII equivalent, if one exists. For example, changing à to a.  </br>`elision`- Removes elision from beginning of the tokens.|
+|normalizer |Sets the normalizer for filtering, sorting, and faceting operations. It can be the name of a predefined normalizer or a custom normalizer defined within index. The default is `null`, which results in an exact match on verbatim, un-analyzed text. This attribute can be used only with `Edm.String` and `Collection(Edm.String)` fields that have at least one of filterable, sortable, or facetable set to true. A normalizer can only be set on the field when added to the index and cannot be changed later. Must be `null` for [complex fields](/azure/search/search-howto-complex-data-types). Valid values for a predefined normalizer include: </br></br>`standard`- Lowercases the text followed by asciifolding. </br>`lowercase`- Transforms characters to lowercase.  </br>`uppercase` - Transforms characters to uppercase. </br>`asciifolding` - Transforms characters that are not in the Basic Latin Unicode block to their ASCII equivalent, if one exists. For example, changing à to a.  </br>`elision`- Removes elision from beginning of the tokens.|
 |synonymMaps|A list of the names of synonym maps to associate with this field. This attribute can be used only with searchable fields. Currently only one synonym map per field is supported. Assigning a synonym map to a field ensures that query terms targeting that field are expanded at query-time using the rules in the synonym map. This attribute can be changed on existing fields. Must be `null` or an empty collection for complex fields.|
 |fields|A list of sub-fields if this is a field of type `Edm.ComplexType` or `Collection(Edm.ComplexType)`. Must be `null` or empty for simple fields. See [How to model complex data types in Azure Cognitive Search](/azure/search/search-howto-complex-data-types) for more information on how and when to use sub-fields.|
 
@@ -465,7 +501,7 @@ Contains information about attributes set on a search field when creating an ind
 
 ### normalizers
 
-Defines a custom normalizer that has a user-defined combination of character filters and token filters. After defining a custom normalizer in the index, you can specify it by name on a [field definition](#fields). For more information, see [Add normalizers to a search index](/azure/search/search-normalizers).
+Defines a [custom normalizer](/azure/search/search-normalizers) that has a user-defined combination of character filters and token filters. After defining a custom normalizer in the index, you can specify it by name on a [field definition](#fields).
 
 |Attribute|Description|  
 |---------------|-----------------|  

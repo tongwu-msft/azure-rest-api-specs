@@ -169,7 +169,8 @@ New in this preview, you can specify the [cache property](#cache) to reuse docum
 
 ## Definitions
 
-|&nbsp;&nbsp;|&nbsp;&nbsp;|
+|Link|Description|
+|--|--|
 | [cache](#cache) | Configures caching for AI enrichment and skillset execution.  |
 | [encryptionKey](#encryptionkey) | Configures a connection to Azure Key Vault for customer-managed encryption. |
 | [fieldMappings](#field-mappings) | Source-to-destination field mappings for fields that don't match by name and type. |
