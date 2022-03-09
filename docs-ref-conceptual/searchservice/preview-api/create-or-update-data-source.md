@@ -113,25 +113,44 @@ For a successful request: 201 Created if a new data source was created, and 204 
 
 ## Examples
 
-**Example: Azure roles and a user-assigned managed identity (preview)**
+**Example: Azure roles and a system-assigned managed identity**
 
 ```json
 {
-    "name": "ablobcontainer",
+    "name": "azure-blob-ds",
     "description": "a description of the blob data",
     "type": "azureblob",
     "subtype": null,
     "credentials": {
-      "connectionString": "ResourceId=/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-rg/providers/Microsoft.Storage/storageAccounts/contosostorageaccount"
+      "connectionString": "ResourceId=/subscriptions/[subscription ID]/resourceGroups/[resource group name]/providers/Microsoft.Storage/storageAccounts/[storage account name]/;"
     },
     "container": {
-      "name": "jfkfiles"
+      "name": "mycontainer"
+    },
+    "dataChangeDetectionPolicy": null,
+    "dataDeletionDetectionPolicy": null,
+  }
+```
+
+**Example: Azure roles and a user-assigned managed identity (preview)**
+
+```json
+{
+    "name": "azure-blob-ds",
+    "description": "a description of the blob data",
+    "type": "azureblob",
+    "subtype": null,
+    "credentials": {
+      "connectionString": "ResourceId=/subscriptions/[subscription ID]/resourceGroups/[resource group name]/providers/Microsoft.Storage/storageAccounts/[storage account name]/;"
+    },
+    "container": {
+      "name": "mycontainer"
     },
     "dataChangeDetectionPolicy": null,
     "dataDeletionDetectionPolicy": null,
     "identity": {
       "@odata.type": "#Microsoft.Azure.Search.DataUserAssignedIdentity",
-      "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-datasource-identity"
+      "userAssignedIdentity": "/subscriptions/[subscription ID]/resourceGroups/[resource group name]/providers/Microsoft.ManagedIdentity/userAssignedIdentities/[user identity name]"
     }
   }
 ```
