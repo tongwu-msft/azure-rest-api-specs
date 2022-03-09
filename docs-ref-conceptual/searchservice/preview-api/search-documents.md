@@ -282,322 +282,321 @@ You can find more examples in [OData Expression Syntax for Azure Cognitive Searc
 
 Find documents in the index using simple query syntax. This query returns hotels where searchable fields contain the terms "comfort" and "location" but not "motel":  
 
-    ```http  
-    Get /indexes/hotels/docs?search=comfort +location –motel&searchMode=all&api-version=2021-04-30-Preview
-    ```  
+```http  
+Get /indexes/hotels/docs?search=comfort +location –motel&searchMode=all&api-version=2021-04-30-Preview
+```  
 
-    ```http 
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-          "search": "comfort +location -motel",  
-          "searchMode": "all"  
-        }  
-    ```  
+```http 
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "search": "comfort +location -motel",  
+      "searchMode": "all"  
+    }  
+```  
 
-    > [!TIP]  
-    >  The use of `searchMode=all` overrides the default of `searchMode=any`, ensuring that `-motel` means "AND NOT" instead of "OR NOT". Without `searchMode=all`, you get "OR NOT" which expands rather than restricts search results, and this can be counter-intuitive to some users.  
+> [!TIP]  
+>  The use of `searchMode=all` overrides the default of `searchMode=any`, ensuring that `-motel` means "AND NOT" instead of "OR NOT". Without `searchMode=all`, you get "OR NOT" which expands rather than restricts search results, and this can be counter-intuitive to some users.  
 
 **Example: full Lucene search**
 
 Find documents in the index using Lucene query syntax (see [Lucene query syntax in Azure Cognitive Search](/azure/search/query-lucene-syntax)). This query returns hotels where the category field contains the term "budget" and all searchable fields containing the phrase "recently renovated". Documents containing the phrase "recently renovated" are ranked higher as a result of the term boost value (3)  
 
-    ```http
-    GET /indexes/hotels/docs?search=Category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2021-04-30-Preview&querytype=full`
-    ``` 
+```http
+GET /indexes/hotels/docs?search=Category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2021-04-30-Preview&querytype=full`
+``` 
 
-    ```http  
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-         "search": "Category:budget AND \"recently renovated\"^3",  
-          "queryType": "full",  
-          "searchMode": "all"  
-    }  
-    ``` 
+```http  
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "search": "Category:budget AND \"recently renovated\"^3",  
+      "queryType": "full",  
+      "searchMode": "all"  
+}  
+``` 
 
 **Example: semantic search**
 
 Invoke the semantic ranking model with answers, captions, and highlighted content. The response for this query can be found in the previous section.
 
-    ```http  
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-    {
-      "search": "how do clouds form",
-      "queryType": "semantic",
-      "semanticConfiguration": "my-semantic-config",
-      "queryLanguage": "en-us",
-      "answers": "extractive",
-      "captions": "extractive",
-      "count": "true"
-    }
-    ```
+```http  
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+{
+  "search": "how do clouds form",
+  "queryType": "semantic",
+  "semanticConfiguration": "my-semantic-config",
+  "queryLanguage": "en-us",
+  "answers": "extractive",
+  "captions": "extractive",
+  "count": "true"
+}
+```
 
 **Example: orderby**
 
 Search the index and return results sorted by date in descending order.
 
-    ```http 
-    GET /indexes/hotels/docs?search=*&$orderby=LastRenovationDate desc&api-version=2021-04-30-Preview
-    ```  
+```http 
+GET /indexes/hotels/docs?search=*&$orderby=LastRenovationDate desc&api-version=2021-04-30-Preview
+```  
 
-    ```http  
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-          "search": "*",  
-          "orderby": "LastRenovationDate desc"
-        }  
-    ```  
+```http  
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "search": "*",  
+      "orderby": "LastRenovationDate desc"
+    }  
+```  
 
 **Example: filter using an OData expression**
 
 Retrieve documents matching a specific filter expression:  
 
-    ```http 
-    GET /indexes/hotels/docs?$filter=(Rooms/BaseRate ge 60 and Rooms/BaseRate lt 300) or HotelName eq 'Fancy Stay'&api-version=2021-04-30-Preview
-    ```  
+```http 
+GET /indexes/hotels/docs?$filter=(Rooms/BaseRate ge 60 and Rooms/BaseRate lt 300) or HotelName eq 'Fancy Stay'&api-version=2021-04-30-Preview
+```  
 
-    ```http  
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-          "filter": "(Rooms/BaseRate ge 60 and Rooms/BaseRate lt 300) or HotelName eq 'Fancy Stay'"  
-        }  
-    ``` 
+```http  
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "filter": "(Rooms/BaseRate ge 60 and Rooms/BaseRate lt 300) or HotelName eq 'Fancy Stay'"  
+    }  
+``` 
 
 **Example: faceted search**
 
 In a faceted search, search the index and retrieve facets for categories, ratings, tags, as well as items with baseRate in specific ranges.
 
-    ```http  
-    GET /indexes/hotels/docs?search=*&facet=Category&facet=Rating&facet=Tags&facet=Rooms/BaseRate,values:80|150|220&api-version=2021-04-30-Preview
-    ```  
+```http  
+GET /indexes/hotels/docs?search=*&facet=Category&facet=Rating&facet=Tags&facet=Rooms/BaseRate,values:80|150|220&api-version=2021-04-30-Preview
+```  
 
-    ```http
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-          "search": "test",  
-          "facets": [ "Category", "Rating", "Tags", "Rooms/BaseRate,values:80|150|220" ]  
-        }  
-    ```  
+```http
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "search": "test",  
+      "facets": [ "Category", "Rating", "Tags", "Rooms/BaseRate,values:80|150|220" ]  
+    }  
+```  
 
-    Notice the last facet is on a sub-field. Facets count the parent document (Hotels) and not intermediate subdocuments (Rooms), so the response will determine the number of hotels that have any rooms in each price bucket.
+Notice the last facet is on a sub-field. Facets count the parent document (Hotels) and not intermediate subdocuments (Rooms), so the response will determine the number of hotels that have any rooms in each price bucket.
 
 **Example: Narrow a faceted query**
 
 Using a filter, narrow down the previous faceted query result after the user selects Rating 3 and category "Motel".  
 
-    ```http  
-    GET /indexes/hotels/docs?search=*&facet=tags&facet=Rooms/BaseRate,values:80|150|220&$filter=Rating eq 3 and Category eq 'Motel'&api-version=2021-04-30-Preview  
-    ```  
+```http  
+GET /indexes/hotels/docs?search=*&facet=tags&facet=Rooms/BaseRate,values:80|150|220&$filter=Rating eq 3 and Category eq 'Motel'&api-version=2021-04-30-Preview  
+```  
 
-    ```http 
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview 
-        {  
-          "search": "test",  
-          "facets": [ "tags", "Rooms/BaseRate,values:80|150|220" ],  
-          "filter": "Rating eq 3 and Category eq 'Motel'"  
-        }  
-    ```  
+```http 
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview 
+    {  
+      "search": "test",  
+      "facets": [ "tags", "Rooms/BaseRate,values:80|150|220" ],  
+      "filter": "Rating eq 3 and Category eq 'Motel'"  
+    }  
+```  
 
 **Example: faceted search with limits on each category**
 
 In a faceted search, set an upper limit on unique terms returned in a query. The default is 10, but you can increase or decrease this value using the count parameter on the facet attribute. This example returns facets for city, limited to 5.  
 
-    ```http 
-    GET /indexes/hotels/docs?search=*&facet=Address/City,count:5&api-version=2021-04-30-Preview
-    ```  
+```http 
+GET /indexes/hotels/docs?search=*&facet=Address/City,count:5&api-version=2021-04-30-Preview
+```  
 
-    ```http  
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-          "search": "test",  
-          "facets": [ "Address/City,count:5" ]  
-        }  
-    ```  
+```http  
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "search": "test",  
+      "facets": [ "Address/City,count:5" ]  
+    }  
+```  
 
 **Example: in-field search**
 
  Search the index within specific fields (for example, a language field)
 
-    ```http 
-    GET /indexes/hotels/docs?search=hôtel&searchFields=Description_fr&api-version=2021-04-30-Preview
-    ```  
+```http 
+GET /indexes/hotels/docs?search=hôtel&searchFields=Description_fr&api-version=2021-04-30-Preview
+```  
 
-    ```http 
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-          "search": "hôtel",  
-          "searchFields": "Description_fr"
-        }  
-    ```  
+```http 
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "search": "hôtel",  
+      "searchFields": "Description_fr"
+    }  
+```  
 
 Search the index across multiple fields. For example, you can store and query searchable fields in multiple languages, all within the same index. If English and French descriptions coexist in the same document, you can return any or all in the query results:  
 
-    ```http 
-    GET /indexes/hotels/docs?search=hotel&searchFields=Description,Description_fr&api-version=2021-04-30-Preview
-    ```  
+```http 
+GET /indexes/hotels/docs?search=hotel&searchFields=Description,Description_fr&api-version=2021-04-30-Preview
+```  
 
-    ```http 
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-          "search": "hotel",  
-          "searchFields": "Description, Description_fr"
-        }  
-    ```  
+```http 
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "search": "hotel",  
+      "searchFields": "Description, Description_fr"
+    }  
+```  
 
-     You can only query one index at a time. Do not create multiple indexes for each language unless you plan to query one at a time.  
+You can only query one index at a time. Do not create multiple indexes for each language unless you plan to query one at a time.  
 
 **Example: paging results**
 
 Get the first page of items (page size is 10):  
 
-    ```http
-    GET /indexes/hotels/docs?search=*&$skip=0&$top=10&api-version=2021-04-30-Preview
-    ```  
+```http
+GET /indexes/hotels/docs?search=*&$skip=0&$top=10&api-version=2021-04-30-Preview
+```  
 
-    ```http 
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-          "search": "*",  
-          "skip": 0,  
-          "top": 10  
-        }  
-    ```  
+```http 
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "search": "*",  
+      "skip": 0,  
+      "top": 10  
+    }  
+```  
 
 Get the second page of items (page size is 10):  
 
-    ```http  
-    GET /indexes/hotels/docs?search=*&$skip=10&$top=10&api-version=2021-04-30-Preview
-    ```  
+```http  
+GET /indexes/hotels/docs?search=*&$skip=10&$top=10&api-version=2021-04-30-Preview
+```  
 
-    ```http 
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-          "search": "*",  
-          "skip": 10,  
-          "top": 10  
-        }  
-    ```  
+```http 
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "search": "*",  
+      "skip": 10,  
+      "top": 10  
+    }  
+```  
 
 **Example: limit fields in a result set**
 
 Retrieve a specific set of fields:  
 
-    ```http 
-    GET /indexes/hotels/docs?search=*&$select=HotelName,Description&api-version=2021-04-30-Preview
-    ```  
+```http 
+GET /indexes/hotels/docs?search=*&$select=HotelName,Description&api-version=2021-04-30-Preview
+```  
 
-    ```http  
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-          "search": "*",  
-          "select": "HotelName, Description"
-        }  
-    ```  
+```http  
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "search": "*",  
+      "select": "HotelName, Description"
+    }  
+```  
 
 **Example: hit highlighting in results**
 
 Search the index and return fragments with hit highlights:  
 
-    ```http 
-    GET /indexes/hotels/docs?search=something&highlight=Description&api-version=2021-04-30-Preview
-    ```  
+```http 
+GET /indexes/hotels/docs?search=something&highlight=Description&api-version=2021-04-30-Preview
+```  
 
-    ```http  
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-          "search": "something",  
-          "highlight": "Description"  
-        }  
-    ```  
+```http  
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "search": "something",  
+      "highlight": "Description"  
+    }  
+```  
 
 **Example: Geospatial search**
 
 Search the index and return documents sorted from closer to farther away from a reference location:  
 
-    ```http 
-    GET /indexes/hotels/docs?search=something&$orderby=geo.distance(Location, geography'POINT(-122.12315 47.88121)')&api-version=2021-04-30-Preview
-    ```  
+```http 
+GET /indexes/hotels/docs?search=something&$orderby=geo.distance(Location, geography'POINT(-122.12315 47.88121)')&api-version=2021-04-30-Preview
+```  
 
-    ```http 
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-          "search": "something",  
-          "orderby": "geo.distance(Location, geography'POINT(-122.12315 47.88121)')"
-        }  
-    ```  
+```http 
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "search": "something",  
+      "orderby": "geo.distance(Location, geography'POINT(-122.12315 47.88121)')"
+    }  
+```  
 
 **Example: "find by me" (boost relevance of nearby locations**
 
 Search the index assuming there's a scoring profile called "geo" with two distance scoring functions, one defining a parameter called "currentLocation" and one defining a parameter called "lastLocation":  
 
-    ```http  
-    GET /indexes/hotels/docs?search=something&scoringProfile=geo&scoringParameter=currentLocation--122.123,44.77233&scoringParameter=lastLocation--121.499,44.2113&api-version=2021-04-30-Preview
-    ```  
+```http  
+GET /indexes/hotels/docs?search=something&scoringProfile=geo&scoringParameter=currentLocation--122.123,44.77233&scoringParameter=lastLocation--121.499,44.2113&api-version=2021-04-30-Preview
+```  
 
-    ```http 
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-          "search": "something",  
-          "scoringProfile": "geo",  
-          "scoringParameters": [ "currentLocation--122.123,44.77233", "lastLocation--121.499,44.2113" ]  
-        }  
-    ``` 
+```http 
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "search": "something",  
+      "scoringProfile": "geo",  
+      "scoringParameters": [ "currentLocation--122.123,44.77233", "lastLocation--121.499,44.2113" ]  
+    }  
+``` 
 
 **Example: query over full index instead of shards**
 
 Find documents in the index while favoring consistent scoring over lower latency. This query will calculate document frequencies across the whole index, and will do a best effort to target the same replica for all queries within the same "session", which will help generating stable and reproducible ranking. 
 
-    ```http 
-    GET /indexes/hotels/docs?search=hotel&sessionId=mySessionId&scoringStatistics=global&api-version=2021-04-30-Preview
-    ```  
+```http 
+GET /indexes/hotels/docs?search=hotel&sessionId=mySessionId&scoringStatistics=global&api-version=2021-04-30-Preview
+```  
 
-    ```http  
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-          "search": "hotel",  
-          "sessionId": "mySessionId",
-          "scoringStatistics" :"global"
-        }  
-    ```  
+```http  
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "search": "hotel",  
+      "sessionId": "mySessionId",
+      "scoringStatistics" :"global"
+    }  
+```  
 
 **Example: scoring statistics (featuresMode)**
 
 Find documents in the index and return a list of information retrieval features for each result describing the scoring between the matched document and the query. The query also calculates document frequencies across the whole index to produce more consistent scoring.
 
-    ```http 
-    GET /indexes/hotels/docs?search=hotel&featuresMode=enabled&scoringStatistics=global&api-version=2021-04-30-Preview
-    ```  
+```http 
+GET /indexes/hotels/docs?search=hotel&featuresMode=enabled&scoringStatistics=global&api-version=2021-04-30-Preview
+```  
 
-    ```http  
-    POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
-        {  
-          "search": "hotel",  
-          "featuresMode": "enabled",
-          "scoringStatistics" :"global"
-        }  
-    ```
+```http  
+POST /indexes/hotels/docs/search?api-version=2021-04-30-Preview
+    {  
+      "search": "hotel",  
+      "featuresMode": "enabled",
+      "scoringStatistics" :"global"
+    }  
+```
 
-    An example of a response that includes `search.features` looks similar to the following:
+An example of a response that includes `search.features` looks similar to the following:
 
-    ```http
-        "@search.score": 0.91875637,
-        "@search.features": {
-            "Description": {
-                "uniqueTokenMatches": 1,
-                "similarityScore": 0.2917966,
-                "termFrequency": 2
-            },
-            "HotelName": {
-                "uniqueTokenMatches": 1,
-                "similarityScore": 0.44458693,
-                "termFrequency": 1
-            }
-          . . .
-    ```
+```http
+    "@search.score": 0.91875637,
+    "@search.features": {
+        "Description": {
+            "uniqueTokenMatches": 1,
+            "similarityScore": 0.2917966,
+            "termFrequency": 2
+        },
+        "HotelName": {
+            "uniqueTokenMatches": 1,
+            "similarityScore": 0.44458693,
+            "termFrequency": 1
+        }
+      . . .
+```
 
 ## Definitions
 
 This section provides details about parameters that are too complex to cover in the main table.
-
 
 |Link|Description|
 |--|--|

@@ -94,7 +94,7 @@ This preview version includes all of the features introduced in 2019-05-06-Previ
 + Reset Documents for indexer-based indexing to specifically refresh specific documents by ID
 + Entity Linking cognitive skill (v3)
 + Entity Recognition cognitive skill (v3)
-+ Sentiment cognitive cognitive skill (v3)
++ Sentiment Analysis cognitive skill (v3)
 
 <a name="2019-05-06-Preview"></a>
 
