@@ -4,7 +4,7 @@ titleSuffix: Azure Cognitive Search
 description: Lists the generally available and preview versions of the management REST APIs for Azure Cognitive Search.
 
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: reference
 ms.devlang: rest-api
 
 ms.date: 06/29/2021
@@ -60,7 +60,7 @@ This preview API has all of the features of the previous preview API, and adds t
 
 ### 2020-08-01-Preview
 
-This preview API is equivalent to the generally available version `2020-08-01`, and and adds the following functionality:
+This preview API is equivalent to the generally available version `2020-08-01`, and adds the following functionality:
 
 + Added `sharedPrivateLinkResources` support for two new resource types. New `groupId` values include `mysqlServer` (Azure database for MySQL) and `sites` (Azure Functions/app services).
 
