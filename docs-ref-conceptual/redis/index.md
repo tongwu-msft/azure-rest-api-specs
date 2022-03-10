@@ -1,6 +1,7 @@
 ---
 ms.assetid: d6454772-1594-4c44-9f01-456ccfed94d1
 title: Azure Redis Cache
+ms.description: Reference for Azure Cache for Redis REST APIs 
 ms.service: cache
 author: flang-msft
 ms.author: franlanglois
