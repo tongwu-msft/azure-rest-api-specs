@@ -7,9 +7,8 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
-ms.manager: nitinme
+author: bevloh
+ms.author: beloh
 ---
 # HTTP status codes (Azure Cognitive Search)
   This page describes the HTTP status codes that are frequently returned when using the Azure Cognitive Search API.  
