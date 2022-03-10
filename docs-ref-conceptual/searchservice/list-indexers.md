@@ -7,9 +7,9 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
-ms.manager: nitinme
+author: jennifermarsman
+ms.author: jenmar
+
 ---
 # List Indexers (Azure Cognitive Search REST API)
 The **List Indexers** operation returns the list of indexers in your Azure Cognitive Search service.  

@@ -7,9 +7,8 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
-ms.manager: nitinme
+author: bevloh
+ms.author: beloh
 ---
 # Count Documents (Azure Cognitive Search REST API)
   The **Count Documents** operation retrieves a count of the number of documents in a search index. The `$count` syntax is part of the OData protocol.  

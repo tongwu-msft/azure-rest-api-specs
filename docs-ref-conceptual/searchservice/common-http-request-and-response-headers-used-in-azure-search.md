@@ -7,9 +7,8 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
-ms.manager: nitinme
+author: bevloh
+ms.author: beloh
 ---
 # Common HTTP request and response headers used in Azure Cognitive Search
 

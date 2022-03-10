@@ -7,9 +7,8 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
-ms.manager: nitinme
+author: bevloh
+ms.author: beloh
 ---
 # Get Index Statistics (Azure Cognitive Search REST API)
 The **Get Index Statistics** operation returns from Azure Cognitive Search a document count for the current index, plus storage usage. You can also get this information from the portal.  

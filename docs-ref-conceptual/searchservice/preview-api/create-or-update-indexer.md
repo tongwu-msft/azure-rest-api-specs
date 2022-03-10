@@ -8,8 +8,8 @@ ms.service: cognitive-search
 ms.topic: reference
 ms.devlang: rest-api
 
-author: bevloh
-ms.author: beloh
+author: jennifermarsman
+ms.author: jenmar
 ---
 
 # Create or Update Indexer (Preview REST API)

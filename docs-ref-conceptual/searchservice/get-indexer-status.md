@@ -7,9 +7,8 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
-ms.manager: nitinme
+author: jennifermarsman
+ms.author: jenmar
 ---
 # Get Indexer Status (Azure Cognitive Search REST API)
 
