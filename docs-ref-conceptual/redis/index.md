@@ -1,11 +1,10 @@
 ---
 ms.assetid: d6454772-1594-4c44-9f01-456ccfed94d1
 title: Azure Redis Cache
-ms.service: redis-cache
-author: steved0x
-ms.author: sdanie
-ms.manager: douge
-service_description: To be added
+ms.service: cache
+author: flang-msft
+ms.author: franlanglois
+
 ---
 
 
