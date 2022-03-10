@@ -4,6 +4,8 @@ title: Azure Redis Cache
 ms.service: cache
 author: flang-msft
 ms.author: franlanglois
+ms.topic: reference
+ms.date: 03/10/2022
 
 ---
 
