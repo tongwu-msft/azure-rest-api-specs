@@ -9,7 +9,7 @@ ms.topic: reference
 ms.devlang: rest-api
 
 author: jennifermarsman
-ms.author: jenmar
+ms.author: jennmar
 ---
 
 # Create or Update Indexer (Preview REST API)

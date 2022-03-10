@@ -8,7 +8,7 @@ ms.topic: language-reference
 ms.devlang: rest-api
 
 author: jennifermarsman
-ms.author: jenmar
+ms.author: jennmar
 ---
 # List Data Sources (Azure Cognitive Search REST API)
 

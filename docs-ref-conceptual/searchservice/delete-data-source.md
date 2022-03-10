@@ -8,7 +8,7 @@ ms.topic: language-reference
 ms.devlang: rest-api
 
 author: jennifermarsman
-ms.author: jenmar
+ms.author: jennmar
 ---
 # Delete Data Source (Azure Cognitive Search REST API)
 

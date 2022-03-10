@@ -9,7 +9,7 @@ ms.topic: reference
 ms.devlang: rest-api
 
 author: jennifermarsman
-ms.author: jenmar
+ms.author: jennmar
 ---
 
 # Reset Skills (Preview REST API)
