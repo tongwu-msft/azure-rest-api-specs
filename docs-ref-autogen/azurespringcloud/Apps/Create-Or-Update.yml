@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringcloud.apps.createorupdate
 name: Create Or Update
 service: Azure Spring Cloud
 groupName: Apps
-apiVersion: 2022-01-01-preview
+apiVersion: 2022-03-01-preview
 summary: Create a new App or update an exiting App.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}?api-version=2022-01-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}?api-version=2022-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -147,13 +147,21 @@ definitions:
     types:
     - uid: ManagedIdentityType
   - name: principalId
-    description: Principal Id
+    description: Principal Id of system-assigned managed identity.
     types:
     - uid: string
   - name: tenantId
-    description: Tenant Id
+    description: Tenant Id of system-assigned managed identity.
     types:
     - uid: string
+  - name: userAssignedIdentities
+    description: Properties of user-assigned managed identities
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedManagedIdentity
 - name: SystemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -315,6 +323,20 @@ definitions:
   - name: SystemAssigned,UserAssigned
     types:
     - uid: string
+- name: UserAssignedManagedIdentity
+  description: The details of the user-assigned managed identity assigned to an App.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: Principal Id of user-assigned managed identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: Client Id of user-assigned managed identity.
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -397,7 +419,7 @@ definitions:
 examples:
 - name: Apps_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-01-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-03-01-preview
     body: >-
       {
         "properties": {
@@ -448,7 +470,21 @@ examples:
             }
           ]
         },
-        "identity": null,
+        "identity": {
+          "type": "SystemAssigned,UserAssigned",
+          "principalId": null,
+          "tenantId": null,
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {
+              "clientId": null,
+              "principalId": null
+            },
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {
+              "clientId": null,
+              "principalId": null
+            }
+          }
+        },
         "location": "eastus"
       }
   responses:
@@ -506,9 +542,19 @@ examples:
         },
         "type": "Microsoft.AppPlatform/Spring/apps",
         "identity": {
-          "type": "SystemAssigned",
+          "type": "SystemAssigned,UserAssigned",
           "principalId": "principalid",
-          "tenantId": "tenantid"
+          "tenantId": "tenantid",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {
+              "clientId": "clientId1",
+              "principalId": "principalId1"
+            },
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {
+              "clientId": "clientId2",
+              "principalId": "principalId2"
+            }
+          }
         },
         "location": "eastus",
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp",
@@ -568,9 +614,19 @@ examples:
         },
         "type": "Microsoft.AppPlatform/Spring/apps",
         "identity": {
-          "type": "SystemAssigned",
+          "type": "SystemAssigned,UserAssigned",
           "principalId": "principalid",
-          "tenantId": "tenantid"
+          "tenantId": "tenantid",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {
+              "clientId": "clientId1",
+              "principalId": "principalId1"
+            },
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {
+              "clientId": "clientId2",
+              "principalId": "principalId2"
+            }
+          }
         },
         "location": "eastus",
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp",
@@ -630,9 +686,19 @@ examples:
         },
         "type": "Microsoft.AppPlatform/Spring/apps",
         "identity": {
-          "type": "SystemAssigned",
+          "type": "SystemAssigned,UserAssigned",
           "principalId": "principalid",
-          "tenantId": "tenantid"
+          "tenantId": "tenantid",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {
+              "clientId": "clientId1",
+              "principalId": "principalId1"
+            },
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {
+              "clientId": "clientId2",
+              "principalId": "principalId2"
+            }
+          }
         },
         "location": "eastus",
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp",
