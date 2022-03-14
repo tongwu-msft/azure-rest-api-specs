@@ -4,14 +4,12 @@ name: Post Route Directions Batch
 service: Maps
 groupName: Route
 apiVersion: "1.0"
-summary: "**Route Directions Batch API**\n\n\n**Applies to**: S1 pricing tier.\n\n\n\nThe Route Directions Batch API sends batches of queries to [Route Directions API](https://docs.microsoft.com/en-us/rest/api/maps/route/getroutedirections) using just a single API call. You can call Route Directions Batch API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **700** queries and sync API up to **100** queries.\n### Submit Synchronous Batch Request\nThe Synchronous API is recommended for lightweight batch requests. When the service receives a request, it will respond as soon as the batch items are calculated and there will be no possibility to retrieve the results later. The Synchronous API will return a timeout error (a 408 response) if the request takes longer than 60 seconds. The number of batch items is limited to **100** for this API.\n```\nPOST https://atlas.microsoft.com/route/directions/batch/sync/json?api-version=1.0&subscription-key={subscription-key}\n```\n### Submit Asynchronous Batch Request\nThe Asynchronous API is appropriate for processing big volumes of relatively complex route requests\n- It allows the retrieval of results in a separate call (multiple downloads are possible).\n- The asynchronous API is optimized for reliability and is not expected to run into a timeout.\n- The number of batch items is limited to **700** for this API.\n\nWhen you make a request by using async request, by default the service returns a 202 response code along a redirect URL in the Location field of the response header. This URL should be checked periodically until the response data or error information is available.\nThe asynchronous responses are stored for **14** days. The redirect URL returns a 404 response if used after the expiration period.\n\nPlease note that asynchronous batch request is a long-running request. Here's a typical sequence of operations:\n1. Client sends a Route Directions Batch `POST` request to Azure Maps\n2. The server will respond with one of the following:\n\n    > HTTP `202 Accepted` - Batch request has been accepted.\n\n    > HTTP `Error` - There was an error processing your Batch request. This could either be a `400 Bad Request` or any other `Error` status code.\n\n3. If the batch request was accepted successfully, the `Location` header in the response contains the URL to download the results of the batch request.\n    This status URI looks like following:\n\n``` GET https://atlas.microsoft.com/route/directions/batch/{batch-id}?api-version=1.0 ```\nNote:- Please remember to add AUTH information (subscription-key/azure_auth - See [Security](#security)) to the _status URI_ before running it. <br>\n4. Client issues a `GET` request on the _download URL_ obtained in Step 3 to download the batch results.\n\n### POST Body for Batch Request\nTo send the _route directions_ queries you will use a `POST` request where the request body will contain the `batchItems` array in `json` format and the `Content-Type` header will be set to `application/json`. Here's a sample request body containing 3 _route directions_ queries:\n\n\n```json\n{\n    \"batchItems\": [\n        { \"query\": \"?query=47.620659,-122.348934:47.610101,-122.342015&travelMode=bicycle&routeType=eco&traffic=false\" },\n        { \"query\": \"?query=40.759856,-73.985108:40.771136,-73.973506&travelMode=pedestrian&routeType=shortest\" },\n        { \"query\": \"?query=48.923159,-122.557362:32.621279,-116.840362\" }\n    ]\n}\n```\n\nA _route directions_ query in a batch is just a partial URL _without_ the protocol, base URL, path, api-version and subscription-key. It can accept any of the supported _route directions_ [URI parameters](https://docs.microsoft.com/en-us/rest/api/maps/route/getroutedirections#uri-parameters). The string values in the _route directions_ query must be properly escaped (e.g. \" character should be escaped with \\\\ ) and it should also be properly URL-encoded.\n\n\nThe async API allows caller to batch up to **700** queries and sync API up to **100** queries, and the batch should contain at least **1** query.\n\n\n### Download Asynchronous Batch Results\nTo download the async batch results you will issue a `GET` request to the batch download endpoint. This _download URL_ can be obtained from the `Location` header of a successful `POST` batch request and looks like the following:\n\n```\nhttps://atlas.microsoft.com/route/directions/batch/{batch-id}?api-version=1.0&subscription-key={subscription-key}\n```\nHere's the typical sequence of operations for downloading the batch results:\n1. Client sends a `GET` request using the _download URL_.\n2. The server will respond with one of the following:\n    \n    > HTTP `202 Accepted` - Batch request was accepted but is still being processed. Please try again in some time.\n\n    > HTTP `200 OK` - Batch request successfully processed. The response body contains all the batch results.\n\n\n\n### Batch Response Model\nThe returned data content is similar for async and sync requests. When downloading the results of an async batch request, if the batch has finished processing, the response body contains the batch response. This batch response contains a `summary` component that indicates the `totalRequests` that were part of the original batch request and `successfulRequests`i.e. queries which were executed successfully. The batch response also includes a `batchItems` array which contains a response for each and every query in the batch request. The `batchItems` will contain the results in the exact same order the original queries were sent in the batch request. Each item in `batchItems` contains `statusCode` and `response` fields. Each `response` in `batchItems` is of one of the following types:\n\n  - [`RouteDirectionsResponse`](https://docs.microsoft.com/en-us/rest/api/maps/route/getroutedirections#routedirectionsresponse) - If the query completed successfully.\n\n  - `Error` - If the query failed. The response will contain a `code` and a `message` in this case.\n\n\nHere's a sample Batch Response with 1 _successful_ and 1 _failed_ result:\n\n\n```json\n{\n    \"summary\": {\n        \"successfulRequests\": 1,\n        \"totalRequests\": 2\n    },\n    \"batchItems\": [\n        {\n            \"statusCode\": 200,\n            \"response\": {\n                \"routes\": [\n                    {\n                        \"summary\": {\n                            \"lengthInMeters\": 1758,\n                            \"travelTimeInSeconds\": 387,\n                            \"trafficDelayInSeconds\": 0,\n                            \"departureTime\": \"2018-07-17T00:49:56+00:00\",\n                            \"arrivalTime\": \"2018-07-17T00:56:22+00:00\"\n                        },\n                        \"legs\": [\n                            {\n                                \"summary\": {\n                                    \"lengthInMeters\": 1758,\n                                    \"travelTimeInSeconds\": 387,\n                                    \"trafficDelayInSeconds\": 0,\n                                    \"departureTime\": \"2018-07-17T00:49:56+00:00\",\n                                    \"arrivalTime\": \"2018-07-17T00:56:22+00:00\"\n                                },\n                                \"points\": [\n                                    {\n                                        \"latitude\": 47.62094,\n                                        \"longitude\": -122.34892\n                                    },\n                                    {\n                                        \"latitude\": 47.62094,\n                                        \"longitude\": -122.3485\n                                    },\n                                    {\n                                        \"latitude\": 47.62095,\n                                        \"longitude\": -122.3476\n                                    }\n                                ]\n                            }\n                        ],\n                        \"sections\": [\n                            {\n                                \"startPointIndex\": 0,\n                                \"endPointIndex\": 40,\n                                \"sectionType\": \"TRAVEL_MODE\",\n                                \"travelMode\": \"bicycle\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        },\n        {\n            \"statusCode\": 400,\n            \"response\":\n            {\n                \"error\":\n                {\n                    \"code\": \"400 BadRequest\",\n                    \"message\": \"Bad request: one or more parameters were incorrectly specified or are mutually exclusive.\"\n                }\n            }\n        }\n    ]\n}\n```"
+summary: "**Route Directions Batch API**\n\n\n**Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\n\n\nThe Route Directions Batch API sends batches of queries to [Route Directions API](https://docs.microsoft.com/rest/api/maps/route/getroutedirections) using just a single API call. You can call Route Directions Batch API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **700** queries and sync API up to **100** queries.\n### Submit Asynchronous Batch Request\nThe Asynchronous API is appropriate for processing big volumes of relatively complex route requests\n- It allows the retrieval of results in a separate call (multiple downloads are possible).\n- The asynchronous API is optimized for reliability and is not expected to run into a timeout.\n- The number of batch items is limited to **700** for this API.\n\nWhen you make a request by using async request, by default the service returns a 202 response code along a redirect URL in the Location field of the response header. This URL should be checked periodically until the response data or error information is available.\nThe asynchronous responses are stored for **14** days. The redirect URL returns a 404 response if used after the expiration period.\n\nPlease note that asynchronous batch request is a long-running request. Here's a typical sequence of operations:\n1. Client sends a Route Directions Batch `POST` request to Azure Maps\n2. The server will respond with one of the following:\n\n    > HTTP `202 Accepted` - Batch request has been accepted.\n\n    > HTTP `Error` - There was an error processing your Batch request. This could either be a `400 Bad Request` or any other `Error` status code.\n\n3. If the batch request was accepted successfully, the `Location` header in the response contains the URL to download the results of the batch request.\n    This status URI looks like following:\n\n``` GET https://atlas.microsoft.com/route/directions/batch/{batch-id}?api-version=1.0 ```\nNote:- Please remember to add AUTH information (subscription-key/azure_auth - See [Security](#security)) to the _status URI_ before running it. <br>\n4. Client issues a `GET` request on the _download URL_ obtained in Step 3 to download the batch results.\n\n### POST Body for Batch Request\nTo send the _route directions_ queries you will use a `POST` request where the request body will contain the `batchItems` array in `json` format and the `Content-Type` header will be set to `application/json`. Here's a sample request body containing 3 _route directions_ queries:\n\n\n```json\n{\n    \"batchItems\": [\n        { \"query\": \"?query=47.620659,-122.348934:47.610101,-122.342015&travelMode=bicycle&routeType=eco&traffic=false\" },\n        { \"query\": \"?query=40.759856,-73.985108:40.771136,-73.973506&travelMode=pedestrian&routeType=shortest\" },\n        { \"query\": \"?query=48.923159,-122.557362:32.621279,-116.840362\" }\n    ]\n}\n```\n\nA _route directions_ query in a batch is just a partial URL _without_ the protocol, base URL, path, api-version and subscription-key. It can accept any of the supported _route directions_ [URI parameters](https://docs.microsoft.com/rest/api/maps/route/getroutedirections#uri-parameters). The string values in the _route directions_ query must be properly escaped (e.g. \" character should be escaped with \\\\ ) and it should also be properly URL-encoded.\n\n\nThe async API allows caller to batch up to **700** queries and sync API up to **100** queries, and the batch should contain at least **1** query.\n\n\n### Download Asynchronous Batch Results\nTo download the async batch results you will issue a `GET` request to the batch download endpoint. This _download URL_ can be obtained from the `Location` header of a successful `POST` batch request and looks like the following:\n\n```\nhttps://atlas.microsoft.com/route/directions/batch/{batch-id}?api-version=1.0&subscription-key={subscription-key}\n```\nHere's the typical sequence of operations for downloading the batch results:\n1. Client sends a `GET` request using the _download URL_.\n2. The server will respond with one of the following:\n    \n    > HTTP `202 Accepted` - Batch request was accepted but is still being processed. Please try again in some time.\n\n    > HTTP `200 OK` - Batch request successfully processed. The response body contains all the batch results.\n\n\n\n### Batch Response Model\nThe returned data content is similar for async and sync requests. When downloading the results of an async batch request, if the batch has finished processing, the response body contains the batch response. This batch response contains a `summary` component that indicates the `totalRequests` that were part of the original batch request and `successfulRequests`i.e. queries which were executed successfully. The batch response also includes a `batchItems` array which contains a response for each and every query in the batch request. The `batchItems` will contain the results in the exact same order the original queries were sent in the batch request. Each item in `batchItems` contains `statusCode` and `response` fields. Each `response` in `batchItems` is of one of the following types:\n\n  - [`RouteDirections`](https://docs.microsoft.com/rest/api/maps/route/getroutedirections#routedirections) - If the query completed successfully.\n\n  - `Error` - If the query failed. The response will contain a `code` and a `message` in this case.\n\n\nHere's a sample Batch Response with 1 _successful_ and 1 _failed_ result:\n\n\n```json\n{\n    \"summary\": {\n        \"successfulRequests\": 1,\n        \"totalRequests\": 2\n    },\n    \"batchItems\": [\n        {\n            \"statusCode\": 200,\n            \"response\": {\n                \"routes\": [\n                    {\n                        \"summary\": {\n                            \"lengthInMeters\": 1758,\n                            \"travelTimeInSeconds\": 387,\n                            \"trafficDelayInSeconds\": 0,\n                            \"departureTime\": \"2018-07-17T00:49:56+00:00\",\n                            \"arrivalTime\": \"2018-07-17T00:56:22+00:00\"\n                        },\n                        \"legs\": [\n                            {\n                                \"summary\": {\n                                    \"lengthInMeters\": 1758,\n                                    \"travelTimeInSeconds\": 387,\n                                    \"trafficDelayInSeconds\": 0,\n                                    \"departureTime\": \"2018-07-17T00:49:56+00:00\",\n                                    \"arrivalTime\": \"2018-07-17T00:56:22+00:00\"\n                                },\n                                \"points\": [\n                                    {\n                                        \"latitude\": 47.62094,\n                                        \"longitude\": -122.34892\n                                    },\n                                    {\n                                        \"latitude\": 47.62094,\n                                        \"longitude\": -122.3485\n                                    },\n                                    {\n                                        \"latitude\": 47.62095,\n                                        \"longitude\": -122.3476\n                                    }\n                                ]\n                            }\n                        ],\n                        \"sections\": [\n                            {\n                                \"startPointIndex\": 0,\n                                \"endPointIndex\": 40,\n                                \"sectionType\": \"TRAVEL_MODE\",\n                                \"travelMode\": \"bicycle\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        },\n        {\n            \"statusCode\": 400,\n            \"response\":\n            {\n                \"error\":\n                {\n                    \"code\": \"400 BadRequest\",\n                    \"message\": \"Bad request: one or more parameters were incorrectly specified or are mutually exclusive.\"\n                }\n            }\n        }\n    ]\n}\n```"
 consumes: []
 produces:
 - application/json
 paths:
 - content: POST https://atlas.microsoft.com/route/directions/batch/json?api-version=1.0
-- content: POST https://atlas.microsoft.com/route/directions/batch/json?subscription-key={subscription-key}&api-version=1.0
-  isOptional: true
 uriParameters:
 - name: format
   in: path
@@ -19,22 +17,17 @@ uriParameters:
   description: Desired format of the response. Only `json` format is supported.
   types:
   - uid: JsonFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
+  description: Batch request successfully processed. The response body contains all the batch results.
   types:
-  - uid: BatchResponse
+  - uid: RouteDirectionsBatchResult
 - name: 202 Accepted
   headers:
   - name: Location
@@ -43,37 +36,18 @@ responses:
     **Supported only for async request.**
 
     Request Accepted: The request has been accepted for processing. Please use the URL in the Location Header to retry or access the results.
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
   - name: batchItems
     in: body
-    description: The list of queries/requests to process
+    description: The list of queries to process.
     types:
-    - uid: BatchItems
+    - uid: BatchRequestItem
       isArray: true
 requestHeader:
 - name: x-ms-client-id
@@ -90,48 +64,62 @@ definitions:
     description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
-- name: BatchItems
-  description: The list of queries/requests to process
+- name: BatchRequestItem
+  description: Batch request object
   kind: object
   properties:
   - name: query
-    description: Partial query string
+    description: This parameter contains a query string used to perform an unstructured geocoding operation. The query string will be passed verbatim to the search API for processing.
     types:
     - uid: string
-- name: BatchResponse
-  description: This object is returned from a successful Batch service call
+- name: RouteDirectionsBatchResult
+  description: This object is returned from a successful Route Directions Batch service call.
   kind: object
   properties:
-  - name: summary
-    isReadyOnly: true
-    description: Summary for the batch request
-    types:
-    - uid: Summary
   - name: batchItems
     isReadyOnly: true
-    description: Array containing the batch results
+    description: Array containing the batch results.
     types:
-    - uid: object
+    - uid: RouteDirectionsBatchItem
       isArray: true
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+  - name: summary
+    isReadyOnly: true
+    description: Summary of the results for the batch request
+    types:
+    - uid: Summary
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
-- name: BatchRequestBody
+    - uid: ErrorDetail
+- name: BatchRequest
   description: This type represents the request body for the Batch service.
   kind: object
   properties:
   - name: batchItems
-    description: The list of queries/requests to process
+    description: The list of queries to process.
     types:
-    - uid: BatchItems
+    - uid: BatchRequestItem
       isArray: true
+- name: RouteDirectionsBatchItem
+  description: An item returned from Route Directions Batch service call.
+  kind: object
+  properties:
+  - name: response
+    isReadyOnly: true
+    description: The result of the query. RouteDirections if the query completed successfully, ErrorResponse otherwise.
+    types:
+    - uid: Response
+  - name: statusCode
+    isReadyOnly: true
+    description: HTTP request status code.
+    types:
+    - uid: integer
 - name: Summary
-  description: Summary for the batch request
+  description: Summary of the results for the batch request
   kind: object
   properties:
   - name: successfulRequests
@@ -144,34 +132,832 @@ definitions:
     description: Total number of requests in the batch
     types:
     - uid: integer
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: Response
+  description: The result of the query. RouteDirections if the query completed successfully, ErrorResponse otherwise.
+  kind: object
+  properties:
+  - name: formatVersion
+    isReadyOnly: true
+    description: Format Version property
+    types:
+    - uid: string
+  - name: routes
+    isReadyOnly: true
+    description: Routes array
+    types:
+    - uid: Route
+      isArray: true
+  - name: optimizedWaypoints
+    isReadyOnly: true
+    description: "Optimized sequence of waypoints. It shows the index from the user provided waypoint sequence for the original and optimized list. For instance, a response: \n\n```\n<optimizedWaypoints>\n<waypoint providedIndex=\"0\" optimizedIndex=\"1\"/>\n<waypoint providedIndex=\"1\" optimizedIndex=\"2\"/>\n<waypoint providedIndex=\"2\" optimizedIndex=\"0\"/>\n</optimizedWaypoints>\n```\n\nmeans that the original sequence is [0, 1, 2] and optimized sequence is [1, 2, 0]. Since the index starts by 0 the original is \"first, second, third\" while the optimized is \"second, third, first\"."
+    types:
+    - uid: RouteOptimizedWaypoint
+      isArray: true
+  - name: report
+    description: Reports the effective settings used in the current call.
+    types:
+    - uid: RouteReport
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: Route
+  kind: object
+  properties:
+  - name: summary
+    isReadyOnly: true
+    description: Summary object
+    types:
+    - uid: RouteSummary
+  - name: legs
+    isReadyOnly: true
+    description: Legs array
+    types:
+    - uid: RouteLeg
+      isArray: true
+  - name: sections
+    isReadyOnly: true
+    description: Sections array
+    types:
+    - uid: RouteSection
+      isArray: true
+  - name: guidance
+    isReadyOnly: true
+    description: Contains guidance related elements. This field is present only when guidance was requested and is available.
+    types:
+    - uid: RouteGuidance
+- name: RouteOptimizedWaypoint
+  description: Optimized way point object.
+  kind: object
+  properties:
+  - name: providedIndex
+    isReadyOnly: true
+    description: Way point index provided by the user.
+    types:
+    - uid: integer
+  - name: optimizedIndex
+    isReadyOnly: true
+    description: Optimized way point index from the system.
+    types:
+    - uid: integer
+- name: RouteReport
+  description: Reports the effective settings used in the current call.
+  kind: object
+  properties:
+  - name: effectiveSettings
+    isReadyOnly: true
+    description: Effective parameters or data used when calling this Route API.
+    types:
+    - uid: EffectiveSetting
+      isArray: true
+- name: RouteSummary
+  description: Summary object
+  kind: object
+  properties:
+  - name: lengthInMeters
+    isReadyOnly: true
+    description: Length In Meters property
+    types:
+    - uid: integer
+  - name: travelTimeInSeconds
+    isReadyOnly: true
+    description: Estimated travel time in seconds property that includes the delay due to real-time traffic. Note that even when traffic=false travelTimeInSeconds still includes the delay due to traffic. If DepartAt is in the future, travel time is calculated using time-dependent historic traffic data.
+    types:
+    - uid: integer
+  - name: trafficDelayInSeconds
+    isReadyOnly: true
+    description: Estimated delay in seconds caused by the real-time incident(s) according to traffic information. For routes planned with departure time in the future, delays is always 0. To return additional travel times using different types of traffic information, parameter computeTravelTimeFor=all needs to be added.
+    types:
+    - uid: integer
+  - name: departureTime
+    isReadyOnly: true
+    description: The estimated departure time for the route or leg.
+    types:
+    - uid: string
+  - name: arrivalTime
+    isReadyOnly: true
+    description: The estimated arrival time for the route or leg.
+    types:
+    - uid: string
+- name: RouteLeg
+  description: A description of a part of a route, comprised of a list of points. Each additional waypoint provided in the request will result in an additional leg in the returned route.
+  kind: object
+  properties:
+  - name: summary
+    isReadyOnly: true
+    description: Summary object for route section.
+    types:
+    - uid: RouteLegSummary
+  - name: points
+    isReadyOnly: true
+    description: Points array
+    types:
+    - uid: LatLongPair
+      isArray: true
+- name: RouteSection
+  description: Route sections contain additional information about parts of a route. Each section contains at least the elements `startPointIndex`, `endPointIndex`, and `sectionType`.
+  kind: object
+  properties:
+  - name: startPointIndex
+    isReadyOnly: true
+    description: Index of the first point (offset 0) in the route this section applies to.
+    types:
+    - uid: integer
+  - name: endPointIndex
+    isReadyOnly: true
+    description: Index of the last point (offset 0) in the route this section applies to.
+    types:
+    - uid: integer
+  - name: sectionType
+    isReadyOnly: true
+    description: Section types of the reported route response
+    types:
+    - uid: ResponseSectionType
+  - name: travelMode
+    isReadyOnly: true
+    description: Travel mode for the calculated route. The value will be set to `other` if the requested mode of transport is not possible in this section
+    types:
+    - uid: ResponseTravelMode
+  - name: simpleCategory
+    isReadyOnly: true
+    description: Type of the incident. Can currently be JAM, ROAD_WORK, ROAD_CLOSURE, or OTHER. See "tec" for detailed information.
+    types:
+    - uid: SimpleCategory
+  - name: effectiveSpeedInKmh
+    isReadyOnly: true
+    description: Effective speed of the incident in km/h, averaged over its entire length.
+    types:
+    - uid: integer
+  - name: delayInSeconds
+    isReadyOnly: true
+    description: Delay in seconds caused by the incident.
+    types:
+    - uid: integer
+  - name: magnitudeOfDelay
+    isReadyOnly: true
+    description: 'The magnitude of delay caused by the incident. These values correspond to the values of the response field ty of the [Get Traffic Incident Detail API](https://docs.microsoft.com/rest/api/maps/traffic/gettrafficincidentdetail). '
+    types:
+    - uid: DelayMagnitude
+  - name: tec
+    description: Details of the traffic event, using definitions in the [TPEG2-TEC](https://www.iso.org/standard/63116.html) standard. Can contain effectCode and causes elements.
+    types:
+    - uid: RouteSectionTec
+- name: RouteGuidance
+  description: Contains guidance related elements. This field is present only when guidance was requested and is available.
+  kind: object
+  properties:
+  - name: instructions
+    isReadyOnly: true
+    description: A list of instructions describing maneuvers.
+    types:
+    - uid: RouteInstruction
+      isArray: true
+  - name: instructionGroups
+    isReadyOnly: true
+    description: Groups a sequence of instruction elements which are related to each other.
+    types:
+    - uid: RouteInstructionGroup
+      isArray: true
+- name: EffectiveSetting
+  description: Effective parameter or data used when calling this Route API.
+  kind: object
+  properties:
+  - name: key
+    isReadyOnly: true
+    description: Name of the parameter used.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: Value of the parameter used.
+    types:
+    - uid: string
+- name: RouteLegSummary
+  description: Summary object for route section.
+  kind: object
+  properties:
+  - name: lengthInMeters
+    isReadyOnly: true
+    description: Length In Meters property
+    types:
+    - uid: integer
+  - name: travelTimeInSeconds
+    isReadyOnly: true
+    description: Estimated travel time in seconds property that includes the delay due to real-time traffic. Note that even when traffic=false travelTimeInSeconds still includes the delay due to traffic. If DepartAt is in the future, travel time is calculated using time-dependent historic traffic data.
+    types:
+    - uid: integer
+  - name: trafficDelayInSeconds
+    isReadyOnly: true
+    description: Estimated delay in seconds caused by the real-time incident(s) according to traffic information. For routes planned with departure time in the future, delays is always 0. To return additional travel times using different types of traffic information, parameter computeTravelTimeFor=all needs to be added.
+    types:
+    - uid: integer
+  - name: departureTime
+    isReadyOnly: true
+    description: The estimated departure time for the route or leg.
+    types:
+    - uid: string
+  - name: arrivalTime
+    isReadyOnly: true
+    description: The estimated arrival time for the route or leg.
+    types:
+    - uid: string
+  - name: noTrafficTravelTimeInSeconds
+    isReadyOnly: true
+    description: Estimated travel time calculated as if there are no delays on the route due to traffic conditions (e.g. congestion). Included only if computeTravelTimeFor = all is used in the query.
+    types:
+    - uid: integer
+  - name: historicTrafficTravelTimeInSeconds
+    isReadyOnly: true
+    description: Estimated travel time calculated using time-dependent historic traffic data. Included only if computeTravelTimeFor = all is used in the query.
+    types:
+    - uid: integer
+  - name: liveTrafficIncidentsTravelTimeInSeconds
+    isReadyOnly: true
+    description: Estimated travel time calculated using real-time speed data. Included only if computeTravelTimeFor = all is used in the query.
+    types:
+    - uid: integer
+  - name: fuelConsumptionInLiters
+    isReadyOnly: true
+    description: Estimated fuel consumption in liters using the Combustion Consumption Model. Included if vehicleEngineType is set to _combustion_ and constantSpeedConsumptionInLitersPerHundredkm is specified. The value will be non-negative.
+    types:
+    - uid: number
+  - name: batteryConsumptionInkWh
+    isReadyOnly: true
+    description: Estimated electric energy consumption in kilowatt hours (kWh) using the Electric Consumption Model. Included if vehicleEngineType is set to electric and constantSpeedConsumptionInkWhPerHundredkm is specified. The value of batteryConsumptionInkWh includes the recuperated electric energy and can therefore be negative (which indicates gaining energy). If both maxChargeInkWh and currentChargeInkWh are specified, recuperation will be capped to ensure that the battery charge level never exceeds maxChargeInkWh. If neither maxChargeInkWh nor currentChargeInkWh are specified, unconstrained recuperation is assumed in the consumption calculation.
+    types:
+    - uid: number
+- name: LatLongPair
+  description: A location represented as a latitude and longitude.
+  kind: object
+  properties:
+  - name: latitude
+    description: Latitude property
+    types:
+    - uid: number
+  - name: longitude
+    description: Longitude property
+    types:
+    - uid: number
+- name: ResponseSectionType
+  description: Section types of the reported route response
+  kind: enum
+  properties:
+  - name: CAR_TRAIN
+    description: Sections of the route that are cars or trains.
+    types:
+    - uid: string
+  - name: COUNTRY
+    description: Sections indicating which countries the route is in.
+    types:
+    - uid: string
+  - name: FERRY
+    description: Sections of the route that are ferries.
+    types:
+    - uid: string
+  - name: MOTORWAY
+    description: Sections of the route that are motorways.
+    types:
+    - uid: string
+  - name: PEDESTRIAN
+    description: Sections of the route that are only suited for pedestrians.
+    types:
+    - uid: string
+  - name: TOLL_ROAD
+    description: Sections of the route that require a toll to be payed.
+    types:
+    - uid: string
+  - name: TOLL_VIGNETTE
+    description: Sections of the route that require a toll vignette to be present.
+    types:
+    - uid: string
+  - name: TRAFFIC
+    description: Sections of the route that contain traffic information.
+    types:
+    - uid: string
+  - name: TRAVEL_MODE
+    description: Sections in relation to the request parameter `travelMode`.
+    types:
+    - uid: string
+  - name: TUNNEL
+    description: Sections of the route that are tunnels.
+    types:
+    - uid: string
+  - name: CARPOOL
+    description: Sections of the route that require use of carpool (HOV/High Occupancy Vehicle) lanes.
+    types:
+    - uid: string
+  - name: URBAN
+    description: Sections of the route that are located within urban areas.
+    types:
+    - uid: string
+- name: ResponseTravelMode
+  description: Travel mode for the calculated route. The value will be set to `other` if the requested mode of transport is not possible in this section
+  kind: enum
+  properties:
+  - name: car
+    description: The returned routes are optimized for cars.
+    types:
+    - uid: string
+  - name: truck
+    description: The returned routes are optimized for commercial vehicles, like for trucks.
+    types:
+    - uid: string
+  - name: taxi
+    description: The returned routes are optimized for taxis. BETA functionality.
+    types:
+    - uid: string
+  - name: bus
+    description: The returned routes are optimized for buses, including the use of bus only lanes. BETA functionality.
+    types:
+    - uid: string
+  - name: van
+    description: The returned routes are optimized for vans. BETA functionality.
+    types:
+    - uid: string
+  - name: motorcycle
+    description: The returned routes are optimized for motorcycles. BETA functionality.
+    types:
+    - uid: string
+  - name: bicycle
+    description: The returned routes are optimized for bicycles, including use of bicycle lanes.
+    types:
+    - uid: string
+  - name: pedestrian
+    description: The returned routes are optimized for pedestrians, including the use of sidewalks.
+    types:
+    - uid: string
+  - name: other
+    description: The given mode of transport is not possible in this section
+    types:
+    - uid: string
+- name: SimpleCategory
+  description: Type of the incident. Can currently be JAM, ROAD_WORK, ROAD_CLOSURE, or OTHER. See "tec" for detailed information.
+  kind: enum
+  properties:
+  - name: JAM
+    description: Traffic jam.
+    types:
+    - uid: string
+  - name: ROAD_WORK
+    description: Road work.
+    types:
+    - uid: string
+  - name: ROAD_CLOSURE
+    description: Road closure.
+    types:
+    - uid: string
+  - name: OTHER
+    description: Other.
+    types:
+    - uid: string
+- name: DelayMagnitude
+  description: 'The magnitude of delay caused by the incident. These values correspond to the values of the response field ty of the [Get Traffic Incident Detail API](https://docs.microsoft.com/rest/api/maps/traffic/gettrafficincidentdetail). '
+  kind: enum
+  properties:
+  - name: "0"
+    description: Unknown.
+    types:
+    - uid: string
+  - name: "1"
+    description: Minor.
+    types:
+    - uid: string
+  - name: "2"
+    description: Moderate.
+    types:
+    - uid: string
+  - name: "3"
+    description: Major.
+    types:
+    - uid: string
+  - name: "4"
+    description: Undefined, used for road closures and other indefinite delays.
+    types:
+    - uid: string
+- name: RouteSectionTec
+  description: Details of the traffic event, using definitions in the [TPEG2-TEC](https://www.iso.org/standard/63116.html) standard. Can contain effectCode and causes elements.
+  kind: object
+  properties:
+  - name: effectCode
+    isReadyOnly: true
+    description: The effect on the traffic flow. Contains a value in the tec001:EffectCode table, as defined in the [TPEG2-TEC](https://www.iso.org/standard/63116.html) standard. Can be used to color-code traffic events according to severity.
+    types:
+    - uid: integer
+  - name: causes
+    description: Causes array
+    types:
+    - uid: RouteSectionTecCause
+      isArray: true
+- name: RouteInstruction
+  description: A set of attributes describing a maneuver, e.g. 'Turn right', 'Keep left', 'Take the ferry', 'Take the motorway', 'Arrive'.
+  kind: object
+  properties:
+  - name: routeOffsetInMeters
+    isReadyOnly: true
+    description: Distance from the start of the route to the point of the instruction.
+    types:
+    - uid: integer
+  - name: travelTimeInSeconds
+    isReadyOnly: true
+    description: Estimated travel time up to the point corresponding to routeOffsetInMeters.
+    types:
+    - uid: integer
+  - name: point
+    description: A location represented as a latitude and longitude.
+    types:
+    - uid: LatLongPair
+  - name: pointIndex
+    isReadyOnly: true
+    description: The index of the point in the list of polyline "points" corresponding to the point of the instruction.
+    types:
+    - uid: integer
+  - name: instructionType
+    description: Type of the instruction, e.g., turn or change of road form.
+    types:
+    - uid: GuidanceInstructionType
+  - name: roadNumbers
+    isReadyOnly: true
+    description: 'The road number(s) of the next significant road segment(s) after the maneuver, or of the road(s) to be followed. Example: ["E34", "N205"]'
+    types:
+    - uid: string
+      isArray: true
+  - name: exitNumber
+    isReadyOnly: true
+    description: The number(s) of a highway exit taken by the current maneuver. If an exit has multiple exit numbers, they will be separated by "," and possibly aggregated by "-", e.g., "10, 13-15".
+    types:
+    - uid: string
+  - name: street
+    isReadyOnly: true
+    description: Street name of the next significant road segment after the maneuver, or of the street that should be followed.
+    types:
+    - uid: string
+  - name: signpostText
+    isReadyOnly: true
+    description: The text on a signpost which is most relevant to the maneuver, or to the direction that should be followed.
+    types:
+    - uid: string
+  - name: countryCode
+    isReadyOnly: true
+    description: 3-character [ISO 3166-1](https://www.iso.org/iso-3166-country-codes.html) alpha-3 country code. E.g. USA.
+    types:
+    - uid: string
+  - name: stateCode
+    isReadyOnly: true
+    description: A subdivision (e.g., state) of the country, represented by the second part of an [ISO 3166-2](https://www.iso.org/standard/63546.html) code. This is only available for some countries like the US, Canada, and Mexico.
+    types:
+    - uid: string
+  - name: junctionType
+    isReadyOnly: true
+    description: The type of the junction where the maneuver takes place. For larger roundabouts, two separate instructions are generated for entering and leaving the roundabout.
+    types:
+    - uid: JunctionType
+  - name: turnAngleInDecimalDegrees
+    isReadyOnly: true
+    description: >-
+      Indicates the direction of an instruction. If junctionType indicates a turn instruction:
+
+        * 180 = U-turn
+        * [-179, -1] = Left turn
+        * 0 = Straight on (a '0 degree' turn)
+        * [1, 179] = Right turn
+
+      If junctionType indicates a bifurcation instruction:
+
+        * <0 - keep left
+        * \>0 - keep right
+    types:
+    - uid: integer
+  - name: roundaboutExitNumber
+    isReadyOnly: true
+    description: This indicates which exit to take at a roundabout.
+    types:
+    - uid: string
+  - name: possibleCombineWithNext
+    isReadyOnly: true
+    description: It is possible to optionally combine the instruction with the next one. This can be used to build messages like "Turn left and then turn right".
+    types:
+    - uid: boolean
+  - name: drivingSide
+    isReadyOnly: true
+    description: Indicates left-hand vs. right-hand side driving at the point of the maneuver.
+    types:
+    - uid: DrivingSide
+  - name: maneuver
+    isReadyOnly: true
+    description: A code identifying the maneuver.
+    types:
+    - uid: GuidanceManeuver
+  - name: message
+    isReadyOnly: true
+    description: A human-readable message for the maneuver.
+    types:
+    - uid: string
+  - name: combinedMessage
+    isReadyOnly: true
+    description: >-
+      A human-readable message for the maneuver combined with the message from the next instruction. Sometimes it is possible to combine two successive instructions into a single instruction making it easier to follow. When this is the case the possibleCombineWithNext flag will be true. For example:
+
+
+      ```
+
+      10. Turn left onto Einsteinweg/A10/E22 towards Ring Amsterdam
+
+      11. Follow Einsteinweg/A10/E22 towards Ring Amsterdam
+
+      ```
+
+
+      The possibleCombineWithNext flag on instruction 10 is true. This indicates to the clients of coded guidance that it can be combined with instruction 11. The instructions will be combined automatically for clients requesting human-readable guidance. The combinedMessage field contains the combined message:
+
+
+      ```
+
+      Turn left onto Einsteinweg/A10/E22 towards Ring Amsterdam
+
+      then follow Einsteinweg/A10/E22 towards Ring Amsterdam.
+
+      ```
+    types:
+    - uid: string
+- name: RouteInstructionGroup
+  description: Groups a sequence of instruction elements which are related to each other. The sequence range is constrained with firstInstructionIndex and lastInstructionIndex. When human-readable text messages are requested for guidance (instructionType=text or tagged), then the instructionGroup has a summary message returned when available.
+  kind: object
+  properties:
+  - name: firstInstructionIndex
+    isReadyOnly: true
+    description: Index of the first instruction in the instructions and belonging to this group.
+    types:
+    - uid: integer
+  - name: lastInstructionIndex
+    isReadyOnly: true
+    description: Index of the last instruction in the instructions and belonging to this group.
+    types:
+    - uid: integer
+  - name: groupLengthInMeters
+    isReadyOnly: true
+    description: Length of the group.
+    types:
+    - uid: integer
+  - name: groupMessage
+    isReadyOnly: true
+    description: Summary message when human-readable text messages are requested for guidance (instructionType=text or tagged).
+    types:
+    - uid: string
+- name: RouteSectionTecCause
+  description: The cause of the traffic event. Can contain mainCauseCode and subCauseCode elements. Can be used to define iconography and descriptions.
+  kind: object
+  properties:
+  - name: mainCauseCode
+    isReadyOnly: true
+    description: The main cause of the traffic event. Contains a value in the tec002:CauseCode table, as defined in the [TPEG2-TEC](https://www.iso.org/standard/63116.html) standard.
+    types:
+    - uid: integer
+  - name: subCauseCode
+    isReadyOnly: true
+    description: The subcause of the traffic event. Contains a value in the sub cause table defined by the mainCauseCode, as defined in the [TPEG2-TEC](https://www.iso.org/standard/63116.html) standard.
+    types:
+    - uid: integer
+- name: GuidanceInstructionType
+  description: Type of the instruction, e.g., turn or change of road form.
+  kind: enum
+  properties:
+  - name: TURN
+    description: Turn.
+    types:
+    - uid: string
+  - name: ROAD_CHANGE
+    description: Road Change.
+    types:
+    - uid: string
+  - name: LOCATION_DEPARTURE
+    description: Departure location.
+    types:
+    - uid: string
+  - name: LOCATION_ARRIVAL
+    description: Arrival location.
+    types:
+    - uid: string
+  - name: DIRECTION_INFO
+    description: Direction information.
+    types:
+    - uid: string
+  - name: LOCATION_WAYPOINT
+    description: Way point location.
+    types:
+    - uid: string
+- name: JunctionType
+  description: The type of the junction where the maneuver takes place. For larger roundabouts, two separate instructions are generated for entering and leaving the roundabout.
+  kind: enum
+  properties:
+  - name: REGULAR
+    description: regular
+    types:
+    - uid: string
+  - name: ROUNDABOUT
+    description: roundabout
+    types:
+    - uid: string
+  - name: BIFURCATION
+    description: bifurcation
+    types:
+    - uid: string
+- name: DrivingSide
+  description: Indicates left-hand vs. right-hand side driving at the point of the maneuver.
+  kind: enum
+  properties:
+  - name: LEFT
+    description: Left side.
+    types:
+    - uid: string
+  - name: RIGHT
+    description: Right side.
+    types:
+    - uid: string
+- name: GuidanceManeuver
+  description: A code identifying the maneuver.
+  kind: enum
+  properties:
+  - name: ARRIVE
+    description: You have arrived.
+    types:
+    - uid: string
+  - name: ARRIVE_LEFT
+    description: You have arrived. Your destination is on the left.
+    types:
+    - uid: string
+  - name: ARRIVE_RIGHT
+    description: You have arrived. Your destination is on the right.
+    types:
+    - uid: string
+  - name: DEPART
+    description: Leave.
+    types:
+    - uid: string
+  - name: STRAIGHT
+    description: Keep straight on.
+    types:
+    - uid: string
+  - name: KEEP_RIGHT
+    description: Keep right.
+    types:
+    - uid: string
+  - name: BEAR_RIGHT
+    description: Bear right.
+    types:
+    - uid: string
+  - name: TURN_RIGHT
+    description: Turn right.
+    types:
+    - uid: string
+  - name: SHARP_RIGHT
+    description: Turn sharp right.
+    types:
+    - uid: string
+  - name: KEEP_LEFT
+    description: Keep left.
+    types:
+    - uid: string
+  - name: BEAR_LEFT
+    description: Bear left.
+    types:
+    - uid: string
+  - name: TURN_LEFT
+    description: Turn left.
+    types:
+    - uid: string
+  - name: SHARP_LEFT
+    description: Turn sharp left.
+    types:
+    - uid: string
+  - name: MAKE_UTURN
+    description: Make a U-turn.
+    types:
+    - uid: string
+  - name: ENTER_MOTORWAY
+    description: Take the motorway.
+    types:
+    - uid: string
+  - name: ENTER_FREEWAY
+    description: Take the freeway.
+    types:
+    - uid: string
+  - name: ENTER_HIGHWAY
+    description: Take the highway.
+    types:
+    - uid: string
+  - name: TAKE_EXIT
+    description: Take the exit.
+    types:
+    - uid: string
+  - name: MOTORWAY_EXIT_LEFT
+    description: Take the left exit.
+    types:
+    - uid: string
+  - name: MOTORWAY_EXIT_RIGHT
+    description: Take the right exit.
+    types:
+    - uid: string
+  - name: TAKE_FERRY
+    description: Take the ferry.
+    types:
+    - uid: string
+  - name: ROUNDABOUT_CROSS
+    description: Cross the roundabout.
+    types:
+    - uid: string
+  - name: ROUNDABOUT_RIGHT
+    description: At the roundabout take the exit on the right.
+    types:
+    - uid: string
+  - name: ROUNDABOUT_LEFT
+    description: At the roundabout take the exit on the left.
+    types:
+    - uid: string
+  - name: ROUNDABOUT_BACK
+    description: Go around the roundabout.
+    types:
+    - uid: string
+  - name: TRY_MAKE_UTURN
+    description: Try to make a U-turn.
+    types:
+    - uid: string
+  - name: FOLLOW
+    description: Follow.
+    types:
+    - uid: string
+  - name: SWITCH_PARALLEL_ROAD
+    description: Switch to the parallel road.
+    types:
+    - uid: string
+  - name: SWITCH_MAIN_ROAD
+    description: Switch to the main road.
+    types:
+    - uid: string
+  - name: ENTRANCE_RAMP
+    description: Take the ramp.
+    types:
+    - uid: string
+  - name: WAYPOINT_LEFT
+    description: You have reached the waypoint. It is on the left.
+    types:
+    - uid: string
+  - name: WAYPOINT_RIGHT
+    description: You have reached the waypoint. It is on the right.
+    types:
+    - uid: string
+  - name: WAYPOINT_REACHED
+    description: You have reached the waypoint.
     types:
     - uid: string
 examples:
-- name: A Route Directions Batch API call containing 3 Route Directions API queries
+- name: Successfully submit a route direction batch request
   request:
-    uri: POST https://atlas.microsoft.com/route/directions/batch/json?subscription-key=[subscription-key]&api-version=1.0
+    uri: POST https://atlas.microsoft.com/route/directions/batch/json?api-version=1.0
     body: >-
       {
         "batchItems": [
@@ -330,46 +1116,6 @@ examples:
     headers:
     - name: Location
       value: URL to download the results of the long-running batch request.
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
-      }
 security:
 - name: AADToken
   type: oauth2
@@ -403,10 +1149,5 @@ metadata:
 
 
 
-    **Applies to**: S1 pricing tier.
-
-
-
-
-    The Route Directions Batch API sends batches of queries to [Route Directions API](https://d
+    **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 errorCodes: []

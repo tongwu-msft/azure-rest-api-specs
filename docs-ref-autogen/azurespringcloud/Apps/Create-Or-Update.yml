@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringcloud.apps.createorupdate
 name: Create Or Update
 service: Azure Spring Cloud
 groupName: Apps
-apiVersion: 2021-09-01-preview
+apiVersion: 2022-01-01-preview
 summary: Create a new App or update an exiting App.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}?api-version=2021-09-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}?api-version=2022-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,7 +48,7 @@ responses:
   types:
   - uid: AppResource
 - name: 201 Created
-  description: Created. The response describes the new App and contains a Location header to query the operation result.
+  description: Created. The response describes the new App and contains an Azure-AsyncOperation header to query the operation result.
   types:
   - uid: AppResource
 - name: 202 Accepted
@@ -95,15 +95,19 @@ definitions:
     description: URL of the App
     types:
     - uid: string
+  - name: addonConfigs
+    description: Collection of addons
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
   - name: provisioningState
     isReadyOnly: true
     description: Provisioning state of the App
     types:
     - uid: AppResourceProvisioningState
-  - name: activeDeploymentName
-    description: Name of the active deployment of the App
-    types:
-    - uid: string
   - name: fqdn
     description: Fully qualified dns Name.
     types:
@@ -112,11 +116,6 @@ definitions:
     description: Indicate if only https is allowed.
     types:
     - uid: boolean
-  - name: createdTime
-    isReadyOnly: true
-    description: Date time when the resource is created
-    types:
-    - uid: string
   - name: temporaryDisk
     description: Temporary disk settings
     types:
@@ -155,6 +154,34 @@ definitions:
     description: Tenant Id
     types:
     - uid: string
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: lastModifiedByType
+  - name: lastModifiedAt
+    description: The timestamp of resource modification (UTC).
+    types:
+    - uid: string
 - name: AppResource
   description: App resource payload
   kind: object
@@ -186,6 +213,11 @@ definitions:
     description: The type of the resource.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
 - name: CloudError
   description: An error response from the service.
   kind: object
@@ -208,6 +240,9 @@ definitions:
     types:
     - uid: string
   - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
     types:
     - uid: string
 - name: TemporaryDisk
@@ -280,6 +315,38 @@ definitions:
   - name: SystemAssigned,UserAssigned
     types:
     - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: lastModifiedByType
+  description: The type of identity that last modified the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -330,18 +397,25 @@ definitions:
 examples:
 - name: Apps_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2021-09-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-01-01-preview
     body: >-
       {
         "properties": {
           "public": true,
-          "activeDeploymentName": "mydeployment1",
           "fqdn": "myapp.mydomain.com",
           "httpsOnly": false,
           "enableEndToEndTLS": false,
           "temporaryDisk": {
             "sizeInGB": 2,
             "mountPath": "/mytemporarydisk"
+          },
+          "addonConfigs": {
+            "ApplicationConfigurationService": {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/configurationServices/myacs"
+            },
+            "ServiceRegistry": {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/serviceRegistries/myServiceRegistry"
+            }
           },
           "persistentDisk": {
             "sizeInGB": 2,
@@ -385,13 +459,20 @@ examples:
           "public": true,
           "url": "myapp.myservice.azuremicroservices.io",
           "provisioningState": "Succeeded",
-          "activeDeploymentName": "mydeployment1",
           "fqdn": "myapp.mydomain.com",
           "httpsOnly": false,
           "enableEndToEndTLS": false,
           "temporaryDisk": {
             "sizeInGB": 2,
             "mountPath": "/mytemporarydisk"
+          },
+          "addonConfigs": {
+            "ApplicationConfigurationService": {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/configurationServices/myacs"
+            },
+            "ServiceRegistry": {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/serviceRegistries/myServiceRegistry"
+            }
           },
           "persistentDisk": {
             "sizeInGB": 2,
@@ -414,6 +495,14 @@ examples:
               "storageId": "myASCStorageID"
             }
           ]
+        },
+        "systemData": {
+          "createdBy": "sample-user",
+          "createdByType": "User",
+          "createdAt": "2021-08-11T03:16:03.944Z",
+          "lastModifiedBy": "sample-user",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-08-11T03:17:03.944Z"
         },
         "type": "Microsoft.AppPlatform/Spring/apps",
         "identity": {
@@ -432,13 +521,20 @@ examples:
           "public": true,
           "url": "myapp.myservice.azuremicroservices.io",
           "provisioningState": "Creating",
-          "activeDeploymentName": "mydeployment1",
           "fqdn": "myapp.mydomain.com",
           "httpsOnly": false,
           "enableEndToEndTLS": false,
           "temporaryDisk": {
             "sizeInGB": 2,
             "mountPath": "/mytemporarydisk"
+          },
+          "addonConfigs": {
+            "ApplicationConfigurationService": {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/configurationServices/myacs"
+            },
+            "ServiceRegistry": {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/serviceRegistries/myServiceRegistry"
+            }
           },
           "persistentDisk": {
             "sizeInGB": 2,
@@ -461,6 +557,14 @@ examples:
               "storageId": "myASCStorageID"
             }
           ]
+        },
+        "systemData": {
+          "createdBy": "sample-user",
+          "createdByType": "User",
+          "createdAt": "2021-08-11T03:16:03.944Z",
+          "lastModifiedBy": "sample-user",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-08-11T03:17:03.944Z"
         },
         "type": "Microsoft.AppPlatform/Spring/apps",
         "identity": {
@@ -479,13 +583,20 @@ examples:
           "public": true,
           "url": "myapp.myservice.azuremicroservices.io",
           "provisioningState": "Updating",
-          "activeDeploymentName": "mydeployment1",
           "fqdn": "myapp.mydomain.com",
           "httpsOnly": false,
           "enableEndToEndTLS": false,
           "temporaryDisk": {
             "sizeInGB": 2,
             "mountPath": "/mytemporarydisk"
+          },
+          "addonConfigs": {
+            "ApplicationConfigurationService": {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/configurationServices/myacs"
+            },
+            "ServiceRegistry": {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/serviceRegistries/myServiceRegistry"
+            }
           },
           "persistentDisk": {
             "sizeInGB": 2,
@@ -508,6 +619,14 @@ examples:
               "storageId": "myASCStorageID"
             }
           ]
+        },
+        "systemData": {
+          "createdBy": "sample-user",
+          "createdByType": "User",
+          "createdAt": "2021-08-11T03:16:03.944Z",
+          "lastModifiedBy": "sample-user",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-08-11T03:17:03.944Z"
         },
         "type": "Microsoft.AppPlatform/Spring/apps",
         "identity": {

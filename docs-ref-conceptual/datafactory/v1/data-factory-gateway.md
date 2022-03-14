@@ -1,7 +1,10 @@
 ---
 title: "Gateway (Azure Data Factory)"
 ---
-# Gateway
+# Gateway version 1 (V1)
+
+> [!NOTE]
+> This reference documentation applies to Azure Data Factory version 1 (V1).
 
 ## Create
 Creates a new gateway.  

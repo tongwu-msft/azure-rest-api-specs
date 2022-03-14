@@ -37,24 +37,16 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: Other Status Codes
-  description: Error
-  types:
-  - uid: CloudError
 - name: 200 OK
   description: OK
   types:
   - uid: OSFamily
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
-- name: CloudError
-  description: An error response from the Compute service.
-  kind: object
-  properties:
-  - name: error
-    description: Api error.
-    types:
-    - uid: ApiError
 - name: OSFamily
   description: Describes a cloud service OS family.
   kind: object
@@ -83,6 +75,34 @@ definitions:
     description: OS family properties.
     types:
     - uid: OSFamilyProperties
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
+- name: OSFamilyProperties
+  description: OS family properties.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The OS family name.
+    types:
+    - uid: string
+  - name: label
+    isReadyOnly: true
+    description: The OS family label.
+    types:
+    - uid: string
+  - name: versions
+    isReadyOnly: true
+    description: List of OS versions belonging to this family.
+    types:
+    - uid: OSVersionPropertiesBase
+      isArray: true
 - name: ApiError
   description: Api error.
   kind: object
@@ -108,26 +128,30 @@ definitions:
     description: The target of the particular error.
     types:
     - uid: string
-- name: OSFamilyProperties
-  description: OS family properties.
+- name: OSVersionPropertiesBase
+  description: Configuration view of an OS version.
   kind: object
   properties:
-  - name: name
+  - name: version
     isReadyOnly: true
-    description: The OS family name.
+    description: The OS version.
     types:
     - uid: string
   - name: label
     isReadyOnly: true
-    description: The OS family label.
+    description: The OS version label.
     types:
     - uid: string
-  - name: versions
+  - name: isDefault
     isReadyOnly: true
-    description: List of OS versions belonging to this family.
+    description: Specifies whether this is the default OS version for its family.
     types:
-    - uid: OSVersionPropertiesBase
-      isArray: true
+    - uid: boolean
+  - name: isActive
+    isReadyOnly: true
+    description: Specifies whether this OS version is active.
+    types:
+    - uid: boolean
 - name: ApiErrorBase
   description: Api error base.
   kind: object
@@ -156,30 +180,6 @@ definitions:
     description: The internal error message or exception dump.
     types:
     - uid: string
-- name: OSVersionPropertiesBase
-  description: Configuration view of an OS version.
-  kind: object
-  properties:
-  - name: version
-    isReadyOnly: true
-    description: The OS version.
-    types:
-    - uid: string
-  - name: label
-    isReadyOnly: true
-    description: The OS version label.
-    types:
-    - uid: string
-  - name: isDefault
-    isReadyOnly: true
-    description: Specifies whether this is the default OS version for its family.
-    types:
-    - uid: boolean
-  - name: isActive
-    isReadyOnly: true
-    description: Specifies whether this OS version is active.
-    types:
-    - uid: boolean
 examples:
 - name: Get Cloud Service OS Family
   request:

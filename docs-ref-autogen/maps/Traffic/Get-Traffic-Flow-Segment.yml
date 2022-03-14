@@ -9,17 +9,16 @@ summary: >-
 
 
 
-  **Applies to**: S0 and S1 pricing tiers.
+  **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
   This service provides information about the speeds and travel times of the road fragment closest to the given coordinates. It is designed to work alongside the Flow layer of the Render Service to support clickable  flow data visualizations. With this API, the client side can connect any place in the map with flow data on the  closest road and present it to the user.
 consumes: []
 produces:
 - application/json
-- application/xml
 paths:
 - content: GET https://atlas.microsoft.com/traffic/flow/segment/{format}?api-version=1.0&style={style}&zoom={zoom}&query={query}
-- content: GET https://atlas.microsoft.com/traffic/flow/segment/{format}?subscription-key={subscription-key}&api-version=1.0&style={style}&zoom={zoom}&query={query}&unit={unit}&thickness={thickness}&openLr={openLr}
+- content: GET https://atlas.microsoft.com/traffic/flow/segment/{format}?api-version=1.0&style={style}&zoom={zoom}&query={query}&unit={unit}&thickness={thickness}&openLr={openLr}
   isOptional: true
 uriParameters:
 - name: format
@@ -27,16 +26,11 @@ uriParameters:
   isRequired: true
   description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
-  - uid: TextFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
+  - uid: ResponseFormat
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: style
@@ -58,9 +52,9 @@ uriParameters:
 - name: query
   in: query
   isRequired: true
-  description: Coordinates of the point close to the road segment. They have to be comma-separated and calculated using EPSG4326 projection.
+  description: Coordinates of the point close to the road segment. This parameter is a list of four coordinates, containing two coordinate pairs (lat, long, lat, long), and calculated using EPSG4326 projection. When this endpoint is called directly, coordinates are passed in as a single string containing four coordinates, separated by commas.
   types:
-  - uid: string
+  - uid: array
 - name: unit
   in: query
   description: Unit of speed in KMPH or MPH
@@ -81,30 +75,11 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: TrafficFlowSegmentResult
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  - uid: TrafficFlowSegmentData
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -112,7 +87,7 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: TextFormat
+- name: ResponseFormat
   description: Desired format of the response. Value can be either _json_ or _xml_.
   kind: enum
   properties:
@@ -149,7 +124,7 @@ definitions:
     description: Miles Per Hour
     types:
     - uid: string
-- name: TrafficFlowSegmentResult
+- name: TrafficFlowSegmentData
   description: This object is returned from a successful Traffic Flow Segment call
   kind: object
   properties:
@@ -158,14 +133,14 @@ definitions:
     description: Flow Segment Data property
     types:
     - uid: FlowSegmentData
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
+    - uid: ErrorDetail
 - name: FlowSegmentData
   description: Flow Segment Data property
   kind: object
@@ -195,12 +170,12 @@ definitions:
     - uid: integer
   - name: currentTravelTime
     isReadyOnly: true
-    description: Current travel time in seconds based on fused real-time measurements between the defined locations in the specified direction.
+    description: Current travel time in seconds, across this traffic segment, based on fused real-time measurements between the defined locations in the specified direction.
     types:
     - uid: integer
   - name: freeFlowTravelTime
     isReadyOnly: true
-    description: The travel time in seconds which would be expected under ideal free flow conditions.
+    description: The travel time in seconds, across this traffic segment, which would be expected under ideal free flow conditions.
     types:
     - uid: integer
   - name: confidence
@@ -219,33 +194,40 @@ definitions:
     - uid: string
   - name: openlr
     isReadyOnly: true
-    description: OpenLR code for segment
+    description: OpenLR code for segment. See [OpenLR](https://en.wikipedia.org/wiki/OpenLR) for more information on the use of Open LR codes.
     types:
-    - uid: number
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
     types:
-    - uid: string
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: Coordinates
   description: Includes the coordinates describing the shape of the segment. Coordinates are shifted from the road depending on the zoom level to support high quality visualization in every scale.
   kind: object
@@ -254,26 +236,38 @@ definitions:
     isReadyOnly: true
     description: Coordinate array
     types:
-    - uid: Coordinate
+    - uid: LatLongPair
       isArray: true
-- name: Coordinate
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: LatLongPair
   description: A location represented as a latitude and longitude.
   kind: object
   properties:
   - name: latitude
-    isReadyOnly: true
     description: Latitude property
     types:
     - uid: number
   - name: longitude
-    isReadyOnly: true
     description: Longitude property
     types:
     - uid: number
 examples:
-- name: GetTrafficFlowSegment
+- name: Request traffic flow segment information
   request:
-    uri: GET https://atlas.microsoft.com/traffic/flow/segment/json?subscription-key=[subscription-key]&api-version=1.0&style=absolute&zoom=10&query=52.41072,4.84239
+    uri: GET https://atlas.microsoft.com/traffic/flow/segment/json?api-version=1.0&style=absolute&zoom=10&query=52.41072&query=4.84239
   responses:
   - statusCode: "200"
     body: >-
@@ -299,46 +293,6 @@ examples:
           },
           "openlr": null,
           "@version": "1.0.53-mascoma"
-        }
-      }
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
         }
       }
 security:
@@ -374,8 +328,8 @@ metadata:
 
 
 
-    **Applies to**: S0 and S1 pricing tiers.
+    **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
-    This service provides information about the speeds and travel times of the road fragment cl
+    This service provides information about the speeds and tra
 errorCodes: []

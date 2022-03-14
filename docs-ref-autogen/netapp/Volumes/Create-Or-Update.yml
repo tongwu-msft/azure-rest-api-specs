@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.volumes.createorupdate
 name: Create Or Update
 service: Azure NetApp Files
 groupName: Volumes
-apiVersion: 2021-08-01
+apiVersion: 2021-10-01
 summary: "Create or Update a volume  \nCreate or update the specified volume within the capacity pool"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2021-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -242,8 +242,41 @@ requestBody:
     types:
     - uid: placementKeyValuePairs
       isArray: true
+  - name: properties.enableSubvolumes
+    in: body
+    description: Flag indicating whether subvolume operations are enabled on the volume
+    types:
+    - uid: enableSubvolumes
 requestHeader: []
 definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: ExportPolicy
   description: exportPolicy
   kind: object
@@ -339,6 +372,11 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
+    types:
+    - uid: systemData
   - name: properties.fileSystemId
     isReadyOnly: true
     description: "FileSystem ID  \nUnique FileSystem Identifier."
@@ -484,6 +522,11 @@ definitions:
     description: Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies.
     types:
     - uid: integer
+  - name: properties.maximumNumberOfFiles
+    isReadyOnly: true
+    description: Maximum number of files allowed. Needs a service request in order to be changed. Only allowed to be changed if volume quota is more than 4TiB.
+    types:
+    - uid: integer
   - name: properties.volumeGroupName
     isReadyOnly: true
     description: Volume Group Name
@@ -511,6 +554,26 @@ definitions:
     types:
     - uid: placementKeyValuePairs
       isArray: true
+  - name: properties.enableSubvolumes
+    description: Flag indicating whether subvolume operations are enabled on the volume
+    types:
+    - uid: enableSubvolumes
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: exportPolicyRule
   description: Volume Export Policy Rule
   kind: object
@@ -697,6 +760,18 @@ definitions:
     description: avsDataStore is disabled
     types:
     - uid: string
+- name: enableSubvolumes
+  description: Flag indicating whether subvolume operations are enabled on the volume
+  kind: enum
+  properties:
+  - name: Enabled
+    description: subvolumes are enabled
+    types:
+    - uid: string
+  - name: Disabled
+    description: subvolumes are not enabled
+    types:
+    - uid: string
 - name: ChownMode
   description: This parameter specifies who is authorized to change the ownership of a file. restricted - Only root user can change the ownership of the file. unrestricted - Non-root users can change ownership of files that they own.
   kind: enum
@@ -733,7 +808,7 @@ definitions:
 examples:
 - name: Volumes_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1?api-version=2021-08-01
+    uri: PUT https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1?api-version=2021-10-01
     body: >-
       {
         "location": "eastus",

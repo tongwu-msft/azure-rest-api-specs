@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.clusters.get
 name: Get
 service: Azure Kusto
 groupName: Clusters
-apiVersion: 2021-08-27
+apiVersion: 2022-02-01
 summary: Gets a Kusto cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}?api-version=2021-08-27
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}?api-version=2022-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -167,6 +167,20 @@ definitions:
     description: List of allowed FQDNs(Fully Qualified Domain Name) for egress from Cluster.
     types:
     - uid: string
+      isArray: true
+  - name: properties.publicIPType
+    description: Indicates what public IP type to create - IPv4 (default), or DualStack (both IPv4 and IPv6)
+    types:
+    - uid: publicIPType
+  - name: properties.virtualClusterGraduationProperties
+    description: Virtual Cluster graduation properties
+    types:
+    - uid: string
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: A list of private endpoint connections.
+    types:
+    - uid: PrivateEndpointConnection
       isArray: true
   - name: tags
     description: Resource tags.
@@ -433,6 +447,59 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: publicIPType
+  description: Indicates what public IP type to create - IPv4 (default), or DualStack (both IPv4 and IPv6)
+  kind: enum
+  properties:
+  - name: IPv4
+    types:
+    - uid: string
+  - name: DualStack
+    types:
+    - uid: string
+- name: PrivateEndpointConnection
+  description: A private endpoint connection
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: properties.privateEndpoint
+    isReadyOnly: true
+    description: Private endpoint which the connection belongs to.
+    types:
+    - uid: PrivateEndpointProperty
+  - name: properties.privateLinkServiceConnectionState
+    description: Connection State of the Private Endpoint Connection.
+    types:
+    - uid: PrivateLinkServiceConnectionStateProperty
+  - name: properties.groupId
+    isReadyOnly: true
+    description: Group id of the private endpoint.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the private endpoint.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from Kusto.
   kind: object
@@ -458,6 +525,33 @@ definitions:
   description: SKU name.
   kind: enum
   properties:
+  - name: Dev(No SLA)_Standard_D11_v2
+    types:
+    - uid: string
+  - name: Dev(No SLA)_Standard_E2a_v4
+    types:
+    - uid: string
+  - name: Standard_D11_v2
+    types:
+    - uid: string
+  - name: Standard_D12_v2
+    types:
+    - uid: string
+  - name: Standard_D13_v2
+    types:
+    - uid: string
+  - name: Standard_D14_v2
+    types:
+    - uid: string
+  - name: Standard_D32d_v4
+    types:
+    - uid: string
+  - name: Standard_D16d_v5
+    types:
+    - uid: string
+  - name: Standard_D32d_v5
+    types:
+    - uid: string
   - name: Standard_DS13_v2+1TB_PS
     types:
     - uid: string
@@ -470,10 +564,7 @@ definitions:
   - name: Standard_DS14_v2+4TB_PS
     types:
     - uid: string
-  - name: Standard_D13_v2
-    types:
-    - uid: string
-  - name: Standard_D14_v2
+  - name: Standard_L4s
     types:
     - uid: string
   - name: Standard_L8s
@@ -486,18 +577,6 @@ definitions:
     types:
     - uid: string
   - name: Standard_L16s_v2
-    types:
-    - uid: string
-  - name: Standard_D11_v2
-    types:
-    - uid: string
-  - name: Standard_D12_v2
-    types:
-    - uid: string
-  - name: Standard_L4s
-    types:
-    - uid: string
-  - name: Dev(No SLA)_Standard_D11_v2
     types:
     - uid: string
   - name: Standard_E64i_v3
@@ -530,7 +609,52 @@ definitions:
   - name: Standard_E16as_v4+4TB_PS
     types:
     - uid: string
-  - name: Dev(No SLA)_Standard_E2a_v4
+  - name: Standard_E8as_v5+1TB_PS
+    types:
+    - uid: string
+  - name: Standard_E8as_v5+2TB_PS
+    types:
+    - uid: string
+  - name: Standard_E16as_v5+3TB_PS
+    types:
+    - uid: string
+  - name: Standard_E16as_v5+4TB_PS
+    types:
+    - uid: string
+  - name: Standard_E2ads_v5
+    types:
+    - uid: string
+  - name: Standard_E4ads_v5
+    types:
+    - uid: string
+  - name: Standard_E8ads_v5
+    types:
+    - uid: string
+  - name: Standard_E16ads_v5
+    types:
+    - uid: string
+  - name: Standard_E8s_v4+1TB_PS
+    types:
+    - uid: string
+  - name: Standard_E8s_v4+2TB_PS
+    types:
+    - uid: string
+  - name: Standard_E16s_v4+3TB_PS
+    types:
+    - uid: string
+  - name: Standard_E16s_v4+4TB_PS
+    types:
+    - uid: string
+  - name: Standard_E8s_v5+1TB_PS
+    types:
+    - uid: string
+  - name: Standard_E8s_v5+2TB_PS
+    types:
+    - uid: string
+  - name: Standard_E16s_v5+3TB_PS
+    types:
+    - uid: string
+  - name: Standard_E16s_v5+4TB_PS
     types:
     - uid: string
 - name: AzureSkuTier
@@ -591,6 +715,32 @@ definitions:
     description: The language extension name.
     types:
     - uid: languageExtensionName
+- name: PrivateEndpointProperty
+  description: Private endpoint which the connection belongs to.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource id of the private endpoint.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStateProperty
+  description: Connection State of the Private Endpoint Connection.
+  kind: object
+  properties:
+  - name: status
+    description: The private link service connection status.
+    types:
+    - uid: string
+  - name: description
+    description: The private link service connection description.
+    types:
+    - uid: string
+  - name: actionsRequired
+    isReadyOnly: true
+    description: Any action that is required beyond basic workflow (approve/ reject/ disconnect)
+    types:
+    - uid: string
 - name: languageExtensionName
   description: The language extension name.
   kind: enum
@@ -604,13 +754,13 @@ definitions:
 examples:
 - name: KustoClustersGet
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4?api-version=2021-08-27
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster?api-version=2022-02-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest4",
-        "name": "KustoClusterRPTest4",
+        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoCluster",
+        "name": "kustoCluster",
         "type": "Microsoft.Kusto/Clusters",
         "location": "westus",
         "properties": {
@@ -625,11 +775,31 @@ examples:
           },
           "engineType": "V3",
           "enableAutoStop": true,
+          "publicIPType": "IPv4",
           "publicNetworkAccess": "Enabled",
           "allowedIpRangeList": [],
           "restrictOutboundNetworkAccess": "Enabled",
           "allowedFqdnList": [
             "my-stroage.blob.core.windows.net"
+          ],
+          "privateEndpointConnections": [
+            {
+              "name": "privateEndpointTest",
+              "type": "Microsoft.Kusto/Clusters/PrivateEndpointConnections",
+              "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoCluster/privateEndpointConnections/privateEndpointTest",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "groupId": "cluster",
+                "privateEndpoint": {
+                  "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/rg1Network/providers/Microsoft.Network/privateEndpoints/privateEndpointName"
+                },
+                "privateLinkServiceConnectionState": {
+                  "status": "Approved",
+                  "description": "Auto-approved",
+                  "actionsRequired": "None"
+                }
+              }
+            }
           ]
         },
         "sku": {

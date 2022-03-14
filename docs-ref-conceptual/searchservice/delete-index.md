@@ -7,9 +7,8 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
-ms.manager: nitinme
+author: bevloh
+ms.author: beloh
 ---
 # Delete Index (Azure Cognitive Search REST API)
 
@@ -20,6 +19,8 @@ DELETE https://[service name].search.windows.net/indexes/[index name]?api-versio
   Content-Type: application/json  
   api-key: [admin key]  
 ```  
+
+If you attempt to delete an index that is currently mapped to an [alias](preview-api/alias-operations.md), the operation will fail with 400 (Bad Request) and an error message stating that the alias(es) that's mapped to that index must be deleted or mapped to a different index before the index can be deleted.
 
 ## URI Parameters
 

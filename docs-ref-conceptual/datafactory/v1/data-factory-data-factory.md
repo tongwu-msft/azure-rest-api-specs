@@ -1,7 +1,10 @@
 ---
 title: "Data Factory (Azure Data Factory)"
 ---
-# Data Factory
+# Data Factory version 1 (V1)
+
+> [!NOTE]
+> This reference documentation applies to Azure Data Factory version 1 (V1).
 
 ## Create or update
   The Create or Update Data Factory operation creates a new data factory, or updates the content of an existing data factory.  

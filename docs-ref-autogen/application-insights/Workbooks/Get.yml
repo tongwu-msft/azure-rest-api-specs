@@ -1,0 +1,405 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.application-insights.workbooks.get
+name: Get
+service: Application Insights
+groupName: Workbooks
+apiVersion: 2021-08-01
+summary: Get a single workbook by its resourceName.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooks/{resourceName}?api-version=2021-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooks/{resourceName}?api-version=2021-08-01&canFetchContent={canFetchContent}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the Application Insights component resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: canFetchContent
+  in: query
+  description: Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks.
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: A workbook definition.
+  types:
+  - uid: Workbook
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: WorkbookError
+requestHeader: []
+definitions:
+- name: Workbook
+  description: An Application Insights workbook definition.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: properties.displayName
+    description: The user-defined name (display name) of the workbook.
+    types:
+    - uid: string
+  - name: properties.serializedData
+    description: Configuration of this particular workbook. Configuration data is a string containing valid JSON
+    types:
+    - uid: string
+  - name: properties.version
+    description: Workbook schema version format, like 'Notebook/1.0', which should match the workbook in serializedData
+    types:
+    - uid: string
+  - name: properties.timeModified
+    isReadyOnly: true
+    description: Date and time in UTC of the last modification that was made to this workbook definition.
+    types:
+    - uid: string
+  - name: properties.category
+    description: Workbook category, as defined by the user at creation time.
+    types:
+    - uid: string
+  - name: properties.tags
+    description: Being deprecated, please use the other tags field
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.userId
+    isReadyOnly: true
+    description: Unique user id of the specific user that owns this workbook.
+    types:
+    - uid: string
+  - name: properties.sourceId
+    description: ResourceId for a source resource.
+    types:
+    - uid: string
+  - name: properties.storageUri
+    description: The resourceId to the storage account when bring your own storage is used
+    types:
+    - uid: string
+  - name: properties.description
+    description: The description of the workbook.
+    types:
+    - uid: string
+  - name: properties.revision
+    isReadyOnly: true
+    description: The unique revision id for this workbook definition
+    types:
+    - uid: string
+  - name: identity
+    description: Identity used for BYOS
+    types:
+    - uid: Identity
+  - name: kind
+    description: The kind of workbook. Only valid value is shared.
+    types:
+    - uid: kind
+  - name: etag
+    description: Resource etag
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: WorkbookError
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: WorkbookErrorDefinition
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: Identity
+  description: Identity used for BYOS
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: userAssignedIdentities
+    description: "User-Assigned Identities  \nThe set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
+- name: kind
+  description: The kind of workbook. Only valid value is shared.
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: shared
+    types:
+    - uid: string
+- name: WorkbookErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: innerError
+    isReadyOnly: true
+    description: Internal error details.
+    types:
+    - uid: WorkbookInnerErrorTrace
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentity
+  description: User assigned identity properties
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the assigned identity.
+    types:
+    - uid: string
+- name: WorkbookInnerErrorTrace
+  description: Error details
+  kind: object
+  properties:
+  - name: trace
+    isReadyOnly: true
+    description: detailed error trace
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: WorkbookGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/6b643656-33eb-422f-aee8-3ac145d124af/resourceGroups/my-resource-group/providers/Microsoft.Insights/workbooks/deadb33f-5e0d-4064-8ebb-1a4ed0313eb2?api-version=2021-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/6b643656-33eb-422f-aee8-3ac145d124af/resourcegroups/my-resource-group/providers/microsoft.insights/workbooks/deadb33f-5e0d-4064-8ebb-1a4ed0313eb2",
+        "name": "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2",
+        "type": "Microsoft.Insights/workbooks",
+        "location": "westus",
+        "kind": "shared",
+        "properties": {
+          "displayName": "My New Workbook",
+          "userId": "userId",
+          "serializedData": "{\"version\":\"Notebook/1.0\",\"items\":[{\"type\":1,\"content\":\"{\"json\":\"## New workbook\\r\\n---\\r\\n\\r\\nWelcome to your new workbook.  This area will display text formatted as markdown.\\r\\n\\r\\n\\r\\nWe've included a basic analytics query to get you started. Use the `Edit` button below each section to configure it or add more sections.\"}\",\"halfWidth\":null,\"conditionalVisibility\":null},{\"type\":3,\"content\":\"{\"version\":\"KqlItem/1.0\",\"query\":\"union withsource=TableName *\\n| summarize Count=count() by TableName\\n| render barchart\",\"showQuery\":false,\"size\":1,\"aggregation\":0,\"showAnnotations\":false}\",\"halfWidth\":null,\"conditionalVisibility\":null}],\"isLocked\":false}",
+          "version": "Notebook/1.0",
+          "category": "workbook",
+          "timeModified": "2021-08-24T06:56:31.6301521Z",
+          "storageUri": null,
+          "description": "Sample workbook",
+          "revision": "1e2f8435b98248febee70c64ac22e1bb"
+        },
+        "tags": {
+          "TagSample01": "sample01",
+          "TagSample02": "sample02"
+        }
+      }
+- name: WorkbookGet1
+  request:
+    uri: GET https://management.azure.com/subscriptions/6b643656-33eb-422f-aee8-3ac145d124af/resourceGroups/my-resource-group/providers/Microsoft.Insights/workbooks/deadb33f-5e0d-4064-8ebb-1a4ed0313eb2?api-version=2021-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/6b643656-33eb-422f-aee8-3ac145d124af/resourcegroups/my-resource-group/providers/microsoft.insights/workbooks/deadb33f-5e0d-4064-8ebb-1a4ed0313eb2",
+        "name": "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2",
+        "type": "Microsoft.Insights/workbooks",
+        "location": "westus",
+        "kind": "shared",
+        "properties": {
+          "displayName": "My New Workbook",
+          "userId": "userId",
+          "serializedData": "{\"version\":\"Notebook/1.0\",\"items\":[{\"type\":1,\"content\":\"{\"json\":\"## New workbook\\r\\n---\\r\\n\\r\\nWelcome to your new workbook.  This area will display text formatted as markdown.\\r\\n\\r\\n\\r\\nWe've included a basic analytics query to get you started. Use the `Edit` button below each section to configure it or add more sections.\"}\",\"halfWidth\":null,\"conditionalVisibility\":null},{\"type\":3,\"content\":\"{\"version\":\"KqlItem/1.0\",\"query\":\"union withsource=TableName *\\n| summarize Count=count() by TableName\\n| render barchart\",\"showQuery\":false,\"size\":1,\"aggregation\":0,\"showAnnotations\":false}\",\"halfWidth\":null,\"conditionalVisibility\":null}],\"isLocked\":false}",
+          "version": "Notebook/1.0",
+          "category": "workbook",
+          "timeModified": "2021-08-24T06:56:31.6301521Z",
+          "storageUri": null
+        },
+        "tags": {
+          "TagSample01": "sample01",
+          "TagSample02": "sample02"
+        }
+      }
+- name: WorkbookManagedGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/6b643656-33eb-422f-aee8-3ac145d124af/resourceGroups/my-resource-group/providers/Microsoft.Insights/workbooks/deadb33f-5e0d-4064-8ebb-1a4ed0313eb2?api-version=2021-08-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myid": {
+              "clientId": "00000000-0000-0000-0000-000000000000",
+              "principalId": "00000000-0000-0000-0000-000000000000"
+            }
+          }
+        },
+        "id": "/subscriptions/6b643656-33eb-422f-aee8-3ac145d124af/resourcegroups/my-resource-group/providers/Microsoft.Insights/workbooks/deadb33f-5e0d-4064-8ebb-1a4ed0313eb2",
+        "name": "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2",
+        "type": "Microsoft.Insights/workbooks",
+        "location": "westus",
+        "kind": "shared",
+        "properties": {
+          "displayName": "azuremon",
+          "serializedData": "{\"version\":\"Notebook/1.0\",\"items\":[{\"type\":1,\"content\":{\"json\":\"testing1\"},\"showPin\":false,\"name\":\"text - 0\"}],\"isLocked\":true,\"fallbackResourceIds\":[\"Azure Monitor\"]}",
+          "version": "Notebook/1.0",
+          "category": "workbook",
+          "userId": "51d1409c-d725-4550-ac03-98c0bef9ef07",
+          "sourceId": "azure monitor",
+          "timeModified": "2020-09-04T09:07:17.735638Z",
+          "description": "Sample workbook",
+          "revision": "1e2f8435b98248febee70c64ac22e1bb",
+          "storageUri": "/subscriptions/6b643656-33eb-422f-aee8-3ac145d124af/resourceGroups/my-resource-group/providers/Microsoft.Storage/storageAccounts/mystorage/blobServices/default/containers/mycontainer"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Application Insights service - Get a single workbook by its resourceName.
+errorCodes: []

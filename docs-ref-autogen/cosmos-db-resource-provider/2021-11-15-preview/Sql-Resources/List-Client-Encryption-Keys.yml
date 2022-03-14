@@ -1,0 +1,204 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmos-db-resource-provider.2021-11-15-preview.sqlresources.listclientencryptionkeys
+name: List Client Encryption Keys
+service: Cosmos DB Resource Provider
+groupName: Sql Resources
+apiVersion: 2021-11-15-preview
+summary: Lists the ClientEncryptionKeys under an existing Azure Cosmos DB SQL database.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys?api-version=2021-11-15-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: Cosmos DB database account name.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9]+(-[a-z0-9]+)*
+- name: databaseName
+  in: path
+  isRequired: true
+  description: Cosmos DB database name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The ClientEncryptionKeys were retrieved successfully.
+  types:
+  - uid: ClientEncryptionKeysListResult
+requestHeader: []
+definitions:
+- name: ClientEncryptionKeysListResult
+  description: The List operation response, that contains the client encryption keys and their properties.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of client encryption keys and their properties.
+    types:
+    - uid: ClientEncryptionKeyGetResults
+      isArray: true
+- name: ClientEncryptionKeyGetResults
+  description: Client Encryption Key.
+  kind: object
+  properties:
+  - name: properties.resource
+    description: ''
+    types:
+    - uid: Resource
+  - name: id
+    isReadyOnly: true
+    description: The unique resource identifier of the database account.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the database account.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of Azure resource.
+    types:
+    - uid: string
+- name: Resource
+  kind: object
+  properties:
+  - name: id
+    description: Name of the ClientEncryptionKey
+    types:
+    - uid: string
+  - name: encryptionAlgorithm
+    description: Encryption algorithm that will be used along with this client encryption key to encrypt/decrypt data.
+    types:
+    - uid: string
+  - name: wrappedDataEncryptionKey
+    description: Wrapped (encrypted) form of the key represented as a byte array.
+    types:
+    - uid: string
+  - name: keyWrapMetadata
+    description: Metadata for the wrapping provider that can be used to unwrap the wrapped client encryption key.
+    types:
+    - uid: KeyWrapMetadata
+  - name: _rid
+    isReadyOnly: true
+    description: A system generated property. A unique identifier.
+    types:
+    - uid: string
+  - name: _ts
+    isReadyOnly: true
+    description: A system generated property that denotes the last updated timestamp of the resource.
+    types:
+    - uid: number
+  - name: _etag
+    isReadyOnly: true
+    description: A system generated property representing the resource etag required for optimistic concurrency control.
+    types:
+    - uid: string
+- name: KeyWrapMetadata
+  description: Represents key wrap metadata that a key wrapping provider can use to wrap/unwrap a client encryption key.
+  kind: object
+  properties:
+  - name: name
+    description: The name of associated KeyEncryptionKey (aka CustomerManagedKey).
+    types:
+    - uid: string
+  - name: type
+    description: ProviderName of KeyStoreProvider.
+    types:
+    - uid: string
+  - name: value
+    description: Reference / link to the KeyEncryptionKey.
+    types:
+    - uid: string
+  - name: algorithm
+    description: Algorithm used in wrapping and unwrapping of the data encryption key.
+    types:
+    - uid: string
+examples:
+- name: CosmosDBClientEncryptionKeysList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.DocumentDB/databaseAccounts/accountName/sqlDatabases/databaseName/clientEncryptionKeys?api-version=2021-11-15-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.DocumentDB/databaseAccounts/accountName/sqlDatabases/databaseName/clientEncryptionKeys/cekName1",
+            "name": "cekName1",
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/clientEncryptionKey",
+            "properties": {
+              "resource": {
+                "id": "cekName1",
+                "encryptionAlgorithm": "AEAD_AES_256_CBC_HMAC_SHA256",
+                "wrappedDataEncryptionKey": "This is actually an array of bytes. This request/response is being presented as a string for readability in the example",
+                "keyWrapMetadata": {
+                  "name": "customerManagedKey1",
+                  "type": "AzureKeyVault",
+                  "value": "AzureKeyVault Key URL for customerManagedKey1",
+                  "algorithm": "RSA-OAEP"
+                },
+                "_rid": "nAMyAAAAAADPw1kKAgAAAA==",
+                "_ts": 1626425552,
+                "_etag": "00000000-0000-0000-7a1f-bc0828e801d7"
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.DocumentDB/databaseAccounts/accountName/sqlDatabases/databaseName/clientEncryptionKeys/cekName2",
+            "name": "cekName2",
+            "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/clientEncryptionKey",
+            "properties": {
+              "resource": {
+                "id": "cekName2",
+                "encryptionAlgorithm": "AEAD_AES_256_CBC_HMAC_SHA256",
+                "wrappedDataEncryptionKey": "This is actually an array of bytes. This request/response is being presented as a string for readability in the example",
+                "keyWrapMetadata": {
+                  "name": "customerManagedKey2",
+                  "type": "AzureKeyVault",
+                  "value": "AzureKeyVault Key URL for customerManagedKey2",
+                  "algorithm": "RSA-OAEP"
+                },
+                "_rid": "nAMyAAAAAAAWWfxHAgAAAA==",
+                "_ts": 1626425631,
+                "_etag": "00000000-0000-0000-7a21-7788a38c01d7"
+              }
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+metadata:
+  description: Learn more about Cosmos DB Resource Provider service - Lists the ClientEncryptionKeys under an existing Azure Cosmos DB SQL database.
+errorCodes: []

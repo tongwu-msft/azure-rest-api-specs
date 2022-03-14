@@ -3,14 +3,14 @@ uid: management.azure.com.monitor.actiongroups.createorupdate
 name: Create Or Update
 service: Monitor
 groupName: Action Groups
-apiVersion: 2019-06-01
+apiVersion: 2021-09-01
 summary: Create a new action group or update an existing one.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups/{actionGroupName}?api-version=2019-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -123,6 +123,12 @@ requestBody:
     description: The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported.
     types:
     - uid: ArmRoleReceiver
+      isArray: true
+  - name: properties.eventHubReceivers
+    in: body
+    description: The list of event hub receivers that are part of this action group.
+    types:
+    - uid: EventHubReceiver
       isArray: true
   - name: location
     in: body
@@ -359,6 +365,34 @@ definitions:
     description: Indicates whether to use common alert schema.
     types:
     - uid: boolean
+- name: EventHubReceiver
+  description: An Event hub receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the Event hub receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: eventHubNameSpace
+    description: The Event Hub namespace
+    types:
+    - uid: string
+  - name: eventHubName
+    description: The name of the specific Event Hub queue
+    types:
+    - uid: string
+  - name: useCommonAlertSchema
+    description: Indicates whether to use common alert schema.
+    types:
+    - uid: boolean
+  - name: tenantId
+    description: The tenant Id for the subscription containing this event hub
+    types:
+    - uid: string
+  - name: subscriptionId
+    description: The Id for the subscription containing this event hub
+    types:
+    - uid: string
 - name: ActionGroupResource
   description: An action group resource.
   kind: object
@@ -420,6 +454,11 @@ definitions:
     description: The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported.
     types:
     - uid: ArmRoleReceiver
+      isArray: true
+  - name: properties.eventHubReceivers
+    description: The list of event hub receivers that are part of this action group.
+    types:
+    - uid: EventHubReceiver
       isArray: true
   - name: id
     isReadyOnly: true
@@ -486,7 +525,7 @@ definitions:
 examples:
 - name: Create or update an action group
   request:
-    uri: PUT https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/microsoft.insights/actionGroups/SampleActionGroup?api-version=2019-06-01
+    uri: PUT https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/Microsoft.Insights/actionGroups/SampleActionGroup?api-version=2021-09-01
     body: >-
       {
         "location": "Global",
@@ -580,7 +619,7 @@ examples:
               "name": "Sample azureFunction",
               "functionAppResourceId": "/subscriptions/5def922a-3ed4-49c1-b9fd-05ec533819a3/resourceGroups/aznsTest/providers/Microsoft.Web/sites/testFunctionApp",
               "functionName": "HttpTriggerCSharp1",
-              "httpTriggerUrl": "<httpTriggerUrl>",
+              "httpTriggerUrl": "http://test.me",
               "useCommonAlertSchema": true
             }
           ],
@@ -589,6 +628,15 @@ examples:
               "name": "Sample armRole",
               "roleId": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
               "useCommonAlertSchema": true
+            }
+          ],
+          "eventHubReceivers": [
+            {
+              "name": "Sample eventHub",
+              "eventHubNameSpace": "testEventHubNameSpace",
+              "eventHubName": "testEventHub",
+              "subscriptionId": "187f412d-1758-44d9-b052-169e2564721d",
+              "tenantId": "68a4459a-ccb8-493c-b9da-dd30457d1b84"
             }
           ]
         }
@@ -705,6 +753,16 @@ examples:
               "roleId": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
               "useCommonAlertSchema": true
             }
+          ],
+          "eventHubReceivers": [
+            {
+              "name": "Sample eventHub",
+              "eventHubNameSpace": "testEventHubNameSpace",
+              "eventHubName": "testEventHub",
+              "subscriptionId": "187f412d-1758-44d9-b052-169e2564721d",
+              "tenantId": "68a4459a-ccb8-493c-b9da-dd30457d1b84",
+              "useCommonAlertSchema": false
+            }
           ]
         }
       }
@@ -818,6 +876,16 @@ examples:
               "name": "Sample armRole",
               "roleId": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
               "useCommonAlertSchema": true
+            }
+          ],
+          "eventHubReceivers": [
+            {
+              "name": "Sample eventHub",
+              "eventHubNameSpace": "testEventHubNameSpace",
+              "eventHubName": "testEventHub",
+              "subscriptionId": "187f412d-1758-44d9-b052-169e2564721d",
+              "tenantId": "68a4459a-ccb8-493c-b9da-dd30457d1b84",
+              "useCommonAlertSchema": false
             }
           ]
         }

@@ -1,7 +1,7 @@
 ---
 title: "Query Documents - Azure Cosmos DB REST API"
 description: Query documents using REST API. Request and response headers, body, status codes and examples.
-ms.date: "03/29/2016"
+ms.date: "02/22/2022"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 6fd30626-2d87-4090-8a29-b0c83da9aa2c
@@ -22,13 +22,13 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Query Documents
-  you can query arbitrary json documents in a collection by performing a post against the “colls” resource in cosmosdb. the sql syntax of cosmosdb provides hierarchical, relational, and spatial query operators to query and project documents. for additional details on querying resources in cosmosdb, see querying resources.  
+  You can query arbitrary json documents in a collection by performing a post against the “colls” resource in Cosmos DB. The sql syntax of Cosmos DB provides hierarchical, relational, and spatial query operators to query and project documents. For more information on querying resources in Cosmos DB, see querying resources.  
   
 ## Request  
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
-|post|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs|note that the {databaseaccount} is the name of the cosmosdb account created under your subscription. the {db-id} value is the user generated name/id of the database, not the system generated id (rid). the {coll-id} value is the name of the collection.|  
+|post|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls/{coll-id}/docs|note that the {databaseaccount} is the name of the Cosmos DB account created under your subscription. the {db-id} value is the user generated name/id of the database, not the system generated id (rid). the {coll-id} value is the name of the collection.|  
   
 ### Headers  
  See [Common Azure Cosmos DB REST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
@@ -37,11 +37,14 @@ translation.priority.mt:
 |------------|--------------|----------|-----------------|  
 |**x-ms-documentdb-isquery**|Required|Boolean|Must be set to True indicating that the POST is a query.|  
 |**Content-Type**|Required|String|A string that must be set to **application/query+json**.|  
-|**x-ms-max-item-count**|Optional|Number|An integer indicating the maximum number of items to be returned per page. Queries will return no more than the specified number of items per page, but could be fewer depending on the collection performance tier and their sizes. An x-ms-max-item-count of -1 can be specified to let the service determine the optimal item count. It is the recommended configuration value for x-ms-max-item-count.|  
+|**x-ms-max-item-count**|Optional|Number|An integer indicating the maximum number of items to be returned per page. Queries will return no more than the specified number of items per page, but could be fewer depending on the collection performance tier and their sizes. An x-ms-max-item-count of -1 can be specified to let the service determine the optimal item count. It's the recommended configuration value for x-ms-max-item-count.|  
 |**x-ms-continuation**|Optional|String|A string token returned for queries and read-feed operations if there are more results to be read. Clients can retrieve the next page of results by resubmitting the request with the x-ms-continuation request header set to this value.|  
-|**x-ms-documentdb-query-enablecrosspartition**|Optional|Boolean|If the collection is partitioned, this must be set to True to allow execution across multiple partitions. Queries that filter against a single partition key, or against single-partitioned collections do not need to set the header.|  
-|**x-ms-consistency-level**|Optional|String|It is the consistency level override. The valid values are: Strong, Bounded, Session, or Eventual (in order of strongest to weakest). The override must be the same or weaker than the account’s configured consistency level.|  
-|**x-ms-session-token**|Optional|String|A string token used with session level consistency. Clients must echo the latest read value of this header during read requests for session consistency.|  
+|**x-ms-documentdb-query-enablecrosspartition**|Optional|Boolean|If the collection is partitioned, this must be set to True to allow execution across multiple partitions. Queries that filter against a single partition key, or against single-partitioned collections don't need to set the header.|  
+|**x-ms-consistency-level**|Optional|String|This is the consistency level override. The valid values are: Strong, Bounded, Session, or Eventual (in order of strongest to weakest). The override must be the same or weaker than the account’s configured consistency level.|  
+|**x-ms-session-token**|Optional|String|A string token used with session level consistency. Clients must echo the latest read value of this header during read requests for session consistency.|
+
+> [!IMPORTANT]
+> For the `Content-Type` header do NOT include the charset (i.e. “application/query+json; charset-utf-8”). The header must be exactly as shown above.
   
 ### Body  
   
@@ -75,7 +78,7 @@ translation.priority.mt:
   
 |Property|Type|Description|  
 |--------------|----------|-----------------|  
-|**x-ms-continuation**|String|Returns a token to fetch additional results from the operation. The client can resubmit the request with the x-ms-continuation request header containing this value to resume execution.|  
+|**x-ms-continuation**|String|Returns a token to fetch more results from the operation. The client can resubmit the request with the x-ms-continuation request header containing this value to resume execution.|  
 |**x-ms-request-charge**|Number|The number of request units consumed by the operation.|  
   
 ### Status codes  
@@ -90,21 +93,21 @@ translation.priority.mt:
   
 |Property|Description|  
 |--------------|-----------------|  
-|**_rid**|It is the system generated resource ID for the collection where the documents reside.|  
-|**_count**|It is the number of documents returned by the list operation.|  
+|**_rid**|This is the system generated resource ID for the collection where the documents reside.|  
+|**_count**|This is the number of documents returned by the list operation.|  
 |**Documents**|The array of documents returned by the operation.|  
   
  **Properties of Document**  
   
 |Property|Description|  
 |--------------|-----------------|  
-|**id**|It is the unique name that identifies the document, i.e. no two documents can share the same **id**. The **id** must not exceed 255 characters.|  
+|**id**|This is the unique name that identifies the document, i.e. no two documents can share the same **id**. The **id** must not exceed 255 characters.|  
 |\<custom>|Any user-defined JSON.|  
-|**_rid**|It is a [system generated property](/azure/cosmos-db/stored-procedures-triggers-udfs). The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
-|**_ts**|It is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
-|**_self**|It is a system generated property. It is the unique addressable URI for the resource.|  
-|**_etag**|It is a system generated property that specifies the resource **etag** required for optimistic concurrency control.|  
-|**_attachments**|It is a system generated property that specifies the addressable path for the attachments resource.|  
+|**_rid**|This is a [system generated property](/azure/cosmos-db/stored-procedures-triggers-udfs). The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the document resource.|  
+|**_ts**|This is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
+|**_self**|This is a system generated property. It is the unique addressable URI for the resource.|  
+|**_etag**|This is a system generated property that specifies the resource **etag** required for optimistic concurrency control.|  
+|**_attachments**|This is a system generated property that specifies the addressable path for the attachments resource.|  
   
 ```  
 {  
@@ -256,11 +259,9 @@ Date: Tue, 29 Mar 2016 02:28:30 GMT
   
 ```  
   
-## See Also  
+## See Also
+
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
 * [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
 * [Azure Cosmos DB SQL API SDKs](/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
-  
-  
-

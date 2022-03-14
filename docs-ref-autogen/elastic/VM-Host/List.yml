@@ -1,0 +1,118 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.elastic.vmhost.list
+name: List
+service: Elastic
+groupName: VM Host
+apiVersion: 2020-07-01
+summary: List the vm resources currently being monitored by the Elastic monitor resource.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listVMHost?api-version=2020-07-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the Elastic resource belongs.
+  types:
+  - uid: string
+- name: monitorName
+  in: path
+  isRequired: true
+  description: Monitor resource name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: VMHostListResponse
+- name: Other Status Codes
+  description: Default error response.
+  types:
+  - uid: ResourceProviderDefaultErrorResponse
+requestHeader: []
+definitions:
+- name: VMHostListResponse
+  description: Response of a list operation.
+  kind: object
+  properties:
+  - name: value
+    description: Results of a list operation.
+    types:
+    - uid: VMResources
+      isArray: true
+  - name: nextLink
+    description: Link to the next Vm resource Id, if any.
+    types:
+    - uid: string
+- name: ResourceProviderDefaultErrorResponse
+  description: RP default error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: "ErrorResponseBody  \nResponse body of Error"
+    types:
+    - uid: ErrorResponseBody
+- name: VMResources
+  description: The vm resource properties that is currently being monitored by the Elastic monitor resource.
+  kind: object
+  properties:
+  - name: vmResourceId
+    description: The ARM id of the VM resource.
+    types:
+    - uid: string
+- name: ErrorResponseBody
+  description: ErrorResponseBody
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: ErrorResponseBody
+      isArray: true
+examples:
+- name: VMHost_List
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Elastic/monitors/myMonitor/listVMHost?api-version=2020-07-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "vmResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualmachines/myVM"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about Elastic service - List the vm resources currently being monitored by the Elastic monitor resource.
+errorCodes: []

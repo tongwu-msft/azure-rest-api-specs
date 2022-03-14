@@ -67,16 +67,25 @@ The following JSON is a high-level representation of the main parts of the defin
     "dataSourceName" : (required) "Name of an existing data source",  
     "targetIndexName" : (required) "Name of an existing index",  
     "skillsetName" : (required for AI enrichment) "Name of an existing skillset",
+    "disabled" : (optional) Boolean value indicating whether the indexer is disabled. False by default,
     "schedule" : (optional but runs once immediately if unspecified) { ... },  
-    "parameters" : (optional) { ... },  
+    "parameters": { (optional)
+       "batchSize": null,
+       "maxFailedItems": 0,
+       "maxFailedItemsPerBatch": 0,
+       "base64EncodeKeys": null,
+       "configuration": { (optional, mostly specific to the data source)
+            "executionEnvironment": null
+        }
+      }, 
     "fieldMappings" : (optional) { ... },
     "outputFieldMappings" : (required for AI enrichment) { ... },
-    "encryptionKey":(optional) { },
-    "disabled" : (optional) Boolean value indicating whether the indexer is disabled. False by default.
-}  
+    "cache": null,
+    "encryptionKey":(optional) { }
+} 
 ```
 
- Request contains the following properties:  
+Request contains the following properties:  
 
 |Property|Description|  
 |--------------|-----------------|  
@@ -85,12 +94,11 @@ The following JSON is a high-level representation of the main parts of the defin
 |targetIndexName|Required. Name of an existing [index schema](create-index.md). It defines the fields collection containing searchable, filterable, retrievable, and other attributions that determine how the field is used. During indexing, the indexer crawls the data source, optionally cracks documents and extracts information, serializes the results to JSON, and indexes the payload based on the schema defined for your index.|
 |skillsetName|Required for AI enrichment. Name of an existing [skillset](create-skillset.md), one per indexer. As with data sources and indexes, a skillset is an independent definition that you attach to an indexer. You can repurpose a skillset with other indexers, but each indexer can only use one skillset at a time.|  
 |schedule | Optional, but runs once immediately if unspecified and not disabled. A schedule contains `interval` (required) and `startTime` (optional). For more information, see [Schedule an indexer](/azure/search/search-howto-schedule-indexers). </br></br>`interval` specifies how often the indexer runs. The smallest allowed interval is five minutes; the longest is one day. It must be formatted as an XSD "dayTimeDuration" value (a restricted subset of an [ISO 8601 duration](https://www.w3.org/TR/xmlschema11-2/#dayTimeDuration) value). The pattern for this is: `"P[nD][T[nH][nM]]".` Examples:  `PT15M` for every 15 minutes, `PT2H` for every 2 hours. </br></br>`startTime` is a UTC datetime when the indexer should start running. |
-|parameters | Optional. Properties for modifying runtime behavior.</br></br>`"batchSize"` (integer). Specifies the number of items that are read from the data source and indexed as a single batch in order to improve performance. Default is source-specific (1000 for Azure SQL Database and Azure Cosmos DB, 10 for Azure Blob Storage). </br></br>`"maxFailedItems"` (integer). Specifies the number of errors to tolerate before an indexer run is considered a failure. Default is 0. Set to -1 if you don’t want any errors to stop the indexing process. Use [Get Indexer Status](/rest/api/searchservice/get-indexer-status) to retrieve information about failed documents. </br></br>`"maxFailedItemsPerBatch"` (integer). Specifies the number of errors to tolerate in each batch before an indexer run is considered a failure. Default is 0. Set to -1 if you don’t want any errors to stop the indexing process.  </br></br>`"executionEnvironment"` (string). Overrides the execution environment chosen by internal system processes. Explicitly setting the execution environment to `Private` is required if indexers are accessing external resources over private endpoint connections. For data ingestion, this setting is valid only for services that are provisioned as Basic or Standard (S1, S2, S3). For AI enrichment content processing, this setting is valid for S2 and S3 only. This setting is located in the `"configuration"` section. Valid values are case-insensitive and consist of [null or unspecified], `Standard` (default), or `Private`. |
+|disabled| Optional. Boolean value indicating whether the indexer is disabled. Set this property if you want to create an indexer definition without immediately running it. False by default. |  
+|parameters | Optional. Properties for modifying runtime behavior. </br></br>`"batchSize"` (integer). Specifies the number of items that are read from the data source and indexed as a single batch in order to improve performance. Default is source-specific (1000 for Azure SQL Database and Azure Cosmos DB, 10 for Azure Blob Storage). </br></br>`"maxFailedItems"` (integer). Specifies the number of errors to tolerate before an indexer run is considered a failure. Default is 0. Set to -1 if you don’t want any errors to stop the indexing process. Use [Get Indexer Status](/rest/api/searchservice/get-indexer-status) to retrieve information about failed documents. </br></br>`"maxFailedItemsPerBatch"` (integer). Specifies the number of errors to tolerate in each batch before an indexer run is considered a failure. Default is 0. Set to -1 if you don’t want any errors to stop the indexing process. </br></br>`"base64EncodeKey"` (Boolean). Specifies whether to encode document keys that contain invalid characters. </br></br>`"configuration"`. Properties that vary based on the data source. </br></br>`"executionEnvironment"` (string). Overrides the execution environment chosen by internal system processes. Explicitly setting the execution environment to `Private` is required if indexers are accessing external resources over private endpoint connections. This setting is under `"configuration"`. For data ingestion, this setting is valid only for services that are provisioned as Basic or Standard (S1, S2, S3). For AI enrichment content processing, this setting is valid for S2 and S3 only. Valid values are case-insensitive and consist of [null or unspecified], `Standard` (default), or `Private`. |
 |fieldMappings| Optional. Explicitly associates a source field to a destination field in search index. Used when source and destination fields have different names or types, or when you want to specify a function. A `fieldMappings` section includes `sourceFieldName` (required, a field in the underlying data source), `targetFieldName` (required, a field in an index), and an optional `mappingFunction` for encoding output. A list of supported functions and examples can be found at [field mapping functions](/azure/search/search-indexer-field-mappings#field-mapping-functions). For more general information, see [Field mappings and transformations](/azure/search/search-indexer-field-mappings). |
 |outputFieldMappings| Required for [an enrichment pipeline](/azure/search/cognitive-search-concept-intro). Maps output from a skillset to an index or projection. An `outputFieldMappings` section includes `sourceFieldName` (required, a node in an enrichment tree), `targetFieldName` (required, a field in an index), and an optional `mappingFunction` for encoding output. A list of supported functions and examples can be found at [field mapping functions](/azure/search/search-indexer-field-mappings#field-mapping-functions). For more general information, see [How to map output fields from a skillset](/azure/search/cognitive-search-output-field-mapping).|
 |encryptionKey| Optional. Used to encrypt an indexer definition at rest with your own keys, managed in your Azure Key Vault. Available for billable search services created on or after 2019-01-01. </br></br> An `encryptionKey` section contains a user-defined `keyVaultKeyName` (required), a system-generated `keyVaultKeyVersion` (required), and a `keyVaultUri` providing the key (required, also referred to as DNS name). An example URI might be "https://my-keyvault-name.vault.azure.net". </br></br>Optionally, you can specify `accessCredentials` if you are not using a managed system identity. Properties of `accessCredentials` include `applicationId` (Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault), and `applicationSecret` (authentication key of the specified Azure AD application). An example in the next section illustrates the syntax. |
-|disabled| Optional. Boolean value indicating whether the indexer is disabled. Set this property if you want to create an indexer definition without immediately running it. False by default. |  
-
 
 ### Blob configuration parameters
 

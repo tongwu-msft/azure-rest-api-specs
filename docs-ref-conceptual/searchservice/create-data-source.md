@@ -7,9 +7,9 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
-ms.manager: nitinme
+author: jennifermarsman
+ms.author: jennmar
+
 ---
 # Create Data Source (Azure Cognitive Search REST API)
 
@@ -64,8 +64,11 @@ The following JSON is a high-level representation of the main parts of the defin
     "name" : (optional on PUT; required on POST) "Name of the data source",  
     "description" : (optional) "Anything you want, or nothing at all",  
     "type" : (required) "Must be a supported data source",
-    "credentials" : (required) { "connectionString" : "Connection string for your data source" },  
-    "container" : (required) { "name" : "Name of the table, collection, or blob container you wish to index" },  
+    "credentials" : (required) { "connectionString" : "Connection string for your data source" },
+    "container": {
+        "name": "Name of the table, view, collection, or blob container you wish to index",
+        "query": (optional) 
+    },
     "dataChangeDetectionPolicy" : (optional) {See below for details },
     "dataDeletionDetectionPolicy" : (optional) {See below for details },
     "encryptionKey":(optional) { }
@@ -84,7 +87,6 @@ The following JSON is a high-level representation of the main parts of the defin
 |dataChangeDetectionPolicy | Optional. Used to identify changed data items. Supported policies vary based on the data source type. Valid policies are High Watermark Change Detection Policy and SQL Integrated Change Detection Policy. </br></br>High Watermark Change Detection Policy depends on an existing column or property that is updated in tandem with other updates (all inserts result in an update to the watermark column), and the change in value is higher. For Cosmos DB data sources, you must use the `_ts` property. For Azure SQL, an indexed `rowversion` column is the ideal candidate for use with the high water mark policy. For Azure Storage, change detection is built-in using lastModified values, eliminating any need to set the dataChangeDetectionPolicy for blob or table storage. </br></br>SQL Integrated Change Detection Policy is used to reference the native change detection features in SQL Server.  This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](/sql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions. For more information about change detection support in the indexer, see [Connect to and index Azure SQL content](/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers).|
 |dataDeletionDetectionPolicy | Optional. Used to identify deleted data items. Currently, the only supported policy is the Soft Delete Policy, which identifies deleted items based on the value of a 'soft delete' column or property in the data source. </br></br> Only columns with string, integer, or boolean values are supported. The value used as `softDeleteMarkerValue` must be a string, even if the corresponding column holds integers or booleans. For example, if the value that appears in your data source is 1, use "1" as the `softDeleteMarkerValue`.    |
 |encryptionKey| Optional. Used to encrypt the data source at rest with your own keys, managed in your Azure Key Vault. Available for billable search services created on or after 2019-01-01. </br></br> An `encryptionKey` section contains a user-defined `keyVaultKeyName` (required), a system-generated `keyVaultKeyVersion` (required), and a `keyVaultUri` providing the key (required, also referred to as DNS name). An example URI might be "https://my-keyvault-name.vault.azure.net". </br></br>Optionally, you can specify `accessCredentials` if you are not using a managed system identity. Properties of `accessCredentials` include `applicationId` (Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault), and `applicationSecret` (authentication key of the specified Azure AD application). An example in the next section illustrates the syntax. |
-|disabled| Optional. Boolean value indicating whether the indexer is disabled. False by default. |  
 
 ## Response
 

@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.scripts.update
 name: Update
 service: Azure Kusto
 groupName: Scripts
-apiVersion: 2021-08-27
+apiVersion: 2022-02-01
 summary: Updates a database script.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}?api-version=2021-08-27
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}?api-version=2022-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -54,6 +54,9 @@ responses:
   types:
   - uid: Script
 - name: 202 Accepted
+  headers:
+  - name: Azure-AsyncOperation
+    value: string
   description: Accepted the update request of the database script.
   types:
   - uid: Script
@@ -66,14 +69,17 @@ requestBody:
   parameters:
   - name: properties.scriptUrl
     in: body
-    isRequired: true
-    description: The url to the KQL script blob file.
+    description: The url to the KQL script blob file. Must not be used together with scriptContent property
     types:
     - uid: string
   - name: properties.scriptUrlSasToken
     in: body
-    isRequired: true
-    description: The SaS token.
+    description: The SaS token that provide read access to the file which contain the script. Must be provided when using scriptUrl property.
+    types:
+    - uid: string
+  - name: properties.scriptContent
+    in: body
+    description: The script content. This property should be used when the script is provide inline and not through file in a SA. Must not be used together with scriptUrl and scriptUrlSasToken properties.
     types:
     - uid: string
   - name: properties.forceUpdateTag
@@ -126,11 +132,15 @@ definitions:
     types:
     - uid: systemData
   - name: properties.scriptUrl
-    description: The url to the KQL script blob file.
+    description: The url to the KQL script blob file. Must not be used together with scriptContent property
     types:
     - uid: string
   - name: properties.scriptUrlSasToken
-    description: The SaS token.
+    description: The SaS token that provide read access to the file which contain the script. Must be provided when using scriptUrl property.
+    types:
+    - uid: string
+  - name: properties.scriptContent
+    description: The script content. This property should be used when the script is provide inline and not through file in a SA. Must not be used together with scriptUrl and scriptUrlSasToken properties.
     types:
     - uid: string
   - name: properties.forceUpdateTag
@@ -231,7 +241,7 @@ definitions:
 examples:
 - name: KustoScriptsUpdate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/databases/KustoDatabase8/scripts/kustoScript1?api-version=2021-08-27
+    uri: PATCH https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/scripts/kustoScript?api-version=2022-02-01
     body: >-
       {
         "properties": {
@@ -245,8 +255,8 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest4/Databases/KustoDatabase8/Scripts/kustoScript1",
-        "name": "KustoClusterRPTest4/KustoDatabase8/kustoScript1",
+        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoCluster/Databases/KustoDatabase8/Scripts/kustoScript",
+        "name": "kustoCluster/KustoDatabase8/kustoScript",
         "type": "Microsoft.Kusto/Clusters/Databases/Scripts",
         "properties": {
           "scriptUrl": "https://mysa.blob.core.windows.net/container/script.txt",
@@ -263,10 +273,13 @@ examples:
         }
       }
   - statusCode: "202"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/providers/Microsoft.Kusto/locations/westus/operationResults/742bef43-608b-4b58-ba96-6f7a32ec5f0f?api-version=2021-02-01
     body: >-
       {
-        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest4/Databases/KustoDatabase8/Scripts/kustoScript1",
-        "name": "KustoClusterRPTest4/KustoDatabase8/kustoScript1",
+        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoCluster/Databases/KustoDatabase8/Scripts/kustoScript",
+        "name": "kustoCluster/KustoDatabase8/kustoScript",
         "type": "Microsoft.Kusto/Clusters/Databases/Scripts",
         "properties": {
           "scriptUrl": "https://mysa.blob.core.windows.net/container/script.txt",

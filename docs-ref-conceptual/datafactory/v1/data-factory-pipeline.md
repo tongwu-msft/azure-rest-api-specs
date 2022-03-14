@@ -1,7 +1,10 @@
 ---
 title: "Pipeline (Azure Data Factory)"
 ---
-# Pipeline
+# Pipeline version 1 (V1)
+
+> [!NOTE]
+> This reference documentation applies to Azure Data Factory version 1 (V1).
 
 ## Create or Update
 Creates a new pipeline, or updates the content of an existing pipeline.  

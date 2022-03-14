@@ -3,12 +3,14 @@ uid: webpubsub.dataplane.webpubsub.removeuserfromgroup
 name: Remove User From Group
 service: Azure Web PubSub Service
 groupName: Web Pub Sub
-apiVersion: 2021-05-01-preview
+apiVersion: 2021-10-01
 summary: Remove a user from the target group.
+produces:
+- text/plain
+- application/json
+- text/json
 paths:
-- content: DELETE {Endpoint}/api/hubs/{hub}/users/{userId}/groups/{group}
-- content: DELETE {Endpoint}/api/hubs/{hub}/users/{userId}/groups/{group}?api-version=2021-05-01-preview
-  isOptional: true
+- content: DELETE {Endpoint}/api/hubs/{hub}/users/{userId}/groups/{group}?api-version=2021-10-01
 uriParameters:
 - name: Endpoint
   in: path
@@ -38,16 +40,58 @@ uriParameters:
   - uid: string
 - name: api-version
   in: query
+  isRequired: true
   description: The version of the REST APIs.
   types:
   - uid: string
 responses:
-- name: 200 OK
+- name: 204 No Content
   description: Success
 - name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
   description: Error response
+  types:
+  - uid: ErrorDetail
 requestHeader: []
-definitions: []
+definitions:
+- name: ErrorDetail
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: inner
+    description: ''
+    types:
+    - uid: InnerError
+- name: InnerError
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than was provided by the containing error.
+    types:
+    - uid: string
+  - name: inner
+    description: ''
+    types:
+    - uid: InnerError
 examples: []
 security: []
 metadata:

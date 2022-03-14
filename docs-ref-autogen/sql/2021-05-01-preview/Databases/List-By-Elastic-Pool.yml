@@ -55,11 +55,11 @@ responses:
 
      * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
 
-     * 404 CannotFindObject - Cannot find the object because it does not exist or you do not have permissions
+     * 404 ServerNotInSubscription - Specified server does not exist on the specified subscription.
 
      * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
 
-     * 404 ServerNotInSubscription - Specified server does not exist on the specified subscription.
+     * 404 CannotFindObject - Cannot find the object because it does not exist or you do not have permissions
 
      * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
 
@@ -256,11 +256,11 @@ definitions:
     types:
     - uid: string
   - name: properties.readScale
-    description: The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region.
+    description: The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region. Not applicable to a Hyperscale database within an elastic pool.
     types:
     - uid: DatabaseReadScale
   - name: properties.highAvailabilityReplicaCount
-    description: The number of secondary replicas associated with the database that are used to provide high availability.
+    description: The number of secondary replicas associated with the database that are used to provide high availability. Not applicable to a Hyperscale database within an elastic pool.
     types:
     - uid: integer
   - name: properties.secondaryType
@@ -318,6 +318,10 @@ definitions:
     - uid: string
   - name: properties.primaryDelegatedIdentityClientId
     description: The Primary Delegated Identity Client id used for per database CMK - for internal use only
+    types:
+    - uid: string
+  - name: properties.sourceResourceId
+    description: "The resource identifier of the source associated with the create operation of this database.\n\nWhen sourceResourceId is specified, sourceDatabaseId, recoverableDatabaseId, restorableDroppedDatabaseId and sourceDatabaseDeletionDate must not be specified and CreateMode must be PointInTimeRestore, Restore or Recover.\n\nWhen createMode is PointInTimeRestore, sourceResourceId must be the resource ID of an existing database or existing sql pool, and restorePointInTime must be specified.\n\nWhen createMode is Restore, sourceResourceId must be the resource ID of restorable dropped database or restorable dropped sql pool.\n\nWhen createMode is Recover, sourceResourceId must be the resource ID of recoverable database or recoverable sql pool.\n\nThis property allows to restore across subscriptions which is only supported for DataWarehouse edition.\n\nWhen source subscription belongs to a different tenant than target subscription, “x-ms-authorization-auxiliary” header must contain authentication token for the source tenant. For more details about “x-ms-authorization-auxiliary” header see https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/authenticate-multi-tenant "
     types:
     - uid: string
   - name: location
@@ -577,7 +581,7 @@ definitions:
     types:
     - uid: string
 - name: DatabaseReadScale
-  description: The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region.
+  description: The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region. Not applicable to a Hyperscale database within an elastic pool.
   kind: enum
   properties:
   - name: Enabled

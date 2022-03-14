@@ -4,14 +4,13 @@ name: Get Traffic Incident Detail
 service: Maps
 groupName: Traffic
 apiVersion: "1.0"
-summary: "__Traffic Incident Detail__ \n\n\n\n**Applies to**: S0 and S1 pricing tiers.\n\nThis API provides information on traffic incidents inside a given bounding box, based on the current Traffic  Model ID. The Traffic Model ID is available to grant synchronization of data between calls and API's. The  Traffic Model ID is a key value for determining the currency of traffic incidents. It is updated every minute,  and is valid for two minutes before it times out. It is used in rendering  [incident tiles](https://docs.microsoft.com/en-us/rest/api/maps/traffic/gettrafficincidenttile). It can be  obtained from the [Viewport API](https://docs.microsoft.com/en-us/rest/api/maps/traffic/gettrafficincidentviewport)."
+summary: "__Traffic Incident Detail__ \n\n\n\n**Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nThis API provides information on traffic incidents inside a given bounding box, based on the current Traffic  Model ID. The Traffic Model ID is available to grant synchronization of data between calls and API's. The  Traffic Model ID is a key value for determining the currency of traffic incidents. It is updated every minute,  and is valid for two minutes before it times out. It is used in rendering  [incident tiles](https://docs.microsoft.com/en-us/rest/api/maps/traffic/gettrafficincidenttile). It can be  obtained from the [Viewport API](https://docs.microsoft.com/en-us/rest/api/maps/traffic/gettrafficincidentviewport)."
 consumes: []
 produces:
 - application/json
-- application/xml
 paths:
 - content: GET https://atlas.microsoft.com/traffic/incident/detail/{format}?api-version=1.0&style={style}&boundingbox={boundingbox}&boundingZoom={boundingZoom}&trafficmodelid={trafficmodelid}
-- content: GET https://atlas.microsoft.com/traffic/incident/detail/{format}?subscription-key={subscription-key}&api-version=1.0&style={style}&boundingbox={boundingbox}&boundingZoom={boundingZoom}&trafficmodelid={trafficmodelid}&language={language}&projection={projection}&geometries={geometries}&expandCluster={expandCluster}&originalPosition={originalPosition}
+- content: GET https://atlas.microsoft.com/traffic/incident/detail/{format}?api-version=1.0&style={style}&boundingbox={boundingbox}&boundingZoom={boundingZoom}&trafficmodelid={trafficmodelid}&language={language}&projection={projection}&geometries={geometries}&expandCluster={expandCluster}&originalPosition={originalPosition}
   isOptional: true
 uriParameters:
 - name: format
@@ -19,16 +18,11 @@ uriParameters:
   isRequired: true
   description: Desired format of the response. Value can be either _json_ or _xml_.
   types:
-  - uid: TextFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
+  - uid: ResponseFormat
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: style
@@ -36,13 +30,13 @@ uriParameters:
   isRequired: true
   description: The style that will be used to render the tile in Traffic [Incident Tile API](https://docs.microsoft.com/en-us/rest/api/maps/traffic/gettrafficincidenttile).  This will have an effect on the coordinates of traffic incidents in the reply.
   types:
-  - uid: TrafficIncidentDetailStyle
+  - uid: IncidentDetailStyle
 - name: boundingbox
   in: query
   isRequired: true
   description: "The `boundingbox` is represented by two value pairs describing it's corners (first pair for lower left corner and second for upper right). The pairs can either be specified using any of the `projection`'s specified below (e.g., _minY,minX,maxY,maxX_) or by two latitude-longitude pairs (e.g., _minLat,minLon,maxLat,maxLon_).<br><br>NOTE: If latitude/longitude pairs are used, then the `projection` parameter must be set to \"EPSG4326\"."
   types:
-  - uid: string
+  - uid: array
 - name: boundingZoom
   in: query
   isRequired: true
@@ -69,7 +63,7 @@ uriParameters:
   in: query
   description: The projection used to specify the coordinates in the request and response. [EPSG900913](http://docs.openlayers.org/library/spherical_mercator.html) (default) or [EPSG4326](http://spatialreference.org/ref/epsg/4326/)
   types:
-  - uid: string
+  - uid: ProjectionStandard
 - name: geometries
   in: query
   description: The type of vector geometry added to incidents (returned in the <v> element of the response).
@@ -89,30 +83,11 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: TrafficIncidentDetailResult
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  - uid: TrafficIncidentDetail
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -120,7 +95,7 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: TextFormat
+- name: ResponseFormat
   description: Desired format of the response. Value can be either _json_ or _xml_.
   kind: enum
   properties:
@@ -132,7 +107,7 @@ definitions:
     description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
     types:
     - uid: string
-- name: TrafficIncidentDetailStyle
+- name: IncidentDetailStyle
   description: The style that will be used to render the tile in Traffic [Incident Tile API](https://docs.microsoft.com/en-us/rest/api/maps/traffic/gettrafficincidenttile).  This will have an effect on the coordinates of traffic incidents in the reply.
   kind: enum
   properties:
@@ -145,11 +120,23 @@ definitions:
     types:
     - uid: string
   - name: s3
-    description: Creates plain lines with certain degree of glow.
+    description: Creates plain lines with certain degree of glow, different than the s2 style.
     types:
     - uid: string
   - name: night
     description: Night style.
+    types:
+    - uid: string
+- name: ProjectionStandard
+  description: The projection used to specify the coordinates in the request and response. [EPSG900913](http://docs.openlayers.org/library/spherical_mercator.html) (default) or [EPSG4326](http://spatialreference.org/ref/epsg/4326/)
+  kind: enum
+  properties:
+  - name: EPSG900913
+    description: '[EPSG900913](http://docs.openlayers.org/library/spherical_mercator.html)'
+    types:
+    - uid: string
+  - name: EPSG4326
+    description: '[EPSG4326](http://spatialreference.org/ref/epsg/4326/)'
     types:
     - uid: string
 - name: IncidentGeometryType
@@ -164,7 +151,7 @@ definitions:
     description: Moves the incident slightly (depending on zoom level) to indicate specific road lanes.
     types:
     - uid: string
-- name: TrafficIncidentDetailResult
+- name: TrafficIncidentDetail
   description: This object is returned from a successful Traffic incident Detail call
   kind: object
   properties:
@@ -173,54 +160,61 @@ definitions:
     description: Main response element
     types:
     - uid: Tm
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
+    - uid: ErrorDetail
 - name: Tm
   description: Main response element
   kind: object
   properties:
   - name: '@id'
     isReadyOnly: true
-    description: ID of the traffic incident
+    description: ID of the traffic model for this incident
     types:
     - uid: string
   - name: poi
     isReadyOnly: true
     description: A single traffic incident, or a cluster of traffic incidents
     types:
-    - uid: TrafficIncidentPoi
+    - uid: TrafficIncidentPointOfInterest
       isArray: true
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
     types:
-    - uid: string
-- name: TrafficIncidentPoi
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: TrafficIncidentPointOfInterest
   kind: object
   properties:
   - name: id
@@ -232,27 +226,27 @@ definitions:
     isReadyOnly: true
     description: The point where an icon of the cluster or raw incident should be drawn, expressed in the requested projection. This is affected by traffic style, zoom level and road type
     types:
-    - uid: P
+    - uid: Point
   - name: ic
     isReadyOnly: true
     description: 'The icon category associated with this incident. Values are numbers in the range 0-13, with the following meanings -- 0: Unknown, 1: Accident, 2: Fog, 3: Dangerous Conditions, 4: Rain, 5: Ice, 6: Jam, 7: Lane Closed, 8: Road Closed, 9: Road Works, 10: Wind, 11: Flooding, 12: Detour, 13: Cluster'
     types:
-    - uid: integer
+    - uid: IconCategory
   - name: ty
     isReadyOnly: true
     description: The magnitude of delay associated with incident. These values correspond to incident colors in the traffic tiles
     types:
-    - uid: integer
+    - uid: DelayMagnitude
   - name: cbl
     isReadyOnly: true
     description: Bottom left coordinate of the cluster in the projection of the request
     types:
-    - uid: Cbl
+    - uid: Point
   - name: ctr
     isReadyOnly: true
     description: Top right coordinate of the cluster in the projection of the request
     types:
-    - uid: Ctr
+    - uid: Point
   - name: cs
     isReadyOnly: true
     description: 'Cluster size: the number of incidents in the cluster'
@@ -266,6 +260,16 @@ definitions:
   - name: r
     isReadyOnly: true
     description: The road number(s) affected by the incident. Multiple road numbers will delimited by slashes
+    types:
+    - uid: string
+  - name: sd
+    isReadyOnly: true
+    description: Start date of the incident, if available. The date is described in the ISO8601 format.
+    types:
+    - uid: string
+  - name: ed
+    isReadyOnly: true
+    description: Estimated end date of the incident, if available. The date is described in the ISO8601 format.
     types:
     - uid: string
   - name: dl
@@ -293,8 +297,22 @@ definitions:
     description: Cause of the incident, where available, in the language requested
     types:
     - uid: string
-- name: P
-  description: The point where an icon of the cluster or raw incident should be drawn, expressed in the requested projection. This is affected by traffic style, zoom level and road type
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: Point
+  description: Generic representation of a point with coordinates (x, y) in the Cartesian plane.
   kind: object
   properties:
   - name: x
@@ -307,38 +325,98 @@ definitions:
     description: y coordinate
     types:
     - uid: number
-- name: Cbl
-  description: Bottom left coordinate of the cluster in the projection of the request
-  kind: object
+- name: IconCategory
+  description: 'The icon category associated with this incident. Values are numbers in the range 0-13, with the following meanings -- 0: Unknown, 1: Accident, 2: Fog, 3: Dangerous Conditions, 4: Rain, 5: Ice, 6: Jam, 7: Lane Closed, 8: Road Closed, 9: Road Works, 10: Wind, 11: Flooding, 12: Detour, 13: Cluster'
+  kind: enum
   properties:
-  - name: x
-    isReadyOnly: true
-    description: x coordinate
+  - name: "0"
+    description: Unknown
     types:
-    - uid: number
-  - name: y
-    isReadyOnly: true
-    description: y coordinate
+    - uid: Integer
+  - name: "1"
+    description: Accident
     types:
-    - uid: number
-- name: Ctr
-  description: Top right coordinate of the cluster in the projection of the request
-  kind: object
+    - uid: Integer
+  - name: "2"
+    description: Fog
+    types:
+    - uid: Integer
+  - name: "3"
+    description: Dangerous Conditions
+    types:
+    - uid: Integer
+  - name: "4"
+    description: Rain
+    types:
+    - uid: Integer
+  - name: "5"
+    description: Ice
+    types:
+    - uid: Integer
+  - name: "6"
+    description: Jam
+    types:
+    - uid: Integer
+  - name: "7"
+    description: Lane Closed
+    types:
+    - uid: Integer
+  - name: "8"
+    description: Road Closed
+    types:
+    - uid: Integer
+  - name: "9"
+    description: Road Works
+    types:
+    - uid: Integer
+  - name: "10"
+    description: Wind
+    types:
+    - uid: Integer
+  - name: "11"
+    description: Flooding
+    types:
+    - uid: Integer
+  - name: "12"
+    description: Detour
+    types:
+    - uid: Integer
+  - name: "13"
+    description: 'Cluster: Returned if a cluster contains incidents with different icon categories.'
+    types:
+    - uid: Integer
+  - name: "14"
+    description: Broken Down Vehicle
+    types:
+    - uid: Integer
+- name: DelayMagnitude
+  description: The magnitude of delay associated with incident. These values correspond to incident colors in the traffic tiles
+  kind: enum
   properties:
-  - name: x
-    isReadyOnly: true
-    description: x coordinate
+  - name: "0"
+    description: Unknown
     types:
-    - uid: number
-  - name: y
-    isReadyOnly: true
-    description: y coordinate
+    - uid: Integer
+  - name: "1"
+    description: Minor
     types:
-    - uid: number
+    - uid: Integer
+  - name: "2"
+    description: Moderate
+    types:
+    - uid: Integer
+  - name: "3"
+    description: Major
+    types:
+    - uid: Integer
+  - name: "4"
+    description: Indefinite (used for road closures and other indefinite delays)
+    types:
+    - uid: Integer
 examples:
-- name: GetTrafficIncidentDetail
+- name: Request information about a traffic incident
   request:
-    uri: GET https://atlas.microsoft.com/traffic/incident/detail/json?subscription-key=[subscription-key]&api-version=1.0&style=s3&boundingbox=6841263.950712,511972.674418,6886056.049288,582676.925582&boundingZoom=11&trafficmodelid=1335294634919
+    uri: GET https://atlas.microsoft.com/traffic/incident/detail/json?api-version=1.0&style=s3&boundingbox=6841263.950712&boundingbox=511972.674418&boundingbox=6886056.049288&boundingbox=582676.925582&boundingZoom=11&trafficmodelid=1335294634919
   responses:
   - statusCode: "200"
     body: >-
@@ -665,46 +743,6 @@ examples:
           ]
         }
       }
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
-      }
 security:
 - name: AADToken
   type: oauth2
@@ -733,5 +771,5 @@ security:
      For publicly exposed applications, our recommendation is to configure a specific list of allowed origins on the [Map account resource](https://aka.ms/amauth) to limit rendering abuse and regularly renew the SAS Token.
   in: header
 metadata:
-  description: "__Traffic Incident Detail__ \n\n\n\n**Applies to**: S0 and S1 pricing tiers.\n\nThis API provides information on traffic incidents inside a given bounding box, based "
+  description: "__Traffic Incident Detail__ \n\n\n\n**Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier)."
 errorCodes: []

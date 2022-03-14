@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.volumes.update
 name: Update
 service: Azure NetApp Files
 groupName: Volumes
-apiVersion: 2021-08-01
+apiVersion: 2021-10-01
 summary: "Update a volume  \nPatch the specified volume"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2021-08-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -119,6 +119,11 @@ requestBody:
     description: Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies.
     types:
     - uid: integer
+  - name: properties.unixPermissions
+    in: body
+    description: 'UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users.'
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: ExportPolicy
@@ -224,6 +229,11 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
+    types:
+    - uid: systemData
   - name: properties.fileSystemId
     isReadyOnly: true
     description: "FileSystem ID  \nUnique FileSystem Identifier."
@@ -369,6 +379,11 @@ definitions:
     description: Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies.
     types:
     - uid: integer
+  - name: properties.maximumNumberOfFiles
+    isReadyOnly: true
+    description: Maximum number of files allowed. Needs a service request in order to be changed. Only allowed to be changed if volume quota is more than 4TiB.
+    types:
+    - uid: integer
   - name: properties.volumeGroupName
     isReadyOnly: true
     description: Volume Group Name
@@ -396,6 +411,10 @@ definitions:
     types:
     - uid: placementKeyValuePairs
       isArray: true
+  - name: properties.enableSubvolumes
+    description: Flag indicating whether subvolume operations are enabled on the volume
+    types:
+    - uid: enableSubvolumes
 - name: cloudError
   description: An error response from the service.
   kind: object
@@ -467,6 +486,10 @@ definitions:
     description: Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies.
     types:
     - uid: integer
+  - name: properties.unixPermissions
+    description: 'UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users.'
+    types:
+    - uid: string
 - name: exportPolicyRule
   description: Volume Export Policy Rule
   kind: object
@@ -557,6 +580,34 @@ definitions:
   properties:
   - name: snapshotPolicyId
     description: Snapshot Policy ResourceId
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: ServiceLevel
@@ -663,6 +714,18 @@ definitions:
     description: Value for an application specific parameter for the placement of volumes in the volume group
     types:
     - uid: string
+- name: enableSubvolumes
+  description: Flag indicating whether subvolume operations are enabled on the volume
+  kind: enum
+  properties:
+  - name: Enabled
+    description: subvolumes are enabled
+    types:
+    - uid: string
+  - name: Disabled
+    description: subvolumes are not enabled
+    types:
+    - uid: string
 - name: cloudErrorBody
   description: An error response from the service.
   kind: object
@@ -683,6 +746,22 @@ definitions:
     types:
     - uid: string
   - name: Unrestricted
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
     types:
     - uid: string
 - name: replicationObject
@@ -735,7 +814,7 @@ definitions:
 examples:
 - name: Volumes_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1?api-version=2021-08-01
+    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1?api-version=2021-10-01
     body: '{}'
   responses:
   - statusCode: "200"
