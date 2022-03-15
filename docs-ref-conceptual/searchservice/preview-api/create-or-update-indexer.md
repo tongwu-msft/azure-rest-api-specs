@@ -2,7 +2,7 @@
 title: Create or Update Indexer (2021-04-30-Preview)
 titleSuffix: Azure Cognitive Search
 description: Preview version of the Create or Update Indexer REST API for Azure Cognitive Search.
-ms.date: 07/20/2021
+ms.date: 03/15/2021
 
 ms.service: cognitive-search
 ms.topic: reference
@@ -84,7 +84,13 @@ The following JSON is a high-level representation of the main parts of the defin
     "skillsetName" : (required for AI enrichment) "Name of an existing skillset",
     "cache":  { ... },
     "schedule" : (optional but runs once immediately if unspecified) { ... },  
-    "parameters" : (optional) { ... },  
+    "parameters" : (optional) {
+        "batchSize": null,
+        "maxFailedItems": 0,
+        "maxFailedItemsPerBatch": 0,
+        "base64EncodeKeys": null,
+        "configuration": { }
+    },
     "fieldMappings" : (optional) { ... },
     "outputFieldMappings" : (required for AI enrichment) { ... },
     "encryptionKey":(optional) { },
@@ -224,13 +230,15 @@ An indexer can optionally take configuration parameters that modify runtime beha
   "name" : "my-blob-indexer-for-cognitive-search",
   ... other indexer properties
   "parameters" : { 
-      "maxFailedItems" : "15",
-      "batchSize" : "100", 
-      "configuration" : { 
-          "parsingMode" : "json", 
-          "indexedFileNameExtensions" : ".json, .jpg, .png", 
-          "imageAction" : "generateNormalizedImages", 
-          "dataToExtract" : "contentAndMetadata" } }
+        "batchSize": null,
+        "maxFailedItems": 0,
+        "maxFailedItemsPerBatch": 0,
+        "base64EncodeKeys": null,
+        "configuration" : { 
+            "parsingMode" : "json", 
+            "indexedFileNameExtensions" : ".json, .jpg, .png", 
+            "imageAction" : "generateNormalizedImages", 
+            "dataToExtract" : "contentAndMetadata" } }
 }
 ```
 
@@ -241,6 +249,7 @@ An indexer can optionally take configuration parameters that modify runtime beha
 | `"batchSize"` | Integer<br/>Default is source-specific (1000 for Azure SQL Database and Azure Cosmos DB, 10 for Azure Blob Storage) | Specifies the number of items that are read from the data source and indexed as a single batch in order to improve performance. |
 | `"maxFailedItems"` | Integer<br/>Default is 0 | Number of errors to tolerate before an indexer run is considered a failure. Set to -1 if you don’t want any errors to stop the indexing process. You can retrieve information about failed items using [Get Indexer Status](../get-indexer-status.md).  |
 | `"maxFailedItemsPerBatch"` | Integer<br/>Default is 0 | Number of errors to tolerate in each batch before an indexer run is considered a failure. Set to -1 if you don’t want any errors to stop the indexing process. |
+| `"base64EncodeKeys"` | Boolean<br/>Default is true | Valid values are null, true, or false. When set to false, the indexer will not automatically base64 encode the values of the field designated as the document key. Setting this property eliminates the need to set a mapping function that base64 encodes key values (such as dashes) that are not otherwise valid in a document key.|
 
 #### Blob configuration parameters
 
