@@ -157,6 +157,8 @@ For version 2021-02-12 and above, `List Blobs` will percent-encode (per RFC 2396
   
 For version 2021-06-08 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `Placeholder` properties element in the `BlobPrefix` element for placeholder directories when listing deleted blobs with a delimiter. These placeholder directories only exist to help navigate down to soft deleted blobs.
 
+For version  2020-02-10 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `Expiry-Time` element for deleted blobs. `Expiry-Time` is the time when the file will expire and will be returned for file if expiry is set on the same. 
+
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
 <EnumerationResults ServiceEndpoint="http://myaccount.blob.core.windows.net/"  ContainerName="mycontainer">  
@@ -209,6 +211,7 @@ For version 2021-06-08 and above, for Hierarchical Namespace enabled accounts, `
         <RemainingRetentionDays>no-of-days</RemainingRetentionDays>
         <TagCount>number of tags between 1 to 10</TagCount>
         <RehydratePriority>rehydrate priority</RehydratePriority>
+        <Expiry-Time>date-time-value</Expiry-Time>
       </Properties>  
       <Metadata>     
         <Name>value</Name>  
