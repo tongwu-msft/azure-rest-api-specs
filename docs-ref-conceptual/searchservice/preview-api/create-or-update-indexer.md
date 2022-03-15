@@ -273,6 +273,14 @@ Several parameters are exclusive to a particular indexer, such as [Azure blob in
 | `"allowSkillsetToReadFileData"` | Boolean<br/> true <br/>false (default) | Setting the `"allowSkillsetToReadFileData"` parameter to `true` will create a path `/document/file_data` that is an object representing the original file data downloaded from your blob data source.  This allows you to pass the original file data to a [custom skill](/azure/search/cognitive-search-custom-skill-web-api) for processing within the enrichment pipeline, or to the [Document Extraction skill](/azure/search/cognitive-search-skill-document-extraction). The object generated will be defined as follows: `{ "$type": "file", "data": "BASE64 encoded string of the file" }` <br/><br/> Setting the `"allowSkillsetToReadFileData"` parameter to `true` requires that a [skillset](../create-skillset.md) be attached to that indexer, that the `"parsingMode"` parameter is set to `"default"`, `"text"` or `"json"`, and the `"dataToExtract"` parameter is set to `"contentAndMetadata"` or `"allMetadata"`. |
 | `"pdfTextRotationAlgorithm"` | String<br/> `"none"` (default)<br/> `"detectAngles"` | Setting the `"pdfTextRotationAlgorithm"` parameter to `"detectAngles"` may help produce better and more readable text extraction from PDF files that have rotated text within them.  Note that there may be a small performance speed impact when this parameter is used. This parameter only applies to PDF files, and only to PDFs with embedded text. If the rotated text appears within an embedded image in the PDF, this parameter doesn't apply.<br/><br/> Setting the `"pdfTextRotationAlgorithm"` parameter to `"detectAngles"` requires that the `"parsingMode"` parameter is set to `"default"`. |
 
+#### Azure Cosmos DB configuration parameters
+
+The following parameters are specific to Cosmos DB indexers.
+
+| Parameter | Type and allowed values	| Usage       |
+|-----------|---------------------------|-------------|
+|`"assumeOrderByHighWaterMarkColumn"` | Boolean  | For [Cosmos DB indexers with SQL API](/azure/search/search-howto-index-cosmosdb), set this parameter to provide a hint to Cosmos DB that the query used to return documents for indexing is in fact ordered by the `_ts` column. Setting this parameter gives you better results for [incremental indexing scenarios](/azure/search/search-howto-index-cosmosdb#incremental-indexing-and-custom-queries). |
+
 #### Azure SQL configuration parameters
 
 The following parameters are specific to Azure SQL Database.
