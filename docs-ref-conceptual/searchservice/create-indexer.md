@@ -1,7 +1,7 @@
 ---
 title: Create Indexer (Azure Cognitive Search REST API-version=2020-06-30)
 description: Indexers are resources that automate many aspects of data ingestion into an Azure Cognitive Search indexes. You must use a supported Azure data source to use this API.
-ms.date: 02/11/2021
+ms.date: 03/15/2022
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -121,6 +121,14 @@ Several parameters are exclusive to a particular indexer, such as [Azure blob in
 | `"normalizedImageMaxWidth"`<br/>`"normalizedImageMaxHeight"` | Any integer between 50-10000 | The maximum width or height (in pixels) respectively for normalized images generated when an `"imageAction"` is set. The default is 2000. <br/><br/> The default of 2000 pixels for the normalized images maximum width and height is based on the maximum sizes supported by the [OCR skill](/azure/search/cognitive-search-skill-ocr) and the [image analysis skill](/azure/search/cognitive-search-skill-image-analysis). The [OCR skill](/azure/search/cognitive-search-skill-ocr) supports a maximum width and height of 4200 for non-English languages, and 10000 for English.  If you increase the maximum limits, processing could fail on larger images depending on your skillset definition and the language of the documents.|
 | `"allowSkillsetToReadFileData"` | Boolean<br/> true <br/>false (default) | Setting the `"allowSkillsetToReadFileData"` parameter to `true` will create a path `/document/file_data` that is an object representing the original file data downloaded from your blob data source.  This allows you to pass the original file data to a [custom skill](/azure/search/cognitive-search-custom-skill-web-api) for processing within the enrichment pipeline, or to the [Document Extraction skill](/azure/search/cognitive-search-skill-document-extraction). The object generated will be defined as follows: `{ "$type": "file", "data": "BASE64 encoded string of the file" }` <br/><br/> Setting the `"allowSkillsetToReadFileData"` parameter to `true` requires that a [skillset](create-skillset.md) be attached to that indexer and that the `"parsingMode"` parameter is set to `"default"`, `"text"` or `"json"`. |
 | `"pdfTextRotationAlgorithm"` | String<br/> `"none"` (default)<br/> `"detectAngles"` | Setting the `"pdfTextRotationAlgorithm"` parameter to `"detectAngles"` may help produce better and more readable text extraction from PDF files that have rotated text within them.  Note that there may be a small performance speed impact when this parameter is used. This parameter only applies to PDF files, and only to PDFs with embedded text. If the rotated text appears within an embedded image in the PDF, this parameter does not apply.<br/><br/> Setting the `"pdfTextRotationAlgorithm"` parameter to `"detectAngles"` requires that the `"parsingMode"` parameter is set to `"default"`. |
+
+#### Azure Cosmos DB configuration parameters
+
+The following parameters are specific to Cosmos DB indexers.
+
+| Parameter | Type and allowed values	| Usage       |
+|-----------|---------------------------|-------------|
+|`"assumeOrderByHighWaterMarkColumn"` | Boolean  | For [Cosmos DB indexers with SQL API](/azure/search/search-howto-index-cosmosdb), set this parameter to provide a hint to Cosmos DB that the query used to return documents for indexing is in fact ordered by the `_ts` column. Setting this parameter gives you better results for [incremental indexing scenarios](/azure/search/search-howto-index-cosmosdb#incremental-indexing-and-custom-queries). |
 
 ### Azure SQL configuration parameters
 
