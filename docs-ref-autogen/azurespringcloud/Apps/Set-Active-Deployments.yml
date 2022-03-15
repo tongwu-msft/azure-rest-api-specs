@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringcloud.apps.setactivedeployments
 name: Set Active Deployments
 service: Azure Spring Cloud
 groupName: Apps
-apiVersion: 2022-01-01-preview
+apiVersion: 2022-03-01-preview
 summary: Set existing Deployment under the app as active
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/setActiveDeployments?api-version=2022-01-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/setActiveDeployments?api-version=2022-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -184,13 +184,21 @@ definitions:
     types:
     - uid: ManagedIdentityType
   - name: principalId
-    description: Principal Id
+    description: Principal Id of system-assigned managed identity.
     types:
     - uid: string
   - name: tenantId
-    description: Tenant Id
+    description: Tenant Id of system-assigned managed identity.
     types:
     - uid: string
+  - name: userAssignedIdentities
+    description: Properties of user-assigned managed identities
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedManagedIdentity
 - name: SystemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -329,6 +337,20 @@ definitions:
   - name: SystemAssigned,UserAssigned
     types:
     - uid: string
+- name: UserAssignedManagedIdentity
+  description: The details of the user-assigned managed identity assigned to an App.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: Principal Id of user-assigned managed identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: Client Id of user-assigned managed identity.
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -390,7 +412,7 @@ definitions:
 examples:
 - name: Apps_SetActiveDeployments
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/setActiveDeployments?api-version=2022-01-01-preview
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/setActiveDeployments?api-version=2022-03-01-preview
     body: >-
       {
         "activeDeploymentNames": [
@@ -439,9 +461,19 @@ examples:
         },
         "type": "Microsoft.AppPlatform/Spring/apps",
         "identity": {
-          "type": "SystemAssigned",
+          "type": "SystemAssigned,UserAssigned",
           "principalId": "principalid",
-          "tenantId": "tenantid"
+          "tenantId": "tenantid",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {
+              "clientId": "clientId1",
+              "principalId": "principalId1"
+            },
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {
+              "clientId": "clientId2",
+              "principalId": "principalId2"
+            }
+          }
         },
         "location": "eastus",
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp",
@@ -450,9 +482,9 @@ examples:
   - statusCode: "202"
     headers:
     - name: Location
-      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/default/operationId/00000000-0000-0000-0000-000000000000?api-version=2022-01-01-preview
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/default/operationId/00000000-0000-0000-0000-000000000000?api-version=2022-03-01-preview
     - name: Azure-AsyncOperation
-      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationResults/00000000-0000-0000-0000-000000000000/Spring/default?api-version=2022-01-01-preview
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationResults/00000000-0000-0000-0000-000000000000/Spring/default?api-version=2022-03-01-preview
     body: >-
       {
         "properties": {
@@ -493,9 +525,19 @@ examples:
         },
         "type": "Microsoft.AppPlatform/Spring/apps",
         "identity": {
-          "type": "SystemAssigned",
+          "type": "SystemAssigned,UserAssigned",
           "principalId": "principalid",
-          "tenantId": "tenantid"
+          "tenantId": "tenantid",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {
+              "clientId": "clientId1",
+              "principalId": "principalId1"
+            },
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {
+              "clientId": "clientId2",
+              "principalId": "principalId2"
+            }
+          }
         },
         "location": "eastus",
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp",
