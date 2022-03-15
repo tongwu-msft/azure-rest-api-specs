@@ -229,11 +229,11 @@ definitions:
     types:
     - uid: string
   - name: properties.readScale
-    description: The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region.
+    description: The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region. Not applicable to a Hyperscale database within an elastic pool.
     types:
     - uid: DatabaseReadScale
   - name: properties.highAvailabilityReplicaCount
-    description: The number of secondary replicas associated with the database that are used to provide high availability.
+    description: The number of secondary replicas associated with the database that are used to provide high availability. Not applicable to a Hyperscale database within an elastic pool.
     types:
     - uid: integer
   - name: properties.secondaryType
@@ -289,8 +289,8 @@ definitions:
     description: The Client id used for cross tenant per database CMK scenario
     types:
     - uid: string
-  - name: properties.primaryDelegatedIdentityClientId
-    description: The Primary Delegated Identity Client id used for per database CMK - for internal use only
+  - name: properties.sourceResourceId
+    description: "The resource identifier of the source associated with the create operation of this database.\n\nWhen sourceResourceId is specified, sourceDatabaseId, recoverableDatabaseId, restorableDroppedDatabaseId and sourceDatabaseDeletionDate must not be specified and CreateMode must be PointInTimeRestore, Restore or Recover.\n\nWhen createMode is PointInTimeRestore, sourceResourceId must be the resource ID of an existing database or existing sql pool, and restorePointInTime must be specified.\n\nWhen createMode is Restore, sourceResourceId must be the resource ID of restorable dropped database or restorable dropped sql pool.\n\nWhen createMode is Recover, sourceResourceId must be the resource ID of recoverable database or recoverable sql pool.\n\nThis property allows to restore across subscriptions which is only supported for DataWarehouse edition.\n\nWhen source subscription belongs to a different tenant than target subscription, “x-ms-authorization-auxiliary” header must contain authentication token for the source tenant. For more details about “x-ms-authorization-auxiliary” header see https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/authenticate-multi-tenant "
     types:
     - uid: string
   - name: location
@@ -365,14 +365,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: DatabaseUserIdentity
-  - name: delegatedResources
-    description: Resources delegated to the database - Internal Use Only
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: Delegation
 - name: CreateMode
   description: >-
     Specifies the mode of database creation.
@@ -550,7 +542,7 @@ definitions:
     types:
     - uid: string
 - name: DatabaseReadScale
-  description: The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region.
+  description: The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region. Not applicable to a Hyperscale database within an elastic pool.
   kind: enum
   properties:
   - name: Enabled
@@ -607,19 +599,6 @@ definitions:
   - name: clientId
     isReadyOnly: true
     description: The Azure Active Directory client id.
-    types:
-    - uid: string
-- name: Delegation
-  description: Delegated Resource Properties - Internal Use Only
-  kind: object
-  properties:
-  - name: resourceId
-    description: The resource id of the source resource - Internal Use Only
-    types:
-    - uid: string
-  - name: tenantId
-    isReadyOnly: true
-    description: AAD tenant guid of the source resource identity - Internal Use Only.
     types:
     - uid: string
 examples:

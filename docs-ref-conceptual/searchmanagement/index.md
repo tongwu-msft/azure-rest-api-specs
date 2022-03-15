@@ -4,7 +4,7 @@ titleSuffix: Azure Cognitive Search
 description: REST API reference for provisioning an Azure Cognitive Search service for public or private access. You can also manage API keys and configure capacity.
 
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: reference
 ms.devlang: rest-api
 
 ms.date: 06/29/2021
@@ -57,7 +57,7 @@ The REST APIs are foundational to Azure Cognitive Search, and any changes to the
 Alternatives include the following Azure SDKs, which are independently updated on separate release schedules:
 
 + [.NET](/dotnet/api/overview/azure/search/management)
-+ [Python](/python/api/overview/azure/search/management?view=azure-python)
++ [Python](/python/api/overview/azure/search/management)
 + [Node.js (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.nodejs.md)
 + [TypeScript (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.typescript.md)
 

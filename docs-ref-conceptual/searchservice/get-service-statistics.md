@@ -7,9 +7,8 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
-ms.manager:  nitime
+author: bevloh
+ms.author: beloh
 ---
 # Service Statistics in Azure Cognitive Search
 The **Service Statistics** operation returns the number and type of objects in your service, the maximum allowed for each object type given the service tier, actual and maximum storage, and other limits that vary by tier. This request pulls information from the service so that you don't have to look up or calculate [service limits](/azure/search/search-limits-quotas-capacity).

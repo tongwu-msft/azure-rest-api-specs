@@ -25,9 +25,9 @@ Cognitive Search has the concepts of *search services* and *indexes* and *docume
 - An index provides persistent storage of search documents.
 - Search documents are loaded from external sources in the form of JSON documents and pushed to an index to make it searchable.
 
-If you use an *indexer* to load an index, you can automate data upload operations. An indexer can crawl a data source and serialize the content as JSON, and index it.
+You can also create an *indexer* to automate indexing. An indexer has a *data source* and points to an index. Optionally, it might also have a *skillset* that adds AI to the indexer pipeline.
 
-[AI enrichment](/azure/search/cognitive-search-concept-intro) is an extension of indexers that adds model-driven transformations that extract or generate text, or add structure to content so that it can be indexed by a search service. The construct that drives AI enrichment is called a *skillset*. During data ingestion, it defines a sequence of steps that detect, structure, or transform content that is otherwise unsearchable (for example, image content).
+[AI enrichment](/azure/search/cognitive-search-concept-intro) is an extension of indexers that adds machine learning transformations that extract or generate text, or add structure to content so that it can be indexed by a search service. The construct that drives AI enrichment is called a *skillset*. During data ingestion, it defines a sequence of steps that detect, structure, or transform content that is otherwise unsearchable (for example, image content).
 
 All together, there are five types of operations that can be executed against the service:  
 
@@ -61,7 +61,7 @@ Every HTTP request to your search service is authenticated based on two pieces o
  Visually, there is no distinction between an admin key or query key. Both keys are strings composed of 32 randomly generated alpha-numeric characters. If you lose track of what type of key is specified in your application, you can [check the key values in the portal](https://portal.azure.com) or use the [Management REST API](/rest/api/searchmanagement) to return the value and key type.  
 
 > [!NOTE]  
-> It is considered a poor security practice to pass sensitive data such as an `api-key` in the request URI. For this reason, Azure Cognitive Search will only accept a query key as an `api-key` in the query string, and you should avoid doing so unless the contents of your index should be publicly available. As a general rule, we recommend passing your `api-key` as a request header.  
+> It's considered a poor security practice to pass sensitive data such as an `api-key` in the request URI. For this reason, Azure Cognitive Search will only accept a query key as an `api-key` in the query string, and you should avoid doing so unless the contents of your index should be publicly available. As a general rule, we recommend passing your `api-key` as a request header.  
 
 ## Authorization
 

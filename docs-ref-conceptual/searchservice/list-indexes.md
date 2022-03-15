@@ -7,9 +7,8 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
-ms.manager: nitinme
+author: bevloh
+ms.author: beloh
 ---
 # List Indexes (Azure Cognitive Search REST API)
   The **List Indexes** operation returns a list of the indexes currently in your Azure Cognitive Search service.  

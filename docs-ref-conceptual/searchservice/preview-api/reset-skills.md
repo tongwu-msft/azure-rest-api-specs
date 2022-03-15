@@ -1,24 +1,23 @@
 ---
-title: Reset Skills  (2021-04-30-Preview)
+title: Reset Skills (2021-04-30-Preview)
 titleSuffix: Azure Cognitive Search
 description: Preview version of the Reset Skills REST API for Azure Cognitive Search.
 ms.date: 07/20/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
-author: HeidiSteen
-ms.author: heidist
-ms.manager: nitinme
+author: jennifermarsman
+ms.author: jennmar
 ---
 
 # Reset Skills (Preview REST API)
 
-**API Version: 2021-04-30-Preview**
+**API Version: 2021-04-30-Preview, 2020-06-30-Preview**
 
 > [!Important]
-> This preview API is used for incremental enrichment when you want to rebuild all or part of the cache. The entire API is  a preview feature. This preview feature is also supported in 2020-06-30-Preview. For more information, see [incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual) and [indexer reset](/azure/search/search-howto-run-reset-indexers).
+> This entire API is a preview feature that was introduced in 2020-06-30-Preview. It supports [cached enrichments](/azure/search/cognitive-search-incremental-indexing-conceptual) and [reset scenarios](/azure/search/search-howto-run-reset-indexers).
 
 The **Reset Skills** request selectively processes one or more skills on the next indexer run. For indexers that have caching enabled, you can explicitly request processing for skill updates that the indexer cannot detect. For example, if you make external changes, such as revisions to a custom skill, you can use this API to rerun the skill. Outputs, such as a knowledge store or search index, are refreshed using reusable data from the cache and new content per the updated skill.
 
