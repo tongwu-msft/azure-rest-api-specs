@@ -25,9 +25,9 @@ To use Azure AD credentials to secure a SAS for a container or blob, create a us
 
 ## Service SAS support for directory scoped access
 
-A service SAS supports directory scope (`sr=d`) when the authentication version (`sv`) is 2020-02-10 or higher and a hierarchical namespace (HNS) is enabled. The semantics for directory scope (`sr=d`) are similar to container scope (`sr=c`), except that access is restricted to a directory and any files and subdirectories beneath it. When `sr=d` is specified, the `sdd` query parameter is also required.
+A service SAS supports directory scope (`sr=d`) when the authorization version (`sv`) is 2020-02-10 or higher and a hierarchical namespace (HNS) is enabled. The semantics for directory scope (`sr=d`) are similar to container scope (`sr=c`), except that access is restricted to a directory and any files and subdirectories beneath it. When `sr=d` is specified, the `sdd` query parameter is also required.
 
-The string-to-sign format for authentication version 2020-02-10 is unchanged.
+The string-to-sign format for authorization version 2020-02-10 is unchanged.
 
 ## Construct a service SAS
 
