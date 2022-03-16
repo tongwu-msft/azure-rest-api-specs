@@ -2,7 +2,7 @@
 title: Create or Update Indexer (2021-04-30-Preview)
 titleSuffix: Azure Cognitive Search
 description: Preview version of the Create or Update Indexer REST API for Azure Cognitive Search.
-ms.date: 07/20/2021
+ms.date: 03/15/2021
 
 ms.service: cognitive-search
 ms.topic: reference
@@ -84,7 +84,13 @@ The following JSON is a high-level representation of the main parts of the defin
     "skillsetName" : (required for AI enrichment) "Name of an existing skillset",
     "cache":  { ... },
     "schedule" : (optional but runs once immediately if unspecified) { ... },  
-    "parameters" : (optional) { ... },  
+    "parameters" : (optional) {
+        "batchSize": null,
+        "maxFailedItems": 0,
+        "maxFailedItemsPerBatch": 0,
+        "base64EncodeKeys": null,
+        "configuration": { }
+    },
     "fieldMappings" : (optional) { ... },
     "outputFieldMappings" : (required for AI enrichment) { ... },
     "encryptionKey":(optional) { },
@@ -224,13 +230,15 @@ An indexer can optionally take configuration parameters that modify runtime beha
   "name" : "my-blob-indexer-for-cognitive-search",
   ... other indexer properties
   "parameters" : { 
-      "maxFailedItems" : "15",
-      "batchSize" : "100", 
-      "configuration" : { 
-          "parsingMode" : "json", 
-          "indexedFileNameExtensions" : ".json, .jpg, .png", 
-          "imageAction" : "generateNormalizedImages", 
-          "dataToExtract" : "contentAndMetadata" } }
+        "batchSize": null,
+        "maxFailedItems": 0,
+        "maxFailedItemsPerBatch": 0,
+        "base64EncodeKeys": null,
+        "configuration" : { 
+            "parsingMode" : "json", 
+            "indexedFileNameExtensions" : ".json, .jpg, .png", 
+            "imageAction" : "generateNormalizedImages", 
+            "dataToExtract" : "contentAndMetadata" } }
 }
 ```
 
@@ -241,6 +249,7 @@ An indexer can optionally take configuration parameters that modify runtime beha
 | `"batchSize"` | Integer<br/>Default is source-specific (1000 for Azure SQL Database and Azure Cosmos DB, 10 for Azure Blob Storage) | Specifies the number of items that are read from the data source and indexed as a single batch in order to improve performance. |
 | `"maxFailedItems"` | Integer<br/>Default is 0 | Number of errors to tolerate before an indexer run is considered a failure. Set to -1 if you don’t want any errors to stop the indexing process. You can retrieve information about failed items using [Get Indexer Status](../get-indexer-status.md).  |
 | `"maxFailedItemsPerBatch"` | Integer<br/>Default is 0 | Number of errors to tolerate in each batch before an indexer run is considered a failure. Set to -1 if you don’t want any errors to stop the indexing process. |
+| `"base64EncodeKeys"` | Boolean<br/>Default is true | Valid values are null, true, or false. When set to false, the indexer will not automatically base64 encode the values of the field designated as the document key. Setting this property eliminates the need to set a mapping function that base64 encodes key values (such as dashes) that are not otherwise valid in a document key.|
 
 #### Blob configuration parameters
 
@@ -263,6 +272,14 @@ Several parameters are exclusive to a particular indexer, such as [Azure blob in
 | `"normalizedImageMaxWidth"`<br/>`"normalizedImageMaxHeight"` | Any integer between 50-10000 | The maximum width or height (in pixels) respectively for normalized images generated when an `"imageAction"` is set. The default is 2000. <br/><br/> The default of 2000 pixels for the normalized images maximum width and height is based on the maximum sizes supported by the [OCR skill](/azure/search/cognitive-search-skill-ocr) and the [image analysis skill](/azure/search/cognitive-search-skill-image-analysis). The [OCR skill](/azure/search/cognitive-search-skill-ocr) supports a maximum width and height of 4200 for non-English languages, and 10000 for English.  If you increase the maximum limits, processing could fail on larger images depending on your skillset definition and the language of the documents.|
 | `"allowSkillsetToReadFileData"` | Boolean<br/> true <br/>false (default) | Setting the `"allowSkillsetToReadFileData"` parameter to `true` will create a path `/document/file_data` that is an object representing the original file data downloaded from your blob data source.  This allows you to pass the original file data to a [custom skill](/azure/search/cognitive-search-custom-skill-web-api) for processing within the enrichment pipeline, or to the [Document Extraction skill](/azure/search/cognitive-search-skill-document-extraction). The object generated will be defined as follows: `{ "$type": "file", "data": "BASE64 encoded string of the file" }` <br/><br/> Setting the `"allowSkillsetToReadFileData"` parameter to `true` requires that a [skillset](../create-skillset.md) be attached to that indexer, that the `"parsingMode"` parameter is set to `"default"`, `"text"` or `"json"`, and the `"dataToExtract"` parameter is set to `"contentAndMetadata"` or `"allMetadata"`. |
 | `"pdfTextRotationAlgorithm"` | String<br/> `"none"` (default)<br/> `"detectAngles"` | Setting the `"pdfTextRotationAlgorithm"` parameter to `"detectAngles"` may help produce better and more readable text extraction from PDF files that have rotated text within them.  Note that there may be a small performance speed impact when this parameter is used. This parameter only applies to PDF files, and only to PDFs with embedded text. If the rotated text appears within an embedded image in the PDF, this parameter doesn't apply.<br/><br/> Setting the `"pdfTextRotationAlgorithm"` parameter to `"detectAngles"` requires that the `"parsingMode"` parameter is set to `"default"`. |
+
+#### Azure Cosmos DB configuration parameters
+
+The following parameters are specific to Cosmos DB indexers.
+
+| Parameter | Type and allowed values	| Usage       |
+|-----------|---------------------------|-------------|
+|`"assumeOrderByHighWaterMarkColumn"` | Boolean  | For [Cosmos DB indexers with SQL API](/azure/search/search-howto-index-cosmosdb), set this parameter to provide a hint to Cosmos DB that the query used to return documents for indexing is in fact ordered by the `_ts` column. Setting this parameter gives you better results for [incremental indexing scenarios](/azure/search/search-howto-index-cosmosdb#incremental-indexing-and-custom-queries). |
 
 #### Azure SQL configuration parameters
 
