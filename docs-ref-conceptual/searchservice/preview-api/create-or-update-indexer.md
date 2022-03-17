@@ -18,7 +18,9 @@ ms.author: jennmar
 
 > [!Important]
 > 2021-04-30-Preview adds:
-> + **"identity"**, under [**"encryptionKey"**](#encryptionkey), used to retrieve a customer managed encryption key from Azure Key Vault using a user-assigned managed identity.
+> + **"identity"**, under [**"encryptionKey"**](#encryptionkey), used to retrieve a customer managed encryption key from Azure Key Vault using a user-assigned managed identity. 
+> 
+> + A system-assigned managed identity can also be used on an Azure Storage connection for [cached enrichments](/azure/search/cognitive-search-incremental-indexing-conceptual).
 >
 > 2020-06-30-Preview adds:
 > + [**"cache"**](#cache), used to [cache and reuse enriched content](/azure/search/cognitive-search-incremental-indexing-conceptual) created by a skillset.
@@ -249,7 +251,7 @@ An indexer can optionally take configuration parameters that modify runtime beha
 | `"batchSize"` | Integer<br/>Default is source-specific (1000 for Azure SQL Database and Azure Cosmos DB, 10 for Azure Blob Storage) | Specifies the number of items that are read from the data source and indexed as a single batch in order to improve performance. |
 | `"maxFailedItems"` | Integer<br/>Default is 0 | Number of errors to tolerate before an indexer run is considered a failure. Set to -1 if you don’t want any errors to stop the indexing process. You can retrieve information about failed items using [Get Indexer Status](../get-indexer-status.md).  |
 | `"maxFailedItemsPerBatch"` | Integer<br/>Default is 0 | Number of errors to tolerate in each batch before an indexer run is considered a failure. Set to -1 if you don’t want any errors to stop the indexing process. |
-| `"base64EncodeKeys"` | Boolean<br/>Default is true | Valid values are null, true, or false. When set to false, the indexer will not automatically base64 encode the values of the field designated as the document key. Setting this property eliminates the need to set a mapping function that base64 encodes key values (such as dashes) that are not otherwise valid in a document key.|
+| `"base64EncodeKeys"` | Boolean<br/>Default is true | Valid values are null, true, or false. When set to false, the indexer will not automatically base64 encode the values of the field designated as the document key. Setting this property eliminates the need to specify a mapping function that base64 encodes key values (such as dashes) that are not otherwise valid in a document key.|
 
 #### Blob configuration parameters
 
