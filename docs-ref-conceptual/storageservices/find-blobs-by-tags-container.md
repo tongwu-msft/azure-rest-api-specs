@@ -17,7 +17,7 @@ The `Find Blobs by Tags` operation finds all blobs in the container whose tags m
   
 |GET Method Request URI|HTTP Version|  
 |------------------------------------|------------------|  
-|`https://myaccount.blob.core.windows.net/mycontainer?comp=blobs&where=<expression>`|HTTP/1.1|  
+|`https://myaccount.blob.core.windows.net/mycontainer?restype=container&comp=blobs&where=<expression>`|HTTP/1.1|  
   
 ### URI parameters
   
