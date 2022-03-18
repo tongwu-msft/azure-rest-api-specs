@@ -180,7 +180,7 @@ definitions:
     - uid: IpRule
       isArray: true
   - name: bypass
-    description: A specific data exfiltration scenario that is disabled for the service.
+    description: Possible origins of inbound traffic that can bypass the rules defined in the 'ipRules' section.
     types:
     - uid: SearchBypass
 - name: EncryptionWithCmk
@@ -453,11 +453,15 @@ definitions:
     types:
     - uid: string
 - name: SearchBypass
-  description: A specific data exfiltration scenario that is disabled for the service.
+  description: Possible origins of inbound traffic that can bypass the rules defined in the 'ipRules' section.
   kind: enum
   properties:
   - name: None
     description: Indicates that no origin can bypass the rules defined in the 'ipRules' section. This is the default.
+    types:
+    - uid: string
+  - name: AzurePortal
+    description: Indicates that requests originating from the Azure portal can bypass the rules defined in the 'ipRules' section.
     types:
     - uid: string
 - name: SearchEncryptionWithCmk
@@ -948,6 +952,126 @@ examples:
                 "value": "123.4.6.0/18"
               }
             ]
+          },
+          "privateEndpointConnections": [],
+          "sharedPrivateLinkResources": [],
+          "encryptionWithCmk": {
+            "enforcement": "Unspecified",
+            "encryptionComplianceStatus": "Compliant"
+          },
+          "disableLocalAuth": false,
+          "authOptions": {
+            "apiKeyOnly": {}
+          },
+          "disabledDataExfiltrationOptions": []
+        }
+      }
+- name: SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+    body: >-
+      {
+        "location": "westus",
+        "tags": {
+          "app-name": "My e-commerce app"
+        },
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 1,
+          "partitionCount": 1,
+          "networkRuleSet": {
+            "ipRules": [
+              {
+                "value": "123.4.5.6"
+              },
+              {
+                "value": "123.4.6.0/18"
+              }
+            ],
+            "bypass": "AzurePortal"
+          },
+          "hostingMode": "default"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice",
+        "name": "mysearchservice",
+        "location": "westus",
+        "type": "Microsoft.Search/searchServices",
+        "tags": {
+          "app-name": "My e-commerce app"
+        },
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 1,
+          "partitionCount": 1,
+          "status": "provisioning",
+          "statusDetails": "",
+          "hostingMode": "default",
+          "provisioningState": "provisioning",
+          "publicNetworkAccess": "enabled",
+          "networkRuleSet": {
+            "ipRules": [
+              {
+                "value": "123.4.5.6"
+              },
+              {
+                "value": "123.4.6.0/18"
+              }
+            ],
+            "bypass": "AzurePortal"
+          },
+          "privateEndpointConnections": [],
+          "sharedPrivateLinkResources": [],
+          "encryptionWithCmk": {
+            "enforcement": "Unspecified",
+            "encryptionComplianceStatus": "Compliant"
+          },
+          "disableLocalAuth": false,
+          "authOptions": {
+            "apiKeyOnly": {}
+          },
+          "disabledDataExfiltrationOptions": []
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice",
+        "name": "mysearchservice",
+        "location": "westus",
+        "type": "Microsoft.Search/searchServices",
+        "tags": {
+          "app-name": "My e-commerce app"
+        },
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 1,
+          "partitionCount": 1,
+          "status": "provisioning",
+          "statusDetails": "",
+          "hostingMode": "default",
+          "provisioningState": "provisioning",
+          "publicNetworkAccess": "enabled",
+          "networkRuleSet": {
+            "ipRules": [
+              {
+                "value": "123.4.5.6"
+              },
+              {
+                "value": "123.4.6.0/18"
+              }
+            ],
+            "bypass": "AzurePortal"
           },
           "privateEndpointConnections": [],
           "sharedPrivateLinkResources": [],
