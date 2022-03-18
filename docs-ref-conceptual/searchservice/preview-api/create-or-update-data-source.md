@@ -2,7 +2,7 @@
 title: Create or Update Data Source (2021-04-30-Preview)
 titleSuffix: Azure Cognitive Search
 description: Preview version of the Create or Update Data Source REST API for Azure Cognitive Search.
-ms.date: 07/20/2021
+ms.date: 03/22/2022
 
 ms.service: cognitive-search
 ms.topic: reference
@@ -20,9 +20,12 @@ ms.author: jennmar
 > 2021-04-30-Preview adds managed identity support for indexer connections to other Azure resources:
 > + [**"credentials"**](#credentials) accepts an Azure resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant read access to data.
 > + **"identity"** accepts a user-assigned managed identity. This property is first-level for data connections. It's also under [**"encryptionKey"**](#encryptionkey) for retrieving a customer-managed key in Azure Key Vault.
+> + **Azure Files** support is in preview. Use a preview API to index from this data source.
 > 
 > 2020-06-30-Preview adds:
 > + [**"dataDeletionDetectionPolicy"**](#datadeletiondetectionpolicy) accepts "NativeBlobSoftDeleteDeletionDetectionPolicy" for blob indexers.
+> + **Azure Database for MySQL** support is in preview. Use a preview API to index from this data source.
+> + **Cosmos DB MongoDB API and Gremlin API** support is in preview. Use a preview API to index from this data source.
 
 In Azure Cognitive Search, a data source is used with [indexers](../create-indexer.md), providing the connection information for on demand or scheduled data refresh of a target index, pulling data from [supported data sources](/azure/search/search-indexer-overview#supported-data-sources). 
 
@@ -98,7 +101,7 @@ The following JSON is a high-level representation of the main parts of the defin
 |--------------|-----------------|  
 |name|Required. The name of the data source. A data source name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
 |description|An optional description.|  
-|type|Required. Must be one of the supported data source types: </br></br>`azuresql` for [Azure SQL Database](/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers) </br>`cosmosdb` for the [Azure Cosmos DB SQL API](/azure/search/search-howto-index-cosmosdb) </br>`azureblob` for [Azure Blob Storage](/azure/search/search-howto-indexing-azure-blob-storage) </br>`adlsgen2` for [Azure Data Lake Storage Gen2](/azure/search/search-howto-index-azure-data-lake-storage) </br>`azuretable` for [Azure Table Storage](/azure/search/search-howto-indexing-azure-tables)|
+|type|Required. Must be one of the supported data source types: </br></br>`adlsgen2` for [Azure Data Lake Storage Gen2](/azure/search/search-howto-index-azure-data-lake-storage) </br>`azureblob` for [Azure Blob Storage](/azure/search/search-howto-indexing-azure-blob-storage) </br>`azurefiles` for [Azure File Storage](/azure/search/search-file-storage-integration)</br>`azuresql` for [Azure SQL Database](/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers) </br>`azuretable` for [Azure Table Storage](/azure/search/search-howto-indexing-azure-tables)</br>`cosmosdb` for the Azure Cosmos DB [SQL API](/azure/search/search-howto-index-cosmosdb), [MongoDB API](/azure/search/search-howto-index-cosmosdb-mongodb), [Gremlin API](/azure/search/search-howto-index-cosmosdb-gremlin) </br>`mysql` for [Azure Database for MySQL](azure/search/search-howto-index-mysql) |
 | [credentials](#credentials) |Required. Contains a `connectionString` property that specifies how to connect. |  
 |container| Required. Specifies the container, collection, table, or view containing the data to be indexed. |
 | [dataChangeDetectionPolicy](#datachangedetectionpolicy) | Optional. Specifies the mechanism provided by the data platform for identifying changed data items. |

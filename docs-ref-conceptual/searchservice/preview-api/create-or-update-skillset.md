@@ -239,9 +239,9 @@ Projections, especially table projections, require an upstream [Shaper skill](/a
 }
 ```
 
-**Example: Managed identity**
+**Example: Connections using a managed identity**
 
-Managed identities can be used on connections to a knowledge store and from a custom skill. This example demonstrates both scenarios. For a connection to Azure Storage, the additional "identity" property specifies a user-assigned managed identity. If you omit "identity", the search service's system-assigned managed identity is used. The identity must have "Storage Blob Contributor" permissions to write to Azure Storage.
+Managed identities can be used on connections to a knowledge store and to external code from a custom skill. This example demonstrates both scenarios. For a connection to Azure Storage, the additional "identity" property specifies a user-assigned managed identity. If you omit "identity", the search service's system-assigned managed identity is used. The identity must have "Storage Blob Data Contributor" permissions to write to Azure Storage.
 
 A custom skill can use a managed identity for authentication to the Azure function or app hosting your custom code. It includes an "authResourceId" property to indicate the connection is made using a managed identity. The value of "authResourceId" is the application ID created by the Microsoft Identity provider. This value will be used to validate the authentication token retrieved by the indexer, and will be sent along with the custom Web skill API request. 
 
