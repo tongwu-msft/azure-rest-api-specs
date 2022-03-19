@@ -2,7 +2,7 @@
 title: Create or Update Indexer (2021-04-30-Preview)
 titleSuffix: Azure Cognitive Search
 description: Preview version of the Create or Update Indexer REST API for Azure Cognitive Search.
-ms.date: 03/15/2021
+ms.date: 03/22/2022
 
 ms.service: cognitive-search
 ms.topic: reference
@@ -17,10 +17,8 @@ ms.author: jennmar
 **API Version: 2021-04-30-Preview, 2020-06-30-Preview**
 
 > [!Important]
-> 2021-04-30-Preview adds:
-> + **"identity"**, under [**"encryptionKey"**](#encryptionkey), used to retrieve a customer managed encryption key from Azure Key Vault using a user-assigned managed identity. 
-> 
-> + A system-assigned managed identity can also be used on an Azure Storage connection for [cached enrichments](/azure/search/cognitive-search-incremental-indexing-conceptual).
+> 2021-04-30-Preview adds managed identity support for enrichment cache and encryption keys:
+> + **"storageConnectionString"** accepts a Resource ID for a system-assigned managed identity connection to Azure Storage. This property is under [**"cache"**](#cache). User-assigned managed identity is not supported.
 >
 > 2020-06-30-Preview adds:
 > + [**"cache"**](#cache), used to [cache and reuse enriched content](/azure/search/cognitive-search-incremental-indexing-conceptual) created by a skillset.
@@ -122,40 +120,45 @@ The following JSON is a high-level representation of the main parts of the defin
 
 ## Examples  
 
-The first example creates an indexer that copies data from the table referenced by the `ordersds` data source to the `orders` index on a schedule that starts on Jan 1, 2015 UTC and runs hourly. Each indexer invocation will be successful if no more than 5 items fail to be indexed in each batch, and no more than 10 items fail to be indexed in total.  
+**Example: Text-based indexer with schedule and parameter**
+
+This example creates an indexer that copies data from the table referenced by the `order-sds` data source to the `orders-idx` index on a schedule that starts on January 1, 2022 UTC and runs hourly. Each indexer invocation will be successful if no more than 5 items fail to be indexed in each batch, and no more than 10 items fail to be indexed in total. Field mappings provide a data path when field names and types don't match.
 
 ```json
 {
     "name" : "myindexer",  
     "description" : "a cool indexer",  
-    "dataSourceName" : "ordersds",  
-    "targetIndexName" : "orders",  
-    "schedule" : { "interval" : "PT1H", "startTime" : "2018-01-01T00:00:00Z" },  
+    "dataSourceName" : "orders-ds",  
+    "targetIndexName" : "orders-idx", 
+    "fieldMappings" : [
+      {
+          "sourceFieldName" : "content",
+          "targetFieldName" : "sourceContent"
+      }
+    ], 
+    "schedule" : { "interval" : "PT1H", "startTime" : "2022-01-01T00:00:00Z" },  
     "parameters" : { "maxFailedItems" : 10, "maxFailedItemsPerBatch" : 5 }  
 }
 ```
 
-The second example demonstrates an AI enrichment, indicated by the reference to a skillset and [outputFieldMappings](#output-fieldmappings). [Skillsets](../create-skillset.md) are high-level resources, defined separately. 
+**Example: Skillset indexer**
 
-New in this preview, you can specify the [cache property](#cache) to reuse documents that are unaffected by changes in your skillset definition.
+This example demonstrates an AI enrichment, indicated by the reference to a skillset and [outputFieldMappings](#output-fieldmappings) that map skill outputs to fields in a search index. [Skillsets](../create-skillset.md) are high-level resources, defined separately. 
+
+New in this preview and applicable to skillsets only, you can specify the [cache property](#cache) to reuse documents that are unaffected by changes in your skillset definition.
 
 ```json
 {
-  "name":"demoindexer",	
-  "dataSourceName" : "demodata",
-  "targetIndexName" : "demoindex",
-  "skillsetName" : "demoskillset",
+  "name":"demo-indexer",	
+  "dataSourceName" : "demo-data",
+  "targetIndexName" : "demo-index",
+  "skillsetName" : "demo-skillset",
   "cache" : 
     {
-      "storageConnectionString" : "<YOUR-STORAGE-ACCOUNT-CONNECTION-STRING>",
+      "storageConnectionString" : "DefaultEndpointsProtocol=https;AccountName=<storage-account-name>;AccountKey=<storage-account-key>;EndpointSuffix=core.windows.net",
       "enableReprocessing": true
     },
-  "fieldMappings" : [
-    {
-        "sourceFieldName" : "content",
-        "targetFieldName" : "content"
-    }
-   ],
+  "fieldMappings" : [ ],
   "outputFieldMappings" : 
   [
     {
@@ -172,6 +175,27 @@ New in this preview, you can specify the [cache property](#cache) to reuse docum
     "imageAction": "generateNormalizedImages"
     }
   }
+}
+```
+
+**Example: Enrichment cache with a managed identity connection**
+
+This example illustrates the connection string format when using Azure Active Directory for authentication. Both the search service and the storage account must be configured for a system managed identity. The search managed identity must have "Storage Blob Data Contributor" permissions so that it can write to the cache.
+
+```json
+{
+  "name":"demo-indexer",	
+  "dataSourceName" : "demodata-ds",
+  "targetIndexName" : "demo-index",
+  "skillsetName" : "demo-skillset",
+  "cache" : 
+    {
+      "storageConnectionString" : "ResourceId=/subscriptions/<subscription-ID>/resourceGroups/<resource-group-name>/providers/Microsoft.Storage/storageAccounts/<storage-account-name>;",
+      "enableReprocessing": true
+    },
+  "fieldMappings" : [  ],
+  "outputFieldMappings" :  [  ],
+  "parameters": {  }
 }
 ```
 
@@ -204,9 +228,9 @@ The cache object has required and optional properties.
 
 |Property|Description|  
 |--------------|-----------------|  
-|storageConnectionString | Required. Specifies the storage account used to cache the intermediate results. It must be set to an Azure Storage connection string. Using the account you provide, the search service will create a blob container prefixed with `ms-az-search-indexercache` and completed with a GUID unique to the indexer. |
-|enableReprocessing | Optional. Boolean property (`true` by default) to control processing over incoming documents already represented in the cache. When `true` (default), documents already in the cache are reprocessed when you rerun the indexer, assuming your skill update affects that doc. When `false`, existing documents aren't reprocessed, effectively prioritizing new, incoming content over existing content. You should only set `enableReprocessing` to `false` on a temporary basis. To ensure consistency across the corpus, `enableReprocessing` should be `true` most of the time, ensuring that all documents, both new and existing, are valid per the current skillset definition.|
-| ID | Read-only. Generated once the cache is created. The `ID` is the identifier of the container within the `annotationCache` storage account that will be used as the cache for this indexer. This cache will be unique to this indexer and if the indexer is deleted and recreated with the same name, the `ID` will be regenerated. The `ID` can't be set, it's always generated by the service. |
+| storageConnectionString | Required. Specifies the storage account used to cache the intermediate results. Using the account you provide, the search service will create a blob container prefixed with `ms-az-search-indexercache` and completed with a GUID unique to the indexer. It must be set to either a full access connection string that includes a key, or the Resource ID of the system-assigned managed identity of Azure Storage. </p>To connect with a managed identity, the search service must also be [configured to use a managed identity](/azure/search/search-howto-managed-identities-data-sources), and that identity must have "Storage Blob Data Contributor" permission.|
+| enableReprocessing | Optional. Boolean property (`true` by default) to control processing over incoming documents already represented in the cache. When `true` (default), documents already in the cache are reprocessed when you rerun the indexer, assuming your skill update affects that doc. When `false`, existing documents aren't reprocessed, effectively prioritizing new, incoming content over existing content. You should only set `enableReprocessing` to `false` on a temporary basis. To ensure consistency across the corpus, `enableReprocessing` should be `true` most of the time, ensuring that all documents, both new and existing, are valid per the current skillset definition.|
+| ID | Read-only. Generated once the cache is created. The `ID` is the identifier of the container within the storage account that will be used as the cache for this indexer. This cache will be unique to this indexer and if the indexer is deleted and recreated with the same name, the `ID` will be regenerated. The `ID` can't be set, it's always generated by the service. |
 
  <a name="schedule"></a>
 

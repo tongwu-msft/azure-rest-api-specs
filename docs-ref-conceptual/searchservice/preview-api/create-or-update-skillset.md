@@ -7,7 +7,6 @@ ms.service: cognitive-search
 ms.devlang: rest-api
 ms.topic: language-reference
 
-
 author: jennifermarsman
 ms.author: jennmar
 ms.manager: nitinme
