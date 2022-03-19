@@ -25,7 +25,7 @@ ms.manager: nitinme
 
 A skillset is a collection of [cognitive skills](/azure/search/cognitive-search-predefined-skills) used for AI enrichment, with the option of also creating an external knowledge store in Azure Storage. Skills invoke natural language processing and other machine learning processes, such as entity recognition, key phrase extraction, chunking text into logical pages, among others.
 
-A skillset is attached to an [indexer](create-indexer.md). To use the skillset, reference it in an indexer and then run the indexer to import data, invoke enrichment, and send output to an index. A skillset is high-level resource, but it's operational only within indexer processing. As a high-level resource, you can reference it in multiple indexers. 
+A skillset is attached to an [indexer](create-or-update-indexer.md). To use the skillset, reference it in an indexer and then run the indexer to import data, invoke enrichment, and send output to an index. A skillset is high-level resource, but it's operational only within indexer processing. As a high-level resource, you can reference it in multiple indexers. 
 
 You can use either POST or PUT on a create request. For either one, the request body provides the object definition.
 
@@ -307,7 +307,7 @@ A custom skill can use a managed identity for authentication to the Azure functi
 
 **Example: Encryption keys**
 
-Encryption keys are customer-managed keys used for [additional encryption](/azure/search/search-security-manage-encryption-keys) of sensitive content. This example shows you how to specify customer-managed encryption on a skillset.
+Encryption keys are customer-managed keys used for [supplemental encryption](/azure/search/search-security-manage-encryption-keys) of sensitive content. This example shows you how to specify customer-managed encryption on a skillset.
 
 ```json
 {
