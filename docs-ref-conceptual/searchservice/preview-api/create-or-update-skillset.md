@@ -24,7 +24,6 @@ ms.manager: nitinme
 >
 > This preview API also supports a managed identity connection from a custom skill. See [Custom Web API reference](/azure/search/cognitive-search-custom-skill-web-api) for details.
 
-
 A skillset is a collection of [cognitive skills](/azure/search/cognitive-search-predefined-skills) used for AI enrichment, with an optional specification for creating an external knowledge store in Azure Storage. Skills invoke natural language processing and other transformations, such as entity recognition, key phrase extraction, chunking text into logical pages, among others.
 
 A skillset is attached to an [indexer](create-indexer.md). To use the skillset, reference it in an indexer and then run the indexer to import data, invoke transformations and enrichment, and map the output fields to an index. A skillset is high-level resource, but it is operational only within indexer processing. As a high-level resource, you can design a skillset once, and then reference it in multiple indexers. 
@@ -98,11 +97,11 @@ The following JSON is a high-level representation of the main parts of the defin
 
 |Property|Description|  
 |--------------|-----------------|  
-|name|Required. The name of the skillset. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.|  
-|[skills](#skills) | An array of skills. Each skill has an odata.type, name, context, and input and output parameters. The array can include [built-in skills](/azure/search/cognitive-search-predefined-skills) and [custom skills](/azure/search/cognitive-search-custom-skill-web-api). At least one skill is required. If you are using a knowledge store, include a [Shaper skill](/azure/search/cognitive-search-skill-shaper?) unless you are defining the data shape within the projection. |
-|cognitiveServices | An all-in-one key is required for [billable skills](/azure/search/cognitive-search-predefined-skills) that call Cognitive Services APIs on more than 20 documents daily, per indexer. The key must be for a resource in the same region as the search service. For more information, see [Attach a Cognitive Services resource](/azure/search/cognitive-search-attach-cognitive-services). </br></br>You can omit the key and this section if your skillset consists of only custom skills, utility skills (Conditional, Shaper, Text Merge, Text Split), or the [Document Extraction skill](/azure/search/cognitive-search-skill-document-extraction). </br></br>If you are using the [Custom Entity Lookup](/azure/search/cognitive-search-skill-custom-entity-lookup) skill, include this section and a key to enable transactions beyond 20 transactions daily per indexer. |
-|[knowledgeStore](#knowledgestore) | Optional. Destination for enrichment output to Azure Storage. Requires a connection string to an Azure Storage account and [projections](/azure/search/knowledge-store-projection-overview). |
-|[encryptionKey](#encryptionkey)| Optional. Used to encrypt sensitive data in a skillset definition with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](/azure/search/search-security-manage-encryption-keys). |
+| name |Required. The name of the skillset. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.|  
+| skills | An array of skills. Each skill has an odata.type, name, context, and input and output parameters. Skill reference can be found in the conceptual documentation. The array can include [built-in skills](/azure/search/cognitive-search-predefined-skills) and [custom skills](/azure/search/cognitive-search-custom-skill-web-api). At least one skill is required. If you are using a knowledge store, include a [Shaper skill](/azure/search/cognitive-search-skill-shaper?) unless you are [defining the data shape within the projection](/azure/search/knowledge-store-projection-shape). |
+| cognitiveServices | An all-in-one key is required for [billable skills](/azure/search/cognitive-search-predefined-skills) that call Cognitive Services APIs on more than 20 documents daily, per indexer. The key must be for a resource in the same region as the search service. For more information, see [Attach a Cognitive Services resource](/azure/search/cognitive-search-attach-cognitive-services). </br></br>You can omit the key and this section if your skillset consists of only custom skills, utility skills (Conditional, Shaper, Text Merge, Text Split), or the [Document Extraction skill](/azure/search/cognitive-search-skill-document-extraction). </br></br>If you are using the [Custom Entity Lookup](/azure/search/cognitive-search-skill-custom-entity-lookup) skill, include this section and a key to enable transactions beyond 20 transactions daily per indexer. |
+| [knowledgeStore](#knowledgestore) | Optional. Destination for enrichment output to Azure Storage. Requires a connection string to an Azure Storage account and [projections](/azure/search/knowledge-store-projection-overview). |
+| [encryptionKey](#encryptionkey) | Optional. Used to encrypt sensitive data in a skillset definition with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](/azure/search/search-security-manage-encryption-keys). |
 
 ## Response  
 
@@ -333,13 +332,8 @@ Encryption keys are customer-managed keys used for [additional encryption](/azur
 
 |Link|Description|
 |--|--|
-| [skills](#skills) | An array of skills that defines the enrichments and transformations. |
 | [knowledgeStore](#knowledgestore) | Configures a connection to Azure Storage and projects enriched content in the form of objects, files, and tables for using knowledge mining and data processing scenarios. |
 | [encryptionKey](#encryptionkey) | Configures a connection to Azure Key Vault for customer-managed encryption. |
-
-<a name="skills"></a>
-
-### skills
 
 <a name="knowledgestore"></a>
 
@@ -349,10 +343,21 @@ A knowledge store is a repository of enriched data created a skillset and AI enr
 
 |Attribute|Description|  
 |---------------|-----------------|  
+| storageConnectionString | Required. A string in this format: `"DefaultEndpointsProtocol=https;AccountName=<ACCOUNT-NAME>;AccountKey=<ACCOUNT-KEY>;EndpointSuffix=core.windows.net"`.|
+| identity | Optional. It contains a `userAssignedIdentity` of type `#Microsoft.Azure.Search.DataUserAssignedIdentity` and specifies the [user-assigned managed identity](/azure/active-directory/managed-identities-azure-resources/how-to-manage-ua-identity-portal) of the external resource. This property depends on `storageConnectionString` having the connection string that specifies a Resource ID (the managed identity connection to the storage account). </br></br>If the `identity` property is null, the connection to a resource ID is made using the system-managed property. </br></br>If this property is assigned to the type `#Microsoft.Azure.Search.DataNoneIdentity`, any explicit identity that was previously specified is cleared. |
+| [projections](#projections) | Required. An array of projections consisting of `tables`, `objects`, `files`, which are either specified or null. |
 
-</br></br>`storageConnectionString` (required) A string in this format: `"DefaultEndpointsProtocol=https;AccountName=<ACCOUNT-NAME>;AccountKey=<ACCOUNT-KEY>;EndpointSuffix=core.windows.net"`.  </br></br>`projections` (required) An array of projection objects consisting of `tables`, `objects`, `files`, which are either specified or null. </br></br>`tables` </br>Creates one or more tables in Azure Table Storage, projecting content from each document as rows in a table. Each table can have the following three properties:  <ul><li>`name` (required) determines the table to create or use in Azure Table Storage.</li> <li>`generatedKeyName` (optional) is the name of a column that uniquely identifies a document. Values for this column will be generated during enrichment. If you omit it, the search service will create a default key column based on the table name.</li> <li>`source` (required) is the path to a node of the enrichment tree that provides the [shape of the projection](/azure/search/knowledge-store-projection-shape). It's usually the output of a Shaper skill. Paths start with `/document/`, representing the root enriched document, and are then extended to `/document/<shaper-output>/`, or `/document/content/`, or another node within the enrichment tree. Examples: `/document/countries/*` (all countries), or `/document/countries/*/states/*` (all states in all countries).</li></ul> </br>`objects` </br>Projects documents as blobs in Azure Blob Storage. Each object has two required properties: <ul><li>`storageContainer` is the name of the container to create or use in Azure Blob Storage.</li> <li>`source` is the path to the node of the enrichment tree that provides the shape of the projection. It must be valid JSON. The node must provide a JSON object, either from a skill that emits valid JSON or the output of a Shaper skill.</li></ul> </br>`files` </br>Each file entry defines storage of binary images in Blob Storage. File projections have two required properties: <ul><li>`storageContainer` is the name of the container to create or use in Azure Blob Storage.</li> <li>`source` is the  path to the node of the enrichment tree that is the root of the projection. A valid value for this property is `"/document/normalized_images/*"` for images that were sourced from Blob Storage.</li></ul> 
+<a name="projections"></a>
 
+### Projections
 
+Projections are definitions of the data structures within a knowledge store. All names are user-defined. You can adopt a naming convention that helps you identify related content in Azure Storage.
+
+|Attribute|Description|  
+|---------------|-----------------|  
+| tables | Projects data shapes into one or more tables in Azure Table Storage, where elements from each document is projected into rows in a table. Each table can have the following three properties. First, `name` (required) determines the table to create or use in Azure Table Storage. Second, `generatedKeyName` (optional) is the name of a column that uniquely identifies a document. Values for this column will be generated during enrichment. If you omit it, the search service will create a default key column based on the table name. Third, `source` (required) is the path to a node of the enrichment tree that provides the [shape of the projection](/azure/search/knowledge-store-projection-shape). It's usually the output of a Shaper skill. Paths start with `/document/`, representing the root enriched document, and are then extended to `/document/<shaper-output>/`, or `/document/content/`, or another node within the enrichment tree. Examples: `/document/countries/*` (all countries), or `/document/countries/*/states/*` (all states in all countries).
+| objects | Projects documents as blobs in Azure Blob Storage. Each object has two required properties. First, `storageContainer` is the name of the container to create or use in Azure Blob Storage. Second, `source` is the path to the node of the enrichment tree that provides the shape of the projection. It must be valid JSON. The node must provide a JSON object, either from a skill that emits valid JSON or the output of a Shaper skill. |  
+| files | Each file entry defines storage of binary images in Blob Storage. File projections have two required properties. First, `storageContainer` is the name of the container to create or use in Azure Blob Storage. Second, `source` is the  path to the node of the enrichment tree that is the root of the projection. A valid value for this property is `"/document/normalized_images/*"` for images that were sourced from Blob Storage. |
 
 <a name="encryptionkey"></a>
 
