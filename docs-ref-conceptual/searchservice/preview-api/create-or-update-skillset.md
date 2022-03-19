@@ -17,9 +17,9 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> 2021-04-30-Preview adds managed identity support for indexer connections to a [knowledge store](#knowledgestore):
-> + **"storageConnectionString"** accepts an Azure resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant write access to the endpoint.
-> + **"identity"** accepts a user-assigned managed identity.
+> 2021-04-30-Preview adds managed identity support for indexer connections to a [knowledge store](#knowledgestore) or key vault for skillset-related operations:
+> + **"storageConnectionString"** accepts an Azure resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant write access to the knowledge store endpoint.
+> + **"identity"** accepts a user-assigned managed identity. This property is under [knowledge store](#knowledgestore). It's also under [**"encryptionKey"**](#encryptionkey) for retrieving a customer-managed key in Azure Key Vault.
 >
 > This preview API also supports a managed identity connection from a custom skill. See [Custom Web API reference](/azure/search/cognitive-search-custom-skill-web-api) for details.
 
@@ -239,9 +239,9 @@ Projections, especially table projections, require an upstream [Shaper skill](/a
 
 **Example: Connections using a managed identity**
 
-Managed identities can be used on connections to a knowledge store and to external code from a custom skill. This example demonstrates both scenarios. For knowledge store, the additional "identity" property specifies a user-assigned managed identity used by Azure Storage. If you omit "identity", the storage account's system-assigned managed identity is used. In order for Azure Active Directory to authenticate the caller (your search service), the search service must also be [configured for managed identity](/azure/search/search-howto-managed-identities-data-sources). The search identity must have "Storage Blob Data Contributor" permissions to write to Azure Storage.
+Managed identities can be used on connections to a knowledge store and to external code from a custom skill. This example demonstrates both scenarios. For knowledge store, the additional "identity" property specifies a search service user-assigned managed identity that Azure AD uses to authenticate the request. If you omit "identity", the search service's system-assigned managed identity is used. In order for Azure AD to authenticate the caller, the search service must be [configured for managed identity](/azure/search/search-howto-managed-identities-data-sources). The search identity must have "Storage Blob Data Contributor" permissions to write to Azure Storage.
 
-A custom skill can use a managed identity for authentication to the Azure function or app hosting your custom code. It includes an "authResourceId" property to indicate the connection is made using a managed identity. The value of "authResourceId" is the application ID created by the Microsoft Identity provider. This value will be used to validate the authentication token retrieved by the indexer, and will be sent along with the custom Web skill API request. 
+A custom skill can use a managed identity for authentication to the Azure function or app hosting your custom code. It includes an "authResourceId" property to indicate the connection is authenticated using a managed identity. The value of "authResourceId" is the application ID created by the Microsoft Identity provider. This value will be used to validate the authentication token retrieved by the indexer, and will be sent along with the custom Web skill API request. 
 
 ```json
 {
@@ -343,7 +343,7 @@ A knowledge store is a repository of enriched data created a skillset and AI enr
 |Attribute|Description|  
 |---------------|-----------------|  
 | storageConnectionString | Required. A string in this format: `"DefaultEndpointsProtocol=https;AccountName=<ACCOUNT-NAME>;AccountKey=<ACCOUNT-KEY>;EndpointSuffix=core.windows.net"`.|
-| identity | Optional. It contains a `userAssignedIdentity` of type `#Microsoft.Azure.Search.DataUserAssignedIdentity` and specifies the [user-assigned managed identity](/azure/active-directory/managed-identities-azure-resources/how-to-manage-ua-identity-portal) of the external resource. This property depends on `storageConnectionString` having the connection string that specifies a Resource ID (the managed identity connection to the storage account). </p>If the `identity` property is null, the connection to a resource ID is made using the system-managed property. </p>If this property is assigned to the type `#Microsoft.Azure.Search.DataNoneIdentity`, any explicit identity that was previously specified is cleared. |
+| identity | Optional. It contains a `userAssignedIdentity` of type `#Microsoft.Azure.Search.DataUserAssignedIdentity` and specifies the [user-assigned managed identity](/azure/active-directory/managed-identities-azure-resources/how-to-manage-ua-identity-portal) of the the search service. This property depends on `storageConnectionString` having the connection string that specifies a Resource ID of your storage account. </p>If the `identity` property is null, the connection to a resource ID is made using the system-managed property. </p>If this property is assigned to the type `#Microsoft.Azure.Search.DataNoneIdentity`, any explicit identity that was previously specified is cleared. |
 | [projections](#projections) | Required. An array of projections consisting of `tables`, `objects`, `files`, which are either specified or null. |
 
 <a name="projections"></a>

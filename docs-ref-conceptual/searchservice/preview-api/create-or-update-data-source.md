@@ -103,11 +103,11 @@ The following JSON is a high-level representation of the main parts of the defin
 |description|An optional description.|  
 | type |Required. Must be one of the supported data source types: </br></br>`adlsgen2` for [Azure Data Lake Storage Gen2](/azure/search/search-howto-index-azure-data-lake-storage) </br>`azureblob` for [Azure Blob Storage](/azure/search/search-howto-indexing-azure-blob-storage) </br>`azurefiles` for [Azure File Storage](/azure/search/search-file-storage-integration)</br>`azuresql` for [Azure SQL Database](/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers) </br>`azuretable` for [Azure Table Storage](/azure/search/search-howto-indexing-azure-tables)</br>`cosmosdb` for the Azure Cosmos DB [SQL API](/azure/search/search-howto-index-cosmosdb), [MongoDB API](/azure/search/search-howto-index-cosmosdb-mongodb), [Gremlin API](/azure/search/search-howto-index-cosmosdb-gremlin) </br>`mysql` for [Azure Database for MySQL](/azure/search/search-howto-index-mysql) |
 | [credentials](#credentials) |Required. Contains a `connectionString` property that specifies how to connect. |  
-|container| Required. Specifies the container, collection, table, or view containing the data to be indexed. |
+| container | Required. Specifies the container, collection, table, or view containing the data to be indexed. |
 | [dataChangeDetectionPolicy](#datachangedetectionpolicy) | Optional. Specifies the mechanism provided by the data platform for identifying changed data items. |
 | [dataDeletionDetectionPolicy](#datadeletiondetectionpolicy) | Optional. Identifies how the data platform deletes data. |
 | [encryptionKey](#encryptionkey) | Optional. Used for additional encryption of data source credentials, through [customer-managed encryption keys (CMK)](/azure/search/search-security-manage-encryption-keys) in Azure Key Vault. Available for billable search services created on or after 2019-01-01.|
-|disabled| Optional. Boolean value indicating whether the indexer is created in a disabled state, which prevents it from running immediately. False by default. |
+| disabled | Optional. Boolean value indicating whether the indexer is created in a disabled state, which prevents it from running immediately. False by default. |
 | identity | Optional. It contains a `userAssignedIdentity` of type `#Microsoft.Azure.Search.DataUserAssignedIdentity` and specifies the [user-assigned managed identity](/azure/active-directory/managed-identities-azure-resources/how-to-manage-ua-identity-portal) of the external resource. This property depends on `credentials` having the connection string in the right format (a Resource ID) for managed identity connections for each data source type. </br></br>If the `identity` property is null, the connection to a resource ID is made using the system-managed property. </br></br>If this property is assigned to the type `#Microsoft.Azure.Search.DataNoneIdentity`, any explicit identity that was previously specified is cleared. |
 
 ## Response
@@ -117,6 +117,8 @@ For a successful request: 201 Created if a new data source was created, and 204 
 ## Examples
 
 **Example: Azure roles and a system-assigned managed identity**
+
+If your search service has a system-assigned managed identity and a role assignment, the data source connection can be the unique resource ID of your storage account.
 
 ```json
 {
@@ -136,6 +138,8 @@ For a successful request: 201 Created if a new data source was created, and 204 
 ```
 
 **Example: Azure roles and a user-assigned managed identity (preview)**
+
+This example demonstrates an Azure AD authenticated connection for a search service that has a user-assigned managed identity.
 
 ```json
 {
@@ -303,11 +307,11 @@ Contains a "connectionString" property that specifies how an indexer connects to
 |---------------|-----------------|  
 |connectionString| Required. Specifies a connection to an indexer data source. If you are updating the data source definition, the connection string is not required. The values `<unchanged>` or `<redacted>` can be used in place of the actual connection string. </p>For connections that are authenticated using keys or login credentials, those values are visible in the connection string. The format of the connection string depends on the data source type: </br></br>For Azure SQL Database, this is the usual SQL Server connection string. If you're using Azure portal to retrieve the connection string, choose the `ADO.NET connection string` option. </br></br>For Azure Cosmos DB, the connection string must be in the following format: `"AccountEndpoint=https://[your account name].documents.azure.com;AccountKey=[your account key];Database=[your database id]"`. All of the values are required. You can find them in the [Azure portal](https://portal.azure.com). </p>If you are using a [managed identity to authenticate](/azure/search/search-howto-managed-identities-data-sources), you can omit credentials on the connection. |
 
-For connections that are authenticated using a managed identity, the connection string includes the resource ID (see these links for connection string format: [Azure Storage](/azure/search/search-howto-managed-identities-storage), [Cosmos DB](/azure/search/search-howto-managed-identities-cosmos-db),[SQL Database](/azure/search/search-howto-managed-identities-sql)). 
+For connections that are authenticated using a managed identity, the connection string specifies the Azure resource ID (see these links for connection string format: [Azure Storage](/azure/search/search-howto-managed-identities-storage), [Cosmos DB](/azure/search/search-howto-managed-identities-cosmos-db),[SQL Database](/azure/search/search-howto-managed-identities-sql)). 
 
 Role assignments scoped to the external data source determine whether the indexer can connect, and the search service must be configured to run as a trusted service in Azure Active Directory. 
 
-If the "identity" property is also specified, the connection is made using the user-assigned managed identity provided by the "identity" property. Otherwise, if "identity" is unspecified or null, the connection is through the system-managed identity.
+If the "identity" property is also specified, the connection is made using the search service user-assigned managed identity provided by the "identity" property. Otherwise, if "identity" is unspecified or null, the connection is through the system-managed identity.
 
 <a name="dataChangeDetectionPolicy"> </a>
 
