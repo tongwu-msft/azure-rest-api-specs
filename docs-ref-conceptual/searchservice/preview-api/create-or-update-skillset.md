@@ -17,8 +17,8 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> 2021-04-30-Preview adds managed identity support for indexer connections to a [knowledge store](#knowledgestore) or key vault for skillset-related operations:
-> + **"storageConnectionString"** accepts an Azure resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant write access to the knowledge store endpoint.
+> 2021-04-30-Preview adds managed identity support for skillset-related connections:
+> + **"storageConnectionString"** under [knowledge store](#knowledgestore) accepts an Azure resource ID for Azure AD authentication.
 > + **"identity"** accepts a user-assigned managed identity. This property is under [knowledge store](#knowledgestore). It's also under [**"encryptionKey"**](#encryptionkey) for retrieving a customer-managed key in Azure Key Vault.
 >
 > This preview API also supports a managed identity connection from a custom skill. See [Custom Web API reference](/azure/search/cognitive-search-custom-skill-web-api) for details.
@@ -340,9 +340,11 @@ Encryption keys are customer-managed keys used for [supplemental encryption](/az
 
 A knowledge store is a repository of enriched data created a skillset and AI enrichment pipeline. It resides in Azure Storage and consists of [data projections](/azure/search/knowledge-store-projection-overview) in the form of objects, files, and tables. It's used for non-search scenarios such as knowledge mining, data exploration in Power BI, or as a data sink for more downstream processing by other apps.
 
+The connection to Azure Storage is either a full access connection string that includes a key, or the storage resource ID provided that search service runs under a managed identity and has an Azure role assignment granting write access to the knowledge store endpoint.
+
 |Attribute|Description|  
 |---------------|-----------------|  
-| storageConnectionString | Required. A string in this format: `"DefaultEndpointsProtocol=https;AccountName=<ACCOUNT-NAME>;AccountKey=<ACCOUNT-KEY>;EndpointSuffix=core.windows.net"`.|
+| storageConnectionString | Required. A string in one of these formats: </p>`"DefaultEndpointsProtocol=https;AccountName=<ACCOUNT-NAME>;AccountKey=<ACCOUNT-KEY>;EndpointSuffix=core.windows.net"`</p>`"ResourceId=/subscriptions/[subscription ID]/resourceGroups/[resource group name]/providers/Microsoft.Storage/storageAccounts/[storage account name]/;"`|
 | identity | Optional. It contains a `userAssignedIdentity` of type `#Microsoft.Azure.Search.DataUserAssignedIdentity` and specifies the [user-assigned managed identity](/azure/active-directory/managed-identities-azure-resources/how-to-manage-ua-identity-portal) of the the search service. This property depends on `storageConnectionString` having the connection string that specifies a Resource ID of your storage account. </p>If the `identity` property is null, the connection to a resource ID is made using the system-managed property. </p>If this property is assigned to the type `#Microsoft.Azure.Search.DataNoneIdentity`, any explicit identity that was previously specified is cleared. |
 | [projections](#projections) | Required. An array of projections consisting of `tables`, `objects`, `files`, which are either specified or null. |
 
