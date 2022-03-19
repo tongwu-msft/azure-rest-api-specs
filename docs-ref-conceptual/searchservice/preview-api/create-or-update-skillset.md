@@ -1,6 +1,6 @@
 ---
 title: Create or Update Skillset (2021-04-30-Preview)
-description: A skillset is a collection of cognitive skills that comprise an enriched indexing pipeline in Azure Cognitive Search.
+description: Preview version of the Create or Update Skillset REST API for Azure Cognitive Search.
 ms.date: 03/22/2022
 
 ms.service: cognitive-search
@@ -18,15 +18,15 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> 2021-04-30-Preview adds managed identity support for indexer connections to a knowledge store:
-> + [**"credentials"**](#credentials) accepts an Azure resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant write access to the endpoint.
+> 2021-04-30-Preview adds managed identity support for indexer connections to a [knowledge store](#knowledgestore):
+> + **"storageConnectionString"** accepts an Azure resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant write access to the endpoint.
 > + **"identity"** accepts a user-assigned managed identity.
 >
 > This preview API also supports a managed identity connection from a custom skill. See [Custom Web API reference](/azure/search/cognitive-search-custom-skill-web-api) for details.
 
-A skillset is a collection of [cognitive skills](/azure/search/cognitive-search-predefined-skills) used for AI enrichment, with an optional specification for creating an external knowledge store in Azure Storage. Skills invoke natural language processing and other transformations, such as entity recognition, key phrase extraction, chunking text into logical pages, among others.
+A skillset is a collection of [cognitive skills](/azure/search/cognitive-search-predefined-skills) used for AI enrichment, with the option of also creating an external knowledge store in Azure Storage. Skills invoke natural language processing and other machine learning processes, such as entity recognition, key phrase extraction, chunking text into logical pages, among others.
 
-A skillset is attached to an [indexer](create-indexer.md). To use the skillset, reference it in an indexer and then run the indexer to import data, invoke transformations and enrichment, and map the output fields to an index. A skillset is high-level resource, but it is operational only within indexer processing. As a high-level resource, you can design a skillset once, and then reference it in multiple indexers. 
+A skillset is attached to an [indexer](create-indexer.md). To use the skillset, reference it in an indexer and then run the indexer to import data, invoke enrichment, and send output to an index. A skillset is high-level resource, but it's operational only within indexer processing. As a high-level resource, you can reference it in multiple indexers. 
 
 You can use either POST or PUT on a create request. For either one, the request body provides the object definition.
 
@@ -57,9 +57,9 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-versi
 
 | Parameter	  | Description  | 
 |-------------|--------------|
-| service name | Required. Set this to the unique, user-defined name of your search service. |
+| service name | Required. Set this property to the unique, user-defined name of your search service. |
 | skillset name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
-| api-version | Required. The current stable version is `api-version=2020-06-30`. See [API versions](search-service-api-versions.md) for more versions.|
+| api-version | Required. The current stable version is `api-version=2020-06-30`. See [API versions](../search-service-api-versions.md) for more versions.|
 | disableCacheReprocessingChangeDetection | Optional (`false` by default). Applies to update scenarios and using cached enrichments during skillset execution. Set to `true` to prevent updates to existing documents based on the current action, for example if you want to update a skillset without running the skillset. For more information, see [Bypass skillset evaluation](/azure/search/cognitive-search-incremental-indexing-conceptual#bypass-skillset-evaluation).|
 
 ## Request Headers 
@@ -68,7 +68,7 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-versi
 
 |Fields              |Description      |  
 |--------------------|-----------------|  
-|Content-Type|Required. Set this to `application/json`|  
+|Content-Type|Required. Set this property to `application/json`|  
 |api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key). You can [find the API key](/azure/search/search-security-api-keys#find-existing-keys) in your search service dashboard in the Azure portal.|   
 
 ## Request Body
@@ -240,7 +240,7 @@ Projections, especially table projections, require an upstream [Shaper skill](/a
 
 **Example: Connections using a managed identity**
 
-Managed identities can be used on connections to a knowledge store and to external code from a custom skill. This example demonstrates both scenarios. For a connection to Azure Storage, the additional "identity" property specifies a user-assigned managed identity. If you omit "identity", the search service's system-assigned managed identity is used. The identity must have "Storage Blob Data Contributor" permissions to write to Azure Storage.
+Managed identities can be used on connections to a knowledge store and to external code from a custom skill. This example demonstrates both scenarios. For knowledge store, the additional "identity" property specifies a user-assigned managed identity used by Azure Storage. If you omit "identity", the storage account's system-assigned managed identity is used. In order for Azure Active Directory to authenticate the caller (your search service), the search service must also be [configured for managed identity](/azure/search/search-howto-managed-identities-data-sources). The search identity must have "Storage Blob Data Contributor" permissions to write to Azure Storage.
 
 A custom skill can use a managed identity for authentication to the Azure function or app hosting your custom code. It includes an "authResourceId" property to indicate the connection is made using a managed identity. The value of "authResourceId" is the application ID created by the Microsoft Identity provider. This value will be used to validate the authentication token retrieved by the indexer, and will be sent along with the custom Web skill API request. 
 
@@ -344,7 +344,7 @@ A knowledge store is a repository of enriched data created a skillset and AI enr
 |Attribute|Description|  
 |---------------|-----------------|  
 | storageConnectionString | Required. A string in this format: `"DefaultEndpointsProtocol=https;AccountName=<ACCOUNT-NAME>;AccountKey=<ACCOUNT-KEY>;EndpointSuffix=core.windows.net"`.|
-| identity | Optional. It contains a `userAssignedIdentity` of type `#Microsoft.Azure.Search.DataUserAssignedIdentity` and specifies the [user-assigned managed identity](/azure/active-directory/managed-identities-azure-resources/how-to-manage-ua-identity-portal) of the external resource. This property depends on `storageConnectionString` having the connection string that specifies a Resource ID (the managed identity connection to the storage account). </br></br>If the `identity` property is null, the connection to a resource ID is made using the system-managed property. </br></br>If this property is assigned to the type `#Microsoft.Azure.Search.DataNoneIdentity`, any explicit identity that was previously specified is cleared. |
+| identity | Optional. It contains a `userAssignedIdentity` of type `#Microsoft.Azure.Search.DataUserAssignedIdentity` and specifies the [user-assigned managed identity](/azure/active-directory/managed-identities-azure-resources/how-to-manage-ua-identity-portal) of the external resource. This property depends on `storageConnectionString` having the connection string that specifies a Resource ID (the managed identity connection to the storage account). </p>If the `identity` property is null, the connection to a resource ID is made using the system-managed property. </p>If this property is assigned to the type `#Microsoft.Azure.Search.DataNoneIdentity`, any explicit identity that was previously specified is cleared. |
 | [projections](#projections) | Required. An array of projections consisting of `tables`, `objects`, `files`, which are either specified or null. |
 
 <a name="projections"></a>
@@ -355,15 +355,15 @@ Projections are definitions of the data structures within a knowledge store. All
 
 |Attribute|Description|  
 |---------------|-----------------|  
-| tables | Projects data shapes into one or more tables in Azure Table Storage, where elements from each document is projected into rows in a table. Each table can have the following three properties. First, `name` (required) determines the table to create or use in Azure Table Storage. Second, `generatedKeyName` (optional) is the name of a column that uniquely identifies a document. Values for this column will be generated during enrichment. If you omit it, the search service will create a default key column based on the table name. Third, `source` (required) is the path to a node of the enrichment tree that provides the [shape of the projection](/azure/search/knowledge-store-projection-shape). It's usually the output of a Shaper skill. Paths start with `/document/`, representing the root enriched document, and are then extended to `/document/<shaper-output>/`, or `/document/content/`, or another node within the enrichment tree. Examples: `/document/countries/*` (all countries), or `/document/countries/*/states/*` (all states in all countries).
-| objects | Projects documents as blobs in Azure Blob Storage. Each object has two required properties. First, `storageContainer` is the name of the container to create or use in Azure Blob Storage. Second, `source` is the path to the node of the enrichment tree that provides the shape of the projection. It must be valid JSON. The node must provide a JSON object, either from a skill that emits valid JSON or the output of a Shaper skill. |  
-| files | Each file entry defines storage of binary images in Blob Storage. File projections have two required properties. First, `storageContainer` is the name of the container to create or use in Azure Blob Storage. Second, `source` is the  path to the node of the enrichment tree that is the root of the projection. A valid value for this property is `"/document/normalized_images/*"` for images that were sourced from Blob Storage. |
+| tables | Projects data shapes into one or more tables in Azure Table Storage, where elements from each document is projected into rows in a table. Each table can have the following three properties. </p>First, `name` (required) determines the table to create or use in Azure Table Storage. </p>Second, `generatedKeyName` (optional) is the name of a column that uniquely identifies a document. Values for this column will be generated during enrichment. If you omit it, the search service will create a default key column based on the table name. </p>Third, `source` (required) is the path to a node of the enrichment tree that provides the [shape of the projection](/azure/search/knowledge-store-projection-shape). It's usually the output of a Shaper skill. Paths start with `/document/`, representing the root enriched document, and are then extended to `/document/<shaper-output>/`, or `/document/content/`, or another node within the enrichment tree. Examples: `/document/countries/*` (all countries), or `/document/countries/*/states/*` (all states in all countries).
+| objects | Projects documents as blobs in Azure Blob Storage. Each object has two required properties. </p>First, `storageContainer` is the name of the container to create or use in Azure Blob Storage. </p>Second, `source` is the path to the node of the enrichment tree that provides the shape of the projection. It must be valid JSON. The node must provide a JSON object, either from a skill that emits valid JSON or the output of a Shaper skill. |  
+| files | Each file entry defines storage of binary images in Blob Storage. </p>File projections have two required properties. First, `storageContainer` is the name of the container to create or use in Azure Blob Storage. </p>Second, `source` is the  path to the node of the enrichment tree that is the root of the projection. A valid value for this property is `"/document/normalized_images/*"` for images that were sourced from Blob Storage. |
 
 <a name="encryptionkey"></a>
 
 ### encryptionKey
 
-Configures a connection to Azure Key Vault for supplemental [customer-managed encryption keys (CMK)](/azure/search/search-security-manage-encryption-keys). Available for billable search services created on or after 2019-01-01. 
+Configures a connection to Azure Key Vault for supplemental [customer-managed encryption keys (CMK)](/azure/search/search-security-manage-encryption-keys). Encryption with customer-managed keys is not available for free services. For billable services, it's only available for search services created on or after 2019-01-01.
 
 A connection to the key vault must be authenticated. You can use either "accessCredentials" or a managed identity for this purpose. 
 
@@ -373,12 +373,9 @@ Managed identities can be system or user-assigned (preview). If the search servi
 |---------------|-----------------|  
 | keyVaultKeyName | Required. Name of the Azure Key Vault key used for encryption. |
 | keyVaultKeyVersion | Required. Version of the Azure Key Vault key. |
-| keyVaultUri  | Required. URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be `https://my-keyvault-name.vault.azure.net` |
-| accessCredentials | Optional. Omit this property if you are using a managed identity. Otherwise, the properties of "accessCredentials" include: </br>"applicationId" (an Azure Active Directory Application ID that has access permissions to your specified Azure Key Vault). </br>"applicationSecret" (the authentication key of the specified Azure AD application). |
+| keyVaultUri  | Required. URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be `https://my-keyvault-name.vault.azure.net`. |
+| accessCredentials | Omit if you're using a managed identity. Otherwise, the properties of `accessCredentials` include `applicationId` (an Azure Active Directory Application ID that has access permissions to your specified Azure Key Vault), and `applicationSecret` (the authentication key of the specified Azure AD application). |
 | identity | Optional unless you are using a user-assigned managed identity for the search service connection to Azure Key Vault. The format is `"/subscriptions/[subscription ID]/resourceGroups/[resource group name]/providers/Microsoft.ManagedIdentity/userAssignedIdentities/[managed identity name]"`. |
-
-> [!NOTE]
-> Encryption with customer-managed keys is not available for free services. For billable services, it's only available for search services created on or after 2019-01-01.
 
 ## See also
 

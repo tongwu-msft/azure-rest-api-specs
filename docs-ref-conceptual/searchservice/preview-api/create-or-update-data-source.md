@@ -45,7 +45,7 @@ PUT https://[service name].search.windows.net/datasources/[data source name]?api
     api-key: [admin key]    
 ```
 
- HTTPS is required for all service requests. If the object doesn't exist, it is created. If it already exists, it is overwritten using the new definition.
+ HTTPS is required for all service requests. If the object doesn't exist, it's created. If it already exists, it's overwritten using the new definition.
 
 > [!NOTE]  
 > Once a data source exists, you cannot change the type property on an update request. Instead, you should create a new data source using the type you want.
@@ -65,7 +65,7 @@ The following table describes the required and optional request headers.
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to `application/json`|  
-|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key). You can [find the API key](/azure/search/search-security-api-keys#find-existing-keys) in your search service dashboard in the Azure portal.|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It's a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key). You can [find the API key](/azure/search/search-security-api-keys#find-existing-keys) in your search service dashboard in the Azure portal.|  
 
 ## Request Body
 
@@ -186,7 +186,7 @@ For a successful request: 201 Created if a new data source was created, and 204 
 
 **Example: Azure SQL with change detection with deletion detection**
 
-Recall that the properties for deletion detection are `softDeleteColumnName` and `softDeleteMarkerValue`.
+Recall that the properties for deletion detection are "softDeleteColumnName" and "softDeleteMarkerValue".
 
 ```json
 {   
@@ -297,7 +297,7 @@ Specifies the container, collection, table, or view containing the data to be in
 
 ### credentials
 
-Contains a `connectionString` property that specifies how an indexer connects to an Azure resource. 
+Contains a "connectionString" property that specifies how an indexer connects to an Azure resource. 
 
 |Attribute|Description|  
 |---------------|-----------------|  
@@ -307,7 +307,7 @@ For connections that are authenticated using a managed identity, the connection 
 
 Role assignments scoped to the external data source determine whether the indexer can connect, and the search service must be configured to run as a trusted service in Azure Active Directory. 
 
-If the `identity` property is also specified, the connection is made using the user-assigned managed identity provided by the `identity` property. Otherwise, if `identity` is unspecified or null, the connection is through the system-managed identity.
+If the "identity" property is also specified, the connection is made using the user-assigned managed identity provided by the "identity" property. Otherwise, if "identity" is unspecified or null, the connection is through the system-managed identity.
 
 <a name="dataChangeDetectionPolicy"> </a>
 
@@ -317,7 +317,7 @@ Specifies the mechanism provided by the data platform for identifying changed da
 
 |Attribute|Description|  
 |---------------|-----------------|  
-| dataChangeDetectionPolicy | Optional. Valid policies include </br>`HighWatermarkChangeDetectionPolicy` or `SqlIntegratedChangeDetectionPolicy`. </br>`HighWatermarkChangeDetectionPolicy` depends on an existing column or property that is updated in tandem with other updates (all inserts result in an update to the watermark column), and the change in value is higher. </br>`SqlIntegratedChangeDetectionPolicy` is used to reference the native change detection features in SQL Server.  This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](/sql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions. | 
+| dataChangeDetectionPolicy | Optional. Valid policies include `HighWatermarkChangeDetectionPolicy` or `SqlIntegratedChangeDetectionPolicy`. </p>`HighWatermarkChangeDetectionPolicy` depends on an existing column or property that is updated in tandem with other updates (all inserts result in an update to the watermark column), and the change in value is higher. </p>`SqlIntegratedChangeDetectionPolicy` is used to reference the native change detection features in SQL Server.  This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](/sql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions. | 
 | highWaterMarkColumnName | Required for `HighWatermarkChangeDetectionPolicy`. For Cosmos DB, the column must be `_ts` property. For Azure SQL, an indexed `rowversion` column is recommended. For Azure Storage, change detection is built-in using lastModified values, eliminating any need to set the dataChangeDetectionPolicy. |
 
 <a name="dataDeletionDetectionPolicy"> </a>
@@ -336,18 +336,18 @@ Specifies the mechanism provided by the data platform for identifying deleted da
 
 ### encryptionKey
 
-Configures a connection to Azure Key Vault for supplemental [customer-managed encryption keys (CMK)](/azure/search/search-security-manage-encryption-keys). Available for billable search services created on or after 2019-01-01. 
+Configures a connection to Azure Key Vault for supplemental [customer-managed encryption keys (CMK)](/azure/search/search-security-manage-encryption-keys). Encryption with customer-managed keys is not available for free services. For billable services, it's only available for search services created on or after 2019-01-01.
 
-A connection to the key vault must be authenticated. You can use either `accessCredentials` or a managed identity for this purpose. 
+A connection to the key vault must be authenticated. You can use either "accessCredentials" or a managed identity for this purpose. 
 
-Managed identities can be system or user-assigned (preview). If the search service has both a system-assigned managed identity and a role assignment that grants read access to the key vault, you can omit both `identity` and `accessCredentials`, and the request will authenticate using the managed identity. If the search service has user-assigned identity and role assignment, set the `identity` property to the resource ID of that identity.
+Managed identities can be system or user-assigned (preview). If the search service has both a system-assigned managed identity and a role assignment that grants read access to the key vault, you can omit both "identity" and "accessCredentials", and the request will authenticate using the managed identity. If the search service has user-assigned identity and role assignment, set the "identity" property to the resource ID of that identity.
 
 |Attribute|Description|  
 |---------------|-----------------|  
 | keyVaultKeyName | Required. Name of the Azure Key Vault key used for encryption. |
 | keyVaultKeyVersion | Required. Version of the Azure Key Vault key. |
-| keyVaultUri  | Required. URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net |
-| accessCredentials | Optional if you are using a managed identity. Otherwise, the properties of `accessCredentials` include `applicationId` (an Azure Active Directory Application ID that has access permissions to your specified Azure Key Vault), and `applicationSecret` (the authentication key of the specified Azure AD application). |
+| keyVaultUri  | Required. URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be `https://my-keyvault-name.vault.azure.net`. |
+| accessCredentials | Omit if you're using a managed identity. Otherwise, the properties of `accessCredentials` include `applicationId` (an Azure Active Directory Application ID that has access permissions to your specified Azure Key Vault), and `applicationSecret` (the authentication key of the specified Azure AD application). |
 | identity | Optional unless you are using a user-assigned managed identity for the search service connection to Azure Key Vault. The format is `"/subscriptions/[subscription ID]/resourceGroups/[resource group name]/providers/Microsoft.ManagedIdentity/userAssignedIdentities/[managed identity name]"`. |
 
 ## See also  

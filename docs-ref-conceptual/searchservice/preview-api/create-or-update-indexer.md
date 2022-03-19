@@ -69,7 +69,7 @@ Indexer configuration varies based on the type of data source. For data-platform
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to `application/json`|  
-|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key). You can [find the API key](/azure/search/search-security-api-keys#find-existing-keys) in your search service dashboard in the Azure portal.|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It's a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key). You can [find the API key](/azure/search/search-security-api-keys#find-existing-keys) in your search service dashboard in the Azure portal.|  
 
 ## Request Body
 
@@ -331,22 +331,19 @@ Specifies skill outputs (or nodes in an enrichment tree) to fields in a search i
 
 ### encryptionKey
 
-Configures a connection to Azure Key Vault for supplemental [customer-managed encryption keys (CMK)](/azure/search/search-security-manage-encryption-keys). Available for billable search services created on or after 2019-01-01. 
+Configures a connection to Azure Key Vault for supplemental [customer-managed encryption keys (CMK)](/azure/search/search-security-manage-encryption-keys). Encryption with customer-managed keys is not available for free services. For billable services, it's only available for search services created on or after 2019-01-01.
 
 A connection to the key vault must be authenticated. You can use either "accessCredentials" or a managed identity for this purpose. 
 
-Managed identities can be system or user-assigned (preview). If the search service has both a system-assigned managed identity and a role assignment that grants read access to the key vault, you can omit both "identity" and "accessCredentials", and the request will authenticate using the managed identity. If the search service has user-assigned identity and role assignment, set the "identity" property to the resource ID of that identity.
+Managed identities can be system or user-assigned (preview). If the search service has both a system-assigned managed identity and a role assignment that grants read access to the key vault, you can omit both "identity" and "accessCredentials", and the request will authenticate using the system managed identity. If the search service has user-assigned identity and role assignment, set the "identity" property to the resource ID of that identity.
 
 |Attribute|Description|  
 |---------------|-----------------|  
 | keyVaultKeyName | Required. Name of the Azure Key Vault key used for encryption. |
 | keyVaultKeyVersion | Required. Version of the Azure Key Vault key. |
 | keyVaultUri  | Required. URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be `https://my-keyvault-name.vault.azure.net` |
-| accessCredentials | Optional. Omit this property if you are using a managed identity. Otherwise, the properties of "accessCredentials" include: </br>"applicationId" (an Azure Active Directory Application ID that has access permissions to your specified Azure Key Vault). </br>"applicationSecret" (the authentication key of the specified Azure AD application). |
+| accessCredentials | Omit if you are using a managed identity. Otherwise, the properties of `accessCredentials` include `applicationId` (an Azure Active Directory Application ID that has access permissions to your specified Azure Key Vault), and `applicationSecret` (the authentication key of the specified Azure AD application). |
 | identity | Optional unless you are using a user-assigned managed identity for the search service connection to Azure Key Vault. The format is `"/subscriptions/[subscription ID]/resourceGroups/[resource group name]/providers/Microsoft.ManagedIdentity/userAssignedIdentities/[managed identity name]"`. |
-
-> [!NOTE]
-> Encryption with customer-managed keys is not available for free services. For billable services, it's only available for search services created on or after 2019-01-01.
 
 ## See also
 
