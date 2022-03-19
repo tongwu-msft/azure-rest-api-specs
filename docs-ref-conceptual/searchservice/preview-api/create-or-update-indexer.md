@@ -71,7 +71,7 @@ Indexer configuration varies based on the type of data source. For data-platform
 
 ## Request Body
 
-A [data source](../create-data-source.md), [index](../create-index.md), and [skillset](../create-skillset.md) are part of an [indexer](/azure/search/search-indexer-overview) definition, but each is an independent component that can be used in different combinations. For example, you could use the same data source with multiple indexers, or the same index with multiple indexers, or multiple indexers writing to a single index.
+A [data source](create-or-update-data-source.md), [index](create-or-update-index.md), and [skillset](create-or-update-skillset.md) are part of an [indexer](/azure/search/search-indexer-overview) definition, but each is an independent component that can be used in different combinations. For example, you could use the same data source with multiple indexers, or the same index with multiple indexers, or multiple indexers writing to a single index.
 
 The following JSON is a high-level representation of the main parts of the definition. 
 
@@ -97,6 +97,7 @@ The following JSON is a high-level representation of the main parts of the defin
     "disabled" : (optional) Boolean value indicating whether the indexer is disabled. False by default.
 }  
 ```
+
  Request contains the following properties:  
 
 |Property|Description|  
@@ -143,7 +144,7 @@ This example creates an indexer that copies data from the table referenced by th
 
 **Example: Skillset indexer**
 
-This example demonstrates an AI enrichment, indicated by the reference to a skillset and [outputFieldMappings](#output-fieldmappings) that map skill outputs to fields in a search index. [Skillsets](../create-skillset.md) are high-level resources, defined separately. 
+This example demonstrates an AI enrichment, indicated by the reference to a skillset and [outputFieldMappings](#output-fieldmappings) that map skill outputs to fields in a search index. [Skillsets](create-or-update-skillset.md) are high-level resources, defined separately. 
 
 New in this preview and applicable to skillsets only, you can specify the [cache property](#cache) to reuse documents that are unaffected by changes in your skillset definition.
 
@@ -184,7 +185,7 @@ This example illustrates the connection string format when using Azure Active Di
 
 ```json
 {
-  "name":"demo-indexer",	
+  "name":"demo-indexer",
   "dataSourceName" : "demodata-ds",
   "targetIndexName" : "demo-index",
   "skillsetName" : "demo-skillset",
