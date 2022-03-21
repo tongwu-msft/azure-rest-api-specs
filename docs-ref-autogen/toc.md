@@ -8785,6 +8785,40 @@
 ### [List By Resource Group](databricks/Workspaces/List-By-Resource-Group.yml)
 ### [List By Subscription](databricks/Workspaces/List-By-Subscription.yml)
 ### [Update](databricks/Workspaces/Update.yml)
+# Datadog
+## [Overview](../docs-ref-conceptual/datadog/index.md)
+## Marketplace Agreements
+### [Overview](datadog/Marketplace-Agreements.yml)
+### [Create Or Update](datadog/Marketplace-Agreements/Create-Or-Update.yml)
+### [List](datadog/Marketplace-Agreements/List.yml)
+## Monitors
+### [Overview](datadog/Monitors.yml)
+### [Create](datadog/Monitors/Create.yml)
+### [Delete](datadog/Monitors/Delete.yml)
+### [Get](datadog/Monitors/Get.yml)
+### [Get Default Key](datadog/Monitors/Get-Default-Key.yml)
+### [List](datadog/Monitors/List.yml)
+### [List Api Keys](datadog/Monitors/List-Api-Keys.yml)
+### [List By Resource Group](datadog/Monitors/List-By-Resource-Group.yml)
+### [List Hosts](datadog/Monitors/List-Hosts.yml)
+### [List Linked Resources](datadog/Monitors/List-Linked-Resources.yml)
+### [List Monitored Resources](datadog/Monitors/List-Monitored-Resources.yml)
+### [Refresh Set Password Link](datadog/Monitors/Refresh-Set-Password-Link.yml)
+### [Set Default Key](datadog/Monitors/Set-Default-Key.yml)
+### [Update](datadog/Monitors/Update.yml)
+## Operations
+### [Overview](datadog/Operations.yml)
+### [List](datadog/Operations/List.yml)
+## Single Sign On Configurations
+### [Overview](datadog/Single-Sign-On-Configurations.yml)
+### [Create Or Update](datadog/Single-Sign-On-Configurations/Create-Or-Update.yml)
+### [Get](datadog/Single-Sign-On-Configurations/Get.yml)
+### [List](datadog/Single-Sign-On-Configurations/List.yml)
+## Tag Rules
+### [Overview](datadog/Tag-Rules.yml)
+### [Create Or Update](datadog/Tag-Rules/Create-Or-Update.yml)
+### [Get](datadog/Tag-Rules/Get.yml)
+### [List](datadog/Tag-Rules/List.yml)
 # Deployment Manager
 ## [Overview](../docs-ref-conceptual/deploymentmanager/index.md)
 ## Artifact Sources
