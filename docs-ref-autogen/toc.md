@@ -21325,6 +21325,9 @@
 ## Asc Operations
 ### [Overview](storagecache/Asc-Operations.yml)
 ### [Get](storagecache/Asc-Operations/Get.yml)
+## Asc Usages
+### [Overview](storagecache/Asc-Usages.yml)
+### [List](storagecache/Asc-Usages/List.yml)
 ## Caches
 ### [Overview](storagecache/Caches.yml)
 ### [Create Or Update](storagecache/Caches/Create-Or-Update.yml)
@@ -21347,6 +21350,7 @@
 ## Storage Target
 ### [Overview](storagecache/Storage-Target.yml)
 ### [Flush](storagecache/Storage-Target/Flush.yml)
+### [Invalidate](storagecache/Storage-Target/Invalidate.yml)
 ### [Resume](storagecache/Storage-Target/Resume.yml)
 ### [Suspend](storagecache/Storage-Target/Suspend.yml)
 ## Storage Targets
