@@ -6778,6 +6778,23 @@
 ### Virtual Machines Run Commands
 #### [Overview](compute/Virtual-Machines-Run-Commands.yml)
 #### [Run Command](compute/Virtual-Machines-Run-Commands/Run-Command.yml)
+# Confluent
+## [Overview](../docs-ref-conceptual/confluent/index.md)
+## Marketplace Agreements
+### [Overview](confluent/Marketplace-Agreements.yml)
+### [Create](confluent/Marketplace-Agreements/Create.yml)
+### [List](confluent/Marketplace-Agreements/List.yml)
+## Organization
+### [Overview](confluent/Organization.yml)
+### [Create](confluent/Organization/Create.yml)
+### [Delete](confluent/Organization/Delete.yml)
+### [Get](confluent/Organization/Get.yml)
+### [List By Resource Group](confluent/Organization/List-By-Resource-Group.yml)
+### [List By Subscription](confluent/Organization/List-By-Subscription.yml)
+### [Update](confluent/Organization/Update.yml)
+## Organization Operations
+### [Overview](confluent/Organization-Operations.yml)
+### [List](confluent/Organization-Operations/List.yml)
 # Consumption
 ## [Overview](../docs-ref-conceptual/consumption/index.md)
 ## Aggregated Cost
