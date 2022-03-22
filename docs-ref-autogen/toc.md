@@ -9208,6 +9208,7 @@
 #### [Delete](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies/Delete.yml)
 #### [Get](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies/Get.yml)
 #### [List By Account](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies/List-By-Account.yml)
+#### [Update Private Endpoint Properties](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies/Update-Private-Endpoint-Properties.yml)
 #### [Validate](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies/Validate.yml)
 ### Private Endpoint Connections
 #### [Overview](deviceupdate/resourcemanager/Private-Endpoint-Connections.yml)
