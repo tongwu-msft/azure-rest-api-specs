@@ -3,7 +3,7 @@ title: List Containers (REST API) - Azure Storage
 description: The List Containers operation returns a list of the containers under the specified storage account.  
 author: pemari-msft
 
-ms.date: 09/20/2019
+ms.date: 03/22/2022
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
