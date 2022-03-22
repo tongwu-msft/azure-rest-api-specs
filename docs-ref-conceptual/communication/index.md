@@ -27,6 +27,7 @@ You can perform various actions against several key areas of communication servi
 | [Communication Identity](xref:communication.communicationidentity)                    | 2021-03-07          | Create, manage, and issue tokens for Communication Services Identities.                                |
 | [Phone Number Administration](xref:communication.phonenumberadministration)           | 2021-03-07          | Search, obtain, and manage Communication Services telephone numbers.                                   |
 | [Sms](xref:communication.sms)                                                         | 2021-03-07          | Send SMS messages.                                                                                     |
+| [Communication Network Traversal](xref:communication.communicationnetworktraversal)   | 2022-03-11-preview  | Create, manage, and issue tokens for Communication Network Relays.
 
 ## Extra Material
 

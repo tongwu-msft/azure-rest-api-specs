@@ -9208,6 +9208,7 @@
 #### [Delete](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies/Delete.yml)
 #### [Get](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies/Get.yml)
 #### [List By Account](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies/List-By-Account.yml)
+#### [Update Private Endpoint Properties](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies/Update-Private-Endpoint-Properties.yml)
 #### [Validate](deviceupdate/resourcemanager/Private-Endpoint-Connection-Proxies/Validate.yml)
 ### Private Endpoint Connections
 #### [Overview](deviceupdate/resourcemanager/Private-Endpoint-Connections.yml)
@@ -11976,12 +11977,12 @@
 ### [Upload Preview](maps/Data/Upload-Preview.yml)
 ## Data V2
 ### [Overview](maps/Data-V2.yml)
-### [Delete Preview](maps/Data-V2/Delete-Preview.yml)
-### [Download Preview](maps/Data-V2/Download-Preview.yml)
-### [Get Operation Preview](maps/Data-V2/Get-Operation-Preview.yml)
-### [List Preview](maps/Data-V2/List-Preview.yml)
-### [Update Preview](maps/Data-V2/Update-Preview.yml)
-### [Upload Preview](maps/Data-V2/Upload-Preview.yml)
+### [Delete](maps/Data-V2/Delete.yml)
+### [Download](maps/Data-V2/Download.yml)
+### [Get Operation](maps/Data-V2/Get-Operation.yml)
+### [List](maps/Data-V2/List.yml)
+### [Update](maps/Data-V2/Update.yml)
+### [Upload](maps/Data-V2/Upload.yml)
 ## Elevation
 ### [Overview](maps/Elevation.yml)
 ### [Get Data For Bounding Box](maps/Elevation/Get-Data-For-Bounding-Box.yml)
@@ -12053,11 +12054,11 @@
 ### [Get Geocoding Batch](maps/Search-V2/Get-Geocoding-Batch.yml)
 ## Spatial
 ### [Overview](maps/Spatial.yml)
+### [Evaluate Point In Polygon](maps/Spatial/Evaluate-Point-In-Polygon.yml)
 ### [Get Buffer](maps/Spatial/Get-Buffer.yml)
 ### [Get Closest Point](maps/Spatial/Get-Closest-Point.yml)
 ### [Get Geofence](maps/Spatial/Get-Geofence.yml)
 ### [Get Great Circle Distance](maps/Spatial/Get-Great-Circle-Distance.yml)
-### [Get Point In Polygon](maps/Spatial/Get-Point-In-Polygon.yml)
 ### [Post Buffer](maps/Spatial/Post-Buffer.yml)
 ### [Post Closest Point](maps/Spatial/Post-Closest-Point.yml)
 ### [Post Geofence](maps/Spatial/Post-Geofence.yml)
@@ -12105,7 +12106,7 @@
 #### [Assign](maps/v2/Alias/Assign.yml)
 #### [Create](maps/v2/Alias/Create.yml)
 #### [Delete](maps/v2/Alias/Delete.yml)
-#### [Get Details](maps/v2/Alias/Get-Details.yml)
+#### [Get](maps/v2/Alias/Get.yml)
 #### [List](maps/v2/Alias/List.yml)
 ### Conversion
 #### [Overview](maps/v2/Conversion.yml)
@@ -12126,11 +12127,11 @@
 #### [Create Stateset](maps/v2/Feature-State/Create-Stateset.yml)
 #### [Delete State](maps/v2/Feature-State/Delete-State.yml)
 #### [Delete Stateset](maps/v2/Feature-State/Delete-Stateset.yml)
-#### [Get States](maps/v2/Feature-State/Get-States.yml)
 #### [Get Stateset](maps/v2/Feature-State/Get-Stateset.yml)
-#### [List Stateset](maps/v2/Feature-State/List-Stateset.yml)
-#### [Put Stateset](maps/v2/Feature-State/Put-Stateset.yml)
+#### [List States](maps/v2/Feature-State/List-States.yml)
+#### [List Statesets](maps/v2/Feature-State/List-Statesets.yml)
 #### [Update States](maps/v2/Feature-State/Update-States.yml)
+#### [Update Stateset](maps/v2/Feature-State/Update-Stateset.yml)
 ### Tileset
 #### [Overview](maps/v2/Tileset.yml)
 #### [Create](maps/v2/Tileset/Create.yml)
@@ -12140,14 +12141,14 @@
 #### [List](maps/v2/Tileset/List.yml)
 ### WFS
 #### [Overview](maps/v2/WFS.yml)
-#### [Collection Definition](maps/v2/WFS/Collection-Definition.yml)
-#### [Collection Description](maps/v2/WFS/Collection-Description.yml)
-#### [Collections Description](maps/v2/WFS/Collections-Description.yml)
 #### [Delete Feature](maps/v2/WFS/Delete-Feature.yml)
+#### [Get Collection](maps/v2/WFS/Get-Collection.yml)
+#### [Get Collection Definition](maps/v2/WFS/Get-Collection-Definition.yml)
+#### [Get Collections](maps/v2/WFS/Get-Collections.yml)
 #### [Get Feature](maps/v2/WFS/Get-Feature.yml)
 #### [Get Features](maps/v2/WFS/Get-Features.yml)
 #### [Get Landing Page](maps/v2/WFS/Get-Landing-Page.yml)
-#### [Get Requirements Classes](maps/v2/WFS/Get-Requirements-Classes.yml)
+#### [List Conformance](maps/v2/WFS/List-Conformance.yml)
 # Maps Management
 ## [Overview](../docs-ref-conceptual/maps-management/index.md)
 ## Accounts
@@ -14902,6 +14903,7 @@
 ### Services
 #### [Get Service Statistics](../docs-ref-conceptual/searchservice/preview-api/get-service-statistics.md)
 ### Skillsets
+#### [Create or Update Skillset](../docs-ref-conceptual/searchservice/preview-api/create-or-update-skillset.md)
 #### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
 ## Reference (Stable)
 ### Indexes
@@ -21324,6 +21326,9 @@
 ## Asc Operations
 ### [Overview](storagecache/Asc-Operations.yml)
 ### [Get](storagecache/Asc-Operations/Get.yml)
+## Asc Usages
+### [Overview](storagecache/Asc-Usages.yml)
+### [List](storagecache/Asc-Usages/List.yml)
 ## Caches
 ### [Overview](storagecache/Caches.yml)
 ### [Create Or Update](storagecache/Caches/Create-Or-Update.yml)
@@ -21346,6 +21351,7 @@
 ## Storage Target
 ### [Overview](storagecache/Storage-Target.yml)
 ### [Flush](storagecache/Storage-Target/Flush.yml)
+### [Invalidate](storagecache/Storage-Target/Invalidate.yml)
 ### [Resume](storagecache/Storage-Target/Resume.yml)
 ### [Suspend](storagecache/Storage-Target/Suspend.yml)
 ## Storage Targets

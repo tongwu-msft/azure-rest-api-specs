@@ -3,7 +3,7 @@ title: Create a user delegation SAS - Azure Storage
 description: A SAS token for access to a container, directory, or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a user delegation SAS, because the token used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
 author: tamram
 
-ms.date: 12/22/2020
+ms.date: 03/16/2022
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -25,13 +25,13 @@ For information about using your account key to secure a SAS, see [Create a serv
 
 ## User delegation SAS support for directory scoped access
 
-A user delegation SAS supports directory scope (`sr=d`) when the authentication version (`sv`) is 2020-02-10 or higher and a hierarchical namespace (HNS) is enabled. The semantics for directory scope (`sr=d`) are similar to container scope (`sr=c`), except that access is restricted to a directory and any files and subdirectories beneath it. When `sr=d` is specified, the `sdd` query parameter is also required.
+A user delegation SAS supports directory scope (`sr=d`) when the authorization version (`sv`) is 2020-02-10 or higher and a hierarchical namespace (HNS) is enabled. The semantics for directory scope (`sr=d`) are similar to container scope (`sr=c`), except that access is restricted to a directory and any files and subdirectories beneath it. When `sr=d` is specified, the `sdd` query parameter is also required.
 
-The string-to-sign format for authentication version 2020-02-10 is unchanged.
+The string-to-sign format for authorization version 2020-02-10 is unchanged.
 
 ## User delegation SAS support for user OID
 
-User Delegation SAS supports an optional user OID carried in either the `saoid` or `suoid` parameter when the authentication version (`sv`) is 2020-02-10 or higher. This optional parameter provides an enhanced authorization model for multi-user cluster workloads like Hadoop and Spark. SAS tokens may be constrained to a specific filesystem operation and user, providing a less vulnerable access token that is safer for the purpose of distributing across a multi-user cluster. One use case for these features is the integration of the Hadoop ABFS driver with Apache Ranger.
+User Delegation SAS supports an optional user OID carried in either the `saoid` or `suoid` parameter when the authorization version (`sv`) is 2020-02-10 or higher. This optional parameter provides an enhanced authorization model for multi-user cluster workloads like Hadoop and Spark. SAS tokens may be constrained to a specific filesystem operation and user, providing a less vulnerable access token that is safer for the purpose of distributing across a multi-user cluster. One use case for these features is the integration of the Hadoop ABFS driver with Apache Ranger.
 
 ## Authorization of a user delegation SAS
 
@@ -153,10 +153,10 @@ The following table shows the permissions supported for each resource type.
 
 | Permission | URI symbol | Resource | Version support | Allowed operations |
 |--|--|--|--|--|
-| Read | r | Container<br />Directory<br />Blob | All | Read the content, block list, properties, and metadata of any blob in the container or directory. Use a blob as the source of a copy operation. |
+| Read | r | Container<br />Directory<br />Blob | All | Read the content, blocklist, properties, and metadata of any blob in the container or directory. Use a blob as the source of a copy operation. |
 | Add | a | Container<br />Directory<br />Blob | All | Add a block to an append blob. |
 | Create | c | Container<br />Directory<br />Blob | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
-| Write | w | Container<br />Directory<br />Blob | All | Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
+| Write | w | Container<br />Directory<br />Blob | All | Create or write content, properties, metadata, or blocklist. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
 | Delete | d | Container<br />Directory<br />Blob | All | Delete a blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the [Lease Blob](Lease-Blob.md) operation. |
 | Delete version | x | Container<br />Blob | Version 2019-12-12 or later | Delete a blob version. |
 | Permanent Delete | y | Blob | Version 2020-02-10 or later | Permanently delete a blob snapshot or version.|
@@ -278,88 +278,98 @@ When the `x-ms-encryption-scope` header and the `ses` query parameter are both p
 
 The `signature` (`sig`) field is used to authorize a request made by a client with the shared access signature. The string-to-sign is a unique string constructed from the fields that must be verified in order to authorize the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.
 
-To construct the signature string of a user delegation SAS, first create the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Fields included in the string-to-sign must be URL-decoded. Use the following format for the string-to-sign:
+To construct the signature string of a user delegation SAS, first create the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Fields included in the string-to-sign must be URL-decoded.
+
+The fields required in the string-to-sign depend on the service version that is used for authorization ('sv' field). The following sections describe the string-to-sign configuration for services versions that support the user delegation SAS. 
+
+#### Version 2020-12-06 and higher
+
+The string-to-sign for authorization version 2020-12-06 or higher has the following format:
 
 ```
-StringToSign = sp + "\n" +  
- st + "\n" +  
- se + "\n" +  
- canonicalizedResource + "\n" +  
- skoid + "\n" +
- sktid + "\n" +
- skt + "\n" +
- ske  + "\n" +
- sks + "\n" +
- skv + "\n" +
- saoid + "\n" +
- suoid + "\n" +
- scid + "\n" +
- sip + "\n" +  
- spr + "\n" +  
- sv + "\n" +  
- sr + "\n" +
- rscc + "\n" +
- rscd + "\n" +  
- rsce + "\n" +  
- rscl + "\n" +  
- rsct
-```  
-
-The string-to-sign for authentication version 2020-02-10 or higher has the following format:
-
-```
-StringToSign = signedPermissions + "\n" +
-                   signedStart + "\n" +
-                   signedExpiry + "\n" +
-                   canonicalizedResource + "\n" +
-                   signedKeyObjectId + "\n" +
-                   signedKeyTenantId + "\n" +
-                   signedKeyStart + "\n" +
-                   signedKeyExpiry  + "\n" +
-                   signedKeyService + "\n" +
-                   signedKeyVersion + "\n" +
-                   signedAuthorizedUserObjectId + "\n" +
-                   signedUnauthorizedUserObjectId + "\n" +
-                   signedCorrelationId + "\n" +
-                   signedIP + "\n" +
-                   signedProtocol + "\n" +
-                   signedVersion + "\n" +
-                   signedResource + "\n" +
-                   signedSnapshotTime + "\n" +
-                   rscc + "\n" +
-                   rscd + "\n" +
-                   rsce + "\n" +
-                   rscl + "\n" +
-                   rsct
+StringToSign =  signedPermissions + "\n" +
+                signedStart + "\n" +
+                signedExpiry + "\n" +
+                canonicalizedResource + "\n" +
+                signedKeyObjectId + "\n" +
+                signedKeyTenantId + "\n" +
+                signedKeyStart + "\n" +
+                signedKeyExpiry  + "\n" +
+                signedKeyService + "\n" +
+                signedKeyVersion + "\n" +
+                signedAuthorizedUserObjectId + "\n" +
+                signedUnauthorizedUserObjectId + "\n" +
+                signedCorrelationId + "\n" +
+                signedIP + "\n" +
+                signedProtocol + "\n" +
+                signedVersion + "\n" +
+                signedResource + "\n" +
+                signedSnapshotTime + "\n" +
+                signedEncryptionScope + "\n" +
+                rscc + "\n" +
+                rscd + "\n" +
+                rsce + "\n" +
+                rscl + "\n" +
+                rsct
 ```
 
-The string-to-sign for authentication version 2020-12-06 or higher has the following format:
+#### Version 2020-02-10
+
+The string-to-sign for authorization version 2020-02-10 has the following format:
 
 ```
-StringToSign = signedPermissions + "\n" +
-                   signedStart + "\n" +
-                   signedExpiry + "\n" +
-                   canonicalizedResource + "\n" +
-                   signedKeyObjectId + "\n" +
-                   signedKeyTenantId + "\n" +
-                   signedKeyStart + "\n" +
-                   signedKeyExpiry  + "\n" +
-                   signedKeyService + "\n" +
-                   signedKeyVersion + "\n" +
-                   signedAuthorizedUserObjectId + "\n" +
-                   signedUnauthorizedUserObjectId + "\n" +
-                   signedCorrelationId + "\n" +
-                   signedIP + "\n" +
-                   signedProtocol + "\n" +
-                   signedVersion + "\n" +
-                   signedResource + "\n" +
-                   signedSnapshotTime + "\n" +
-                   signedEncryptionScope + "\n" +
-                   rscc + "\n" +
-                   rscd + "\n" +
-                   rsce + "\n" +
-                   rscl + "\n" +
-                   rsct
+StringToSign =  signedPermissions + "\n" +
+                signedStart + "\n" +
+                signedExpiry + "\n" +
+                canonicalizedResource + "\n" +
+                signedKeyObjectId + "\n" +
+                signedKeyTenantId + "\n" +
+                signedKeyStart + "\n" +
+                signedKeyExpiry  + "\n" +
+                signedKeyService + "\n" +
+                signedKeyVersion + "\n" +
+                signedAuthorizedUserObjectId + "\n" +
+                signedUnauthorizedUserObjectId + "\n" +
+                signedCorrelationId + "\n" +
+                signedIP + "\n" +
+                signedProtocol + "\n" +
+                signedVersion + "\n" +
+                signedResource + "\n" +
+                signedSnapshotTime + "\n" +
+                rscc + "\n" +
+                rscd + "\n" +
+                rsce + "\n" +
+                rscl + "\n" +
+                rsct
+```
+
+#### Versions prior to 2020-02-10
+
+The string-to-sign for authorization versions prior to 2020-02-10 has the following format:
+
+```
+StringToSign =  signedPermissions + "\n" +  
+                signedStart + "\n" +  
+                signedExpiry + "\n" +  
+                canonicalizedResource + "\n" +  
+                signedKeyObjectId + "\n" +
+                signedKeyTenantId + "\n" +
+                signedKeyStart + "\n" +
+                signedKeyExpiry  + "\n" +
+                signedKeyService + "\n" +
+                signedKeyVersion + "\n" +
+                signedAuthorizedUserObjectId + "\n" +
+                signedUnauthorizedUserObjectId + "\n" +
+                signedCorrelationId + "\n" +
+                signedIP + "\n" +  
+                signedProtocol + "\n" +  
+                signedVersion + "\n" +  
+                signedResource + "\n" +
+                rscc + "\n" +
+                rscd + "\n" +  
+                rsce + "\n" +  
+                rscl + "\n" +  
+                rsct
 ```
 
 #### Canonicalized resource

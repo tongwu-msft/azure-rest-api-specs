@@ -1,6 +1,6 @@
 ### YamlMime:RESTOperation
-uid: maps.v2.featurestate.putstateset
-name: Put Stateset
+uid: maps.v2.featurestate.updatestateset
+name: Update Stateset
 service: Maps Creator
 groupName: Feature State
 apiVersion: "2.0"
@@ -17,8 +17,6 @@ produces:
 - application/json
 paths:
 - content: PUT https://{geography}.atlas.microsoft.com/featureStateSets/{statesetId}?api-version=2.0
-- content: PUT https://{geography}.atlas.microsoft.com/featureStateSets/{statesetId}?subscription-key={subscription-key}&api-version=2.0
-  isOptional: true
 uriParameters:
 - name: geography
   in: path
@@ -32,104 +30,214 @@ uriParameters:
   description: The stateset id that was created.
   types:
   - uid: string
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 2.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 responses:
 - name: 200 OK
   description: Stateset styles are updated successfully.
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
   - name: styles
     in: body
-    description: 'An array of stateset styles. The style rule could be a numeric or string or a boolean type style rule.  Refer to NumberRuleObject, StringRuleObject and BooleanRuleObject definitions [here](https://aka.ms/AzureMapsStatesetStylesObject). '
+    description: 'An array of stateset style rules. The style rule could be a numeric or string or a boolean type style rule.  Refer to NumberRule, StringRule and BooleanRule definitions [here](https://aka.ms/AzureMapsStatesetStyles). '
     types:
-    - uid: object
+    - uid: BooleanStyleRule
       isArray: true
-requestHeader: []
+    - uid: NumberStyleRule
+      isArray: true
+    - uid: StringStyleRule
+      isArray: true
+    typesTitle: StyleRule[]
+requestHeader:
+- name: x-ms-client-id
+  in: header
+  description: Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from the Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.
+  types:
+  - uid: string
 definitions:
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
-- name: StylesObject
+    - uid: ErrorDetail
+- name: StyleRules
   description: The styles model.
   kind: object
   properties:
   - name: styles
-    description: 'An array of stateset styles. The style rule could be a numeric or string or a boolean type style rule.  Refer to NumberRuleObject, StringRuleObject and BooleanRuleObject definitions [here](https://aka.ms/AzureMapsStatesetStylesObject). '
+    description: 'An array of stateset style rules. The style rule could be a numeric or string or a boolean type style rule.  Refer to NumberRule, StringRule and BooleanRule definitions [here](https://aka.ms/AzureMapsStatesetStyles). '
+    types:
+    - uid: BooleanStyleRule
+      isArray: true
+    - uid: NumberStyleRule
+      isArray: true
+    - uid: StringStyleRule
+      isArray: true
+    typesTitle: StyleRule[]
+- name: BooleanStyleRule
+  description: The boolean type style rule object.
+  kind: object
+  properties:
+  - name: rules
+    description: Boolean style rules.
+    types:
+    - uid: BooleanRule
+      isArray: true
+  - name: keyName
+    description: Stateset style key name. Key names are random strings but they should be unique inside style array.
+    types:
+    - uid: string
+  - name: type
+    description: The type of stateset style.
+    types:
+    - uid: boolean
+    typesTitle: string
+- name: NumberStyleRule
+  description: The numeric type style rule object.
+  kind: object
+  properties:
+  - name: rules
+    description: Numeric style rules.
+    types:
+    - uid: NumberRule
+      isArray: true
+  - name: keyName
+    description: Stateset style key name. Key names are random strings but they should be unique inside style array.
+    types:
+    - uid: string
+  - name: type
+    description: The type of stateset style.
+    types:
+    - uid: number
+    typesTitle: string
+- name: StringStyleRule
+  description: The string type style rule object.
+  kind: object
+  properties:
+  - name: rules
+    description: String style rules.
     types:
     - uid: object
       isArray: true
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+  - name: keyName
+    description: Stateset style key name. Key names are random strings but they should be unique inside style array.
+    types:
+    - uid: string
+  - name: type
+    description: The type of stateset style.
+    types:
+    - uid: string
+    typesTitle: string
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: BooleanRule
+  description: The boolean rule. The color is selected based on the logic value of the key.
+  kind: object
+  properties:
+  - name: "true"
+    description: The color when value is true. Color is a JSON string in a variety of permitted formats, HTML-style hex values, RGB ("#ff0", "#ffff00", "rgb(255, 255, 0)"), RGBA ("rgba(255, 255, 0, 1)"), HSL("hsl(100, 50%, 50%)"), and HSLA("hsla(100, 50%, 50%, 1)"). Predefined HTML colors names, like yellow and blue, are also permitted.
+    types:
+    - uid: string
+  - name: "false"
+    description: The color when value is false. Color is a JSON string in a variety of permitted formats, HTML-style hex values, RGB ("#ff0", "#ffff00", "rgb(255, 255, 0)"), RGBA ("rgba(255, 255, 0, 1)"), HSL("hsl(100, 50%, 50%)"), and HSLA("hsla(100, 50%, 50%, 1)"). Predefined HTML colors names, like yellow and blue, are also permitted.
+    types:
+    - uid: string
+- name: NumberRule
+  description: The numeric rule. The color is selected from the first range it falls into.
+  kind: object
+  properties:
+  - name: range
+    description: The numeric value range for this style rule. If the value is in the range, all the conditions must hold true.
+    types:
+    - uid: Range
+  - name: color
+    description: The color when value is within the range. Color is a JSON string in a variety of permitted formats, HTML-style hex values, RGB ("#ff0", "#ffff00", "rgb(255, 255, 0)"), RGBA ("rgba(255, 255, 0, 1)"), HSL("hsl(100, 50%, 50%)"), and HSLA("hsla(100, 50%, 50%, 1)"). Predefined HTML colors names, like yellow and blue, are also permitted.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: Range
+  description: The numeric value range for this style rule. If the value is in the range, all the conditions must hold true.
+  kind: object
+  properties:
+  - name: minimum
+    description: All the number x that x ≥ minimum.
+    types:
+    - uid: string
+  - name: maximum
+    description: All the number x that x ≤ maximum.
+    types:
+    - uid: string
+  - name: exclusiveMinimum
+    description: All the number x that x > exclusiveMinimum.
+    types:
+    - uid: string
+  - name: exclusiveMaximum
+    description: All the number x that x < exclusiveMaximum.
     types:
     - uid: string
 examples:
 - name: Update stateset style rules with a statesetId
   request:
-    uri: PUT https://us.atlas.microsoft.com/featureStateSets/b24bdb73-1305-3212-1909-a428d937b64?subscription-key=[subscription-key]&api-version=2.0
+    uri: PUT https://us.atlas.microsoft.com/featureStateSets/b24bdb73-1305-3212-1909-a428d937b64?api-version=2.0
     body: >-
       {
         "styles": [
           {
-            "keyname": "s1",
+            "keyName": "s1",
             "type": "boolean",
             "rules": [
               {
@@ -139,32 +247,32 @@ examples:
             ]
           },
           {
-            "keyname": "s2",
+            "keyName": "s2",
             "type": "number",
             "rules": [
               {
                 "range": {
-                  "exclusiveMaximum": 50
+                  "exclusiveMaximum": "50"
                 },
                 "color": "#343deb"
               },
               {
                 "range": {
-                  "minimum": 50,
-                  "exclusiveMaximum": 69
+                  "minimum": "50",
+                  "exclusiveMaximum": "69"
                 },
                 "color": "#34ebb1"
               },
               {
                 "range": {
-                  "minimum": 69,
-                  "exclusiveMaximum": 90
+                  "minimum": "69",
+                  "exclusiveMaximum": "90"
                 },
                 "color": "#eba834"
               },
               {
                 "range": {
-                  "minimum": 90
+                  "minimum": "90"
                 },
                 "color": "#eb3434"
               }
@@ -174,46 +282,6 @@ examples:
       }
   responses:
   - statusCode: "200"
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
-      }
 security:
 - name: AADToken
   type: oauth2
