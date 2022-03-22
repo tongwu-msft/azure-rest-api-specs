@@ -3,14 +3,14 @@ uid: management.azure.com.storagecache.storagetargets.listbycache
 name: List By Cache
 service: Storagecache
 groupName: Storage Targets
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Returns a list of Storage Targets for the specified Cache.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets?api-version=2021-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -87,6 +87,10 @@ definitions:
     description: ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
     types:
     - uid: ProvisioningStateType
+  - name: properties.state
+    description: Storage target operational state.
+    types:
+    - uid: OperationalStateType
   - name: properties.nfs3
     description: Properties when targetType is nfs3.
     types:
@@ -207,6 +211,22 @@ definitions:
   - name: Updating
     types:
     - uid: string
+- name: OperationalStateType
+  description: Storage target operational state.
+  kind: enum
+  properties:
+  - name: Ready
+    types:
+    - uid: string
+  - name: Busy
+    types:
+    - uid: string
+  - name: Suspended
+    types:
+    - uid: string
+  - name: Flushing
+    types:
+    - uid: string
 - name: Nfs3Target
   description: Properties pertaining to the Nfs3Target
   kind: object
@@ -298,7 +318,7 @@ definitions:
 examples:
 - name: StorageTargets_List
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets?api-version=2021-05-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets?api-version=2022-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -331,6 +351,7 @@ examples:
                   "nfsAccessPolicy": "default"
                 }
               ],
+              "state": "Ready",
               "targetType": "nfs3",
               "nfs3": {
                 "target": "10.0.44.44",
@@ -358,6 +379,7 @@ examples:
                   "nfsAccessPolicy": "default"
                 }
               ],
+              "state": "Ready",
               "targetType": "clfs",
               "clfs": {
                 "target": "https://contoso123.blob.core.windows.net/contoso123"
@@ -385,6 +407,7 @@ examples:
                   "nfsAccessPolicy": "default"
                 }
               ],
+              "state": "Ready",
               "targetType": "unknown",
               "unknown": {
                 "attributes": {

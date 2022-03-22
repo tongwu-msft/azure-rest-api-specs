@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.storagecache.caches.flush
-name: Flush
+uid: management.azure.com.storagecache.storagetarget.invalidate
+name: Invalidate
 service: Storagecache
-groupName: Caches
+groupName: Storage Target
 apiVersion: 2022-01-01
-summary: Tells a Cache to write all dirty data to the Storage Target(s). During the flush, clients will see errors returned until the flush is complete.
+summary: Invalidate all cached data for a storage target. Cached files are discarded and fetched from the back end on the next request.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/flush?api-version=2022-01-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}/invalidate?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,6 +31,13 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-0-9a-zA-Z_]{1,80}$
+- name: storageTargetName
+  in: path
+  isRequired: true
+  description: Name of Storage Target.
+  types:
+  - uid: string
+  pattern: ^[-0-9a-zA-Z_]{1,80}$
 - name: api-version
   in: query
   isRequired: true
@@ -39,11 +46,11 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: All cached data has been flushed to the Storage Target(s).
+  description: All cached data for the storage target was invalidated
 - name: 202 Accepted
-  description: Cache has started flushing to its Storage Target(s). Poll the Cache's state field to monitor.
+  description: Storage target invalidation has started. Poll the storage target's state field to monitor progress.
 - name: 204 No Content
-  description: Cache flush already in progress or has completed.
+  description: The storage target already has been invalidated, or invalidate is in progress.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -80,9 +87,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Caches_Flush
+- name: StorageTargets_Invalidate
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc/flush?api-version=2022-01-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc/storageTargets/st1/invalidate?api-version=2022-01-01
   responses:
   - statusCode: "200"
   - statusCode: "202"
@@ -97,5 +104,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Tells a Cache to write all dirty data to the Storage Target(s). During the flush, clients will see errors returned until the flush is complete.
+  description: Invalidate all cached data for a storage target. Cached files are discarded and fetched from the back end on the next request.
 errorCodes: []
