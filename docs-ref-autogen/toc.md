@@ -14903,6 +14903,7 @@
 ### Services
 #### [Get Service Statistics](../docs-ref-conceptual/searchservice/preview-api/get-service-statistics.md)
 ### Skillsets
+#### [Create or Update Skillset](../docs-ref-conceptual/searchservice/preview-api/create-or-update-skillset.md)
 #### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
 ## Reference (Stable)
 ### Indexes
