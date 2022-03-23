@@ -22224,11 +22224,11 @@
 #### [Create Or Update](synapse/sqlserver/Workspace-Managed-Sql-Server-Blob-Auditing-Policies/Create-Or-Update.yml)
 #### [Get](synapse/sqlserver/Workspace-Managed-Sql-Server-Blob-Auditing-Policies/Get.yml)
 #### [List By Workspace](synapse/sqlserver/Workspace-Managed-Sql-Server-Blob-Auditing-Policies/List-By-Workspace.yml)
-### Workspace Managed Sql Server Dedicated SQ Lminimal Tls Settings
-#### [Overview](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQ-Lminimal-Tls-Settings.yml)
-#### [Get](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQ-Lminimal-Tls-Settings/Get.yml)
-#### [List](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQ-Lminimal-Tls-Settings/List.yml)
-#### [Update](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQ-Lminimal-Tls-Settings/Update.yml)
+### Workspace Managed Sql Server Dedicated SQL Minimal Tls Settings
+#### [Overview](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQL-Minimal-Tls-Settings.yml)
+#### [Get](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQL-Minimal-Tls-Settings/Get.yml)
+#### [List](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQL-Minimal-Tls-Settings/List.yml)
+#### [Update](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQL-Minimal-Tls-Settings/Update.yml)
 ### Workspace Managed Sql Server Encryption Protector
 #### [Overview](synapse/sqlserver/Workspace-Managed-Sql-Server-Encryption-Protector.yml)
 #### [Create Or Update](synapse/sqlserver/Workspace-Managed-Sql-Server-Encryption-Protector/Create-Or-Update.yml)
