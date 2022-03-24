@@ -79,7 +79,6 @@
 ### [Delete](azurefrontdoorstandardpremium(preview)/Secrets/Delete.yml)
 ### [Get](azurefrontdoorstandardpremium(preview)/Secrets/Get.yml)
 ### [List By Profile](azurefrontdoorstandardpremium(preview)/Secrets/List-By-Profile.yml)
-### [Update](azurefrontdoorstandardpremium(preview)/Secrets/Update.yml)
 ## Security Policies
 ### [Overview](azurefrontdoorstandardpremium(preview)/Security-Policies.yml)
 ### [Create](azurefrontdoorstandardpremium(preview)/Security-Policies/Create.yml)
