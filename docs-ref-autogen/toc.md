@@ -11648,6 +11648,54 @@
 ### [Update](logic/Workflows/Update.yml)
 ### [Validate](logic/Workflows/Validate.yml)
 ### [Validate Workflow](logic/Workflows/Validate-Workflow.yml)
+# Logz
+## [Overview](../docs-ref-conceptual/logz/index.md)
+## Monitor
+### [Overview](logz/Monitor.yml)
+### [List VM Hosts](logz/Monitor/List-VM-Hosts.yml)
+### [List Vm Host Update](logz/Monitor/List-Vm-Host-Update.yml)
+### [VM Host Payload](logz/Monitor/VM-Host-Payload.yml)
+## Monitors
+### [Overview](logz/Monitors.yml)
+### [Create](logz/Monitors/Create.yml)
+### [Delete](logz/Monitors/Delete.yml)
+### [Get](logz/Monitors/Get.yml)
+### [List By Resource Group](logz/Monitors/List-By-Resource-Group.yml)
+### [List By Subscription](logz/Monitors/List-By-Subscription.yml)
+### [List Monitored Resources](logz/Monitors/List-Monitored-Resources.yml)
+### [List User Roles](logz/Monitors/List-User-Roles.yml)
+### [Update](logz/Monitors/Update.yml)
+## Operations
+### [Overview](logz/Operations.yml)
+### [List](logz/Operations/List.yml)
+## Single Sign On
+### [Overview](logz/Single-Sign-On.yml)
+### [Create Or Update](logz/Single-Sign-On/Create-Or-Update.yml)
+### [Get](logz/Single-Sign-On/Get.yml)
+### [List](logz/Single-Sign-On/List.yml)
+## Sub Account
+### [Overview](logz/Sub-Account.yml)
+### [Create](logz/Sub-Account/Create.yml)
+### [Delete](logz/Sub-Account/Delete.yml)
+### [Get](logz/Sub-Account/Get.yml)
+### [List](logz/Sub-Account/List.yml)
+### [List Monitored Resources](logz/Sub-Account/List-Monitored-Resources.yml)
+### [List VM Hosts](logz/Sub-Account/List-VM-Hosts.yml)
+### [List Vm Host Update](logz/Sub-Account/List-Vm-Host-Update.yml)
+### [Update](logz/Sub-Account/Update.yml)
+### [VM Host Payload](logz/Sub-Account/VM-Host-Payload.yml)
+## Sub Account Tag Rules
+### [Overview](logz/Sub-Account-Tag-Rules.yml)
+### [Create Or Update](logz/Sub-Account-Tag-Rules/Create-Or-Update.yml)
+### [Delete](logz/Sub-Account-Tag-Rules/Delete.yml)
+### [Get](logz/Sub-Account-Tag-Rules/Get.yml)
+### [List](logz/Sub-Account-Tag-Rules/List.yml)
+## Tag Rules
+### [Overview](logz/Tag-Rules.yml)
+### [Create Or Update](logz/Tag-Rules/Create-Or-Update.yml)
+### [Delete](logz/Tag-Rules/Delete.yml)
+### [Get](logz/Tag-Rules/Get.yml)
+### [List](logz/Tag-Rules/List.yml)
 # Machine Learning
 ## [Overview](../docs-ref-conceptual/azureml/index.md)
 ## Batch Deployments
