@@ -114,4 +114,4 @@ Links to reference for the current GA (stable) version.
 
 - [Azure API Management documentation](/azure/api-management/)
 - [Azure API Management FAQ](/azure/api-management/api-management-faq/)
-- [About Azure API Management](/azure/api-management/tapi-management-key-concepts/)
+- [About Azure API Management](/azure/api-management/api-management-key-concepts/)

@@ -41,7 +41,7 @@ The `Create Database` operation creates a new database in the database account.
 |**x-ms-offer-throughput**|Optional|Number|The user specified manual throughput (RU/s) for the database expressed in units of 100 request units per second. The minimum is 400 up to 1,000,000 (or higher by requesting a limit increase).<br /><br /> Only one of `x-ms-offer-throughput` or `x-ms-cosmos-offer-autopilot-settings` must be specified. These headers cannot be specified together.|
 |**x-ms-cosmos-offer-autopilot-settings**|Optional|JSON|The user specified autoscale max RU/s of the database. The value is a JSON with the property `maxThroughput`. For example: `{"maxThroughput": 4000}`.<br /><br /> Only one of `x-ms-offer-throughput` or `x-ms-cosmos-offer-autopilot-settings` must be specified. These headers cannot be specified together.|   
 > [!NOTE]
-> If you set throughput on a database, this creates a [shared throughput database](/azure/cosmos-db/set-throughput.md#set-throughput-on-a-database) where all collections inside it share the provisioned throughput. There is a limit of 25 containers in a shared throughput database. If you do not plan to use a shared throughput database, create a database without setting the above throughput headers. [Learn more](/azure/cosmos-db/set-throughput).
+> If you set throughput on a database, this creates a [shared throughput database](/azure/cosmos-db/set-throughput#set-throughput-on-a-database) where all collections inside it share the provisioned throughput. There is a limit of 25 containers in a shared throughput database. If you do not plan to use a shared throughput database, create a database without setting the above throughput headers. [Learn more](/azure/cosmos-db/set-throughput).
 
 ### Body  
   
@@ -194,8 +194,8 @@ Content-Length: 27
 ```
 
 ## See Also  
-* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB](/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB SQL API](azure/cosmos-db/sql-api-introduction)   
 * [Azure Cosmos DB SQL API SDKs](/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   

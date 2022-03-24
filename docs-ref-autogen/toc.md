@@ -6778,6 +6778,23 @@
 ### Virtual Machines Run Commands
 #### [Overview](compute/Virtual-Machines-Run-Commands.yml)
 #### [Run Command](compute/Virtual-Machines-Run-Commands/Run-Command.yml)
+# Confluent
+## [Overview](../docs-ref-conceptual/confluent/index.md)
+## Marketplace Agreements
+### [Overview](confluent/Marketplace-Agreements.yml)
+### [Create](confluent/Marketplace-Agreements/Create.yml)
+### [List](confluent/Marketplace-Agreements/List.yml)
+## Organization
+### [Overview](confluent/Organization.yml)
+### [Create](confluent/Organization/Create.yml)
+### [Delete](confluent/Organization/Delete.yml)
+### [Get](confluent/Organization/Get.yml)
+### [List By Resource Group](confluent/Organization/List-By-Resource-Group.yml)
+### [List By Subscription](confluent/Organization/List-By-Subscription.yml)
+### [Update](confluent/Organization/Update.yml)
+## Organization Operations
+### [Overview](confluent/Organization-Operations.yml)
+### [List](confluent/Organization-Operations/List.yml)
 # Consumption
 ## [Overview](../docs-ref-conceptual/consumption/index.md)
 ## Aggregated Cost
@@ -7699,6 +7716,27 @@
 ##### [Migrate Table To Manual Throughput](cosmos-db-resource-provider/2021-10-15/Table-Resources/Migrate-Table-To-Manual-Throughput.yml)
 ##### [Update Table Throughput](cosmos-db-resource-provider/2021-10-15/Table-Resources/Update-Table-Throughput.yml)
 ### 2021-11-15-preview
+#### Cassandra Clusters
+##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Clusters.yml)
+##### [Create Update](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Clusters/Create-Update.yml)
+##### [Deallocate](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Clusters/Deallocate.yml)
+##### [Delete](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Clusters/Delete.yml)
+##### [Get](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Clusters/Get.yml)
+##### [Get Backup](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Clusters/Get-Backup.yml)
+##### [Invoke Command](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Clusters/Invoke-Command.yml)
+##### [List Backups](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Clusters/List-Backups.yml)
+##### [List By Resource Group](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Clusters/List-By-Resource-Group.yml)
+##### [List By Subscription](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Clusters/List-By-Subscription.yml)
+##### [Start](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Clusters/Start.yml)
+##### [Status](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Clusters/Status.yml)
+##### [Update](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Clusters/Update.yml)
+#### Cassandra Data Centers
+##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Data-Centers.yml)
+##### [Create Update](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Data-Centers/Create-Update.yml)
+##### [Delete](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Data-Centers/Delete.yml)
+##### [Get](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Data-Centers/Get.yml)
+##### [List](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Data-Centers/List.yml)
+##### [Update](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Data-Centers/Update.yml)
 #### Cassandra Resources
 ##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Resources.yml)
 ##### [Create Update Cassandra Keyspace](cosmos-db-resource-provider/2021-11-15-preview/Cassandra-Resources/Create-Update-Cassandra-Keyspace.yml)
@@ -7740,6 +7778,11 @@
 #### Collection Region
 ##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Collection-Region.yml)
 ##### [List Metrics](cosmos-db-resource-provider/2021-11-15-preview/Collection-Region/List-Metrics.yml)
+#### Data Transfer Jobs
+##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Data-Transfer-Jobs.yml)
+##### [Create](cosmos-db-resource-provider/2021-11-15-preview/Data-Transfer-Jobs/Create.yml)
+##### [Get](cosmos-db-resource-provider/2021-11-15-preview/Data-Transfer-Jobs/Get.yml)
+##### [List By Database Account](cosmos-db-resource-provider/2021-11-15-preview/Data-Transfer-Jobs/List-By-Database-Account.yml)
 #### Database
 ##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Database.yml)
 ##### [List Metric Definitions](cosmos-db-resource-provider/2021-11-15-preview/Database/List-Metric-Definitions.yml)
@@ -7816,6 +7859,23 @@
 ##### [Migrate Mongo DB Database To Manual Throughput](cosmos-db-resource-provider/2021-11-15-preview/Mongo-DB-Resources/Migrate-Mongo-DB-Database-To-Manual-Throughput.yml)
 ##### [Update Mongo DB Collection Throughput](cosmos-db-resource-provider/2021-11-15-preview/Mongo-DB-Resources/Update-Mongo-DB-Collection-Throughput.yml)
 ##### [Update Mongo DB Database Throughput](cosmos-db-resource-provider/2021-11-15-preview/Mongo-DB-Resources/Update-Mongo-DB-Database-Throughput.yml)
+##### [Create Update Mongo Role Definition](cosmos-db-resource-provider/2021-11-15-preview/Mongo-DB-Resources/Create-Update-Mongo-Role-Definition.yml)
+##### [Create Update Mongo User Definition](cosmos-db-resource-provider/2021-11-15-preview/Mongo-DB-Resources/Create-Update-Mongo-User-Definition.yml)
+##### [Delete Mongo Role Definition](cosmos-db-resource-provider/2021-11-15-preview/Mongo-DB-Resources/Delete-Mongo-Role-Definition.yml)
+##### [Delete Mongo User Definition](cosmos-db-resource-provider/2021-11-15-preview/Mongo-DB-Resources/Delete-Mongo-User-Definition.yml)
+##### [Get Mongo Role Definition](cosmos-db-resource-provider/2021-11-15-preview/Mongo-DB-Resources/Get-Mongo-Role-Definition.yml)
+##### [Get Mongo User Definition](cosmos-db-resource-provider/2021-11-15-preview/Mongo-DB-Resources/Get-Mongo-User-Definition.yml)
+##### [List Mongo Role Definitions](cosmos-db-resource-provider/2021-11-15-preview/Mongo-DB-Resources/List-Mongo-Role-Definitions.yml)
+##### [List Mongo User Definitions](cosmos-db-resource-provider/2021-11-15-preview/Mongo-DB-Resources/List-Mongo-User-Definitions.yml)
+#### Notebook Workspaces
+##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Notebook-Workspaces.yml)
+##### [Create Or Update](cosmos-db-resource-provider/2021-11-15-preview/Notebook-Workspaces/Create-Or-Update.yml)
+##### [Delete](cosmos-db-resource-provider/2021-11-15-preview/Notebook-Workspaces/Delete.yml)
+##### [Get](cosmos-db-resource-provider/2021-11-15-preview/Notebook-Workspaces/Get.yml)
+##### [List By Database Account](cosmos-db-resource-provider/2021-11-15-preview/Notebook-Workspaces/List-By-Database-Account.yml)
+##### [List Connection Info](cosmos-db-resource-provider/2021-11-15-preview/Notebook-Workspaces/List-Connection-Info.yml)
+##### [Regenerate Auth Token](cosmos-db-resource-provider/2021-11-15-preview/Notebook-Workspaces/Regenerate-Auth-Token.yml)
+##### [Start](cosmos-db-resource-provider/2021-11-15-preview/Notebook-Workspaces/Start.yml)
 #### Operations
 ##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Operations.yml)
 ##### [List](cosmos-db-resource-provider/2021-11-15-preview/Operations/List.yml)
@@ -7834,6 +7894,16 @@
 #### Percentile Target
 ##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Percentile-Target.yml)
 ##### [List Metrics](cosmos-db-resource-provider/2021-11-15-preview/Percentile-Target/List-Metrics.yml)
+#### Private Endpoint Connections
+##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Private-Endpoint-Connections.yml)
+##### [Create Or Update](cosmos-db-resource-provider/2021-11-15-preview/Private-Endpoint-Connections/Create-Or-Update.yml)
+##### [Delete](cosmos-db-resource-provider/2021-11-15-preview/Private-Endpoint-Connections/Delete.yml)
+##### [Get](cosmos-db-resource-provider/2021-11-15-preview/Private-Endpoint-Connections/Get.yml)
+##### [List By Database Account](cosmos-db-resource-provider/2021-11-15-preview/Private-Endpoint-Connections/List-By-Database-Account.yml)
+#### Private Link Resources
+##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Private-Link-Resources.yml)
+##### [Get](cosmos-db-resource-provider/2021-11-15-preview/Private-Link-Resources/Get.yml)
+##### [List By Database Account](cosmos-db-resource-provider/2021-11-15-preview/Private-Link-Resources/List-By-Database-Account.yml)
 #### Restorable Database Accounts
 ##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Restorable-Database-Accounts.yml)
 ##### [Get By Location](cosmos-db-resource-provider/2021-11-15-preview/Restorable-Database-Accounts/Get-By-Location.yml)
@@ -7872,6 +7942,12 @@
 #### Restorable Tables
 ##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Restorable-Tables.yml)
 ##### [List](cosmos-db-resource-provider/2021-11-15-preview/Restorable-Tables/List.yml)
+#### Service
+##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Service.yml)
+##### [Create](cosmos-db-resource-provider/2021-11-15-preview/Service/Create.yml)
+##### [Delete](cosmos-db-resource-provider/2021-11-15-preview/Service/Delete.yml)
+##### [Get](cosmos-db-resource-provider/2021-11-15-preview/Service/Get.yml)
+##### [List](cosmos-db-resource-provider/2021-11-15-preview/Service/List.yml)
 #### Sql Resources
 ##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Sql-Resources.yml)
 ##### [Retrieve Continuous Backup Information](cosmos-db-resource-provider/2021-11-15-preview/Sql-Resources/Retrieve-Continuous-Backup-Information.yml)
@@ -7906,6 +7982,14 @@
 ##### [Migrate Sql Database To Manual Throughput](cosmos-db-resource-provider/2021-11-15-preview/Sql-Resources/Migrate-Sql-Database-To-Manual-Throughput.yml)
 ##### [Update Sql Container Throughput](cosmos-db-resource-provider/2021-11-15-preview/Sql-Resources/Update-Sql-Container-Throughput.yml)
 ##### [Update Sql Database Throughput](cosmos-db-resource-provider/2021-11-15-preview/Sql-Resources/Update-Sql-Database-Throughput.yml)
+##### [Create Update Sql Role Assignment](cosmos-db-resource-provider/2021-11-15-preview/Sql-Resources/Create-Update-Sql-Role-Assignment.yml)
+##### [Create Update Sql Role Definition](cosmos-db-resource-provider/2021-11-15-preview/Sql-Resources/Create-Update-Sql-Role-Definition.yml)
+##### [Delete Sql Role Assignment](cosmos-db-resource-provider/2021-11-15-preview/Sql-Resources/Delete-Sql-Role-Assignment.yml)
+##### [Delete Sql Role Definition](cosmos-db-resource-provider/2021-11-15-preview/Sql-Resources/Delete-Sql-Role-Definition.yml)
+##### [Get Sql Role Assignment](cosmos-db-resource-provider/2021-11-15-preview/Sql-Resources/Get-Sql-Role-Assignment.yml)
+##### [Get Sql Role Definition](cosmos-db-resource-provider/2021-11-15-preview/Sql-Resources/Get-Sql-Role-Definition.yml)
+##### [List Sql Role Assignments](cosmos-db-resource-provider/2021-11-15-preview/Sql-Resources/List-Sql-Role-Assignments.yml)
+##### [List Sql Role Definitions](cosmos-db-resource-provider/2021-11-15-preview/Sql-Resources/List-Sql-Role-Definitions.yml)
 #### Table Resources
 ##### [Overview](cosmos-db-resource-provider/2021-11-15-preview/Table-Resources.yml)
 ##### [Retrieve Continuous Backup Information](cosmos-db-resource-provider/2021-11-15-preview/Table-Resources/Retrieve-Continuous-Backup-Information.yml)
@@ -8785,6 +8869,40 @@
 ### [List By Resource Group](databricks/Workspaces/List-By-Resource-Group.yml)
 ### [List By Subscription](databricks/Workspaces/List-By-Subscription.yml)
 ### [Update](databricks/Workspaces/Update.yml)
+# Datadog
+## [Overview](../docs-ref-conceptual/datadog/index.md)
+## Marketplace Agreements
+### [Overview](datadog/Marketplace-Agreements.yml)
+### [Create Or Update](datadog/Marketplace-Agreements/Create-Or-Update.yml)
+### [List](datadog/Marketplace-Agreements/List.yml)
+## Monitors
+### [Overview](datadog/Monitors.yml)
+### [Create](datadog/Monitors/Create.yml)
+### [Delete](datadog/Monitors/Delete.yml)
+### [Get](datadog/Monitors/Get.yml)
+### [Get Default Key](datadog/Monitors/Get-Default-Key.yml)
+### [List](datadog/Monitors/List.yml)
+### [List Api Keys](datadog/Monitors/List-Api-Keys.yml)
+### [List By Resource Group](datadog/Monitors/List-By-Resource-Group.yml)
+### [List Hosts](datadog/Monitors/List-Hosts.yml)
+### [List Linked Resources](datadog/Monitors/List-Linked-Resources.yml)
+### [List Monitored Resources](datadog/Monitors/List-Monitored-Resources.yml)
+### [Refresh Set Password Link](datadog/Monitors/Refresh-Set-Password-Link.yml)
+### [Set Default Key](datadog/Monitors/Set-Default-Key.yml)
+### [Update](datadog/Monitors/Update.yml)
+## Operations
+### [Overview](datadog/Operations.yml)
+### [List](datadog/Operations/List.yml)
+## Single Sign On Configurations
+### [Overview](datadog/Single-Sign-On-Configurations.yml)
+### [Create Or Update](datadog/Single-Sign-On-Configurations/Create-Or-Update.yml)
+### [Get](datadog/Single-Sign-On-Configurations/Get.yml)
+### [List](datadog/Single-Sign-On-Configurations/List.yml)
+## Tag Rules
+### [Overview](datadog/Tag-Rules.yml)
+### [Create Or Update](datadog/Tag-Rules/Create-Or-Update.yml)
+### [Get](datadog/Tag-Rules/Get.yml)
+### [List](datadog/Tag-Rules/List.yml)
 # Deployment Manager
 ## [Overview](../docs-ref-conceptual/deploymentmanager/index.md)
 ## Artifact Sources
@@ -11648,6 +11766,54 @@
 ### [Update](logic/Workflows/Update.yml)
 ### [Validate](logic/Workflows/Validate.yml)
 ### [Validate Workflow](logic/Workflows/Validate-Workflow.yml)
+# Logz
+## [Overview](../docs-ref-conceptual/logz/index.md)
+## Monitor
+### [Overview](logz/Monitor.yml)
+### [List VM Hosts](logz/Monitor/List-VM-Hosts.yml)
+### [List Vm Host Update](logz/Monitor/List-Vm-Host-Update.yml)
+### [VM Host Payload](logz/Monitor/VM-Host-Payload.yml)
+## Monitors
+### [Overview](logz/Monitors.yml)
+### [Create](logz/Monitors/Create.yml)
+### [Delete](logz/Monitors/Delete.yml)
+### [Get](logz/Monitors/Get.yml)
+### [List By Resource Group](logz/Monitors/List-By-Resource-Group.yml)
+### [List By Subscription](logz/Monitors/List-By-Subscription.yml)
+### [List Monitored Resources](logz/Monitors/List-Monitored-Resources.yml)
+### [List User Roles](logz/Monitors/List-User-Roles.yml)
+### [Update](logz/Monitors/Update.yml)
+## Operations
+### [Overview](logz/Operations.yml)
+### [List](logz/Operations/List.yml)
+## Single Sign On
+### [Overview](logz/Single-Sign-On.yml)
+### [Create Or Update](logz/Single-Sign-On/Create-Or-Update.yml)
+### [Get](logz/Single-Sign-On/Get.yml)
+### [List](logz/Single-Sign-On/List.yml)
+## Sub Account
+### [Overview](logz/Sub-Account.yml)
+### [Create](logz/Sub-Account/Create.yml)
+### [Delete](logz/Sub-Account/Delete.yml)
+### [Get](logz/Sub-Account/Get.yml)
+### [List](logz/Sub-Account/List.yml)
+### [List Monitored Resources](logz/Sub-Account/List-Monitored-Resources.yml)
+### [List VM Hosts](logz/Sub-Account/List-VM-Hosts.yml)
+### [List Vm Host Update](logz/Sub-Account/List-Vm-Host-Update.yml)
+### [Update](logz/Sub-Account/Update.yml)
+### [VM Host Payload](logz/Sub-Account/VM-Host-Payload.yml)
+## Sub Account Tag Rules
+### [Overview](logz/Sub-Account-Tag-Rules.yml)
+### [Create Or Update](logz/Sub-Account-Tag-Rules/Create-Or-Update.yml)
+### [Delete](logz/Sub-Account-Tag-Rules/Delete.yml)
+### [Get](logz/Sub-Account-Tag-Rules/Get.yml)
+### [List](logz/Sub-Account-Tag-Rules/List.yml)
+## Tag Rules
+### [Overview](logz/Tag-Rules.yml)
+### [Create Or Update](logz/Tag-Rules/Create-Or-Update.yml)
+### [Delete](logz/Tag-Rules/Delete.yml)
+### [Get](logz/Tag-Rules/Get.yml)
+### [List](logz/Tag-Rules/List.yml)
 # Machine Learning
 ## [Overview](../docs-ref-conceptual/azureml/index.md)
 ## Batch Deployments
@@ -22224,11 +22390,11 @@
 #### [Create Or Update](synapse/sqlserver/Workspace-Managed-Sql-Server-Blob-Auditing-Policies/Create-Or-Update.yml)
 #### [Get](synapse/sqlserver/Workspace-Managed-Sql-Server-Blob-Auditing-Policies/Get.yml)
 #### [List By Workspace](synapse/sqlserver/Workspace-Managed-Sql-Server-Blob-Auditing-Policies/List-By-Workspace.yml)
-### Workspace Managed Sql Server Dedicated SQ Lminimal Tls Settings
-#### [Overview](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQ-Lminimal-Tls-Settings.yml)
-#### [Get](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQ-Lminimal-Tls-Settings/Get.yml)
-#### [List](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQ-Lminimal-Tls-Settings/List.yml)
-#### [Update](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQ-Lminimal-Tls-Settings/Update.yml)
+### Workspace Managed Sql Server Dedicated SQL Minimal Tls Settings
+#### [Overview](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQL-Minimal-Tls-Settings.yml)
+#### [Get](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQL-Minimal-Tls-Settings/Get.yml)
+#### [List](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQL-Minimal-Tls-Settings/List.yml)
+#### [Update](synapse/sqlserver/Workspace-Managed-Sql-Server-Dedicated-SQL-Minimal-Tls-Settings/Update.yml)
 ### Workspace Managed Sql Server Encryption Protector
 #### [Overview](synapse/sqlserver/Workspace-Managed-Sql-Server-Encryption-Protector.yml)
 #### [Create Or Update](synapse/sqlserver/Workspace-Managed-Sql-Server-Encryption-Protector/Create-Or-Update.yml)
