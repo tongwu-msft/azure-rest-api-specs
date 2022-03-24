@@ -214,7 +214,7 @@ In the body, the ``content`` property with a defined ``offerThroughput`` is requ
 
 After the change is complete, you can follow [Example 2](#example-2) to change the autoscale max RU/s to a custom value.
 
-[Learn more about migrating to autoscale](/azure/cosmos-db/autoscale-faq.md#how-does-the-migration-between-autoscale-and-standard-manual-provisioned-throughput-work).
+[Learn more about migrating to autoscale](/azure/cosmos-db/autoscale-faq#how-does-the-migration-between-autoscale-and-standard-manual-provisioned-throughput-work).
 
 
 ```
