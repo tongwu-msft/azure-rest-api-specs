@@ -52,7 +52,7 @@ To use an AAD service principal to authenticate against the API, first you will 
 5. Select **Grant admin consent for your directory**.
 
 Finally, add your service principal to your IoT Central application. This is possible through the APIs today. 
-1. Use the [*Create users* API](/rest/api/iotcentral/1.0/users/create) to add this service principal user. Make sure you use the **{tenantID}** and **{objectID}** when creating the new user.
+1. Use the [*Create users* API](/rest/api/iotcentral/1.1-previewdataplane/users/create) to add this service principal user. Make sure you use the **{tenantID}** and **{objectID}** when creating the new user.
 
 Now you can use the bearer token associated to this service principal user to make API requests, following the same steps as above.
 
