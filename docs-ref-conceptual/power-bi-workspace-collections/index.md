@@ -12,7 +12,7 @@ service_description: To be added
 The Azure Power BI Workspace Collections REST API provides the following operation groups you can use to programmatically develop applications that integrate Power BI Reports into your applications.
 
 > [!IMPORTANT]
-> Power BI Workspace Collections is deprecated. It will remain available until June 2018 or when your contract indicates. You are encouraged to plan your migration to Power BI Embedded to avoid interruption in your application. To learn more, see [How to migrate Power BI Workspace Collections content to Power BI Embedded](https://docs.microsoft.com/power-bi/developer/migrate-from-powerbi-embedded).
+> Power BI Workspace Collections is deprecated. It will remain available until June 2018 or when your contract indicates. You are encouraged to plan your migration to Power BI Embedded to avoid interruption in your application. To learn more, see [How to migrate Power BI Workspace Collections content to Power BI Embedded](/power-bi/developer/migrate-from-powerbi-embedded).
 
 
 
@@ -27,5 +27,5 @@ The Azure Power BI Workspace Collections REST API provides the following operati
 
 ## See also
 
-- [Azure Power BI Workspace Collections documentation](https://docs.microsoft.com/azure/power-bi-workspace-collections/)
+- [Azure Power BI Workspace Collections documentation](/azure/power-bi-workspace-collections/)
 
