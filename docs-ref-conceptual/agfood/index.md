@@ -24,47 +24,47 @@ The Azure FarmBeats REST API provides programmatic access to Azure FarmBeats res
 
 | Operation group | Description |
 |-----------------|-------------|
-|[Farmers]()|Create, read, update and delete a Farmer resource.|
-|[Farms]()|Create, read, update and delete a Farm resource.|
-|[Fields]()|Create, read, update and delete a Field resource.|
-|[Boundaries]()|Create, read, update and delete a Boundary resource.|
-|[Seasonal Fields]()|Create, read, update and delete a Seasonal field resource.|
-|[Seasons]()|Create, read, update and delete a Season resource.|
-|[Crops]()|Create, read, update and delete a Crop resource.|
-|[Crop Varieties]()|Create, read, update and delete a Crop variety resource.|
-|[Attachments]()|Create, read, update and delete an Attachment resource.|
+|[Farmers]|Create, read, update and delete a Farmer resource.|
+|[Farms]|Create, read, update and delete a Farm resource.|
+|[Fields]|Create, read, update and delete a Field resource.|
+|[Boundaries]|Create, read, update and delete a Boundary resource.|
+|[Seasonal Fields]|Create, read, update and delete a Seasonal field resource.|
+|[Seasons]|Create, read, update and delete a Season resource.|
+|[Crops]|Create, read, update and delete a Crop resource.|
+|[Crop Varieties]|Create, read, update and delete a Crop variety resource.|
+|[Attachments]|Create, read, update and delete an Attachment resource.|
 
 #### Satellite
 
 | Operation group | Description |
 |-----------------|-------------|
-|[Scenes]()|Ingest, query and download satellite scene images/data.|
+|[Scenes]|Ingest, query and download satellite scene images/data.|
 
 #### Weather
 
 | Operation group | Description |
 |-----------------|-------------|
-|[Weather]()|Ingest, query download weather data.|
+|[Weather]|Ingest, query download weather data.|
 
 #### Farm operations
 
 | Operation group | Description |
 |-----------------|-------------|
-|[Farm Operations]()|Ingest farm operations data for various operations.|
-|[Application Data]()| Create, read, update and delete application data.|
-|[Harvest Data]()| Create, read, update and delete harvest data.|
-|[Planting Data]()| Create, read, update and delete planting data.|
-|[Tillage Data]()| Create, read, update and delete application data.|
-|[oAuth Providers]()|Create, read, update and delete oAuth provider.|
-|[oAuth Tokens]()|Create connection link and read access token information.|
-|[Image Processing]()| Create an image processing rasterization job.|
+|[Farm Operations]|Ingest farm operations data for various operations.|
+|[Application Data]| Create, read, update and delete application data.|
+|[Harvest Data]| Create, read, update and delete harvest data.|
+|[Planting Data]| Create, read, update and delete planting data.|
+|[Tillage Data]| Create, read, update and delete application data.|
+|[oAuth Providers]|Create, read, update and delete oAuth provider.|
+|[oAuth Tokens]|Create connection link and read access token information.|
+|[Image Processing]| Create an image processing rasterization job.|
 
 ### Azure Resource Manager REST operation groups
 
 | Operation group | Description |
 |-----------------|-------------|
-|[Extensions]()|Install, uninstall, upgrade and weather extensions.|
-|[FarmBeats Extensions]()|Get all weather extensions available in FarmBeats.|
-|[FarmBeats Models]()| Create, read, update and delete a FarmBeats resource.|
-|[Locations]()|Checks the name availability of the resource with requested resource name.|
-|[Operations]()|Lists the available operations of Microsoft.AgFoodPlatform resource provider.|
+|[Extensions]|Install, uninstall, upgrade and weather extensions.|
+|[FarmBeats Extensions]|Get all weather extensions available in FarmBeats.|
+|[FarmBeats Models]| Create, read, update and delete a FarmBeats resource.|
+|[Locations]|Checks the name availability of the resource with requested resource name.|
+|[Operations]|Lists the available operations of Microsoft.AgFoodPlatform resource provider.|
