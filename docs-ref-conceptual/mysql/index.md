@@ -40,12 +40,12 @@ The following information is common to all tasks that you might do using these R
 
 | Operation group | Description |
 |---|---|
-| [Server](/rest/api/mysql/flexibleserver(preview)/servers) | Create, Restore, Update, Delete, Get, or List servers. |
-| [Configurations](/rest/api/mysql/flexibleserver(preview)/configurations) | Update, Get, and List the configuration of a server. | 
-| [Databases](/rest/api/mysql/flexibleserver(preview)/databases)  | Create, Delete, Get, or List databases in the server. | 
-| [Firewall Rules](/rest/api/mysql/flexibleserver(preview)/firewallrules) | Create, Delete, Get, or List the firewall rules in a server. |
-| [Log Files](/rest/api/mysql/flexibleserver(preview)/logfiles) | List the log files in a given server. |
-| [Operations](/rest/api/mysql/flexibleserver(preview)/operations) | List the available REST API operations. |
+| [Server](/rest/api/mysql/flexibleserver/servers) | Create, Restore, Update, Delete, Get, or List servers. |
+| [Configurations](/rest/api/mysql/flexibleserver/configurations) | Update, Get, and List the configuration of a server. | 
+| [Databases](/rest/api/mysql/flexibleserver/databases)  | Create, Delete, Get, or List databases in the server. | 
+| [Firewall Rules](/rest/api/mysql/flexibleserver/firewallrules) | Create, Delete, Get, or List the firewall rules in a server. |
+| [Log Files](/rest/api/mysql/flexibleserver/logfiles) | List the log files in a given server. |
+| [Operations](/rest/api/mysql/flexibleserver/operations) | List the available REST API operations. |
 
 
 ## See also
