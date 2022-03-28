@@ -4,7 +4,7 @@ ms.service: Azure Video Analyzer for Media
 author: uratzmon
 ms.author: uriel.atzmon
 ms.manager: juliako
-ms.date: 21/10/2021
+ms.date: 10/21/2021
 service_description: Extract insights from video and audio files.
 ---
 
@@ -30,5 +30,5 @@ To start extracting insights with Video Analyzer for Media, you need to create a
 ## See also
 
 
-- [Azure Video Analyzer For Media documentation](/azure/videoindexer/)
+- [Azure Video Analyzer For Media documentation](/azure/azure-video-analyzer/video-analyzer-for-media-docs/)
 - [Azure Video Analyzer For Media code samples on GitHub](https://github.com/Azure-Samples/media-services-video-indexer)
