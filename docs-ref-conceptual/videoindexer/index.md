@@ -1,6 +1,6 @@
 ---
 title: Azure Video Analyzer For Media REST API reference | Microsoft Docs
-ms.service: azure-video-analyzer-media
+ms.service: Azure Video Analyzer for Media
 author: uratzmon
 ms.author: uriel.atzmon
 ms.manager: juliako
