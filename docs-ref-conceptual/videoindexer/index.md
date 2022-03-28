@@ -1,10 +1,10 @@
 ---
 title: Azure Video Analyzer For Media REST API reference | Microsoft Docs
-ms.service: Azure Video Analyzer for Media
+ms.service: azure-video-analyzer-media
 author: uratzmon
 ms.author: uriel.atzmon
 ms.manager: juliako
-ms.date: 21/10/2021
+ms.date: 10/21/2021
 service_description: Extract insights from video and audio files.
 ---
 
