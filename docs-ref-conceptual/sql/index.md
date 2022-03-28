@@ -31,7 +31,7 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Database Security Alert Policies](/rest/api/sql/2021-08-01-preview/database-security-alert-policies)| Create, get, update, list a database's security alert policy.|
 |[Database Tables](/rest/api/sql/2021-08-01-preview/database-tables)| Get and list database tables.|
 |[Database Usages](/rest/api/sql/2021-08-01-preview/database-usages)| Get database usages.|
-|[Database Vulnerability Assesment Rule Baselines](/rest/api/sql/2021-08-01-preview/database-vulnerability-assesment-rule-baselines)| Create, get, update, list, delete the database's vulnerability assessment rule baseline.|
+|[Database Vulnerability Assesment Rule Baselines](/rest/api/sql/2021-08-01-preview/database-vulnerability-assessment-rule-baselines)| Create, get, update, list, delete the database's vulnerability assessment rule baseline.|
 |[Database Vulnerability Assessment Scans](/rest/api/sql/2021-08-01-preview/database-vulnerability-assessment-scans)| Get, list, execute, export the vulnerability assessment scans of a database.|
 |[Database Vulnerability Assessments](/rest/api/sql/2021-08-01-preview/database-vulnerability-assessments)| Create, get, update, list, delete the database's vulnerability assessment.|
 |[Databases](/rest/api/sql/2021-08-01-preview/databases)| Create, get, update, list, delete, import, export, rename, pause, resume, upgrade SQL databases.|
