@@ -3600,19 +3600,6 @@
 ## Async Operations
 ### [Overview](azurestack/Async-Operations.yml)
 ### [Get](azurestack/Async-Operations/Get.yml)
-## Backup Locations
-### [Overview](azurestack/Backup-Locations.yml)
-### [Create Backup](azurestack/Backup-Locations/Create-Backup.yml)
-### [Get](azurestack/Backup-Locations/Get.yml)
-### [List](azurestack/Backup-Locations/List.yml)
-### [Prune External Store](azurestack/Backup-Locations/Prune-External-Store.yml)
-### [Set](azurestack/Backup-Locations/Set.yml)
-### [Update](azurestack/Backup-Locations/Update.yml)
-## Backups
-### [Overview](azurestack/Backups.yml)
-### [Get](azurestack/Backups/Get.yml)
-### [List](azurestack/Backups/List.yml)
-### [Restore](azurestack/Backups/Restore.yml)
 ## Commerce
 ### [Overview](azurestack/Commerce.yml)
 ### [Update Encryption](azurestack/Commerce/Update-Encryption.yml)
@@ -13266,9 +13253,27 @@
 ### [Get](networkmanager/Network-Security-Perimeters/Get.yml)
 ### [List](networkmanager/Network-Security-Perimeters/List.yml)
 ### [List By Subscription](networkmanager/Network-Security-Perimeters/List-By-Subscription.yml)
+## Nsp Access Rules
+### [Overview](networkmanager/Nsp-Access-Rules.yml)
+### [Create Or Update](networkmanager/Nsp-Access-Rules/Create-Or-Update.yml)
+### [Delete](networkmanager/Nsp-Access-Rules/Delete.yml)
+### [Get](networkmanager/Nsp-Access-Rules/Get.yml)
+### [List](networkmanager/Nsp-Access-Rules/List.yml)
+## Nsp Associations
+### [Overview](networkmanager/Nsp-Associations.yml)
+### [Create Or Update](networkmanager/Nsp-Associations/Create-Or-Update.yml)
+### [Delete](networkmanager/Nsp-Associations/Delete.yml)
+### [Get](networkmanager/Nsp-Associations/Get.yml)
+### [List](networkmanager/Nsp-Associations/List.yml)
+## Nsp Profiles
+### [Overview](networkmanager/Nsp-Profiles.yml)
+### [Create Or Update](networkmanager/Nsp-Profiles/Create-Or-Update.yml)
+### [Delete](networkmanager/Nsp-Profiles/Delete.yml)
+### [Get](networkmanager/Nsp-Profiles/Get.yml)
+### [List](networkmanager/Nsp-Profiles/List.yml)
 ## Perimeter Associable Resource Types
 ### [Overview](networkmanager/Perimeter-Associable-Resource-Types.yml)
-### [Get](networkmanager/Perimeter-Associable-Resource-Types/Get.yml)
+### [List](networkmanager/Perimeter-Associable-Resource-Types/List.yml)
 ## Security Admin Configurations
 ### [Overview](networkmanager/Security-Admin-Configurations.yml)
 ### [Create Or Update](networkmanager/Security-Admin-Configurations/Create-Or-Update.yml)
