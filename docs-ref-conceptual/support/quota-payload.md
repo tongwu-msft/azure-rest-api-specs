@@ -116,7 +116,7 @@ _QuotaChangeRequest_ includes two properties:
 
 |Property Name|Required|Type|Description|Supported Values|
 | :--- |:---|:---| :---|:---|
-|region|True|string|Azure location or region for which you are requesting a quota increase|Get [region list by service.](/rest/api/apimanagement/2019-12-01/region/listbyservice)|
+|region|True|string|Azure location or region for which you are requesting a quota increase|Get [region list by service.](/rest/api/apimanagement/current-preview/region/list-by-service)|
 |payload|True|string|Serialized value of Payload object|As described below.|
 
 ### Request quota at the subscription level
@@ -246,7 +246,7 @@ The _QuotaChangeRequest_ object includes two properties:
 
 |Property Name|Required|Type|Description|Supported Values|
 | :--- |:---|:---| :---|:---|
-|region|True|string|Azure location or region Sub resource type for which you are requesting a quota increase|Get [region list by service.](/rest/api/apimanagement/2019-12-01/region/listbyservice)|
+|region|True|string|Azure location or region Sub resource type for which you are requesting a quota increase|Get [region list by service.](/rest/api/apimanagement/current-preview/region/list-by-service)|
 |payload|True|string|Serialized value of Payload object|As described below.|
 
 ### Quota increase for DTUs
@@ -324,7 +324,7 @@ _QuotaChangeRequest_ includes two properties:
 
 |Property Name|Required|Type|Description|Supported Values|
 | :--- |:---|:---| :---|:---|
-|region|True|string|Azure location or region for which you are requesting a quota increase|Get [region list by service.](/rest/api/apimanagement/2019-12-01/region/listbyservice)|
+|region|True|string|Azure location or region for which you are requesting a quota increase|Get [region list by service.](/rest/api/apimanagement/current-preview/region/list-by-service)|
 |payload|True|string|Serialized value of Payload object|As described below.|
 
 ### Quota increase for DTUs
