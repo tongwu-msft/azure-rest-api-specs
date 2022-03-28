@@ -30,5 +30,5 @@ To start extracting insights with Video Analyzer for Media, you need to create a
 ## See also
 
 
-- [Azure Video Analyzer For Media documentation](/azure/videoindexer/)
+- [Azure Video Analyzer For Media documentation](/azure/azure-video-analyzer/video-analyzer-for-media-docs/)
 - [Azure Video Analyzer For Media code samples on GitHub](https://github.com/Azure-Samples/media-services-video-indexer)
