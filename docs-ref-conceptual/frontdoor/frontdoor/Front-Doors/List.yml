@@ -1,0 +1,935 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.frontdoorservice.frontdoor.frontdoors.list1
+name: List
+service: Front Door Service
+groupName: Front Doors
+apiVersion: 2019-05-01
+summary: Lists all of the Front Doors within an Azure subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/frontDoors?api-version=2019-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: FrontDoorListResult
+- name: Other Status Codes
+  description: Front Door error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: FrontDoorListResult
+  description: Result of the request to list Front Doors. It contains a list of Front Door objects and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of Front Doors within a resource group.
+    types:
+    - uid: FrontDoor
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of Front Door objects if there are any.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates Front Door service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: FrontDoor
+  description: Front Door represents a collection of backend endpoints to route traffic to along with rules that specify how traffic is sent there.
+  kind: object
+  properties:
+  - name: properties.resourceState
+    isReadyOnly: true
+    description: "Resource status of the Front Door or Front Door SubResource.  \nResource status of the Front Door."
+    types:
+    - uid: FrontDoorResourceState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the Front Door.
+    types:
+    - uid: string
+  - name: properties.cname
+    isReadyOnly: true
+    description: The host that each frontendEndpoint must CNAME to.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.friendlyName
+    description: A friendly name for the frontDoor
+    types:
+    - uid: string
+  - name: properties.routingRules
+    description: Routing rules associated with this Front Door.
+    types:
+    - uid: RoutingRule
+      isArray: true
+  - name: properties.loadBalancingSettings
+    description: Load balancing settings associated with this Front Door instance.
+    types:
+    - uid: LoadBalancingSettingsModel
+      isArray: true
+  - name: properties.healthProbeSettings
+    description: Health probe settings associated with this Front Door instance.
+    types:
+    - uid: HealthProbeSettingsModel
+      isArray: true
+  - name: properties.backendPools
+    description: Backend pools available to routing rules.
+    types:
+    - uid: BackendPool
+      isArray: true
+  - name: properties.frontendEndpoints
+    description: Frontend endpoints available to routing rules.
+    types:
+    - uid: FrontendEndpoint
+      isArray: true
+  - name: properties.backendPoolsSettings
+    description: Settings for all backendPools
+    types:
+    - uid: BackendPoolsSettings
+  - name: properties.enabledState
+    description: Operational status of the Front Door load balancer. Permitted values are 'Enabled' or 'Disabled'
+    types:
+    - uid: FrontDoorEnabledState
+- name: FrontDoorResourceState
+  description: Resource status of the Front Door or Front Door SubResource.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Enabling
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabling
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+- name: RoutingRule
+  description: A routing rule represents a specification for traffic to treat and where to send it, along with health probe information.
+  kind: object
+  properties:
+  - name: name
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.resourceState
+    isReadyOnly: true
+    description: "Resource status of the Front Door or Front Door SubResource.  \nResource status."
+    types:
+    - uid: FrontDoorResourceState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: properties.frontendEndpoints
+    description: Frontend endpoints associated with this rule
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.acceptedProtocols
+    description: Protocol schemes to match for this rule
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.patternsToMatch
+    description: The route patterns of the rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.enabledState
+    description: Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled'
+    types:
+    - uid: routingRuleEnabledState
+  - name: properties.routeConfiguration
+    description: A reference to the routing configuration.
+    types:
+    - uid: ForwardingConfiguration
+    - uid: RedirectConfiguration
+    typesTitle: RouteConfiguration
+- name: LoadBalancingSettingsModel
+  description: Load balancing settings for a backend pool
+  kind: object
+  properties:
+  - name: name
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.resourceState
+    isReadyOnly: true
+    description: "Resource status of the Front Door or Front Door SubResource.  \nResource status."
+    types:
+    - uid: FrontDoorResourceState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: properties.sampleSize
+    description: The number of samples to consider for load balancing decisions
+    types:
+    - uid: integer
+  - name: properties.successfulSamplesRequired
+    description: The number of samples within the sample period that must succeed
+    types:
+    - uid: integer
+  - name: properties.additionalLatencyMilliseconds
+    description: The additional latency in milliseconds for probes to fall into the lowest latency bucket
+    types:
+    - uid: integer
+- name: HealthProbeSettingsModel
+  description: Load balancing settings for a backend pool
+  kind: object
+  properties:
+  - name: name
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.resourceState
+    isReadyOnly: true
+    description: "Resource status of the Front Door or Front Door SubResource.  \nResource status."
+    types:
+    - uid: FrontDoorResourceState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: properties.path
+    description: The path to use for the health probe. Default is /
+    types:
+    - uid: string
+  - name: properties.protocol
+    description: Protocol scheme to use for this probe
+    types:
+    - uid: FrontDoorProtocol
+  - name: properties.intervalInSeconds
+    description: The number of seconds between health probes.
+    types:
+    - uid: integer
+  - name: properties.healthProbeMethod
+    description: Configures which HTTP method to use to probe the backends defined under backendPools.
+    types:
+    - uid: FrontDoorHealthProbeMethod
+  - name: properties.enabledState
+    description: Whether to enable health probes to be made against backends defined under backendPools. Health probes can only be disabled if there is a single enabled backend in single enabled backend pool.
+    types:
+    - uid: HealthProbeEnabled
+- name: BackendPool
+  description: A backend pool is a collection of backends that can be routed to.
+  kind: object
+  properties:
+  - name: name
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.resourceState
+    isReadyOnly: true
+    description: "Resource status of the Front Door or Front Door SubResource.  \nResource status."
+    types:
+    - uid: FrontDoorResourceState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: properties.backends
+    description: The set of backends for this pool
+    types:
+    - uid: Backend
+      isArray: true
+  - name: properties.loadBalancingSettings
+    description: Load balancing settings for a backend pool
+    types:
+    - uid: SubResource
+  - name: properties.healthProbeSettings
+    description: L7 health probe settings for a backend pool
+    types:
+    - uid: SubResource
+- name: FrontendEndpoint
+  description: A frontend endpoint used for routing.
+  kind: object
+  properties:
+  - name: name
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.resourceState
+    isReadyOnly: true
+    description: "Resource status of the Front Door or Front Door SubResource.  \nResource status."
+    types:
+    - uid: FrontDoorResourceState
+  - name: properties.customHttpsProvisioningState
+    isReadyOnly: true
+    description: Provisioning status of Custom Https of the frontendEndpoint.
+    types:
+    - uid: CustomHttpsProvisioningState
+  - name: properties.customHttpsProvisioningSubstate
+    isReadyOnly: true
+    description: Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
+    types:
+    - uid: CustomHttpsProvisioningSubstate
+  - name: properties.customHttpsConfiguration
+    isReadyOnly: true
+    description: The configuration specifying how to enable HTTPS
+    types:
+    - uid: CustomHttpsConfiguration
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: properties.hostName
+    description: The host name of the frontendEndpoint. Must be a domain name.
+    types:
+    - uid: string
+  - name: properties.sessionAffinityEnabledState
+    description: Whether to allow session affinity on this host. Valid options are 'Enabled' or 'Disabled'
+    types:
+    - uid: SessionAffinityEnabledState
+  - name: properties.sessionAffinityTtlSeconds
+    description: UNUSED. This field will be ignored. The TTL to use in seconds for session affinity, if applicable.
+    types:
+    - uid: integer
+  - name: properties.webApplicationFirewallPolicyLink
+    description: Defines the Web Application Firewall policy for each host (if applicable)
+    types:
+    - uid: WebApplicationFirewallPolicyLink
+- name: BackendPoolsSettings
+  description: Settings that apply to all backend pools.
+  kind: object
+  properties:
+  - name: enforceCertificateNameCheck
+    description: Whether to enforce certificate name check on HTTPS requests to all backend pools. No effect on non-HTTPS requests.
+    types:
+    - uid: enforceCertificateNameCheckEnabledState
+  - name: sendRecvTimeoutSeconds
+    description: Send and receive timeout on forwarding request to the backend. When timeout is reached, the request fails and returns.
+    types:
+    - uid: integer
+- name: FrontDoorEnabledState
+  description: Operational status of the Front Door load balancer. Permitted values are 'Enabled' or 'Disabled'
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: routingRuleEnabledState
+  description: Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled'
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: FrontDoorProtocol
+  description: Protocol scheme to use for this probe
+  kind: enum
+  properties:
+  - name: Http
+    types:
+    - uid: string
+  - name: Https
+    types:
+    - uid: string
+- name: FrontDoorHealthProbeMethod
+  description: Configures which HTTP method to use to probe the backends defined under backendPools.
+  kind: enum
+  properties:
+  - name: GET
+    types:
+    - uid: string
+  - name: HEAD
+    types:
+    - uid: string
+- name: HealthProbeEnabled
+  description: Whether to enable health probes to be made against backends defined under backendPools. Health probes can only be disabled if there is a single enabled backend in single enabled backend pool.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: Backend
+  description: Backend address of a frontDoor load balancer.
+  kind: object
+  properties:
+  - name: address
+    description: Location of the backend (IP address or FQDN)
+    types:
+    - uid: string
+  - name: httpPort
+    description: The HTTP TCP port number. Must be between 1 and 65535.
+    types:
+    - uid: integer
+  - name: httpsPort
+    description: The HTTPS TCP port number. Must be between 1 and 65535.
+    types:
+    - uid: integer
+  - name: enabledState
+    description: Whether to enable use of this backend. Permitted values are 'Enabled' or 'Disabled'
+    types:
+    - uid: backendEnabledState
+  - name: priority
+    description: Priority to use for load balancing. Higher priorities will not be used for load balancing if any lower priority backend is healthy.
+    types:
+    - uid: integer
+  - name: weight
+    description: Weight of this endpoint for load balancing purposes.
+    types:
+    - uid: integer
+  - name: backendHostHeader
+    description: The value to use as the host header sent to the backend. If blank or unspecified, this defaults to the incoming host.
+    types:
+    - uid: string
+- name: CustomHttpsProvisioningState
+  description: Provisioning status of Custom Https of the frontendEndpoint.
+  kind: enum
+  properties:
+  - name: Enabling
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabling
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: CustomHttpsProvisioningSubstate
+  description: Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
+  kind: enum
+  properties:
+  - name: SubmittingDomainControlValidationRequest
+    types:
+    - uid: string
+  - name: PendingDomainControlValidationREquestApproval
+    types:
+    - uid: string
+  - name: DomainControlValidationRequestApproved
+    types:
+    - uid: string
+  - name: DomainControlValidationRequestRejected
+    types:
+    - uid: string
+  - name: DomainControlValidationRequestTimedOut
+    types:
+    - uid: string
+  - name: IssuingCertificate
+    types:
+    - uid: string
+  - name: DeployingCertificate
+    types:
+    - uid: string
+  - name: CertificateDeployed
+    types:
+    - uid: string
+  - name: DeletingCertificate
+    types:
+    - uid: string
+  - name: CertificateDeleted
+    types:
+    - uid: string
+- name: CustomHttpsConfiguration
+  description: Https settings for a domain
+  kind: object
+  properties:
+  - name: certificateSource
+    description: Defines the source of the SSL certificate
+    types:
+    - uid: FrontDoorCertificateSource
+  - name: protocolType
+    description: Defines the TLS extension protocol that is used for secure delivery
+    types:
+    - uid: FrontDoorTlsProtocolType
+  - name: minimumTlsVersion
+    description: The minimum TLS version required from the clients to establish an SSL handshake with Front Door.
+    types:
+    - uid: MinimumTLSVersion
+  - name: keyVaultCertificateSourceParameters.vault
+    description: The Key Vault containing the SSL certificate
+    types:
+    - uid: Vault
+  - name: keyVaultCertificateSourceParameters.secretName
+    description: The name of the Key Vault secret representing the full certificate PFX
+    types:
+    - uid: string
+  - name: keyVaultCertificateSourceParameters.secretVersion
+    description: The version of the Key Vault secret representing the full certificate PFX
+    types:
+    - uid: string
+  - name: frontDoorCertificateSourceParameters.certificateType
+    description: Defines the type of the certificate used for secure connections to a frontendEndpoint
+    types:
+    - uid: FrontDoorCertificateType
+- name: SessionAffinityEnabledState
+  description: Whether to allow session affinity on this host. Valid options are 'Enabled' or 'Disabled'
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: WebApplicationFirewallPolicyLink
+  description: Defines the Web Application Firewall policy for each host (if applicable)
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: enforceCertificateNameCheckEnabledState
+  description: Whether to enforce certificate name check on HTTPS requests to all backend pools. No effect on non-HTTPS requests.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ForwardingConfiguration
+  description: Describes Forwarding Route.
+  kind: object
+  properties:
+  - name: customForwardingPath
+    description: A custom path used to rewrite resource paths matched by this rule. Leave empty to use incoming path.
+    types:
+    - uid: string
+  - name: forwardingProtocol
+    description: Protocol this rule will use when forwarding traffic to backends.
+    types:
+    - uid: FrontDoorForwardingProtocol
+  - name: cacheConfiguration
+    description: The caching configuration associated with this rule.
+    types:
+    - uid: CacheConfiguration
+  - name: backendPool
+    description: A reference to the BackendPool which this rule routes to.
+    types:
+    - uid: SubResource
+  - name: '@odata.type'
+    description: ''
+    types:
+    - uid: '#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration'
+    typesTitle: string
+- name: RedirectConfiguration
+  description: Describes Redirect Route.
+  kind: object
+  properties:
+  - name: redirectType
+    description: The redirect type the rule will use when redirecting traffic.
+    types:
+    - uid: FrontDoorRedirectType
+  - name: redirectProtocol
+    description: The protocol of the destination to where the traffic is redirected
+    types:
+    - uid: FrontDoorRedirectProtocol
+  - name: customHost
+    description: Host to redirect. Leave empty to use the incoming host as the destination host.
+    types:
+    - uid: string
+  - name: customPath
+    description: The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the incoming path as destination path.
+    types:
+    - uid: string
+  - name: customFragment
+    description: 'Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include the #.'
+    types:
+    - uid: string
+  - name: customQueryString
+    description: The set of query strings to be placed in the redirect URL. Setting this value would replace any existing query string; leave empty to preserve the incoming query string. Query string must be in <key>=<value> format. The first ? and & will be added automatically so do not include them in the front, but do separate multiple query strings with &.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: ''
+    types:
+    - uid: '#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration'
+    typesTitle: string
+- name: backendEnabledState
+  description: Whether to enable use of this backend. Permitted values are 'Enabled' or 'Disabled'
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: FrontDoorCertificateSource
+  description: Defines the source of the SSL certificate
+  kind: enum
+  properties:
+  - name: AzureKeyVault
+    types:
+    - uid: string
+  - name: FrontDoor
+    types:
+    - uid: string
+- name: FrontDoorTlsProtocolType
+  description: Defines the TLS extension protocol that is used for secure delivery
+  kind: enum
+  properties:
+  - name: ServerNameIndication
+    types:
+    - uid: string
+- name: MinimumTLSVersion
+  description: The minimum TLS version required from the clients to establish an SSL handshake with Front Door.
+  kind: enum
+  properties:
+  - name: "1.0"
+    types:
+    - uid: string
+  - name: "1.2"
+    types:
+    - uid: string
+- name: Vault
+  description: The Key Vault containing the SSL certificate
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: FrontDoorCertificateType
+  description: Defines the type of the certificate used for secure connections to a frontendEndpoint
+  kind: enum
+  properties:
+  - name: Dedicated
+    types:
+    - uid: string
+- name: FrontDoorForwardingProtocol
+  description: Protocol this rule will use when forwarding traffic to backends.
+  kind: enum
+  properties:
+  - name: HttpOnly
+    types:
+    - uid: string
+  - name: HttpsOnly
+    types:
+    - uid: string
+  - name: MatchRequest
+    types:
+    - uid: string
+- name: CacheConfiguration
+  description: Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
+  kind: object
+  properties:
+  - name: queryParameterStripDirective
+    description: Treatment of URL query terms when forming the cache key.
+    types:
+    - uid: FrontDoorQuery
+  - name: dynamicCompression
+    description: Whether to use dynamic compression for cached content
+    types:
+    - uid: DynamicCompressionEnabled
+- name: FrontDoorRedirectType
+  description: The redirect type the rule will use when redirecting traffic.
+  kind: enum
+  properties:
+  - name: Moved
+    types:
+    - uid: string
+  - name: Found
+    types:
+    - uid: string
+  - name: TemporaryRedirect
+    types:
+    - uid: string
+  - name: PermanentRedirect
+    types:
+    - uid: string
+- name: FrontDoorRedirectProtocol
+  description: The protocol of the destination to where the traffic is redirected
+  kind: enum
+  properties:
+  - name: HttpOnly
+    types:
+    - uid: string
+  - name: HttpsOnly
+    types:
+    - uid: string
+  - name: MatchRequest
+    types:
+    - uid: string
+- name: FrontDoorQuery
+  description: Treatment of URL query terms when forming the cache key.
+  kind: enum
+  properties:
+  - name: StripNone
+    types:
+    - uid: string
+  - name: StripAll
+    types:
+    - uid: string
+- name: DynamicCompressionEnabled
+  description: Whether to use dynamic compression for cached content
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+examples:
+- name: List all Front Doors
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/frontDoors?api-version=2019-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1",
+            "name": "frontDoor1",
+            "type": "Microsoft.Network/frontDoor",
+            "location": "westus",
+            "tags": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "properties": {
+              "routingRules": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/routingRules/routingRule1",
+                  "name": "routingRule1",
+                  "properties": {
+                    "frontendEndpoints": [
+                      {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/frontendEndpoints/frontendEndpoint1"
+                      },
+                      {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/frontendEndpoints/default"
+                      }
+                    ],
+                    "acceptedProtocols": [
+                      "Http"
+                    ],
+                    "patternsToMatch": [
+                      "/*"
+                    ],
+                    "routeConfiguration": {
+                      "@odata.type": "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration",
+                      "customForwardingPath": "",
+                      "forwardingProtocol": "MatchRequest",
+                      "backendPool": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/backendPools/backendPool1"
+                      }
+                    },
+                    "enabledState": "Enabled"
+                  }
+                }
+              ],
+              "healthProbeSettings": [
+                {
+                  "name": "healthProbeSettings1",
+                  "properties": {
+                    "path": "/",
+                    "protocol": "Http",
+                    "intervalInSeconds": 120,
+                    "enabledState": "Enabled",
+                    "healthProbeMethod": "HEAD"
+                  }
+                }
+              ],
+              "loadBalancingSettings": [
+                {
+                  "name": "loadBalancingSettings1",
+                  "properties": {
+                    "sampleSize": 4,
+                    "successfulSamplesRequired": 2
+                  }
+                }
+              ],
+              "backendPools": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/backendPools/backendPool1",
+                  "name": "backendPool1",
+                  "properties": {
+                    "backends": [
+                      {
+                        "address": "w3.contoso.com",
+                        "httpPort": 80,
+                        "httpsPort": 443,
+                        "enabledState": "Enabled",
+                        "weight": 1,
+                        "priority": 2
+                      },
+                      {
+                        "address": "contoso.com.website-us-west-2.othercloud.net",
+                        "httpPort": 80,
+                        "httpsPort": 443,
+                        "enabledState": "Enabled",
+                        "weight": 2,
+                        "priority": 1
+                      },
+                      {
+                        "address": "contoso1.azurewebsites.net",
+                        "httpPort": 80,
+                        "httpsPort": 443,
+                        "enabledState": "Enabled",
+                        "weight": 1,
+                        "priority": 1
+                      }
+                    ],
+                    "loadBalancingSettings": {
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/loadBalancingSettings/loadBalancingSettings1"
+                    },
+                    "healthProbeSettings": {
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/healthProbeSettings/healthProbeSettings1"
+                    }
+                  }
+                }
+              ],
+              "frontendEndpoints": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/frontendEndpoints/frontendEndpoint1",
+                  "name": "frontendEndpoint1",
+                  "properties": {
+                    "hostName": "www.contoso.com",
+                    "sessionAffinityEnabledState": "Enabled",
+                    "sessionAffinityTtlSeconds": 60,
+                    "webApplicationFirewallPolicyLink": {
+                      "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoorWebApplicationFirewallPolicies/policy1"
+                    }
+                  }
+                },
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/frontendEndpoints/default",
+                  "name": "default",
+                  "properties": {
+                    "hostName": "frontDoor1.azurefd.net"
+                  }
+                }
+              ],
+              "backendPoolsSettings": {
+                "enforceCertificateNameCheck": "Enabled"
+              },
+              "enabledState": "Enabled",
+              "resourceState": "Enabled",
+              "provisioningState": "Succeeded",
+              "cname": "frontDoor1.azurefd.net"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Front Door Service service - Lists all of the Front Doors within an Azure subscription.
+errorCodes: []
