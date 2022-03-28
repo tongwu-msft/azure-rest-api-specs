@@ -31,6 +31,6 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
-| [Get](sfclient-api-meshservice_get.md) | Gets the Service resource with the given name.<br/> |
-| [List](sfclient-api-meshservice_list.md) | Lists all the service resources.<br/> |
+| [Get](sfmeshrp-api-service_get.md) | Gets the Service resource with the given name.<br/> |
+| [List](sfmeshrp-api-service_listbyapplicationname.md) | Lists all the service resources.<br/> |
 
