@@ -31,7 +31,7 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
-| [Create Or Update](sfmeshrp-api-application_create.md) | Creates or updates a Application resource.<br/> |
+| [Create Or Update](sfmeshrp-api-application_create.md) | Creates or updates an Application resource.<br/> |
 | [Get](sfmeshrp-api-application_get.md) | Gets the Application resource with the given name.<br/> |
 | [Delete](sfmeshrp-api-application_delete.md) | Deletes the Application resource.<br/> |
 | [List](sfmeshrp-api-application_listbyresourcegroup.md) | Lists all the application resources.<br/> |
