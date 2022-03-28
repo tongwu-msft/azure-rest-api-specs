@@ -11,7 +11,7 @@ service_description: Microsoft Azure Service Bus is a fully managed enterprise i
 
 # Azure Service Bus REST API
 
-Azure Service Bus provides cloud-enabled communication with enterprise messaging and relayed communication that helps you connect on-premises solutions with the cloud. See [Azure Service Bus documentation](/rest/api/resources) for a comprehensive conceptual documentation for the service. 
+Azure Service Bus provides cloud-enabled communication with enterprise messaging and relayed communication that helps you connect on-premises solutions with the cloud. See [Azure Service Bus documentation](https://docs.microsoft.com/azure/service-bus-messaging/) for a comprehensive conceptual documentation for the service. 
 
 The REST APIs fall into the following categories:
 
@@ -30,7 +30,7 @@ The Service Bus REST API provides operations for working with the following reso
 
 ### Azure Resource Manager
 
-[Resource Manager APIs](/rest/api/servicebus/namespaces) are management APIs that perform operations on Service Bus entities, such as namespaces, queues, and topics. They are useful in scenarios that enable global authentication, rather than at the namespace or entity level.
+[Resource Manager APIs](/rest/api/resources) are management APIs that perform operations on Service Bus entities, such as namespaces, queues, and topics. They are useful in scenarios that enable global authentication, rather than at the namespace or entity level.
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
