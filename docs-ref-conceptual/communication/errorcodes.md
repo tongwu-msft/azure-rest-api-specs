@@ -35,7 +35,7 @@ Depending on the area of Azure Communication Services that you're using, you'll 
 
 For the SMS Service, it responds with standard HTTP Status Codes. Based on these codes and the context of SMS more context can be provided.
 
-| Error Code | Description           |
+| Error Code | Description|
 | ---------- | --------------------- |
 | 200 OK     | Success               |
 | 201        | Created               | Request has been accepted.                                                                                                                                                                        |

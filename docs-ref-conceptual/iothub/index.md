@@ -74,17 +74,15 @@ Use these APIs to manage the deployment of your IoT Hub resources. For informati
   
 The behavior for ETags can be seen below:  
   
-||||  
-|-|-|-|  
 |PUT|Resource does not exist|Resource exists|  
+|-|-|-|  
 |If-Match = "" / absent|201 Created|200 OK|  
 |If-Match = "*"|412 Precondition Failed|200 OK|  
 |If-Match = "xyz"|412 Precondition Failed|200 OK / 412 Precondition Failed|  
 |If-None-Match = "*"|201 Created|412 Precondition Failed|  
   
-||||  
-|-|-|-|  
 |DELETE|Resource does not exist|Resource exists|  
+|-|-|-|  
 |If-Match = "" / absent|204 No Content|200 OK|  
 |If-Match = "*"|204 No Content|200 OK|  
 |If-Match = "xyz"|204 No Content|200 OK / 412 Precondition Failed|  
