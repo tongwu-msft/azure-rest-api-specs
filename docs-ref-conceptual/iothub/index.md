@@ -39,7 +39,7 @@ The REST APIs for IoT Hub offer programmatic access to the device, messaging, an
 -   [Common error codes](common-error-codes.md)
 
 ## Service 
-* Use this API to manage IoT Hub [device twins](azure/iot-hub/iot-hub-devguide-device-twins). You can retrieve and update device twin properties and invoke [direct methods](/azure/iot-hub/iot-hub-devguide-direct-methods) on devices. 
+* Use this API to manage IoT Hub [device twins](azure/iot-hub/iot-hub-devguide-device-twins). You can retrieve and update device twin properties and invoke [direct methods](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-direct-methods) on devices. 
 * Use these APIs to manage device identities in the identity registry of an IoT hub.   
 * Use these API to manage [Jobs](/azure/iot-hub/iot-hub-devguide-jobs) in IoT Hub. You can schedule, cancel or get a job.  
 
