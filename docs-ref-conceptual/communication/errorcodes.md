@@ -11,7 +11,7 @@ ms.devlang: rest-api
 ---
 # Common Error Codes
 
-When making requests against Azure Communication Services' REST API, you may come across error codes, which signal that an error has occurred. To help you with troubleshooting, a list of common error codes is provided below for various scenarios. For more information on troubleshooting these error codes, see our [TroubleShooting Guide](azure/communication-services/concepts/troubleshooting-info).
+When making requests against Azure Communication Services' REST API, you may come across error codes, which signal that an error has occurred. To help you with troubleshooting, a list of common error codes is provided below for various scenarios. For more information on troubleshooting these error codes, see our [TroubleShooting Guide](/azure/communication-services/concepts/troubleshooting-info).
 
 ## HTTP Status Codes
 
