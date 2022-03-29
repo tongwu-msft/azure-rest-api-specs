@@ -1,5 +1,6 @@
 ---
 title: Azure Resource Graph REST API | Microsoft Docs
+description: Learn how the Azure Resource Graph enables you to get full visibility into your environments by providing high performance capability across all your resources.
 author: demyanenko
 manager: chgupta
 ms.date: 10/10/2018

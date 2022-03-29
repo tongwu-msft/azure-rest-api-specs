@@ -1,5 +1,6 @@
 ---
 title: "Azure API Management REST API Authorization Server entity"
+description: Learn how to manage OAuth2 authorization servers by using the API Management REST API.
 ms.custom: na
 ms.date: 05/09/2016
 ms.reviewer: na

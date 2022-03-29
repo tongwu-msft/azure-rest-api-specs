@@ -1,6 +1,6 @@
 ---
 title: Azure Spring Cloud REST API 
-description:  
+description: Learn how the REST API allows you to develop clients that use REST calls to the Azure Spring Cloud API.
 services: spring-cloud
 ms.service: spring-cloud 
 ms.subservice: 

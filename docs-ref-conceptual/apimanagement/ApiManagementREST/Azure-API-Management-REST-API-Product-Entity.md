@@ -1,5 +1,6 @@
 ---
 title: "Azure API Management REST API Product Entity"
+description: Learn how the Product entity represents a product in API Management and products include one or more APIs and their associated terms of use.
 ms.custom: na
 ms.date: 09/22/2016
 ms.reviewer: na

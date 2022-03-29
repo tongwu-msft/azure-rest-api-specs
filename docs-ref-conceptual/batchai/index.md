@@ -1,5 +1,6 @@
 ---
 title: Azure Batch AI REST API | Microsoft Docs
+description: Batch AI is a managed service that enables data scientists and AI researchers to train AI and other machine learning models on clusters of Azure virtual machines.
 author: dlepow
 ms.author: danlep
 manager: timlt

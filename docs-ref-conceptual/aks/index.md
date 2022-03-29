@@ -1,5 +1,6 @@
 ---
 title: Azure Kubernetes Service (AKS) REST API reference
+description: Learn how AKS manages your hosted Kubernetes environment, making it easy to deploy and manage containerized applications. 
 author: mmacy
 ms.author: marsma
 ms.date: 06/11/2018

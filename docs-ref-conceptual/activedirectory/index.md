@@ -1,3 +1,5 @@
+
+
 # Azure Active Directory B2C
 
 The Azure Active Directory B2C APIs allow you to create and manage your Azure AD B2C tenants programmatically. The APIs currently support provisioning an Azure AD B2C tenant.

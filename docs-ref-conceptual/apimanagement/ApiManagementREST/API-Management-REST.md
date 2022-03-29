@@ -1,5 +1,6 @@
 ---
 title: "API Management REST"
+description: Learn how Azure API Management provides a REST API for performing operations on selected entities.
 ms.custom: na
 ms.date: 04/22/2016
 ms.reviewer: na

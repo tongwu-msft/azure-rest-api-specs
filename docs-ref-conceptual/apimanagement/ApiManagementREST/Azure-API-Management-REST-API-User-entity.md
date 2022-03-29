@@ -1,5 +1,6 @@
 ---
 title: "Azure API Management REST API User entity"
+description: Learn about the Azure API Management REST API User entity and how to manage users by using the API Management REST API.
 ms.custom: na
 ms.date: 05/09/2016
 ms.reviewer: na

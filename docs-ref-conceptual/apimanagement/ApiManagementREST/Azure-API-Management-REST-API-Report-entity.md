@@ -1,5 +1,6 @@
 ---
 title: "Azure API Management REST API Report entity"
+description: Learn about the Azure API Management REST API Report entity and how to retrieve reports using the API Management REST API.
 ms.custom: na
 ms.date: 08/26/2016
 ms.reviewer: na

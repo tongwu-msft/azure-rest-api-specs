@@ -1,6 +1,7 @@
 ---
 ms.assetid: b7c27eda-bd1b-4b77-88dc-e6cb5e25453f
 title: Automation REST API | Microsoft Docs
+description: Learn how the Azure Automation service provides a highly reliable and scalable workflow execution engine to automate frequently repeated management tasks.
 author: georgewallace
 ms.author: gwallace
 ms.manager: carmonm

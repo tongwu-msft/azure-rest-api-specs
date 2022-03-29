@@ -1,5 +1,6 @@
 ---
 title: Recovery Services Backup REST API | Microsoft Docs
+description: Learn how Azure Backup contributes to your business continuity and disaster recovery (BCDR) strategy by backing up data to the Azure clouds.
 author: rayne-wiselman
 ms.author: raynew
 ms.date: 08/28/2017
