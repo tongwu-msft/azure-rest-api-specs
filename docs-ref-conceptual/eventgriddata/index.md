@@ -17,12 +17,12 @@ Azure Event Grid enables you to easily build applications with event-based archi
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Domain Topics](xref:eventgrid.controlplane-version2021-06-01-preview.domain-topics) | Returns information about Event Grid domain topics. |
-| [Domains](xref:eventgrid.controlplane-version2021-06-01-preview.domains) | Provides operations for working with Event Grid domains. |
-| [Event Subscriptions](xref:eventgrid.controlplane-version2021-06-01-preview.event-subscriptions) | Provides operations for indicating which events to route to an endpoint. |
-| [Operations](xref:eventgrid.controlplane-version2021-06-01-preview.operations) | Shows operations from the Event Grid resource provider. |
-| [Topic Types](xref:eventgrid.controlplane-version2021-06-01-preview.topic-types) | Returns information about topic and event types. |
-| [Topics](xref:eventgrid.controlplane-version2021-06-01-preview.topics) | Provides operations for working publisher topics. |
+| [Domain Topics](xref:management.azure.com.eventgrid.controlplane-version2021-06-01-preview.domaintopics) | Returns information about Event Grid domain topics. |
+| [Domains](xref:management.azure.com.eventgrid.controlplane-version2021-06-01-preview.domains) | Provides operations for working with Event Grid domains. |
+| [Event Subscriptions](xref:management.azure.com.eventgrid.controlplane-version2021-06-01-preview.eventsubscriptions) | Provides operations for indicating which events to route to an endpoint. |
+| [Operations](xref:management.azure.com.eventgrid.controlplane-version2021-06-01-preview.operations) | Shows operations from the Event Grid resource provider. |
+| [Topic Types](xref:management.azure.com.eventgrid.controlplane-version2021-06-01-preview.topictypes) | Returns information about topic and event types. |
+| [Topics](xref:management.azure.com.eventgrid.controlplane-version2021-06-01-preview.topics) | Provides operations for working publisher topics. |
 
 ## See also
 

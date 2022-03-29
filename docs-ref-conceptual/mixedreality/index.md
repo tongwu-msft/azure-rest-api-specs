@@ -42,7 +42,7 @@ The following table lists the supported REST API versions by the Azure Mixed Rea
 ## Azure Mixed Reality Resources
 The following articles describe the supported REST APIs for each resource type.
 
-* [Spatial Anchors Accounts](xref:management.azure.com.mixedreality.spatialanchorsaccounts)
+* [Spatial Anchors Accounts](xref:mixedreality.spatial-anchors-accounts)
 
 ## See Also
 * [Azure Mixed Reality](https://azure.microsoft.com/topic/mixed-reality/)
