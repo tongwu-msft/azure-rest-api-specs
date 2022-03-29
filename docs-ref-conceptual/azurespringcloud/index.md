@@ -26,10 +26,10 @@ Azure Spring Cloud REST API provides operations for working with the following r
 | [Apps](../../docs-ref-autogen/azurespringcloud/Apps.yml) | Provides operations for managing apps under service instances. |
 | [Deployments](../../docs-ref-autogen/azurespringcloud/Deployments.yml) | Provides operations for managing deployments under apps. |
 | [Bindings](../../docs-ref-autogen/azurespringcloud/Bindings.yml) | Provides operations for managing service bindings under apps. |
-| [Custom Domains](../../docs-ref-autogen/azurespringcloud/CustomDomains.yml) | Provides operations for managing custom domains for apps. |
+| [Custom Domains](../../docs-ref-autogen/azurespringcloud/Custom-Domains.yml) | Provides operations for managing custom domains for apps. |
 | [Certificates](../../docs-ref-autogen/azurespringcloud/Certificates.yml) | Provides operations for managing certificates for custom domains. |
 | [Operations](../../docs-ref-autogen/azurespringcloud/Operations.yml) |  Provides operations to list all of the available REST API operations. |
-| [Runtime Versions](../../docs-ref-autogen/azurespringcloud/RuntimeVersions.yml) | Provides operations to list all of the available runtime versions supported. |
+| [Runtime Versions](../../docs-ref-autogen/azurespringcloud/Runtime-Versions.yml) | Provides operations to list all of the available runtime versions supported. |
 
 
 
