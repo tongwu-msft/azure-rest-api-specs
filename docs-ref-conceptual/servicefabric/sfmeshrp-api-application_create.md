@@ -1,6 +1,6 @@
 ---
 title: "Create"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes how to create or update an application resource and provides parameters and examples for application resources.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

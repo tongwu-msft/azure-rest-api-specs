@@ -1,6 +1,6 @@
 ---
 title: Bing Web Search API v5 Reference | Microsoft Docs
-description: Describes the programming elements of the Bing Web Search API.
+description: Describes the v5 iteration of the Bing Web Search API and provides technical details about the aspects that affect search results.
 services: cognitive-services
 author: swhite-msft
 manager: ehansen

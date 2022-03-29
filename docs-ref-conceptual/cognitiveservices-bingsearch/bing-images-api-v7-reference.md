@@ -1,6 +1,6 @@
 ---
 title: Bing Images Search API v7 Reference | Microsoft Docs
-description: Describes the programming elements of the Bing Images Search API.
+description: Describes the v7 iteration of the Bing Image Search API and provides technical details about query parameters and headers to implement.
 services: cognitive-services
 author: swhite-msft
 manager: ehansen

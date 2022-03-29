@@ -1,6 +1,6 @@
 ---
 title: Bing News Search API v7 Reference | Microsoft Docs
-description: Describes the programming elements of the Bing News Search API.
+description: Describes the v7 iteration of the Bing News Search API and provides technical details about query parameters to use to request news articles.
 services: cognitive-services
 author: swhite-msft
 manager: ehansen

@@ -1,6 +1,6 @@
 ---
 title: Bing Autosuggest API v7 Reference | Microsoft Docs
-description: Describes the programming elements of the Bing Autosuggest API.
+description: Describes the v7 iteration of Autosuggest API and provides technical details and additional programming elements for Autosuggest API.
 services: cognitive-services
 author: swhite-msft
 manager: ehansen
