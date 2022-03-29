@@ -35,11 +35,11 @@ Depending on the area of Azure Communication Services that you're using, you'll 
 
 For the SMS Service, it responds with standard HTTP Status Codes. Based on these codes and the context of SMS more context can be provided.
 
-| Error Code | Description|
-| ---------- | --------------------- |
-| 200 OK     | Success               |
-| 201        | Created               | Request has been accepted.                                                                                                                                                                        |
-| 400        | Bad request           | Invalid request data.                                                                                                                                                                             |
+| Error Code | Response | Description|
+| ---------- | ----------|----------- |
+| 200 OK     | Success   |
+| 201        | Created| Request has been accepted.|
+| 400        | Bad request           | Invalid request data. |
 | 401        | Unauthorized          | Your request was either missing authentication, or the authentication provided doesn't allow for sending an SMS. Double check our [Authentication Guide](authentication.md) for more information. |
 | 404        | Resource not found    | The resource or endpoint you're trying to access doesn't exist. Double check our documentation to ensure the resource/address you're trying to reach is correct.                                  |
 | 500        | Internal server error | No authentication was found or unknown error occurred Double check our [Authentication Guide](authentication.md) for more information.                                                            |

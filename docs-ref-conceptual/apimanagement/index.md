@@ -31,10 +31,10 @@ Links to reference for the current GA (stable) version.
 
 |Operation Group | Description |
 |---------------|--------------------------------|
-| [API](xref:management.azure.com.apimanagement.current-ga.api)                                                  | Provides operations for managing the APIs of a service instance.                                                               |
-| [API Diagnostic](xref:management.azure.com.apimanagement.current-ga.apidiagnostic)                             | Provides operations for managing Diagnostic settings for the logger in an API.                                                 |
-| [API Export](xref:management.azure.com.apimanagement.current-ga.apiexport)                                     | Exports an API to a SAS blob.                                                                                                  |
-| [API Issue](xref:management.azure.com.apimanagement.current-ga.apiissue)                                       | Provides operations for managing issues for an API.                                                                            |
+| [API](xref:management.azure.com.apimanagement.current-ga.api)| Provides operations for managing the APIs of a service instance.|
+| [API Diagnostic](xref:management.azure.com.apimanagement.current-ga.apidiagnostic)| Provides operations for managing Diagnostic settings for the logger in an API. |
+| [API Export](xref:management.azure.com.apimanagement.current-ga.apiexport)| Exports an API to a SAS blob.|
+| [API Issue](xref:management.azure.com.apimanagement.current-ga.apiissue) | Provides operations for managing issues for an API.   |
 | [API Issue Attachment](xref:management.azure.com.apimanagement.current-ga.apiissueattachment)                  | Provides operations for managing issues attachments for an API.                                                                |
 | [API Issue Comment](xref:management.azure.com.apimanagement.current-ga.apiissuecomment)                        | Provides operations for managing issues comments for an API.                                                                   |
 | [API Management Operations](xref:management.azure.com.apimanagement.current-ga.apimanagementoperations)        | Lists the operations for the API Management provider.                                                                          |
