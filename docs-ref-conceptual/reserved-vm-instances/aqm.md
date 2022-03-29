@@ -12,7 +12,7 @@ ms.devlang: rest-api
 
 Automated Quota Management allows Azure to automatically adjust the [service limits (quota)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits) for enrolled subscriptions based on customer resource usage.
 
-The Azure Automated Quota Management REST API allows to enroll for automatic management of [service limits (quota)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits) for the resources programmatically. 
+The Azure Automated Quota Management REST API allows Azure to enroll for automatic management of [service limits (quota)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits) for the resources programmatically. 
 
 After subscription is enabled, Azure will manage [service limits (quota)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits) for your resources.
 
