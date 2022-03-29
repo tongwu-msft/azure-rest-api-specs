@@ -26,5 +26,5 @@ Azure Event Grid enables you to easily build applications with event-based archi
 
 ## See also
 
-- For more information, see [An introduction to Azure Event Grid](https://docs.microsoft.com/azure/event-grid/overview).
-- To get started with Event Grid, see [Create and route custom events with Azure Event Grid](https://docs.microsoft.com/azure/event-grid/custom-event-quickstart).
+- For more information, see [An introduction to Azure Event Grid](/azure/event-grid/overview).
+- To get started with Event Grid, see [Create and route custom events with Azure Event Grid](/azure/event-grid/custom-event-quickstart).

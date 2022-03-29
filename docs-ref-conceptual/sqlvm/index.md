@@ -25,4 +25,4 @@ The Azure SQL Virtual Machine REST API includes operations for managing Azure SQ
 
 ## See Also
 
-- [Azure SQL VM](https://docs.microsoft.com/azure/virtual-machines/windows/sql/virtual-machines-windows-sql-server-iaas-overview)
+- [Azure SQL VM](/azure/virtual-machines/windows/sql/virtual-machines-windows-sql-server-iaas-overview)

@@ -42,4 +42,4 @@ In addition to the reference material above, we have some more material below. T
 For additional information on Azure Communication Services, you can also review our other documentation sources:
 
 - [Azure Communication Services Product Overview](https://azure.microsoft.com/services/communication-services/) - Communication Services product overview.
-- [Azure Communication Services conceptual documentation](https://docs.microsoft.com/azure/communication-services/overview) - Communication Services Conceptual documentation, this documentation will provide additional information on how to use communication services, including how to use its available SDKs.
+- [Azure Communication Services conceptual documentation](/azure/communication-services/overview) - Communication Services Conceptual documentation, this documentation will provide additional information on how to use communication services, including how to use its available SDKs.
