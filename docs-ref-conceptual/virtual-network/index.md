@@ -1,5 +1,6 @@
 ---
 title: Virtual Network REST APIs
+description: Description of the Virtual Network REST APIs and REST operation groups.
 ms.date: 08/13/2018
 ms.service: virtual-network
 ms.topic: reference

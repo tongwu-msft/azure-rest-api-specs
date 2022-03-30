@@ -1,5 +1,6 @@
 ---
 title: Traffic Manager REST
+description: Information for using Microsoft Azure Traffic Manager to control the distribution of user traffic for service endpoints in different datacenters.
 ms.date: 08/09/2017
 ms.service: traffic-manager
 ms.devlang: rest-api

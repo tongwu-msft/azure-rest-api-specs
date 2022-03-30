@@ -1,5 +1,6 @@
 ---
 title: Azure Video Analyzer For Media REST API reference | Microsoft Docs
+description: Reference for using the Azure Video Analyzer for Media (formerly Video Indexer).
 ms.service: Azure Video Analyzer for Media
 author: uratzmon
 ms.author: uriel.atzmon

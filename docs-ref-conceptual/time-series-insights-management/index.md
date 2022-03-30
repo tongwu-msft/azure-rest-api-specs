@@ -1,5 +1,6 @@
 ---
 title: Time Series Insights Management REST API | Microsoft Docs
+description: Find information for using the Time Series Insights Management REST API with Azure Resource Manager. 
 ms.service: time-series-insights
 author: sandshadow
 ms.author: edett
