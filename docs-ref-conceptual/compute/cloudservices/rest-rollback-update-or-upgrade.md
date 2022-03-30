@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Rollback Update Or Upgrade | Microsoft Docs"
+description: Learn how the Rollback Update Or Upgrade operation cancels an in-progress configuration update and returns the deployment to its state before the update was started.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

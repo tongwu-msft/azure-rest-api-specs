@@ -1,5 +1,6 @@
 ---
 title: Azure Database Migration Service
+description: Learn how Azure Database Migration Service is a fully managed service designed to enable seamless migrations from multiple database sources to Azure Data platforms.
 ---
 # Azure Database Migration Service
 

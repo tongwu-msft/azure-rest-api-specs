@@ -1,6 +1,7 @@
 ---
 ms.assetid:
 title: Azure Consumption REST APIs
+description: Learn how the Azure Consumption APIs give you programmatic access to cost and usage data for your Azure resources.
 ms.service: cost-management-billing
 author: ms-premp
 ms.author: prprak

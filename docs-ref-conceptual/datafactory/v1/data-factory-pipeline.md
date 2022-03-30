@@ -1,5 +1,6 @@
 ---
 title: "Pipeline (Azure Data Factory)"
+description: Learn how to create a new pipeline or update the content of an existing pipeline.
 ---
 # Pipeline version 1 (V1)
 

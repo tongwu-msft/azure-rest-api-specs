@@ -1,5 +1,6 @@
 ---
 title: "Data Factory (Azure Data Factory)"
+description: Learn how the Create or Update Data Factory operation creates a new data factory, or updates the content of an existing data factory.
 ---
 # Data Factory version 1 (V1)
 
