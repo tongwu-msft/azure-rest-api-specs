@@ -1,5 +1,6 @@
 ---
 title: Event Grid REST API | Microsoft Docs
+description: Learn how Azure Event Grid enables you to easily build applications with event-based architectures.
 author: spelluru
 ms.author: spelluru
 ms.date: 08/21/2019

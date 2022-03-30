@@ -1,5 +1,6 @@
 ---
 title: "Cluster REST API (Azure HDInsight)"
+description: Learn how the Cluster REST API in Azure HD Insight creates a cluster in the specified subscription..
 ms.service: hdinsight
 ms.topic: reference
 author: jasonwhowell

@@ -1,5 +1,6 @@
 ---
 title: "Application REST API (Azure HDInsight)"
+description: Learn how the Create operation creates a new node on the cluster (referred to as an edge node) and installs an application on that node.
 ms.date: 11/16/2016
 ms.service: hdinsight
 ms.topic: reference

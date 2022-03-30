@@ -1,5 +1,6 @@
 ---
 title: "Batches - REST API (Azure HDInsight)"
+description: Learn how to use the Batches REST API to submit a new batch job from a jar.
 ms.service: hdinsight
 ms.topic: reference
 author: jasonwhowell

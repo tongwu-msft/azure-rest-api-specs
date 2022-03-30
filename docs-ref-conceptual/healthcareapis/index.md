@@ -1,5 +1,6 @@
 ---
 title: Azure REST API for FHIR REST API | Microsoft Docs
+description: Learn how Azure API for FHIR enables rapid exchange of data through FHIR APIs, backed by a managed Platform-as-a Service (PaaS) offering in the cloud.
 ms.service: healthcare-apis
 author: matjazl
 ms.author: matjazl
