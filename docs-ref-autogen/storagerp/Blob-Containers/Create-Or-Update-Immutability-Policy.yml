@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.blobcontainers.createorupdateimmutabilitypol
 name: Create Or Update Immutability Policy
 service: Storage Resource Provider
 groupName: Blob Containers
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01
 summary: Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default?api-version=2021-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,7 +42,7 @@ uriParameters:
   isRequired: true
   description: The name of the blob container immutabilityPolicy within the specified storage account. ImmutabilityPolicy Name must be 'default'
   types:
-  - uid: string
+  - uid: ImmutabilityPolicyName
 - name: api-version
   in: query
   isRequired: true
@@ -67,7 +67,12 @@ requestBody:
     - uid: integer
   - name: properties.allowProtectedAppendWrites
     in: body
-    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API.
+    types:
+    - uid: boolean
+  - name: properties.allowProtectedAppendWritesAll
+    in: body
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. The 'allowProtectedAppendWrites' and 'allowProtectedAppendWritesAll' properties are mutually exclusive.
     types:
     - uid: boolean
 requestHeader:
@@ -77,6 +82,13 @@ requestHeader:
   types:
   - uid: string
 definitions:
+- name: ImmutabilityPolicyName
+  description: The name of the blob container immutabilityPolicy within the specified storage account. ImmutabilityPolicy Name must be 'default'
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
 - name: ImmutabilityPolicy
   description: The ImmutabilityPolicy property of a blob container, including Id, resource name, resource type, Etag.
   kind: object
@@ -91,7 +103,11 @@ definitions:
     types:
     - uid: ImmutabilityPolicyState
   - name: properties.allowProtectedAppendWrites
-    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API.
+    types:
+    - uid: boolean
+  - name: properties.allowProtectedAppendWritesAll
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. The 'allowProtectedAppendWrites' and 'allowProtectedAppendWritesAll' properties are mutually exclusive.
     types:
     - uid: boolean
   - name: etag
@@ -127,7 +143,7 @@ definitions:
 examples:
 - name: CreateOrUpdateImmutabilityPolicy
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res1782/providers/Microsoft.Storage/storageAccounts/sto7069/blobServices/default/containers/container6397/immutabilityPolicies/default?api-version=2021-04-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res1782/providers/Microsoft.Storage/storageAccounts/sto7069/blobServices/default/containers/container6397/immutabilityPolicies/default?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -146,6 +162,30 @@ examples:
         "properties": {
           "immutabilityPeriodSinceCreationInDays": 3,
           "allowProtectedAppendWrites": true,
+          "state": "Unlocked"
+        }
+      }
+- name: CreateOrUpdateImmutabilityPolicyWithAllowProtectedAppendWritesAll
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res1782/providers/Microsoft.Storage/storageAccounts/sto7069/blobServices/default/containers/container6397/immutabilityPolicies/default?api-version=2021-09-01
+    body: >-
+      {
+        "properties": {
+          "immutabilityPeriodSinceCreationInDays": 3,
+          "allowProtectedAppendWritesAll": true
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res1782/providers/Microsoft.Storage/storageAccounts/sto7069/blobServices/default/containers/container6397/immutabilityPolicies/default",
+        "name": "default",
+        "type": "Microsoft.Storage/storageAccounts/blobServices/containers/immutabilityPolicies",
+        "etag": "\"8d59f830cb130e5\"",
+        "properties": {
+          "immutabilityPeriodSinceCreationInDays": 3,
+          "allowProtectedAppendWritesAll": true,
           "state": "Unlocked"
         }
       }

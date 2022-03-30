@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.table.update
 name: Update
 service: Storage Resource Provider
 groupName: Table
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01
 summary: Creates a new table with the specified table name, under the specified account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}?api-version=2021-04-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -53,8 +53,29 @@ responses:
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.signedIdentifiers
+    in: body
+    description: List of stored access policies specified on the table.
+    types:
+    - uid: TableSignedIdentifier
+      isArray: true
 requestHeader: []
 definitions:
+- name: TableSignedIdentifier
+  description: Object to set Table Access Policy.
+  kind: object
+  properties:
+  - name: id
+    description: unique-64-character-value of the stored access policy.
+    types:
+    - uid: string
+  - name: accessPolicy
+    description: Access policy
+    types:
+    - uid: TableAccessPolicy
 - name: Table
   description: Properties of the table, including Id, resource name, resource type.
   kind: object
@@ -64,6 +85,11 @@ definitions:
     description: Table name under the specified account
     types:
     - uid: string
+  - name: properties.signedIdentifiers
+    description: List of stored access policies specified on the table.
+    types:
+    - uid: TableSignedIdentifier
+      isArray: true
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -87,6 +113,22 @@ definitions:
     description: An error response from the Storage service.
     types:
     - uid: CloudErrorBody
+- name: TableAccessPolicy
+  description: Table Access Policy Properties Object.
+  kind: object
+  properties:
+  - name: startTime
+    description: Start time of the access policy
+    types:
+    - uid: string
+  - name: expiryTime
+    description: Expiry time of the access policy
+    types:
+    - uid: string
+  - name: permission
+    description: Required. List of abbreviated permissions. Supported permission values include 'r','a','u','d'
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the Storage service.
   kind: object
@@ -111,7 +153,7 @@ definitions:
 examples:
 - name: TableOperationPatch
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/tableServices/default/tables/table6185?api-version=2021-04-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/tableServices/default/tables/table6185?api-version=2021-09-01
   responses:
   - statusCode: "200"
     body: >-
@@ -121,6 +163,61 @@ examples:
         "type": "Microsoft.Storage/storageAccounts/tableServices/tables",
         "properties": {
           "tableName": "table6185"
+        }
+      }
+- name: TableOperationPutOrPatchAcls
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/tableServices/default/tables/table6185?api-version=2021-09-01
+    body: >-
+      {
+        "properties": {
+          "signedIdentifiers": [
+            {
+              "id": "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI",
+              "accessPolicy": {
+                "startTime": "2022-03-17T08:49:37.0000000Z",
+                "expiryTime": "2022-03-20T08:49:37.0000000Z",
+                "permission": "raud"
+              }
+            },
+            {
+              "id": "PTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODklMTI",
+              "accessPolicy": {
+                "startTime": "2022-03-17T08:49:37.0000000Z",
+                "expiryTime": "2022-03-20T08:49:37.0000000Z",
+                "permission": "rad"
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/tableServices/default/tables/table6185",
+        "name": "table6185",
+        "type": "Microsoft.Storage/storageAccounts/tableServices/tables",
+        "properties": {
+          "tableName": "table6185",
+          "signedIdentifiers": [
+            {
+              "id": "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI",
+              "accessPolicy": {
+                "startTime": "2022-03-17T08:49:37.0000000Z",
+                "expiryTime": "2022-03-20T08:49:37.0000000Z",
+                "permission": "raud"
+              }
+            },
+            {
+              "id": "PTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODklMTI",
+              "accessPolicy": {
+                "startTime": "2022-03-17T08:49:37.0000000Z",
+                "expiryTime": "2022-03-20T08:49:37.0000000Z",
+                "permission": "rad"
+              }
+            }
+          ]
         }
       }
 security:
