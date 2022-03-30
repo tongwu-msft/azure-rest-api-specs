@@ -1,6 +1,6 @@
 ---
 title: "List By Service Name"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Provides request method, parameters, responses, and examples of getting replicas of a given service.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

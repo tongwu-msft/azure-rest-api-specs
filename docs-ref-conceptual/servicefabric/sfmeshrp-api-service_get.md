@@ -1,6 +1,6 @@
 ---
 title: "Get"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Provides request method, parameters, responses, and examples for getting properties of a service and properties of the service.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

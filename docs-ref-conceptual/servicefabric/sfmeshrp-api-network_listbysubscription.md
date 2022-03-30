@@ -1,6 +1,6 @@
 ---
 title: "List By Subscription"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Provides request method, parameters, and examples of getting the network resources in a subscription.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

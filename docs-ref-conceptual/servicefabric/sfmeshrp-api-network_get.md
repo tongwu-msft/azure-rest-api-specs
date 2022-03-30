@@ -1,7 +1,6 @@
 ---
 title: "Get"
-description: Request method, parameters, and responses for getting network resources with examples of how to get a network resource.
-Service Fabric Mesh Resource Manager API Reference
+description: Provides request method, parameters, and responses for getting network resources with examples of how to get a network resource.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

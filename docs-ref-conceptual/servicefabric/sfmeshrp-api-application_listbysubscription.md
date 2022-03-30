@@ -1,6 +1,6 @@
 ---
 title: "List By Subscription"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Provides information on how to get application resources in a given subscription, including the application's services and runtime properties.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

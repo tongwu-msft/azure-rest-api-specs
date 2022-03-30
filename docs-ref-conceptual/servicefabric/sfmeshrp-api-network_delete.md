@@ -1,6 +1,6 @@
 ---
 title: "Delete"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes Request Method, Parameters, and examples that elucidate process to delete network resources.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

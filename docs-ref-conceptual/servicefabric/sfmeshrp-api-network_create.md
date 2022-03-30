@@ -1,6 +1,6 @@
 ---
 title: "Create"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describe process to create a network resource with a specified name and description, includes Request Method and Parameters.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

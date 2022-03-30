@@ -1,6 +1,6 @@
 ---
 title: "List By Resource Group"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Provides request methods, parameters, and examples of creating lists by resource groups, including network description and runtime properties.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018
