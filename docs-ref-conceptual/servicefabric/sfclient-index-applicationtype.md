@@ -1,5 +1,5 @@
 ---
-title: "ApplicationType"
+title: Application type API Index
 description: "ApplicationType"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationType APIs
+# Application Type APIs
 
 | Name | Description |
 | --- | --- |

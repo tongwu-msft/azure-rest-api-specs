@@ -1,5 +1,5 @@
 ---
-title: "Chaos"
+title: Chaos API Index
 description: "Chaos"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"

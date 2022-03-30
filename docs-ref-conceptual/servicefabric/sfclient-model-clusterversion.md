@@ -1,5 +1,5 @@
 ---
-title: "ClusterVersion"
+title: Service Fabric Cluster Version
 description: "ClusterVersion"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"

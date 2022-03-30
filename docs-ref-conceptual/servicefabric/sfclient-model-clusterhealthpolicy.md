@@ -1,5 +1,5 @@
 ---
-title: "ClusterHealthPolicy"
+title: Cluster Health Policy
 description: "ClusterHealthPolicy"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterHealthPolicy
+# Cluster Health Policy
 
 Defines a health policy used to evaluate the health of the cluster or of a cluster node.
 

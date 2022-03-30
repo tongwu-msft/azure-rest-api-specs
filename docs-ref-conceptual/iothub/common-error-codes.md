@@ -1,5 +1,5 @@
 ---
-title: "Common error codes"
+title: Common error codes for IoT Hub APIs
 ms.custom: ""
 ms.date: 02/14/2020
 ms.reviewer: ""
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Common error codes
+# IoT Hub API Common error codes
 
 The following table lists error codes common to the IoT Hub APIs. HTTP status code being N/A means the error occurs only through AMQP or MQTT.
 

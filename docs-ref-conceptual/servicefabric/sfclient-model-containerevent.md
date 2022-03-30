@@ -1,5 +1,5 @@
 ---
-title: "ContainerEvent"
+title: Container Events
 description: "ContainerEvent"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ContainerEvent
+# Container Event
 
 A container event.
 
