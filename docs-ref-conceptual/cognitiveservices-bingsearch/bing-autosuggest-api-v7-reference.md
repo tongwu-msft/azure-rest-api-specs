@@ -24,7 +24,7 @@ The Autosuggest API lets you send a partial search query term to Bing and get ba
 
 Typically, you use this API to support a richer search box experience. For example, as the user enters each character of their search term, you'd call this API and populate the search box's drop-down list with the suggested query strings.  
   
-This section provides technical details about the query parameters and headers that the request may include, and the JSON response that contains the suggested queries. For examples that show how to make requests, see [Getting suggested search terms](https://docs.microsoft.com/azure/cognitive-services/bing-autosuggest/get-suggested-search-terms).  
+This section provides technical details about the query parameters and headers that the request may include, and the JSON response that contains the suggested queries. For examples that show how to make requests, see [Getting suggested search terms](/azure/cognitive-services/bing-autosuggest/get-suggested-search-terms).  
   
 For information about the headers that you should include in the request, see [Request Headers](#headers).  
   
@@ -32,7 +32,7 @@ For information about the query parameters that you should include in the reques
   
 For information about the JSON objects that the response may include, see [Response Objects](#response-objects). 
 
-For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-autosuggest/useanddisplayrequirements).
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](/azure/cognitive-services/bing-autosuggest/useanddisplayrequirements).
 
 > [!NOTE]
 > Because URL formats and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters except where noted.

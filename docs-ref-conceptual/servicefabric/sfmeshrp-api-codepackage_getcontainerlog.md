@@ -1,6 +1,6 @@
 ---
 title: "Get Container Log"
-description: Describe process to get logs for the container through providing request methods, responses, and examples.
+description: Describes the process to get logs for the container through providing request methods, responses, and examples.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

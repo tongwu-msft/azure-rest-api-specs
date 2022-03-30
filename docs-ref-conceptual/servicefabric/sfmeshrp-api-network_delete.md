@@ -1,6 +1,6 @@
 ---
 title: "Delete"
-description: Describes Request Method, Parameters, and examples that elucidate process to delete network resources.
+description: Describes the Request Method, Parameters, and examples for deleting network resources by the name.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

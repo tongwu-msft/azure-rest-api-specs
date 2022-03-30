@@ -21,7 +21,7 @@ ms.author: scottwhi
 > Bing Search APIs provisioned using Cognitive Services will be supported for the next three years or until the end of your Enterprise Agreement, whichever happens first.
 > For migration instructions, see [Bing Search Services](https://aka.ms/cogsvcs/bingmigration).
 
-The Spell Check API lets you check a text string for spelling and grammar errors. This section provides technical details about the query parameters and headers that you use to request spell checking, and the JSON response objects that contain the results. For examples that show how to make requests, see [Spell check a text string](https://docs.microsoft.com/azure/cognitive-services/bing-spell-check/proof-text).  
+The Spell Check API lets you check a text string for spelling and grammar errors. This section provides technical details about the query parameters and headers that you use to request spell checking, and the JSON response objects that contain the results. For examples that show how to make requests, see [Spell check a text string](/azure/cognitive-services/bing-spell-check/proof-text).  
   
 For information about the headers that requests should include, see [Request Headers](#request-headers).  
   
@@ -29,7 +29,7 @@ For information about the query parameters that requests should include, see [Qu
   
 For information about the JSON objects that the response may include, see [Response Objects](#response-objects). 
 
-For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-spell-check/useanddisplayrequirements).
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](/azure/cognitive-services/bing-spell-check/useanddisplayrequirements).
 
 > [!NOTE]
 > Because URL formats and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters except where noted.

@@ -21,7 +21,7 @@ ms.author: scottwhi
 > Bing Search APIs provisioned using Cognitive Services will be supported for the next three years or until the end of your Enterprise Agreement, whichever happens first.
 > For migration instructions, see [Bing Search Services](https://aka.ms/cogsvcs/bingmigration).
 
-The Image Search API lets you send a search query to Bing and get back a list of relevant images. This section provides technical details about the query parameters and headers that you use to request images and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/search-the-web).  
+The Image Search API lets you send a search query to Bing and get back a list of relevant images. This section provides technical details about the query parameters and headers that you use to request images and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Images](/azure/cognitive-services/bing-image-search/search-the-web).  
 
 For information about the headers that requests should include, see [Request Headers](#headers).  
   
@@ -29,7 +29,7 @@ For information about the query parameters that requests should include, see [Qu
   
 For information about the JSON response objects that responses may include, see [Response Objects](#response-objects).  
 
-For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/useanddisplayrequirements).
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](/azure/cognitive-services/bing-image-search/useanddisplayrequirements).
 
 > [!NOTE]
 > Because URL formats and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters except where noted.
@@ -42,7 +42,7 @@ To request images, send a GET request to one of the following URLs:
 |--------------|-----------------|  
 |https://api.cognitive.microsoft.com/bing/v7.0/images/search|Returns images that are relevant to the users search query.|  
 |https://api.cognitive.microsoft.com/bing/v7.0/images/details|Returns insights about an image, such as webpages that include the image.|  
-|https://api.cognitive.microsoft.com/bing/v7.0/images/trending|Returns images that are trending based on search requests made by others. The images are broken out into different categories. For example, Popular People Searches.<br /><br /> For a list of markets that support trending images, see [Trending Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/trending-images).|  
+|https://api.cognitive.microsoft.com/bing/v7.0/images/trending|Returns images that are trending based on search requests made by others. The images are broken out into different categories. For example, Popular People Searches.<br /><br /> For a list of markets that support trending images, see [Trending Images](/azure/cognitive-services/bing-image-search/trending-images).|  
 
 For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com. See [Supported Regions](/azure/cognitive-services/authentication#supported-regions).
 
@@ -219,7 +219,7 @@ The top-level object that the response includes when the request fails.
 Defines an image that is relevant to the query.  
   
 > [!NOTE]
-> Because the URL format and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).  
+> Because the URL format and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resize and crop thumbnail images](/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
@@ -231,13 +231,13 @@ Defines an image that is relevant to the query.
 |<a name="image-height" />height|The height of the source image, in pixels.|Unsigned Short|  
 |<a name="image-hostpagedisplayurl" />hostPageDisplayUrl|The display URL of the webpage that hosts the image.<br /><br /> Use this URL in your user interface to identify the host webpage that contains the image. The URL is not a well-formed and should not be used to access the host webpage. To access the host webpage, use the `hostPageUrl` URL.|String|  
 |<a name="image-hostpageurl" />hostPageUrl|The URL of the webpage that includes the image.<br /><br /> This URL and `contentUrl` may be the same URL.|String|  
-|<a name="image-id" />id|An ID that uniquely identifies this image in the list of images.<br /><br /> Only Web Search API responses include this field. For information about how to use this field, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/rank-results) in the Web Search API guide.|String|  
+|<a name="image-id" />id|An ID that uniquely identifies this image in the list of images.<br /><br /> Only Web Search API responses include this field. For information about how to use this field, see [Using Ranking to Display Results](/azure/cognitive-services/bing-web-search/rank-results) in the Web Search API guide.|String|  
 |<a name="image-imageid" />imageId|An ID that uniquely identifies this image. If you want the image to be the first image in the response, set the [id](#id) query parameter to this ID in your request.|String|  
 |<a name="image-imageinsightstoken" />imageInsightsToken|The token that you use in a subsequent call to the Image Search API to get additional information about the image. For information about using this token, see the [insightsToken](#insightstoken) query parameter.|String|  
 |<a name="image-insightsmetadata" />insightsMetadata|A count of the number of websites where you can shop or perform other actions related to the image.<br /><br /> For example, if the image is of an apple pie, this object includes a count of the number of websites where you can buy an apple pie. To indicate the number of offers in your UX, include badging such as a shopping cart icon that contains the count. When the user clicks on the icon, use `imageInisghtsToken` to get the list of websites.|[InsightsMetadata](#insightsmetadata)|  
 |<a name="image-name" />name|A title of the image.|String|  
 |<a name="image-thumbnail" />thumbnail|The width and height of the thumbnail image (see `thumbnailUrl`).|[MediaSize](#mediasize)|  
-|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
+|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resize and crop thumbnail images](/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
 |webSearchUrl|The URL to the Bing search results for this image.|String|  
 |<a name="image-width" />width|The width of the source image, in pixels.|Unsigned Short|  
   
@@ -297,7 +297,7 @@ The top-level object that the response includes when an image request succeeds.
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|A type hint, which is set to Images.|String|  
-|id|An ID that uniquely identifies the image answer.<br /><br /> The object includes this field only in a Web Search API response. For information about how to use this field, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/rank-results) in the Web Search API guide.|String|  
+|id|An ID that uniquely identifies the image answer.<br /><br /> The object includes this field only in a Web Search API response. For information about how to use this field, see [Using Ranking to Display Results](/azure/cognitive-services/bing-web-search/rank-results) in the Web Search API guide.|String|  
 |<a name="isfamilyfriendly" />isFamilyFriendly|A Boolean value that determines whether one or more of the images contain adult content. If none of the images contain adult content, `isFamilyFriendly` is set to **true**. Otherwise, if one or more of the images contain adult content, `isFamilyFriendly` is set to **false**.<br /><br /> If **false**, the thumbnail images are pixelated (fuzzy).<br /><br /> **NOTE:** This field is included only in Web Search API responses, not in Image Search API responses.|Boolean|  
 |<a name="nextoffset" />nextOffset|The offset value that you set the [offset](#offset) query parameter to.<br /><br /> If you set `offset` to 0 and `count` to 30 in your first request, and then set `offset` to 30 in your second request, some of the results in the second response may be duplicates of the first response.<br /><br /> To prevent duplicates, set `offset` to the value of `nextOffset`.|Integer|  
 |<a name="pivotsuggestions" />pivotSuggestions|A list of segments in the original query. For example, if the query was *Red Flowers*, Bing might segment the query into *Red* and *Flowers*.<br /><br /> The Flowers pivot may contain query suggestions such as Red Peonies and Red Daisies, and the Red pivot may contain query suggestions such as Green Flowers and Yellow Flowers.|[Pivot](#pivot)|  

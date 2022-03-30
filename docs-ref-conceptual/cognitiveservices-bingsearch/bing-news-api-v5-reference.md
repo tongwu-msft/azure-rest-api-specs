@@ -166,7 +166,7 @@ Defines a news article.
 |<a name="newsarticle-datepublished" />datePublished|The date and time that Bing discovered the article. The date is in the format, YYYY-MM-DDTHH:MM:SS.|String|  
 |<a name="newsarticle-description" />description|A short description of the news article.|String|  
 |<a name="newsarticle-headline" />headline|A Boolean value that indicates whether the news article is a headline. If **true**, the article is a headline; otherwise, `false` (or not present).<br /><br /> **NOTE:** The article includes this field only for news categories requests that do not specify the category query parameter.|Boolean|  
-|id|An ID that uniquely identifies this article in the list of articles.<br /><br /> For information about how to use this field, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/rank-results) in Web Search API.|String|  
+|id|An ID that uniquely identifies this article in the list of articles.<br /><br /> For information about how to use this field, see [Using Ranking to Display Results](/azure/cognitive-services/bing-web-search/rank-results) in Web Search API.|String|  
 |<a name="newsarticle-image" />image|An image related to the new article.<br /><br /> The `Image` object in this context contains only the `thumbnail` field.|[Image](#image)|  
 |<a name="newsarticle-name" />name|The name of the article.<br /><br /> Use this name along with the URL to create a hyperlink that when clicked takes the user to the news article.|String|  
 |<a name="newsarticle-provider" />provider|A list of providers that ran the article.|[Organization](#organization)[]|  

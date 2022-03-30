@@ -1,6 +1,6 @@
 ---
 title: "Chaos"
-description: Describes a description of Chaos and provides properties, parameters, statuses, and values of Chaos.
+description: Describes the Chaos APIs through providing the properties, parameters, statuses, and values of Chaos.
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
