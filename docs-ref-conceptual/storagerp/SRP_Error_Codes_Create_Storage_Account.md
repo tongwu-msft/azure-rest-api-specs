@@ -1,5 +1,6 @@
 ---
 title: "Error Codes for Create Storage Account (Azure Storage)"
+description: List of error codes and corresponding HTTP status for the Create Storage Account API.
 ---
 # Error Codes for Create Storage Account 
 

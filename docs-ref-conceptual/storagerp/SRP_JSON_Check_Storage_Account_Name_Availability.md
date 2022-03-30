@@ -1,5 +1,6 @@
 ---
 title: "JSON payloads for Check Storage Account Name Availability (Azure Storage)"
+description: JSON request and response payloads for Check Storage Account Name Availability.
 ---
 # JSON payloads for Check Storage Account Name Availability
 

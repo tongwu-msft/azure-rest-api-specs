@@ -1,6 +1,6 @@
 ---
 title: Azure Storage Resource Provider REST API
-description: 
+description: Versioning for Storage Resource Provider (SRP).
 author: tamram
 
 ms.service: storage

@@ -1,5 +1,6 @@
 ---
 title: "JSON payloads for Delete Storage Account (Azure Storage)"
+description: JSON request and response payloads for the Delete Storage Account API.
 ---
 # JSON payloads for Delete Storage Account
 

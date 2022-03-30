@@ -1,5 +1,6 @@
 ---
 title: "Error Codes for Poll Async Storage Operation (Azure Storage)"
+description: Error codes and HTTP status for the Poll Async Storage Operation API.
 ---
 # Error Codes for Poll Async Storage Operation
 
