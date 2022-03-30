@@ -11015,6 +11015,31 @@
 #### Operations
 ##### [Overview](iotcentral/2021-06-01controlplane/Operations.yml)
 ##### [List](iotcentral/2021-06-01controlplane/Operations/List.yml)
+### 2021-11-01-preview Control Plane
+#### Apps
+##### [Overview](iotcentral/2021-11-01-previewcontrolplane/Apps.yml)
+##### [Check Name Availability](iotcentral/2021-11-01-previewcontrolplane/Apps/Check-Name-Availability.yml)
+##### [Check Subdomain Availability](iotcentral/2021-11-01-previewcontrolplane/Apps/Check-Subdomain-Availability.yml)
+##### [Create Or Update](iotcentral/2021-11-01-previewcontrolplane/Apps/Create-Or-Update.yml)
+##### [Delete](iotcentral/2021-11-01-previewcontrolplane/Apps/Delete.yml)
+##### [Get](iotcentral/2021-11-01-previewcontrolplane/Apps/Get.yml)
+##### [List By Resource Group](iotcentral/2021-11-01-previewcontrolplane/Apps/List-By-Resource-Group.yml)
+##### [List By Subscription](iotcentral/2021-11-01-previewcontrolplane/Apps/List-By-Subscription.yml)
+##### [List Templates](iotcentral/2021-11-01-previewcontrolplane/Apps/List-Templates.yml)
+##### [Update](iotcentral/2021-11-01-previewcontrolplane/Apps/Update.yml)
+#### Operations
+##### [Overview](iotcentral/2021-11-01-previewcontrolplane/Operations.yml)
+##### [List](iotcentral/2021-11-01-previewcontrolplane/Operations/List.yml)
+#### Private Endpoint Connections
+##### [Overview](iotcentral/2021-11-01-previewcontrolplane/Private-Endpoint-Connections.yml)
+##### [Create](iotcentral/2021-11-01-previewcontrolplane/Private-Endpoint-Connections/Create.yml)
+##### [Delete](iotcentral/2021-11-01-previewcontrolplane/Private-Endpoint-Connections/Delete.yml)
+##### [Get](iotcentral/2021-11-01-previewcontrolplane/Private-Endpoint-Connections/Get.yml)
+##### [List](iotcentral/2021-11-01-previewcontrolplane/Private-Endpoint-Connections/List.yml)
+#### Private Links
+##### [Overview](iotcentral/2021-11-01-previewcontrolplane/Private-Links.yml)
+##### [Get](iotcentral/2021-11-01-previewcontrolplane/Private-Links/Get.yml)
+##### [List](iotcentral/2021-11-01-previewcontrolplane/Private-Links/List.yml)
 # IoT Hub
 ## [Overview](../docs-ref-conceptual/iothub/index.md)
 ## [Common error codes](../docs-ref-conceptual/iothub/common-error-codes.md)
