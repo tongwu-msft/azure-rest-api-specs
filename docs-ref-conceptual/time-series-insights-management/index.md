@@ -17,5 +17,5 @@ GET  https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/
 
 ## See Also
 
-- [Time Series Insights documentation](https://docs.microsoft.com/azure/time-series-insights/)
+- [Time Series Insights documentation](/azure/time-series-insights/)
 - [Time Series Insights Data Access REST API](~/docs-ref-conceptual/time-series-insights/index.md)
