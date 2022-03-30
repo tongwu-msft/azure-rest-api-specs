@@ -1,6 +1,6 @@
 ---
 title: "JSON payloads for List Operations (Azure Storage)"
-description: JSON request and response payloads for List Operations.
+description: JSON request and response payloads for the List Operations API.
 ---
 # JSON payloads for List Operations
 

@@ -1,5 +1,6 @@
 ---
 title: "JSON payloads for Poll Async Storage (Azure Storage)"
+description: JSON response payloads for the Poll Async Storage API.
 ---
 # JSON payloads for Poll Async Storage
 
