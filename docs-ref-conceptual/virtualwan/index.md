@@ -1,6 +1,7 @@
 ---
 title: Virtual WAN REST APIs
 description: Description of the Virtual WAN REST APIs and REST operation groups.
+ms.date: 07/12/2018
 ms.service: virtual-wan
 ms.topic: reference
 ms.devlang: rest
