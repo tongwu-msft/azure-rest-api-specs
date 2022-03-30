@@ -1,6 +1,6 @@
 ---
 title: "Setting"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes the setting for a container and provides the names, types, and requirement statuses for the properties for a setting.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

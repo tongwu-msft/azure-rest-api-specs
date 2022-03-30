@@ -1,6 +1,6 @@
 ---
 title: "TrackedResource"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes the resource model definition for Azure Resource Manager's resources and provides the associated properties for tracked resources.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

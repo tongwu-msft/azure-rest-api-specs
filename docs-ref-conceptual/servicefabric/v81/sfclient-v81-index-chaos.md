@@ -1,6 +1,6 @@
 ---
 title: "Chaos APIs v81"
-description: "Chaos v81"
+description: Provides the name and description of the v81 iteration of Chaos APIs that serve various functions in Chaos management.
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

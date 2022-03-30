@@ -1,6 +1,6 @@
 ---
 title: "ResourceRequirements"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes the resource requirements for a container or service and provides the names, types, and requirements statuses for the available properties.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

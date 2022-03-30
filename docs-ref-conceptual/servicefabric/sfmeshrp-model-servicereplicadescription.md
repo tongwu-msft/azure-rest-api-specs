@@ -1,6 +1,6 @@
 ---
 title: "ServiceReplicaDescription"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes the replica of a service resource and provides the names, types, and requirement statuses of the available properties.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

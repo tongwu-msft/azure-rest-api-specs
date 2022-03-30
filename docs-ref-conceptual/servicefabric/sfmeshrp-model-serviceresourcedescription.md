@@ -1,6 +1,6 @@
 ---
 title: "ServiceResourceDescription"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes the service resource and provides the names, types, and requirements statuses for the properties for service resources.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

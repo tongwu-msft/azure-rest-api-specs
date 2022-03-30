@@ -1,6 +1,6 @@
 ---
 title: "VolumeProperties"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes the properties of a volume resource and provides the names, types, and requirement statuses for volume properties.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

@@ -1,6 +1,6 @@
 ---
 title: "Chaos model v81"
-description: "Chaos v81"
+description: Describes the v81 iteration of Chaos and provides the names, types, and requirement statuses of properties of Chaos v81.
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

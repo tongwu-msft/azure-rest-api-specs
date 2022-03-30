@@ -1,6 +1,6 @@
 ---
 title: "VolumeResourceDescription"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes a volume resource and provides the names, types, and requirement statuses for properties for the volume resource description.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018
