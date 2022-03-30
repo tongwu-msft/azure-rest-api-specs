@@ -1,6 +1,6 @@
 ---
 title: "IngressConfig"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes the public connective configuration for the network and provides the properties for connectivity configuration.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

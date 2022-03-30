@@ -1,6 +1,6 @@
 ---
 title: "ImageRegistryCredential"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describe the image registry credential and provides the name, type, and requirement status for the server, username, and password properties.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

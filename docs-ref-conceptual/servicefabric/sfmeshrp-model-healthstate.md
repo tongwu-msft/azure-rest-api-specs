@@ -1,6 +1,6 @@
 ---
 title: "HealthState"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describe the health state of a resources such as applications, services, or networks and provides possible health state values.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

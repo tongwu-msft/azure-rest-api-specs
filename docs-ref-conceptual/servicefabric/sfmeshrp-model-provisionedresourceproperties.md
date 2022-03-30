@@ -1,6 +1,6 @@
 ---
 title: "ProvisionedResourceProperties"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes common properties of a provisioned resource and provides the provisioningState property for the provisioned resource properties.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

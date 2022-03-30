@@ -1,6 +1,6 @@
 ---
 title: "NetworkProperties"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes the network and its properties and provides the names, types, and requirements statuses for the available properties.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

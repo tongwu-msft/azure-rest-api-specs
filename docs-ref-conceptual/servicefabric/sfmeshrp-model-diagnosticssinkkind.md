@@ -1,6 +1,6 @@
 ---
 title: "DiagnosticsSinkKind"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes the Diagnostic Sink Kind type and possible values, including the invalid and AzureInternalMonitoringPipeline value.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

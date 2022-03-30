@@ -1,6 +1,6 @@
 ---
 title: "IngressQoSLevel"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes the ingress QOS level for APIs and includes the type and possible values for the ingress QOS level.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

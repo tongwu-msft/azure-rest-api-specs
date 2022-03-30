@@ -1,6 +1,6 @@
 ---
 title: "DiagnosticsSinkProperties"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes the properties of a Diagnostics Sink, including a description of the inheritance and a list of the derived types.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

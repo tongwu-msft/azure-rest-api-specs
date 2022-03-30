@@ -1,6 +1,6 @@
 ---
 title: "ProxyResource"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describe the resource model definition for Azure Resource Manager proxy resource and provides available properties for proxy resources.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018
