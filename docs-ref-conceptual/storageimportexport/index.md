@@ -4,7 +4,6 @@ description: TBD
 author: TBD
 ms.author: TBD
 ms.manager: TBD
-ms.date: TBD
 ms.topic: reference
 ms.service: azure-import-export
 ms.devlang: rest-api
