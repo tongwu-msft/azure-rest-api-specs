@@ -1,5 +1,6 @@
 ---
 title: Azure IoT Hub Device Provisioning Service REST API | Microsoft Docs
+description: Learn how the IoT Hub Device Provisioning Service is a helper service for IoT Hub that enables automatic device provisioning to a specified IoT hub.
 author: sethmanheim
 ms.author: sethm
 ms.date: 05/08/2019

@@ -1,5 +1,6 @@
 ---
 title: "Common error codes"
+description: Learn about the error codes that are common to the IoT Hub APIs.
 ms.custom: ""
 ms.date: 02/14/2020
 ms.reviewer: ""

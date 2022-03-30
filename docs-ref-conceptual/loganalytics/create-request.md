@@ -1,6 +1,7 @@
 ---
 ms.assetid: 56b6be3f-f20f-4024-94c2-92a1e762b409
 title: Log Analytics REST API Reference
+description: Learn how the Azure Log Analytics HTTP Data Collector API allows you to POST JSON data to a Log Analytics Workspace from any client that can call the REST API.
 ms.service: LogAnalytics
 author: bwren
 ms.author: bwren

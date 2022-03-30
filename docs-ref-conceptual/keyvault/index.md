@@ -1,6 +1,7 @@
 ---
 
 title: Azure Key Vault REST API reference
+description: Learn how to use Key Vault to safeguard and manage cryptographic keys, certificates and secrets used by cloud applications and services.
 ms.service: key-vault
 author: msmbaldwin
 ms.author: mbaldwin

@@ -1,6 +1,7 @@
 ---
 ms.assetid: 381a2cde-b6d2-4482-8de9-4b6740ac3805
 title: Azure Media Services API Management and Operations
+description: Learn about Azure Media Services and the two REST APIs that it supports.
 ms.service: media
 author: Juliako
 ms.author: juliako
