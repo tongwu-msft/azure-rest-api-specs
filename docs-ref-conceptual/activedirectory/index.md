@@ -1,5 +1,5 @@
 ---
-description: Learn how Azure Advisor is a personalized cloud consultant that helps you follow best practices to optimize your Azure deployments.
+description: Learn about the operations available in the Azure Active Directory B2C (Azure AD B2C) REST API, a RESTful web service for managing Azure AD B2C resources.
 ---
 
 # Azure Active Directory B2C
