@@ -1,6 +1,6 @@
 ---
 title: "VolumeResourceDescription"
-description: Describes a volume resource and provides the names, types, and requirement statuses for properties for the volume resource description.
+description: Describes a volume resource and provides the names, types, and requirement statuses for properties of the volume resource description.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

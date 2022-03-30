@@ -1,6 +1,6 @@
 ---
 title: "Setting"
-description: Describes the setting for a container and provides the names, types, and requirement statuses for the properties for a setting.
+description: Describes the setting for a container and provides the names, types, and requirement statuses for the properties of a setting.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

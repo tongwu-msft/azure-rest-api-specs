@@ -1,6 +1,6 @@
 ---
 title: "ServiceResourceDescription"
-description: Describes the service resource and provides the names, types, and requirements statuses for the properties for service resources.
+description: Describes the service resource and provides the names, types, and requirement statuses for the properties for service resources.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018

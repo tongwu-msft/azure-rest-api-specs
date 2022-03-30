@@ -1,6 +1,6 @@
 ---
 title: "ServiceList"
-description: Describes the list of all services in an application and provides the names, types, and requirements statuses for the value and nextLink properties.
+description: Describes the list of all services in an application and provides the names, types, and requirement statuses for the value and nextLink properties.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018
