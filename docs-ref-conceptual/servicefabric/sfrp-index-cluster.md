@@ -1,5 +1,5 @@
 ---
-title: "Cluster"
+title: Cluster API List
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

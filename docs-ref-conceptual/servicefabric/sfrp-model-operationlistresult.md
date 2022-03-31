@@ -1,5 +1,5 @@
 ---
-title: "OperationListResult"
+title: OperationListResult
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -1,5 +1,5 @@
 ---
-title: "Service Fabric Resource Manager REST API Reference"
+title: Service Fabric Resource Manager REST API Reference
 ms.date: 06/04/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

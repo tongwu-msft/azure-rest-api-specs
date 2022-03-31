@@ -1,5 +1,5 @@
 ---
-title: "ErrorModel"
+title: Error Model Structure
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ErrorModel
+# Error Model Structure
 
 The structure of the error.
 

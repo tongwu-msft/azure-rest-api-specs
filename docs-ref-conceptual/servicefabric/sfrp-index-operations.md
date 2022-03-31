@@ -1,5 +1,5 @@
 ---
-title: "Operations"
+title: Service Fabric Operation APIs
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Operations APIs
+# Service Fabric Operation APIs
 
 | Name | Description |
 | --- | --- |
