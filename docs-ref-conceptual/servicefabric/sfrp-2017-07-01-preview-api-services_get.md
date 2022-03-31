@@ -1,5 +1,5 @@
 ---
-title: "Get"
+title: Service Fabric Get Service
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get
+# Service Fabric Get Service
+
 Gets a Service Fabric service resource.
 
 Get a Service Fabric service resource created or in the process of being created in the Service Fabric application resource.
