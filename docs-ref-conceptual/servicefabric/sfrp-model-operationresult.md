@@ -1,5 +1,5 @@
 ---
-title: OperationResult
+title: Operation List Result
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# OperationResult
+# Operation List Result
 
 Available operation list result
 

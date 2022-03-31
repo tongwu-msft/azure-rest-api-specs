@@ -1,5 +1,5 @@
 ---
-title: ErrorModelError
+title: Error Model Overview
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ErrorModelError
+# Error Model Overview
 
 The error details.
 

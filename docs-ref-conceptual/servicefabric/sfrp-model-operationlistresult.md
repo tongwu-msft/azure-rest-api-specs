@@ -1,5 +1,5 @@
 ---
-title: OperationListResult
+title: Service Fabric Operation List Result
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# OperationListResult
+# Service Fabric Operation List Result
 
 Describes the result of the request to list Service Fabric resource provider operations.
 
