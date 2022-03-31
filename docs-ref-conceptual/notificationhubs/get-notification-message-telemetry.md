@@ -1,5 +1,6 @@
 ﻿---
 title: "Get notification message telemetry"
+description: Use this API reference documentation to provides additional telemetry on the finished states of outgoing push notifications.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""
