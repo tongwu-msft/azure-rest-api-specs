@@ -1,5 +1,5 @@
 ---
-title: "Setting"
+title: Service Fabric Mesh Setting
 description: Service Fabric Mesh Resource Manager API Reference
 services: service-fabric-mesh
 author: VipulM-MSFT
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Setting
+# Service Fabric Mesh Setting
 
 Describes a setting for the container.
 
