@@ -86,7 +86,6 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Managed Instances](/rest/api/sql/2021-08-01-preview/managed-instances)| Create, get, update, list, delete, failover the managed instances.|
 |[Managed Restorable Dropped Database Backup Short Term Retention Policies](/rest/api/sql/2021-08-01-preview/managed-restorable-dropped-database-backup-short-term-retention-policies)| Create, get, update, list the managed restorable dropped database's short term retention policies|      
 |[Managed Server Security Alert Policies](/rest/api/sql/2021-08-01-preview/managed-server-security-alert-policies)| Create, get, list, update the managed server's security alert policies.|
-|[Operations Health](/rest/api/sql/2021-08-01-preview/operations-health)| Get a service operation health status.|
 |[Operations](/rest/api/sql/2021-08-01-preview/operations)| List all of the available SQL Database REST API operations.|
 |[Outbound Firewall Rules](/rest/api/sql/2021-08-01-preview/outbound-firewall-rules)| Create, get, update, list, delete the outbound firewall rules.|
 |[Private Endpoint Connections](/rest/api/sql/2021-08-01-preview/private-endpoint-connections)| Create, get, update, list, delete the private endpoint connections on a server.|
