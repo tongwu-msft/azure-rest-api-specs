@@ -1,6 +1,6 @@
 ---
 title: "Create Queue"
-description: API reference documentation for the operations available in the Create Namespace REST API, a RESTful web service for managing Create Namespace resources in Azure.
+description: API reference documentation for the operations available in the Create Queue REST API, a RESTful web service for managing Create Queue resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""
