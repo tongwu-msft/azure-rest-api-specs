@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Type Models
+# Service Fabric Type Models (2017-07-01-preview)
 
 
 | Name | Description |

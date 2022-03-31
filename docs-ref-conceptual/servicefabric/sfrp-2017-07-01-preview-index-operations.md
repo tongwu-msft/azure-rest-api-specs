@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Operations APIs
+# Service Fabric Operations (2017-07-01-preview)
 
 | Name | Description |
 | --- | --- |

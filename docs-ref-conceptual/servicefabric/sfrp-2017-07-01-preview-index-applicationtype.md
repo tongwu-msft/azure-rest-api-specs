@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationType APIs
+# Service Fabric ApplicationType (2017-07-01-preview)
 
 | Name | Description |
 | --- | --- |
