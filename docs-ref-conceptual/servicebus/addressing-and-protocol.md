@@ -1,5 +1,6 @@
 ---
 title: "Service Bus Namespace Access"
+description: Learn how a service namespace is a hierarchical graph in which entities can be created.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""

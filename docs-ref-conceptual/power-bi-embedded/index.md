@@ -1,5 +1,6 @@
 ---
 title: Power BI Embedded
+description: API reference documentation for the operations available in the Power BI Embedded REST API, a RESTful web service for managing Power BI Embedded resources in Azure.
 ms.service: power-bi-embedded
 author: markingmyname
 ms.author: markingmyname

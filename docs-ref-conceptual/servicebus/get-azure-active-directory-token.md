@@ -1,5 +1,6 @@
 ---
 title: Use Azure Active Directory authentication to send messages to a Service Bus queue
+description: Learn how to get an Azure AD token that you can use to send messages to a Service Bus namespace.
 ms.date: "07/15/2020"
 ms.service: "service-bus"
 ms.topic: "reference"

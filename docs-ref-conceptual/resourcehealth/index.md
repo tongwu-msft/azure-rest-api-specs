@@ -1,5 +1,6 @@
 ---
 title: Azure Resource health REST API | Microsoft Docs
+description: API reference documentation for the operations available in the Azure Resource health REST API, a RESTful web service for managing Azure Resource health resources in Azure.
 author: gwallace
 ms.author: gwallace
 ms.date: 05/05/2017

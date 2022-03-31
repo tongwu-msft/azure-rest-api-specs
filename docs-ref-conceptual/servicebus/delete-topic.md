@@ -1,5 +1,6 @@
 ---
 title: "Delete Topic"
+description: API reference documentation for the operations available in the Delete Topic REST API, a RESTful web service for managing Delete Topic resources in Azure.
 ms.custom: ""
 ms.date: "05/14/2015"
 ms.reviewer: ""

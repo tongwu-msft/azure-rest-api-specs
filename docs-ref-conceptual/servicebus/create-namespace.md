@@ -1,5 +1,6 @@
 ---
 title: "Create Namespace"
+description: API reference documentation for the operations available in the Create Namespace REST API, a RESTful web service for managing Create Namespace resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""

@@ -1,5 +1,6 @@
 ---
 title: Azure Relay REST API | Microsoft Docs
+description: Learn how Azure Relay provides cloud-enabled communication with enterprise messaging and relayed communication that helps you connect on-premises solutions with the cloud.
 author: sethmanheim
 ms.author: sethm
 ms.date: 09/25/2017

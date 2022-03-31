@@ -1,5 +1,6 @@
 ---
 title: "Create Subscription"
+description: API reference documentation for the operations available in the Create Subscription REST API, a RESTful web service for managing Create Subscription resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""

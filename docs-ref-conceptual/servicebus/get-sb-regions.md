@@ -1,5 +1,6 @@
 ---
 title: "Get SB Regions"
+description: API reference documentation for the operations available in the Get SB Regions REST API, a RESTful web service for managing Get SB Regions resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""

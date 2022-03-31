@@ -1,5 +1,6 @@
 ---
 title: "Delete Message"
+description: API reference documentation for the operations available in the Delete Message REST API, a RESTful web service for managing Delete Message resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""

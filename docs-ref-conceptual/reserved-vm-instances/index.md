@@ -1,5 +1,6 @@
 ---
 title: Azure Reserved Virtual Machine Instances REST API | Microsoft Docs
+description: API reference documentation for the operations available in the Azure Reserved Virtual Machine Instances REST API, a RESTful web service for managing Azure Reserved Virtual Machine Instances resources in Azure.
 author: Onkarb
 ms.author: Onkarb
 ms.date: 11/15/2017

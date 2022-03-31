@@ -1,5 +1,6 @@
 ---
 title: "Get Relays"
+description: API reference documentation for the operations available in the Get Relays REST API, a RESTful web service for managing Get Relays resources in Azure.
 ms.custom: ""
 ms.date: "05/15/2015"
 ms.reviewer: ""

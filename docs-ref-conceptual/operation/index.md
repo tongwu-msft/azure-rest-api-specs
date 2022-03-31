@@ -1,5 +1,6 @@
 ---
 title: Operation REST APIs
+description: API reference documentation for the operations available in the Operation REST API, a RESTful web service for managing Operation resources in Azure.
 ms.date: 12/4/2017
 ms.service: operation
 ms.topic: reference
