@@ -1,5 +1,5 @@
 ---
-title: "List"
+title: Service Fabric Cluster Resource List
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List
+# Service Fabric Cluster Resource List
 Gets the list of Service Fabric cluster resources created in the specified subscription.
 
 Gets all Service Fabric cluster resources created or in the process of being created in the subscription.

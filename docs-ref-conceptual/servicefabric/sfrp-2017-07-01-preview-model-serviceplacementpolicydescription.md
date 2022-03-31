@@ -1,5 +1,5 @@
 ---
-title: "ServicePlacementPolicyDescription"
+title: Service Fabric Policy Overview
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,8 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePlacementPolicyDescription
-
+# Service Fabric Policy Overview
 Describes the policy to be used for placement of a Service Fabric service.
 ## Inheritance
 

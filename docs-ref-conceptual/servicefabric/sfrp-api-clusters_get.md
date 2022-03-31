@@ -1,5 +1,5 @@
 ---
-title: "Get"
+title: Get a Service Fabric Cluster Resource
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get
+# Get a Service Fabric Cluster Resource
 Gets a Service Fabric cluster resource.
 
 Get a Service Fabric cluster resource created or in the process of being created in the specified resource group.

@@ -1,5 +1,5 @@
 ---
-title: "SingletonPartitionSchemeDescription"
+title: Partition Scheme for Singleton and Non-Partitioned Services
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SingletonPartitionSchemeDescription
+# Partition Scheme for Singleton and Non-Partitioned Services
 
 Describes the partition scheme of a singleton-partitioned, or non-partitioned service.
 

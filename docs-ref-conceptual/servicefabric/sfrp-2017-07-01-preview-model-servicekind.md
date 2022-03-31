@@ -1,5 +1,5 @@
 ---
-title: "ServiceKind"
+title: Service Kinds and Values
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceKind enum
+# Service Kinds and Values
 
 type: string
 

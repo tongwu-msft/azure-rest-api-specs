@@ -1,5 +1,5 @@
 ---
-title: "Delete"
+title: Delete a Service Fabric Cluster Resource
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete
+# Delete a Service Fabric Cluster Resource
 Deletes a Service Fabric cluster resource.
 
 Delete a Service Fabric cluster resource with the specified name.

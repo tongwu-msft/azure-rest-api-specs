@@ -1,5 +1,5 @@
 ---
-title: "ServiceResourceProperties"
+title: Service Resource Properties
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceResourceProperties
+# Service Resource Properties
 
 The service resource properties.
 ## Inheritance
