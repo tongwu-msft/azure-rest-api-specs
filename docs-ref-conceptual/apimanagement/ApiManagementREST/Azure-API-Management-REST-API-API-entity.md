@@ -1,6 +1,6 @@
 ---
 title: "Azure API Management REST API API entity"
-description: Learn how to use this entity to manage APIs and their operations using the API Management REST API.
+description: API reference documentation for the operations available in the API Entity REST API, a RESTful web service for managing API Entity resources in Azure.
 ms.custom: na
 ms.date: 09/22/2016
 ms.reviewer: na

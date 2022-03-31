@@ -1,6 +1,6 @@
 ---
 title: "Azure API Management REST API Authentication"
-description: Learn how to create the access token required to make calls into the Azure API Management REST API.
+description: API reference documentation for the operations available in the Authentication REST API, a RESTful web service for managing Authentication resources in Azure.
 ms.custom: na
 ms.date: 07/30/2017
 ms.reviewer: na
