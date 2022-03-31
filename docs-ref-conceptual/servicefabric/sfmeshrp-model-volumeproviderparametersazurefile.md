@@ -1,5 +1,5 @@
 ---
-title: "VolumeProviderParametersAzureFile"
+title: Service Fabric Mesh VolumeProviderParametersAzureFile
 description: Service Fabric Mesh Resource Manager API Reference
 services: service-fabric-mesh
 author: VipulM-MSFT
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# VolumeProviderParametersAzureFile
+# Service Fabric Mesh VolumeProviderParametersAzureFile
 
 This type describes a volume provided by an Azure Files file share.
 
