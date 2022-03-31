@@ -1,5 +1,6 @@
 ---
 title: "Job"
+description: Learn how a job is an entity that contains metadata about a set of tasks. Each task performs an atomic operation on the input asset(s).
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

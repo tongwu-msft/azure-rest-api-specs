@@ -1,5 +1,6 @@
 ---
 title: Azure Migrate REST API
+description: API reference documentation for the operations available in the Azure Migrate REST API, a RESTful web service for managing Azure Migrate resources in Azure.
 author: snehaamicrosoft
 ms.author: snehaa
 ms.date: 08/08/2019
