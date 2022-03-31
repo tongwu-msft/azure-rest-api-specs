@@ -2655,10 +2655,18 @@
 ### [List By Type](automation/Fields/List-By-Type.yml)
 ## Hybrid Runbook Worker Group
 ### [Overview](automation/Hybrid-Runbook-Worker-Group.yml)
+### [Create](automation/Hybrid-Runbook-Worker-Group/Create.yml)
 ### [Delete](automation/Hybrid-Runbook-Worker-Group/Delete.yml)
 ### [Get](automation/Hybrid-Runbook-Worker-Group/Get.yml)
 ### [List By Automation Account](automation/Hybrid-Runbook-Worker-Group/List-By-Automation-Account.yml)
 ### [Update](automation/Hybrid-Runbook-Worker-Group/Update.yml)
+## Hybrid Runbook Workers
+### [Overview](automation/Hybrid-Runbook-Workers.yml)
+### [Create](automation/Hybrid-Runbook-Workers/Create.yml)
+### [Delete](automation/Hybrid-Runbook-Workers/Delete.yml)
+### [Get](automation/Hybrid-Runbook-Workers/Get.yml)
+### [List By Hybrid Runbook Worker Group](automation/Hybrid-Runbook-Workers/List-By-Hybrid-Runbook-Worker-Group.yml)
+### [Move](automation/Hybrid-Runbook-Workers/Move.yml)
 ## Job
 ### [Overview](automation/Job.yml)
 ### [Create](automation/Job/Create.yml)
@@ -2714,12 +2722,12 @@
 ### [Get](automation/Runbook/Get.yml)
 ### [Get Content](automation/Runbook/Get-Content.yml)
 ### [List By Automation Account](automation/Runbook/List-By-Automation-Account.yml)
+### [Publish](automation/Runbook/Publish.yml)
 ### [Update](automation/Runbook/Update.yml)
 ## Runbook Draft
 ### [Overview](automation/Runbook-Draft.yml)
 ### [Get](automation/Runbook-Draft/Get.yml)
 ### [Get Content](automation/Runbook-Draft/Get-Content.yml)
-### [Publish](automation/Runbook-Draft/Publish.yml)
 ### [Replace Content](automation/Runbook-Draft/Replace-Content.yml)
 ### [Undo Edit](automation/Runbook-Draft/Undo-Edit.yml)
 ## Schedule
@@ -2800,6 +2808,9 @@
 ### [Get](automation/Webhook/Get.yml)
 ### [List By Automation Account](automation/Webhook/List-By-Automation-Account.yml)
 ### [Update](automation/Webhook/Update.yml)
+## convert Graph Runbook Content
+### [Overview](automation/convert-Graph-Runbook-Content.yml)
+### [convert Graph Runbook Content](automation/convert-Graph-Runbook-Content/convert-Graph-Runbook-Content.yml)
 # AVS
 ## [Overview](../docs-ref-conceptual/avs/index.md)
 ## Addons
