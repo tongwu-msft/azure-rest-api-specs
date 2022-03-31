@@ -1,5 +1,5 @@
 ---
-title: "ContainerState"
+title: Container State Information
 description: "ContainerState"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ContainerState
+# Container State
 
 The container state.
 

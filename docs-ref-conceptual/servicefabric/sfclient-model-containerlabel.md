@@ -1,5 +1,5 @@
 ---
-title: "ContainerLabel"
+title: Container Label Information
 description: "ContainerLabel"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ContainerLabel
+# Container Label
 
 Describes a container label.
 

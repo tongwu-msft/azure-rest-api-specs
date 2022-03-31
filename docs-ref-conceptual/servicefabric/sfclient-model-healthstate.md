@@ -1,5 +1,5 @@
 ---
-title: "HealthState"
+title: Service Fabric Health State
 description: "HealthState"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# HealthState enum
+# Service Fabric Health State
 
 type: string
 

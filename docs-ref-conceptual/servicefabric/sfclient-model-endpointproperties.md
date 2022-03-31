@@ -1,5 +1,5 @@
 ---
-title: "EndpointProperties"
+title: Container Endpoint Properties
 description: "EndpointProperties"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EndpointProperties
+# Container Endpoint Properties
 
 Describes a container endpoint.
 

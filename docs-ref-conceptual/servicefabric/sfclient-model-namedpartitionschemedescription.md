@@ -1,5 +1,5 @@
 ---
-title: "NamedPartitionSchemeDescription"
+title: Named Partition Scheme Overview
 description: "NamedPartitionSchemeDescription"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NamedPartitionSchemeDescription
+# Named Partition Scheme Overview
 
 Describes the named partition scheme of the service.
 

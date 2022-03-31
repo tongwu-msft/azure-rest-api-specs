@@ -1,5 +1,5 @@
 ---
-title: "MoveCost"
+title: Service Move Cost
 description: "MoveCost"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,8 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# MoveCost enum
-
+# Service Move Cost
 type: string
 
 Specifies the move cost for the service.
