@@ -1,5 +1,6 @@
 ---
 title: "Get"
+description: "How to get a Service Fabric cluster resource created or in the process of being created in the specified resource group."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

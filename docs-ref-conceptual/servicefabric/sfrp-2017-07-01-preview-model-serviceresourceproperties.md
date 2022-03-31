@@ -1,5 +1,6 @@
 ---
 title: "ServiceResourceProperties"
+description: "ServiceResourceProperties is the base type of the polymorphic type model and the serviceKind property is the discriminator for the derived types."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

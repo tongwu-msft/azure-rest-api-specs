@@ -1,5 +1,6 @@
 ---
 title: "Models"
+description: "This index table provides descriptions for various Type Models that are available as cluster add-on features."
 ms.date: 06/04/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
