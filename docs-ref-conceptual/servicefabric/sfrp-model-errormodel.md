@@ -1,5 +1,6 @@
 ---
 title: "ErrorModel"
+description: "ErrorModel describes the structure of the error. Properties include error that is the error details."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

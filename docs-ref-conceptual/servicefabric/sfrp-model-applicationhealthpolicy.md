@@ -1,5 +1,6 @@
 ---
 title: "ApplicationHealthPolicy"
+description: "ApplicationHealthPolicy describes a health policy used to evaluate the health of an application or one of its children entities."  
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

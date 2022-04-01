@@ -1,5 +1,7 @@
 ---
 title: "DiagnosticsStorageAccountConfig"
+description: "DiagnosticsStorageAccountConfig
+describes the storage account information for storing Service Fabric diagnostic logs."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

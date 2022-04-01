@@ -1,5 +1,6 @@
 ---
 title: "Cluster"
+description: "Learn about the cluster resource. Properties include id, name, type, location, tags, and properties."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

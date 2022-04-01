@@ -1,5 +1,6 @@
 ---
 title: "AvailableOperationDisplay"
+description: "Learn about AvailableOperationDisplay that is the Operation supported by the Service Fabric resource provider." 
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
