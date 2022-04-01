@@ -1,6 +1,6 @@
 ---
 title: Service Fabric Mesh Setting
-description: Service Fabric Mesh Resource Manager API Reference
+description: Use this article as an API Reference to learn about the Service Fabric Mesh setting for the Service Fabric Mesh container.
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018
