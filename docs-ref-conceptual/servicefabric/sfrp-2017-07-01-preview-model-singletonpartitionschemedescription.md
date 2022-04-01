@@ -1,5 +1,5 @@
 ---
-title: "SingletonPartitionSchemeDescription"
+title: "SingletonPartitionScheme Description"
 description: "Describe the partition scheme of a singleton-partitioned, or non-partitioned service. PartitionScheme is a discriminator property."
 ms.date: 05/25/2018
 ms.service: "service-fabric"

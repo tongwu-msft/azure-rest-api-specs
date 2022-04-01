@@ -1,5 +1,5 @@
 ---
-title: "UniformInt64RangePartitionSchemeDescription"
+title: "UniformInt64RangePartitionScheme Description"
 description: "Learn about a partitioning scheme where an integer range is allocated evenly across a number of partitions."
 
 ms.date: 05/25/2018

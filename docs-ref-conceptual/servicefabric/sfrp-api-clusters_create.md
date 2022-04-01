@@ -1,5 +1,5 @@
 ---
-title: "Create"
+title: "Create Index"
 description: "Learn to create or update a Service Fabric cluster resource with the specified name. Responses table includes HTTP Status Code, Description and Response Schema."
 ms.date: 06/04/2018
 ms.service: "service-fabric"

@@ -1,5 +1,5 @@
 ---
-title: "Update"
+title: "Update Index"
 description: "How to Update the configuration of a Service Fabric cluster resource with the specified name. Request consists of Method and Request URL."  
 ms.date: 05/25/2018
 ms.service: "service-fabric"

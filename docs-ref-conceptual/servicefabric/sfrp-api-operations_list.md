@@ -1,5 +1,5 @@
 ---
-title: "List"
+title: "List Overview"
 description: "Get the list of available Service Fabric resource provider API operations. The api-version is the version of the Service Fabric resource provider API."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
