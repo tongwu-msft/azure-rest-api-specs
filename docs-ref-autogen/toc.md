@@ -12802,6 +12802,12 @@
 #### [List Edge Policies](media/Mediaservices/List-Edge-Policies.yml)
 #### [Sync Storage Keys](media/Mediaservices/Sync-Storage-Keys.yml)
 #### [Update](media/Mediaservices/Update.yml)
+### Operation Results
+#### [Overview](media/Operation-Results.yml)
+#### [Get](media/Operation-Results/Get.yml)
+### Operation Statuses
+#### [Overview](media/Operation-Statuses.yml)
+#### [Get](media/Operation-Statuses/Get.yml)
 ### Operations
 #### [Overview](media/Operations.yml)
 #### [List](media/Operations/List.yml)
@@ -12822,6 +12828,7 @@
 #### [Get](media/Streaming-Endpoints/Get.yml)
 #### [List](media/Streaming-Endpoints/List.yml)
 #### [Scale](media/Streaming-Endpoints/Scale.yml)
+#### [Skus](media/Streaming-Endpoints/Skus.yml)
 #### [Start](media/Streaming-Endpoints/Start.yml)
 #### [Stop](media/Streaming-Endpoints/Stop.yml)
 #### [Update](media/Streaming-Endpoints/Update.yml)
@@ -12839,6 +12846,14 @@
 #### [Delete](media/Streaming-Policies/Delete.yml)
 #### [Get](media/Streaming-Policies/Get.yml)
 #### [List](media/Streaming-Policies/List.yml)
+### Tracks
+#### [Overview](media/Tracks.yml)
+#### [Create Or Update](media/Tracks/Create-Or-Update.yml)
+#### [Delete](media/Tracks/Delete.yml)
+#### [Get](media/Tracks/Get.yml)
+#### [List](media/Tracks/List.yml)
+#### [Update](media/Tracks/Update.yml)
+#### [Update Track Data](media/Tracks/Update-Track-Data.yml)
 ### Transforms
 #### [Overview](media/Transforms.yml)
 #### [Create Or Update](media/Transforms/Create-Or-Update.yml)
