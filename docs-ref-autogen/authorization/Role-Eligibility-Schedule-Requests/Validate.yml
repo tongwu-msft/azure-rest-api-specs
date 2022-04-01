@@ -1,28 +1,28 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.authorization.roleeligibilityschedulerequests.get
-name: Get
+uid: management.azure.com.authorization.roleeligibilityschedulerequests.validate
+name: Validate
 service: Authorization
 groupName: Role Eligibility Schedule Requests
 apiVersion: 2020-10-01
-summary: Get the specified role eligibility schedule request.
+summary: Validates a new role eligibility schedule request.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}?api-version=2020-10-01
+- content: POST https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}/validate?api-version=2020-10-01
 uriParameters:
 - name: scope
   in: path
   isRequired: true
   skipUrlEncoding: true
-  description: The scope of the role eligibility schedule request.
+  description: The scope of the role eligibility request to validate.
   types:
   - uid: string
 - name: roleEligibilityScheduleRequestName
   in: path
   isRequired: true
-  description: The name (guid) of the role eligibility schedule request to get.
+  description: The name of the role eligibility request to validate.
   types:
   - uid: string
 - name: api-version
@@ -40,8 +40,104 @@ responses:
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.roleDefinitionId
+    in: body
+    isRequired: true
+    description: The role definition ID.
+    types:
+    - uid: string
+  - name: properties.principalId
+    in: body
+    isRequired: true
+    description: The principal ID.
+    types:
+    - uid: string
+  - name: properties.requestType
+    in: body
+    isRequired: true
+    description: 'The type of the role assignment schedule request. Eg: SelfActivate, AdminAssign etc'
+    types:
+    - uid: RequestType
+  - name: properties.scheduleInfo
+    in: body
+    description: Schedule info of the role eligibility schedule
+    types:
+    - uid: ScheduleInfo
+  - name: properties.targetRoleEligibilityScheduleId
+    in: body
+    description: The resultant role eligibility schedule id or the role eligibility schedule id being updated
+    types:
+    - uid: string
+  - name: properties.targetRoleEligibilityScheduleInstanceId
+    in: body
+    description: The role eligibility schedule instance id being updated
+    types:
+    - uid: string
+  - name: properties.justification
+    in: body
+    description: Justification for the role eligibility
+    types:
+    - uid: string
+  - name: properties.ticketInfo
+    in: body
+    description: Ticket Info of the role eligibility
+    types:
+    - uid: TicketInfo
+  - name: properties.condition
+    in: body
+    description: "The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container'"
+    types:
+    - uid: string
+  - name: properties.conditionVersion
+    in: body
+    description: Version of the condition. Currently accepted value is '2.0'
+    types:
+    - uid: string
 requestHeader: []
 definitions:
+- name: ScheduleInfo
+  description: Schedule info of the role eligibility schedule
+  kind: object
+  properties:
+  - name: startDateTime
+    description: Start DateTime of the role eligibility schedule.
+    types:
+    - uid: string
+  - name: expiration
+    description: Expiration of the role eligibility schedule
+    types:
+    - uid: Expiration
+- name: TicketInfo
+  description: Ticket Info of the role eligibility
+  kind: object
+  properties:
+  - name: ticketNumber
+    description: Ticket number for the role eligibility
+    types:
+    - uid: string
+  - name: ticketSystem
+    description: Ticket system name for the role eligibility
+    types:
+    - uid: string
+- name: ExpandedProperties
+  description: Expanded info of resource, role and principal
+  kind: object
+  properties:
+  - name: scope
+    description: Details of the resource scope
+    types:
+    - uid: Scope
+  - name: roleDefinition
+    description: Details of role definition
+    types:
+    - uid: RoleDefinition
+  - name: principal
+    description: Details of the principal
+    types:
+    - uid: Principal
 - name: RoleEligibilityScheduleRequest
   description: Role Eligibility schedule request
   kind: object
@@ -144,6 +240,74 @@ definitions:
     description: An error response from the service.
     types:
     - uid: CloudErrorBody
+- name: Expiration
+  description: Expiration of the role eligibility schedule
+  kind: object
+  properties:
+  - name: type
+    description: Type of the role eligibility schedule expiration
+    types:
+    - uid: Type
+  - name: endDateTime
+    description: End DateTime of the role eligibility schedule.
+    types:
+    - uid: string
+  - name: duration
+    description: Duration of the role eligibility schedule in TimeSpan.
+    types:
+    - uid: string
+- name: Scope
+  description: Details of the resource scope
+  kind: object
+  properties:
+  - name: id
+    description: Scope id of the resource
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the resource
+    types:
+    - uid: string
+  - name: type
+    description: Type of the resource
+    types:
+    - uid: string
+- name: RoleDefinition
+  description: Details of role definition
+  kind: object
+  properties:
+  - name: id
+    description: Id of the role definition
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the role definition
+    types:
+    - uid: string
+  - name: type
+    description: Type of the role definition
+    types:
+    - uid: string
+- name: Principal
+  description: Details of the principal
+  kind: object
+  properties:
+  - name: id
+    description: Id of the principal
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the principal
+    types:
+    - uid: string
+  - name: email
+    description: Email id of the principal
+    types:
+    - uid: string
+  - name: type
+    description: Type of the principal
+    types:
+    - uid: string
 - name: principalType
   description: The principal type of the assigned principal ID.
   kind: enum
@@ -264,46 +428,6 @@ definitions:
   - name: PendingExternalProvisioning
     types:
     - uid: string
-- name: ScheduleInfo
-  description: Schedule info of the role eligibility schedule
-  kind: object
-  properties:
-  - name: startDateTime
-    description: Start DateTime of the role eligibility schedule.
-    types:
-    - uid: string
-  - name: expiration
-    description: Expiration of the role eligibility schedule
-    types:
-    - uid: Expiration
-- name: TicketInfo
-  description: Ticket Info of the role eligibility
-  kind: object
-  properties:
-  - name: ticketNumber
-    description: Ticket number for the role eligibility
-    types:
-    - uid: string
-  - name: ticketSystem
-    description: Ticket system name for the role eligibility
-    types:
-    - uid: string
-- name: ExpandedProperties
-  description: Expanded info of resource, role and principal
-  kind: object
-  properties:
-  - name: scope
-    description: Details of the resource scope
-    types:
-    - uid: Scope
-  - name: roleDefinition
-    description: Details of role definition
-    types:
-    - uid: RoleDefinition
-  - name: principal
-    description: Details of the principal
-    types:
-    - uid: Principal
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -314,74 +438,6 @@ definitions:
     - uid: string
   - name: message
     description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: string
-- name: Expiration
-  description: Expiration of the role eligibility schedule
-  kind: object
-  properties:
-  - name: type
-    description: Type of the role eligibility schedule expiration
-    types:
-    - uid: Type
-  - name: endDateTime
-    description: End DateTime of the role eligibility schedule.
-    types:
-    - uid: string
-  - name: duration
-    description: Duration of the role eligibility schedule in TimeSpan.
-    types:
-    - uid: string
-- name: Scope
-  description: Details of the resource scope
-  kind: object
-  properties:
-  - name: id
-    description: Scope id of the resource
-    types:
-    - uid: string
-  - name: displayName
-    description: Display name of the resource
-    types:
-    - uid: string
-  - name: type
-    description: Type of the resource
-    types:
-    - uid: string
-- name: RoleDefinition
-  description: Details of role definition
-  kind: object
-  properties:
-  - name: id
-    description: Id of the role definition
-    types:
-    - uid: string
-  - name: displayName
-    description: Display name of the role definition
-    types:
-    - uid: string
-  - name: type
-    description: Type of the role definition
-    types:
-    - uid: string
-- name: Principal
-  description: Details of the principal
-  kind: object
-  properties:
-  - name: id
-    description: Id of the principal
-    types:
-    - uid: string
-  - name: displayName
-    description: Display name of the principal
-    types:
-    - uid: string
-  - name: email
-    description: Email id of the principal
-    types:
-    - uid: string
-  - name: type
-    description: Type of the principal
     types:
     - uid: string
 - name: Type
@@ -398,9 +454,27 @@ definitions:
     types:
     - uid: string
 examples:
-- name: GetRoleEligibilityScheduleRequestByName
+- name: ValidateRoleEligibilityScheduleRequestByName
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/64caffb6-55c0-4deb-a585-68e948ea1ad6?api-version=2020-10-01
+    uri: POST https://management.azure.com/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/64caffb6-55c0-4deb-a585-68e948ea1ad6/validate?api-version=2020-10-01
+    body: >-
+      {
+        "properties": {
+          "principalId": "a3bb8764-cb92-4276-9d2a-ca1e895e55ea",
+          "roleDefinitionId": "/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/roleDefinitions/c8d4ff99-41c3-41a8-9f60-21dfdad59608",
+          "requestType": "AdminAssign",
+          "scheduleInfo": {
+            "startDateTime": "2020-09-09T21:31:27.91Z",
+            "expiration": {
+              "type": "AfterDuration",
+              "endDateTime": null,
+              "duration": "P365D"
+            }
+          },
+          "condition": "@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container'",
+          "conditionVersion": "1.0"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
@@ -452,8 +526,8 @@ examples:
           }
         },
         "name": "64caffb6-55c0-4deb-a585-68e948ea1ad6",
-        "id": "/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/RoleEligibilityRequests/64caffb6-55c0-4deb-a585-68e948ea1ad6",
-        "type": "Microsoft.Authorization/RoleEligibilityRequests"
+        "id": "/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/RoleEligibilityScheduleRequests/64caffb6-55c0-4deb-a585-68e948ea1ad6",
+        "type": "Microsoft.Authorization/RoleEligibilityScheduleRequests"
       }
 security:
 - name: azure_auth
@@ -465,5 +539,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Authorization service - Get the specified role eligibility schedule request.
+  description: Learn more about Authorization service - Validates a new role eligibility schedule request.
 errorCodes: []
