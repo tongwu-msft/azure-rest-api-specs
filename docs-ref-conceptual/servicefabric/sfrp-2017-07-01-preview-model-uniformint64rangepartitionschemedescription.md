@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UniformInt64RangePartitionSchemeDescription
+# UniformInt64Range Partition Scheme
 
 Describes a partitioning scheme where an integer range is allocated evenly across a number of partitions.
 

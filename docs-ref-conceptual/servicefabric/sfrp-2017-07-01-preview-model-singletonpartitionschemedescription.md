@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SingletonPartitionSchemeDescription
+# Description of Singleton Partition Scheme
 
 Describes the partition scheme of a singleton-partitioned, or non-partitioned service.
 

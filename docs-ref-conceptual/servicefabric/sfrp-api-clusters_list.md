@@ -1,5 +1,5 @@
 ---
-title: "List Service Fabric Cluster Resources"
+title: "List"
 description: "Get all Service Fabric cluster resources created or in the process of being created in the subscription. Parameters are subscriptionId and api-version."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List
+# List Service Fabric Cluster Resources 
 Gets the list of Service Fabric cluster resources created in the specified subscription.
 
 Gets all Service Fabric cluster resources created or in the process of being created in the subscription.

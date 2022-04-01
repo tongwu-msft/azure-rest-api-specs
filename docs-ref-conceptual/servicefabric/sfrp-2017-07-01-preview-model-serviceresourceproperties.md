@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceResourceProperties
+# Service Resource Properties Type 
 
 The service resource properties.
 ## Inheritance

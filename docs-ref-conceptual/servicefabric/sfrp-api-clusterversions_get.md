@@ -1,5 +1,5 @@
 ---
-title: "Get Index"
+title: "Get"
 description: "Learn to get information about a Service Fabric cluster code version available in the specified location. Includes example for Get Cluster version request." 
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get
+# Get Index
 Gets information about a Service Fabric cluster code version available in the specified location.
 
 Gets information about an available Service Fabric cluster code version.
