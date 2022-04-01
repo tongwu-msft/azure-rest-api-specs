@@ -1,5 +1,5 @@
 ---
-title: "Cluster APIs index"
+title: "Cluster APIs resources"
 description: "Learn about the Cluster APIs which includes Get, Create, Update, Delete, List By Resource Group, and List."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Cluster APIs
+# Cluster APIs resources
 
 | Name | Description |
 | --- | --- |

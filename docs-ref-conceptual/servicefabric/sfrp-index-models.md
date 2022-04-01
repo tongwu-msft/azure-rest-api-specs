@@ -1,5 +1,5 @@
 ---
-title: " Type Models"
+title: "Model resources"
 description: "This index provides descriptions for various Type Models that are available as cluster add-on."
 ms.date: 06/04/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Models Index
+# Model resources
 
 
 | Name | Description |

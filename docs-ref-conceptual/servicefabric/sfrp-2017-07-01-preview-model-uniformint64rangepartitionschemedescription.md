@@ -1,5 +1,5 @@
 ---
-title: "UniformInt64RangePartitionScheme Description"
+title: "UniformInt64RangePartitionSchemeDescription model"
 description: "Learn about a partitioning scheme where an integer range is allocated evenly across a number of partitions."
 
 ms.date: 05/25/2018
@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UniformInt64Range Partition Scheme
+# UniformInt64RangePartitionSchemeDescription model
 
 Describes a partitioning scheme where an integer range is allocated evenly across a number of partitions.
 

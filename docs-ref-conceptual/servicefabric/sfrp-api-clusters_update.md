@@ -1,5 +1,5 @@
 ---
-title: "Update Overview"
+title: "Update the configuration of a Service Fabric cluster resource"
 description: "How to Update the configuration of a Service Fabric cluster resource with the specified name. Request consists of Method and Request URL."  
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Update Overview 
+# Update the configuration of a Service Fabric cluster resource 
 Updates the configuration of a Service Fabric cluster resource.
 
 Update the configuration of a Service Fabric cluster resource with the specified name.

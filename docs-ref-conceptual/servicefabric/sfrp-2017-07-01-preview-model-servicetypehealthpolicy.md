@@ -1,5 +1,5 @@
 ---
-title: "Service Type Health Policy"
+title: "ServiceTypeHealthPolicy model"
 description: "Learn about ServiceTypeHealthPolicy that represents the health policy used to evaluate the health of services belonging to a service type."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Type of Service Health Policy
+# ServiceTypeHealthPolicy model
 
 Represents the health policy used to evaluate the health of services belonging to a service type.
 
