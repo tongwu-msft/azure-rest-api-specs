@@ -1,5 +1,5 @@
 ---
-title: "ClusterHealthPolicy"
+title: "ClusterHealthPolicy properties"
 description: "Learn about the ClusterHealthPolicy. It defines a health policy used to evaluate the health of the cluster or of a cluster node." 
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterHealthPolicy
+# ClusterHealthPolicy properties
 
 Defines a health policy used to evaluate the health of the cluster or of a cluster node.
 

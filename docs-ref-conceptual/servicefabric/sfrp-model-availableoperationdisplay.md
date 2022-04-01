@@ -1,5 +1,5 @@
 ---
-title: "AvailableOperationDisplay"
+title: "AvailableOperationDisplay properties"
 description: "Learn about AvailableOperationDisplay that is the Operation supported by the Service Fabric resource provider." 
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AvailableOperationDisplay
+# AvailableOperationDisplay properties
 
 Operation supported by the Service Fabric resource provider
 

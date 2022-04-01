@@ -1,5 +1,5 @@
 ---
-title: "Cluster"
+title: "Cluster resource"
 description: "Learn about the cluster resource. Properties include id, name, type, location, tags, and properties."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Cluster
+# Cluster resource
 
 The cluster resource
 

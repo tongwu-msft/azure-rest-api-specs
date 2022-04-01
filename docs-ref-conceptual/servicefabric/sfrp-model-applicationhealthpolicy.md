@@ -1,5 +1,5 @@
 ---
-title: "ApplicationHealthPolicy"
+title: "ApplicationHealthPolicy type"
 description: "ApplicationHealthPolicy describes a health policy used to evaluate the health of an application or one of its children entities."  
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationHealthPolicy
+# ApplicationHealthPolicy type
 
 Defines a health policy used to evaluate the health of an application or one of its children entities.
 
