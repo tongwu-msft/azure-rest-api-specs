@@ -1,5 +1,5 @@
 ---
-title: "Operations APIs Description"
+title: "List Operations APIs"
 description: "Operations APIs describes List as a feature that lists all of the available Service Fabric resource provider API operations."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
