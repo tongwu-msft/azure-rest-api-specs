@@ -1,6 +1,6 @@
 ---
 title: "List Overview"
-description: "Get the list of available Service Fabric resource provider API operations. The api-version is the version of the Service Fabric resource provider API."
+description: ""Get the list of available Service Fabric resource provider API operations. The api-version is the version of the Service Fabric resource provider API."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List
+# List Service Fabric resource provider API operations
 Lists all of the available Service Fabric resource provider API operations.
 
 Get the list of available Service Fabric resource provider API operations.
