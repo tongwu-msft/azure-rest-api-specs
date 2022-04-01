@@ -1,5 +1,5 @@
 ---
-title: "List By Resource Group"
+title: "List By Resource Group Overview"
 description: "List By Resource Group gets all Service Fabric cluster resources created or in the process of being created in the resource group."
 ms.date: 05/25/2018
 ms.service: "service-fabric"

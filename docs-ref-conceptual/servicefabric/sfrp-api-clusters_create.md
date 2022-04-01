@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create 
+# Create Overview 
 Creates or updates a Service Fabric cluster resource.
 
 Create or update a Service Fabric cluster resource with the specified name.

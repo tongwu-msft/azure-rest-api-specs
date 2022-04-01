@@ -1,5 +1,5 @@
 ---
-title: "Delete"
+title: "Delete Overview"
 description: "Deletes a Service Fabric cluster resource with the specified name. Parameters are resourceGroupName, clusterName, subscriptionId and api-version."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete Index
+# Delete
 Deletes a Service Fabric cluster resource.
 
 Delete a Service Fabric cluster resource with the specified name.
