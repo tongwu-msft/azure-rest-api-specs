@@ -1,5 +1,6 @@
 ---
 title: "Peek-Lock Message (Non-Destructive Read)"
+description: Learn how this operation atomically retrieves and locks a message from a queue or subscription for processing.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""

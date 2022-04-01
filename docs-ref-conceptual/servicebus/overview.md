@@ -1,5 +1,6 @@
 ---
 title: "Overview"
+description: Learn about simplified REST API sets for managing entities.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""

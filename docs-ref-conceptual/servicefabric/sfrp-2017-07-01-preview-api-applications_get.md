@@ -1,5 +1,6 @@
 ---
 title: "Get"
+description: API reference documentation for the operations available in the Get REST API, a RESTful web service for managing Get resources in Azure.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

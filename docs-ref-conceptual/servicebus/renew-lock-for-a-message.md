@@ -1,5 +1,6 @@
 ---
 title: "Renew-Lock for a Message"
+description: API reference documentation for the operations available in the Renew Lock REST API, a RESTful web service for managing Renew Lock resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""

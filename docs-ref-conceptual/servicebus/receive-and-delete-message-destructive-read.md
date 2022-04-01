@@ -1,5 +1,6 @@
 ---
 title: "Receive and Delete Message (Destructive Read)"
+description: Learn how this operation receives a message from a queue or subscription, and removes the message from that queue or subscription in one atomic operation.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""

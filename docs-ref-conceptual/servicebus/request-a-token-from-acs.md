@@ -1,5 +1,6 @@
 ---
 title: "Request a Token from ACS"
+description: API reference documentation for the operations available in the Request a Token from ACS REST API, a RESTful web service for managing Request a Token from ACS resources in Azure.
 ms.date: "07/08/2020"
 ms.service: "service-bus"
 ms.topic: "reference"

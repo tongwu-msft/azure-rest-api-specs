@@ -1,5 +1,6 @@
 ---
 title: "Update Queue"
+description: API reference documentation for the operations available in the Update Queue REST API, a RESTful web service for managing Update Queue resources in Azure.
 ms.custom: ""
 ms.date: "01/17/2021"
 ms.reviewer: ""

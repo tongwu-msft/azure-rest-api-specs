@@ -1,5 +1,6 @@
 ---
 title: "Unlock Message"
+description: API reference documentation for the operations available in the Unlock Message REST API, a RESTful web service for managing Unlock Message resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""

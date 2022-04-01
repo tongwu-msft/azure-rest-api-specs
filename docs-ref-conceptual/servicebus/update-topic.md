@@ -1,5 +1,6 @@
 ---
 title: "Update Topic"
+description: API reference documentation for the operations available in the Update Topic REST API, a RESTful web service for managing Update Topic resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""
