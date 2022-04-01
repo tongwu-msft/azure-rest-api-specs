@@ -1,6 +1,6 @@
 ---
 title: Service Fabric Mesh VolumeProviderParametersAzureFile
-description: Use this article as an API Reference to learn about the Service Fabric Mesh VolumeProviderParametersAzureFile for a volume from an Azure file.
+description: Service Fabric Mesh Resource Manager API Reference
 services: service-fabric-mesh
 author: VipulM-MSFT
 ms.date: 07/17/2018
