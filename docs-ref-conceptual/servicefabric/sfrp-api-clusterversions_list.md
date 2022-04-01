@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List dex
+# List Overview
 Gets the list of Service Fabric cluster code versions available for the specified location.
 
 Gets all available code versions for Service Fabric cluster resources by location.

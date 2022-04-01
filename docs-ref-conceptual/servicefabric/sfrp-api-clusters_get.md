@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get A Service Fabric Cluster Resource
+# Get Index
 Gets a Service Fabric cluster resource.
 
 Get a Service Fabric cluster resource created or in the process of being created in the specified resource group.

@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Update Configuration Of A Service Fabric Cluster
+# Update Index
 Updates the configuration of a Service Fabric cluster resource.
 
 Update the configuration of a Service Fabric cluster resource with the specified name.

@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List By Resource Group Description
+# List By Resource Group Overview
 Gets the list of Service Fabric cluster resources created in the specified resource group.
 
 Gets all Service Fabric cluster resources created or in the process of being created in the resource group.

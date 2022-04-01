@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create or Update A Service Fabric Cluster Resource 
+# Create Index 
 Creates or updates a Service Fabric cluster resource.
 
 Create or update a Service Fabric cluster resource with the specified name.
