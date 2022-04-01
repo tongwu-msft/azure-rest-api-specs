@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List  
+# List Index 
 Gets the list of Service Fabric cluster resources created in the specified subscription.
 
 Gets all Service Fabric cluster resources created or in the process of being created in the subscription.

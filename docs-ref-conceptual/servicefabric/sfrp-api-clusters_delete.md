@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete
+# Delete Overview
 Deletes a Service Fabric cluster resource.
 
 Delete a Service Fabric cluster resource with the specified name.

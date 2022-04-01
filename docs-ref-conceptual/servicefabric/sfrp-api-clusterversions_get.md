@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get 
+# Get Index 
 Gets information about a Service Fabric cluster code version available in the specified location.
 
 Gets information about an available Service Fabric cluster code version.
