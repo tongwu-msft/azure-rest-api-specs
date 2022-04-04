@@ -1,5 +1,5 @@
 ---
-title: "Resource model properties"
+title: "Resource model"
 description: "Learn about the resource model definition. Resource model Properties include id, name, type, location, and tags."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Resource model properties
+# Resource model 
 
 The resource model definition.
 

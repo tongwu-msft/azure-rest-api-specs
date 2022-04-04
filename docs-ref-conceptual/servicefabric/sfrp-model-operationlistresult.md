@@ -1,5 +1,5 @@
 ---
-title: "OperationListResult Description"
+title: "OperationListResult model"
 description: "Learn about the OperationListResult that describes the result of the request to list Service Fabric resource provider operations."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# OperationListResult Description
+# OperationListResult model
 
 Describes the result of the request to list Service Fabric resource provider operations.
 

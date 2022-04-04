@@ -1,5 +1,5 @@
 ---
-title: "ErrorModel structure"
+title: "ErrorModel model"
 description: "ErrorModel describes the structure of the error. Properties include error that is the error details."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ErrorModel structure
+# ErrorModel model
 
 The structure of the error.
 
