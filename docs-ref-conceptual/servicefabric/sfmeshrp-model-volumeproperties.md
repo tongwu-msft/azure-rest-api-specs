@@ -2,7 +2,7 @@
 title: Service Fabric Mesh VolumeProperties
 description: Service Fabric Mesh Resource Manager API Reference
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipulm
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
