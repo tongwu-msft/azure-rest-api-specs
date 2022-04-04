@@ -17,9 +17,8 @@ When making REST Calls, several steps are required to authenticate properly. Azu
 
 Azure Communication Services has three types of Authentication, they're used for different purposes:
 
-- **Access Key authentication** for SMS, Identity, and access token operations. Access Key authentication is suitable for applications running in a trusted service environment.
+- **Access Key authentication** for SMS, Network Traversal, Call Automation, Identity, and access token operations. Access Key authentication is suitable for applications running in a trusted service environment.
 - **Azure AD authentication** Applicable similarly as Access Key Authentication. The access control is more granular and leverages Azure RBAC.
-
 - **User Access Token authentication** for Chat and Calling. User access tokens let your client applications authenticate directly against Azure Communication Services. These tokens are generated on a server-side token provisioning service that you create. They're then provided to client devices that use the token to initialize the Chat and Calling client libraries.
 
 ## Access Key Authentication
