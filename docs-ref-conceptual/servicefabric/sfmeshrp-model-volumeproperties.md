@@ -1,8 +1,8 @@
 ---
-title: "VolumeProperties"
+title: Service Fabric Mesh VolumeProperties
 description: Service Fabric Mesh Resource Manager API Reference
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipulm
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# VolumeProperties
+# Service Fabric Mesh VolumeProperties
 
 This type describes properties of a volume resource.
 
