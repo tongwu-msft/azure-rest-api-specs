@@ -135,7 +135,7 @@ Date: <date>
   
  The following table describes how the destination and source objects for a Copy Blob operation may be authorized.  
   
-|Blob|Authorization with Shared Key/Shared Key Lite|Authorization with Shared Access Signature|Public Object Not Requiring Authorization|  
+|Blob|Authorization with Shared Key/Shared Key Lite|Authorization with shared access signature|Public object not requiring authorization|  
 |-|-----------------------------------------------------|-------------------------------------------------|------------------------------------------------|  
 |Destination blob|Yes|Yes|No|  
 |Source blob in same account|Yes|Yes|Yes|  
