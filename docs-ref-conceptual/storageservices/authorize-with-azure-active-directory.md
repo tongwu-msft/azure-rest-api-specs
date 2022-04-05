@@ -139,7 +139,7 @@ The following tables describe the permissions necessary for an Azure AD user, gr
 | [Preflight Blob Request](preflight-blob-request.md) | Anonymous |
 | [Get Blob Service Stats](get-blob-service-stats.md) | Microsoft.Storage/storageAccounts/blobServices/read |
 | [Get Account Information](get-account-information.md) | Not supported |
-| [Get User Delegation Key](get-user-delegation-key.md) | Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey |
+| [Get User Delegation Key](get-user-delegation-key.md) | Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey/action |
 | [Create Container](create-container.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
 | [Get Container Properties](get-container-properties.md) | Microsoft.Storage/storageAccounts/blobServices/containers/read |
 | [Get Container Metadata](get-container-metadata.md) | Microsoft.Storage/storageAccounts/blobServices/containers/read |
