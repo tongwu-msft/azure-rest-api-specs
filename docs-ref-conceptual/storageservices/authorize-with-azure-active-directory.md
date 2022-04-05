@@ -169,7 +169,7 @@ The following tables describe the permissions necessary for an Azure AD user, gr
 | [Delete Blob](delete-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/delete |
 | [Undelete Blob](delete-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
 | [Set Blob Tier](set-blob-tier.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
-| [Blob Batch](blob-batch.md) | Parent request: Microsoft.Storage/storageAccounts/blobServices/containers/write <br/>Subrequests: See permissions for that request type. |
+| [Blob Batch](blob-batch.md) | Parent request: Microsoft.Storage/storageAccounts/blobServices/containers/write <br/>Sub-requests: See permissions for that request type. |
 | [Set Immutability Policy](set-blob-immutability-policy.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
 | [Delete Immutability Policy](delete-blob-immutability-policy.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
 | [Set Blob Legal Hold](set-blob-legal-hold.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
@@ -179,9 +179,12 @@ The following tables describe the permissions necessary for an Azure AD user, gr
 | [Get Block List](get-block-list.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read |
 | [Query Blob Contents](query-blob-contents.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read |
 | [Put Page](put-page.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
+| [Put Page from URL](put-page-from-url.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 | [Get Page Ranges](get-page-ranges.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read |
 | [Incremental Copy Blob](incremental-copy-blob.md) | For destination blob: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write <br/>For source blob: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read <br/>For new blob: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action |
 | [Append Block](append-block.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write or Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action |
+| [Append Block from URL](append-block-from-url.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write or Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action |
+| [Set Blob Expiry](set-blob-expiry.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 
 ### Permissions for Queue service operations
 
