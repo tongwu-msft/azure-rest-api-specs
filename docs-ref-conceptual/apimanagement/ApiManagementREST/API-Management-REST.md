@@ -71,8 +71,8 @@ Authorization: SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T
 > [!NOTE]
 > During a preview period for an API Management REST API, `-preview` is appended to the version query parameter, for example `2021-04-01-preview`.  
   
- If this query parameter isn't passed in the query string of a request, the server will return a status code of `400 Bad Request`. For a list of supported versions, see [API Management REST API reference](/rest/api/apimanagement/)..  
+ If this query parameter isn't passed in the query string of a request, the server will return a status code of `400 Bad Request`. For a list of supported versions, see [API Management REST API reference](/rest/api/apimanagement/). 
   
 ## Next steps
 
-+ Learn more about the [authentication](../ApiManagementREST/Azure-API-Management-REST-API-Authentication.md)
+- Learn more about the [authentication](../ApiManagementREST/Azure-API-Management-REST-API-Authentication.md).
