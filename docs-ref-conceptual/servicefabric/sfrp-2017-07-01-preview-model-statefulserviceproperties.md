@@ -1,5 +1,6 @@
 ---
 title: "StatefulServiceProperties"
+description: "ServiceKind is a discriminator property. Its value must be Stateful for objects of type StatefulServiceProperties."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
