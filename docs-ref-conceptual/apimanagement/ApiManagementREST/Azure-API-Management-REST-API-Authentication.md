@@ -1,5 +1,6 @@
 ---
 title: Authenticate to direct management Azure API Management REST API
+description: How to authenticate to the direct management REST API for Azure API Management by using a SAS token
 ms.date: 04/04/2022
 ms.service: api-management
 ms.topic: reference
@@ -19,12 +20,12 @@ translation.priority.mt:
 ---
 # Authenticate to the direct management Azure API Management REST API
 
-This guide describes how to create the access token required to make calls into the direct management Azure API Management REST API. 
+This guide describes how to create the access token (SAS token) required to make calls into the direct management Azure API Management REST API.
   
-For more information about authorization and other prerequisites for accessing the API Management REST API, see [API Management REST](../ApiManagementREST/API-Management-REST.md).  
+For more information about authorization and other prerequisites for accessing the direct management REST API, see [Direct management API Management REST API](../ApiManagementREST/API-Management-REST.md).  
 
 > [!IMPORTANT]
-> SAS token access can be applied only for direct management API calls, for example: `https://apim-instance.management.azure-api.net/apis?api-version=2021-08-01`. You cannot use it for API calls to Azure Resource Manager.
+> SAS token access can be applied only for direct management API calls, for example: `https://apim-instance.management.azure-api.net/ /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis?api-version=2021-08-01`. You cannot use it for API calls to Azure Resource Manager.
   
 ##  <a name="ManuallyCreateToken"></a> Manually create a SAS token  
   

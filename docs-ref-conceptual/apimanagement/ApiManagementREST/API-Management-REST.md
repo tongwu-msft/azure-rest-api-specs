@@ -1,6 +1,6 @@
 ---
-title: "Direct management API Management REST API"
-ms.custom: na
+title: Direct management API Management REST API
+description: How to enable and use the direct management REST API for Azure API Management. This API can bypass some limitations of Azure Resource Manager.
 ms.date: 04/04/2022
 ms.service: api-management
 ms.topic: reference
@@ -18,7 +18,7 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Direct management API Management REST API 
+# Direct management API Management REST API
 
 Azure API Management provides a direct management REST API for performing operations on selected entities, such as users, groups, products, and subscriptions. This reference provides a guide for working with the direct management API Management REST API.  
 
@@ -57,7 +57,7 @@ Authorization: SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T
 ##  <a name="BaseURL"></a> Base URL  
  The Base URL of the direct management API Management REST API conforms to the following template.  
   
- `https://{servicename}.management.azure-api.net:`  
+ `https://{servicename}.management.azure-api.net`  
   
  This template contains the following parameter.  
   
