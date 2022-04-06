@@ -21421,6 +21421,14 @@
 #### [List](storagerp/File-Shares/List.yml)
 #### [Restore](storagerp/File-Shares/Restore.yml)
 #### [Update](storagerp/File-Shares/Update.yml)
+### Local Users
+#### [Overview](storagerp/Local-Users.yml)
+#### [Create Or Update](storagerp/Local-Users/Create-Or-Update.yml)
+#### [Delete](storagerp/Local-Users/Delete.yml)
+#### [Get](storagerp/Local-Users/Get.yml)
+#### [List](storagerp/Local-Users/List.yml)
+#### [List Keys](storagerp/Local-Users/List-Keys.yml)
+#### [Regenerate Password](storagerp/Local-Users/Regenerate-Password.yml)
 ### Management Policies
 #### [Overview](storagerp/Management-Policies.yml)
 #### [Create Or Update](storagerp/Management-Policies/Create-Or-Update.yml)
@@ -21461,11 +21469,13 @@
 #### [List](storagerp/Skus/List.yml)
 ### Storage Accounts
 #### [Overview](storagerp/Storage-Accounts.yml)
+#### [Abort Hierarchical Namespace Migration](storagerp/Storage-Accounts/Abort-Hierarchical-Namespace-Migration.yml)
 #### [Check Name Availability](storagerp/Storage-Accounts/Check-Name-Availability.yml)
 #### [Create](storagerp/Storage-Accounts/Create.yml)
 #### [Delete](storagerp/Storage-Accounts/Delete.yml)
 #### [Failover](storagerp/Storage-Accounts/Failover.yml)
 #### [Get Properties](storagerp/Storage-Accounts/Get-Properties.yml)
+#### [Hierarchical Namespace Migration](storagerp/Storage-Accounts/Hierarchical-Namespace-Migration.yml)
 #### [List](storagerp/Storage-Accounts/List.yml)
 #### [List Account SAS](storagerp/Storage-Accounts/List-Account-SAS.yml)
 #### [List By Resource Group](storagerp/Storage-Accounts/List-By-Resource-Group.yml)
