@@ -1,5 +1,6 @@
 ---
 title: "Azure Batch REST API Reference | Microsoft Docs"
+description: Learn how to use the Azure Batch API to schedule and run large scale computational workloads. 
 ms.custom: ""
 ms.date: 11/10/2017
 ms.reviewer: ""
