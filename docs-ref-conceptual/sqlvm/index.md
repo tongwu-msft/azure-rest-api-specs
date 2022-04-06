@@ -17,13 +17,13 @@ The Azure SQL Virtual Machine REST API includes operations for managing Azure SQ
 
 | Operation Group | Description |
 |-----------------|-------------|
-|[Operations](xref:management.azure.com.sqlvm.operations)|List all of the available SQL virtual machine REST API operations.|
-|[Sql Virtual Machines](xref:management.azure.com.sqlvm.sqlvirtualmachines)|Create, get, update, delete, or list information about SQL virtual machines.|
-|[Sql Virtual Machine Groups](xref:management.azure.com.sqlvm.sqlvirtualmachinegroups)|Create, get, update, delete, or list information about SQL virtual machine groups.|
-|[Availability Group Listeners](xref:management.azure.com.sqlvm.availabilitygrouplisteners)|Create, get, update, delete, or list information about availability group listeners.|
+|[Operations](/rest/api/sqlvm/2021-11-01-preview/operations/list)|List all of the available SQL virtual machine REST API operations.|
+|[Sql Virtual Machines](/rest/api/sqlvm/2021-11-01-preview/sql-virtual-machines)|Create, get, update, delete, or list information about SQL virtual machines.|
+|[Sql Virtual Machine Groups](/rest/api/sqlvm/2021-11-01-preview/sql-virtual-machine-groups)|Create, get, update, delete, or list information about SQL virtual machine groups.|
+|[Availability Group Listeners](/rest/api/sqlvm/2021-11-01-preview/availability-group-listeners)|Create, get, update, delete, or list information about availability group listeners.|
 
 
 
 ## See Also
 
-- [Azure SQL VM](/azure/virtual-machines/windows/sql/virtual-machines-windows-sql-server-iaas-overview)
+- [Azure SQL VM](https://docs.microsoft.com/azure/virtual-machines/windows/sql/virtual-machines-windows-sql-server-iaas-overview)
