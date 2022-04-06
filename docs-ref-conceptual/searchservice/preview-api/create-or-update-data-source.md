@@ -5,7 +5,7 @@ description: Preview version of the Create or Update Data Source REST API for Az
 ms.date: 03/22/2022
 
 ms.service: cognitive-search
-ms.topic: reference
+ms.topic: language-reference
 ms.devlang: rest-api
 
 author: jennifermarsman
