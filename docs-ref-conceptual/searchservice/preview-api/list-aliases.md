@@ -75,3 +75,7 @@ api-key: [admin key]
       "value" : [ { "name": "my-alias" }, ... ]  
     }  
 ```
+
+## See also  
+
++ [Create an index alias in Azure Cognitive Search](/azure/search/search-how-to-alias)   

@@ -60,3 +60,7 @@ The response body will look similar to the example below.
   "indexes" : ["my-index"]
 }  
 ```  
+
+## See also  
+
++ [Create an index alias in Azure Cognitive Search](/azure/search/search-how-to-alias)   

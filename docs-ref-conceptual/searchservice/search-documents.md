@@ -12,9 +12,9 @@ ms.author: beloh
 ---
 # Search Documents (Azure Cognitive Search REST API)
 
-A query request targets the documents collection of a single index on a search service. It includes parameters that define the match criteria, and parameters that shape the response.
+A query request targets the documents collection of a single index on a search service. It includes parameters that define the match criteria, and parameters that shape the response. Starting in the 2021-04-30-Preview API version, you can also use an [index alias](/azure/search/search-how-to-alias) to target a particular index instead of using the index name itself.
 
-You can use GET or POST. [Query parameters](#query-parameters) are specified on the query string in the case of GET requests, and in the request body in the case of POST requests.
+You can use GET or POST. [Query parameters](#query-parameters) are specified on the query string in the case of GET requests, and in the request body in the case of POST requests. 
 
 ```http
 GET https://[service name].search.windows.net/indexes/[index name]/docs?[query parameters] 

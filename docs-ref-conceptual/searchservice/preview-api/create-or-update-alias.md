@@ -103,3 +103,7 @@ For a successful update request, you should see "204 No Content".
   "indexes" : ["my-index"]
 }  
 ```  
+
+## See also  
+
++ [Create an index alias in Azure Cognitive Search](/azure/search/search-how-to-alias)   

@@ -1,5 +1,6 @@
 ---
-title: "List By Resource Group"
+title: "List By Resource Group Overview"
+description: "List By Resource Group gets all Service Fabric cluster resources created or in the process of being created in the resource group."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List By Resource Group
+# List By Resource Group Overview
 Gets the list of Service Fabric cluster resources created in the specified resource group.
 
 Gets all Service Fabric cluster resources created or in the process of being created in the resource group.

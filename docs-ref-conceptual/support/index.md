@@ -48,7 +48,7 @@ Operation Group | Description
 Apart from support in [REST API](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/support/resource-manager/Microsoft.Support/stable/2020-04-01), support ticket creation and management is available in the following interfaces and languages:  
 
 * PowerShell: [Support](https://github.com/Azure/azure-powershell/blob/master/src/Support/Support/help/Az.Support.md) | [Documentation](/powershell/module/az.support/)
-* Azure CLI:  [Support](https://github.com/Azure/azure-cli-extensions/tree/master/src/support) | [Documentation](/cli/azure/ext/support/?view=azure-cli-latest) 
+* Azure CLI:  [Support](https://github.com/Azure/azure-cli-extensions/tree/master/src/support) | [Documentation](/cli/azure/support/?view=azure-cli-latest) 
 * Azure SDK for Java: [Support](https://search.maven.org/artifact/com.microsoft.azure.support.v2020_04_01/azure-mgmt-support/1.0.0/jar) | [Documentation](/java/api/overview/azure/supportability/management?view=azure-java-stable)
 * Azure SDK for .NET: [NuGet package](https://www.nuget.org/packages/Microsoft.Azure.Management.Support/1.0.1) | [Documentation](/dotnet/api/overview/azure/supportability?view=azure-dotnet)
 * Azure SDK for Python: [Support](https://pypi.org/project/azure-mgmt-support/) | [Documentation](/python/api/overview/azure/support)

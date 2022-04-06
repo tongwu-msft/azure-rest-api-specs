@@ -254,8 +254,8 @@ Use Key Vault to safeguard and manage cryptographic keys, certificates and secre
 
 ## See also
 
-- For concepts and detailed information about Key Vault, see [About Azure Key Vault](https://docs.microsoft.com/.azure/key-vault/general/overview).
-- For concepts and detailed information about Managed HSM, see [What is Azure Key Vault Managed HSM?](https://docs.microsoft.com/azure/key-vault/managed-hsm/overview)
+- For concepts and detailed information about Key Vault, see [About Azure Key Vault](/azure/key-vault/general/overview).
+- For concepts and detailed information about Managed HSM, see [What is Azure Key Vault Managed HSM?](/azure/key-vault/managed-hsm/overview)
 - For concepts and detailed information about data plane objects, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
 - For general information on constructing Azure REST API requests, see the [Azure REST API reference](/rest/api/azure/)
 - For information specific to constructing Key Vault REST API requests, see

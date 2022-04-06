@@ -1,0 +1,146 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.frontdoorservice.frontdoor.checkfrontdoornameavailabilitywithsubscription.checkfrontdoornameavailabilitywithsubscription1
+name: Check Front Door Name Availability With Subscription
+service: Front Door Service
+groupName: Check Front Door Name Availability With Subscription
+apiVersion: 2019-05-01
+summary: Check the availability of a Front Door subdomain.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkFrontDoorNameAvailability?api-version=2019-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: CheckNameAvailabilityOutput
+- name: Other Status Codes
+  description: Front Door error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    isRequired: true
+    description: The resource name to validate.
+    types:
+    - uid: string
+  - name: type
+    in: body
+    isRequired: true
+    description: The type of the resource whose name is to be validated.
+    types:
+    - uid: ResourceType
+requestHeader: []
+definitions:
+- name: CheckNameAvailabilityOutput
+  description: Output of check name availability API.
+  kind: object
+  properties:
+  - name: nameAvailability
+    isReadyOnly: true
+    description: Indicates whether the name is available.
+    types:
+    - uid: Availability
+  - name: reason
+    isReadyOnly: true
+    description: The reason why the name is not available.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The detailed error message describing why the name is not available.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates Front Door service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: CheckNameAvailabilityInput
+  description: Input of CheckNameAvailability API.
+  kind: object
+  properties:
+  - name: name
+    description: The resource name to validate.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the resource whose name is to be validated.
+    types:
+    - uid: ResourceType
+- name: Availability
+  description: Indicates whether the name is available.
+  kind: enum
+  properties:
+  - name: Available
+    types:
+    - uid: string
+  - name: Unavailable
+    types:
+    - uid: string
+- name: ResourceType
+  description: Type of Front Door resource used in CheckNameAvailability.
+  kind: enum
+  properties:
+  - name: Microsoft.Network/frontDoors
+    types:
+    - uid: string
+  - name: Microsoft.Network/frontDoors/frontendEndpoints
+    types:
+    - uid: string
+examples:
+- name: CheckNameAvailabilityWithSubscription
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/checkFrontDoorNameAvailability?api-version=2019-05-01
+    body: >-
+      {
+        "name": "sampleName",
+        "type": "Microsoft.Network/frontDoors/frontendEndpoints"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailability": "Unavailable",
+        "reason": "Name is already in use",
+        "message": "Name not available"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Front Door Service service - Check the availability of a Front Door subdomain.
+errorCodes: []

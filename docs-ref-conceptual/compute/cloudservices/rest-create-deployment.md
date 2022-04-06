@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Create Deployment | Microsoft Docs"
+description: Learn how the Create Deployment asynchronous operation uploads a new service package and creates a new deployment in the staging or production environments.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

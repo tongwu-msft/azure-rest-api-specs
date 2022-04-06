@@ -31,7 +31,7 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Database Security Alert Policies](/rest/api/sql/2021-08-01-preview/database-security-alert-policies)| Create, get, update, list a database's security alert policy.|
 |[Database Tables](/rest/api/sql/2021-08-01-preview/database-tables)| Get and list database tables.|
 |[Database Usages](/rest/api/sql/2021-08-01-preview/database-usages)| Get database usages.|
-|[Database Vulnerability Assesment Rule Baselines](/rest/api/sql/2021-08-01-preview/database-vulnerability-assesment-rule-baselines)| Create, get, update, list, delete the database's vulnerability assessment rule baseline.|
+|[Database Vulnerability Assesment Rule Baselines](/rest/api/sql/2021-08-01-preview/database-vulnerability-assessment-rule-baselines)| Create, get, update, list, delete the database's vulnerability assessment rule baseline.|
 |[Database Vulnerability Assessment Scans](/rest/api/sql/2021-08-01-preview/database-vulnerability-assessment-scans)| Get, list, execute, export the vulnerability assessment scans of a database.|
 |[Database Vulnerability Assessments](/rest/api/sql/2021-08-01-preview/database-vulnerability-assessments)| Create, get, update, list, delete the database's vulnerability assessment.|
 |[Databases](/rest/api/sql/2021-08-01-preview/databases)| Create, get, update, list, delete, import, export, rename, pause, resume, upgrade SQL databases.|
@@ -86,7 +86,6 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Managed Instances](/rest/api/sql/2021-08-01-preview/managed-instances)| Create, get, update, list, delete, failover the managed instances.|
 |[Managed Restorable Dropped Database Backup Short Term Retention Policies](/rest/api/sql/2021-08-01-preview/managed-restorable-dropped-database-backup-short-term-retention-policies)| Create, get, update, list the managed restorable dropped database's short term retention policies|      
 |[Managed Server Security Alert Policies](/rest/api/sql/2021-08-01-preview/managed-server-security-alert-policies)| Create, get, list, update the managed server's security alert policies.|
-|[Operations Health](/rest/api/sql/2021-08-01-preview/operations-health)| Get a service operation health status.|
 |[Operations](/rest/api/sql/2021-08-01-preview/operations)| List all of the available SQL Database REST API operations.|
 |[Outbound Firewall Rules](/rest/api/sql/2021-08-01-preview/outbound-firewall-rules)| Create, get, update, list, delete the outbound firewall rules.|
 |[Private Endpoint Connections](/rest/api/sql/2021-08-01-preview/private-endpoint-connections)| Create, get, update, list, delete the private endpoint connections on a server.|

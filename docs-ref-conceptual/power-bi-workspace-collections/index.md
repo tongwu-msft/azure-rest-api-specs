@@ -12,7 +12,7 @@ service_description: To be added
 The Azure Power BI Workspace Collections REST API provides the following operation groups you can use to programmatically develop applications that integrate Power BI Reports into your applications.
 
 > [!IMPORTANT]
-> Power BI Workspace Collections is deprecated. It will remain available until June 2018 or when your contract indicates. You are encouraged to plan your migration to Power BI Embedded to avoid interruption in your application. To learn more, see [How to migrate Power BI Workspace Collections content to Power BI Embedded](https://docs.microsoft.com/power-bi/developer/migrate-from-powerbi-embedded).
+> Power BI Workspace Collections is deprecated. It will remain available until June 2018 or when your contract indicates. You are encouraged to plan your migration to Power BI Embedded to avoid interruption in your application. To learn more, see [How to migrate Power BI Workspace Collections content to Power BI Embedded](/power-bi/developer/migrate-from-powerbi-embedded).
 
 
 
@@ -20,12 +20,12 @@ The Azure Power BI Workspace Collections REST API provides the following operati
 
 | Operation groups                                                                  | Description                                                                       |
 |-----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| [Workspace Collections](~/docs-ref-autogen/power-bi-workspace-collections/WorkspaceCollections.yml)      | Provides operations for managing workspace collections.                           |
+| [Workspace Collections](~/docs-ref-autogen/power-bi-workspace-collections/Workspace-Collections.yml)      | Provides operations for managing workspace collections.                           |
 | [Workspaces](~/docs-ref-autogen/power-bi-workspace-collections/Workspaces.yml)                           | Retrieves all existing Power BI Workspaces in the specified Workspace Collection. |
-| [get Available Operations](~/docs-ref-autogen/power-bi-workspace-collections/getAvailableOperations.yml) | Indicates which operations can be performed by the Power BI Resource Provider.    |
+| [get Available Operations](~/docs-ref-autogen/power-bi-workspace-collections/get-Available-Operations.yml) | Indicates which operations can be performed by the Power BI Resource Provider.    |
 
 
 ## See also
 
-- [Azure Power BI Workspace Collections documentation](https://docs.microsoft.com/azure/power-bi-workspace-collections/)
+- [Azure Power BI Workspace Collections documentation](/azure/power-bi-workspace-collections/)
 

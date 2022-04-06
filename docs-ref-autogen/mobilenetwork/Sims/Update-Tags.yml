@@ -3,14 +3,14 @@ uid: management.azure.com.mobilenetwork.sims.updatetags
 name: Update Tags
 service: Mobile Network
 groupName: Sims
-apiVersion: 2022-01-01-preview
+apiVersion: 2022-03-01-preview
 summary: Updates a sim update tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/sims/{simName}?api-version=2022-01-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/sims/{simName}?api-version=2022-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -69,11 +69,11 @@ definitions:
     description: The provisioning state of the sim resource.
     types:
     - uid: ProvisioningState
-  - name: properties.configurationState
+  - name: properties.simState
     isReadyOnly: true
-    description: The configuration state of the sim resource - complete or incomplete.
+    description: The state of the sim resource.
     types:
-    - uid: ConfigurationState
+    - uid: SimState
   - name: properties.internationalMobileSubscriberIdentity
     description: The International Mobile Subscriber Identity (IMSI) for the sim.
     types:
@@ -158,6 +158,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -203,14 +208,20 @@ definitions:
   - name: Deleted
     types:
     - uid: string
-- name: ConfigurationState
-  description: The configuration state of the resource - complete or incomplete.
+- name: SimState
+  description: The state of the sim resource.
   kind: enum
   properties:
-  - name: Incomplete
+  - name: Disabled
+    description: The sim is disabled because not all configuration required for enabling is present.
     types:
     - uid: string
-  - name: Complete
+  - name: Enabled
+    description: The sim is enabled.
+    types:
+    - uid: string
+  - name: Invalid
+    description: The sim cannot be enabled because some of the associated configuration is invalid.
     types:
     - uid: string
 - name: MobileNetworkResourceId
@@ -259,6 +270,34 @@ definitions:
     types:
     - uid: string
   - name: Key
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: ErrorDetail
@@ -333,7 +372,7 @@ definitions:
 examples:
 - name: Update sim tags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/sims/testSim?api-version=2022-01-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/sims/testSim?api-version=2022-03-01-preview
     body: >-
       {
         "tags": {
@@ -363,7 +402,7 @@ examples:
         },
         "properties": {
           "provisioningState": "Succeeded",
-          "configurationState": "Complete",
+          "simState": "Enabled",
           "integratedCircuitCardIdentifier": "8900000000000000000",
           "internationalMobileSubscriberIdentity": "00000",
           "mobileNetwork": {

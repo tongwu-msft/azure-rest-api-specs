@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.blobcontainers.get
 name: Get
 service: Storage Resource Provider
 groupName: Blob Containers
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01
 summary: 'Gets properties of a specified container. '
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -138,6 +138,14 @@ definitions:
     description: The object level immutability property of the container. The property is immutable and can only be set to true at the container creation time. Existing containers must undergo a migration process.
     types:
     - uid: ImmutableStorageWithVersioning
+  - name: properties.enableNfsV3RootSquash
+    description: Enable NFSv3 root squash on blob container.
+    types:
+    - uid: boolean
+  - name: properties.enableNfsV3AllSquash
+    description: Enable NFSv3 all squash on blob container.
+    types:
+    - uid: boolean
   - name: etag
     isReadyOnly: true
     description: Resource Etag.
@@ -235,7 +243,11 @@ definitions:
     types:
     - uid: ImmutabilityPolicyState
   - name: properties.allowProtectedAppendWrites
-    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API.
+    types:
+    - uid: boolean
+  - name: properties.allowProtectedAppendWritesAll
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. The 'allowProtectedAppendWrites' and 'allowProtectedAppendWritesAll' properties are mutually exclusive.
     types:
     - uid: boolean
 - name: LegalHoldProperties
@@ -252,6 +264,10 @@ definitions:
     types:
     - uid: TagProperty
       isArray: true
+  - name: protectedAppendWritesHistory
+    description: Protected append blob writes history.
+    types:
+    - uid: ProtectedAppendWritesHistory
 - name: ImmutableStorageWithVersioning
   description: Object level immutability properties of the container.
   kind: object
@@ -304,6 +320,14 @@ definitions:
     description: Returns the User Principal Name of the user who updated the ImmutabilityPolicy.
     types:
     - uid: string
+  - name: allowProtectedAppendWrites
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API.
+    types:
+    - uid: boolean
+  - name: allowProtectedAppendWritesAll
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. The 'allowProtectedAppendWrites' and 'allowProtectedAppendWritesAll' properties are mutually exclusive.
+    types:
+    - uid: boolean
 - name: ImmutabilityPolicyState
   description: 'The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.'
   kind: enum
@@ -343,6 +367,19 @@ definitions:
     description: Returns the User Principal Name of the user who added the tag.
     types:
     - uid: string
+- name: ProtectedAppendWritesHistory
+  description: Protected append writes history setting for the blob container with Legal holds.
+  kind: object
+  properties:
+  - name: allowProtectedAppendWritesAll
+    description: When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining legal hold protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted.
+    types:
+    - uid: boolean
+  - name: timestamp
+    isReadyOnly: true
+    description: Returns the date and time the tag was added.
+    types:
+    - uid: string
 - name: MigrationState
   description: This property denotes the container level immutability to object level immutability migration state.
   kind: enum
@@ -369,7 +406,7 @@ definitions:
 examples:
 - name: GetContainers
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9871/providers/Microsoft.Storage/storageAccounts/sto6217/blobServices/default/containers/container1634?api-version=2021-04-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9871/providers/Microsoft.Storage/storageAccounts/sto6217/blobServices/default/containers/container1634?api-version=2021-09-01
   responses:
   - statusCode: "200"
     body: >-
@@ -415,6 +452,87 @@ examples:
           },
           "legalHold": {
             "hasLegalHold": true,
+            "tags": [
+              {
+                "tag": "tag1",
+                "timestamp": "2018-03-26T05:06:09.6964643Z",
+                "objectIdentifier": "ce7cd28a-fc25-4bf1-8fb9-e1b9833ffd4b",
+                "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+              },
+              {
+                "tag": "tag2",
+                "timestamp": "2018-03-26T05:06:09.6964643Z",
+                "objectIdentifier": "ce7cd28a-fc25-4bf1-8fb9-e1b9833ffd4b",
+                "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+              },
+              {
+                "tag": "tag3",
+                "timestamp": "2018-03-26T05:06:09.6964643Z",
+                "objectIdentifier": "ce7cd28a-fc25-4bf1-8fb9-e1b9833ffd4b",
+                "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+              }
+            ]
+          },
+          "hasImmutabilityPolicy": true,
+          "hasLegalHold": true
+        }
+      }
+- name: GetBlobContainersGetWithAllowProtectedAppendWritesAll
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9871/providers/Microsoft.Storage/storageAccounts/sto6217/blobServices/default/containers/container1634?api-version=2021-09-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res9871/providers/Microsoft.Storage/storageAccounts/sto6217/blobServices/default/containers/container1634",
+        "name": "container1634",
+        "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+        "etag": "\"0x8D592D74CC20EBA\"",
+        "properties": {
+          "publicAccess": "None",
+          "leaseStatus": "Unlocked",
+          "leaseState": "Available",
+          "lastModifiedTime": "2018-03-26T05:06:14Z",
+          "immutabilityPolicy": {
+            "etag": "\"8d592d74cb3011a\"",
+            "properties": {
+              "immutabilityPeriodSinceCreationInDays": 100,
+              "allowProtectedAppendWritesAll": true,
+              "state": "Locked"
+            },
+            "updateHistory": [
+              {
+                "update": "put",
+                "immutabilityPeriodSinceCreationInDays": 3,
+                "allowProtectedAppendWritesAll": true,
+                "timestamp": "2018-03-26T05:06:11.431403Z",
+                "objectIdentifier": "ce7cd28a-fc25-4bf1-8fb9-e1b9833ffd4b",
+                "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+              },
+              {
+                "update": "lock",
+                "immutabilityPeriodSinceCreationInDays": 3,
+                "allowProtectedAppendWritesAll": true,
+                "timestamp": "2018-03-26T05:06:13.0907641Z",
+                "objectIdentifier": "ce7cd28a-fc25-4bf1-8fb9-e1b9833ffd4b",
+                "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+              },
+              {
+                "update": "extend",
+                "immutabilityPeriodSinceCreationInDays": 100,
+                "allowProtectedAppendWritesAll": true,
+                "timestamp": "2018-03-26T05:06:14.7097716Z",
+                "objectIdentifier": "ce7cd28a-fc25-4bf1-8fb9-e1b9833ffd4b",
+                "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+              }
+            ]
+          },
+          "legalHold": {
+            "hasLegalHold": true,
+            "protectedAppendWritesHistory": {
+              "allowProtectedAppendWritesAll": true,
+              "timestamp": "2021-09-01T01:58:44.5044483Z"
+            },
             "tags": [
               {
                 "tag": "tag1",

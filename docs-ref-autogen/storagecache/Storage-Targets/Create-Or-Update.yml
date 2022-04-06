@@ -3,14 +3,14 @@ uid: management.azure.com.storagecache.storagetargets.createorupdate
 name: Create Or Update
 service: Storagecache
 groupName: Storage Targets
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Create or update a Storage Target. This operation is allowed at any time, but if the Cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the Cache is healthy again.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -74,6 +74,11 @@ requestBody:
     description: Type of the Storage Target.
     types:
     - uid: StorageTargetType
+  - name: properties.state
+    in: body
+    description: Storage target operational state.
+    types:
+    - uid: OperationalStateType
   - name: properties.nfs3
     in: body
     description: Properties when targetType is nfs3.
@@ -206,6 +211,10 @@ definitions:
     description: ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
     types:
     - uid: ProvisioningStateType
+  - name: properties.state
+    description: Storage target operational state.
+    types:
+    - uid: OperationalStateType
   - name: properties.nfs3
     description: Properties when targetType is nfs3.
     types:
@@ -309,6 +318,22 @@ definitions:
   - name: Updating
     types:
     - uid: string
+- name: OperationalStateType
+  description: Storage target operational state.
+  kind: enum
+  properties:
+  - name: Ready
+    types:
+    - uid: string
+  - name: Busy
+    types:
+    - uid: string
+  - name: Suspended
+    types:
+    - uid: string
+  - name: Flushing
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response.
   kind: object
@@ -333,7 +358,7 @@ definitions:
 examples:
 - name: StorageTargets_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -388,6 +413,7 @@ examples:
               "nfsAccessPolicy": "rootSquash"
             }
           ],
+          "state": "Ready",
           "targetType": "nfs3",
           "nfs3": {
             "target": "10.0.44.44",
@@ -424,6 +450,7 @@ examples:
               "nfsAccessPolicy": "rootSquash"
             }
           ],
+          "state": "Ready",
           "targetType": "nfs3",
           "nfs3": {
             "target": "10.0.44.44",
@@ -434,7 +461,7 @@ examples:
   - statusCode: "202"
 - name: StorageTargets_CreateOrUpdate_NoJunctions
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -462,6 +489,7 @@ examples:
         },
         "properties": {
           "targetType": "nfs3",
+          "state": "Ready",
           "nfs3": {
             "target": "10.0.44.44",
             "usageModel": "READ_HEAVY_INFREQ"
@@ -484,6 +512,7 @@ examples:
         },
         "properties": {
           "targetType": "nfs3",
+          "state": "Ready",
           "nfs3": {
             "target": "10.0.44.44",
             "usageModel": "READ_HEAVY_INFREQ"
@@ -493,7 +522,7 @@ examples:
   - statusCode: "202"
 - name: StorageTargets_CreateOrUpdate_BlobNfs
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -531,6 +560,7 @@ examples:
               "namespacePath": "/blobnfs"
             }
           ],
+          "state": "Ready",
           "blobNfs": {
             "target": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Storage/storageAccounts/blofnfs/blobServices/default/containers/blobnfs",
             "usageModel": "WRITE_WORKLOAD_15"
@@ -558,6 +588,7 @@ examples:
               "namespacePath": "/blobnfs"
             }
           ],
+          "state": "Ready",
           "blobNfs": {
             "target": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Storage/storageAccounts/blofnfs/blobServices/default/containers/blobnfs",
             "usageModel": "WRITE_WORKLOAD_15"

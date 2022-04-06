@@ -1,5 +1,5 @@
 ---
-title: "Create"
+title: Service Fabric Create Application Type Version
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create
+# Service Fabric Create Application Type Version
+
 Creates or updates a Service Fabric application type version resource.
 
 Create or update a Service Fabric application type version resource with the specified name.

@@ -51,4 +51,4 @@ service_description: To be added
 ## See Also
 
 - [Azure DevTest Labs tutorials](/azure/devtest-labs/)
-- [What is DevTest Labs?](/articles/devtest-labs/devtest-lab-overview)
+- [What is DevTest Labs?](/azure/devtest-labs/devtest-lab-overview)

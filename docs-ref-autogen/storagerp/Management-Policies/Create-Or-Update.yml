@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.managementpolicies.createorupdate
 name: Create Or Update
 service: Storage Resource Provider
 groupName: Management Policies
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01
 summary: Sets the managementpolicy to the specified storage account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/default?api-version=2021-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/default?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -246,7 +246,7 @@ definitions:
     types:
     - uid: string
 - name: DateAfterModification
-  description: Object to define the number of days after object last modification Or last access. Properties daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
+  description: Object to define the base blob action conditions. Properties daysAfterModificationGreaterThan, daysAfterLastAccessTimeGreaterThan and daysAfterCreationGreaterThan are mutually exclusive. The daysAfterLastTierChangeGreaterThan property is only applicable for tierToArchive actions which requires daysAfterModificationGreaterThan to be set, also it cannot be used in conjunction with daysAfterLastAccessTimeGreaterThan or daysAfterCreationGreaterThan.
   kind: object
   properties:
   - name: daysAfterModificationGreaterThan
@@ -257,18 +257,30 @@ definitions:
     description: Value indicating the age in days after last blob access. This property can only be used in conjunction with last access time tracking policy
     types:
     - uid: number
+  - name: daysAfterLastTierChangeGreaterThan
+    description: Value indicating the age in days after last blob tier change time. This property is only applicable for tierToArchive actions and requires daysAfterModificationGreaterThan to be set for baseBlobs based actions. The blob will be archived if both the conditions are satisfied.
+    types:
+    - uid: number
+  - name: daysAfterCreationGreaterThan
+    description: Value indicating the age in days after blob creation.
+    types:
+    - uid: number
 - name: DateAfterCreation
-  description: Object to define the number of days after creation.
+  description: Object to define snapshot and version action conditions.
   kind: object
   properties:
   - name: daysAfterCreationGreaterThan
     description: Value indicating the age in days after creation
     types:
     - uid: number
+  - name: daysAfterLastTierChangeGreaterThan
+    description: Value indicating the age in days after last blob tier change time. This property is only applicable for tierToArchive actions and requires daysAfterCreationGreaterThan to be set for snapshots and blob version based actions. The blob will be archived if both the conditions are satisfied.
+    types:
+    - uid: number
 examples:
 - name: StorageAccountSetManagementPolicies
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/managementPolicies/default?api-version=2021-04-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/managementPolicies/default?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -441,7 +453,7 @@ examples:
       }
 - name: StorageAccountSetManagementPolicy_LastAccessTimeBasedBlobActions
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/managementPolicies/default?api-version=2021-04-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/managementPolicies/default?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -536,7 +548,7 @@ examples:
       }
 - name: StorageAccountSetManagementPolicyWithSnapshotAndVersion
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/managementPolicies/default?api-version=2021-04-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/managementPolicies/default?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -663,7 +675,7 @@ examples:
       }
 - name: StorageAccountSetManagementPolicyForBlockAndAppendBlobs
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/managementPolicies/default?api-version=2021-04-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/managementPolicies/default?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -752,6 +764,198 @@ examples:
             ]
           },
           "lastModifiedTime": "2018-06-08T02:53:39.0932539Z"
+        }
+      }
+- name: StorageAccountSetManagementPolicy_LastTierChangeTimeActions
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/managementPolicies/default?api-version=2021-09-01
+    body: >-
+      {
+        "properties": {
+          "policy": {
+            "rules": [
+              {
+                "enabled": true,
+                "name": "olcmtest",
+                "type": "Lifecycle",
+                "definition": {
+                  "filters": {
+                    "blobTypes": [
+                      "blockBlob"
+                    ],
+                    "prefixMatch": [
+                      "olcmtestcontainer"
+                    ]
+                  },
+                  "actions": {
+                    "baseBlob": {
+                      "tierToCool": {
+                        "daysAfterModificationGreaterThan": 30
+                      },
+                      "tierToArchive": {
+                        "daysAfterModificationGreaterThan": 90,
+                        "daysAfterLastTierChangeGreaterThan": 120
+                      },
+                      "delete": {
+                        "daysAfterModificationGreaterThan": 1000
+                      }
+                    },
+                    "snapshot": {
+                      "tierToArchive": {
+                        "daysAfterCreationGreaterThan": 30,
+                        "daysAfterLastTierChangeGreaterThan": 90
+                      }
+                    },
+                    "version": {
+                      "tierToArchive": {
+                        "daysAfterCreationGreaterThan": 30,
+                        "daysAfterLastTierChangeGreaterThan": 90
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res7231/providers/Microsoft.Storage/storageAccounts/sto288/managementPolicies/default",
+        "name": "DefaultManagementPolicy",
+        "type": "Microsoft.Storage/storageAccounts/managementPolicies",
+        "properties": {
+          "policy": {
+            "rules": [
+              {
+                "enabled": true,
+                "name": "olcmtest",
+                "type": "Lifecycle",
+                "definition": {
+                  "filters": {
+                    "blobTypes": [
+                      "blockBlob"
+                    ],
+                    "prefixMatch": [
+                      "olcmtestcontainer"
+                    ]
+                  },
+                  "actions": {
+                    "baseBlob": {
+                      "tierToCool": {
+                        "daysAfterModificationGreaterThan": 30
+                      },
+                      "tierToArchive": {
+                        "daysAfterModificationGreaterThan": 90,
+                        "daysAfterLastTierChangeGreaterThan": 120
+                      },
+                      "delete": {
+                        "daysAfterModificationGreaterThan": 1000
+                      }
+                    },
+                    "snapshot": {
+                      "tierToArchive": {
+                        "daysAfterCreationGreaterThan": 30,
+                        "daysAfterLastTierChangeGreaterThan": 90
+                      }
+                    },
+                    "version": {
+                      "tierToArchive": {
+                        "daysAfterCreationGreaterThan": 30,
+                        "daysAfterLastTierChangeGreaterThan": 90
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "lastModifiedTime": "2018-06-08T02:53:39.0932539Z"
+        }
+      }
+- name: StorageAccountSetManagementPolicy_BaseBlobDaysAfterCreationActions
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/managementPolicies/default?api-version=2021-09-01
+    body: >-
+      {
+        "properties": {
+          "policy": {
+            "rules": [
+              {
+                "enabled": true,
+                "name": "olcmtest1",
+                "type": "Lifecycle",
+                "definition": {
+                  "filters": {
+                    "blobTypes": [
+                      "blockBlob"
+                    ],
+                    "prefixMatch": [
+                      "olcmtestcontainer1"
+                    ]
+                  },
+                  "actions": {
+                    "baseBlob": {
+                      "tierToCool": {
+                        "daysAfterCreationGreaterThan": 30
+                      },
+                      "tierToArchive": {
+                        "daysAfterCreationGreaterThan": 90
+                      },
+                      "delete": {
+                        "daysAfterCreationGreaterThan": 1000
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res7231/providers/Microsoft.Storage/storageAccounts/sto288/managementPolicies/default",
+        "name": "DefaultManagementPolicy",
+        "type": "Microsoft.Storage/storageAccounts/managementPolicies",
+        "properties": {
+          "policy": {
+            "rules": [
+              {
+                "enabled": true,
+                "name": "olcmtest1",
+                "type": "Lifecycle",
+                "definition": {
+                  "filters": {
+                    "blobTypes": [
+                      "blockBlob"
+                    ],
+                    "prefixMatch": [
+                      "olcmtestcontainer1"
+                    ]
+                  },
+                  "actions": {
+                    "baseBlob": {
+                      "tierToCool": {
+                        "daysAfterCreationGreaterThan": 30
+                      },
+                      "tierToArchive": {
+                        "daysAfterCreationGreaterThan": 90
+                      },
+                      "delete": {
+                        "daysAfterCreationGreaterThan": 1000
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "lastModifiedTime": "2021-06-08T02:53:39.0932539Z"
         }
       }
 security:
