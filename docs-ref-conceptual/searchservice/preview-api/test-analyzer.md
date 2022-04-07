@@ -4,7 +4,7 @@ description: Preview version of the Analyze Text REST API for Azure Cognitive Se
 ms.date: 09/30/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: dereklegenzoff

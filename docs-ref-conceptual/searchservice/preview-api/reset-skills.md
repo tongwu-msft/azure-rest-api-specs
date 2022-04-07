@@ -5,7 +5,7 @@ description: Preview version of the Reset Skills REST API for Azure Cognitive Se
 ms.date: 07/20/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: jennifermarsman

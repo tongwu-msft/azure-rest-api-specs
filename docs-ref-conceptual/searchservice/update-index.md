@@ -4,7 +4,7 @@ description: "Update an existing index definition in a search service."
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

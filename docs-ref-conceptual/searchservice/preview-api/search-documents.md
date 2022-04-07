@@ -5,7 +5,7 @@ description: Preview version of the Search Documents REST API for Azure Cognitiv
 ms.date: 07/20/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh
