@@ -2467,6 +2467,7 @@
 #### [Create](authorization/Role-Assignment-Schedule-Requests/Create.yml)
 #### [Get](authorization/Role-Assignment-Schedule-Requests/Get.yml)
 #### [List For Scope](authorization/Role-Assignment-Schedule-Requests/List-For-Scope.yml)
+#### [Validate](authorization/Role-Assignment-Schedule-Requests/Validate.yml)
 ### Role Assignment Schedules
 #### [Overview](authorization/Role-Assignment-Schedules.yml)
 #### [Get](authorization/Role-Assignment-Schedules/Get.yml)
@@ -2500,6 +2501,7 @@
 #### [Create](authorization/Role-Eligibility-Schedule-Requests/Create.yml)
 #### [Get](authorization/Role-Eligibility-Schedule-Requests/Get.yml)
 #### [List For Scope](authorization/Role-Eligibility-Schedule-Requests/List-For-Scope.yml)
+#### [Validate](authorization/Role-Eligibility-Schedule-Requests/Validate.yml)
 ### Role Eligibility Schedules
 #### [Overview](authorization/Role-Eligibility-Schedules.yml)
 #### [Get](authorization/Role-Eligibility-Schedules/Get.yml)
