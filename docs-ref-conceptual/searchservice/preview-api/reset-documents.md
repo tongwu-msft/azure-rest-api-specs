@@ -5,7 +5,7 @@ description: Preview version of the Reset Document REST API for Azure Cognitive 
 ms.date: 01/10/2022
 
 ms.service: cognitive-search
-ms.topic: reference
+ms.topic: language-reference
 ms.devlang: rest-api
 
 author: jennifermarsman

@@ -5,7 +5,7 @@ description: Preview version of the Create or Update Index REST API for Azure Co
 ms.date: 03/20/2022
 
 ms.service: cognitive-search
-ms.topic: reference
+ms.topic: language-reference
 ms.devlang: rest-api
 
 author: bevloh

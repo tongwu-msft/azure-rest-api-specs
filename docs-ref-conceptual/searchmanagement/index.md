@@ -4,7 +4,7 @@ titleSuffix: Azure Cognitive Search
 description: REST API reference for provisioning an Azure Cognitive Search service for public or private access. You can also manage API keys and configure capacity.
 
 ms.service: cognitive-search
-ms.topic: reference
+ms.topic: language-reference
 ms.devlang: rest-api
 
 ms.date: 06/29/2021
