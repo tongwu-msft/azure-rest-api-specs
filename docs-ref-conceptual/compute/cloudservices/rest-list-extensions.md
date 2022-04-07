@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - List Extensions | Microsoft Docs"
+description: Learn how the List Extensions` operation lists all of the extensions that were added to a cloud service.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

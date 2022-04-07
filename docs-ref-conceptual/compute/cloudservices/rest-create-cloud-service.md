@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Create Cloud Service1 | Microsoft Docs"
+description: Learn how the Create Cloud Service asynchronous operation creates a new cloud service in Microsoft Azure.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"
