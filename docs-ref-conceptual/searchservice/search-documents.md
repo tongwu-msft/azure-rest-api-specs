@@ -4,7 +4,7 @@ description: Query an Azure Cognitive Search index and return search results.
 ms.date: 03/02/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

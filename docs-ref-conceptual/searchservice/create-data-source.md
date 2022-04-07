@@ -4,7 +4,7 @@ description: Data source connection information used by an Azure Cognitive Searc
 ms.date: 02/11/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: jennifermarsman

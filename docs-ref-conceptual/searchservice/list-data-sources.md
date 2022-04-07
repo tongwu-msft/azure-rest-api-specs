@@ -4,7 +4,7 @@ description: Return a list of data source connection objects used by an Azure Co
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: jennifermarsman

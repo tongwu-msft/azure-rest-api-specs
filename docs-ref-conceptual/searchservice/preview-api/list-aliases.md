@@ -5,7 +5,7 @@ description: A list of aliases can be retrieved using REST API in Azure Cognitiv
 ms.date: 03/01/2022
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: dereklegenzoff
