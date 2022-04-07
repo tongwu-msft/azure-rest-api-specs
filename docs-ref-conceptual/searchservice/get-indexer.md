@@ -7,8 +7,8 @@ ms.service: cognitive-search
 ms.topic: reference
 ms.devlang: rest-api
 
-author: jennifermarsman
-ms.author: jennmar
+author: gmndrg
+ms.author: gimondra
 
 ---
 # Get Indexer (Azure Cognitive Search REST API)

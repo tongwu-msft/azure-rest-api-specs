@@ -7,8 +7,8 @@ ms.service: cognitive-search
 ms.devlang: rest-api
 ms.topic: reference
 
-author: jennifermarsman
-ms.author: jennmar
+author: gmndrg
+ms.author: gimondra
 ms.manager: nitinme
 ---
 
