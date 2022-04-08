@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Get Deployment | Microsoft Docs"
+description: Learn how the Get Deployment operation returns configuration information, status, and system properties for a deployment.
 ms.custom: 
   - "VMClassic"
 ms.date: "02/01/2016"

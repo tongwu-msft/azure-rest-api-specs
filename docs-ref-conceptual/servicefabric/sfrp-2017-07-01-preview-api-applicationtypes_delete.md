@@ -1,5 +1,5 @@
 ---
-title: "Delete"
+title: Service Fabric Delete Application Type
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete
+# Service Fabric Delete Application Type
+
 Deletes a Service Fabric application type name resource.
 
 Delete a Service Fabric application type name resource with the specified name.

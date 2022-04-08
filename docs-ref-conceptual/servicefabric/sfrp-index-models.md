@@ -1,5 +1,6 @@
 ---
-title: Cluster Resource Type Models
+title: "Cluster Resource Type Models"
+description: "This index provides descriptions for various Type Models that are available as cluster add-on."
 ms.date: 06/04/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
