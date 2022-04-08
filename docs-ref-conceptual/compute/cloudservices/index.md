@@ -1,5 +1,6 @@
 ---
 title: "Cloud Services REST APIs"
+description: Learn how the Service Management API includes operations for managing the cloud services in your subscription.
 ms.date: "10/04/2017"
 
 ms.topic: "reference"

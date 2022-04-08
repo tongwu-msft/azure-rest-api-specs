@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - List Deployment Events | Microsoft Docs"
+description: Learn how the List Deployment Events operation lists the events that impacted a deployment in the specified timeframe.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

@@ -1,6 +1,7 @@
 ---
 ms.assetid: 987a76ca-b62e-4525-ac07-bbde73abce05
 title: Azure CDN REST API Reference | Microsoft Docs
+description: The Azure Content Delivery Network (CDN) caches static web content at strategically placed locations to provide maximum throughput for delivering content to users.
 ms.service: cdn
 author: mmacy
 ms.author: marsma
@@ -24,8 +25,12 @@ The CDN REST API provides operations for working with the following resources.
 | [Edge Nodes](xref:management.azure.com.cdn.edgenodes) | Obtain information about CDN edge nodes. |
 | [Endpoints](xref:management.azure.com.cdn.endpoints) | Create, validate, start, stop, and delete CDN endpoints. Pre-load and purge cached endpoint content. |
 | [List Operations](xref:management.azure.com.cdn.operations) | Provides information about CDN REST API operations. |
+| [Origin Groups](/rest/api/cdn/origin-groups) | Manage origin groups within an endpoint. |
 | [Origins](xref:management.azure.com.cdn.origins) | Manage origins within an endpoint. |
 | [Profiles](xref:management.azure.com.cdn.profiles) | Operations for managing CDN profiles. A CDN profile is a collection of CDN endpoints. |
+| [Resource Usage](/rest/api/cdn/resource-usage) | Check the quota and actual usage of the CDN profiles under the given subscription.|
+| [Validate Probe](/rest/api/cdn/validate-probe) | Check if the probe path is a valid path and the file can be accessed. This path is relative to the origin path specified in the endpoint configuration. |
+
 
 ## See also
 
