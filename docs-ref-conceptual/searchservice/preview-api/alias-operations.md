@@ -5,7 +5,7 @@ description: Index aliases define a secondary name that can be used to refer to 
 ms.date: 03/01/2022
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: dereklegenzoff
@@ -44,3 +44,7 @@ An admin API key is required for all Alias operations.
 + [List Aliases](list-aliases.md)  
 + [Get Alias](get-alias.md)  
 + [Delete Alias](delete-alias.md)  
+
+## See also  
+
++ [Create an index alias in Azure Cognitive Search](/azure/search/search-how-to-alias)   

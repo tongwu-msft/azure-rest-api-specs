@@ -2,7 +2,7 @@
 title: "VolumeResourceDescription"
 description: Describes a volume resource and provides the names, types, and requirement statuses for properties of the volume resource description.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipulm
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# VolumeResourceDescription
+# Service Fabric Mesh VolumeResourceDescription
 
 This type describes a volume resource.
 

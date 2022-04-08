@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.blobinventorypolicies.get
 name: Get
 service: Storage Resource Provider
 groupName: Blob Inventory Policies
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01
 summary: Gets the blob inventory policy associated with the specified storage account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/default?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/default?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,7 +51,7 @@ responses:
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
-  - uid: ErrorResponse
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: BlobInventoryPolicyName
@@ -94,14 +94,14 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: ErrorResponse
-  description: An error response from the storage resource provider.
+- name: CloudError
+  description: An error response from the Storage service.
   kind: object
   properties:
   - name: error
-    description: Azure Storage Resource Provider error response body.
+    description: An error response from the Storage service.
     types:
-    - uid: ErrorResponseBody
+    - uid: CloudErrorBody
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -138,6 +138,11 @@ definitions:
     description: Policy is enabled if set to true.
     types:
     - uid: boolean
+  - name: destination
+    isReadyOnly: true
+    description: Deprecated Property from API version 2021-04-01 onwards, the required destination container name must be specified at the rule level 'policy.rule.destination'
+    types:
+    - uid: string
   - name: type
     description: The valid value is Inventory
     types:
@@ -147,8 +152,8 @@ definitions:
     types:
     - uid: BlobInventoryPolicyRule
       isArray: true
-- name: ErrorResponseBody
-  description: Error response body contract.
+- name: CloudErrorBody
+  description: An error response from the Storage service.
   kind: object
   properties:
   - name: code
@@ -159,6 +164,15 @@ definitions:
     description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -223,7 +237,7 @@ definitions:
     types:
     - uid: objectType
   - name: schemaFields
-    description: This is a required field. This field specifies the fields and properties of the object to be included in the inventory. The Schema field value 'Name' is always required. The valid values for this field for the 'Blob' definition.objectType include 'Name, Creation-Time, Last-Modified, Content-Length, Content-MD5, BlobType, AccessTier, AccessTierChangeTime, Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl, Snapshot, VersionId, IsCurrentVersion, Metadata, LastAccessTime'. The valid values for 'Container' definition.objectType include 'Name, Last-Modified, Metadata, LeaseStatus, LeaseState, LeaseDuration, PublicAccess, HasImmutabilityPolicy, HasLegalHold'. Schema field values 'Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl' are valid only for Hns enabled accounts.
+    description: This is a required field. This field specifies the fields and properties of the object to be included in the inventory. The Schema field value 'Name' is always required. The valid values for this field for the 'Blob' definition.objectType include 'Name, Creation-Time, Last-Modified, Content-Length, Content-MD5, BlobType, AccessTier, AccessTierChangeTime, AccessTierInferred, Tags, Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl, Snapshot, VersionId, IsCurrentVersion, Metadata, LastAccessTime, Tags, Etag, ContentType, ContentEncoding, ContentLanguage, ContentCRC64, CacheControl, ContentDisposition, LeaseStatus, LeaseState, LeaseDuration, ServerEncrypted, Deleted, DeletionId, DeletedTime, RemainingRetentionDays, ImmutabilityPolicyUntilDate, ImmutabilityPolicyMode, LegalHold, CopyId, CopyStatus, CopySource, CopyProgress, CopyCompletionTime, CopyStatusDescription, CustomerProvidedKeySha256, RehydratePriority, ArchiveStatus, XmsBlobSequenceNumber, EncryptionScope, IncrementalCopy, TagCount'. For Blob object type schema field value 'DeletedTime' is applicable only for Hns enabled accounts. The valid values for 'Container' definition.objectType include 'Name, Last-Modified, Metadata, LeaseStatus, LeaseState, LeaseDuration, PublicAccess, HasImmutabilityPolicy, HasLegalHold, Etag, DefaultEncryptionScope, DenyEncryptionScopeOverride, ImmutableStorageWithVersioningEnabled, Deleted, Version, DeletedTime, RemainingRetentionDays'. Schema field values 'Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl, DeletionId' are valid only for Hns enabled accounts.Schema field values 'Tags, TagCount' are only valid for Non-Hns accounts.
     types:
     - uid: string
       isArray: true
@@ -232,7 +246,12 @@ definitions:
   kind: object
   properties:
   - name: prefixMatch
-    description: An array of strings for blob prefixes to be matched.
+    description: An array of strings with maximum 10 blob prefixes to be included in the inventory.
+    types:
+    - uid: string
+      isArray: true
+  - name: excludePrefix
+    description: An array of strings with maximum 10 blob prefixes to be excluded from the inventory.
     types:
     - uid: string
       isArray: true
@@ -247,6 +266,10 @@ definitions:
     - uid: boolean
   - name: includeSnapshots
     description: Includes blob snapshots in blob inventory when value is set to true. The definition.schemaFields value 'Snapshot' is required if this property is set to true, else it must be excluded.
+    types:
+    - uid: boolean
+  - name: includeDeleted
+    description: For 'Container' definition.objectType the definition.schemaFields must include 'Deleted, Version, DeletedTime and RemainingRetentionDays'. For 'Blob' definition.objectType and HNS enabled storage accounts the definition.schemaFields must include 'DeletionId, Deleted, DeletedTime and RemainingRetentionDays' and for Hns disabled accounts the definition.schemaFields must include 'Deleted and RemainingRetentionDays', else it must be excluded.
     types:
     - uid: boolean
 - name: format
@@ -282,7 +305,7 @@ definitions:
 examples:
 - name: StorageAccountGetBlobInventoryPolicy
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/inventoryPolicies/default?api-version=2021-04-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/inventoryPolicies/default?api-version=2021-09-01
   responses:
   - statusCode: "200"
     body: >-

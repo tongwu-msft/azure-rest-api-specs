@@ -2,7 +2,7 @@
 title: "Setting"
 description: Describes the setting for a container and provides the names, types, and requirement statuses for the properties of a setting.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipulm
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Setting
+# Service Fabric Mesh Setting
 
 Describes a setting for the container.
 
