@@ -1,5 +1,6 @@
 ---
-title: Service Fabric Placement Policy and Values
+title: "Service Fabric Placement Policy and Values"
+description: "The type of placement policy for a service fabric service. Various values are defined for ServicePlacementPolicyType."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

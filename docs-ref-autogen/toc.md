@@ -2467,6 +2467,7 @@
 #### [Create](authorization/Role-Assignment-Schedule-Requests/Create.yml)
 #### [Get](authorization/Role-Assignment-Schedule-Requests/Get.yml)
 #### [List For Scope](authorization/Role-Assignment-Schedule-Requests/List-For-Scope.yml)
+#### [Validate](authorization/Role-Assignment-Schedule-Requests/Validate.yml)
 ### Role Assignment Schedules
 #### [Overview](authorization/Role-Assignment-Schedules.yml)
 #### [Get](authorization/Role-Assignment-Schedules/Get.yml)
@@ -2500,6 +2501,7 @@
 #### [Create](authorization/Role-Eligibility-Schedule-Requests/Create.yml)
 #### [Get](authorization/Role-Eligibility-Schedule-Requests/Get.yml)
 #### [List For Scope](authorization/Role-Eligibility-Schedule-Requests/List-For-Scope.yml)
+#### [Validate](authorization/Role-Eligibility-Schedule-Requests/Validate.yml)
 ### Role Eligibility Schedules
 #### [Overview](authorization/Role-Eligibility-Schedules.yml)
 #### [Get](authorization/Role-Eligibility-Schedules/Get.yml)
@@ -2655,10 +2657,18 @@
 ### [List By Type](automation/Fields/List-By-Type.yml)
 ## Hybrid Runbook Worker Group
 ### [Overview](automation/Hybrid-Runbook-Worker-Group.yml)
+### [Create](automation/Hybrid-Runbook-Worker-Group/Create.yml)
 ### [Delete](automation/Hybrid-Runbook-Worker-Group/Delete.yml)
 ### [Get](automation/Hybrid-Runbook-Worker-Group/Get.yml)
 ### [List By Automation Account](automation/Hybrid-Runbook-Worker-Group/List-By-Automation-Account.yml)
 ### [Update](automation/Hybrid-Runbook-Worker-Group/Update.yml)
+## Hybrid Runbook Workers
+### [Overview](automation/Hybrid-Runbook-Workers.yml)
+### [Create](automation/Hybrid-Runbook-Workers/Create.yml)
+### [Delete](automation/Hybrid-Runbook-Workers/Delete.yml)
+### [Get](automation/Hybrid-Runbook-Workers/Get.yml)
+### [List By Hybrid Runbook Worker Group](automation/Hybrid-Runbook-Workers/List-By-Hybrid-Runbook-Worker-Group.yml)
+### [Move](automation/Hybrid-Runbook-Workers/Move.yml)
 ## Job
 ### [Overview](automation/Job.yml)
 ### [Create](automation/Job/Create.yml)
@@ -2714,12 +2724,12 @@
 ### [Get](automation/Runbook/Get.yml)
 ### [Get Content](automation/Runbook/Get-Content.yml)
 ### [List By Automation Account](automation/Runbook/List-By-Automation-Account.yml)
+### [Publish](automation/Runbook/Publish.yml)
 ### [Update](automation/Runbook/Update.yml)
 ## Runbook Draft
 ### [Overview](automation/Runbook-Draft.yml)
 ### [Get](automation/Runbook-Draft/Get.yml)
 ### [Get Content](automation/Runbook-Draft/Get-Content.yml)
-### [Publish](automation/Runbook-Draft/Publish.yml)
 ### [Replace Content](automation/Runbook-Draft/Replace-Content.yml)
 ### [Undo Edit](automation/Runbook-Draft/Undo-Edit.yml)
 ## Schedule
@@ -2800,6 +2810,9 @@
 ### [Get](automation/Webhook/Get.yml)
 ### [List By Automation Account](automation/Webhook/List-By-Automation-Account.yml)
 ### [Update](automation/Webhook/Update.yml)
+## convert Graph Runbook Content
+### [Overview](automation/convert-Graph-Runbook-Content.yml)
+### [convert Graph Runbook Content](automation/convert-Graph-Runbook-Content/convert-Graph-Runbook-Content.yml)
 # AVS
 ## [Overview](../docs-ref-conceptual/avs/index.md)
 ## Addons
@@ -11074,6 +11087,31 @@
 #### Operations
 ##### [Overview](iotcentral/2021-06-01controlplane/Operations.yml)
 ##### [List](iotcentral/2021-06-01controlplane/Operations/List.yml)
+### 2021-11-01-preview Control Plane
+#### Apps
+##### [Overview](iotcentral/2021-11-01-previewcontrolplane/Apps.yml)
+##### [Check Name Availability](iotcentral/2021-11-01-previewcontrolplane/Apps/Check-Name-Availability.yml)
+##### [Check Subdomain Availability](iotcentral/2021-11-01-previewcontrolplane/Apps/Check-Subdomain-Availability.yml)
+##### [Create Or Update](iotcentral/2021-11-01-previewcontrolplane/Apps/Create-Or-Update.yml)
+##### [Delete](iotcentral/2021-11-01-previewcontrolplane/Apps/Delete.yml)
+##### [Get](iotcentral/2021-11-01-previewcontrolplane/Apps/Get.yml)
+##### [List By Resource Group](iotcentral/2021-11-01-previewcontrolplane/Apps/List-By-Resource-Group.yml)
+##### [List By Subscription](iotcentral/2021-11-01-previewcontrolplane/Apps/List-By-Subscription.yml)
+##### [List Templates](iotcentral/2021-11-01-previewcontrolplane/Apps/List-Templates.yml)
+##### [Update](iotcentral/2021-11-01-previewcontrolplane/Apps/Update.yml)
+#### Operations
+##### [Overview](iotcentral/2021-11-01-previewcontrolplane/Operations.yml)
+##### [List](iotcentral/2021-11-01-previewcontrolplane/Operations/List.yml)
+#### Private Endpoint Connections
+##### [Overview](iotcentral/2021-11-01-previewcontrolplane/Private-Endpoint-Connections.yml)
+##### [Create](iotcentral/2021-11-01-previewcontrolplane/Private-Endpoint-Connections/Create.yml)
+##### [Delete](iotcentral/2021-11-01-previewcontrolplane/Private-Endpoint-Connections/Delete.yml)
+##### [Get](iotcentral/2021-11-01-previewcontrolplane/Private-Endpoint-Connections/Get.yml)
+##### [List](iotcentral/2021-11-01-previewcontrolplane/Private-Endpoint-Connections/List.yml)
+#### Private Links
+##### [Overview](iotcentral/2021-11-01-previewcontrolplane/Private-Links.yml)
+##### [Get](iotcentral/2021-11-01-previewcontrolplane/Private-Links/Get.yml)
+##### [List](iotcentral/2021-11-01-previewcontrolplane/Private-Links/List.yml)
 # IoT Hub
 ## [Overview](../docs-ref-conceptual/iothub/index.md)
 ## [Common error codes](../docs-ref-conceptual/iothub/common-error-codes.md)
@@ -11369,12 +11407,18 @@
 ### Get Key
 #### [Overview](keyvault/keys/Get-Key.yml)
 #### [Get Key](keyvault/keys/Get-Key/Get-Key.yml)
+### Get Key Rotation Policy
+#### [Overview](keyvault/keys/Get-Key-Rotation-Policy.yml)
+#### [Get Key Rotation Policy](keyvault/keys/Get-Key-Rotation-Policy/Get-Key-Rotation-Policy.yml)
 ### Get Key Versions
 #### [Overview](keyvault/keys/Get-Key-Versions.yml)
 #### [Get Key Versions](keyvault/keys/Get-Key-Versions/Get-Key-Versions.yml)
 ### Get Keys
 #### [Overview](keyvault/keys/Get-Keys.yml)
 #### [Get Keys](keyvault/keys/Get-Keys/Get-Keys.yml)
+### Get Random Bytes
+#### [Overview](keyvault/keys/Get-Random-Bytes.yml)
+#### [Get Random Bytes](keyvault/keys/Get-Random-Bytes/Get-Random-Bytes.yml)
 ### Import Key
 #### [Overview](keyvault/keys/Import-Key.yml)
 #### [Import Key](keyvault/keys/Import-Key/Import-Key.yml)
@@ -11387,15 +11431,24 @@
 ### Restore Key
 #### [Overview](keyvault/keys/Restore-Key.yml)
 #### [Restore Key](keyvault/keys/Restore-Key/Restore-Key.yml)
+### Rotate Key
+#### [Overview](keyvault/keys/Rotate-Key.yml)
+#### [Rotate Key](keyvault/keys/Rotate-Key/Rotate-Key.yml)
 ### Update Key
 #### [Overview](keyvault/keys/Update-Key.yml)
 #### [Update Key](keyvault/keys/Update-Key/Update-Key.yml)
+### Update Key Rotation Policy
+#### [Overview](keyvault/keys/Update-Key-Rotation-Policy.yml)
+#### [Update Key Rotation Policy](keyvault/keys/Update-Key-Rotation-Policy/Update-Key-Rotation-Policy.yml)
 ### decrypt
 #### [Overview](keyvault/keys/decrypt.yml)
 #### [decrypt](keyvault/keys/decrypt/decrypt.yml)
 ### encrypt
 #### [Overview](keyvault/keys/encrypt.yml)
 #### [encrypt](keyvault/keys/encrypt/encrypt.yml)
+### release
+#### [Overview](keyvault/keys/release.yml)
+#### [release](keyvault/keys/release/release.yml)
 ### sign
 #### [Overview](keyvault/keys/sign.yml)
 #### [sign](keyvault/keys/sign/sign.yml)
@@ -12751,6 +12804,12 @@
 #### [List Edge Policies](media/Mediaservices/List-Edge-Policies.yml)
 #### [Sync Storage Keys](media/Mediaservices/Sync-Storage-Keys.yml)
 #### [Update](media/Mediaservices/Update.yml)
+### Operation Results
+#### [Overview](media/Operation-Results.yml)
+#### [Get](media/Operation-Results/Get.yml)
+### Operation Statuses
+#### [Overview](media/Operation-Statuses.yml)
+#### [Get](media/Operation-Statuses/Get.yml)
 ### Operations
 #### [Overview](media/Operations.yml)
 #### [List](media/Operations/List.yml)
@@ -12771,6 +12830,7 @@
 #### [Get](media/Streaming-Endpoints/Get.yml)
 #### [List](media/Streaming-Endpoints/List.yml)
 #### [Scale](media/Streaming-Endpoints/Scale.yml)
+#### [Skus](media/Streaming-Endpoints/Skus.yml)
 #### [Start](media/Streaming-Endpoints/Start.yml)
 #### [Stop](media/Streaming-Endpoints/Stop.yml)
 #### [Update](media/Streaming-Endpoints/Update.yml)
@@ -12788,6 +12848,14 @@
 #### [Delete](media/Streaming-Policies/Delete.yml)
 #### [Get](media/Streaming-Policies/Get.yml)
 #### [List](media/Streaming-Policies/List.yml)
+### Tracks
+#### [Overview](media/Tracks.yml)
+#### [Create Or Update](media/Tracks/Create-Or-Update.yml)
+#### [Delete](media/Tracks/Delete.yml)
+#### [Get](media/Tracks/Get.yml)
+#### [List](media/Tracks/List.yml)
+#### [Update](media/Tracks/Update.yml)
+#### [Update Track Data](media/Tracks/Update-Track-Data.yml)
 ### Transforms
 #### [Overview](media/Transforms.yml)
 #### [Create Or Update](media/Transforms/Create-Or-Update.yml)
@@ -21355,6 +21423,14 @@
 #### [List](storagerp/File-Shares/List.yml)
 #### [Restore](storagerp/File-Shares/Restore.yml)
 #### [Update](storagerp/File-Shares/Update.yml)
+### Local Users
+#### [Overview](storagerp/Local-Users.yml)
+#### [Create Or Update](storagerp/Local-Users/Create-Or-Update.yml)
+#### [Delete](storagerp/Local-Users/Delete.yml)
+#### [Get](storagerp/Local-Users/Get.yml)
+#### [List](storagerp/Local-Users/List.yml)
+#### [List Keys](storagerp/Local-Users/List-Keys.yml)
+#### [Regenerate Password](storagerp/Local-Users/Regenerate-Password.yml)
 ### Management Policies
 #### [Overview](storagerp/Management-Policies.yml)
 #### [Create Or Update](storagerp/Management-Policies/Create-Or-Update.yml)
@@ -21395,11 +21471,13 @@
 #### [List](storagerp/Skus/List.yml)
 ### Storage Accounts
 #### [Overview](storagerp/Storage-Accounts.yml)
+#### [Abort Hierarchical Namespace Migration](storagerp/Storage-Accounts/Abort-Hierarchical-Namespace-Migration.yml)
 #### [Check Name Availability](storagerp/Storage-Accounts/Check-Name-Availability.yml)
 #### [Create](storagerp/Storage-Accounts/Create.yml)
 #### [Delete](storagerp/Storage-Accounts/Delete.yml)
 #### [Failover](storagerp/Storage-Accounts/Failover.yml)
 #### [Get Properties](storagerp/Storage-Accounts/Get-Properties.yml)
+#### [Hierarchical Namespace Migration](storagerp/Storage-Accounts/Hierarchical-Namespace-Migration.yml)
 #### [List](storagerp/Storage-Accounts/List.yml)
 #### [List Account SAS](storagerp/Storage-Accounts/List-Account-SAS.yml)
 #### [List By Resource Group](storagerp/Storage-Accounts/List-By-Resource-Group.yml)

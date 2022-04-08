@@ -4,7 +4,7 @@ description: Return an index definition in JSON, but not its contents, from an A
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

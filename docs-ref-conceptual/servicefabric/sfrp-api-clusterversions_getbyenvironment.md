@@ -1,5 +1,6 @@
 ---
 title: "Get By Environment"
+description: "Gets information about an available Service Fabric cluster code version by environment. Response Schema is based on ClusterCodeVersionsListResult." 
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

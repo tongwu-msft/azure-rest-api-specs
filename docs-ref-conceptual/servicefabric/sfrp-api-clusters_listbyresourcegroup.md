@@ -1,5 +1,6 @@
 ---
-title: Service Fabric Cluster Listed By Resource Groups
+title: "Service Fabric Cluster Listed By Resource Groups"
+description: "List By Resource Group gets all Service Fabric cluster resources created or in the process of being created in the resource group."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

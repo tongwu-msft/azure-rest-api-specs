@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Delete Extension | Microsoft Docs"
+description: Learn how the Delete Extension operation deletes the specified extension from a cloud service.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

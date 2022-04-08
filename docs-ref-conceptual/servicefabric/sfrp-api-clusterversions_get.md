@@ -1,5 +1,6 @@
 ---
-title: Get Information about Service Fabric Cluster Codes
+title: "Get Information about Service Fabric Cluster Codes"
+description: "Learn to get information about a Service Fabric cluster code version available in the specified location. Includes example for Get Cluster version request." 
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

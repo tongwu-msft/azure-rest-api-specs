@@ -4,7 +4,7 @@ description: A query request composed of partial query input, returning matching
 ms.date: 03/23/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

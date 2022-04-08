@@ -5,7 +5,7 @@ description: Create an index alias to define a secondary name that can be used t
 ms.date: 03/01/2022
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: dereklegenzoff
@@ -103,3 +103,7 @@ For a successful update request, you should see "204 No Content".
   "indexes" : ["my-index"]
 }  
 ```  
+
+## See also  
+
++ [Create an index alias in Azure Cognitive Search](/azure/search/search-how-to-alias)   

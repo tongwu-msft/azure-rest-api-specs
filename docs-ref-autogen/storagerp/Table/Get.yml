@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.table.get
 name: Get
 service: Storage Resource Provider
 groupName: Table
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01
 summary: Gets the table with the specified table name, under the specified account if it exists.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -64,6 +64,11 @@ definitions:
     description: Table name under the specified account
     types:
     - uid: string
+  - name: properties.signedIdentifiers
+    description: List of stored access policies specified on the table.
+    types:
+    - uid: TableSignedIdentifier
+      isArray: true
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -87,6 +92,18 @@ definitions:
     description: An error response from the Storage service.
     types:
     - uid: CloudErrorBody
+- name: TableSignedIdentifier
+  description: Object to set Table Access Policy.
+  kind: object
+  properties:
+  - name: id
+    description: unique-64-character-value of the stored access policy.
+    types:
+    - uid: string
+  - name: accessPolicy
+    description: Access policy
+    types:
+    - uid: TableAccessPolicy
 - name: CloudErrorBody
   description: An error response from the Storage service.
   kind: object
@@ -108,10 +125,26 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: TableAccessPolicy
+  description: Table Access Policy Properties Object.
+  kind: object
+  properties:
+  - name: startTime
+    description: Start time of the access policy
+    types:
+    - uid: string
+  - name: expiryTime
+    description: Expiry time of the access policy
+    types:
+    - uid: string
+  - name: permission
+    description: Required. List of abbreviated permissions. Supported permission values include 'r','a','u','d'
+    types:
+    - uid: string
 examples:
 - name: TableOperationGet
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/tableServices/default/tables/table6185?api-version=2021-04-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/tableServices/default/tables/table6185?api-version=2021-09-01
   responses:
   - statusCode: "200"
     body: >-
