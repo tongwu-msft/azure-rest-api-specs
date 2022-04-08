@@ -6270,14 +6270,6 @@
 #### [Release Phone Number](communication/Phone-Numbers/Release-Phone-Number.yml)
 #### [Search Available Phone Numbers](communication/Phone-Numbers/Search-Available-Phone-Numbers.yml)
 #### [Update Capabilities](communication/Phone-Numbers/Update-Capabilities.yml)
-### Short Codes
-#### [Overview](communication/Short-Codes.yml)
-#### [Delete US Program Brief](communication/Short-Codes/Delete-US-Program-Brief.yml)
-#### [Get Short Codes](communication/Short-Codes/Get-Short-Codes.yml)
-#### [Get US Program Brief](communication/Short-Codes/Get-US-Program-Brief.yml)
-#### [Get US Program Briefs](communication/Short-Codes/Get-US-Program-Briefs.yml)
-#### [Submit US Program Brief](communication/Short-Codes/Submit-US-Program-Brief.yml)
-#### [Upsert US Program Brief](communication/Short-Codes/Upsert-US-Program-Brief.yml)
 ### Sms
 #### [Overview](communication/Sms.yml)
 #### [Send](communication/Sms/Send.yml)
