@@ -17,14 +17,10 @@ The Azure SQL Virtual Machine REST API includes operations for managing Azure SQ
 
 | Operation Group | Description |
 |-----------------|-------------|
-<<<<<<< HEAD
 |[Operations](xref:management.azure.com.sqlvm.2021-11-01-preview.operations)|List all of the available SQL virtual machine REST API operations.|
 |[Sql Virtual Machines](xref:management.azure.com.sqlvm.2021-11-01-preview.sqlvirtualmachines)|Create, get, update, delete, or list information about SQL virtual machines.|
 |[Sql Virtual Machine Groups](xref:management.azure.com.sqlvm.2021-11-01-preview.sqlvirtualmachinegroups)|Create, get, update, delete, or list information about SQL virtual machine groups.|
 |[Availability Group Listeners](xref:management.azure.com.sqlvm.2021-11-01-preview.availabilitygrouplisteners)|Create, get, update, delete, or list information about availability group listeners.|
-=======
->>>>>>> 44cf0266d135da7fa39c532132f353f5e7da3679
-
 
 
 ## See Also
