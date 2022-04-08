@@ -1,5 +1,6 @@
 ---
 title: "Operations on Cloud Services | Microsoft Docs"
+description: Learn how the Service Management API includes operations for managing the cloud services in your subscription.
 ms.custom: 
   - "VMClassic"
 ms.date: "08/18/2015"

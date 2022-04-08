@@ -1,5 +1,5 @@
 ---
-title: "Service"
+title: Service Fabric Service (2017-07-01-preview)
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -4,7 +4,7 @@ description: REST API reference for Azure Cognitive Search, used for non-managed
 ms.date: 07/20/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: HeidiSteen
@@ -72,5 +72,5 @@ Optionally, for search solutions that can use preview features, you can use Azur
 ## See also
 
 - [Create a search service in Azure portal](/azure/search/search-create-service-portal)
-- [Pricing Details](/pricing/details/search/)
+- [Pricing Details](https://azure.microsoft.com/pricing/details/search/)
 - [Common HTTP request and response headers](common-http-request-and-response-headers-used-in-azure-search.md)

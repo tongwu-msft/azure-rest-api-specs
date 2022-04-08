@@ -1,8 +1,8 @@
 ---
-title: "ServiceResourceProperties"
+title: Service Fabric Mesh ServiceResourceProperties
 description: Service Fabric Mesh Resource Manager API Reference
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipulm
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# ServiceResourceProperties
+# Service Fabric Mesh ServiceResourceProperties
 
 This type describes properties of a service resource.
 
