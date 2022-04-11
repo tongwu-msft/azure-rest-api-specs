@@ -1,5 +1,5 @@
 ---
-title: Service Kinds and Values
+title: Service kinds and values
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Service Kinds and Values
+# Service kinds and values
 
 type: string
 

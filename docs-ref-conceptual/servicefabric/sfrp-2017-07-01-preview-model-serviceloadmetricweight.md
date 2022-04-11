@@ -1,5 +1,5 @@
 ---
-title: Service Load Metric Weight Configuration
+title: Service load metric weight configuration
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Service Load Metric Weight Configuration
+# Service load metric weight configuration
 
 type: string
 

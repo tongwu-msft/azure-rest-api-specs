@@ -1,5 +1,5 @@
 ---
-title: "Partition Scheme for Singleton and Non-Partitioned Services"
+title: Partition scheme for singleton and non-partitioned services
 description: "Describe the partition scheme of a singleton-partitioned, or non-partitioned service. PartitionScheme is a discriminator property."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Partition Scheme for Singleton and Non-Partitioned Services
+# Partition scheme for singleton and non-partitioned services
 
 Describes the partition scheme of a singleton-partitioned, or non-partitioned service.
 
