@@ -145,22 +145,17 @@ Use Key Vault to safeguard and manage cryptographic keys, certificates and secre
 | Operation | Description |
 |--|--|
 | [Rotate Key](/rest/api/keyvault/keys/Rotate-Key) | Creates a new key version, stores it, then returns key parameters, attributes and policy to the client.  The operation will rotate the key based on the key policy. It requires the keys/rotate permission. |
-| [Get Key Rotation Policy](/rest/api/keyvault/keys/get-key-rotation-policy) | Lists the policy for a key.
-The GetKeyRotationPolicy operation returns the specified key policy resources in the specified key vault. This operation requires the keys/get permission. |
-| [Update  Key Rotation Policy](/rest/api/keyvault/keys/update-key-rotation-policy) | Updates the rotation policy for a key.
-Set specified members in the key policy. Leave others as undefined. This operation requires the keys/update permission. |
+| [Get Key Rotation Policy](/rest/api/keyvault/keys/get-key-rotation-policy) | Lists the policy for a key. The GetKeyRotationPolicy operation returns the specified key policy resources in the specified key vault. This operation requires the keys/get permission. |
+| [Update  Key Rotation Policy](/rest/api/keyvault/keys/update-key-rotation-policy) | Updates the rotation policy for a key. Set specified members in the key policy. Leave others as undefined. This operation requires the keys/update permission. |
 
 ### Key operations (Managed HSM only)
 
 | Operation | Description |
 |--|--|
 | [Get Random Bytes](/rest/api/keyvault/keys/get-random-bytes) | Get the requested number of bytes containing random values from a managed HSM. |
-| [Rotate Key (Preview)](/rest/api/keyvault/keys/Rotate-Key) | Creates a new key version, stores it, then returns key parameters, attributes and policy to the client.
-The operation will rotate the key based on the key policy. It requires the keys/rotate permission. |
-| [Get Key Rotation Policy (Preview)](/rest/api/keyvault/keys/get-key-rotation-policy) | Lists the policy for a key.
-The GetKeyRotationPolicy operation returns the specified key policy resources in the specified key vault. This operation requires the keys/get permission. (Managed HSM in Preview) |
-| [Update  Key Rotation Policy (Preview)](/rest/api/keyvault/keys/update-key-rotation-policy) | Updates the rotation policy for a key.
-Set specified members in the key policy. Leave others as undefined. This operation requires the keys/update permission. |
+| [Rotate Key (Preview)](/rest/api/keyvault/keys/Rotate-Key) | Creates a new key version, stores it, then returns key parameters, attributes and policy to the client. The operation will rotate the key based on the key policy. It requires the keys/rotate permission. |
+| [Get Key Rotation Policy (Preview)](/rest/api/keyvault/keys/get-key-rotation-policy) | Lists the policy for a key.The GetKeyRotationPolicy operation returns the specified key policy resources in the specified key vault. This operation requires the keys/get permission. (Managed HSM in Preview) |
+| [Update  Key Rotation Policy (Preview)](/rest/api/keyvault/keys/update-key-rotation-policy) | Updates the rotation policy for a key. Set specified members in the key policy. Leave others as undefined. This operation requires the keys/update permission. |
 
 ### Cryptographic operations (Key Vault/Managed HSM)
 
