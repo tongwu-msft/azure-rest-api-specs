@@ -20,7 +20,7 @@ translation.priority.mt:
 ---
 # Direct management API Management REST API
 
-Azure API Management provides a direct management REST API for performing operations on selected entities, such as users, groups, products, and subscriptions. This reference provides a guide for working with the direct management API Management REST API.  
+Azure API Management provides a direct management REST API for performing operations on selected entities, such as users, groups, products, and subscriptions. The direct management API can bypass certain [limits](../azure-resource-manager/management/request-limits-and-throttling.md#subscription-and-tenant-limits) of the Azure Resource Manager-based API, such as request throttling. 
 
 >[!IMPORTANT]
 >This section describes how to access the direct management API Management REST API. This API has a different [authentication mechanism](./Azure-API-Management-REST-API-Authentication.md) than Azure Resource Manager and uses a different base URL.
