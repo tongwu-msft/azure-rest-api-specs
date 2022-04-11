@@ -2467,6 +2467,7 @@
 #### [Create](authorization/Role-Assignment-Schedule-Requests/Create.yml)
 #### [Get](authorization/Role-Assignment-Schedule-Requests/Get.yml)
 #### [List For Scope](authorization/Role-Assignment-Schedule-Requests/List-For-Scope.yml)
+#### [Validate](authorization/Role-Assignment-Schedule-Requests/Validate.yml)
 ### Role Assignment Schedules
 #### [Overview](authorization/Role-Assignment-Schedules.yml)
 #### [Get](authorization/Role-Assignment-Schedules/Get.yml)
@@ -2500,6 +2501,7 @@
 #### [Create](authorization/Role-Eligibility-Schedule-Requests/Create.yml)
 #### [Get](authorization/Role-Eligibility-Schedule-Requests/Get.yml)
 #### [List For Scope](authorization/Role-Eligibility-Schedule-Requests/List-For-Scope.yml)
+#### [Validate](authorization/Role-Eligibility-Schedule-Requests/Validate.yml)
 ### Role Eligibility Schedules
 #### [Overview](authorization/Role-Eligibility-Schedules.yml)
 #### [Get](authorization/Role-Eligibility-Schedules/Get.yml)
@@ -6268,14 +6270,6 @@
 #### [Release Phone Number](communication/Phone-Numbers/Release-Phone-Number.yml)
 #### [Search Available Phone Numbers](communication/Phone-Numbers/Search-Available-Phone-Numbers.yml)
 #### [Update Capabilities](communication/Phone-Numbers/Update-Capabilities.yml)
-### Short Codes
-#### [Overview](communication/Short-Codes.yml)
-#### [Delete US Program Brief](communication/Short-Codes/Delete-US-Program-Brief.yml)
-#### [Get Short Codes](communication/Short-Codes/Get-Short-Codes.yml)
-#### [Get US Program Brief](communication/Short-Codes/Get-US-Program-Brief.yml)
-#### [Get US Program Briefs](communication/Short-Codes/Get-US-Program-Briefs.yml)
-#### [Submit US Program Brief](communication/Short-Codes/Submit-US-Program-Brief.yml)
-#### [Upsert US Program Brief](communication/Short-Codes/Upsert-US-Program-Brief.yml)
 ### Sms
 #### [Overview](communication/Sms.yml)
 #### [Send](communication/Sms/Send.yml)
@@ -21421,6 +21415,14 @@
 #### [List](storagerp/File-Shares/List.yml)
 #### [Restore](storagerp/File-Shares/Restore.yml)
 #### [Update](storagerp/File-Shares/Update.yml)
+### Local Users
+#### [Overview](storagerp/Local-Users.yml)
+#### [Create Or Update](storagerp/Local-Users/Create-Or-Update.yml)
+#### [Delete](storagerp/Local-Users/Delete.yml)
+#### [Get](storagerp/Local-Users/Get.yml)
+#### [List](storagerp/Local-Users/List.yml)
+#### [List Keys](storagerp/Local-Users/List-Keys.yml)
+#### [Regenerate Password](storagerp/Local-Users/Regenerate-Password.yml)
 ### Management Policies
 #### [Overview](storagerp/Management-Policies.yml)
 #### [Create Or Update](storagerp/Management-Policies/Create-Or-Update.yml)
@@ -21461,11 +21463,13 @@
 #### [List](storagerp/Skus/List.yml)
 ### Storage Accounts
 #### [Overview](storagerp/Storage-Accounts.yml)
+#### [Abort Hierarchical Namespace Migration](storagerp/Storage-Accounts/Abort-Hierarchical-Namespace-Migration.yml)
 #### [Check Name Availability](storagerp/Storage-Accounts/Check-Name-Availability.yml)
 #### [Create](storagerp/Storage-Accounts/Create.yml)
 #### [Delete](storagerp/Storage-Accounts/Delete.yml)
 #### [Failover](storagerp/Storage-Accounts/Failover.yml)
 #### [Get Properties](storagerp/Storage-Accounts/Get-Properties.yml)
+#### [Hierarchical Namespace Migration](storagerp/Storage-Accounts/Hierarchical-Namespace-Migration.yml)
 #### [List](storagerp/Storage-Accounts/List.yml)
 #### [List Account SAS](storagerp/Storage-Accounts/List-Account-SAS.yml)
 #### [List By Resource Group](storagerp/Storage-Accounts/List-By-Resource-Group.yml)

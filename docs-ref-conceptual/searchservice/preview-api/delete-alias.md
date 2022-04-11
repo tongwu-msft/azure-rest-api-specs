@@ -5,7 +5,7 @@ description: An alias can be deleted using the REST APIs in Azure Cognitive Sear
 ms.date: 03/01/2022
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: dereklegenzoff

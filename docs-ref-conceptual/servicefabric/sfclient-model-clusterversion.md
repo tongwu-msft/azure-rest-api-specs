@@ -1,5 +1,5 @@
 ---
-title: "ClusterVersion"
+title: Service Fabric cluster version
 description: "ClusterVersion"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterVersion
+# Service Fabric cluster version
 
 The cluster version.
 

@@ -1,5 +1,6 @@
 ---
 title: "Batch Status and Error Codes | Microsoft Docs"
+description: Learn how REST API operations for the Batch service return standard HTTP status codes, as defined in the HTTP/1.1 Status Code Definitions.
 ms.custom: ""
 ms.date: 02/01/2017
 ms.reviewer: ""

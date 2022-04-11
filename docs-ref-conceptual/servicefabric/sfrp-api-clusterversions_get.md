@@ -1,5 +1,6 @@
 ---
-title: "Get"
+title: "Get information about a Service Fabric cluster code version"
+description: "Learn to get information about a Service Fabric cluster code version available in the specified location. Includes example for Get Cluster version request." 
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get
+# Get information about a Service Fabric cluster code version 
 Gets information about a Service Fabric cluster code version available in the specified location.
 
 Gets information about an available Service Fabric cluster code version.
