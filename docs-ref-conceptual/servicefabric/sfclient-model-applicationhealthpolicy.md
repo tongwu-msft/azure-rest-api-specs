@@ -1,5 +1,5 @@
 ---
-title: Application Health Policy
+title: Application health policy
 description: "ApplicationHealthPolicy"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Application Health Policy
+# Application health policy
 
 Defines a health policy used to evaluate the health of an application or one of its children entities.
 

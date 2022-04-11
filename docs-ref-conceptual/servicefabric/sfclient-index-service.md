@@ -1,5 +1,5 @@
 ---
-title: Service API Index
+title: Service API index
 description: "Service"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Service APIs
+# Service API index
 
 | Name | Description |
 | --- | --- |

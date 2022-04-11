@@ -1,5 +1,5 @@
 ---
-title: Azure Internal Monitoring Pipeline Sink Overview
+title: Azure internal monitoring pipeline sink overview
 description: "AzureInternalMonitoringPipelineSinkDescription"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Azure Internal Monitoring Pipeline Sink
+# Azure internal monitoring pipeline sink
 
 Diagnostics settings for Geneva.
 

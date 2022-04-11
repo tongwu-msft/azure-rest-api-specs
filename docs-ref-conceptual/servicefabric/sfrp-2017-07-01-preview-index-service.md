@@ -1,5 +1,5 @@
 ---
-title: Service Fabric Service (2017-07-01-preview)
+title: Service Fabric APIs (2017-07-01-preview)
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Service Fabric APIs
+# Service Fabric APIs (2017-07-01-preview)
 
 | Name | Description |
 | --- | --- |
