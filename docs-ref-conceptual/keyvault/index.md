@@ -144,8 +144,7 @@ Use Key Vault to safeguard and manage cryptographic keys, certificates and secre
 
 | Operation | Description |
 |--|--|
-| [Rotate Key](/rest/api/keyvault/keys/Rotate-Key) | Creates a new key version, stores it, then returns key parameters, attributes and policy to the client.
-The operation will rotate the key based on the key policy. It requires the keys/rotate permission. |
+| [Rotate Key](/rest/api/keyvault/keys/Rotate-Key) | Creates a new key version, stores it, then returns key parameters, attributes and policy to the client.  The operation will rotate the key based on the key policy. It requires the keys/rotate permission. |
 | [Get Key Rotation Policy](/rest/api/keyvault/keys/get-key-rotation-policy) | Lists the policy for a key.
 The GetKeyRotationPolicy operation returns the specified key policy resources in the specified key vault. This operation requires the keys/get permission. |
 | [Update  Key Rotation Policy](/rest/api/keyvault/keys/update-key-rotation-policy) | Updates the rotation policy for a key.
