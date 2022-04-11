@@ -19,7 +19,7 @@ Azure Event Grid enables you to easily build applications with event-based archi
 |-----------------|--------------------------------------------------------------------|
 | [Domain Topics](xref:management.azure.com.eventgrid.controlplane-version2021-10-15-preview.domaintopics)  | Returns information about Event Grid domain topics. |
 | [Domains](xref:management.azure.com.eventgrid.controlplane-version2021-10-15-preview.domains) | Provides operations for working with Event Grid domains. |
-| [Event Subscriptions](cref:management.azure.com.eventgrid.controlplane-version2021-10-15-preview.eventsubscriptions) | Provides operations for indicating which events to route to an endpoint. |
+| [Event Subscriptions](xref:management.azure.com.eventgrid.controlplane-version2021-10-15-preview.eventsubscriptions) | Provides operations for indicating which events to route to an endpoint. |
 | [Operations](xref:management.azure.com.eventgrid.controlplane-version2021-10-15-preview.operations) | Shows operations from the Event Grid resource provider. |
 | [Topic Types](xref:management.azure.com.eventgrid.controlplane-version2021-10-15-preview.topictypes) | Returns information about topic and event types. |
 | [Topics](xref:management.azure.com.eventgrid.controlplane-version2021-10-15-preview.topics) | Provides operations for working publisher topics. |
