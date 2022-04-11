@@ -1,5 +1,5 @@
 ---
-title: Chaos API index
+title: Chaos APIs
 description: "Chaos"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Chaos API index
+# Chaos APIs
 
 | Name | Description |
 | --- | --- |
