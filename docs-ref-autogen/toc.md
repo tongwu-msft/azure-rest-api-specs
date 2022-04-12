@@ -3628,10 +3628,6 @@
 ### [Overview](azurestack/Delegated-Providers.yml)
 ### [Get](azurestack/Delegated-Providers/Get.yml)
 ### [List](azurestack/Delegated-Providers/List.yml)
-## DelegatedProviderOffers (Subscription.Offer)
-### [Overview](azurestack/DelegatedProviderOffers%20(Subscription.Offer).yml)
-### [Get](azurestack/DelegatedProviderOffers%20(Subscription.Offer)/Get.yml)
-### [List](azurestack/DelegatedProviderOffers%20(Subscription.Offer)/List.yml)
 ## Directory Tenants
 ### [Overview](azurestack/Directory-Tenants.yml)
 ### [Create Or Update](azurestack/Directory-Tenants/Create-Or-Update.yml)
@@ -3728,10 +3724,6 @@
 ### [Overview](azurestack/Mac-Address-Pools.yml)
 ### [Get](azurestack/Mac-Address-Pools/Get.yml)
 ### [List](azurestack/Mac-Address-Pools/List.yml)
-## Manifests
-### [Overview](azurestack/Manifests.yml)
-### [Get](azurestack/Manifests/Get.yml)
-### [List](azurestack/Manifests/List.yml)
 ## Nas Clusters
 ### [Overview](azurestack/Nas-Clusters.yml)
 ### [Get](azurestack/Nas-Clusters/Get.yml)
@@ -3757,9 +3749,6 @@
 ### [List Metric Definitions](azurestack/Offers/List-Metric-Definitions.yml)
 ### [List Metrics](azurestack/Offers/List-Metrics.yml)
 ### [Unlink](azurestack/Offers/Unlink.yml)
-## Offers (Subscription.Offer)
-### [Overview](azurestack/Offers%20(Subscription.Offer).yml)
-### [List](azurestack/Offers%20(Subscription.Offer)/List.yml)
 ## On Prem Locations
 ### [Overview](azurestack/On-Prem-Locations.yml)
 ### [List](azurestack/On-Prem-Locations/List.yml)
@@ -21583,11 +21572,11 @@
 #### [Lease Container](../docs-ref-conceptual/storageservices/lease-container.md)
 #### [Restore Container](../docs-ref-conceptual/storageservices/restore-container.md)
 #### [List Blobs](../docs-ref-conceptual/storageservices/list-blobs.md)
-#### [Find Blobs by Tags](../docs-ref-conceptual/storageservices/find-blobs-by-tags-container.md)
+#### [Find Blobs by Tags in Container](../docs-ref-conceptual/storageservices/find-blobs-by-tags-container.md)
 ### Operations on Blobs
 #### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs.md)
 #### [Put Blob](../docs-ref-conceptual/storageservices/put-blob.md)
-#### [Put Blob From URL](../docs-ref-conceptual/storageservices/put-blob-from-url.md)
+#### [Put Blob from URL](../docs-ref-conceptual/storageservices/put-blob-from-url.md)
 #### [Get Blob](../docs-ref-conceptual/storageservices/get-blob.md)
 #### [Get Blob Properties](../docs-ref-conceptual/storageservices/get-blob-properties.md)
 #### [Set Blob Properties](../docs-ref-conceptual/storageservices/set-blob-properties.md)
@@ -21611,7 +21600,7 @@
 #### Operations on Block Blobs
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-block-blobs.md)
 ##### [Put Block](../docs-ref-conceptual/storageservices/put-block.md)
-##### [Put Block From URL](../docs-ref-conceptual/storageservices/put-block-from-url.md)
+##### [Put Block from URL](../docs-ref-conceptual/storageservices/put-block-from-url.md)
 ##### [Put Block List](../docs-ref-conceptual/storageservices/put-block-list.md)
 ##### [Get Block List](../docs-ref-conceptual/storageservices/get-block-list.md)
 ##### [Query Blob Contents](../docs-ref-conceptual/storageservices/query-blob-contents.md)
@@ -21624,7 +21613,7 @@
 #### Operations on Append Blobs
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-append-blobs.md)
 ##### [Append Block](../docs-ref-conceptual/storageservices/append-block.md)
-##### [Append Block From URL](../docs-ref-conceptual/storageservices/append-block-from-url.md)
+##### [Append Block from URL](../docs-ref-conceptual/storageservices/append-block-from-url.md)
 ##### [Append Blob Seal](../docs-ref-conceptual/storageservices/append-blob-seal.md)
 #### Operations on blobs in hierarchical namespaces
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs-hierarchical-namespace.md)
