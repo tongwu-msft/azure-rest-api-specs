@@ -1,5 +1,5 @@
 ---
-title: "ContainerCodePackageProperties"
+title: Container code package properties
 description: "ContainerCodePackageProperties"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ContainerCodePackageProperties
+# Container code package properties
 
 Describes a container and its runtime properties.
 

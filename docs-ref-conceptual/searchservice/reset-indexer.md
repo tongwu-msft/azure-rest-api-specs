@@ -4,11 +4,11 @@ description: Rebuild an index created by an Azure Cognitive Search indexer.
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
-author: jennifermarsman
-ms.author: jennmar
+author: gmndrg
+ms.author: gimondra
 ---
 # Reset Indexer (Azure Cognitive Search REST API)
 

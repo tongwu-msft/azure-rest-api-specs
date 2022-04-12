@@ -4,7 +4,7 @@ description: REST API reference for Azure Cognitive Search, used for non-managed
 ms.date: 07/20/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: HeidiSteen

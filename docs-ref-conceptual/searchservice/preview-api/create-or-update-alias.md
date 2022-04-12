@@ -5,7 +5,7 @@ description: Create an index alias to define a secondary name that can be used t
 ms.date: 03/01/2022
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: dereklegenzoff
