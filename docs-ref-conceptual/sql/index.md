@@ -99,7 +99,7 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Restorable Dropped Managed Databases](/rest/api/sql/2021-11-01-preview/restorable-dropped-managed-databases)| Get or list restorable dropped managed databases.|
 |[Restore Points](/rest/api/sql/2021-11-01-preview/restore-points)| Create, get, update, list, delete database restore points.|
 |[Sensitivity Labels](/rest/api/sql/2021-11-01-preview/sensitivity-labels)| Create, get, update, list the sensitivity labels of a given database. Or enable or disable sensitivity recommendations on a given column.|
-|[Server Advanced Threat Protection Settings](/rest/api/sql/2021-11-01-preview/server-advanced-threat-protection-settings)| Get, list, create, update the server's Advanced Threat Protection states.|
+|[Server Advanced Threat Protection Settings](/rest/api/sql/2021-11-01-preview/server-advanced-threat-protection-settings)| Create, get, update, list the server's Advanced Threat Protection states.|
 |[Server Advisors](/rest/api/sql/2021-11-01-preview/server-advisors)| Get, list, update server advisors.|
 |[Server Automatic Tuning](/rest/api/sql/2021-11-01-preview/server-automatic-tuning)| Get or update automatic tuning options on server.|
 |[Server Azure AD Administrators](/rest/api/sql/2021-11-01-preview/server-azure-ad-administrators)| Create, get, list, update, delete Azure Active Directory administrators in a server.|
