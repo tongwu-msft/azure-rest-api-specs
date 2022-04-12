@@ -21,6 +21,7 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |-----------------|-------------|
 |[Backup Short Term Retention Policies](/rest/api/sql/2021-11-01-preview/backup-short-term-retention-policies)| Create, get, update, list a database's short term retention policy.|
 |[Data Warehouse User Activities](/rest/api/sql/2021-11-01-preview/data-warehouse-user-activities)| Get and list the user activities of a data warehouse which includes running and suspended queries.|
+|[Database Advanced Threat Protection Settings](/rest/api/sql/2021-11-01-preview/database-advanced-threat-protection-settings)| Create, get, update, and list a database's Advanced Threat Protection state.|
 |[Database Advisors](/rest/api/sql/2021-11-01-preview/database-advisors)| Get and list database advisors|
 |[Database Automatic Tuning](/rest/api/sql/2021-11-01-preview/database-automatic-tuning)| Get and update a database's automatic tuning.|
 |[Database Columns](/rest/api/sql/2021-11-01-preview/database-columns)| Get and list database columns.|
