@@ -135,7 +135,7 @@ Date: <date>
   
  The following table describes how the destination and source objects for a Copy Blob operation may be authorized.  
   
-|Blob|Authorization with Shared Key/Shared Key Lite|Authorization with Shared Access Signature|Public Object Not Requiring Authorization|  
+|Blob|Authorization with Shared Key/Shared Key Lite|Authorization with shared access signature|Public object not requiring authorization|  
 |-|-----------------------------------------------------|-------------------------------------------------|------------------------------------------------|  
 |Destination blob|Yes|Yes|No|  
 |Source blob in same account|Yes|Yes|Yes|  
@@ -205,7 +205,7 @@ When a blob is copied, the following system properties are copied to the destina
   
 -   `x-ms-committed-block-count (for append blobs only, and for version 2015-02-21 only)`  
   
-The source blob's committed block list is also copied to the destination blob, if the blob is a block blob. Any uncommitted blocks are not copied.  
+The source blob's committed blocklist is also copied to the destination blob, if the blob is a block blob. Any uncommitted blocks are not copied.  
   
 The destination blob is always the same size as the source blob, so the value of the `Content-Length` header for the destination blob matches that for the source blob.  
   
