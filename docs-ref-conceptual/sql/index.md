@@ -21,6 +21,7 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |-----------------|-------------|
 |[Backup Short Term Retention Policies](/rest/api/sql/2021-11-01-preview/backup-short-term-retention-policies)| Create, get, update, list a database's short term retention policy.|
 |[Data Warehouse User Activities](/rest/api/sql/2021-11-01-preview/data-warehouse-user-activities)| Get and list the user activities of a data warehouse which includes running and suspended queries.|
+|[Database Advanced Threat Protection Settings](/rest/api/sql/2021-11-01-preview/database-advanced-threat-protection-settings)| Create, get, update, list a database's Advanced Threat Protection state.|
 |[Database Advisors](/rest/api/sql/2021-11-01-preview/database-advisors)| Get and list database advisors|
 |[Database Automatic Tuning](/rest/api/sql/2021-11-01-preview/database-automatic-tuning)| Get and update a database's automatic tuning.|
 |[Database Columns](/rest/api/sql/2021-11-01-preview/database-columns)| Get and list database columns.|
@@ -39,6 +40,7 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Elastic Pool Operations](/rest/api/sql/2021-11-01-preview/elastic-pool-operations)| Gets a list of operations performed on the elastic pool or cancels the asynchronous operation on the elastic pool.|
 |[Elastic Pools](/rest/api/sql/2021-11-01-preview/elastic-pools)| Create, get, update, delete, failover the elastic pools. |
 |[Encryption Protectors](/rest/api/sql/2021-11-01-preview/encryption-protectors)| Get, update, list, revalidate the existing encryption protectors.|
+|[Endpoint Certificates](/rest/api/sql/2021-11-01-preview/endpoint-certificates)| Get and list the certificates used on endpoints on the target instance.|
 |[Failover Groups](/rest/api/sql/2021-11-01-preview/failover-groups)| Create, get, update, list, delete, and failover a failover group.|
 |[Firewall Rules](/rest/api/sql/2021-11-01-preview/firewall-rules)| Create, get, update, delete, list firewall rules.|
 |[Instance Failover Groups](/rest/api/sql/2021-11-01-preview/instance-failover-groups)| Create, get, update, list, delete, and failover an instance failover group.|
@@ -85,6 +87,7 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Managed Instance Vulnerability Assessments](/rest/api/sql/2021-11-01-preview/managed-instance-vulnerability-assessments)| Create, get, list, update, delete the managed instance's vulnerability assessment policies.|
 |[Managed Instances](/rest/api/sql/2021-11-01-preview/managed-instances)| Create, get, update, list, delete, failover the managed instances.|
 |[Managed Restorable Dropped Database Backup Short Term Retention Policies](/rest/api/sql/2021-11-01-preview/managed-restorable-dropped-database-backup-short-term-retention-policies)| Create, get, update, list the managed restorable dropped database's short term retention policies|      
+|[Managed Server DNS Aliases](/rest/api/sql/2021-11-01-preview/managed-server-dns-aliases)| Create, get, list, acquire a managed server DNS alias.|
 |[Managed Server Security Alert Policies](/rest/api/sql/2021-11-01-preview/managed-server-security-alert-policies)| Create, get, list, update the managed server's security alert policies.|
 |[Operations](/rest/api/sql/2021-11-01-preview/operations)| List all of the available SQL Database REST API operations.|
 |[Outbound Firewall Rules](/rest/api/sql/2021-11-01-preview/outbound-firewall-rules)| Create, get, update, list, delete the outbound firewall rules.|
@@ -96,6 +99,7 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Restorable Dropped Managed Databases](/rest/api/sql/2021-11-01-preview/restorable-dropped-managed-databases)| Get or list restorable dropped managed databases.|
 |[Restore Points](/rest/api/sql/2021-11-01-preview/restore-points)| Create, get, update, list, delete database restore points.|
 |[Sensitivity Labels](/rest/api/sql/2021-11-01-preview/sensitivity-labels)| Create, get, update, list the sensitivity labels of a given database. Or enable or disable sensitivity recommendations on a given column.|
+|[Server Advanced Threat Protection Settings](/rest/api/sql/2021-11-01-preview/server-advanced-threat-protection-settings)| Create, get, update, list the server's Advanced Threat Protection states.|
 |[Server Advisors](/rest/api/sql/2021-11-01-preview/server-advisors)| Get, list, update server advisors.|
 |[Server Automatic Tuning](/rest/api/sql/2021-11-01-preview/server-automatic-tuning)| Get or update automatic tuning options on server.|
 |[Server Azure AD Administrators](/rest/api/sql/2021-11-01-preview/server-azure-ad-administrators)| Create, get, list, update, delete Azure Active Directory administrators in a server.|
