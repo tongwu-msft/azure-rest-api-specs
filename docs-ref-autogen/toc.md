@@ -14978,6 +14978,10 @@
 ### [Overview](resourcehealth/Events.yml)
 ### [List By Single Resource](resourcehealth/Events/List-By-Single-Resource.yml)
 ### [List By Subscription Id](resourcehealth/Events/List-By-Subscription-Id.yml)
+## Metadata
+### [Overview](resourcehealth/Metadata.yml)
+### [Get Entity](resourcehealth/Metadata/Get-Entity.yml)
+### [List](resourcehealth/Metadata/List.yml)
 ## Operations
 ### [Overview](resourcehealth/Operations.yml)
 ### [List](resourcehealth/Operations/List.yml)
