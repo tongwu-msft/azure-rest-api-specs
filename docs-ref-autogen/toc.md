@@ -11611,48 +11611,36 @@
 #### [Update Storage Account](keyvault/secrets-storageaccounts/Update-Storage-Account/Update-Storage-Account.yml)
 # Kubernetes Configuration
 ## [Overview](../docs-ref-conceptual/kubernetesconfiguration/index.md)
-## 2021-03-01
-### Operations
-#### [Overview](kubernetesconfiguration/2021-03-01/Operations.yml)
-#### [List](kubernetesconfiguration/2021-03-01/Operations/List.yml)
-### Source Control Configurations
-#### [Overview](kubernetesconfiguration/2021-03-01/Source-Control-Configurations.yml)
-#### [Create Or Update](kubernetesconfiguration/2021-03-01/Source-Control-Configurations/Create-Or-Update.yml)
-#### [Delete](kubernetesconfiguration/2021-03-01/Source-Control-Configurations/Delete.yml)
-#### [Get](kubernetesconfiguration/2021-03-01/Source-Control-Configurations/Get.yml)
-#### [List](kubernetesconfiguration/2021-03-01/Source-Control-Configurations/List.yml)
-## 2021-09-01
-### Extensions
-#### [Overview](kubernetesconfiguration/2021-09-01/Extensions.yml)
-#### [Create](kubernetesconfiguration/2021-09-01/Extensions/Create.yml)
-#### [Delete](kubernetesconfiguration/2021-09-01/Extensions/Delete.yml)
-#### [Get](kubernetesconfiguration/2021-09-01/Extensions/Get.yml)
-#### [List](kubernetesconfiguration/2021-09-01/Extensions/List.yml)
-#### [Update](kubernetesconfiguration/2021-09-01/Extensions/Update.yml)
-### Operation Status
-#### [Overview](kubernetesconfiguration/2021-09-01/Operation-Status.yml)
-#### [Get](kubernetesconfiguration/2021-09-01/Operation-Status/Get.yml)
-#### [List](kubernetesconfiguration/2021-09-01/Operation-Status/List.yml)
-### Operations
-#### [Overview](kubernetesconfiguration/2021-09-01/Operations.yml)
-#### [List](kubernetesconfiguration/2021-09-01/Operations/List.yml)
-## 2021-11-01-preview
-### Flux Config Operation Status
-#### [Overview](kubernetesconfiguration/2021-11-01-preview/Flux-Config-Operation-Status.yml)
-#### [Get](kubernetesconfiguration/2021-11-01-preview/Flux-Config-Operation-Status/Get.yml)
-### Flux Configurations
-#### [Overview](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations.yml)
-#### [Create Or Update](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations/Create-Or-Update.yml)
-#### [Delete](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations/Delete.yml)
-#### [Get](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations/Get.yml)
-#### [List](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations/List.yml)
-#### [Update](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations/Update.yml)
-### Operation Status
-#### [Overview](kubernetesconfiguration/2021-11-01-preview/Operation-Status.yml)
-#### [List](kubernetesconfiguration/2021-11-01-preview/Operation-Status/List.yml)
-### Operations
-#### [Overview](kubernetesconfiguration/2021-11-01-preview/Operations.yml)
-#### [List](kubernetesconfiguration/2021-11-01-preview/Operations/List.yml)
+## Extensions
+### [Overview](kubernetesconfiguration/Extensions.yml)
+### [Create](kubernetesconfiguration/Extensions/Create.yml)
+### [Delete](kubernetesconfiguration/Extensions/Delete.yml)
+### [Get](kubernetesconfiguration/Extensions/Get.yml)
+### [List](kubernetesconfiguration/Extensions/List.yml)
+### [Update](kubernetesconfiguration/Extensions/Update.yml)
+## Flux Config Operation Status
+### [Overview](kubernetesconfiguration/Flux-Config-Operation-Status.yml)
+### [Get](kubernetesconfiguration/Flux-Config-Operation-Status/Get.yml)
+## Flux Configurations
+### [Overview](kubernetesconfiguration/Flux-Configurations.yml)
+### [Create Or Update](kubernetesconfiguration/Flux-Configurations/Create-Or-Update.yml)
+### [Delete](kubernetesconfiguration/Flux-Configurations/Delete.yml)
+### [Get](kubernetesconfiguration/Flux-Configurations/Get.yml)
+### [List](kubernetesconfiguration/Flux-Configurations/List.yml)
+### [Update](kubernetesconfiguration/Flux-Configurations/Update.yml)
+## Operation Status
+### [Overview](kubernetesconfiguration/Operation-Status.yml)
+### [Get](kubernetesconfiguration/Operation-Status/Get.yml)
+### [List](kubernetesconfiguration/Operation-Status/List.yml)
+## Operations
+### [Overview](kubernetesconfiguration/Operations.yml)
+### [List](kubernetesconfiguration/Operations/List.yml)
+## Source Control Configurations
+### [Overview](kubernetesconfiguration/Source-Control-Configurations.yml)
+### [Create Or Update](kubernetesconfiguration/Source-Control-Configurations/Create-Or-Update.yml)
+### [Delete](kubernetesconfiguration/Source-Control-Configurations/Delete.yml)
+### [Get](kubernetesconfiguration/Source-Control-Configurations/Get.yml)
+### [List](kubernetesconfiguration/Source-Control-Configurations/List.yml)
 # Lab Services
 ## [Overview](../docs-ref-conceptual/labservices/index.md)
 ## Environment Settings
