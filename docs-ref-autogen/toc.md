@@ -9796,9 +9796,9 @@
 ### Publish Custom Event Events
 #### [Overview](eventgrid/dataplane/Publish-Custom-Event-Events.yml)
 #### [Publish Custom Event Events](eventgrid/dataplane/Publish-Custom-Event-Events/Publish-Custom-Event-Events.yml)
-### Publish Events
-#### [Overview](eventgrid/dataplane/Publish-Events.yml)
-#### [Publish Events](eventgrid/dataplane/Publish-Events/Publish-Events.yml)
+### Publish Event Grid Events
+#### [Overview](eventgrid/dataplane/Publish-Event-Grid-Events.yml)
+#### [Publish Event Grid Events](eventgrid/dataplane/Publish-Event-Grid-Events/Publish-Event-Grid-Events.yml)
 # Event Hubs
 ## [Overview](../docs-ref-conceptual/EventHub/index.md)
 ## Event Hubs service REST
