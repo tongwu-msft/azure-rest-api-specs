@@ -3628,10 +3628,6 @@
 ### [Overview](azurestack/Delegated-Providers.yml)
 ### [Get](azurestack/Delegated-Providers/Get.yml)
 ### [List](azurestack/Delegated-Providers/List.yml)
-## DelegatedProviderOffers (Subscription.Offer)
-### [Overview](azurestack/DelegatedProviderOffers%20(Subscription.Offer).yml)
-### [Get](azurestack/DelegatedProviderOffers%20(Subscription.Offer)/Get.yml)
-### [List](azurestack/DelegatedProviderOffers%20(Subscription.Offer)/List.yml)
 ## Directory Tenants
 ### [Overview](azurestack/Directory-Tenants.yml)
 ### [Create Or Update](azurestack/Directory-Tenants/Create-Or-Update.yml)
@@ -3728,10 +3724,6 @@
 ### [Overview](azurestack/Mac-Address-Pools.yml)
 ### [Get](azurestack/Mac-Address-Pools/Get.yml)
 ### [List](azurestack/Mac-Address-Pools/List.yml)
-## Manifests
-### [Overview](azurestack/Manifests.yml)
-### [Get](azurestack/Manifests/Get.yml)
-### [List](azurestack/Manifests/List.yml)
 ## Nas Clusters
 ### [Overview](azurestack/Nas-Clusters.yml)
 ### [Get](azurestack/Nas-Clusters/Get.yml)
@@ -3757,9 +3749,6 @@
 ### [List Metric Definitions](azurestack/Offers/List-Metric-Definitions.yml)
 ### [List Metrics](azurestack/Offers/List-Metrics.yml)
 ### [Unlink](azurestack/Offers/Unlink.yml)
-## Offers (Subscription.Offer)
-### [Overview](azurestack/Offers%20(Subscription.Offer).yml)
-### [List](azurestack/Offers%20(Subscription.Offer)/List.yml)
 ## On Prem Locations
 ### [Overview](azurestack/On-Prem-Locations.yml)
 ### [List](azurestack/On-Prem-Locations/List.yml)
@@ -9796,9 +9785,9 @@
 ### Publish Custom Event Events
 #### [Overview](eventgrid/dataplane/Publish-Custom-Event-Events.yml)
 #### [Publish Custom Event Events](eventgrid/dataplane/Publish-Custom-Event-Events/Publish-Custom-Event-Events.yml)
-### Publish Events
-#### [Overview](eventgrid/dataplane/Publish-Events.yml)
-#### [Publish Events](eventgrid/dataplane/Publish-Events/Publish-Events.yml)
+### Publish Event Grid Events
+#### [Overview](eventgrid/dataplane/Publish-Event-Grid-Events.yml)
+#### [Publish Event Grid Events](eventgrid/dataplane/Publish-Event-Grid-Events/Publish-Event-Grid-Events.yml)
 # Event Hubs
 ## [Overview](../docs-ref-conceptual/EventHub/index.md)
 ## Event Hubs service REST
@@ -11611,48 +11600,36 @@
 #### [Update Storage Account](keyvault/secrets-storageaccounts/Update-Storage-Account/Update-Storage-Account.yml)
 # Kubernetes Configuration
 ## [Overview](../docs-ref-conceptual/kubernetesconfiguration/index.md)
-## 2021-03-01
-### Operations
-#### [Overview](kubernetesconfiguration/2021-03-01/Operations.yml)
-#### [List](kubernetesconfiguration/2021-03-01/Operations/List.yml)
-### Source Control Configurations
-#### [Overview](kubernetesconfiguration/2021-03-01/Source-Control-Configurations.yml)
-#### [Create Or Update](kubernetesconfiguration/2021-03-01/Source-Control-Configurations/Create-Or-Update.yml)
-#### [Delete](kubernetesconfiguration/2021-03-01/Source-Control-Configurations/Delete.yml)
-#### [Get](kubernetesconfiguration/2021-03-01/Source-Control-Configurations/Get.yml)
-#### [List](kubernetesconfiguration/2021-03-01/Source-Control-Configurations/List.yml)
-## 2021-09-01
-### Extensions
-#### [Overview](kubernetesconfiguration/2021-09-01/Extensions.yml)
-#### [Create](kubernetesconfiguration/2021-09-01/Extensions/Create.yml)
-#### [Delete](kubernetesconfiguration/2021-09-01/Extensions/Delete.yml)
-#### [Get](kubernetesconfiguration/2021-09-01/Extensions/Get.yml)
-#### [List](kubernetesconfiguration/2021-09-01/Extensions/List.yml)
-#### [Update](kubernetesconfiguration/2021-09-01/Extensions/Update.yml)
-### Operation Status
-#### [Overview](kubernetesconfiguration/2021-09-01/Operation-Status.yml)
-#### [Get](kubernetesconfiguration/2021-09-01/Operation-Status/Get.yml)
-#### [List](kubernetesconfiguration/2021-09-01/Operation-Status/List.yml)
-### Operations
-#### [Overview](kubernetesconfiguration/2021-09-01/Operations.yml)
-#### [List](kubernetesconfiguration/2021-09-01/Operations/List.yml)
-## 2021-11-01-preview
-### Flux Config Operation Status
-#### [Overview](kubernetesconfiguration/2021-11-01-preview/Flux-Config-Operation-Status.yml)
-#### [Get](kubernetesconfiguration/2021-11-01-preview/Flux-Config-Operation-Status/Get.yml)
-### Flux Configurations
-#### [Overview](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations.yml)
-#### [Create Or Update](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations/Create-Or-Update.yml)
-#### [Delete](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations/Delete.yml)
-#### [Get](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations/Get.yml)
-#### [List](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations/List.yml)
-#### [Update](kubernetesconfiguration/2021-11-01-preview/Flux-Configurations/Update.yml)
-### Operation Status
-#### [Overview](kubernetesconfiguration/2021-11-01-preview/Operation-Status.yml)
-#### [List](kubernetesconfiguration/2021-11-01-preview/Operation-Status/List.yml)
-### Operations
-#### [Overview](kubernetesconfiguration/2021-11-01-preview/Operations.yml)
-#### [List](kubernetesconfiguration/2021-11-01-preview/Operations/List.yml)
+## Extensions
+### [Overview](kubernetesconfiguration/Extensions.yml)
+### [Create](kubernetesconfiguration/Extensions/Create.yml)
+### [Delete](kubernetesconfiguration/Extensions/Delete.yml)
+### [Get](kubernetesconfiguration/Extensions/Get.yml)
+### [List](kubernetesconfiguration/Extensions/List.yml)
+### [Update](kubernetesconfiguration/Extensions/Update.yml)
+## Flux Config Operation Status
+### [Overview](kubernetesconfiguration/Flux-Config-Operation-Status.yml)
+### [Get](kubernetesconfiguration/Flux-Config-Operation-Status/Get.yml)
+## Flux Configurations
+### [Overview](kubernetesconfiguration/Flux-Configurations.yml)
+### [Create Or Update](kubernetesconfiguration/Flux-Configurations/Create-Or-Update.yml)
+### [Delete](kubernetesconfiguration/Flux-Configurations/Delete.yml)
+### [Get](kubernetesconfiguration/Flux-Configurations/Get.yml)
+### [List](kubernetesconfiguration/Flux-Configurations/List.yml)
+### [Update](kubernetesconfiguration/Flux-Configurations/Update.yml)
+## Operation Status
+### [Overview](kubernetesconfiguration/Operation-Status.yml)
+### [Get](kubernetesconfiguration/Operation-Status/Get.yml)
+### [List](kubernetesconfiguration/Operation-Status/List.yml)
+## Operations
+### [Overview](kubernetesconfiguration/Operations.yml)
+### [List](kubernetesconfiguration/Operations/List.yml)
+## Source Control Configurations
+### [Overview](kubernetesconfiguration/Source-Control-Configurations.yml)
+### [Create Or Update](kubernetesconfiguration/Source-Control-Configurations/Create-Or-Update.yml)
+### [Delete](kubernetesconfiguration/Source-Control-Configurations/Delete.yml)
+### [Get](kubernetesconfiguration/Source-Control-Configurations/Get.yml)
+### [List](kubernetesconfiguration/Source-Control-Configurations/List.yml)
 # Lab Services
 ## [Overview](../docs-ref-conceptual/labservices/index.md)
 ## Environment Settings
@@ -14978,6 +14955,10 @@
 ### [Overview](resourcehealth/Events.yml)
 ### [List By Single Resource](resourcehealth/Events/List-By-Single-Resource.yml)
 ### [List By Subscription Id](resourcehealth/Events/List-By-Subscription-Id.yml)
+## Metadata
+### [Overview](resourcehealth/Metadata.yml)
+### [Get Entity](resourcehealth/Metadata/Get-Entity.yml)
+### [List](resourcehealth/Metadata/List.yml)
 ## Operations
 ### [Overview](resourcehealth/Operations.yml)
 ### [List](resourcehealth/Operations/List.yml)
@@ -21591,11 +21572,11 @@
 #### [Lease Container](../docs-ref-conceptual/storageservices/lease-container.md)
 #### [Restore Container](../docs-ref-conceptual/storageservices/restore-container.md)
 #### [List Blobs](../docs-ref-conceptual/storageservices/list-blobs.md)
-#### [Find Blobs by Tags](../docs-ref-conceptual/storageservices/find-blobs-by-tags-container.md)
+#### [Find Blobs by Tags in Container](../docs-ref-conceptual/storageservices/find-blobs-by-tags-container.md)
 ### Operations on Blobs
 #### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs.md)
 #### [Put Blob](../docs-ref-conceptual/storageservices/put-blob.md)
-#### [Put Blob From URL](../docs-ref-conceptual/storageservices/put-blob-from-url.md)
+#### [Put Blob from URL](../docs-ref-conceptual/storageservices/put-blob-from-url.md)
 #### [Get Blob](../docs-ref-conceptual/storageservices/get-blob.md)
 #### [Get Blob Properties](../docs-ref-conceptual/storageservices/get-blob-properties.md)
 #### [Set Blob Properties](../docs-ref-conceptual/storageservices/set-blob-properties.md)
@@ -21619,7 +21600,7 @@
 #### Operations on Block Blobs
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-block-blobs.md)
 ##### [Put Block](../docs-ref-conceptual/storageservices/put-block.md)
-##### [Put Block From URL](../docs-ref-conceptual/storageservices/put-block-from-url.md)
+##### [Put Block from URL](../docs-ref-conceptual/storageservices/put-block-from-url.md)
 ##### [Put Block List](../docs-ref-conceptual/storageservices/put-block-list.md)
 ##### [Get Block List](../docs-ref-conceptual/storageservices/get-block-list.md)
 ##### [Query Blob Contents](../docs-ref-conceptual/storageservices/query-blob-contents.md)
@@ -21632,7 +21613,7 @@
 #### Operations on Append Blobs
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-append-blobs.md)
 ##### [Append Block](../docs-ref-conceptual/storageservices/append-block.md)
-##### [Append Block From URL](../docs-ref-conceptual/storageservices/append-block-from-url.md)
+##### [Append Block from URL](../docs-ref-conceptual/storageservices/append-block-from-url.md)
 ##### [Append Blob Seal](../docs-ref-conceptual/storageservices/append-blob-seal.md)
 #### Operations on blobs in hierarchical namespaces
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs-hierarchical-namespace.md)
