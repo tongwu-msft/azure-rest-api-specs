@@ -4,8 +4,8 @@ description: How to enable and use the direct management REST API for Azure API 
 ms.date: 04/04/2022
 ms.service: api-management
 ms.topic: reference
-ms.author: dlepow
-author: danlep
+ms.author: danlep
+author: dlepow
 translation.priority.mt: 
   - de-de
   - es-es
