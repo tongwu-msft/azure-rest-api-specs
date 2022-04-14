@@ -3,8 +3,7 @@ ms.assetid:
 title: "Azure Arc Kubernetes Configuration REST API reference"
 description: Learn how to run REST API commands for GitOps configurations & Cluster extensions for Kubernetes clusters
 ms.date: "09/13/2021"
-ms.service: azure-arc
-ms.subservice: azure-arc-kubernetes
+ms.service: KubernetesConfiguration
 author: NarayanThiru
 ms.author: nanthi
 service_description: Azure Arc-enabled Kubernetes Configuration service allows you to create GitOps Configurations and Cluster Extensions in Kubernetes clusters.
