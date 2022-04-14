@@ -14967,6 +14967,12 @@
 ## Authorization Operations
 ### [Overview](resources/Authorization-Operations.yml)
 ### [List](resources/Authorization-Operations/List.yml)
+## Change Resource
+### [Overview](resources/Change-Resource.yml)
+### [Get](resources/Change-Resource/Get.yml)
+## Change Resources
+### [Overview](resources/Change-Resources.yml)
+### [List](resources/Change-Resources/List.yml)
 ## Deployment Operations
 ### [Overview](resources/Deployment-Operations.yml)
 ### [Get](resources/Deployment-Operations/Get.yml)
