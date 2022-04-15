@@ -20,7 +20,7 @@ You can construct the `Clear Messages` request as follows. We recommend HTTPS. R
 |`DELETE`|`https://myaccount.queue.core.windows.net/myqueue/messages`|HTTP/1.1|  
   
 ### URI for the emulated storage service  
-When you're making a request against the emulated storage service, specify the emulator host name and Azure Queue Storage port as `127.0.0.1:10001`, followed by the emulated storage account name:  
+When you're making a request against the emulated storage service, specify the emulator host name and Azure Queue Storage port as `127.0.0.1:10001`, followed by the name of the emulated storage account:  
   
 |Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
