@@ -12295,6 +12295,19 @@
 ## List Operations
 ### [Overview](managedapplications/List-Operations.yml)
 ### [List Operations](managedapplications/List-Operations/List-Operations.yml)
+# Managed Grafana
+## [Overview](../docs-ref-conceptual/managed-grafana/index.md)
+## Grafana
+### [Overview](managed-grafana/Grafana.yml)
+### [Create](managed-grafana/Grafana/Create.yml)
+### [Delete](managed-grafana/Grafana/Delete.yml)
+### [Get](managed-grafana/Grafana/Get.yml)
+### [List](managed-grafana/Grafana/List.yml)
+### [List By Resource Group](managed-grafana/Grafana/List-By-Resource-Group.yml)
+### [Update](managed-grafana/Grafana/Update.yml)
+## Operations
+### [Overview](managed-grafana/Operations.yml)
+### [List](managed-grafana/Operations/List.yml)
 # Managed Identity
 ## [Overview](../docs-ref-conceptual/managedidentity/index.md)
 ## Operations
