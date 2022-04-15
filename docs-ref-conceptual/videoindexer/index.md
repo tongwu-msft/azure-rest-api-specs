@@ -1,11 +1,11 @@
 ---
 title: Azure Video Indexer REST API reference | Microsoft Docs
-ms.service: Azure Video Indexer
-author: uratzmon
-ms.author: uriel.atzmon
-ms.manager: juliako
+ms.service: azure-video-indexer
+author: Juliako
+description: Extract insights from video and audio files.
+ms.author: juliako
+ms.manager: femila
 ms.date: 04/15/2022
-service_description: Extract insights from video and audio files.
 ---
 
 # Azure Video Indexer REST API Reference
