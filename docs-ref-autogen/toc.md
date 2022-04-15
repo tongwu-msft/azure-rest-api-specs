@@ -4050,7 +4050,7 @@
 ### [List](videoanalyzer/Videos/List.yml)
 ### [List Content Token](videoanalyzer/Videos/List-Content-Token.yml)
 ### [Update](videoanalyzer/Videos/Update.yml)
-# Azure Video Analyzer for Media
+# Azure Video Indexer
 ## [Overview](../docs-ref-conceptual/videoindexer/index.md)
 ## Accounts
 ### [Overview](videoindexer/Accounts.yml)
