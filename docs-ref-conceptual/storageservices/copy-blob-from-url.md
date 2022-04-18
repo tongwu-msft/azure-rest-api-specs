@@ -169,7 +169,7 @@ The `Copy Blob From URL` operation only reads from the source blob, so the lease
   
 ### Billing  
   
-The destination account of a `Copy Blob From URL` operation is charged for one transaction to start the operation. The account also incurs one transaction for each request to the source of the copy operation.  
+The destination account of a `Copy Blob From URL` operation is charged for one transaction to start the operation. The destination account also incurs one transaction for each request to the source of the copy operation.  
   
 The source account also incurs transaction costs. In addition, if the source and destination accounts reside in different regions (for example, US North and US South), bandwidth that you use to transfer the request is charged to the source storage account as egress. Egress between accounts within the same region is free.  
   

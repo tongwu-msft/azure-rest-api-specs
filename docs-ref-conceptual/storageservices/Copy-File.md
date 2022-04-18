@@ -22,9 +22,9 @@ Available in version 2015-02-21 and later.
 | NFS | ![No](./media/no-icon.png) |
   
 ## Request
-The `Copy File` request may be constructed as follows. HTTPS is recommended.  
+You can construct the `Copy File` request as follows. We recommend HTTPS.  
   
-Beginning with version 2013-08-15, you may specify a shared access signature for the destination file if it is in the same account as the source file. Beginning with version 2015-04-05, you may also specify a shared access signature for the destination file if it is in a different storage account.  
+Beginning with version 2013-08-15, you can specify a shared access signature for the destination file if it's in the same account as the source file. Beginning with version 2015-04-05, you can also specify a shared access signature for the destination file if it's in a different storage account.  
   
 |Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
@@ -39,17 +39,17 @@ Replace the path components shown in the request URI with your own, as follows:
 |`mydirectorypath`|Optional. The path to the parent directory.|  
 |`myfile`|The name of the file.|  
   
-For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and referencing shares, directories, files, and metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
 ### URI parameters
-The following additional parameters may be specified on the request URI.  
+You can specify the following additional parameters on the request URI:  
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see Setting Timeouts for File Service Operations.|  
+|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Set timeouts for Azure Files operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request headers
-The following table describes required and optional request headers.  
+The following table describes required and optional request headers:  
   
 |Request header|Description|  
 |--------------------|-----------------|  
@@ -78,7 +78,7 @@ The response includes an HTTP status code and a set of response headers.
 ### Status code
 A successful operation returns status code 202 (Accepted).  
   
-For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and error codes](Status-and-Error-Codes2.md).  
   
 ### Response headers
 The response for this operation includes the following headers. The response also includes additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  

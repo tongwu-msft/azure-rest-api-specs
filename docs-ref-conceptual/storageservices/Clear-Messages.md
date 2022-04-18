@@ -31,7 +31,7 @@ You can specify the following additional parameters on the request URI:
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting timeouts for Queue Storage operations](Setting-Timeouts-for-Queue-Service-Operations.md).|  
+|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Set timeouts for Queue Storage operations](Setting-Timeouts-for-Queue-Service-Operations.md).|  
   
 ### Request headers  
 The following table describes required and optional request headers:  
