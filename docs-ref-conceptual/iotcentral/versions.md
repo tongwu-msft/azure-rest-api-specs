@@ -28,11 +28,9 @@ Preview versions are released to test new functionality, gather feedback, and di
 | API version | Specification | API updates |
 |---------|---------------|-----------------|
 | `1.2-Preview` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/1.2-preview) | [Release note](#1.2-Preview) |
-| `1.1-Preview` (Deprecated)| [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/1.1-preview) | [Release note](#1.1-Preview) |
+| `1.1-Preview` (Deprecated)| [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/1.1-preview) | [Release note](#1.1-Preview (Deprecated)) |
 
 ## Release notes
-
-<a name="1.2-Preview"></a>
 
 ### 1.2-Preview
 
@@ -40,8 +38,6 @@ The `1.2-preview` release continuously improves our API endpoints from previous 
 
 + Device Group CRUD support
 + New job type to support device template migration
-
-<a name="1.0"></a>
 
 ### 1.0
 
@@ -53,8 +49,6 @@ First GA REST API release for Azure IoT Central that captures support for the fo
 + API Tokens without organization support.
 + Device Template without PATCH support.
 
-<a name="1.1-Preview"></a>
-
 ### 1.1-Preview (Deprecated)
 
 This release enable support for DTDL v2 within the REST API surface for Azure IoT Central. It includes breaking changes from legacy `preview` version (now deprecated).
@@ -65,16 +59,14 @@ This release enable support for DTDL v2 within the REST API surface for Azure Io
 + Organization support.
 + Telemetry Query support.
 + Jobs support.
-+ Removed legacy Continous Data Export Support.
++ Removed legacy Continuous Data Export Support.
 + Add Data Export V2 Export/Destination support.
 + Removed api/devices/{deviceId}/cloudProperties, using api/devices/{deviceId}/properties.
 + Properties and telemetries under inherited interface will not be treated as root property and root telemetry.
 + Device Template patching support.
 + Edge manifest support from device template.
 
-<a name="preview"></a>
-
-### preview (Deprecated & Removed)
+### Preview (Deprecated & Removed)
 
 First version of Azure IoT Central public API, with support for `DTDL v1` only, has now been deprecated and removed from our REST API endpoints. 
 
