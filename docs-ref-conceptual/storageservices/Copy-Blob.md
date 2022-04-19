@@ -3,7 +3,7 @@ title: Copy Blob (REST API) - Azure Storage
 description: The Copy Blob operation copies a blob to a destination within the storage account.
 author: pemari-msft
 
-ms.date: 03/21/2022
+ms.date: 04/15/2022
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -225,25 +225,27 @@ If the destination blob has an active infinite lease, you must specify its lease
 
 If the client specifies a lease ID on a blob that doesn't yet exist, Blob Storage returns status code 412 (Precondition Failed) for requests made against version 2013-08-15 and later. For earlier versions, Blob Storage returns status code 201 (Created).  
   
-### Copying snapshots  
+### Copying blob snapshots  
   
 When a source blob is copied, any snapshots or versions of the source blob are not copied to the destination. When a destination blob is overwritten with a copy, any snapshots or versions associated with the destination blob stay intact under its name.  
   
 You can perform a copy operation to promote a snapshot over its base blob, as long as it's in an online tier (hot or cool). In this way, you can restore an earlier version of a blob. The snapshot remains, but its destination is overwritten with a copy that can be both read and written.  
   
-### Copying versions    
+### Copying blob versions    
   
 You can perform a copy operation to promote a version over its base blob, as long as it's in an online tier (hot or cool). In this way, you can restore an earlier version of a blob. The version remains, but its destination is overwritten with a copy that can be both read and written.  
 
-### Copying archived blobs (version 2018-11-09 and later)  
+### Copying an archived blob
 
-You can copy an archived blob to a new blob within the same storage account. This operation leaves the initially archived blob as is. When you're copying an archived blob as source, the request must contain the header `x-ms-access-tier` to indicate the tier of the destination blob. The data will eventually be copied to the destination blob. 
+Beginning with version 2018-11-09, you can copy an archived blob to a new blob within the same storage account. The source blob remains in the archive tier. When the source blob is an archived blob, the request must contain the `x-ms-access-tier` header, which indicates the tier of the destination blob. The destination blob must be in an online tier. You can't copy to a blob in the archive tier.
 
-The copy source and destination should be the same storage account when the source is archived. If the source of the copy is still in a pending rehydrate state, the request will fail with status code 409 (Conflict).
+Beginning with version 2021-02-12, you can copy an archived blob to an online tier in a different storage account, as long as the destination account is in the same region as the source account.
+
+The request might fail if the source blob is being rehydrated.
 
 For detailed information about tiering at the block blob level, see [Hot, cool, and archive storage tiers](/azure/storage/storage-blob-storage-tiers).
 
-### Working with a pending copy (version 2012-02-12 and later)  
+### Working with a pending copy operation (version 2012-02-12 and later)  
   
 If the `Copy Blob` operation finishes asynchronously, use the following table to determine the next step based on the returned status code:  
   
