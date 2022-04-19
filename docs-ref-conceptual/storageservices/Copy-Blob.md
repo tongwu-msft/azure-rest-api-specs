@@ -259,7 +259,7 @@ During and after a `Copy Blob` operation, the properties of the destination blob
   
 A pending `Copy Blob` operation has a two-week timeout. A copy attempt that hasn't finished after two weeks times out and leaves an empty blob with the `x-ms-copy-status` field set to `failed` and the `x-ms-copy-status-description` set to 500 (OperationCancelled). Intermittent, non-fatal errors that can occur during a copy operation might impede progress of the operation but not cause it to fail. In these cases, `x-ms-copy-status-description` describes the intermittent errors.
   
-Any attempt to modify or snapshot the destination blob during the copy operation will fail with status code 409 (Conflict): "Copy Blob in Progress."  
+Any attempt to modify or snapshot the destination blob during the copy operation will fail with status code 409 (Conflict), "Copy Blob in Progress."  
   
 If you call the `Abort Copy Blob` operation, you'll see an `x-ms-copy-status:aborted` header. The destination blob will have intact metadata and a blob length of 0 bytes. You can repeat the original call to `Copy Blob` to try the copy operation again.  
 
