@@ -41,7 +41,7 @@ Latest stable version
 
 ### 2020-10-01
 
-GA release of the following *Privileged Identity Management* resource types
+- GA release of the following *Privileged Identity Management* resource types
     - `Role Assignment Schedule Requests`  
     - `Role Assignment Schedules`
     - `Role Assignment Schedule Instances`
