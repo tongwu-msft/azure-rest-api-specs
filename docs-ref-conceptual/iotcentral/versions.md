@@ -19,7 +19,7 @@ This is the stable release versions that can be used to develop production solut
 
 | API version | Specification | API updates |
 |---------|---------------|-----------------|
-| `1.0` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/1.0) |  [Release note](#1.0) |
+| `1.0` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/1.0) |  [Release note](#10) |
 
 ## Preview versions
 
@@ -27,8 +27,8 @@ Preview versions are released to test new functionality, gather feedback, and di
 
 | API version | Specification | API updates |
 |---------|---------------|-----------------|
-| `1.2-Preview` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/1.2-preview) | [Release note](#1.2-Preview) |
-| `1.1-Preview` (Deprecated)| [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/1.1-preview) | [Release note](#1.1-Preview (Deprecated)) |
+| `1.2-Preview` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/1.2-preview) | [Release note](#12-preview) |
+| `1.1-Preview` (Deprecated)| [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/1.1-preview) | [Release note](#11-preview-deprecated) |
 
 ## Release notes
 
