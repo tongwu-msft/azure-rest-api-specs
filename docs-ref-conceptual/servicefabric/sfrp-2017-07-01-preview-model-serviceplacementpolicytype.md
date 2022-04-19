@@ -1,5 +1,5 @@
 ---
-title: "ServicePlacementPolicyType model"
+title: Service fabric placement policy and values
 description: "The type of placement policy for a service fabric service. Various values are defined for ServicePlacementPolicyType."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePlacementPolicyType model
+# Service fabric placement policy and values
 
 type: string
 
