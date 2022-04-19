@@ -1,16 +1,18 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resources.changeresource.get
-name: Get
+uid: management.azure.com.resources.changes.list
+name: List
 service: Resource Management
-groupName: Change Resource
+groupName: Changes
 apiVersion: 2022-03-01-preview
-summary: Obtains the specified change resource for the target resource
+summary: Obtains a list of change resources from the past 14 days for the target resource
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Resources/changes/{changeResourceId}?api-version=2022-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Resources/changes?api-version=2022-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Resources/changes?api-version=2022-03-01-preview&$top={$top}&$skipToken={$skipToken}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,29 +44,55 @@ uriParameters:
   description: The name of the resource.
   types:
   - uid: string
-- name: changeResourceId
-  in: path
-  isRequired: true
-  description: The ID of the change resource
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
   description: The API version to be used with the HTTP request.
   types:
   - uid: string
+- name: $top
+  in: query
+  description: (Optional) Set the maximum number of results per response.
+  types:
+  - uid: integer
+  format: int64
+- name: $skipToken
+  in: query
+  description: (Optional) The page-continuation token
+  types:
+  - uid: string
 responses:
 - name: 200 OK
   description: OK.
   types:
-  - uid: ChangeResourceResult
+  - uid: ChangeResourceListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: ChangeResourceListResult
+  description: The list of resources
+  kind: object
+  properties:
+  - name: nextLink
+    description: The link used to get the next page of Change Resources
+    types:
+    - uid: string
+  - name: value
+    description: The list of resources
+    types:
+    - uid: ChangeResourceResult
+      isArray: true
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
 - name: ChangeResourceResult
   description: Change Resource
   kind: object
@@ -88,45 +116,6 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error response
-  kind: object
-  properties:
-  - name: error
-    description: The error object.
-    types:
-    - uid: ErrorDetail
-- name: ChangeProperties
-  description: The properties of a change
-  kind: object
-  properties:
-  - name: targetResourceId
-    isReadyOnly: true
-    description: The fully qualified ID of the target resource that was changed
-    types:
-    - uid: string
-  - name: targetResourceType
-    isReadyOnly: true
-    description: The namespace and type of the resource
-    types:
-    - uid: string
-  - name: changeType
-    isReadyOnly: true
-    description: The type of change that was captured in the resource
-    types:
-    - uid: ChangeType
-  - name: changeAttributes
-    description: Details about the change resource
-    types:
-    - uid: ChangeAttributes
-  - name: changes
-    description: A dictionary with changed property name as a key and the change details as the value
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: ChangeBase
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -158,6 +147,51 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: ChangeProperties
+  description: The properties of a change
+  kind: object
+  properties:
+  - name: targetResourceId
+    isReadyOnly: true
+    description: The fully qualified ID of the target resource that was changed
+    types:
+    - uid: string
+  - name: targetResourceType
+    isReadyOnly: true
+    description: The namespace and type of the resource
+    types:
+    - uid: string
+  - name: changeType
+    isReadyOnly: true
+    description: The type of change that was captured in the resource
+    types:
+    - uid: ChangeType
+  - name: changeAttributes
+    description: Details about the change resource
+    types:
+    - uid: ChangeAttributes
+  - name: changes
+    description: A dictionary with changed property name as a key and the change details as the value
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ChangeBase
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 - name: ChangeType
   description: The type of change that was captured in the resource
   kind: enum
@@ -227,20 +261,6 @@ definitions:
     description: The target resource property value after the change
     types:
     - uid: string
-- name: ErrorAdditionalInfo
-  description: The resource management error additional info.
-  kind: object
-  properties:
-  - name: type
-    isReadyOnly: true
-    description: The additional info type.
-    types:
-    - uid: string
-  - name: info
-    isReadyOnly: true
-    description: The additional info.
-    types:
-    - uid: object
 - name: PropertyChangeType
   description: The type of change that occurred
   kind: enum
@@ -274,42 +294,64 @@ definitions:
     types:
     - uid: string
 examples:
-- name: GetChange
+- name: ListChanges
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionId1/resourceGroups/resourceGroup1/providers/resourceProvider1/resourceType1/resourceName1/providers/Microsoft.Resources/changes/1d58d72f-0719-4a48-9228-b7ea682885bf?api-version=2022-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/subscriptionId1/resourceGroups/resourceGroup1/providers/resourceProvider1/resourceType1/resourceName1/providers/Microsoft.Resources/changes?api-version=2022-03-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subscriptionId1/resourceGroups/resourceGroup1/providers/resourceProvider1/resourceType1/resourceName1/Microsoft.Resources/changes/1d58d72f-0719-4a48-9228-b7ea682885bf",
-        "name": "1d58d72f-0719-4a48-9228-b7ea682885bf",
-        "type": "Microsoft.Resources/changes",
-        "properties": {
-          "targetResourceId": "/subscriptions/subscriptionId1/resourceGroups/resourceGroup1/providers/resourceProvider1/resourceType1/resourceName1",
-          "targetResourceType": "resourceProvider1/resourceType1",
-          "changeType": "Update",
-          "changeAttributes": {
-            "correlationId": "88420d5d-8d0e-471f-9115-10d34750c617",
-            "timestamp": "2021-11-19T14:29:09.9210000Z",
-            "changesCount": 2,
-            "previousResourceSnapshotId": "ed90e35a-1661-42cc-a44c-e27f508005be",
-            "newResourceSnapshotId": "6eac9d0f-63b4-4e7f-97a5-740c73757efb"
+        "value": [
+          {
+            "id": "/subscriptions/subscriptionId1/resourceGroups/resourceGroup1/providers/resourceProvider1/resourceType1/resourceName1/Microsoft.Resources/changes/a9f34285-13a2-e79c-f468-cfb71c7bd227",
+            "name": "a9f34285-13a2-e79c-f468-cfb71c7bd227",
+            "type": "Microsoft.Resources/changes",
+            "properties": {
+              "targetResourceId": "/subscriptions/subscriptionId1/resourceGroups/resourceGroup1/providers/resourceProvider1/resourceType1/resourceName1",
+              "targetResourceType": "resourceProvider1/resourceType1",
+              "changeType": "Update",
+              "changeAttributes": {
+                "correlationId": "88420d5d-8d0e-471f-9115-10d34750c617",
+                "timestamp": "2021-11-19T14:29:09.9210000Z",
+                "changesCount": 2,
+                "previousResourceSnapshotId": "ed90e35a-1661-42cc-a44c-e27f508005be",
+                "newResourceSnapshotId": "6eac9d0f-63b4-4e7f-97a5-740c73757efb"
+              },
+              "changes": {
+                "properties.provisioningState": {
+                  "propertyChangeType": "Update",
+                  "changeCategory": "System",
+                  "previousValue": "Updating",
+                  "newValue": "Succeeded"
+                },
+                "tags.key1": {
+                  "propertyChangeType": "Insert",
+                  "changeCategory": "User",
+                  "previousValue": "null",
+                  "newValue": "someValue"
+                }
+              }
+            }
           },
-          "changes": {
-            "properties.provisioningState": {
-              "propertyChangeType": "Update",
-              "changeCategory": "System",
-              "previousValue": "Updating",
-              "newValue": "Succeeded"
-            },
-            "tags.key1": {
-              "propertyChangeType": "Insert",
-              "changeCategory": "User",
-              "previousValue": "null",
-              "newValue": "someValue"
+          {
+            "id": "/subscriptions/subscriptionId1/resourceGroups/resourceGroup1/providers/resourceProvider1/resourceType1/resourceName1/Microsoft.Resources/changes/a9f34285-13a2-e79c-f468-cfb71c7bd227",
+            "name": "a9f34285-13a2-e79c-f468-cfb71c7bd227",
+            "type": "Microsoft.Resources/changes",
+            "properties": {
+              "targetResourceId": "/subscriptions/subscriptionId1/resourceGroups/resourceGroup1/providers/resourceProvider1/resourceType1/resourceName1",
+              "targetResourceType": "resourceProvider1/resourceType1",
+              "changeType": "Create",
+              "changeAttributes": {
+                "changesCount": 0,
+                "correlationId": "88420d5d-8d0e-471f-9115-10d34750c617",
+                "timestamp": "2021-11-19T14:29:09.9210000Z",
+                "previousResourceSnapshotId": "b09f5e52-0b46-4d13-84a9-08653d39fed6",
+                "newResourceSnapshotId": "4db20fc0-de17-4cdd-92d8-fd6bf94b9fd9"
+              },
+              "changes": {}
             }
           }
-        }
+        ]
       }
 security:
 - name: azure_auth
@@ -321,5 +363,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Resource Management service - Obtains the specified change resource for the target resource
+  description: Learn more about Resource Management service - Obtains a list of change resources from the past 14 days for the target resource
 errorCodes: []
