@@ -9,7 +9,7 @@ ms.service: storage
 ms.topic: reference
 ---
 
-# Abort Copy Blob operation
+# Abort Copy Blob
 
 The `Abort Copy Blob` operation stops a pending `Copy Blob` operation, and leaves a destination blob with zero length and full metadata. This operation applies to version 2012-02-12 and newer.  
   
