@@ -1,8 +1,8 @@
 ---
-title: Azure Spring Cloud REST API 
+title: Azure Spring Apps REST API 
 description:  
-services: spring-cloud
-ms.service: spring-cloud 
+services: spring-Apps
+ms.service: spring-Apps
 ms.subservice: 
 ms.topic: reference
 author: MikeDodaro
@@ -10,19 +10,19 @@ ms.author: brendm
 ms.date: 01/22/2020
 ---
 
-# Azure Spring Cloud REST API reference
+# Azure Spring Apps REST API reference
 
-[Azure Spring Cloud](https://docs.microsoft.com/azure/spring-cloud/) provides a managed service that enables Java developers to build and run Spring-boot based microservices on Azure with no code changes.
+[Azure Spring Apps](https://docs.microsoft.com/azure/spring-cloud/) provides a managed service that enables Java developers to build and run Spring-boot based microservices on Azure with no code changes.
 
-The REST API allows you to develop clients that use REST calls to the Azure Spring Cloud API. 
+The REST API allows you to develop clients that use REST calls to the Azure Spring Apps API. 
 
 ## Rest Operation Groups
 
-Azure Spring Cloud REST API provides operations for working with the following resources:
+Azure Spring Apps REST API provides operations for working with the following resources:
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Services](../../docs-ref-autogen/azurespringcloud/Services.yml) | Provides operations for managing Azure Spring Cloud service instances. |
+| [Services](../../docs-ref-autogen/azurespringcloud/Services.yml) | Provides operations for managing Azure Spring Apps service instances. |
 | [Apps](../../docs-ref-autogen/azurespringcloud/Apps.yml) | Provides operations for managing apps under service instances. |
 | [Deployments](../../docs-ref-autogen/azurespringcloud/Deployments.yml) | Provides operations for managing deployments under apps. |
 | [Bindings](../../docs-ref-autogen/azurespringcloud/Bindings.yml) | Provides operations for managing service bindings under apps. |
@@ -36,4 +36,4 @@ Azure Spring Cloud REST API provides operations for working with the following r
 ## Next steps
 
 Learn more about this service:
-* [Azure Spring Cloud Documentation](https://docs.microsoft.com/azure/spring-cloud/)
+* [Azure Spring Apps Documentation](https://docs.microsoft.com/azure/spring-cloud/)
