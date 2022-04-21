@@ -24,13 +24,13 @@ The `Create Permission` operation creates a permission (a security descriptor) a
 
 You can construct the `Create Permission` request as shown here. We recommend that you use HTTPS.  
   
-|Method|Request URI|HTTP version|  
+|Method|Request URI|HTTP&nbsp;version|  
 |------------|-----------------|------------------|  
 |`PUT`|`https://myaccount.file.core.windows.net/myshare?restype=share&comp=filepermission`|HTTP/1.1|  
   
-Replace the path components shown in the request URI with your own components, as follows:  
+Replace the path components shown in the request URI with your own components, as shown here:  
   
-|Path component|Description|  
+|Path&nbsp;component|Description|  
 |--------------------|-----------------|  
 |`myaccount`|The name of your storage account.|  
 |`myshare`|The name of your file share. The name can contain only lowercase characters.|  
@@ -39,7 +39,7 @@ For information about path-naming restrictions, see [Name and reference shares, 
   
 ### URI parameters
   
-You can specify additional parameters on the request URI as shown here.  
+You can specify additional parameters on the request URI as shown here:  
   
 |Parameter|Description|  
 |---------------|-----------------|  
@@ -49,7 +49,7 @@ You can specify additional parameters on the request URI as shown here.
 
 The required and optional request headers are described in the following table:  
   
-|Request header|Description|  
+|Request&nbsp;header|Description|  
 |--------------------|-----------------|  
 | `Authorization` | Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -94,7 +94,7 @@ For information about status codes, see [Status and error codes](Status-and-Erro
 
 The response for this operation includes the following headers. The response might also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Response header|Description|  
+|Response&nbsp;header|Description|  
 |---------------------|-----------------|  
 | `x-ms-request-id` | Uniquely identifies the request that was made, and you can use it to troubleshoot the request. |
 | `x-ms-version` | Indicates the Azure Files version that was used to execute the request. |
@@ -114,7 +114,7 @@ Only the account owner or a caller that has a share-level shared access signatur
 
 To make the SDDL format portable across domain and non-domain joined machines, the caller can use the ConvertSecurityDescriptorToStringSecurityDescriptor() Windows function to get the base SDDL string for the security descriptor. The caller can then replace the SDDL notation that's listed in the following table with the correct SID value.
 
-| Name | SDDL notation | SID value | Description |
+| Name | SDDL&nbsp;notation | SID&nbsp;value | Description |
 |------|---------------|-----------|-------------|
 | Local Administrator | LA | S-1-5-21domain-500 | A user account for the system administrator. By default, it's the only user account that's given full control over the system. |
 | Local Guests | LG | S-1-5-21domain-501 | A user account for people who don't have individual accounts. This user account doesn't require a password. By default, the Guest account is disabled. |
