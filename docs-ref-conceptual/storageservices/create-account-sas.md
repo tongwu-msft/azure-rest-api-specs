@@ -27,11 +27,11 @@ Beginning with version 2015-04-05, Azure Storage supports creating a new type of
 Stored access policies are currently not supported for an account SAS.
   
 > [!CAUTION]
-> Shared access signatures are keys that grant permissions to storage resources, and they should be protected in the same manner as an account key. It's important to protect an SAS from malicious or unintended use. Use discretion in distributing an SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and SAS URIs should be distributed only on a secure connection such as HTTPS.  
+> Shared access signatures are keys that grant permissions to storage resources, and they should be protected in the same manner as an account key. It's important to protect an SAS from malicious or unintended use. Use discretion in distributing an SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and SAS URIs should be distributed only on a secure connection, such as HTTPS.  
 
 ## Authorization of an account SAS
 
-You secure an account SAS by using the storage account key. To create an account SAS, a client application must possess the account key.
+You secure an account SAS by using a storage account key. When you create an account SAS, your client application must possess the account key.
 
 To use Azure Active Directory (Azure AD) credentials to secure an SAS for a container or blob, [create a user delegation SAS](create-user-delegation-sas.md).
   
@@ -48,7 +48,7 @@ The following table describes the required and optional parameters for the SAS t
 |`api-version`|Optional. Specifies the storage service version to use to execute the request that's made using the account SAS URI.|  
 |`SignedVersion (sv)`|Required. Specifies the signed storage service version to use to authorize requests that are made with this account SAS. It must be set to version 2015-04-05 or later.|  
 |`SignedServices (ss)`|Required. Specifies the signed services that are accessible with the account SAS. Possible values include:<br /><br /> - Blob (`b`)<br />- Queue (`q`)<br />- Table (`t`)<br />- File (`f`)<br /><br /> You can combine values to provide access to more than one service. For example, `ss=bf` specifies access to the Blob Storage and Azure Files endpoints.|  
-|`SignedResourceTypes (srt)`|Required. Specifies the signed resource types that are accessible with the account SAS.<br /><br /> - Service (`s`): Access to service-level APIs (e.g., Get/Set Service Properties, Get Service Stats, List Containers/Queues/Tables/Shares)<br />- Container (`c`): Access to container-level APIs (e.g., Create/Delete Container, Create/Delete Queue, Create/Delete Table, Create/Delete Share, List Blobs/Files and Directories)<br />- Object (`o`): Access to object-level APIs for  blobs, queue messages,  table entities, and files (e.g., Put Blob, Query Entity, Get Messages, Create File, etc.)<br /><br /> You can combine values to provide access to more than one resource type. For example, `srt=sc` specifies access to service and container resources.|  
+|`SignedResourceTypes (srt)`|Required. Specifies the signed resource types that are accessible with the account SAS.<br /><br /> - Service (`s`): Access to service-level APIs (for example, Get/Set Service Properties, Get Service Stats, List Containers/Queues/Tables/Shares).<br />- Container (`c`): Access to container-level APIs (for example, Create/Delete Container, Create/Delete Queue, Create/Delete Table, Create/Delete Share, List Blobs/Files and Directories).<br />- Object (`o`): Access to object-level APIs for  blobs, queue messages,  table entities, and files (for example, Put Blob, Query Entity, Get Messages, Create File).<br /><br /> You can combine values to provide access to more than one resource type. For example, `srt=sc` specifies access to service and container resources.|  
 |`SignedPermission (sp)`|Required. Specifies the signed permissions for the account SAS. Permissions are valid only if they match the specified signed resource type; otherwise, they are ignored.<br /><br /> - Read (`r`): Valid for all signed resources types (Service, Container, and Object). Permits read permissions to the specified resource type.<br />- Write (`w`): Valid for all signed resources types (Service, Container, and Object). Permits write permissions to the specified resource type.<br />- Delete (`d`): Valid for Container and Object resource types, except for queue messages.<br />- Permanent Delete (`y`): Valid for Object resource type of Blob only.<br />- List (`l`): Valid for Service and Container resource types only.<br />- Add (`a`): Valid for the following Object resource types only: queue messages, table entities, and append blobs.<br />- Create (`c`): Valid for the following Object resource types only: blobs and files. Users can create new blobs or files, but may not overwrite existing blobs or files.<br />- Update (`u`): Valid for the following Object resource types only: queue messages and table entities.<br />- Process (`p`): Valid for the following Object resource type only: queue messages.<br/>- Tag (`t`): Valid for the following Object resource type only: blobs. Permits blob tag operations.<br/>- Filter (`f`): Valid for the following Object resource type only: blob. Permits filtering by blob tag.<br/>- Set Immutability Policy (`i`): Valid for the following Object resource type only: blob. Permits set/delete immutability policy and legal hold on a blob.|
 |`SignedStart (st)`|Optional. The time at which the SAS becomes valid, expressed in one of the accepted ISO 8601 UTC formats. If it's omitted, the start time is assumed to be the time when the storage service receives the request. For more information about accepted UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).|  
 |`SignedExpiry (se)`|Required. The time at which the shared access signature becomes invalid, expressed in one of the accepted ISO 8601 UTC formats. For more information about accepted UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).|  
@@ -99,7 +99,7 @@ StringToSign = accountname + "\n" +
 
 The tables in the following sections list various APIs for each service and the signed resource types and signed permissions that are supported for each operation.  
   
-### Blob service
+### Blob Storage
   
 The following table lists Blob Storage operations and indicates which signed resource type and signed permissions to specify when you delegate access to those operations.  
   
@@ -109,7 +109,7 @@ The following table lists Blob Storage operations and indicates which signed res
 |Get Blob Storage Properties|Blob Storage (b)|Service (s)|Read (r)|  
 |Set Blob Storage Properties|Blob Storage (b)|Service (s)|Write (w)|  
 |Get Blob Storage Stats|Blob Storage (b)|Service (s)|Read (r)|  
-|Create Container|Blob Storage (b)|Container (c)|Create(c) or Write (w)|  
+|Create Container|Blob Storage (b)|Container (c)|Create (c) or Write (w)|  
 |Get Container Properties|Blob Storage (b)|Container (c)|Read (r)|  
 |Get Container Metadata|Blob Storage (b)|Container (c)|Read (r)|  
 |Set Container Metadata|Blob Storage (b)|Container (c)|Write (w)|  
@@ -158,7 +158,7 @@ The following table lists Azure Queue Storage operations and indicates which sig
 |Set Queue Storage Properties|Queue Storage (q)|Service (s)|Write (w)|  
 |List Queues|Queue Storage (q)|Service (s)|List (l)|  
 |Get Queue Storage Stats|Queue Storage (q)|Service (s)|Read (r)|  
-|Create Queue|Queue Storage (q)|Container (c)|Create(c) or Write (w)|  
+|Create Queue|Queue Storage (q)|Container (c)|Create (c) or Write (w)|  
 |Delete Queue|Queue Storage (q)|Container (c)|Delete (d)|  
 |Get Queue Metadata|Queue Storage (q)|Container (c)|Read (r)|  
 |Set Queue Metadata|Queue Storage (q)|Container (c)|Write (w)|  
@@ -239,13 +239,13 @@ https://myaccount.blob.core.windows.net/?restype=service&comp=properties&sv=2019
 | --- | --- | --- |
 | Resource URI |`https://myaccount.blob.core.windows.net/?restype=service&comp=properties` |The service endpoint, with parameters for getting service properties (when called with GET) or setting service properties (when called with SET). Based on the value of the signed services field (`ss`), this SAS can be used with either Blob Storage or Azure Files. |
 | Storage services version |`sv=2019-02-02` |For storage services version 2012-02-12 and later, this parameter indicates the version to use. |
-| Services |`ss=bf` |The SAS applies to the Blob Storage and Azure Files services. |
+| Services |`ss=bf` |The SAS applies to Blob Storage and Azure Files. |
 | Resource types |`srt=s` |The SAS applies to service-level operations. |
 | Start time |`st=2019-08-01T22%3A18%3A26Z` |Specified in UTC time. If you want the SAS to be valid immediately, omit the start time. |
 | Expiry time |`se=2019-08-10T02%3A23%3A26Z` |Specified in UTC time. |
 | Permissions |`sp=rw` |The permissions grant access to read and write operations. |
 | IP range |`sip=168.1.5.60-168.1.5.70` |The range of IP addresses from which a request will be accepted. |
-| Protocol |`spr=https` |Only requests using HTTPS are permitted. |
+| Protocol |`spr=https` |Only requests that use HTTPS are permitted. |
 | Signature |`sig=F%6GRVAZ5Cdj2Pw4tgU7IlSTkWgn7bUkkAg8P6HESXwmf%4B` |Used to authorize access to the blob. The signature is an HMAC that's computed over a string-to-sign and key by using the SHA256 algorithm, and then encoded by using Base64 encoding. |
 
 Because permissions are restricted to the service level, accessible operations with this SAS are **Get Blob Storage Properties** (read) and **Set Blob Storage Properties** (write). However, with a different resource URI, the same SAS token could also be used to delegate access to **Get Blob Storage Stats** (read).
@@ -255,4 +255,4 @@ Because permissions are restricted to the service level, accessible operations w
 - [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)
 - [Create a user delegation SAS](create-user-delegation-sas.md)
 - [Create a service SAS](create-service-sas.md)
-- [SAS Error Codes](SAS-Error-Codes.md)
+- [SAS error codes](SAS-Error-Codes.md)
