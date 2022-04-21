@@ -21,7 +21,7 @@ An SAS can also specify the supported IP address or address range from which req
 Finally, every SAS token includes a signature.  
 
 > [!CAUTION]
-> Shared access signatures are keys that grant permissions to storage resources, and they should be protected in the same manner as an account key. It's important to protect an SAS from malicious or unintended use. Use discretion in distributing an SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and SAS URIs should be distributed only on a secure connection, such as HTTPS.  
+> Shared access signatures are keys that grant permissions to storage resources, and you should protected them just as you would protect an account key. It's important to protect an SAS from malicious or unintended use. Use discretion in distributing an SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and SAS URIs should be distributed only on a secure connection, such as HTTPS.  
   
 ## Authorize a service SAS
 
@@ -29,7 +29,7 @@ You secure an account SAS by using a storage account key. When you create an acc
 
 To use Azure Active Directory (Azure AD) credentials to secure an SAS for a container or blob, [create a user delegation SAS](create-user-delegation-sas.md).
 
-## Service SAS support for directory scoped access
+## Service SAS support for directory-scoped access
 
 A service SAS supports directory scope (`sr=d`) when the authorization version (`sv`) is 2020-02-10 or later and a hierarchical namespace is enabled. The semantics for directory scope (`sr=d`) are similar to those for container scope (`sr=c`), except that access is restricted to a directory and any files and subdirectories within it. When `sr=d` is specified, the `sdd` query parameter is also required.
 
@@ -37,7 +37,7 @@ The string-to-sign format for authorization version 2020-02-10 is unchanged.
 
 ## Construct a service SAS
 
-The following image represents the parts of the shared access signature URI. Required parts appear in orange. The fields that make up the SAS token are described in subsequent sections.  
+The following image represents the parts of the shared access signature URI. The required parts appear in orange. The fields that make up the SAS token are described in subsequent sections.  
 
 :::image type="content" source="media/ElementsofaSharedAccessSignatureURL.png" alt-text="Diagram of the parameter elements of a shared access signature URL.":::
   
@@ -51,7 +51,7 @@ For information about which version is used when you execute requests via a shar
 
 For information about how this parameter affects the authorization of requests made with a shared access signature, see [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md).
   
-|Field name|Query parameter|Description|  
+|Field name|Query&nbsp;parameter|Description|  
 |----------------|---------------------|-----------------|  
 |`signedVersion`|`sv`|Required. Supported in versions 2012-02-12 and later. The storage service version to use to authorize and handle requests that you make with this shared access signature. For more information, see [Versioning for Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|
 
@@ -60,13 +60,13 @@ For information about how this parameter affects the authorization of requests m
 In legacy scenarios where `signedVersion` isn't used, Blob Storage applies rules to determine the version. For more information about these rules, see [Versioning for Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).  
   
 > [!IMPORTANT]
-> Client software might experience unexpected protocol behavior when you use a shared access signature URI that uses a storage service version that's newer than the client software. Code that constructs shared access signature URIs should rely on versions that are understood by client software that makes storage service requests.  
+> Client software might experience unexpected protocol behavior when you use a shared access signature URI that uses a storage service version that's newer than the client software. Code that constructs shared access signature URIs should rely on versions that are understood by the client software that makes storage service requests.  
   
 ### Specify the signed resource (Blob Storage only)
 
 The required `signedResource` (`sr`) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob or container resource in the SAS token.  
 
-| Resource | Parameter value | Supported versions | Description |
+| Resource | Parameter value | Supported&nbsp;versions | Description |
 |--|--|--|--|
 | Blob | b | All | Grants access to the content and metadata of the blob. |
 | Blob version | bv | 2018-11-09 and later | Grants access to the content and metadata of the blob version, but not the base blob. |
@@ -100,7 +100,7 @@ The response headers and corresponding query parameters are listed in the follow
   
 For example, if you specify the `rsct=binary` query parameter on a shared access signature that's created with version 2013-08-15 or later, the `Content-Type` response header is set to `binary`. This value overrides the `Content-Type` header value that's stored for the blob for a request that uses this shared access signature only.  
   
-If you create a shared access signature that specifies response headers as query parameters, you must include them in the string-to-sign that's used to construct the signature string. For more information, see the [Construct the signature string](#construct-the-signature-string) section later in this article. For additional examples, see [Service SAS examples](Service-SAS-Examples.md).  
+If you create a shared access signature that specifies response headers as query parameters, you must include them in the string-to-sign that's used to construct the signature string. For more information, see the "[Construct the signature string](#construct-the-signature-string)" section later in this article. For additional examples, see [Service SAS examples](Service-SAS-Examples.md).  
   
 ### Specify the table name (Table Storage only)
 
@@ -123,7 +123,7 @@ The access policy portion of the URI indicates the period of time during which t
 |`endPk`<sup>2</sup><br /><br /> `endRk`<sup>2</sup>|`epk`<br /><br /> `erk`|Table Storage only.<br /><br /> Optional, but `endPk` must accompany `endRk`. The maximum partition and row keys that are accessible with this shared access signature. Key values are inclusive. If they're omitted, there's no upper bound on the table entities that can be accessed.|  
   
 <sup>1</sup> The `signedPermissions` field is required on the URI unless it's specified as part of a stored access policy.  
-<sup>2</sup> The `startPk`, `startRk`, `endPk`, and `endRk` fields can be specified only on a Table Storage resource.  
+<sup>2</sup> The `startPk`, `startRk`, `endPk`, and `endRk` fields can be specified only on Table Storage resources.  
   
 ### Specify permissions
   
@@ -139,13 +139,13 @@ A service SAS can't grant access to certain operations:
   
 - Containers, queues, and tables can't be created, deleted, or listed.  
 - Container metadata and properties can't be read or written.  
-- Queues can't be cleared and their metadata may not be written.  
+- Queues can't be cleared, and their metadata can't be written.  
 - Containers can't be leased.  
 
 To construct an SAS that grants access to these operations, use an account SAS. For more information, see [Create an account SAS](create-account-sas.md).
   
 > [!IMPORTANT]
-> Shared access signatures are keys that grant permissions to storage resources, and you should protect them in the same manner as an account key. You should perform operations that use shared access signatures only over an HTTPS connection, and you should distribute shared access signature URIs only on a secure connection, such as HTTPS.  
+> Shared access signatures are keys that grant permissions to storage resources, and you should protect them just as you would protect an account key. Perform operations that use shared access signatures only over an HTTPS connection, and distribute shared access signature URIs only on a secure connection, such as HTTPS.  
 
 The permissions that are supported for each resource type are described in the following sections.  
   
@@ -153,23 +153,23 @@ The permissions that are supported for each resource type are described in the f
   
 The permissions that are supported for each resource type are described in the following table: 
 
-| Permission | URI&nbsp;symbol | Resource | Version support | Allowed operations |
+| Permission | URI&nbsp;symbol | Resource | Version&nbsp;support | Allowed operations |
 |--|--|--|--|--|
 | Read | r | Container<br />Directory<br />Blob | All | Read the content, blocklist, properties, and metadata of any blob in the container or directory. Use a blob as the source of a copy operation. |
 | Add | a | Container<br />Directory<br />Blob | All | Add a block to an append blob. |
 | Create | c | Container<br />Directory<br />Blob | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
 | Write | w | Container<br />Directory<br />Blob | All | Create or write content, properties, metadata, or blocklist. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
 | Delete | d | Container<br />Directory<br />Blob | All | Delete a blob. For versions 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the [Lease Blob](Lease-Blob.md) operation. |
-| Delete version | x | Container<br />Blob | Version 2019-12-12 or later | Delete a blob version. |
-| Permanent delete | y | Blob | Version 2020-02-10 or later | Permanently delete a blob snapshot or version.|
+| Delete version | x | Container<br />Blob | 2019-12-12 and later | Delete a blob version. |
+| Permanent delete | y | Blob | 2020-02-10 and later | Permanently delete a blob snapshot or version.|
 | List | l | Container<br />Directory | All | List blobs non-recursively. |
-| Tags | t | Blob | Version 2019-12-12 or later | Read or write the tags on a blob. |
-| Find | f | Container | Version 2019-12-12 or later | Find blobs with index tags. |
-| Move | m | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. This operation can optionally be restricted to the owner of the child blob, directory, or parent directory if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
-| Execute | e | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. doesn't permit the caller to read user-defined metadata. |
-| Ownership | o | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, this permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or blob within a directory that has the sticky bit set. |
-| Permissions | p | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, this permission allows the caller to set permissions and POSIX ACLs on directories and blobs. |
-| Set Immutability Policy | i | Container<br/>Blob | Version 2020-06-12 or later | Set or delete the immutability policy or legal hold on a blob. |
+| Tags | t | Blob | 2019-12-12 and later | Read or write the tags on a blob. |
+| Find | f | Container | 2019-12-12 and later | Find blobs with index tags. |
+| Move | m | Container<br />Directory<br />Blob | 2020-02-10 and later | Move a blob or a directory and its contents to a new location. This operation can optionally be restricted to the owner of the child blob, directory, or parent directory if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
+| Execute | e | Container<br />Directory<br />Blob | 2020-02-10 and later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. doesn't permit the caller to read user-defined metadata. |
+| Ownership | o | Container<br />Directory<br />Blob | 2020-02-10 and later | When the hierarchical namespace is enabled, this permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or blob within a directory that has the sticky bit set. |
+| Permissions | p | Container<br />Directory<br />Blob | 2020-02-10 and later | When the hierarchical namespace is enabled, this permission allows the caller to set permissions and POSIX ACLs on directories and blobs. |
+| Set Immutability Policy | i | Container<br/>Blob | 2020-06-12 and later | Set or delete the immutability policy or legal hold on a blob. |
   
 #### Permissions for a file
   
@@ -216,7 +216,7 @@ When you're specifying a range of IP addresses, note that the range is inclusive
 
 The following table describes whether to include the `signedIp` field on an SAS token for a specified scenario, based on the client environment and the location of the storage account.
 
-| Client environment | Storage account location | Recommendation |
+| Client&nbsp;environment | Storage&nbsp;account&nbsp;location | Recommendation |
 |--|--|--|
 | Client running in Azure | In the same region as the client | An SAS that's provided to the client in this scenario shouldn't include an outbound IP address for the `signedIp` field. Requests that are made from within the same region that use an SAS with a specified outbound IP address will fail.<br /><br/> Instead, use an Azure virtual network to manage network security restrictions. Requests to Azure Storage from within the same region always take place over a private IP address. For more information, see [Configure Azure Storage firewalls and virtual networks](/azure/storage/common/storage-network-security). |
 | Client running in Azure | In a different region from the client | An SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. A request made with the SAS must originate from the specified IP address or range of addresses. |
@@ -236,7 +236,7 @@ If `startPk` equals `endPk` and `startRk` equals `endRk`, the shared access sign
 
 To understand how these fields constrain access to entities in a table, refer to the following table:  
   
-|Fields present|Scope of constraint|  
+|Fields&nbsp;present|Scope of constraint|  
 |--------------------|-------------------------|  
 |`startPk`|partitionKey >= `startPk`|  
 |`endPk`|partitionKey <= `endPk`|  
@@ -269,7 +269,7 @@ By using the `signedEncryptionScope` field on the URI, you can specify the encry
 
 The following table describes how to refer to a signed encryption scope on the URI:
 
-|Field name|Query parameter|Description|  
+|Field&nbsp;name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
 |`signedEncryptionScope`|`ses`|Optional. Indicates the encryption scope to use to encrypt the request contents.| 
 
