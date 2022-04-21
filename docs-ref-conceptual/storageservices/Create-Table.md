@@ -17,7 +17,7 @@ The `Create Table` operation creates a new table in a storage account.
 
  You can construct the `Create Table` request as shown here. We recommend that you use HTTPS. Replace *myaccount* with the name of your storage account:  
   
-|Method|Request URI|HTTP version|  
+|Method|Request URI|HTTP&nbsp;version|  
 |------------|-----------------|------------------|  
 |`POST`|`https://myaccount.table.core.windows.net/Tables`|HTTP/1.1|  
   
@@ -25,7 +25,7 @@ The `Create Table` operation creates a new table in a storage account.
 
 When you're making a request against the emulated storage service, specify the emulator hostname and Table Storage port as `127.0.0.1:10002`, followed by the emulated storage account name:  
   
-|Method|Request URI|HTTP version|  
+|Method|Request URI|HTTP&nbsp;version|  
 |------------|-----------------|------------------|  
 |`POST`|`http://127.0.0.1:10002/devstoreaccount1/Tables`|HTTP/1.1|  
   
@@ -39,7 +39,7 @@ When you're making a request against the emulated storage service, specify the e
 
 The required and optional request headers are described in the following table:  
   
-|Request header|Description|  
+|Request&nbsp;header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -108,7 +108,7 @@ The status code depends on the value of the `Prefer` header. If the `Prefer` hea
 
 The response for this operation includes the headers that are described in the following table. The response might also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Response header|Description|  
+|Response&nbsp;header|Description|  
 |---------------------|-----------------|  
 |`x-ms-request-id`|Uniquely identifies the request that was made, and you can use it to troubleshoot the request. For more information, see [Troubleshoot API operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the Table Storage version that was used to execute the request. This header is returned for requests that are made against versions 2009-09-19 and later.|  
