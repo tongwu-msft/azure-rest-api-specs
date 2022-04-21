@@ -10,7 +10,7 @@ ms.author: wgries
 ---
 
 # Create Share
-The `Create Share` operation creates a new Azure Files share under the specified account. Although this API is fully supported, this is a legacy management API. We recommend that you instead use [File Shares - Create](/rest/api/storagerp/file-shares/create), which is provided by the storage resource provider (Microsoft.Storage). To learn more about programmatically interacting with `FileShare` resources by using the storage resource provider, see [Operations on FileShares](Operations-on-Shares--File-Service-.md).
+The `Create Share` operation creates a new Azure Files share under the specified account. Although this API is fully supported, this is a legacy management API. We recommend that you instead use [File Shares - Create](/rest/api/storagerp/file-shares/create), which is provided by the storage resource provider (Microsoft.Storage). To learn more about how to programmatically interact with `FileShare` resources by using the storage resource provider, see [Operations on FileShares](Operations-on-Shares--File-Service-.md).
   
 If a share with the same name already exists, the operation fails. The share resource includes metadata and properties for that share. It doesn't include a list of the files that are contained in the share.  
 
@@ -25,13 +25,13 @@ If a share with the same name already exists, the operation fails. The share res
 
 You can construct the `Create Share` request as shown here. We recommend that you use HTTPS.  
   
-|Method|Request URI|HTTP version|  
+|Method|Request URI|HTTP&nbsp;version|  
 |------------|-----------------|------------------|  
 |`PUT`|`https://myaccount.file.core.windows.net/myshare?restype=share`|HTTP/1.1|  
   
 Replace the path components that are shown in the request URI with your own, as follows:  
   
-|Path component|Description|  
+|Path&nbsp;component|Description|  
 |--------------------|-----------------|  
 |`myaccount`|The name of your storage account.|  
 |`myshare`|The name of your file share. The name can contain only lowercase characters.|  
@@ -50,7 +50,7 @@ You can specify the following additional parameters on the request URI:
 
 The required and optional request headers are described in the following table:  
   
-|Request header|Description|  
+|Request&nbsp;header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -90,7 +90,7 @@ For more information, see [Status and error codes](Status-and-Error-Codes2.md).
 ### Response headers
 The response for this operation includes the following headers. The response might also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Response header|Description|  
+|Response&nbsp;header|Description|  
 |---------------------|-----------------|  
 |`ETag`|Contains a value that represents the version of the share, enclosed in quotation marks.|  
 |`Last-Modified`|Returns the date and time when the share was last modified. The date format follows RFC 1123. For more information, see [Represent date/time values in headers](Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any operation that modifies the share or its properties or metadata updates the last modified time. Operations on files don't affect the last modified time of the share.|  
