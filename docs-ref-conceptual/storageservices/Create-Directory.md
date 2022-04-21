@@ -66,7 +66,7 @@ The required and optional request headers are described in the following table:
 | `x-ms-file-attributes` | Required: version 2019-02-02 through 2021-04-10; optional: version 2021-06-08 or later. The file system attributes to be set on the directory. See the list of [available attributes](#file-system-attributes). The default value is Directory. |
 | `x-ms-file-creation-time: { now ¦ <DateTime> }` | Required: version 2019-02-02 to 2021-04-10; optional: version 2021-06-08 and newer. The Coordinated Universal Time (UTC) creation time property for the directory. You can use a value of `now` to indicate the time of the request. The default value is `now`. |
 | `x-ms-file-last-write-time: { now ¦ <DateTime> }` |Required: version 2019-02-02 through 2021-04-10; optional: version 2021-06-08 or later. The Coordinated Universal Time (UTC) last write property for the directory. You can use a value of `now` to indicate the time of the request. The default value is `now`. |
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-KiB character limit, which is recorded in the analytics logs when storage analytics logging is enabled. We highly recommend that you use this header for correlating client-side activities with requests that are received by the server. For more information, see [Monitor Azure Blob Storage](/azure/storage/blobs/monitor-blob-storage).|
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-KiB character limit, which is recorded in the analytics logs when storage analytics logging is enabled. We highly recommend that you use this header to correlate client-side activities with requests that are received by the server. For more information, see [Monitor Azure Blob Storage](/azure/storage/blobs/monitor-blob-storage).|
 | `x-ms-file-change-time: { now ¦ <DateTime> }` | Optional. The Coordinated Universal Time (UTC) change time property for the directory, in the ISO 8601 format. Version 2021-06-08 and newer. You can use a value of `now` to indicate the time of the request. The default value is `now`. |
   
 ### Sample request  
@@ -95,7 +95,7 @@ For information about status codes, see [Status and error codes](Status-and-Erro
 
 The response for this operation includes the headers that are described in the following table. The response can also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Response header|Description|  
+|Response&nbsp;header|Description|  
 |---------------------|-----------------|  
 |`ETag`|Contains a value that represents the version of the directory, enclosed in quotation marks.|  
 |`Last-Modified`|Returns the date and time when the directory was last modified. The date format follows RFC 1123. For more information, see [Representation of date/time values in headers](Representation-of-Date-Time-Values-in-Headers.md). Any operation that modifies the directory or its properties updates the last modified time. Operations on files don't affect the last modified time of the directory.|  
