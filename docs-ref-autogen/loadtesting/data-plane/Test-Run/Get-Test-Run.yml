@@ -1,0 +1,506 @@
+### YamlMime:RESTOperation
+uid: loadtesting.data-plane.testrun.gettestrun
+name: Get Test Run
+service: Azure Load Testing
+groupName: Test Run
+apiVersion: 2021-07-01-preview
+summary: Get test run of given name.
+produces:
+- application/json
+paths:
+- content: GET /testruns/{testRunId}?api-version=2021-07-01-preview
+uriParameters:
+- name: testRunId
+  in: path
+  isRequired: true
+  description: Unique identifier for load test run name, must be a valid URL character ^[a-z0-9_-]*$
+  types:
+  - uid: string
+  pattern: ^[a-z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The requested test run
+  types:
+  - uid: TestRunModel
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: >-
+    *** Error Responses: ***
+
+     * "400", "InvalidHostOrResourceName", "Host name or domain is not valid"
+
+     * "400", "RequiredTestRunId", "testRunId field is required"
+
+     * "400", "InvalidTestRunId", "testRunId field should be valid"
+
+     * "404", "TestRunNotFound", "test run not found with given identifier"
+
+    * "500", "InternalServerError", "Unable to process the request, please retry"
+  types:
+  - uid: DefaultErrorResponseBody
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: JWT Authorization header using the Bearer scheme.
+  types:
+  - uid: string
+definitions:
+- name: TestRunModel
+  description: Load test run model
+  kind: object
+  properties:
+  - name: testRunId
+    description: '[ReadOnly] Unique test run name as identifier'
+    types:
+    - uid: string
+  - name: displayName
+    description: 'Display name of a testRun '
+    types:
+    - uid: string
+  - name: testId
+    description: Associated testId
+    types:
+    - uid: string
+  - name: resourceId
+    description: '[ReadOnly] Load test resource Id'
+    types:
+    - uid: string
+  - name: description
+    description: The test run description
+    types:
+    - uid: string
+  - name: status
+    description: '[ReadOnly] The test run status'
+    types:
+    - uid: string
+  - name: startDateTime
+    description: '[ReadOnly] The test run start DateTime(Iso8601Literal format)'
+    types:
+    - uid: string
+  - name: endDateTime
+    description: '[ReadOnly] The test run end DateTime(Iso8601Literal format)'
+    types:
+    - uid: string
+  - name: loadTestConfig
+    description: The load test configuration
+    types:
+    - uid: LoadTestConfig
+  - name: testResult
+    description: '[ReadOnly] Test result for pass/Fail criteria used during the test run. possible outcome - ‘Passed’ , ‘Failed’ , ‘Not Applicable’'
+    types:
+    - uid: string
+  - name: passFailCriteria
+    description: Pass fail criteria for a test
+    types:
+    - uid: PassFailCriteria
+  - name: testArtifacts
+    description: ''
+    types:
+    - uid: TestArtifacts
+  - name: executedDateTime
+    description: '[ReadOnly] Test run initiated time'
+    types:
+    - uid: string
+  - name: vusers
+    description: '[ReadOnly] No of virtual users, for which test has been run'
+    types:
+    - uid: integer
+  - name: testRunStatistics
+    description: '[ReadOnly] Testrun statistics'
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: TestRunStatisticsModel
+  - name: createdDateTime
+    description: '[ReadOnly] The created DateTime(Iso8601Literal format) of the test run'
+    types:
+    - uid: string
+  - name: createdBy
+    description: '[ReadOnly] The user that created the test run'
+    types:
+    - uid: string
+  - name: lastModifiedDateTime
+    description: '[ReadOnly] The last updated  DateTime(Iso8601Literal format) of the test run'
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: '[ReadOnly] The user that updated the test run'
+    types:
+    - uid: string
+  - name: portalUrl
+    description: '[ReadOnly] Portal url '
+    types:
+    - uid: string
+  - name: secrets
+    description: 'Secrets of higher importance , which are stored in a key-vault typically. Allowed secret types: AKV_SECRET_URI/SECRET_VALUE'
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: SecretMetadata
+  - name: environmentVariables
+    description: Secrets of relatively lesser importance , which are defined as a set of <name,value> pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: duration
+    description: '[ReadOnly] Test run duration in milliseconds'
+    types:
+    - uid: integer
+- name: DefaultErrorResponseBody
+  description: The definition of an error object.
+  kind: object
+  properties:
+  - name: error
+    description: The error response object.
+    types:
+    - uid: ErrorResponseBody
+- name: LoadTestConfig
+  description: The load test configuration
+  kind: object
+  properties:
+  - name: engineInstances
+    description: The number of engine instances to execute load test. Supported values are in range of 1-50. Required for creating a new Test.
+    types:
+    - uid: integer
+- name: PassFailCriteria
+  description: Pass fail criteria for a test
+  kind: object
+  properties:
+  - name: passFailMetrics
+    description: 'Map of id and pass fail metrics { id  : pass fail metrics }'
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: PassFailMetric
+- name: TestArtifacts
+  kind: object
+  properties:
+  - name: inputArtifacts
+    description: '[ReadOnly]The input artifacts for the test'
+    types:
+    - uid: InputTestArtifacts
+  - name: outputArtifacts
+    description: The output artifacts for the test run
+    types:
+    - uid: OutputTestArtifacts
+- name: TestRunStatisticsModel
+  description: '[Readonly] Test run statistics'
+  kind: object
+  properties:
+  - name: transaction
+    description: '[Readonly] Transaction name'
+    types:
+    - uid: string
+  - name: sampleCount
+    description: '[Readonly] Sampler count'
+    types:
+    - uid: number
+  - name: errorCount
+    description: '[Readonly] Error count'
+    types:
+    - uid: number
+  - name: errorPct
+    description: '[Readonly] Error percentage'
+    types:
+    - uid: number
+  - name: meanResTime
+    description: '[Readonly] Mean response time'
+    types:
+    - uid: number
+  - name: medianResTime
+    description: '[Readonly] Median response time'
+    types:
+    - uid: number
+  - name: maxResTime
+    description: '[Readonly] Max response time'
+    types:
+    - uid: number
+  - name: minResTime
+    description: '[Readonly] Minimum response time'
+    types:
+    - uid: number
+  - name: pct1ResTime
+    description: '[Readonly] 90 percentile response time'
+    types:
+    - uid: number
+  - name: pct2ResTime
+    description: '[Readonly] 95 percentile response time'
+    types:
+    - uid: number
+  - name: pct3ResTime
+    description: '[Readonly] 99 percentile response time'
+    types:
+    - uid: number
+  - name: throughput
+    description: '[Readonly] Throughput'
+    types:
+    - uid: number
+  - name: receivedKBytesPerSec
+    description: '[Readonly] Received network bytes'
+    types:
+    - uid: number
+  - name: sentKBytesPerSec
+    description: '[Readonly] Send network bytes'
+    types:
+    - uid: number
+- name: SecretMetadata
+  kind: object
+  properties:
+  - name: value
+    description: The value of the secret. of type== akv-secret-uri or secret-value
+    types:
+    - uid: string
+  - name: type
+    description: Type of secret. eg. AKV_SECRET_URI/SECRET_VALUE
+    types:
+    - uid: string
+- name: ErrorResponseBody
+  description: The error response object.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    description: Additional details and inner errors.
+    types:
+    - uid: ErrorResponseBody
+      isArray: true
+- name: PassFailMetric
+  kind: object
+  properties:
+  - name: clientmetric
+    description: 'The client metric on which the criteria should be applied. Allowed values - ‘response_time_ms’ , ‘latency’, ‘error’ '
+    types:
+    - uid: string
+  - name: aggregate
+    description: 'The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’ - for response_time_ms and latency metric '
+    types:
+    - uid: string
+  - name: condition
+    description: 'The comparison operator. Supported types ‘>’ '
+    types:
+    - uid: string
+  - name: value
+    description: 'The value to compare with the client metric. Allowed values - ‘error : [0.0 , 100.0] unit- % ’, response_time_ms and latency : any integer value unit- ms'
+    types:
+    - uid: number
+  - name: action
+    description: Either ‘stop’ or ‘continue’ after the threshold is met. Default is ‘continue’
+    types:
+    - uid: string
+  - name: actualValue
+    description: '[ReadOnly] The actual value of the client metric for the test run '
+    types:
+    - uid: number
+  - name: result
+    description: '[ReadOnly] Outcome of the testRun. possible outcome - ‘passed’ , ‘failed’ , ‘undetermined’ '
+    types:
+    - uid: string
+- name: InputTestArtifacts
+  description: '[ReadOnly]The input artifacts for the test'
+  kind: object
+  properties:
+  - name: configUrl
+    description: FileUrl Model
+    types:
+    - uid: FileUrl
+  - name: testScriptUrl
+    description: FileUrl Model
+    types:
+    - uid: FileUrl
+  - name: inputArtifactsZipFileurl
+    description: FileUrl Model
+    types:
+    - uid: FileUrl
+  - name: additionalUrls
+    description: '[ReadOnly]The input artifacts file { name : url } map for the test run'
+    types:
+    - uid: FileUrl
+      isArray: true
+- name: OutputTestArtifacts
+  description: The output artifacts for the test run
+  kind: object
+  properties:
+  - name: resultUrl
+    description: FileUrl Model
+    types:
+    - uid: FileUrl
+  - name: logsUrl
+    description: FileUrl Model
+    types:
+    - uid: FileUrl
+- name: FileUrl
+  description: FileUrl Model
+  kind: object
+  properties:
+  - name: url
+    description: File url
+    types:
+    - uid: string
+  - name: fileId
+    description: File unique identifier
+    types:
+    - uid: string
+  - name: filename
+    description: Name of the file
+    types:
+    - uid: string
+  - name: expireTime
+    description: Expiry time of the file
+    types:
+    - uid: string
+examples:
+- name: TestRun_GetTestRun_MaximumSet_Gen
+  request:
+    uri: GET /testruns/__?api-version=2021-07-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "testRunId": "a",
+        "displayName": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "testId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "resourceId": "aaaaaaaaaaaaaaaaaa",
+        "description": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "status": "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "startDateTime": "2021-12-05T16:43:48.125Z",
+        "endDateTime": "2021-12-05T16:43:48.125Z",
+        "loadTestConfig": {
+          "engineInstances": 6
+        },
+        "testResult": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+        "passFailCriteria": {
+          "passFailMetrics": {
+            "key1348": {
+              "clientmetric": "aaaaaaaaaaaaaaaaaaaaaaa",
+              "aggregate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "condition": "aaaaaaaaaaaa",
+              "value": 24,
+              "action": "aaaaaaaaaaaaaaaaaa",
+              "actualValue": 10,
+              "result": "aaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          }
+        },
+        "testArtifacts": {
+          "inputArtifacts": {
+            "configUrl": {
+              "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
+              "fileId": "aaaaaaaaaaaaaaaaaa",
+              "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "expireTime": "2021-12-05T16:43:46.072Z"
+            },
+            "testScriptUrl": {
+              "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
+              "fileId": "aaaaaaaaaaaaaaaaaa",
+              "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "expireTime": "2021-12-05T16:43:46.072Z"
+            },
+            "inputArtifactsZipFileurl": {
+              "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
+              "fileId": "aaaaaaaaaaaaaaaaaa",
+              "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "expireTime": "2021-12-05T16:43:46.072Z"
+            },
+            "additionalUrls": [
+              {
+                "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
+                "fileId": "aaaaaaaaaaaaaaaaaa",
+                "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "expireTime": "2021-12-05T16:43:46.072Z"
+              }
+            ]
+          },
+          "outputArtifacts": {
+            "resultUrl": {
+              "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
+              "fileId": "aaaaaaaaaaaaaaaaaa",
+              "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "expireTime": "2021-12-05T16:43:46.072Z"
+            },
+            "logsUrl": {
+              "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
+              "fileId": "aaaaaaaaaaaaaaaaaa",
+              "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "expireTime": "2021-12-05T16:43:46.072Z"
+            }
+          }
+        },
+        "executedDateTime": "2021-12-05T16:43:48.125Z",
+        "vusers": 4,
+        "testRunStatistics": {
+          "key57": {
+            "transaction": "aaaaaaaaa",
+            "sampleCount": 18,
+            "errorCount": 19,
+            "errorPct": 17,
+            "meanResTime": 13,
+            "medianResTime": 10,
+            "maxResTime": 16,
+            "minResTime": 18,
+            "pct1ResTime": 27,
+            "pct2ResTime": 20,
+            "pct3ResTime": 3,
+            "throughput": 5,
+            "receivedKBytesPerSec": 13,
+            "sentKBytesPerSec": 4
+          }
+        },
+        "createdDateTime": "2021-12-05T16:43:48.125Z",
+        "createdBy": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "lastModifiedDateTime": "2021-12-05T16:43:48.125Z",
+        "lastModifiedBy": "aaaaaaaaaaaa",
+        "portalUrl": "a",
+        "secrets": {
+          "key5119": {
+            "value": "aaaaaaaaaaaaaaa",
+            "type": "aaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        },
+        "environmentVariables": {
+          "key1646": "aaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "duration": 18
+      }
+- name: TestRun_GetTestRun_MinimumSet_Gen
+  request:
+    uri: GET /testruns/x18-?api-version=2021-07-01-preview
+  responses:
+  - statusCode: "200"
+    body: '{}'
+security:
+- name: Authorization
+  type: apiKey
+  description: JWT Authorization header using the Bearer scheme.
+  in: header
+metadata:
+  description: Learn more about Azure Load Testing service - Get test run of given name.
+errorCodes: []
