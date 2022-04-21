@@ -7,7 +7,7 @@ ms.date: 11/16/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
-ms.topic: referenceAuthorization
+ms.topic: reference
 ---
 
 # Create an account SAS
