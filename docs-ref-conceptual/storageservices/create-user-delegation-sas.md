@@ -19,7 +19,7 @@ Every SAS is signed with a key. To create a user delegation SAS, you must first 
 A user delegation SAS is supported for Azure Blob Storage and Azure Data Lake Storage Gen2. Stored access policies are not supported for a user delegation SAS.
 
 > [!CAUTION]
-> Shared access signatures are keys that grant permissions to storage resources, and they should be protected in the same manner as an account key. It's important to protect an SAS from malicious or unintended use. Use discretion in distributing an SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and shared access signature URIs should only be distributed on a secure connection such as HTTPS.  
+> Shared access signatures are keys that grant permissions to storage resources, and you should protect them just as you would protect an account key. It's important to protect an SAS from malicious or unintended use. Use discretion in distributing an SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and shared access signature URIs should only be distributed on a secure connection such as HTTPS.  
 
 For information about using your account key to secure an SAS, see [Create a service SAS](create-service-sas.md) and [Create an account SAS](create-account-sas.md).
 
@@ -83,31 +83,31 @@ After you have the user delegation key, you can use it to create any number of u
 
 The following table summarizes the fields that are supported for a user delegation SAS token. Subsequent sections provide additional detail about how to specify these parameters.
 
-| SAS field name | SAS token parameter | Required or optional | Version support | Description |
+| SAS field name | SAS token parameter | Required or optional | Version&nbsp;support | Description |
 |--|--|--|--|--|
-| `signedVersion` | `sv` | Required | 2018-11-09 or later | Indicates the version of the service that's used to construct the signature field. It also specifies the service version that handles requests that are made with this SAS. |
+| `signedVersion` | `sv` | Required | 2018-11-09 and later | Indicates the version of the service that's used to construct the signature field. It also specifies the service version that handles requests that are made with this SAS. |
 | `signedResource` | `sr` | Required | All | Specifies which blob resources are accessible via the shared access signature. |
 | `signedStart` | `st` | Optional | All | Optional. The time when the shared access signature becomes valid, expressed in one of the accepted ISO 8601 UTC formats. If this value is omitted, the current UTC time is used as the start time. For more information about accepted UTC formats, see [Format DateTime values](formatting-datetime-values.md).|
 | `signedExpiry` | `se` | Required | All | The time when the shared access signature becomes invalid, expressed in one of the accepted ISO 8601 UTC formats. For more information about accepted UTC formats, see [Format DateTime values](formatting-datetime-values.md). |
 | `signedPermissions` | `sp` | Required | All | Indicates which operations that a client who possesses the SAS may perform on the resource. Permissions may be combined. |
-| `signedIp` | `sip` | Optional | 2015-04-05 or later | Specifies an IP address or an inclusive range of IP addresses from which to accept requests. |
-| `signedProtocol` | `spr` | Optional | 2015-04-05 or later | Specifies the protocol that's permitted for a request made with the SAS. Include this field to require that requests made with the SAS token use HTTPS. |
-| `signedObjectId` | `skoid` | Required | 2018-11-09 or later | Identifies an Azure AD security principal. |
-| `signedTenantId` | `sktid` | Required | 2018-11-09 or later | Specifies the Azure AD tenant in which a security principal is defined. |
-| `signedKeyStartTime` | `skt` | Optional. | 2018-11-09 or later | The value is returned by the *Get User Delegation Key* operation.  Indicates the start of the lifetime of the user delegation key, expressed in one of the accepted ISO 8601 UTC formats. If the value omitted, the current time is assumed. For more information about accepted UTC formats, see [Format DateTime values](formatting-datetime-values.md).|
-| `signedKeyExpiryTime` | `ske` | Required | 2018-11-09 or later | The value is returned by the *Get User Delegation Key* operation. Indicates the end of the lifetime of the user delegation key, expressed in one of the accepted ISO 8601 UTC formats. For more information about accepted UTC formats, see [Format DateTime values](formatting-datetime-values.md).|
-| `signedKeyService` | `sks` | Required | 2018-11-09 or later | Indicates the service for which the user delegation key is valid. Currently, only Blob Storage is supported. |
-| `signedAuthorizedObjectId` | `saoid` | Optional | 2020-02-10 or later | Specifies the object ID for an Azure AD security principal that's authorized by the owner of the user delegation key to perform the action granted by the SAS token. No additional permission check on Portable Operating System Interface (POSIX) access control lists (ACLs) is performed. |
-| `signedUnauthorizedObjectId` | `suoid` | Optional | 2020-02-10 or later | Specifies the object ID for an Azure AD security principal when a hierarchical namespace is enabled. Azure Storage performs a POSIX ACL check against the object ID before it authorizes the operation. |
-| `signedCorrelationId` | `scid` | Optional | 2020-02-10 or later | Correlate the storage audit logs with the audit logs that are used by the principal that generates and distributes the SAS. |
-| `signedDirectoryDepth` | `sdd` | Required when `sr=d` | 2020-02-10 or later | Indicates the number of directories within the root folder of the directory specified in the `canonicalizedResource` field of the string-to-sign. |
-| `signedEncryptionScope` | `ses` | Optional | 2020-12-06 or later | Indicates the encryption scope to use to encrypt the request contents. |
+| `signedIp` | `sip` | Optional | 2015-04-05 and later | Specifies an IP address or an inclusive range of IP addresses from which to accept requests. |
+| `signedProtocol` | `spr` | Optional | 2015-04-05 and later | Specifies the protocol that's permitted for a request made with the SAS. Include this field to require that requests made with the SAS token use HTTPS. |
+| `signedObjectId` | `skoid` | Required | 2018-11-09 and later | Identifies an Azure AD security principal. |
+| `signedTenantId` | `sktid` | Required | 2018-11-09 and later | Specifies the Azure AD tenant in which a security principal is defined. |
+| `signedKeyStartTime` | `skt` | Optional. | 2018-11-09 and later | The value is returned by the *Get User Delegation Key* operation.  Indicates the start of the lifetime of the user delegation key, expressed in one of the accepted ISO 8601 UTC formats. If the value omitted, the current time is assumed. For more information about accepted UTC formats, see [Format DateTime values](formatting-datetime-values.md).|
+| `signedKeyExpiryTime` | `ske` | Required | 2018-11-09 and later | The value is returned by the *Get User Delegation Key* operation. Indicates the end of the lifetime of the user delegation key, expressed in one of the accepted ISO 8601 UTC formats. For more information about accepted UTC formats, see [Format DateTime values](formatting-datetime-values.md).|
+| `signedKeyService` | `sks` | Required | 2018-11-09 and later | Indicates the service for which the user delegation key is valid. Currently, only Blob Storage is supported. |
+| `signedAuthorizedObjectId` | `saoid` | Optional | 2020-02-10 and later | Specifies the object ID for an Azure AD security principal that's authorized by the owner of the user delegation key to perform the action granted by the SAS token. No additional permission check on Portable Operating System Interface (POSIX) access control lists (ACLs) is performed. |
+| `signedUnauthorizedObjectId` | `suoid` | Optional | 2020-02-10 and later | Specifies the object ID for an Azure AD security principal when a hierarchical namespace is enabled. Azure Storage performs a POSIX ACL check against the object ID before it authorizes the operation. |
+| `signedCorrelationId` | `scid` | Optional | 2020-02-10 and later | Correlate the storage audit logs with the audit logs that are used by the principal that generates and distributes the SAS. |
+| `signedDirectoryDepth` | `sdd` | Required when `sr=d` | 2020-02-10 and later | Indicates the number of directories within the root folder of the directory specified in the `canonicalizedResource` field of the string-to-sign. |
+| `signedEncryptionScope` | `ses` | Optional | 2020-12-06 and later | Indicates the encryption scope to use to encrypt the request contents. |
 | `signature` | `sig` | Required | All | The signature is a hash-based message authentication code (HMAC) that's computed over the string-to-sign and key by using the SHA256 algorithm, and then encoded by using Base64 encoding. |
-| `Cache-Control` response header | `rscc` | Optional | 2013-08-15 or later | Azure Storage sets the `Cache-Control` response header to the value that's specified on the SAS token. |
-| `Content-Disposition` response header | `rscd` | Optional | 2013-08-15 or later | Azure Storage sets the `Content-Disposition` response header to the value that's specified on the SAS token. |
-| `Content-Encoding` response header | `rsce` | Optional | 2013-08-15 or later | Azure Storage sets the `Content-Encoding` response header to the value that's specified on the SAS token. |
-| `Content-Language` response header | `rscl` | Optional | 2013-08-15 or later | Azure Storage sets the `Content-Language` response header to the value that's specified on the SAS token. |
-| `Content-Type` response header | `rsct` | Optional | 2013-08-15 or later | Azure Storage sets the `Content-Type` response header to the value that's specified on the SAS token. |
+| `Cache-Control` response header | `rscc` | Optional | 2013-08-15 and later | Azure Storage sets the `Cache-Control` response header to the value that's specified on the SAS token. |
+| `Content-Disposition` response header | `rscd` | Optional | 2013-08-15 and later | Azure Storage sets the `Content-Disposition` response header to the value that's specified on the SAS token. |
+| `Content-Encoding` response header | `rsce` | Optional | 2013-08-15 and later | Azure Storage sets the `Content-Encoding` response header to the value that's specified on the SAS token. |
+| `Content-Language` response header | `rscl` | Optional | 2013-08-15 and later | Azure Storage sets the `Content-Language` response header to the value that's specified on the SAS token. |
+| `Content-Type` response header | `rsct` | Optional | 2013-08-15 and later | Azure Storage sets the `Content-Type` response header to the value that's specified on the SAS token. |
 
 ### Specify the signed version field
 
@@ -117,17 +117,17 @@ The required `signedVersion` (`sv`) field specifies the service version for the 
 
 The required `signedResource` (`sr`) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob, container, or directory resource in the SAS token:  
 
-| Resource | Parameter value | Supported versions | Description |
+| Resource | Parameter value | Supported&nbsp;versions | Description |
 |---|---|---|---|
 | Blob | b | All | Grants access to the content and metadata of the blob. |
-| Blob version | bv | Versions 2018-11-09 and later | Grants access to the content and metadata of the blob version, but not the base blob. |
-| Blob snapshot | bs | Versions 2018-11-09 and later | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
+| Blob version | bv | 2018-11-09 and later | Grants access to the content and metadata of the blob version, but not the base blob. |
+| Blob snapshot | bs | 2018-11-09 and later | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
 | Container | c | All | Grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. |
-| Directory | d | Versions 2020-02-10 and later | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedResource` field, the `signedDirectoryDepth` (`sdd`) parameter is also required. A directory is always within a container.|
+| Directory | d | 2020-02-10 and later | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedResource` field, the `signedDirectoryDepth` (`sdd`) parameter is also required. A directory is always within a container.|
 
-### Specify the signature validity interval
+### Specify the duration of signature validity
 
-The `signedStart` (`st`) and `signedExpiry` (`se`) fields indicate the start time and expiration time for the SAS. The `signedExpiry` field is required. The `signedStart` field is optional; if omitted, the current UTC time is used as the start time.
+The `signedStart` (`st`) and `signedExpiry` (`se`) fields indicate the start and expiration times for the SAS. The `signedExpiry` field is required. The `signedStart` field is optional. It it's omitted, the current UTC time is used as the start time.
 
 For a user delegation SAS, the start and expiration times for the SAS should be within the interval that's defined for the user delegation key. If a client attempts to use an SAS after the user delegation key has expired, the SAS will fail with an authorization error, regardless of whether the SAS itself is still valid.
 
@@ -153,22 +153,22 @@ To construct an SAS that grants access to these operations, use an account SAS. 
   
 The permissions that are supported for each resource type are described in the following table:  
 
-| Permission | URI symbol | Resource | Version support | Allowed operations |
+| Permission | URI symbol | Resource | Version&nbsp;support | Allowed operations |
 |--|--|--|--|--|
 | Read | r | Container<br />Directory<br />Blob | All | Read the content, blocklist, properties, and metadata of any blob in the container or directory. Use a blob as the source of a copy operation. |
 | Add | a | Container<br />Directory<br />Blob | All | Add a block to an append blob. |
 | Create | c | Container<br />Directory<br />Blob | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
 | Write | w | Container<br />Directory<br />Blob | All | Create or write content, properties, metadata, or blocklist. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
 | Delete | d | Container<br />Directory<br />Blob | All | Delete a blob. For versions 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the [Lease Blob](Lease-Blob.md) operation. |
-| Delete version | x | Container<br />Blob | Versions 2019-12-12 and later | Delete a blob version. |
-| Permanent Delete | y | Blob | Versions 2020-02-10 and later | Permanently delete a blob snapshot or version.|
+| Delete version | x | Container<br />Blob | 2019-12-12 and later | Delete a blob version. |
+| Permanent Delete | y | Blob | 2020-02-10 and later | Permanently delete a blob snapshot or version.|
 | List | l | Container<br />Directory | All | List blobs non-recursively. |
-| Tags | t | Blob | Versions 2019-12-12 and later | Read or write the tags on a blob. |
-| Move | m | Container<br />Directory<br />Blob | Versions 2020-02-10 and later | Move a blob or a directory and its contents to a new location. This operation can optionally be restricted to the owner of the child blob, directory, or parent directory if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
-| Execute | e | Container<br />Directory<br />Blob | Versions 2020-02-10 and later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. It doesn't permit the caller to read user-defined metadata. |
-| Ownership | o | Container<br />Directory<br />Blob | Versions 2020-02-10 and later | When the hierarchical namespace is enabled, this permission enables the caller to set the owner or the owning group, or to act as the owner when the caller renames or deletes a directory or blob within a directory that has the sticky bit set. |
-| Permissions | p | Container<br />Directory<br />Blob | Versions 2020-02-10 and later | When the hierarchical namespace is enabled, this permission allows the caller to set permissions and POSIX ACLs on directories and blobs. |
-| Set Immutability Policy | i | Container<br/>Blob | Versions 2020-06-12 and later | Set or delete the immutability policy or legal hold on a blob. |
+| Tags | t | Blob | 2019-12-12 and later | Read or write the tags on a blob. |
+| Move | m | Container<br />Directory<br />Blob | 2020-02-10 and later | Move a blob or a directory and its contents to a new location. This operation can optionally be restricted to the owner of the child blob, directory, or parent directory if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
+| Execute | e | Container<br />Directory<br />Blob | 2020-02-10 and later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. It doesn't permit the caller to read user-defined metadata. |
+| Ownership | o | Container<br />Directory<br />Blob | 2020-02-10 and later | When the hierarchical namespace is enabled, this permission enables the caller to set the owner or the owning group, or to act as the owner when the caller renames or deletes a directory or blob within a directory that has the sticky bit set. |
+| Permissions | p | Container<br />Directory<br />Blob | 2020-02-10 and later | When the hierarchical namespace is enabled, this permission allows the caller to set permissions and POSIX ACLs on directories and blobs. |
+| Set Immutability Policy | i | Container<br/>Blob | 2020-06-12 and later | Set or delete the immutability policy or legal hold on a blob. |
 
 ### Specify an IP address or IP range  
 
@@ -178,7 +178,7 @@ When you specify a range of IP addresses, the range is inclusive. For example, s
 
 The following table describes whether to include the `signedIp` field on an SAS token for a given scenario, based on the client environment and the location of the storage account.
 
-| Client environment | Storage account location | Recommendation |
+| Client environment | Storage&nbsp;account&nbsp;location | Recommendation |
 |--|--|--|
 | Client running in Azure | In the same region as the client | An SAS that's provided to the client in this scenario shouldn't include an outbound IP address for the `signedIp` field. Requests that you make from within the same region by using an SAS with a specified outbound IP address will fail.<br /><br/> Instead, use an Azure virtual network to manage network security restrictions. Requests to Azure Storage from within the same region always take place over a private IP address. For more information, see [Configure Azure Storage firewalls and virtual networks](/azure/storage/common/storage-network-security). |
 | Client running in Azure | In a different region from the client | An SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. Requests that you make with the SAS must originate from the specified IP address or range of addresses. |
@@ -419,7 +419,7 @@ canonicalizedResource = "/blob/myaccount/music/intro.mp3"
 
 #### Optional fields  
 
-If a field is optional and not provided as part of the SAS token, specify an empty string for that field. Be sure to include the newline character (\n) after the empty string.  
+If a field is optional and not provided as part of the SAS token, specify an empty string for the field. Be sure to include the newline character (\n) after the empty string.  
 
 ## Revoke a user delegation SAS
 
