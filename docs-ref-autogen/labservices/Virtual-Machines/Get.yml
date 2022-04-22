@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.labservices.users.get
+uid: management.azure.com.labservices.virtualmachines.get
 name: Get
 service: Lab Services
-groupName: Users
+groupName: Virtual Machines
 apiVersion: 2021-11-15-preview
-summary: "Get a lab user.  \nReturns the properties of a lab user."
+summary: "Get a lab virtual machine.  \nReturns the properties for a lab virtual machine."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/users/{userName}?api-version=2021-11-15-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/virtualMachines/{virtualMachineName}?api-version=2021-11-15-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,10 +30,10 @@ uriParameters:
   description: The name of the lab that uniquely identifies it within containing lab account. Used in resource URIs.
   types:
   - uid: string
-- name: userName
+- name: virtualMachineName
   in: path
   isRequired: true
-  description: The name of the user that uniquely identifies it within containing lab. Used in resource URIs.
+  description: The ID of the virtual machine that uniquely identifies it within the containing lab. Used in resource URIs.
   types:
   - uid: string
   pattern: ^[-\w\\._\\(\\)]+$
@@ -45,58 +45,49 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The request was successful; response contains the lab user.
+  description: The request was successful; response contains the lab virtual machine.
   types:
-  - uid: User
+  - uid: VirtualMachine
 - name: Other Status Codes
   description: The default error response.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: User
-  description: User of a lab that can register for and use virtual machines within the lab.
+- name: VirtualMachine
+  description: A lab virtual machine resource.
   kind: object
   properties:
   - name: systemData
     isReadyOnly: true
-    description: Metadata pertaining to creation and last modification of the user resource.
+    description: System data of the Lab virtual machine.
     types:
     - uid: systemData
   - name: properties.provisioningState
     isReadyOnly: true
-    description: Current provisioning state of the user resource.
+    description: Current provisioning state of the virtual machine.
     types:
     - uid: ProvisioningState
-  - name: properties.displayName
+  - name: properties.state
     isReadyOnly: true
-    description: Display name of the user, for example user's full name.
+    description: The current state of the virtual machine
+    types:
+    - uid: VirtualMachineState
+  - name: properties.connectionProfile
+    isReadyOnly: true
+    description: Profile for information about connecting to the virtual machine.
+    types:
+    - uid: VirtualMachineConnectionProfile
+  - name: properties.claimedByUserId
+    isReadyOnly: true
+    description: The lab user ID (not the PUID!) of who claimed the virtual machine.
     types:
     - uid: string
-  - name: properties.email
-    description: Email address of the user.
-    types:
-    - uid: string
-  - name: properties.registrationState
+  - name: properties.vmType
     isReadyOnly: true
-    description: State of the user's registration within the lab.
+    description: The type of this VM resource
     types:
-    - uid: RegistrationState
-  - name: properties.invitationState
-    isReadyOnly: true
-    description: State of the invitation message for the user.
-    types:
-    - uid: InvitationState
-  - name: properties.invitationSent
-    isReadyOnly: true
-    description: Date and time when the invitation message was sent to the user.
-    types:
-    - uid: string
-  - name: properties.totalUsage
-    isReadyOnly: true
-    description: How long the user has used their virtual machines in this lab.
-    types:
-    - uid: string
+    - uid: VirtualMachineType
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -110,10 +101,6 @@ definitions:
   - name: type
     isReadyOnly: true
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-    types:
-    - uid: string
-  - name: properties.additionalUsageQuota
-    description: The amount of usage quota time the user gets in addition to the lab usage quota.
     types:
     - uid: string
 - name: ErrorResponse
@@ -153,7 +140,7 @@ definitions:
     types:
     - uid: string
 - name: ProvisioningState
-  description: Current provisioning state of the user resource.
+  description: Current provisioning state of the virtual machine.
   kind: enum
   properties:
   - name: Creating
@@ -180,36 +167,87 @@ definitions:
     description: The resource is locked and changes are currently blocked. This could be due to maintenance or a scheduled operation. The state will go back to succeeded once the locking operation has finished.
     types:
     - uid: string
-- name: RegistrationState
-  description: The user lab registration state.
+- name: VirtualMachineState
+  description: The state of a virtual machine.
   kind: enum
   properties:
-  - name: NotRegistered
-    description: User has registered with the lab.
+  - name: Stopped
+    description: The VM is currently stopped.
     types:
     - uid: string
-  - name: Registered
-    description: User has not yet registered with the lab.
+  - name: Starting
+    description: The VM is starting.
     types:
     - uid: string
-- name: InvitationState
-  description: The lab user invitation state.
+  - name: Running
+    description: The VM is running.
+    types:
+    - uid: string
+  - name: Stopping
+    description: The VM is stopping.
+    types:
+    - uid: string
+  - name: ResettingPassword
+    description: The VM password is being reset.
+    types:
+    - uid: string
+  - name: Reimaging
+    description: The VM is being reimaged.
+    types:
+    - uid: string
+  - name: Redeploying
+    description: The VM is being redeployed.
+    types:
+    - uid: string
+- name: VirtualMachineConnectionProfile
+  description: The connection information for the virtual machine
+  kind: object
+  properties:
+  - name: privateIpAddress
+    isReadyOnly: true
+    description: The private IP address of the virtual machine.
+    types:
+    - uid: string
+  - name: sshAuthority
+    isReadyOnly: true
+    description: Port and host name separated by semicolon for connecting via SSH protocol to the virtual machine.
+    types:
+    - uid: string
+  - name: sshInBrowserUrl
+    isReadyOnly: true
+    description: URL for connecting via SSH protocol to the virtual machine in browser.
+    types:
+    - uid: string
+  - name: rdpAuthority
+    isReadyOnly: true
+    description: Port and host name separated by semicolon for connecting via RDP protocol to the virtual machine.
+    types:
+    - uid: string
+  - name: rdpInBrowserUrl
+    isReadyOnly: true
+    description: URL for connecting via RDP protocol to the virtual machine in browser.
+    types:
+    - uid: string
+  - name: adminUsername
+    isReadyOnly: true
+    description: The username used to log on to the virtual machine as admin.
+    types:
+    - uid: string
+  - name: nonAdminUsername
+    isReadyOnly: true
+    description: The username used to log on to the virtual machine as non-admin, if one exists.
+    types:
+    - uid: string
+- name: VirtualMachineType
+  description: The type of the lab virtual machine.
   kind: enum
   properties:
-  - name: NotSent
-    description: The invitation has not been sent.
+  - name: User
+    description: A user VM
     types:
     - uid: string
-  - name: Sending
-    description: Currently sending the invitation.
-    types:
-    - uid: string
-  - name: Sent
-    description: The invitation has been successfully sent.
-    types:
-    - uid: string
-  - name: Failed
-    description: There was an error while sending the invitation.
+  - name: Template
+    description: A template VM
     types:
     - uid: string
 - name: ErrorDetail
@@ -274,16 +312,16 @@ definitions:
     types:
     - uid: object
 examples:
-- name: getUser
+- name: getVirtualMachine
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser?api-version=2021-11-15-preview
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/virtualMachines/template?api-version=2021-11-15-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser",
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/virtualMachines/template",
         "name": "default",
-        "type": "Microsoft.LabServices/User",
+        "type": "Microsoft.LabServices/VirtualMachine",
         "systemData": {
           "createdBy": "identity123",
           "createdByType": "User",
@@ -294,15 +332,20 @@ examples:
         },
         "properties": {
           "provisioningState": "Succeeded",
-          "displayName": "Test User",
-          "email": "testuser@contoso.com",
-          "registrationState": "Registered",
-          "invitationState": "Sent",
-          "totalUsage": "23:59",
-          "additionalUsageQuota": "10:00"
+          "state": "Running",
+          "connectionProfile": {
+            "privateIpAddress": "192.168.2.1",
+            "sshAuthority": "vm-42.contoso.com:22",
+            "sshInBrowserUrl": "vm-42.contoso.com",
+            "rdpAuthority": "vm-42.contoso.com:3389",
+            "rdpInBrowserUrl": "vm-42.contoso.com",
+            "adminUsername": "user123"
+          },
+          "claimedByUserId": "testuser567",
+          "vmType": "Template"
         }
       }
 security: []
 metadata:
-  description: "Learn more about Lab Services service - Get a lab user.  \nReturns the properties of a lab user."
+  description: "Learn more about Lab Services service - Get a lab virtual machine.  \nReturns the properties for a lab virtual machine."
 errorCodes: []
