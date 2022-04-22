@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.labservices.users.get
-name: Get
+uid: management.azure.com.labservices.images.update
+name: Update
 service: Lab Services
-groupName: Users
+groupName: Images
 apiVersion: 2021-11-15-preview
-summary: "Get a lab user.  \nReturns the properties of a lab user."
+summary: Updates an image resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/users/{userName}?api-version=2021-11-15-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labPlans/{labPlanName}/images/{imageName}?api-version=2021-11-15-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,16 +24,16 @@ uriParameters:
   description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
-- name: labName
+- name: labPlanName
   in: path
   isRequired: true
-  description: The name of the lab that uniquely identifies it within containing lab account. Used in resource URIs.
+  description: The name of the lab plan that uniquely identifies it within containing resource group. Used in resource URIs and in UI.
   types:
   - uid: string
-- name: userName
+- name: imageName
   in: path
   isRequired: true
-  description: The name of the user that uniquely identifies it within containing lab. Used in resource URIs.
+  description: The image name.
   types:
   - uid: string
   pattern: ^[-\w\\._\\(\\)]+$
@@ -45,58 +45,107 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The request was successful; response contains the lab user.
+  description: The request was successful; the image is returned
   types:
-  - uid: User
+  - uid: Image
 - name: Other Status Codes
   description: The default error response.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.enabledState
+    in: body
+    description: Is the image enabled
+    types:
+    - uid: EnableState
 requestHeader: []
 definitions:
-- name: User
-  description: User of a lab that can register for and use virtual machines within the lab.
+- name: Image
+  description: Lab services virtual machine image
   kind: object
   properties:
   - name: systemData
     isReadyOnly: true
-    description: Metadata pertaining to creation and last modification of the user resource.
+    description: Metadata pertaining to creation and last modification of the image.
     types:
     - uid: systemData
   - name: properties.provisioningState
     isReadyOnly: true
-    description: Current provisioning state of the user resource.
+    description: Current provisioning state of the image.
     types:
     - uid: ProvisioningState
   - name: properties.displayName
     isReadyOnly: true
-    description: Display name of the user, for example user's full name.
+    description: The image display name.
     types:
     - uid: string
-  - name: properties.email
-    description: Email address of the user.
+  - name: properties.description
+    isReadyOnly: true
+    description: A description of the image.
     types:
     - uid: string
-  - name: properties.registrationState
+  - name: properties.iconUrl
     isReadyOnly: true
-    description: State of the user's registration within the lab.
-    types:
-    - uid: RegistrationState
-  - name: properties.invitationState
-    isReadyOnly: true
-    description: State of the invitation message for the user.
-    types:
-    - uid: InvitationState
-  - name: properties.invitationSent
-    isReadyOnly: true
-    description: Date and time when the invitation message was sent to the user.
+    description: URL of the image icon.
     types:
     - uid: string
-  - name: properties.totalUsage
+  - name: properties.author
     isReadyOnly: true
-    description: How long the user has used their virtual machines in this lab.
+    description: The image author.
     types:
     - uid: string
+  - name: properties.osType
+    isReadyOnly: true
+    description: The OS Type of the image.
+    types:
+    - uid: OsType
+  - name: properties.plan
+    isReadyOnly: true
+    description: The ID of marketplace plan associated with the image (optional).
+    types:
+    - uid: string
+  - name: properties.termsStatus
+    isReadyOnly: true
+    description: The status of image terms of use (enabled = accepted, disabled = not accepted).
+    types:
+    - uid: EnableState
+  - name: properties.offer
+    isReadyOnly: true
+    description: The ID of an offer associated with the image.
+    types:
+    - uid: string
+  - name: properties.publisher
+    isReadyOnly: true
+    description: The ID of the publisher of the image.
+    types:
+    - uid: string
+  - name: properties.sku
+    isReadyOnly: true
+    description: The image SKU.
+    types:
+    - uid: string
+  - name: properties.version
+    isReadyOnly: true
+    description: The image version.
+    types:
+    - uid: string
+  - name: properties.sharedGalleryId
+    isReadyOnly: true
+    description: The ID for the image in the shared gallery.
+    types:
+    - uid: string
+  - name: properties.availableRegions
+    description: The available regions of the image in the shared gallery.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.osState
+    isReadyOnly: true
+    description: The OS State of the image.
+    types:
+    - uid: OsState
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -112,10 +161,10 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-  - name: properties.additionalUsageQuota
-    description: The amount of usage quota time the user gets in addition to the lab usage quota.
+  - name: properties.enabledState
+    description: Is the image enabled
     types:
-    - uid: string
+    - uid: EnableState
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -124,6 +173,14 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: ImageUpdate
+  description: Lab services virtual machine image for updates.
+  kind: object
+  properties:
+  - name: properties.enabledState
+    description: Is the image enabled
+    types:
+    - uid: EnableState
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -153,7 +210,7 @@ definitions:
     types:
     - uid: string
 - name: ProvisioningState
-  description: Current provisioning state of the user resource.
+  description: Current provisioning state of the image.
   kind: enum
   properties:
   - name: Creating
@@ -180,36 +237,36 @@ definitions:
     description: The resource is locked and changes are currently blocked. This could be due to maintenance or a scheduled operation. The state will go back to succeeded once the locking operation has finished.
     types:
     - uid: string
-- name: RegistrationState
-  description: The user lab registration state.
+- name: OsType
+  description: The OS Type of the image.
   kind: enum
   properties:
-  - name: NotRegistered
-    description: User has registered with the lab.
+  - name: Windows
     types:
     - uid: string
-  - name: Registered
-    description: User has not yet registered with the lab.
+  - name: Linux
     types:
     - uid: string
-- name: InvitationState
-  description: The lab user invitation state.
+- name: EnableState
+  description: The status of image terms of use (enabled = accepted, disabled = not accepted).
   kind: enum
   properties:
-  - name: NotSent
-    description: The invitation has not been sent.
+  - name: Enabled
     types:
     - uid: string
-  - name: Sending
-    description: Currently sending the invitation.
+  - name: Disabled
     types:
     - uid: string
-  - name: Sent
-    description: The invitation has been successfully sent.
+- name: OsState
+  description: The OS State of the image.
+  kind: enum
+  properties:
+  - name: Generalized
+    description: Image does not contain any machine and user specific information.
     types:
     - uid: string
-  - name: Failed
-    description: There was an error while sending the invitation.
+  - name: Specialized
+    description: Image contains machine and user specific information.
     types:
     - uid: string
 - name: ErrorDetail
@@ -274,16 +331,22 @@ definitions:
     types:
     - uid: object
 examples:
-- name: getUser
+- name: patchImage
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser?api-version=2021-11-15-preview
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan/images/image1?api-version=2021-11-15-preview
+    body: >-
+      {
+        "properties": {
+          "enabledState": "Enabled"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser",
-        "name": "default",
-        "type": "Microsoft.LabServices/User",
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan/images/image1",
+        "name": "image1",
+        "type": "Microsoft.LabServices/Image",
         "systemData": {
           "createdBy": "identity123",
           "createdByType": "User",
@@ -294,15 +357,17 @@ examples:
         },
         "properties": {
           "provisioningState": "Succeeded",
-          "displayName": "Test User",
-          "email": "testuser@contoso.com",
-          "registrationState": "Registered",
-          "invitationState": "Sent",
-          "totalUsage": "23:59",
-          "additionalUsageQuota": "10:00"
+          "displayName": "Windows Server 2019 Datacenter",
+          "description": "A description of the image",
+          "osType": "Windows",
+          "offer": "WindowsServer",
+          "publisher": "Microsoft",
+          "sku": "2019-Datacenter",
+          "version": "2019.0.20190410",
+          "enabledState": "Enabled"
         }
       }
 security: []
 metadata:
-  description: "Learn more about Lab Services service - Get a lab user.  \nReturns the properties of a lab user."
+  description: Learn more about Lab Services service - Updates an image resource.
 errorCodes: []

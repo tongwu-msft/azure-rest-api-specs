@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.labservices.labs.delete
-name: Delete
+uid: management.azure.com.labservices.users.invite
+name: Invite
 service: Lab Services
-groupName: Labs
+groupName: Users
 apiVersion: 2021-11-15-preview
-summary: "Deletes a lab resource.  \nOperation to delete a lab resource."
+summary: Operation to invite a user to a lab.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}?api-version=2021-11-15-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/users/{userName}/invite?api-version=2021-11-15-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,6 +30,13 @@ uriParameters:
   description: The name of the lab that uniquely identifies it within containing lab account. Used in resource URIs.
   types:
   - uid: string
+- name: userName
+  in: path
+  isRequired: true
+  description: The name of the user that uniquely identifies it within containing lab. Used in resource URIs.
+  types:
+  - uid: string
+  pattern: ^[-\w\\._\\(\\)]+$
 - name: api-version
   in: query
   isRequired: true
@@ -41,12 +48,18 @@ responses:
   description: The request was successful.
 - name: 202 Accepted
   description: The request was accepted.
-- name: 204 No Content
-  description: The request has been fulfilled.
 - name: Other Status Codes
   description: The default error response.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: text
+    in: body
+    description: Custom text for the invite email.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: ErrorResponse
@@ -57,6 +70,14 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: InviteBody
+  description: Body for a user invite request
+  kind: object
+  properties:
+  - name: text
+    description: Custom text for the invite email.
+    types:
+    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -103,17 +124,17 @@ definitions:
     types:
     - uid: object
 examples:
-- name: deleteLab
+- name: inviteUser
   request:
-    uri: DELETE https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab?api-version=2021-11-15-preview
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser/invite?api-version=2021-11-15-preview
+    body: >-
+      {
+        "text": "Invitation to lab testlab"
+      }
   responses:
   - statusCode: "200"
   - statusCode: "202"
-    headers:
-    - name: Location
-      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.LabServices/operationresults/a64149d8-84cb-4566-ab8e-b4ee1a074174
-  - statusCode: "204"
 security: []
 metadata:
-  description: "Learn more about Lab Services service - Deletes a lab resource.  \nOperation to delete a lab resource."
+  description: Learn more about Lab Services service - Operation to invite a user to a lab.
 errorCodes: []
