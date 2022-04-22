@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.labservices.users.get
+uid: management.azure.com.labservices.schedules.get
 name: Get
 service: Lab Services
-groupName: Users
+groupName: Schedules
 apiVersion: 2021-11-15-preview
-summary: "Get a lab user.  \nReturns the properties of a lab user."
+summary: "Get a lab Schedule.  \nReturns the properties of a lab Schedule."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/users/{userName}?api-version=2021-11-15-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/schedules/{scheduleName}?api-version=2021-11-15-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,10 +30,10 @@ uriParameters:
   description: The name of the lab that uniquely identifies it within containing lab account. Used in resource URIs.
   types:
   - uid: string
-- name: userName
+- name: scheduleName
   in: path
   isRequired: true
-  description: The name of the user that uniquely identifies it within containing lab. Used in resource URIs.
+  description: The name of the schedule that uniquely identifies it within containing lab. Used in resource URIs.
   types:
   - uid: string
   pattern: ^[-\w\\._\\(\\)]+$
@@ -45,58 +45,29 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The request was successful; response contains the lab user.
+  description: The request was successful; response contains the lab schedule.
   types:
-  - uid: User
+  - uid: Schedule
 - name: Other Status Codes
   description: The default error response.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: User
-  description: User of a lab that can register for and use virtual machines within the lab.
+- name: Schedule
+  description: Schedule for automatically turning virtual machines in a lab on and off at specified times.
   kind: object
   properties:
   - name: systemData
     isReadyOnly: true
-    description: Metadata pertaining to creation and last modification of the user resource.
+    description: Metadata pertaining to creation and last modification of the schedule.
     types:
     - uid: systemData
   - name: properties.provisioningState
     isReadyOnly: true
-    description: Current provisioning state of the user resource.
+    description: Current provisioning state of the schedule.
     types:
     - uid: ProvisioningState
-  - name: properties.displayName
-    isReadyOnly: true
-    description: Display name of the user, for example user's full name.
-    types:
-    - uid: string
-  - name: properties.email
-    description: Email address of the user.
-    types:
-    - uid: string
-  - name: properties.registrationState
-    isReadyOnly: true
-    description: State of the user's registration within the lab.
-    types:
-    - uid: RegistrationState
-  - name: properties.invitationState
-    isReadyOnly: true
-    description: State of the invitation message for the user.
-    types:
-    - uid: InvitationState
-  - name: properties.invitationSent
-    isReadyOnly: true
-    description: Date and time when the invitation message was sent to the user.
-    types:
-    - uid: string
-  - name: properties.totalUsage
-    isReadyOnly: true
-    description: How long the user has used their virtual machines in this lab.
-    types:
-    - uid: string
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -112,8 +83,24 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-  - name: properties.additionalUsageQuota
-    description: The amount of usage quota time the user gets in addition to the lab usage quota.
+  - name: properties.startAt
+    description: When lab user virtual machines will be started. Timestamp offsets will be ignored and timeZoneId is used instead.
+    types:
+    - uid: string
+  - name: properties.stopAt
+    description: When lab user virtual machines will be stopped. Timestamp offsets will be ignored and timeZoneId is used instead.
+    types:
+    - uid: string
+  - name: properties.recurrencePattern
+    description: The recurrence pattern of the scheduled actions.
+    types:
+    - uid: RecurrencePattern
+  - name: properties.timeZoneId
+    description: The IANA timezone id for the schedule.
+    types:
+    - uid: string
+  - name: properties.notes
+    description: Notes for this schedule.
     types:
     - uid: string
 - name: ErrorResponse
@@ -153,7 +140,7 @@ definitions:
     types:
     - uid: string
 - name: ProvisioningState
-  description: Current provisioning state of the user resource.
+  description: Current provisioning state of the schedule.
   kind: enum
   properties:
   - name: Creating
@@ -180,36 +167,25 @@ definitions:
     description: The resource is locked and changes are currently blocked. This could be due to maintenance or a scheduled operation. The state will go back to succeeded once the locking operation has finished.
     types:
     - uid: string
-- name: RegistrationState
-  description: The user lab registration state.
-  kind: enum
+- name: RecurrencePattern
+  description: Recurrence pattern of a lab schedule.
+  kind: object
   properties:
-  - name: NotRegistered
-    description: User has registered with the lab.
+  - name: frequency
+    description: The frequency of the recurrence.
+    types:
+    - uid: RecurrenceFrequency
+  - name: weekDays
+    description: The week days the schedule runs. Used for when the Frequency is set to Weekly.
     types:
     - uid: string
-  - name: Registered
-    description: User has not yet registered with the lab.
+      isArray: true
+  - name: interval
+    description: The interval to invoke the schedule on. For example, interval = 2 and RecurrenceFrequency.Daily will run every 2 days. When no interval is supplied, an interval of 1 is used.
     types:
-    - uid: string
-- name: InvitationState
-  description: The lab user invitation state.
-  kind: enum
-  properties:
-  - name: NotSent
-    description: The invitation has not been sent.
-    types:
-    - uid: string
-  - name: Sending
-    description: Currently sending the invitation.
-    types:
-    - uid: string
-  - name: Sent
-    description: The invitation has been successfully sent.
-    types:
-    - uid: string
-  - name: Failed
-    description: There was an error while sending the invitation.
+    - uid: integer
+  - name: expirationDate
+    description: When the recurrence will expire. This date is inclusive.
     types:
     - uid: string
 - name: ErrorDetail
@@ -259,6 +235,18 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: RecurrenceFrequency
+  description: Schedule recurrence frequencies.
+  kind: enum
+  properties:
+  - name: Daily
+    description: Schedule will run every days.
+    types:
+    - uid: string
+  - name: Weekly
+    description: Schedule will run every week on days specified in weekDays.
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -274,16 +262,16 @@ definitions:
     types:
     - uid: object
 examples:
-- name: getUser
+- name: getSchedule
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser?api-version=2021-11-15-preview
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/schedules/schedule1?api-version=2021-11-15-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser",
-        "name": "default",
-        "type": "Microsoft.LabServices/User",
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/schedules/schedule1",
+        "name": "schedule1",
+        "type": "Microsoft.LabServices/Schedule",
         "systemData": {
           "createdBy": "identity123",
           "createdByType": "User",
@@ -294,15 +282,18 @@ examples:
         },
         "properties": {
           "provisioningState": "Succeeded",
-          "displayName": "Test User",
-          "email": "testuser@contoso.com",
-          "registrationState": "Registered",
-          "invitationState": "Sent",
-          "totalUsage": "23:59",
-          "additionalUsageQuota": "10:00"
+          "startAt": "2020-05-26T12:00:00Z",
+          "stopAt": "2020-05-26T18:00:00Z",
+          "recurrencePattern": {
+            "frequency": "Daily",
+            "interval": 1,
+            "expirationDate": "2020-08-14"
+          },
+          "timeZoneId": "America/Los_Angeles",
+          "notes": "Schedule 1 for students"
         }
       }
 security: []
 metadata:
-  description: "Learn more about Lab Services service - Get a lab user.  \nReturns the properties of a lab user."
+  description: "Learn more about Lab Services service - Get a lab Schedule.  \nReturns the properties of a lab Schedule."
 errorCodes: []
