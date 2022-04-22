@@ -28,7 +28,7 @@ You can specify the following additional parameters on the request URI.
 |Parameter|Description|
 |-------------|-----------|
 |`timeout`|Optional. The timeout parameter is expressed in seconds, with a maximum value of 120 seconds. For more information, see [Setting timeouts for Blob Storage operations](Setting-Timeouts-for-Blob-Service-Operations.md).|
-|`restype`|Optional, version 2020-04-08 and newer. The only value supported for the `restype` parameter is `container`. When this parameter is specified, the URI must include the container name. Any subrequests must be scoped to the same container.|
+|`restype`|Optional, version 2020-04-08 and later. The only value supported for the `restype` parameter is `container`. When this parameter is specified, the URI must include the container name. Any subrequests must be scoped to the same container.|
 
 ### Request headers
 
