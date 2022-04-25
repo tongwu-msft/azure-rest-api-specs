@@ -1,5 +1,5 @@
 ---
-title: "EnvironmentVariable"
+title: Container environment variable
 description: "EnvironmentVariable"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EnvironmentVariable
+# Container environment variable
 
 Describes an environment variable for the container.
 

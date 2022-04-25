@@ -1,5 +1,5 @@
 ---
-title: "ContainerLogs"
+title: Container logs information
 description: "ContainerLogs"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ContainerLogs
+# Container logs
 
 Container logs.
 
