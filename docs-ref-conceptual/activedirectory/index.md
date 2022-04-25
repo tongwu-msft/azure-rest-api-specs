@@ -1,8 +1,7 @@
 ---
 title: Azure Active Directory B2C
 description: API reference documentation for the operations available in the Azure Active Directory B2C REST API, a RESTful web service for managing Azure Active Directory B2C resources in Azure.
-ms.service: activedirectory
-
+ms.service: active-directory
 ---
 
 # Azure Active Directory B2C
