@@ -1,7 +1,7 @@
 ---
 title: "MeshApplications"
 description: "MeshApplications"
-ms.date: "10/21/2020"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -31,9 +31,9 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
-| [Create Or Update](sfmeshrp-api-application_create.md) | Creates or updates an Application resource.<br/> |
-| [Get](sfmeshrp-api-application_get.md) | Gets the Application resource with the given name.<br/> |
-| [Delete](sfmeshrp-api-application_delete.md) | Deletes the Application resource.<br/> |
-| [List](sfmeshrp-api-application_listbyresourcegroup.md) | Lists all the application resources.<br/> |
-| [Get Upgrade Progress](sfmeshrp-model-applicationresourcestatus.md) | Gets the progress of the latest upgrade performed on this application resource.<br/> |
+| [Create Or Update](sfclient-api-meshapplication_createorupdate.md) | Creates or updates a Application resource.<br/> |
+| [Get](sfclient-api-meshapplication_get.md) | Gets the Application resource with the given name.<br/> |
+| [Delete](sfclient-api-meshapplication_delete.md) | Deletes the Application resource.<br/> |
+| [List](sfclient-api-meshapplication_list.md) | Lists all the application resources.<br/> |
+| [Get Upgrade Progress](sfclient-api-meshapplication_getupgradeprogress.md) | Gets the progress of the latest upgrade performed on this application resource.<br/> |
 

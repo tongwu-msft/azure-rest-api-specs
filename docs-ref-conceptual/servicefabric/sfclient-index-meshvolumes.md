@@ -1,7 +1,7 @@
 ---
 title: "MeshVolumes"
 description: "MeshVolumes"
-ms.date: "10/21/2020"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -31,8 +31,8 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
-| [Create Or Update](sfmeshrp-api-volume_create.md) | Creates or updates a Volume resource.<br/> |
-| [Get](sfmeshrp-api-volume_get.md) | Gets the Volume resource with the given name.<br/> |
-| [Delete](sfmeshrp-api-volume_delete.md) | Deletes the Volume resource.<br/> |
-| [List](sfmeshrp-api-volume_listbyresourcegroup.md) | Lists all the volume resources.<br/> |
+| [Create Or Update](sfclient-api-meshvolume_createorupdate.md) | Creates or updates a Volume resource.<br/> |
+| [Get](sfclient-api-meshvolume_get.md) | Gets the Volume resource with the given name.<br/> |
+| [Delete](sfclient-api-meshvolume_delete.md) | Deletes the Volume resource.<br/> |
+| [List](sfclient-api-meshvolume_list.md) | Lists all the volume resources.<br/> |
 

@@ -1,7 +1,7 @@
 ---
 title: "MeshNetworks"
 description: "MeshNetworks"
-ms.date: "10/21/2020"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -31,8 +31,8 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
-| [Create Or Update](sfmeshrp-api-network_create.md) | Creates or updates a Network resource.<br/> |
-| [Get](sfmeshrp-api-network_get.md) | Gets the Network resource with the given name.<br/> |
-| [Delete](sfmeshrp-api-network_delete.md) | Deletes the Network resource.<br/> |
-| [List](sfmeshrp-api-network_listbyresourcegroup.md) | Lists all the network resources.<br/> |
+| [Create Or Update](sfclient-api-meshnetwork_createorupdate.md) | Creates or updates a Network resource.<br/> |
+| [Get](sfclient-api-meshnetwork_get.md) | Gets the Network resource with the given name.<br/> |
+| [Delete](sfclient-api-meshnetwork_delete.md) | Deletes the Network resource.<br/> |
+| [List](sfclient-api-meshnetwork_list.md) | Lists all the network resources.<br/> |
 

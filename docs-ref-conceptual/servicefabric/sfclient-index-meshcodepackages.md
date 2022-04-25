@@ -1,7 +1,7 @@
 ---
 title: "MeshCodePackages"
 description: "MeshCodePackages"
-ms.date: "10/21/2020"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -31,5 +31,5 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
-| [Get Container Logs](sfmeshrp-api-codepackage_getcontainerlog.md) | Gets the logs from the container.<br/> |
+| [Get Container Logs](sfclient-api-meshcodepackage_getcontainerlogs.md) | Gets the logs from the container.<br/> |
 

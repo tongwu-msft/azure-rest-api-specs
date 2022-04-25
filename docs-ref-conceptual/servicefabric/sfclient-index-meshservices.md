@@ -1,7 +1,7 @@
 ---
 title: "MeshServices"
 description: "MeshServices"
-ms.date: "10/21/2020"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -31,6 +31,6 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
-| [Get](sfmeshrp-api-service_get.md) | Gets the Service resource with the given name.<br/> |
-| [List](sfmeshrp-api-service_listbyapplicationname.md) | Lists all the service resources.<br/> |
+| [Get](sfclient-api-meshservice_get.md) | Gets the Service resource with the given name.<br/> |
+| [List](sfclient-api-meshservice_list.md) | Lists all the service resources.<br/> |
 
