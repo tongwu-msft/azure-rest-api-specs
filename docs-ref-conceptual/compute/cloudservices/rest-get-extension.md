@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Get Extension | Microsoft Docs"
+description: Learn how the Get Extension operation retrieves information about a specified extension that was added to a cloud service. 
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

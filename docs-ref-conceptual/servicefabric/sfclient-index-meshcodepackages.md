@@ -31,5 +31,5 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
-| [Get Container Logs](sfclient-api-meshcodepackage_getcontainerlogs.md) | Gets the logs from the container.<br/> |
+| [Get Container Logs](sfmeshrp-api-codepackage_getcontainerlog.md) | Gets the logs from the container.<br/> |
 

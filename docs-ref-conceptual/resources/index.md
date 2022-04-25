@@ -16,6 +16,7 @@ Azure Resource Manager enables you to deploy and manage the infrastructure for y
 
 | Operation group                                 | Description |
 |-------------------------------------------------|-------------|
+| [Changes](xref:management.azure.com.resources.changes) | Provides operations to get details about the changes that happen to deployed resources. |
 | [Deployment Operations](xref:management.azure.com.resources.deploymentoperations) | Provides operations to get details about the operations that happen during a deployment. |
 | [Deployment Scripts](xref:management.azure.com.resources.deploymentscripts) | Provides operations for working with scripts in a template. |
 | [Deployments](xref:management.azure.com.resources.deployments)                    | Provides operations to work with deployments, including deploying a template, exporting a template, and getting information about a deployment. |

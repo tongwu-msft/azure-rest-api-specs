@@ -3,14 +3,14 @@ uid: management.azure.com.mobilenetwork.attacheddatanetworks.createorupdate
 name: Create Or Update
 service: Mobile Network
 groupName: Attached Data Networks
-apiVersion: 2022-01-01-preview
+apiVersion: 2022-03-01-preview
 summary: Creates or updates an attached data network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}?api-version=2022-01-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}?api-version=2022-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -156,6 +156,18 @@ definitions:
     description: The logical name for this interface. This should match one of the interfaces configured on your Azure Stack Edge machine.
     types:
     - uid: string
+  - name: ipv4Address
+    description: The IPv4 address.
+    types:
+    - uid: string
+  - name: ipv4Subnet
+    description: The IPv4 subnet.
+    types:
+    - uid: string
+  - name: ipv4Gateway
+    description: The default IPv4 gateway (router).
+    types:
+    - uid: string
 - name: NaptConfiguration
   description: The Network Address and Port Translation settings to use for the attached data network.
   kind: object
@@ -183,6 +195,34 @@ definitions:
     description: Expiry times of inactive NAPT pinholes, in seconds. All timers must be at least 1 second.
     types:
     - uid: PinholeTimeouts
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: AttachedDataNetwork
   description: Attached data network resource.
   kind: object
@@ -272,6 +312,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -285,9 +330,11 @@ definitions:
   kind: enum
   properties:
   - name: Enabled
+    description: NAPT is enabled
     types:
     - uid: string
   - name: Disabled
+    description: NAPT is disabled
     types:
     - uid: string
 - name: PortRange
@@ -333,6 +380,22 @@ definitions:
     description: Pinhole timeout for ICMP pinholes in seconds. Default for ICMP Echo is 60 seconds per RFC 5508 section 3.2.
     types:
     - uid: integer
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -356,22 +419,6 @@ definitions:
     types:
     - uid: string
   - name: Deleted
-    types:
-    - uid: string
-- name: createdByType
-  description: The type of identity that created the resource.
-  kind: enum
-  properties:
-  - name: User
-    types:
-    - uid: string
-  - name: Application
-    types:
-    - uid: string
-  - name: ManagedIdentity
-    types:
-    - uid: string
-  - name: Key
     types:
     - uid: string
 - name: ErrorDetail
@@ -422,7 +469,7 @@ definitions:
 examples:
 - name: Create attached data network
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/TestPacketCoreCP/packetCoreDataPlanes/TestPacketCoreDP/attachedDataNetworks/TestAttachedDataNetwork?api-version=2022-01-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/TestPacketCoreCP/packetCoreDataPlanes/TestPacketCoreDP/attachedDataNetworks/TestAttachedDataNetwork?api-version=2022-03-01-preview
     body: >-
       {
         "location": "eastus",

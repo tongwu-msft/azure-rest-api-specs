@@ -4,7 +4,7 @@ description: Learn REST API calls used to create, delete, or update an Azure Cog
 ms.date: 01/18/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: HeidiSteen

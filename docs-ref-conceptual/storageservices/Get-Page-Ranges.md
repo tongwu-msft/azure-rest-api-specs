@@ -33,7 +33,9 @@ The Get Page Ranges operation returns the list of valid page ranges for a page b
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
-|---------------|-----------------|  
+|---------------|-----------------|
+|`marker`|Optional in version 2020-10-02 and newer. The `marker` parameter identifies the portion of the ranges to be returned with the next GetPageRanges operation. The operation returns a marker value within the response body if the ranges returned were not complete. The marker value may then be used in a subsequent call to request the next set of ranges.<br/><br/>The marker value is opaque to the client.|
+|`maxresults`|Optional in version 2020-10-02 and newer. The `maxresults` parameter specifies the maximum number of page ranges to return. If the request specifies a value greater than 10000, the server will return up to 10000 items. If there are additional results to return, the service returns a continuation token in the NextMarker response element.<br/><br/>Setting maxresults to a value less than or equal to zero results in error response code 400 (Bad Request).|
 |`snapshot`|Optional. The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve information from. For more information on working with blob snapshots, see [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md).|
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).| 
 |`prevsnapshot`|Optional in version 2015-07-08 and newer. The `prevsnapshot` parameter is a DateTime value that specifies that the response will contain only pages that were changed between target blob and previous snapshot. Changed pages include both updated and cleared pages. The target blob may be a snapshot, as long as the snapshot specified by prevsnapshot is the older of the two.<br/><br/>Note that incremental snapshots are currently supported only for blobs created on or after January 1, 2016.|
@@ -120,6 +122,28 @@ The Get Page Ranges operation returns the list of valid page ranges for a page b
 ```  
   
  If the blob's entire set of pages has been cleared and the `prevsnapshot` parameter was not specified, the response body will not include any page ranges.  
+ 
+ If the `maxresults` parameter was specified, the response will include only the specified number of ranges with a continuation token in `NextMarker` tag. The continuation token would be empty if there are no more pending ranges, else it will contain an opaque value that needs to be sent as `marker` parameter in next request. The format of this response body is as follows:  
+  
+```  
+<?xml version="1.0" encoding="utf-8"?>  
+<PageList>  
+   <PageRange>  
+      <Start>Start Byte</Start>  
+      <End>End Byte</End>  
+   </PageRange>  
+   <ClearRange>  
+      <Start>Start Byte</Start>  
+      <End>End Byte</End>  
+   </ClearRange>  
+   <PageRange>  
+      <Start>Start Byte</Start>  
+      <End>End Byte</End>  
+   </PageRange>
+   <NextMarker/>
+</PageList>  
+  
+```  
   
 ## Authorization  
  This operation can be performed by the account owner or by anyone using a Shared Access Signature that has permission to read the blob. If the container's ACL is set to allow anonymous access, any client may call this operation.  

@@ -1,5 +1,5 @@
 ---
-title: "ApplicationMetricDescription"
+title: Application metric overview
 description: "ApplicationMetricDescription"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationMetricDescription
+# Application metric overview
 
 Describes capacity information for a custom resource balancing metric. This can be used to limit the total consumption of this metric by the services of this application.
 
