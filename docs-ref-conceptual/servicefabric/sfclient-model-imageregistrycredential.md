@@ -1,5 +1,5 @@
 ---
-title: Image Registry Credentials
+title: Image registry credentials
 description: "ImageRegistryCredential"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Image Registry Credentials
+# Image registry credentials
 
 Image registry credential.
 

@@ -1,5 +1,5 @@
 ---
-title: Network Service Reference
+title: Network service reference
 description: "NetworkRef"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Network Service Reference
+# Network service reference
 
 Describes a network reference in a service.
 
