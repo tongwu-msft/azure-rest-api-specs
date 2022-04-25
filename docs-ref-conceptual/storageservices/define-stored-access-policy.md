@@ -29,10 +29,10 @@ You can use a stored access policy to change the start time, expiration time, or
   
 ## Create or modify a stored access policy
   
-The access policy for a shared access signature consists of the start time, expiration time, and permissions for the signature. You can specify either of the following or combine them:
+The access policy for a shared access signature consists of the start time, expiration time, and permissions for the signature. You can specify either of the following options or combine them:
 
-- All of these parameters on the signature URI and none within the stored access policy
-- All on the stored access policy and none on the URI 
+- All of these parameters on the signature URI and none on the stored access policy
+- All of these parameters on the stored access policy and none on the URI 
 
 However, you can't specify a parameter on both the SAS token and the stored access policy.
   
@@ -61,7 +61,7 @@ You can set a maximum of five access policies on a container, table, queue, or s
 
 ## Modify or revoke a stored access policy
 
-To modify the parameters of a stored access policy, you can call the access control list operation for the resource type to replace the existing policy. In that operation, specify a new start time, expiration time, or set of permissions. 
+To modify the parameters of a stored access policy, you can call the access control list (ACL) operation for the resource type to replace the existing policy. In that operation, specify a new start time, expiration time, or set of permissions. 
 
 For example, if your existing policy grants read and write permissions to a resource, you can modify it to grant only read permissions for all future requests. In this case, the signed identifier of the new policy, as specified by the `ID` field, would be identical to the signed identifier of the policy that you're replacing.  
 
