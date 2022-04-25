@@ -4,7 +4,7 @@ author: onkarb
 ms.author: onkarb
 ms.date: 05/27/2020
 ms.topic: reference
-ms.service: Azure
+ms.service: azure
 ms.devlang: rest-api
 ---
 

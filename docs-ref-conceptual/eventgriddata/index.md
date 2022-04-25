@@ -4,7 +4,7 @@ author: spelluru
 ms.author: spelluru
 ms.date: 08/21/2019
 ms.topic: reference
-ms.service: Azure
+ms.service: azure
 ms.devlang: rest-api
 service_description: Build applications with event-based architecture
 ---

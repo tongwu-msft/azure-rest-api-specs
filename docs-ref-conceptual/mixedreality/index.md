@@ -1,7 +1,7 @@
 ---
 title: "Azure Mixed Reality Resource Management REST API Reference"
 ms.date: "04/15/2019"
-ms.service: "mixed-reality"
+ms.service: azure
 ms.topic: "reference"
 ms.assetid: 169BB708-1C45-4E21-98D2-8779717CC7A2
 caps.latest.revision: 01
