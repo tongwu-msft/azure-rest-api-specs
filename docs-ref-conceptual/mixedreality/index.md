@@ -1,5 +1,6 @@
 ---
 title: "Azure Mixed Reality Resource Management REST API Reference"
+description: Learn how Microsoft provides a series of Azure services to empower Mixed Reality devices and applications.
 ms.date: "04/15/2019"
 ms.service: azure
 ms.topic: "reference"
