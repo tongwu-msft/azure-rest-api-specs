@@ -53,7 +53,7 @@ For information about how this parameter affects the authorization of requests m
   
 |Field name|Query&nbsp;parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedVersion`|`sv`|Required. Supported in versions 2012-02-12 and later. The storage service version to use to authorize and handle requests that you make with this shared access signature. For more information, see [Versioning for Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|
+|`signedVersion`|`sv`|Required. Supported in version 2012-02-12 and later. The storage service version to use to authorize and handle requests that you make with this shared access signature. For more information, see [Versioning for Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|
 
 #### Determine the version of a legacy SAS request
 
@@ -76,7 +76,7 @@ The required `signedResource` (`sr`) field specifies which resources are accessi
 
 ### Specify the signed resource (Azure Files)
 
-SAS is supported for Azure Files versions 2015-02-21 and later.  
+SAS is supported for Azure Files version 2015-02-21 and later.  
   
 The `signedResource` field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a file or share resource on the URI.  
   
@@ -159,7 +159,7 @@ The permissions that are supported for each resource type are described in the f
 | Add | a | Container<br />Directory<br />Blob | All | Add a block to an append blob. |
 | Create | c | Container<br />Directory<br />Blob | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
 | Write | w | Container<br />Directory<br />Blob | All | Create or write content, properties, metadata, or blocklist. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
-| Delete | d | Container<br />Directory<br />Blob | All | Delete a blob. For versions 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the [Lease Blob](Lease-Blob.md) operation. |
+| Delete | d | Container<br />Directory<br />Blob | All | Delete a blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the [Lease Blob](Lease-Blob.md) operation. |
 | Delete version | x | Container<br />Blob | 2019-12-12 and later | Delete a blob version. |
 | Permanent delete | y | Blob | 2020-02-10 and later | Permanently delete a blob snapshot or version.|
 | List | l | Container<br />Directory | All | List blobs non-recursively. |
@@ -293,7 +293,7 @@ The following table describes how to specify the signature on the URI:
 
 To construct the signature string of a shared access signature, first construct the string-to-sign from the fields that make up the request, encode the string as UTF-8, and then compute the signature by using the HMAC-SHA256 algorithm. The fields that are included in the string-to-sign must be URL-decoded.  
 
-##### Versions 2020-12-06 and later
+##### Version 2020-12-06 and later
 
 Version 2020-12-06 adds support for the signed encryption scope field. To construct the string-to-sign for Blob Storage resources, use the following format: 
 
@@ -315,7 +315,7 @@ StringToSign = signedPermissions + "\n" +
                rscl + "\n" +  
 ```
 
-##### Versions 2018-11-09 and later
+##### Version 2018-11-09 and later
   
 Version 2018-11-09 adds support for the signed resource and signed blob snapshot time fields. These fields must be included in the string-to-sign. To construct the string-to-sign for Blob Storage resources, use the following format: 
   
@@ -337,7 +337,7 @@ StringToSign = signedPermissions + "\n" +
                rsct  
 ```  
 
-##### Versions 2015-04-05 and later
+##### Version 2015-04-05 and later
   
 Version 2015-04-05 adds support for the signed IP and signed protocol fields. These fields must be included in the string-to-sign. To construct the string-to-sign for Blob Storage or Azure Files resources, use the following format: 
   
@@ -389,9 +389,9 @@ StringToSign = signedPermissions + "\n" +
   
 ```  
   
-##### Versions 2013-08-15 through 2015-02-21
+##### Version 2013-08-15 through 2015-02-21
   
-To construct the string-to-sign for Blob Storage or Azure Files resources by using versions 2013-08-15 through 2015-02-21, use the following format. For Azure Files, SAS is supported as of version 2015-02-21.  
+To construct the string-to-sign for Blob Storage or Azure Files resources by using version 2013-08-15 through 2015-02-21, use the following format. For Azure Files, SAS is supported as of version 2015-02-21.  
   
 ```  
 StringToSign = signedPermissions + "\n" +  
@@ -491,7 +491,7 @@ The following examples show how to construct the `canonicalizedResource` portion
   
 **Containers**  
 
-For versions 2015-02-21 and later: 
+For version 2015-02-21 and later: 
 
 ```
 URL = https://myaccount.blob.core.windows.net/music  
@@ -507,7 +507,7 @@ canonicalizedResource = "/myaccount/music"
 
 **Blobs**  
 
-For versions 2015-02-21 and later: 
+For version 2015-02-21 and later: 
 
 ```  
 URL = https://myaccount.blob.core.windows.net/music/intro.mp3  
@@ -538,7 +538,7 @@ canonicalizedResource = "/file/myaccount/music/intro.mp3"
 
 **Queues**  
 
-For versions 2015-02-21 and later: 
+For version 2015-02-21 and later: 
 
 ```  
 URL = https://myaccount.queue.core.windows.net/thumbnails  
@@ -558,7 +558,7 @@ canonicalizedResource = "/myaccount/thumbnails"
 
 If the signed resource is a table, ensure that the table name is lowercase in the canonicalized format.  
 
-For versions 2015-02-21 and later: 
+For version 2015-02-21 and later: 
 
 ```  
 URL = https://myaccount.table.core.windows.net/Employees(PartitionKey='Jeff',RowKey='Price')  
@@ -624,7 +624,7 @@ Each part of the URI is described in the following table:
 | Name | SAS portion | Description |
 | --- | --- | --- |
 | Resource URI |`https://myaccount.blob.core.windows.net/sascontainer/sasblob.txt` |The address of the blob. We highly recommend that you use HTTPS. |
-| Storage services version |`sv=2019-02-02` |For storage services versions 2012-02-12 and later, this parameter indicates the version to use. |
+| Azure Storage version |`sv=2019-02-02` |For Azure Storage version 2012-02-12 and later, this parameter indicates the version to use. |
 | Start time |`st=2019-04-29T22%3A18%3A26Z` |Specified in UTC time. If you want the SAS to be valid immediately, omit the start time. |
 | Expiration time |`se=2019-04-30T02%3A23%3A26Z` |Specified in UTC time. |
 | Resource |`sr=b` |The resource is a blob. |
