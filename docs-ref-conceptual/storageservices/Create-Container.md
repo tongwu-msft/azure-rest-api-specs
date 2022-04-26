@@ -70,10 +70,10 @@ As of version 2019-02-02, you can specify the following headers on a request to 
 ### Sample request  
   
 ```  
-Request syntax:  
+Request Syntax:  
 PUT https://myaccount.blob.core.windows.net/mycontainer?restype=container HTTP/1.1  
   
-Request headers:  
+Request Headers:  
 x-ms-version: 2011-08-18  
 x-ms-date: Sun, 25 Sep 2011 22:50:32 GMT  
 x-ms-meta-Name: StorageSample  
@@ -134,10 +134,10 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  To add the root container to your storage account, create a container named `$root`. Construct the request as follows:  
   
 ```  
-Request syntax:  
+Request Syntax:  
 PUT https://myaccount.blob.core.windows.net/$root?restype=container HTTP/1.1  
   
-Request headers:  
+Request Headers:  
 x-ms-version: 2011-08-18  
 x-ms-date: Sun, 25 Sep 2011 22:50:32 GMT  
 x-ms-meta-Name: StorageSample  
