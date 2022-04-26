@@ -1,6 +1,6 @@
 ---
 title: Force Close Handles (FileREST API) - Azure Files
-description: The Force Close Handles operation closes a handle or handles opened on a directory or a file at the service. It supports closing a single handle specified by handle ID on a file or directory or closing all handles opened on that resource. It optionally supports recursively closing handles on subresources when the resource is a directory.
+description: The Force Close Handles operation closes handles opened on a directory or a file at the service.
 author: wmgries
 
 ms.date: 06/05/2021
@@ -10,9 +10,9 @@ ms.author: wgries
 ---
 
 # Force Close Handles
-The `Force Close Handles` operation closes a handle or handles opened on a directory or a file at the service. It supports closing a single handle specified by handle ID on a file or directory or closing all handles opened on that resource. It optionally supports recursively closing handles on subresources when the resource is a directory.
+The `Force Close Handles` operation closes a handle or handles opened on a directory or a file at the service. It supports closing a single handle specified by handle ID on a file or directory. It also supports closing all handles opened on that resource. It optionally supports recursively closing handles on subresources when the resource is a directory.
 
-This API is intended to be used alongside [List Handles](List-Handles.md) to force close handles that block operations, such as renaming a directory. These handles may have leaked or been lost track of by SMB clients. The API has client-side impact on the handle being closed, including user visible errors due to failed attempts to read or write files. This API is not intended for use as a replacement or alternative for SMB close.
+This API is intended to be used alongside [List Handles](List-Handles.md) to force close handles that block operations, such as renaming a directory. SMB clients might have leaked or lost track of these handles. The API has client-side impact on the handle that's being closed, including user-visible errors due to failed attempts to read or write files. This API is not intended for use as a replacement or alternative for closing an SMB session.
 
 This API is available beginning in version 2018-11-09.
 
@@ -24,7 +24,7 @@ This API is available beginning in version 2018-11-09.
 | NFS | ![No](./media/no-icon.png) |
   
 ## Request
-The `Force Close Handles` request may be constructed as follows. HTTPS is recommended.  
+You can construct the `Force Close Handles` request as follows. We recommend HTTPS.  
   
 |Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
@@ -39,10 +39,10 @@ Replace the path components shown in the request URI with your own, as follows:
 |`mydirectorypath`|Optional. The path to the directory.|
 |`myfileordirectory`|The name of the file or directory.|
   
-For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and referencing shares, directories, files, and metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
 ### URI parameters
-The following additional parameters may be specified on the URI.  
+You can specify the following additional parameters on the URI:  
   
 |Parameter|Description|  
 |---------------|-----------------|
