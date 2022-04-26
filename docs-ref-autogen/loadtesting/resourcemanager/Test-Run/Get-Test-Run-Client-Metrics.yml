@@ -1,0 +1,201 @@
+### YamlMime:RESTOperation
+uid: loadtesting.resourcemanager.testrun.gettestrunclientmetrics
+name: Get Test Run Client Metrics
+service: Azure Load Testing
+groupName: Test Run
+apiVersion: 2021-07-01-preview
+summary: Get all client metrics for a given load test run
+produces:
+- application/json
+paths:
+- content: GET /testruns/{testRunId}/clientMetrics?api-version=2021-07-01-preview
+- content: GET /testruns/{testRunId}/clientMetrics?filter={filter}&groupByInterval={groupByInterval}&api-version=2021-07-01-preview
+  isOptional: true
+uriParameters:
+- name: testRunId
+  in: path
+  isRequired: true
+  description: Unique identifier for load test run name, must be a valid URL character ^[a-z0-9_-]*$
+  types:
+  - uid: string
+  pattern: ^[a-z0-9_-]*$
+- name: filter
+  in: query
+  description: "Filter to be used in metrics queries, filters can be applied on following fields : request, error, percentile( possible values : 90, 99, 95) or time (can be between start and end time). Request and error filter values can be get from /clientMetricsFilter API. Example of filter : (request eq 'HTTP Request1' or request eq 'total-4bec6d5b-c3c3-4f5f-be09-5c4abb28aedd') and (error eq 'Non HTTP response code: org.apache.http.conn.ConnectTimeoutException' or error eq 'total-4bec6d5b-c3c3-4f5f-be09-5c4abb28aedd') and (percentile eq 90) and (time ge 1626346535054 and time le 1626346924744)"
+  types:
+  - uid: string
+- name: groupByInterval
+  in: query
+  description: Group by time interval, in which interval metrics needs to be retrieved, values can be 10s,20s,30s,1m,2m,5m,1h
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The requested client metrics
+  types:
+  - uid: ClientMetricsResults
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: >-
+    *** Error Responses: ***
+
+     * "400", "InvalidHostOrResourceName", "Host name or domain is not valid"
+
+     * "400", "RequiredTestRunId", "testRunId field is required"
+
+     * "400", "InvalidTestRunId", "testRunId field should be valid"
+
+     * "404", "TestRunNotFound", "test run not found with given identifier"
+
+     * "500", "InternalServerError", "Unable to process the request, please retry"
+  types:
+  - uid: DefaultErrorResponseBody
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: JWT Authorization header using the Bearer scheme.
+  types:
+  - uid: string
+definitions:
+- name: ClientMetricsResults
+  kind: object
+  properties:
+  - name: testRunId
+    description: Test run name for which client metrics results is required.
+    types:
+    - uid: string
+  - name: timeSeries
+    description: ''
+    types:
+    - uid: Series
+- name: DefaultErrorResponseBody
+  description: The definition of an error object.
+  kind: object
+  properties:
+  - name: error
+    description: The error response object.
+    types:
+    - uid: ErrorResponseBody
+- name: Series
+  kind: object
+  properties:
+  - name: activeUsers
+    description: Active users time series data
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+  - name: responseTime
+    description: Response time, time series data
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+  - name: throughput
+    description: Throughput time series data
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+  - name: errors
+    description: Errors time series data
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+- name: ErrorResponseBody
+  description: The error response object.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    description: Additional details and inner errors.
+    types:
+    - uid: ErrorResponseBody
+      isArray: true
+examples:
+- name: TestRun_GetTestRunClientMetrics_MaximumSet_Gen
+  request:
+    uri: GET /testruns/2-/clientMetrics?filter=aaaaaaaaaaaaaaaaaaaaaaaaaaa&groupByInterval=aaa&api-version=2021-07-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "testRunId": "aaaaaaaaaa",
+        "timeSeries": {
+          "activeUsers": {
+            "key7399": [
+              {
+                "timestamp": "2021-12-05T16:43:49.320Z",
+                "value": 25
+              }
+            ]
+          },
+          "responseTime": {
+            "key2977": [
+              {
+                "timestamp": "2021-12-05T16:43:49.320Z",
+                "value": 25
+              }
+            ]
+          },
+          "throughput": {
+            "key1201": [
+              {
+                "timestamp": "2021-12-05T16:43:49.320Z",
+                "value": 25
+              }
+            ]
+          },
+          "errors": {
+            "key3921": [
+              {
+                "timestamp": "2021-12-05T16:43:49.320Z",
+                "value": 25
+              }
+            ]
+          }
+        }
+      }
+- name: TestRun_GetTestRunClientMetrics_MinimumSet_Gen
+  request:
+    uri: GET /testruns/__6o/clientMetrics?api-version=2021-07-01-preview
+  responses:
+  - statusCode: "200"
+    body: '{}'
+security:
+- name: Authorization
+  type: apiKey
+  description: JWT Authorization header using the Bearer scheme.
+  in: header
+metadata:
+  description: Learn more about Azure Load Testing service - Get all client metrics for a given load test run
+errorCodes: []
