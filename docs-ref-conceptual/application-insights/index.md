@@ -6,7 +6,7 @@ ms.author: robb
 ms.manager: carmonm
 ms.date: 08/29/2017
 ms.topic: reference
-ms.service: Azure
+ms.service: azure
 ms.devlang: rest-api
 service_description: 
 ---
