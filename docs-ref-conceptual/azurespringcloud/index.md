@@ -2,7 +2,7 @@
 title: Azure Spring Apps REST API 
 description: Learn how the REST API allows you to develop clients that use REST calls to the Azure Spring Cloud API.
 services: spring-Apps
-ms.service: spring-apps
+ms.service: azure
 ms.subservice: 
 ms.topic: reference
 author: MikeDodaro
