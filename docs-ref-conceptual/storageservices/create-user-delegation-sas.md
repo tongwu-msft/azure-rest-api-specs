@@ -159,7 +159,7 @@ The permissions that are supported for each resource type are described in the f
 | Add | a | Container<br />Directory<br />Blob | All | Add a block to an append blob. |
 | Create | c | Container<br />Directory<br />Blob | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
 | Write | w | Container<br />Directory<br />Blob | All | Create or write content, properties, metadata, or blocklist. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
-| Delete | d | Container<br />Directory<br />Blob | All | Delete a blob. For versions 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the [Lease Blob](Lease-Blob.md) operation. |
+| Delete | d | Container<br />Directory<br />Blob | All | Delete a blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the [Lease Blob](Lease-Blob.md) operation. |
 | Delete version | x | Container<br />Blob | 2019-12-12 and later | Delete a blob version. |
 | Permanent Delete | y | Blob | 2020-02-10 and later | Permanently delete a blob snapshot or version.|
 | List | l | Container<br />Directory | All | List blobs non-recursively. |
@@ -242,7 +242,7 @@ The `saoid` or `suoid` field is supported only if the `signedVersion` (`sv`) fie
 
 The `signedCorrelationId` (`scid`) field specifies a correlation ID that may be used to correlate the storage audit logs with the audit logs that are used by the principal that generates and distributes the SAS. For example, a trusted authorization service ordinarily has a managed identity that authenticates and authorizes users, generates an SAS, adds an entry to the local audit log, and returns the SAS to a user, who can then use the SAS to access Azure Storage resources. By including a correlation ID in both the local audit log and the storage audit log, you allow these events to be correlated later. The value is a GUID without braces and with lowercase characters.
 
-This field is supported with versions 2020-02-10 and later.
+This field is supported with version 2020-02-10 and later.
 
 ### Specify the directory depth
 
@@ -250,7 +250,7 @@ If the `signedResource` field specifies a directory (`sr=d`), you must also spec
 
 For example, the root directory `https://{account}.blob.core.windows.net/{container}/` has a depth of 0. Each subdirectory within the root directory adds to the depth by 1. The directory `https://{account}.blob.core.windows.net/{container}/d1/d2` has a depth of 2.  
 
-This field is supported with versions 2020-02-10 and later.
+This field is supported with version 2020-02-10 and later.
 
 ### Specify query parameters to override response headers
 
@@ -282,11 +282,11 @@ The `signature` (`sig`) field is used to authorize a request made by a client wi
 
 To construct the signature string of a user delegation SAS, create the string-to-sign from the fields that make up the request, encode the string as UTF-8, and then compute the signature by using the HMAC-SHA256 algorithm. The fields that are included in the string-to-sign must be URL-decoded.
 
-The fields that are required in the string-to-sign depend on the service version that's used for authorization (`sv` field). The following sections describe the string-to-sign configuration for service versions that support the user delegation SAS. 
+The fields that are required in the string-to-sign depend on the service version that's used for authorization (`sv` field). The following sections describe the string-to-sign configuration for versions that support the user delegation SAS. 
 
-#### Versions 2020-12-06 and later
+#### Version 2020-12-06 and later
 
-The string-to-sign for authorization versions 2020-12-06 and later has the following format:
+The string-to-sign for authorization version 2020-12-06 and later has the following format:
 
 ```
 StringToSign =  signedPermissions + "\n" +
@@ -347,7 +347,7 @@ StringToSign =  signedPermissions + "\n" +
 
 #### Versions earlier than 2020-02-10
 
-The string-to-sign for authorization versions earlier than 2020-02-10 has the following format:
+The string-to-sign for authorization versions that are earlier than 2020-02-10 has the following format:
 
 ```
 StringToSign =  signedPermissions + "\n" +  
