@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.virtualhubs.list
 name: List
 service: Virtual WAN
 groupName: Virtual Hubs
-apiVersion: 2021-05-01
+apiVersion: 2021-08-01
 summary: Lists all the VirtualHubs in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualHubs?api-version=2021-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualHubs?api-version=2021-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -154,6 +154,10 @@ definitions:
     description: The preferred gateway to route on-prem traffic
     types:
     - uid: PreferredRoutingGateway
+  - name: properties.hubRoutingPreference
+    description: The hubRoutingPreference of this VirtualHub.
+    types:
+    - uid: HubRoutingPreference
   - name: id
     description: Resource ID.
     types:
@@ -295,6 +299,19 @@ definitions:
   - name: None
     types:
     - uid: string
+- name: HubRoutingPreference
+  description: The hub routing preference gateway types
+  kind: enum
+  properties:
+  - name: ExpressRoute
+    types:
+    - uid: string
+  - name: VpnGateway
+    types:
+    - uid: string
+  - name: ASPath
+    types:
+    - uid: string
 - name: VirtualHubRoute
   description: VirtualHub route.
   kind: object
@@ -333,7 +350,7 @@ definitions:
 examples:
 - name: VirtualHubList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/virtualHubs?api-version=2021-05-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/virtualHubs?api-version=2021-08-01
   responses:
   - statusCode: "200"
     body: >-
@@ -395,7 +412,8 @@ examples:
                 "10.10.1.13"
               ],
               "allowBranchToBranchTraffic": false,
-              "preferredRoutingGateway": "ExpressRoute"
+              "preferredRoutingGateway": "ExpressRoute",
+              "hubRoutingPreference": "ExpressRoute"
             }
           },
           {
@@ -454,7 +472,8 @@ examples:
                 "10.10.1.13"
               ],
               "allowBranchToBranchTraffic": false,
-              "preferredRoutingGateway": "ExpressRoute"
+              "preferredRoutingGateway": "ExpressRoute",
+              "hubRoutingPreference": "ExpressRoute"
             }
           }
         ]
