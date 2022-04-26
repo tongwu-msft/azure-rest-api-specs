@@ -1,5 +1,5 @@
 ---
-title: "ContainerInstanceView"
+title: "Container Instance View"
 description: "ContainerInstanceView"
 ms.date: "04/25/2022"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ContainerInstanceView
+# Container Instance View
 
 Runtime information of a container instance.
 

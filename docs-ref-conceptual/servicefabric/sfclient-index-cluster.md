@@ -1,5 +1,5 @@
 ---
-title: "Cluster"
+title: "Client Cluster"
 description: "Cluster"
 ms.date: "04/25/2022"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Cluster APIs
+# Client Cluster APIs
 
 | Name | Description |
 | --- | --- |

@@ -1,5 +1,5 @@
 ---
-title: "DiagnosticsSinkKind"
+title: "Diagnostics Sink Kind"
 description: "DiagnosticsSinkKind"
 ms.date: "04/25/2022"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DiagnosticsSinkKind enum
+# Diagnostics Sink Kind enum
 
 type: string
 

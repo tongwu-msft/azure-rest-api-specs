@@ -1,5 +1,5 @@
 ---
-title: "Service Fabric Client REST API Reference"
+title: "9.0 Service Fabric Client REST API Reference"
 description: "Service Fabric Client REST API Reference"
 ms.date: "04/25/2022"
 ms.service: "service-fabric"
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 
 
-# Service Fabric Client REST API Reference
+# 9.0 Service Fabric Client REST API Reference
 
 [Service Fabric](https://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. 
 
@@ -76,23 +76,6 @@ http://MyCluster.cloudapp.net:{connection-port}
 http://65.52.117.43:{connection-port}  
 
 ```  
-
-
-## Preview Features
-### Service Fabric Resource Model
-[Service Fabric Resource Model](/azure/service-fabric-mesh/service-fabric-mesh-service-fabric-resources) describes a simple approach to define resources that comprise a [Service Fabric Mesh](https://aka.ms/sfmesh) application.
-
-Following is a list of Service Fabric Client APIs that allows deploying and managing [Service Fabric Mesh](https://aka.ms/sfmesh) applications in a Service Fabric cluster.
-
-* [Service Fabric Secret Resource APIs](#meshsecrets-apis)
-    - [Secret Value APIs](#meshsecretvalues-apis)
-* [Service Fabric Volume Resource APIs](#meshvolumes-apis)
-* [Service Fabric Network Resource APIs](#meshnetworks-apis)
-* [Service Fabric Application Resource APIs](#meshapplications-apis)
-    - [Service APIs](#meshservices-apis)
-    - [Service Replica APIs](#meshservicereplicas-apis)
-    - [Code Package APIs](#meshcodepackages-apis)
-* [Service Fabric Gateway Resource APIs](#meshgateways-apis)
 
 ## Client API Reference
 Following is a list of Service Fabric Client REST APIs.

@@ -1,5 +1,5 @@
 ---
-title: "Chaos"
+title: "Chaos model"
 description: "Chaos"
 ms.date: "04/25/2022"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Chaos
+# Chaos model
 
 Contains a description of Chaos.
 
