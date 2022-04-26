@@ -1,6 +1,6 @@
 ---
 title: Azure Storage Resource Provider REST API
-description: 
+description: Version reference for the Storage Resource Provider REST API.
 author: tamram
 
 ms.service: storage
