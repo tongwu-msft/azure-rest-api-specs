@@ -1,6 +1,6 @@
 ---
 title: "Azure API Management REST API Logger entity"
-description: Learn how the Logger entity in API Management represents an event sink that you can use to log API Management events.
+description: Reference documentation for the REST API Logger entity that describes how to use the Logger entity to log API Management events.
 ms.custom: na
 ms.date: 05/09/2016
 ms.reviewer: na

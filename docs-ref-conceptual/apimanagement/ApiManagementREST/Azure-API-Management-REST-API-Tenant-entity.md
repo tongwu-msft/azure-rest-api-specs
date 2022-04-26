@@ -1,6 +1,6 @@
 ---
 title: "Azure API Management REST API Tenant entity"
-description: Learn how to manage properties and configuration that apply to the entire API Management service instance using the API Management REST API.
+description: Reference documentation for the Azure API Management REST API Tenant entity.
 ms.custom: na
 ms.date: 09/22/2016
 ms.reviewer: na

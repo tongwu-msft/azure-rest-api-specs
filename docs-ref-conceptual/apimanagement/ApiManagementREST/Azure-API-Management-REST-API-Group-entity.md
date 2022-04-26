@@ -1,6 +1,6 @@
 ---
 title: "Azure API Management REST API Group entity"
-description: Learn about the Azure API Management REST API Group and how entity groups are used to manage the visibility of products to developers.
+description: Reference documentation for the Azure API Management REST API Group entity that describes how entity groups are used to manage the visibility of products to developers.
 ms.custom: na
 ms.date: 05/09/2016
 ms.reviewer: na

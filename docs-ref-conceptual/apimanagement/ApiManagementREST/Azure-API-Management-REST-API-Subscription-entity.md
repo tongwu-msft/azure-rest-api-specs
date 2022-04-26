@@ -1,6 +1,6 @@
 ---
 title: "Azure API Management REST API Subscription entity"
-description: Learn about the Azure API Management REST API Subscription entity and how to manage subscriptions using the API Management REST API.
+description: Reference documentation for the Azure API Management REST API Subscription entity that describes how to manage subscriptions using the API Management REST API.
 ms.custom: na
 ms.date: 05/09/2016
 ms.reviewer: na

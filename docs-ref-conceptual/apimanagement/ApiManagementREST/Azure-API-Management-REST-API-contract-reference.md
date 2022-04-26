@@ -1,6 +1,6 @@
 ---
 title: "Azure API Management REST API contract reference"
-description: Learn about this REST API and how the entity and type representations for common items in Azure API Management. 
+description: Reference documentation about the REST API contract reference that describes how the entity and type representations for common items in Azure API Management. 
 ms.custom: na
 ms.date: 05/09/2016
 ms.reviewer: na

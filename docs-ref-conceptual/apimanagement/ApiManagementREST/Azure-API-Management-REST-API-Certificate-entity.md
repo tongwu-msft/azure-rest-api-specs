@@ -1,6 +1,6 @@
 ---
 title: "Azure API Management REST API Certificate entity"
-description: Learn about this REST API and whow to manage certificates and their operations using the API Management REST API. 
+description: Reference documentation for the Azure API Management REST API Certificate entity. 
 ms.custom: na
 ms.date: 05/09/2016
 ms.reviewer: na
