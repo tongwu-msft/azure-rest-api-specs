@@ -1,5 +1,5 @@
 ---
-title: "DiagnosticsDescription"
+title: "Diagnostics Description"
 description: "DiagnosticsDescription"
 ms.date: "04/25/2022"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DiagnosticsDescription
+# Diagnostics Description
 
 Describes the diagnostics options available
 
