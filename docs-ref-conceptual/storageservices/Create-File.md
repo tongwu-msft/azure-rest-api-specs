@@ -82,10 +82,10 @@ None.
 ### Sample request  
   
 ```
-Request syntax:  
+Request Syntax:  
 PUT https://myaccount.file.core.windows.net/myshare/myfile HTTP/1.1  
   
-Request headers:  
+Request Headers:  
 x-ms-version: 2020-02-10
 x-ms-date: Mon, 27 Jan 2014 22:41:55 GMT  
 Content-Type: text/plain; charset=UTF-8  
