@@ -1,0 +1,145 @@
+### YamlMime:RESTOperation
+uid: loadtesting.data-plane.test.getalltestfiles
+name: Get All Test Files
+service: Azure Load Testing
+groupName: Test
+apiVersion: 2021-07-01-preview
+summary: Get all test files.
+produces:
+- application/json
+paths:
+- content: GET /loadtests/{testId}/files?api-version=2021-07-01-preview
+uriParameters:
+- name: testId
+  in: path
+  isRequired: true
+  description: Unique identifier for load test name, must be a valid URL character ^[a-z0-9_-]*$
+  types:
+  - uid: string
+  pattern: ^[a-z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The requested test files urls
+  types:
+  - uid: FileUrlList
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: >-
+    *** Error Responses: ***
+
+     * "400", "InvalidHostOrResourceName", "Host name or domain is not valid"
+
+     * "400", "RequiredTestId", "testId field is required"
+
+     * "400", "InvalidTestId", "testId field should be valid"
+
+    * "404", "TestNotFound", "Test not found with given identifier"
+
+
+    * "500", "InternalServerError", "Unable to process the request, please retry"
+  types:
+  - uid: DefaultErrorResponseBody
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: JWT Authorization header using the Bearer scheme.
+  types:
+  - uid: string
+definitions:
+- name: FileUrlList
+  kind: object
+  properties:
+  - name: value
+    description: List of file urls
+    types:
+    - uid: FileUrl
+      isArray: true
+- name: DefaultErrorResponseBody
+  description: The definition of an error object.
+  kind: object
+  properties:
+  - name: error
+    description: The error response object.
+    types:
+    - uid: ErrorResponseBody
+- name: FileUrl
+  description: FileUrl Model
+  kind: object
+  properties:
+  - name: url
+    description: File url
+    types:
+    - uid: string
+  - name: fileId
+    description: File unique identifier
+    types:
+    - uid: string
+  - name: filename
+    description: Name of the file
+    types:
+    - uid: string
+  - name: expireTime
+    description: Expiry time of the file
+    types:
+    - uid: string
+- name: ErrorResponseBody
+  description: The error response object.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    description: Additional details and inner errors.
+    types:
+    - uid: ErrorResponseBody
+      isArray: true
+examples:
+- name: Test_GetAllTestFiles_MaximumSet_Gen
+  request:
+    uri: GET /loadtests/z6/files?api-version=2021-07-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
+            "fileId": "aaaaaaaaaaaaaaaaaa",
+            "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "expireTime": "2021-12-05T16:43:46.072Z"
+          }
+        ]
+      }
+- name: Test_GetAllTestFiles_MinimumSet_Gen
+  request:
+    uri: GET /loadtests/j___3_0/files?api-version=2021-07-01-preview
+  responses:
+  - statusCode: "200"
+    body: '{}'
+security:
+- name: Authorization
+  type: apiKey
+  description: JWT Authorization header using the Bearer scheme.
+  in: header
+metadata:
+  description: Learn more about Azure Load Testing service - Get all test files.
+errorCodes: []

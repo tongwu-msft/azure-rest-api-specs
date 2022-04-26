@@ -1,0 +1,193 @@
+### YamlMime:RESTOperation
+uid: loadtesting.data-plane.appcomponent.getappcomponent
+name: Get App Component
+service: Azure Load Testing
+groupName: App Component
+apiVersion: 2021-07-01-preview
+summary: Get App components for a test model or a test run of given name in query param.
+produces:
+- application/json
+paths:
+- content: GET /appcomponents?api-version=2021-07-01-preview
+- content: GET /appcomponents?testId={testId}&testRunId={testRunId}&api-version=2021-07-01-preview
+  isOptional: true
+uriParameters:
+- name: testId
+  in: query
+  description: Required testId, if testRunId name is not provided
+  types:
+  - uid: string
+  pattern: ^[a-z0-9_-]*$
+- name: testRunId
+  in: query
+  description: Required testRunId, if testId is not provided
+  types:
+  - uid: string
+  pattern: ^[a-z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The requested app components
+  types:
+  - uid: AppComponentsMap
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: >-
+    ***Error Responses: ***
+
+     * "400", "InvalidHostOrResourceName", "Host name or domain is not valid" .
+
+      * "400", "RequiredTestOrTestRun", "Either test name or test run name is required"
+
+      * "404", "TestRunNotFound", "test run not found with given name"
+
+     * "404", "TestNotFound", "Test not found with given name"
+
+     * "500", "InternalServerError", "Unable to process the request, please retry"
+  types:
+  - uid: DefaultErrorResponseBody
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: JWT Authorization header using the Bearer scheme.
+  types:
+  - uid: string
+definitions:
+- name: AppComponentsMap
+  description: App components model
+  kind: object
+  properties:
+  - name: resourceId
+    description: '[ReadOnly] Load test resource id'
+    types:
+    - uid: string
+  - name: testId
+    description: '[Required if testRunId is not given] Load test unique identifier'
+    types:
+    - uid: string
+  - name: testRunId
+    description: '[Required if testId is not given] Load test run unique identifier'
+    types:
+    - uid: string
+  - name: name
+    description: '[ReadOnly] AppComponent name'
+    types:
+    - uid: string
+  - name: value
+    description: 'AppComponents Map { resource id (Fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}) : resource object } '
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AppComponent
+- name: DefaultErrorResponseBody
+  description: The definition of an error object.
+  kind: object
+  properties:
+  - name: error
+    description: The error response object.
+    types:
+    - uid: ErrorResponseBody
+- name: AppComponent
+  description: 'The Azure resource object (Refer azure generic resource model : https://docs.microsoft.com/en-us/rest/api/resources/resources/get-by-id#genericresource)'
+  kind: object
+  properties:
+  - name: resourceId
+    description: '[ReadOnly] Fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}'
+    types:
+    - uid: string
+  - name: resourceName
+    description: Azure resource name
+    types:
+    - uid: string
+  - name: resourceType
+    description: Azure resource type
+    types:
+    - uid: string
+  - name: displayName
+    description: '[ReadOnly] Azure resource display name'
+    types:
+    - uid: string
+  - name: resourceGroup
+    description: '[ReadOnly] Resource group name of Azure resource'
+    types:
+    - uid: string
+  - name: subscriptionId
+    description: '[ReadOnly] Subscription Id of Azure resource'
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of Azure resource type
+    types:
+    - uid: string
+- name: ErrorResponseBody
+  description: The error response object.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    description: Additional details and inner errors.
+    types:
+    - uid: ErrorResponseBody
+      isArray: true
+examples:
+- name: AppComponent_GetAppComponent_MaximumSet_Gen
+  request:
+    uri: GET /appcomponents?testId=7s__&testRunId=388&api-version=2021-07-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "resourceId": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+        "testId": "aaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "testRunId": "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "name": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "value": {
+          "key8748": {
+            "resourceId": "aaaaaaaaaaaaaaaaa",
+            "resourceName": "aaaaaaaa",
+            "resourceType": "aaaaaaaaaaaaaaaaaaaaa",
+            "displayName": "aaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "resourceGroup": "aaaaaaaaaaaaa",
+            "subscriptionId": "aa",
+            "kind": "aaaaaaaaaa"
+          }
+        }
+      }
+- name: AppComponent_GetAppComponent_MinimumSet_Gen
+  request:
+    uri: GET /appcomponents?api-version=2021-07-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": {}
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: JWT Authorization header using the Bearer scheme.
+  in: header
+metadata:
+  description: Learn more about Azure Load Testing service - Get App components for a test model or a test run of given name in query param.
+errorCodes: []

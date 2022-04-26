@@ -3079,6 +3079,58 @@
 ### [Get](azurerekusto/Scripts/Get.yml)
 ### [List By Database](azurerekusto/Scripts/List-By-Database.yml)
 ### [Update](azurerekusto/Scripts/Update.yml)
+# Azure Load Testing
+## [Overview](../docs-ref-conceptual/loadtesting/index.md)
+## Data-plane
+### App Component
+#### [Overview](loadtesting/data-plane/App-Component.yml)
+#### [Create Or Update App Components](loadtesting/data-plane/App-Component/Create-Or-Update-App-Components.yml)
+#### [Delete App Component](loadtesting/data-plane/App-Component/Delete-App-Component.yml)
+#### [Get App Component](loadtesting/data-plane/App-Component/Get-App-Component.yml)
+#### [Get App Component By Name](loadtesting/data-plane/App-Component/Get-App-Component-By-Name.yml)
+### File
+#### [Overview](loadtesting/data-plane/File.yml)
+#### [File Validate](loadtesting/data-plane/File/File-Validate.yml)
+### Server Metrics
+#### [Overview](loadtesting/data-plane/Server-Metrics.yml)
+#### [Create Or Update Server Metrics Config](loadtesting/data-plane/Server-Metrics/Create-Or-Update-Server-Metrics-Config.yml)
+#### [Delete Server Metrics](loadtesting/data-plane/Server-Metrics/Delete-Server-Metrics.yml)
+#### [Get Server Default Metrics](loadtesting/data-plane/Server-Metrics/Get-Server-Default-Metrics.yml)
+#### [Get Server Metrics](loadtesting/data-plane/Server-Metrics/Get-Server-Metrics.yml)
+#### [Get Server Metrics By Name](loadtesting/data-plane/Server-Metrics/Get-Server-Metrics-By-Name.yml)
+#### [List Supported Resource Type](loadtesting/data-plane/Server-Metrics/List-Supported-Resource-Type.yml)
+### Test
+#### [Overview](loadtesting/data-plane/Test.yml)
+#### [Create Or Update Test](loadtesting/data-plane/Test/Create-Or-Update-Test.yml)
+#### [Delete Load Test](loadtesting/data-plane/Test/Delete-Load-Test.yml)
+#### [Delete Test File](loadtesting/data-plane/Test/Delete-Test-File.yml)
+#### [Get All Test Files](loadtesting/data-plane/Test/Get-All-Test-Files.yml)
+#### [Get Load Test](loadtesting/data-plane/Test/Get-Load-Test.yml)
+#### [Get Test File](loadtesting/data-plane/Test/Get-Test-File.yml)
+#### [List Load Test Search](loadtesting/data-plane/Test/List-Load-Test-Search.yml)
+#### [Upload Test File](loadtesting/data-plane/Test/Upload-Test-File.yml)
+### Test Run
+#### [Overview](loadtesting/data-plane/Test-Run.yml)
+#### [Create And Update Test](loadtesting/data-plane/Test-Run/Create-And-Update-Test.yml)
+#### [Delete Test Run](loadtesting/data-plane/Test-Run/Delete-Test-Run.yml)
+#### [Get App Test Runs Search](loadtesting/data-plane/Test-Run/Get-App-Test-Runs-Search.yml)
+#### [Get Test Run](loadtesting/data-plane/Test-Run/Get-Test-Run.yml)
+#### [Get Test Run Client Metrics](loadtesting/data-plane/Test-Run/Get-Test-Run-Client-Metrics.yml)
+#### [Get Test Run Client Metrics Filters](loadtesting/data-plane/Test-Run/Get-Test-Run-Client-Metrics-Filters.yml)
+#### [Get Test Run File](loadtesting/data-plane/Test-Run/Get-Test-Run-File.yml)
+#### [Stop Test Run](loadtesting/data-plane/Test-Run/Stop-Test-Run.yml)
+## Preview
+### Load Tests
+#### [Overview](loadtesting/preview/Load-Tests.yml)
+#### [Create Or Update](loadtesting/preview/Load-Tests/Create-Or-Update.yml)
+#### [Delete](loadtesting/preview/Load-Tests/Delete.yml)
+#### [Get](loadtesting/preview/Load-Tests/Get.yml)
+#### [List By Resource Group](loadtesting/preview/Load-Tests/List-By-Resource-Group.yml)
+#### [List By Subscription](loadtesting/preview/Load-Tests/List-By-Subscription.yml)
+#### [Update](loadtesting/preview/Load-Tests/Update.yml)
+### Operations
+#### [Overview](loadtesting/preview/Operations.yml)
+#### [List](loadtesting/preview/Operations/List.yml)
 # Azure Migrate
 ## [Overview](../docs-ref-conceptual/migrate/index.md)
 ## Assessment
