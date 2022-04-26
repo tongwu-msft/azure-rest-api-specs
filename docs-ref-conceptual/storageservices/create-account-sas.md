@@ -54,7 +54,7 @@ The required and optional parameters for the SAS token are described in the foll
 |`SignedExpiry (se)`|Required. The time when the shared access signature becomes invalid, expressed in one of the accepted ISO 8601 UTC formats. For more information about accepted UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).|  
 |`SignedIP (sip)`|Optional. Specifies an IP address or a range of IP addresses from which to accept requests. When you specify a range, note that the range is inclusive.<br /><br /> For example, `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70`.|  
 |`SignedProtocol (spr)`|Optional. Specifies the protocol that's permitted for a request made with the account SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`).  The default value is `https,http`.<br /><br /> Note that HTTP only is not a permitted value.|  
-|`SignedEncryptionScope (ses)`|Optional. Indicates the encryption scope to use to encrypt the request contents. This field is supported with versions 2020-12-06 and later.|
+|`SignedEncryptionScope (ses)`|Optional. Indicates the encryption scope to use to encrypt the request contents. This field is supported with version 2020-12-06 and later.|
 |`Signature (sig)`|Required.  The signature part of the URI is used to authorize the request that's made with the shared access signature.<br /><br /> The string-to-sign is a unique string that's constructed from the fields that must be verified to authorize the request. The signature is a hash-based message authentication code (HMAC) that's computed over the string-to-sign and key by using the SHA256 algorithm, and then encoded by using Base64 encoding.|  
   
 ### Construct the signature string
@@ -146,7 +146,7 @@ The following table lists Blob Storage operations and indicates which signed res
 |Clear Page|Blob Storage (b)|Object (o)|Write (w)|  
   
 > [!NOTE]
-> The `Delete` permission allows breaking a lease on a blob or container with versions 2017-07-29 and later.
+> The `Delete` permission allows breaking a lease on a blob or container with version 2017-07-29 and later.
   
 ### Queue Storage
 
@@ -238,7 +238,7 @@ https://myaccount.blob.core.windows.net/?restype=service&comp=properties&sv=2019
 | Name | SAS&nbsp;portion | Description |
 | --- | --- | --- |
 | Resource URI |`https://myaccount.blob.core.windows.net/?restype=service&comp=properties` |The service endpoint, with parameters for getting service properties (when called with GET) or setting service properties (when called with SET). Based on the value of the signed services field (`ss`), this SAS can be used with either Blob Storage or Azure Files. |
-| Azure Storage version |`sv=2019-02-02` |For Azure Storage versions 2012-02-12 and later, this parameter indicates which version to use. |
+| Azure Storage version |`sv=2019-02-02` |For Azure Storage version 2012-02-12 and later, this parameter indicates which version to use. |
 | Services |`ss=bf` |The SAS applies to Blob Storage and Azure Files. |
 | Resource types |`srt=s` |The SAS applies to service-level operations. |
 | Start time |`st=2019-08-01T22%3A18%3A26Z` |Specified in UTC time. If you want the SAS to be valid immediately, omit the start time. |
