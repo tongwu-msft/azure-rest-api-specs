@@ -2,7 +2,7 @@
 title: Azure Spring Apps REST API 
 description: Learn how the REST API allows you to develop clients that use REST calls to the Azure Spring Cloud API.
 services: spring-Apps
-ms.service: spring-Apps
+ms.service: spring-apps
 ms.subservice: 
 ms.topic: reference
 author: MikeDodaro
@@ -22,14 +22,14 @@ Azure Spring Apps REST API provides operations for working with the following re
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Services](../../docs-ref-autogen/azurespringcloud/Services.yml) | Provides operations for managing Azure Spring Apps service instances. |
-| [Apps](../../docs-ref-autogen/azurespringcloud/Apps.yml) | Provides operations for managing apps under service instances. |
-| [Deployments](../../docs-ref-autogen/azurespringcloud/Deployments.yml) | Provides operations for managing deployments under apps. |
-| [Bindings](../../docs-ref-autogen/azurespringcloud/Bindings.yml) | Provides operations for managing service bindings under apps. |
-| [Custom Domains](../../docs-ref-autogen/azurespringcloud/Custom-Domains.yml) | Provides operations for managing custom domains for apps. |
-| [Certificates](../../docs-ref-autogen/azurespringcloud/Certificates.yml) | Provides operations for managing certificates for custom domains. |
-| [Operations](../../docs-ref-autogen/azurespringcloud/Operations.yml) |  Provides operations to list all of the available REST API operations. |
-| [Runtime Versions](../../docs-ref-autogen/azurespringcloud/Runtime-Versions.yml) | Provides operations to list all of the available runtime versions supported. |
+| [Services](../../docs-ref-autogen/support/Services.yml) | Provides operations for managing Azure Spring Apps service instances. |
+| [Apps](../../docs-ref-autogen/azurespringapps/Apps.yml) | Provides operations for managing apps under service instances. |
+| [Deployments](../../docs-ref-autogen/azurespringapps/Deployments.yml) | Provides operations for managing deployments under apps. |
+| [Bindings](../../docs-ref-autogen/azurespringapps/Bindings.yml) | Provides operations for managing service bindings under apps. |
+| [Custom Domains](../../docs-ref-autogen/azurespringapps/Custom-Domains.yml) | Provides operations for managing custom domains for apps. |
+| [Certificates](../../docs-ref-autogen/azurespringapps/Certificates.yml) | Provides operations for managing certificates for custom domains. |
+| [Operations](../../docs-ref-autogen/azurespringapps/Operations.yml) |  Provides operations to list all of the available REST API operations. |
+| [Runtime Versions](../../docs-ref-autogen/azurespringapps/Runtime-Versions.yml) | Provides operations to list all of the available runtime versions supported. |
 
 
 

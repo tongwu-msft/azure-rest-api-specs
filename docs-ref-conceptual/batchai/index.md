@@ -6,7 +6,7 @@ ms.author: danlep
 manager: timlt
 ms.date: 03/26/2019
 ms.topic: reference
-ms.service: Azure
+ms.service: azure
 ms.devlang: rest-api
 service_description: To be added
 ---

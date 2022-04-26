@@ -5,7 +5,7 @@ author: rayne-wiselman
 ms.author: raynew
 ms.date: 08/28/2017
 ms.topic: reference
-ms.service: Azure
+ms.service: azure
 ms.devlang: rest-api
 service_description: To be added
 ---

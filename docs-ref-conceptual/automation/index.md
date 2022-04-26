@@ -7,7 +7,7 @@ ms.author: gwallace
 ms.manager: carmonm
 ms.date: 02/24/2020
 ms.topic: reference
-ms.service: Azure
+ms.service: azure
 ms.devlang: rest-api
 service_description: Provides a highly reliable and scalable workflow execution engine to automate frequently repeated management tasks.
 ---
