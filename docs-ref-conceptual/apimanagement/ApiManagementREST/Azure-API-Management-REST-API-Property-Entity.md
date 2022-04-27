@@ -1,5 +1,5 @@
 ---
-title: "Azure API Management REST API Property Entity"
+title: "Azure API Management REST API Property entity"
 description: Reference documentation for the Azure API Management REST API Property Entity that describes how to manage properties using the API Management REST API.
 ms.custom: na
 ms.date: 05/09/2016
