@@ -1,6 +1,6 @@
 ---
-title: "Azure API Management REST API Backend entity"
-description: Reference documentation for the Backend entity in API Management that describes how the entity can be configured to skip certification chain validation when using a self-signed certificate.
+title: "Azure API Management REST API - Backend entity"
+description: Reference documentation for the 'Backend' entity in API Management that describes how the entity can be configured to skip certification chain validation when using a self-signed certificate.
 ms.custom: na
 ms.date: 05/09/2016
 ms.reviewer: na
