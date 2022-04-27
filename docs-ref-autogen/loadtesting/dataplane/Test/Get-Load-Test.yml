@@ -1,0 +1,336 @@
+### YamlMime:RESTOperation
+uid: loadtesting.dataplane.test.getloadtest
+name: Get Load Test
+service: Azure Load Testing
+groupName: Test
+apiVersion: 2021-07-01-preview
+summary: Get load test model of given test name
+produces:
+- application/json
+paths:
+- content: GET /loadtests/{testId}?api-version=2021-07-01-preview
+uriParameters:
+- name: testId
+  in: path
+  isRequired: true
+  description: Unique identifier for load test name, must be a valid URL character ^[a-z0-9_-]*$
+  types:
+  - uid: string
+  pattern: ^[a-z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The requested load test
+  types:
+  - uid: TestModel
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: >-
+    *** Error Responses: ***
+
+     * "400", "InvalidHostOrResourceName", "Host name or domain is not valid"
+
+     * "400", "RequiredTestId", "testId field is required"
+
+     * "400", "InvalidTestId", "testId field should be valid"
+
+     * "404", "TestNotFound", "Test not found with given identifier"
+
+    * "500", "InternalServerError", "Unable to process the request, please retry"
+  types:
+  - uid: DefaultErrorResponseBody
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: JWT Authorization header using the Bearer scheme.
+  types:
+  - uid: string
+definitions:
+- name: TestModel
+  description: Load test model
+  kind: object
+  properties:
+  - name: testId
+    description: '[ReadOnly] Unique test name as identifier'
+    types:
+    - uid: string
+  - name: description
+    description: The test description
+    types:
+    - uid: string
+  - name: displayName
+    description: 'Display name of a test '
+    types:
+    - uid: string
+  - name: resourceId
+    description: '[ReadOnly] Fully qualified resource Id e.g /subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}'
+    types:
+    - uid: string
+  - name: loadTestConfig
+    description: The load test configuration
+    types:
+    - uid: LoadTestConfig
+  - name: passFailCriteria
+    description: Pass fail criteria for a test
+    types:
+    - uid: PassFailCriteria
+  - name: createdDateTime
+    description: '[ReadOnly] The created DateTime(Iso8601Literal format) of the test model'
+    types:
+    - uid: string
+  - name: createdBy
+    description: '[ReadOnly] The user that created the test model'
+    types:
+    - uid: string
+  - name: lastModifiedDateTime
+    description: '[ReadOnly] The last Modified DateTime(Iso8601Literal format) of the test model'
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: '[ReadOnly] The user that last modified the test model'
+    types:
+    - uid: string
+  - name: inputArtifacts
+    description: '[ReadOnly]The input artifacts for the test'
+    types:
+    - uid: InputTestArtifacts
+  - name: secrets
+    description: 'Secrets of higher importance , which are stored in a key-vault typically. Allowed secret type: AKV_SECRET_URI'
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: SecretMetadata
+  - name: environmentVariables
+    description: Secrets of relatively lesser importance , which are defined as a set of <name,value> pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: DefaultErrorResponseBody
+  description: The definition of an error object.
+  kind: object
+  properties:
+  - name: error
+    description: The error response object.
+    types:
+    - uid: ErrorResponseBody
+- name: LoadTestConfig
+  description: The load test configuration
+  kind: object
+  properties:
+  - name: engineInstances
+    description: The number of engine instances to execute load test. Supported values are in range of 1-50. Required for creating a new Test.
+    types:
+    - uid: integer
+- name: PassFailCriteria
+  description: Pass fail criteria for a test
+  kind: object
+  properties:
+  - name: passFailMetrics
+    description: 'Map of id and pass fail metrics { id  : pass fail metrics }'
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: PassFailMetric
+- name: InputTestArtifacts
+  description: '[ReadOnly]The input artifacts for the test'
+  kind: object
+  properties:
+  - name: configUrl
+    description: FileUrl Model
+    types:
+    - uid: FileUrl
+  - name: testScriptUrl
+    description: FileUrl Model
+    types:
+    - uid: FileUrl
+  - name: inputArtifactsZipFileurl
+    description: FileUrl Model
+    types:
+    - uid: FileUrl
+  - name: additionalUrls
+    description: '[ReadOnly]The input artifacts file { name : url } map for the test run'
+    types:
+    - uid: FileUrl
+      isArray: true
+- name: SecretMetadata
+  kind: object
+  properties:
+  - name: value
+    description: The value of the secret. of type== akv-secret-uri or secret-value
+    types:
+    - uid: string
+  - name: type
+    description: Type of secret. eg. AKV_SECRET_URI/SECRET_VALUE
+    types:
+    - uid: string
+- name: ErrorResponseBody
+  description: The error response object.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    description: Additional details and inner errors.
+    types:
+    - uid: ErrorResponseBody
+      isArray: true
+- name: PassFailMetric
+  kind: object
+  properties:
+  - name: clientmetric
+    description: 'The client metric on which the criteria should be applied. Allowed values - ‘response_time_ms’ , ‘latency’, ‘error’ '
+    types:
+    - uid: string
+  - name: aggregate
+    description: 'The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’ - for response_time_ms and latency metric '
+    types:
+    - uid: string
+  - name: condition
+    description: 'The comparison operator. Supported types ‘>’ '
+    types:
+    - uid: string
+  - name: value
+    description: 'The value to compare with the client metric. Allowed values - ‘error : [0.0 , 100.0] unit- % ’, response_time_ms and latency : any integer value unit- ms'
+    types:
+    - uid: number
+  - name: action
+    description: Either ‘stop’ or ‘continue’ after the threshold is met. Default is ‘continue’
+    types:
+    - uid: string
+  - name: actualValue
+    description: '[ReadOnly] The actual value of the client metric for the test run '
+    types:
+    - uid: number
+  - name: result
+    description: '[ReadOnly] Outcome of the testRun. possible outcome - ‘passed’ , ‘failed’ , ‘undetermined’ '
+    types:
+    - uid: string
+- name: FileUrl
+  description: FileUrl Model
+  kind: object
+  properties:
+  - name: url
+    description: File url
+    types:
+    - uid: string
+  - name: fileId
+    description: File unique identifier
+    types:
+    - uid: string
+  - name: filename
+    description: Name of the file
+    types:
+    - uid: string
+  - name: expireTime
+    description: Expiry time of the file
+    types:
+    - uid: string
+examples:
+- name: Test_GetLoadTest_MaximumSet_Gen
+  request:
+    uri: GET /loadtests/_n7__?api-version=2021-07-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "testId": "aaaaaaaaaaaaaaaaaaaaaaa",
+        "description": "aaaaaaaaaaaaaaaaaaaaaaa",
+        "displayName": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "resourceId": "aaaaaaaaaaaaaaaaa",
+        "loadTestConfig": {
+          "engineInstances": 6
+        },
+        "passFailCriteria": {
+          "passFailMetrics": {
+            "key1348": {
+              "clientmetric": "aaaaaaaaaaaaaaaaaaaaaaa",
+              "aggregate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "condition": "aaaaaaaaaaaa",
+              "value": 24,
+              "action": "aaaaaaaaaaaaaaaaaa",
+              "actualValue": 10,
+              "result": "aaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          }
+        },
+        "createdDateTime": "2021-12-05T16:43:46.072Z",
+        "createdBy": "aaaaaaaaaa",
+        "lastModifiedDateTime": "2021-12-05T16:43:46.072Z",
+        "lastModifiedBy": "aaaaaaaaaaaaaaaaaaaaaaa",
+        "inputArtifacts": {
+          "configUrl": {
+            "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
+            "fileId": "aaaaaaaaaaaaaaaaaa",
+            "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "expireTime": "2021-12-05T16:43:46.072Z"
+          },
+          "testScriptUrl": {
+            "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
+            "fileId": "aaaaaaaaaaaaaaaaaa",
+            "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "expireTime": "2021-12-05T16:43:46.072Z"
+          },
+          "inputArtifactsZipFileurl": {
+            "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
+            "fileId": "aaaaaaaaaaaaaaaaaa",
+            "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "expireTime": "2021-12-05T16:43:46.072Z"
+          },
+          "additionalUrls": [
+            {
+              "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
+              "fileId": "aaaaaaaaaaaaaaaaaa",
+              "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "expireTime": "2021-12-05T16:43:46.072Z"
+            }
+          ]
+        },
+        "secrets": {
+          "key9927": {
+            "value": "aaaaaaaaaaaaaaa",
+            "type": "aaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        },
+        "environmentVariables": {
+          "key2687": "aaaaa"
+        }
+      }
+- name: Test_GetLoadTest_MinimumSet_Gen
+  request:
+    uri: GET /loadtests/__?api-version=2021-07-01-preview
+  responses:
+  - statusCode: "200"
+    body: '{}'
+security:
+- name: Authorization
+  type: apiKey
+  description: JWT Authorization header using the Bearer scheme.
+  in: header
+metadata:
+  description: Learn more about Azure Load Testing service - Get load test model of given test name
+errorCodes: []

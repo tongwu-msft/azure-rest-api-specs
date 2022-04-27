@@ -1,0 +1,196 @@
+### YamlMime:RESTOperation
+uid: loadtesting.dataplane.servermetrics.getservermetricsbyname
+name: Get Server Metrics By Name
+service: Azure Load Testing
+groupName: Server Metrics
+apiVersion: 2021-07-01-preview
+summary: Get server metrics config for a given name in query param.
+produces:
+- application/json
+paths:
+- content: GET /serverMetricsConfig/{name}?api-version=2021-07-01-preview
+uriParameters:
+- name: name
+  in: path
+  isRequired: true
+  description: Unique identifier for server metric name, must be a valid URL character ^[a-z0-9_-]*$
+  types:
+  - uid: string
+  pattern: ^[a-z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Api version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The requested server metrics
+  types:
+  - uid: ServerMetricsModel
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: >-
+    ***Error Responses: ***
+
+     * "400", "InvalidHostOrResourceName", "Host name or domain is not valid".
+
+      * "400", "RequiredServerMetricsName", "name field is required"
+
+     * "400", "InvalidServerMetricsConfigName", "name field should be valid"
+
+     * "500", "InternalServerError", "Unable to process the request, please retry"
+  types:
+  - uid: DefaultErrorResponseBody
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: JWT Authorization header using the Bearer scheme.
+  types:
+  - uid: string
+definitions:
+- name: ServerMetricsModel
+  description: Server metrics config model
+  kind: object
+  properties:
+  - name: name
+    description: '[ReadOnly] Server metrics config name'
+    types:
+    - uid: string
+  - name: testId
+    description: '[Required if testRunId is not given] Load test unique identifier'
+    types:
+    - uid: string
+  - name: testRunId
+    description: '[Required if testId is not given] Load test run unique identifier'
+    types:
+    - uid: string
+  - name: metrics
+    description: 'Metrics map {metric id : metrics object} (Refer : https://docs.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition for metric id)'
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ResourceMetricModel
+- name: DefaultErrorResponseBody
+  description: The definition of an error object.
+  kind: object
+  properties:
+  - name: error
+    description: The error response object.
+    types:
+    - uid: ErrorResponseBody
+- name: ResourceMetricModel
+  description: 'Associated metric definition for particular metrics of the azure resource ( Refer : https://docs.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition)'
+  kind: object
+  properties:
+  - name: id
+    description: '[ReadOnly]  Unique identifier for metric'
+    types:
+    - uid: string
+  - name: resourceId
+    description: Azure resource id
+    types:
+    - uid: string
+  - name: metricnamespace
+    description: Metric name space
+    types:
+    - uid: string
+  - name: displayDescription
+    description: Metric description
+    types:
+    - uid: string
+  - name: name
+    description: Metric name object
+    types:
+    - uid: ServerMetricName
+  - name: aggregation
+    description: Metric aggregation
+    types:
+    - uid: string
+  - name: unit
+    description: Metric unit
+    types:
+    - uid: string
+  - name: resourceType
+    description: Azure resource type
+    types:
+    - uid: string
+- name: ErrorResponseBody
+  description: The error response object.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    description: Additional details and inner errors.
+    types:
+    - uid: ErrorResponseBody
+      isArray: true
+- name: ServerMetricName
+  description: Metric name object
+  kind: object
+  properties:
+  - name: value
+    description: Metric name value
+    types:
+    - uid: string
+  - name: localizedValue
+    description: Metric localized name
+    types:
+    - uid: string
+examples:
+- name: ServerMetrics_GetServerMetricsByName_MaximumSet_Gen
+  request:
+    uri: GET /serverMetricsConfig/-_7?api-version=2021-07-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "aaaaaaaaaaaaa",
+        "testId": "aaaaaaaaaaaaaaaaaaaaaaa",
+        "testRunId": "aaaaaaaaaaaaaa",
+        "metrics": {
+          "key7260": {
+            "id": "a",
+            "resourceId": "a",
+            "metricnamespace": "aaaaaaaaaaaaaaaaaaaa",
+            "displayDescription": "aaaaaaaaaaaaaa",
+            "name": {
+              "value": "aaaaaaa",
+              "localizedValue": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "aggregation": "aaaa",
+            "unit": "aaaaaaaaaaaaaaa",
+            "resourceType": "aaaaaaaaaaaaaaaaaaa"
+          }
+        }
+      }
+- name: ServerMetrics_GetServerMetricsByName_MinimumSet_Gen
+  request:
+    uri: GET /serverMetricsConfig/1-41_?api-version=2021-07-01-preview
+  responses:
+  - statusCode: "200"
+    body: '{}'
+security:
+- name: Authorization
+  type: apiKey
+  description: JWT Authorization header using the Bearer scheme.
+  in: header
+metadata:
+  description: Learn more about Azure Load Testing service - Get server metrics config for a given name in query param.
+errorCodes: []
