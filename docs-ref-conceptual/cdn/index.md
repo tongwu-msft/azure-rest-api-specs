@@ -2,7 +2,7 @@
 ms.assetid: 987a76ca-b62e-4525-ac07-bbde73abce05
 title: Azure CDN REST API Reference | Microsoft Docs
 description: The Azure Content Delivery Network (CDN) caches static web content at strategically placed locations to provide maximum throughput for delivering content to users.
-ms.service: cdn
+ms.service: azure-cdn
 author: mmacy
 ms.author: marsma
 ms.manager: erikre
