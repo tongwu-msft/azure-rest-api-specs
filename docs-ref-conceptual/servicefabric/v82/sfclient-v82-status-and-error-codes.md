@@ -1,6 +1,6 @@
 ---
 title: "Status and Error Codes v82"
-descriptionL "status and error codes"
+description: "status and error codes"
 ms.date: "11/08/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
