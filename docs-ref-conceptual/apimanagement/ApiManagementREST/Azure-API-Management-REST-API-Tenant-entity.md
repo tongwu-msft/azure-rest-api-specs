@@ -1,6 +1,6 @@
 ---
-title: "Azure API Management REST API Tenant entity"
-description: Reference documentation for the Azure API Management REST API Tenant entity.
+title: "Azure API Management REST API - Tenant entity"
+description: Reference documentation for the Azure API Management REST API 'Tenant' entity.
 ms.custom: na
 ms.date: 09/22/2016
 ms.reviewer: na
