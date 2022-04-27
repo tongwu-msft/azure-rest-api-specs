@@ -1,6 +1,6 @@
 ---
-title: Container state informatio v82n
-description: "ContainerState v82n
+title: "Container state informatio v82"
+description: "ContainerState v82n"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

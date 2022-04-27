@@ -1,6 +1,6 @@
 ---
-title: Network service referenc v82e
-description: "NetworkRef v82e
+title: "Network service referenc v82e"
+description: "NetworkRef v82e"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

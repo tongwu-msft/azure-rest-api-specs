@@ -1,6 +1,6 @@
 ---
-title: Chaos overvie v82w
-description: "Chaos v82w
+title: "Chaos overvie v82"
+description: "Chaos v82"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -1,6 +1,6 @@
 ---
-title: Application metric overvie v82w
-description: "ApplicationMetricDescription v82w
+title: "Application metric overvie v82"
+description: "ApplicationMetricDescription v82"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

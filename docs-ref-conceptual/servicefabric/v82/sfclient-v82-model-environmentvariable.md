@@ -1,6 +1,6 @@
 ---
-title: Container environment variabl v82e
-description: "EnvironmentVariable v82e
+title: "Container environment variabl v82e"
+description: "EnvironmentVariable v82e"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

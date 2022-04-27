@@ -1,6 +1,6 @@
 ---
-title: Application health polic v82y
-description: "ApplicationHealthPolicy v82y
+title: "Application health polic v82"
+description: "ApplicationHealthPolicy v82"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

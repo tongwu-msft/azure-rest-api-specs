@@ -1,3 +1,12 @@
+---
+title: "Service Fabric table of contents"
+description: "Service Fabric table of contents"
+ms.date: "04/25/2022"
+ms.service: "service-fabric"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
+---
 # [Service Fabric Client APIs](sfclient-index.md)
 ## [Authenticating Service Fabric REST Requests](sfclient-authenticating-service-fabric-rest-requests.md)
 ## [Service Fabric Names and JSON Serialization](sfclient-service-fabric-names-and-json-serialization.md)

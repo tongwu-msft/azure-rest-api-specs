@@ -1,6 +1,6 @@
 ---
-title: Container code package propertie v82s
-description: "ContainerCodePackageProperties v82s
+title: "Container code package propertie v82s"
+description: "ContainerCodePackageProperties v82"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

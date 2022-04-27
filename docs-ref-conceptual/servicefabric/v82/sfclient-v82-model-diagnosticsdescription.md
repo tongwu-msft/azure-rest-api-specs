@@ -1,6 +1,6 @@
 ---
-title: Diagnostics option v82s
-description: "DiagnosticsDescription v82s
+title: "Diagnostics option v82s"
+description: "DiagnosticsDescription v82s"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

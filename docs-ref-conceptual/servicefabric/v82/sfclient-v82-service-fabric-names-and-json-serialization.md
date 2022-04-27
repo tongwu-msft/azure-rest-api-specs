@@ -1,5 +1,5 @@
 ---
-title: "Service Fabric Names and JSON Serialization"
+title: "Service Fabric Names and JSON Serialization v8.2"
 ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Service Fabric Names and JSON Serialization
+# Service Fabric Names and JSON Serialization v8.2
 Many requests and responses include names and IDs of the Service Fabric application, service, partition, or replicas. These names and IDs must not be URL encoded when sent in the body or as query parameters.
 
 For example, the ContinuationToken parameter for getting the list of applications in a paged manner may include the name of the application. When sending this back to get the next page, it must not be encoded.

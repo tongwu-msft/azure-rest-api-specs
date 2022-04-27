@@ -1,6 +1,6 @@
 ---
-title: Container logs informatio v82n
-description: "ContainerLogs v82n
+title: "Container logs information v82"
+description: "ContainerLogs v82"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -1,6 +1,6 @@
 ---
-title: Application resource overvie v82w
-description: "ApplicationResourceDescription v82w
+title: "Application resource overvie v82"
+description: "ApplicationResourceDescription v82"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

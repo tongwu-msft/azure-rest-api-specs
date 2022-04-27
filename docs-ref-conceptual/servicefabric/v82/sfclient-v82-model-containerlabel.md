@@ -1,6 +1,6 @@
 ---
-title: Container label informatio v82n
-description: "ContainerLabel v82n
+title: "Container label information v82"
+description: "ContainerLabel v82"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

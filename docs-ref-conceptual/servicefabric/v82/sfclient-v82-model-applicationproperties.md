@@ -1,6 +1,6 @@
 ---
-title: Application property resource v82s
-description: "ApplicationProperties v82s
+title: "Application property resource v82s"
+description: "ApplicationProperties v82s"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

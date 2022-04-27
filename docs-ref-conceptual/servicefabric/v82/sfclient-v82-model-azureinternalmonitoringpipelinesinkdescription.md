@@ -1,6 +1,6 @@
 ---
-title: Azure internal monitoring pipeline sink overvie v82w
-description: "AzureInternalMonitoringPipelineSinkDescription v82w
+title: "Azure internal monitoring pipeline sink overvie v82"
+description: "AzureInternalMonitoringPipelineSinkDescription v82"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -1,6 +1,6 @@
 ---
-title: Service Fabric cluster versio v82n
-description: "ClusterVersion v82n
+title: "Service Fabric cluster version v82"
+description: "ClusterVersion v82"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

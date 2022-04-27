@@ -1,6 +1,6 @@
 ---
-title: Service API inde v82x
-description: "Service v82x
+title: "Service API inde v82"
+description: "Service v82"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -1,6 +1,6 @@
 ---
-title: Diagnostics sink kin v82d
-description: "DiagnosticsSinkKind v82d
+title: "Diagnostics sink kin v82d"
+description: "DiagnosticsSinkKind v82d"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

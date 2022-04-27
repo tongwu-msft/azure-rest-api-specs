@@ -1,6 +1,6 @@
 ---
-title: Named partition scheme overvie v82w
-description: "NamedPartitionSchemeDescription v82w
+title: "Named partition scheme overvie v82w"
+description: "NamedPartitionSchemeDescription v82w"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

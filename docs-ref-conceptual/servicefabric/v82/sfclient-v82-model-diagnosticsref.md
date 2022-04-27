@@ -1,6 +1,6 @@
 ---
-title: Diagnostics referenc v82e
-description: "DiagnosticsRef v82e
+title: "Diagnostics referenc v82"
+description: "DiagnosticsRef v82e"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

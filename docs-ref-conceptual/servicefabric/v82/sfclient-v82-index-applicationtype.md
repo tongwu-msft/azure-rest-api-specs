@@ -1,6 +1,6 @@
 ---
-title: Application type API inde v82x
-description: "ApplicationType v82x
+title: "Application type API inde v82v"
+description: "ApplicationType v82v"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

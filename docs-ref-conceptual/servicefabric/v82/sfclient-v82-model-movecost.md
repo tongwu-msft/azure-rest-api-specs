@@ -1,6 +1,6 @@
 ---
-title: Service move cos v82t
-description: "MoveCost v82t
+title: "Service move cos v82"
+description: "MoveCost v82t"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -1,6 +1,6 @@
 ---
-title: Container event v82s
-description: "ContainerEvent v82s
+title: "Container event v82s"
+description: "ContainerEvent v82s"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -1,5 +1,5 @@
 ---
-title: "Authenticating Service Fabric REST Requests"
+title: "Authenticating Service Fabric REST Requests v8.2"
 ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Authenticating Service Fabric REST Requests
+# Authenticating Service Fabric REST Requests v8.2
 A Service Fabric cluster can be secured using X.509 certificates, Kerberos, or a combination of X.509 certificates and Kerberos. This article describes:  
   
 -   How to edit the cluster manifest to make the HttpGatewayEndpoints (REST endpoint) adhere the specific security solution.  

@@ -1,10 +1,10 @@
 ---
-title: "Service fabric client table of contents v8.1 v82"
+title: "Service fabric client table of contents v82"
 description: Service Fabric client table of content v82"
 ms.service: "service-fabric"
 ---
 
-# [Service Fabric Client APIs](sfclient-v82-index.md)
+# [Service Fabric Client APIs v8.2](sfclient-v82-index.md)
 ## [Authenticating Service Fabric REST Requests](sfclient-v82-authenticating-service-fabric-rest-requests.md)
 ## [Service Fabric Names and JSON Serialization](sfclient-v82-service-fabric-names-and-json-serialization.md)
 ## [Status and Error Codes](sfclient-v82-status-and-error-codes.md)
