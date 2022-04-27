@@ -14343,6 +14343,12 @@
 #### [List All](purview/scanningdataplane/Classification-Rules/List-All.yml)
 #### [List Versions By Classification Rule Name](purview/scanningdataplane/Classification-Rules/List-Versions-By-Classification-Rule-Name.yml)
 #### [Tag Classification Version](purview/scanningdataplane/Classification-Rules/Tag-Classification-Version.yml)
+### Credential
+#### [Overview](purview/scanningdataplane/Credential.yml)
+#### [Create Or Update](purview/scanningdataplane/Credential/Create-Or-Update.yml)
+#### [Delete](purview/scanningdataplane/Credential/Delete.yml)
+#### [Get](purview/scanningdataplane/Credential/Get.yml)
+#### [List All](purview/scanningdataplane/Credential/List-All.yml)
 ### Data Sources
 #### [Overview](purview/scanningdataplane/Data-Sources.yml)
 #### [Create Or Update](purview/scanningdataplane/Data-Sources/Create-Or-Update.yml)
