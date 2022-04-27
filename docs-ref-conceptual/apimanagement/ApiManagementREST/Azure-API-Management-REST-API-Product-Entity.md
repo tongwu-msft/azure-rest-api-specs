@@ -1,5 +1,5 @@
 ---
-title: "Azure API Management REST API - Product Entity"
+title: "Azure API Management REST API - Product entity"
 description: Reference documentation for the Azure API Management REST API 'Product' entity.
 ms.custom: na
 ms.date: 09/22/2016
