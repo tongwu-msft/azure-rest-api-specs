@@ -19,9 +19,9 @@ Azure Load Testing REST APIs provide operations for working with the following:
 
 | Operation group | Description                                                        |
 | --------------- | ------------------------------------------------------------------ |
-| [Load Test Resource](/rest/api/loadtesting/preview/load-tests) | Provides operations for managing Azure Load testing resources. |
-| [App Component](/rest/api/loadtesting/data-plane/app-component) | Provides operations for managing app components. |
-| [File](/rest/api/loadtesting/data-plane/file) | Provides operations for validating files. |
-| [Server Metrics](/rest/api/loadtesting/data-plane/server-metrics) | Provides operations for server metrics. |
-| [Test](/rest/api/loadtesting/data-plane/test) | Provides operations for managing tests. |
-| [Test Run](/rest/api/loadtesting/data-plane/test-run) | Provides operations for managing test runs. |
+| [Load Test Resource](/rest/api/loadtesting/resourcemanager/load-test-resource) | Provides operations for managing Azure Load testing resources. |
+| [App Component](/rest/api/loadtesting/dataplane/app-component) | Provides operations for managing app components. |
+| [File](/rest/api/loadtesting/dataplane/file) | Provides operations for validating files. |
+| [Server Metrics](/rest/api/loadtesting/dataplane/server-metrics) | Provides operations for server metrics. |
+| [Test](/rest/api/loadtesting/dataplane/test) | Provides operations for managing tests. |
+| [Test Run](/rest/api/loadtesting/dataplane/test-run) | Provides operations for managing test runs. |
