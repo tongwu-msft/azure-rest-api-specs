@@ -20,7 +20,7 @@ To start extracting insights with Azure Video Indexer, you need to create an acc
 | Operation group | Description |
 |-------------------------------|-----------------------------------------------------------------------------------------|
 | [Accounts](/rest/api/videoindexer/accounts) | Provides operations for working with Azure Video Indexer accounts |
-| [Generate](/rest/api/videoindexer/generate) | Provides operations for working with Azure Video Analyzer Indexer access tokens |
+| [Generate](/rest/api/videoindexer/generate) | Provides operations for working with Azure Video Indexer access tokens |
 | [Operations](/rest/api/videoindexer/operations) | Lists available operations for the Microsoft.VideoIndexer provider. |
 
 
