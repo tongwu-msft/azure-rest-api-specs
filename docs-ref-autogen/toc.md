@@ -10075,6 +10075,12 @@
 ### [Overview](expressroute/Express-Route-Links.yml)
 ### [Get](expressroute/Express-Route-Links/Get.yml)
 ### [List](expressroute/Express-Route-Links/List.yml)
+## Express Route Port Authorizations
+### [Overview](expressroute/Express-Route-Port-Authorizations.yml)
+### [Create Or Update](expressroute/Express-Route-Port-Authorizations/Create-Or-Update.yml)
+### [Delete](expressroute/Express-Route-Port-Authorizations/Delete.yml)
+### [Get](expressroute/Express-Route-Port-Authorizations/Get.yml)
+### [List](expressroute/Express-Route-Port-Authorizations/List.yml)
 ## Express Route Ports
 ### [Overview](expressroute/Express-Route-Ports.yml)
 ### [Create Or Update](expressroute/Express-Route-Ports/Create-Or-Update.yml)
@@ -23754,6 +23760,7 @@
 ### [Get](virtualnetwork/Firewall-Policies/Get.yml)
 ### [List](virtualnetwork/Firewall-Policies/List.yml)
 ### [List All](virtualnetwork/Firewall-Policies/List-All.yml)
+### [Update Tags](virtualnetwork/Firewall-Policies/Update-Tags.yml)
 ## Firewall Policy Idps Signatures
 ### [Overview](virtualnetwork/Firewall-Policy-Idps-Signatures.yml)
 ### [List](virtualnetwork/Firewall-Policy-Idps-Signatures/List.yml)
@@ -24024,6 +24031,11 @@
 ### [List By Subscription](virtualnetwork/Web-Categories/List-By-Subscription.yml)
 # Virtual WAN
 ## [Overview](../docs-ref-conceptual/virtualwan/index.md)
+## ConfigurationPolicyGroups 2
+### [Overview](virtualwan/ConfigurationPolicyGroups%202.yml)
+### [Create Or Update](virtualwan/ConfigurationPolicyGroups%202/Create-Or-Update.yml)
+### [Delete](virtualwan/ConfigurationPolicyGroups%202/Delete.yml)
+### [Get](virtualwan/ConfigurationPolicyGroups%202/Get.yml)
 ## Express Route Connections
 ### [Overview](virtualwan/Express-Route-Connections.yml)
 ### [Create Or Update](virtualwan/Express-Route-Connections/Create-Or-Update.yml)
@@ -24172,6 +24184,9 @@
 ## Vpn Sites Configuration
 ### [Overview](virtualwan/Vpn-Sites-Configuration.yml)
 ### [Download](virtualwan/Vpn-Sites-Configuration/Download.yml)
+## configuration Policy Groups
+### [Overview](virtualwan/configuration-Policy-Groups.yml)
+### [List By Vpn Server Configuration](virtualwan/configuration-Policy-Groups/List-By-Vpn-Server-Configuration.yml)
 ## generatevirtualwanvpnserverconfigurationvpnprofile
 ### [Overview](virtualwan/generatevirtualwanvpnserverconfigurationvpnprofile.yml)
 ### [generatevirtualwanvpnserverconfigurationvpnprofile](virtualwan/generatevirtualwanvpnserverconfigurationvpnprofile/generatevirtualwanvpnserverconfigurationvpnprofile.yml)
