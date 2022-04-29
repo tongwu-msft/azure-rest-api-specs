@@ -3,14 +3,14 @@ uid: management.azure.com.compute.disks.grantaccess
 name: Grant Access
 service: Compute
 groupName: Disks
-apiVersion: 2020-12-01
+apiVersion: 2021-12-01
 summary: Grants access to a disk.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/beginGetAccess?api-version=2020-12-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/beginGetAccess?api-version=2021-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: diskName
   in: path
   isRequired: true
-  description: The name of the managed disk that is being created. The name can't be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+  description: The name of the managed disk that is being created. The name can't be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
   types:
   - uid: string
 - name: api-version
@@ -58,6 +58,11 @@ requestBody:
     description: Time duration in seconds until the SAS access expires.
     types:
     - uid: integer
+  - name: getSecureVMGuestStateSAS
+    in: body
+    description: Set this flag to true to get additional SAS for VM guest state
+    types:
+    - uid: boolean
 requestHeader: []
 definitions:
 - name: AccessUri
@@ -67,6 +72,11 @@ definitions:
   - name: accessSAS
     isReadyOnly: true
     description: A SAS uri for accessing a disk.
+    types:
+    - uid: string
+  - name: securityDataAccessSAS
+    isReadyOnly: true
+    description: A SAS uri for accessing a VM guest state.
     types:
     - uid: string
 - name: GrantAccessData
@@ -81,6 +91,10 @@ definitions:
     description: Time duration in seconds until the SAS access expires.
     types:
     - uid: integer
+  - name: getSecureVMGuestStateSAS
+    description: Set this flag to true to get additional SAS for VM guest state
+    types:
+    - uid: boolean
 - name: AccessLevel
   kind: enum
   properties:
@@ -96,7 +110,7 @@ definitions:
 examples:
 - name: Get a sas on a managed disk.
   request:
-    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk/beginGetAccess?api-version=2020-12-01
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk/beginGetAccess?api-version=2021-12-01
     body: >-
       {
         "access": "Read",
@@ -107,6 +121,23 @@ examples:
     body: >-
       {
         "accessSAS": "https://md-gpvmcxzlzxgd.partition.blob.storage.azure.net/xx3cqcx53f0v/abcd?sv=2014-02-14&sr=b&sk=key1&sig=XXX&st=2021-05-24T18:02:34Z&se=2021-05-24T18:19:14Z&sp=r"
+      }
+  - statusCode: "202"
+- name: Get sas on managed disk and VM guest state
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk/beginGetAccess?api-version=2021-12-01
+    body: >-
+      {
+        "access": "Read",
+        "durationInSeconds": 300,
+        "getSecureVMGuestStateSAS": true
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "accessSAS": "https://md-gpvmcxzlzxgd.partition.blob.storage.azure.net/xx3cqcx53f0v/abcd?sv=2014-02-14&sr=b&sk=key1&sig=XXX&st=2021-05-24T18:02:34Z&se=2021-05-24T18:19:14Z&sp=r",
+        "securityDataAccessSAS": "https://md-gpvmcxzlzxgd.partition.blob.storage.azure.net/xx3cqcx53f0v/b9bf5824-6122-49e0-ba22-042f76ccd8a1_vmgs?sv=2014-02-14&sr=b&sk=key1&sig=XXX&st=2021-05-24T18:02:34Z&se=2021-05-24T18:19:14Z&sp=r"
       }
   - statusCode: "202"
 security:
