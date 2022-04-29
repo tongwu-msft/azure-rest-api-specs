@@ -3,14 +3,14 @@ uid: management.azure.com.compute.diskaccesses.get
 name: Get
 service: Compute
 groupName: Disk Accesses
-apiVersion: 2020-12-01
+apiVersion: 2021-12-01
 summary: Gets information about a disk access resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}?api-version=2020-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}?api-version=2021-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: diskAccessName
   in: path
   isRequired: true
-  description: The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+  description: The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
   types:
   - uid: string
 - name: api-version
@@ -51,6 +51,10 @@ definitions:
   description: disk access resource.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location where the disk access will be created. Extended location cannot be changed.
+    types:
+    - uid: ExtendedLocation
   - name: properties.privateEndpointConnections
     isReadyOnly: true
     description: A readonly collection of private endpoint connections created on the disk. Currently only one endpoint connection is supported.
@@ -102,6 +106,18 @@ definitions:
     description: Api error.
     types:
     - uid: ApiError
+- name: ExtendedLocation
+  description: The complex type of the extended location.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: PrivateEndpointConnection
   description: The Private Endpoint Connection resource.
   kind: object
@@ -158,6 +174,13 @@ definitions:
     - uid: string
   - name: message
     description: The error message.
+    types:
+    - uid: string
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
     types:
     - uid: string
 - name: PrivateEndpoint
@@ -245,7 +268,7 @@ definitions:
 examples:
 - name: Get information about a disk access resource.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/myDiskAccess?api-version=2020-12-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/myDiskAccess?api-version=2021-12-01
   responses:
   - statusCode: "200"
     body: >-
@@ -265,7 +288,7 @@ examples:
       }
 - name: Get information about a disk access resource with private endpoints.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/myDiskAccess?api-version=2020-12-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/myDiskAccess?api-version=2021-12-01
   responses:
   - statusCode: "200"
     body: >-
