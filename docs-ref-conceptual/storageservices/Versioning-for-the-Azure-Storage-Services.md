@@ -3,7 +3,7 @@ title: Versioning for the Azure Storage services
 description: The Azure Storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.
 author: seanmcc-msft
 
-ms.date: 11/02/2021
+ms.date: 03/15/2022
 ms.service: storage
 ms.topic: reference
 ms.author: seanmcc
@@ -15,13 +15,17 @@ The Microsoft Azure storage services support multiple versions. To make a reques
   
 The current version of the Azure storage services is 2021-04-10, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
 
-## Version 2021-04-10
+## Version 2021-06-08
 
-The 2021-04-10 service version includes the following features:
+The 2021-06-08 service version includes the following features:
 
-- A new API [Rename File](rename-file.md) allowing a file to be renamed.
-- A new API [Rename Directory](rename-directory.md) allowing a directory to be renamed.
-- A new API [Find Blobs by Tag on Container](find-blobs-by-tags-container.md) allowing finding blobs by tag on the container level.
+- The ability to set `x-ms-change-time` was added to [Create File](Create-File.md), [Create Directory](Create-Directory.md), [Set File Properties](Set-File-Properties.md), [Set Directory Properties](Set-Directory-Properties.md), [Rename File](Rename-File.md), and [Rename Directory](Rename-Directory.md).
+- The ability to set `x-ms-file-last-write-time` was added to [File Put Range](Put-Range.md) and [File Put Range from URL](put-range-from-url.md).
+- The headers `x-ms-file-permission`, `x-ms-file-permission-key`, `x-ms-file-attributes`, `x-ms-file-creation-time`, and `x-ms-file-last-write-time` are now optional for [Create File](Create-File.md), [Create Directory](Create-Directory.md), [Set File Properties](Set-File-Properties.md), and [Set Directory Properties](set-directory-properties.md).
+- The ability to set the `x-ms-content-type` header when calling [Rename File](Rename-File.md).
+- The ability to copy source blob tags when calling [Copy Blob from URL](copy-blob-from-url.md) and [Put Blob from URL](put-blob-from-url.md).
+- The `marker` and `maxresults` request URI parameters were added to [Get Page Ranges](Get-Page-Ranges.md), enabling pagination.
+- For Hierarchical Namespace enabled accounts, [List Blobs](List-Blobs.md) now returns the `Placeholder` properties element in the `BlobPrefix` element for placeholder directories when listing deleted blobs with a delimiter.
 
 ## Specifying service versions in requests  
 

@@ -32,10 +32,10 @@ To list active role assignments (list access), you can use one of the [Role Assi
 1. Start with the following request:
 
     ```http
-    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleInstances?api-version=2020-10-01-preview&$filter={filter}
+    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleInstances?api-version=2020-10-01&$filter={filter}
     ```    
     ```http
-    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentSchedules?api-version=2020-10-01-preview&$filter={filter}
+    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentSchedules?api-version=2020-10-01&$filter={filter}
     ```    
 
 1. Within the URI, replace *{scope}* with the scope for which you want to list the role assignments.
