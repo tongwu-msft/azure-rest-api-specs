@@ -1,11 +1,12 @@
 ---
 title: Application Insights REST API | Microsoft Docs
+description: Learn about the Application Insights REST API and how REST API functions are available for Azure Application Insights. 
 author: rboucher
 ms.author: robb
 ms.manager: carmonm
 ms.date: 08/29/2017
 ms.topic: reference
-ms.service: Azure
+ms.service: azure
 ms.devlang: rest-api
 service_description: 
 ---

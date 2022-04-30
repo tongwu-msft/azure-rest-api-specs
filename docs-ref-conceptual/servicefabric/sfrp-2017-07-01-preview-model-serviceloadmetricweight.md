@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceLoadMetricWeight enum
+# Service load metric weight configuration
 
 type: string
 

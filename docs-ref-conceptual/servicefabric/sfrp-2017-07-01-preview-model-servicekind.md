@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceKind enum
+# Service kinds and values
 
 type: string
 

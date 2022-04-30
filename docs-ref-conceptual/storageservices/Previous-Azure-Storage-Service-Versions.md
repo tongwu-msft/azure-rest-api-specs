@@ -17,6 +17,8 @@ The current version of the Azure storage services is 2021-04-10, and using that 
   
  Additional supported versions include:
 
+-   [Version 2021-04-10](version-2021-04-10.md)
+
 -   [Version 2021-02-12](version-2021-02-12.md)
 
 -   [Version 2020-12-06](version-2020-12-06.md)

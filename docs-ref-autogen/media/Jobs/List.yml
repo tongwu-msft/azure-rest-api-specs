@@ -3,15 +3,15 @@ uid: management.azure.com.media.jobs.list
 name: List
 service: Media Services
 groupName: Jobs
-apiVersion: 2021-06-01
+apiVersion: 2021-11-01
 summary: "List Jobs  \nLists all of the Jobs for the Transform."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs?api-version=2021-06-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs?api-version=2021-06-01&$filter={$filter}&$orderby={$orderby}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs?api-version=2021-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs?api-version=2021-11-01&$filter={$filter}&$orderby={$orderby}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -806,7 +806,7 @@ definitions:
   kind: object
   properties:
   - name: configurations
-    description: PresetConfigurations are only supported for the ContentAwareEncoding and H265ContentAwareEncoding built-in presets. These settings will not affect other built-in or custom defined presets.
+    description: Optional configuration settings for encoder. Configurations is only supported for ContentAwareEncoding and H265ContentAwareEncoding BuiltInStandardEncoderPreset.
     types:
     - uid: PresetConfigurations
   - name: presetName
@@ -1447,10 +1447,6 @@ definitions:
   description: Describes all the properties for encoding a video with the H.264 codec.
   kind: object
   properties:
-  - name: sceneChangeDetection
-    description: Whether or not the encoder should insert key frames at scene changes. If not specified, the default is false. This flag should be set to true only when the encoder is being configured to produce a single output video.
-    types:
-    - uid: boolean
   - name: complexity
     description: Tells the encoder how to choose its encoding settings. The default value is Balanced.
     types:
@@ -1460,6 +1456,14 @@ definitions:
     types:
     - uid: H264Layer
       isArray: true
+  - name: rateControlMode
+    description: The video rate control mode
+    types:
+    - uid: H264RateControlMode
+  - name: sceneChangeDetection
+    description: Whether or not the encoder should insert key frames at scene changes. If not specified, the default is false. This flag should be set to true only when the encoder is being configured to produce a single output video.
+    types:
+    - uid: boolean
   - name: keyFrameInterval
     description: The distance between two key frames. The value should be non-zero in the range [0.5, 20] seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow the input source setting.
     types:
@@ -1933,6 +1937,10 @@ definitions:
     description: The VBV buffer window length. The value should be in ISO 8601 format. The value should be in the range [0.1-100] seconds. The default is 5 seconds (for example, PT5S).
     types:
     - uid: string
+  - name: crf
+    description: The value of CRF to be used when encoding this layer. This setting takes effect when RateControlMode of video codec is set at CRF mode. The range of CRF value is between 0 and 51, where lower values would result in better quality, at the expense of higher file sizes. Higher values mean more compression, but at some point quality degradation will be noticed. Default value is 28.
+    types:
+    - uid: number
   - name: referenceFrames
     description: The number of reference frames to be used when encoding this layer. If not specified, the encoder determines an appropriate number based on the encoder complexity setting.
     types:
@@ -1961,11 +1969,6 @@ definitions:
     description: Specifies whether or not adaptive B-frames are to be used when encoding this layer. If not specified, the encoder will turn it on whenever the video profile permits its use.
     types:
     - uid: boolean
-  - name: '@odata.type'
-    description: The discriminator for derived types.
-    types:
-    - uid: '#Microsoft.Media.H265Layer'
-    typesTitle: string
   - name: width
     description: The width of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in width as the input.
     types:
@@ -2010,6 +2013,10 @@ definitions:
     description: The VBV buffer window length. The value should be in ISO 8601 format. The value should be in the range [0.1-100] seconds. The default is 5 seconds (for example, PT5S).
     types:
     - uid: string
+  - name: crf
+    description: The value of CRF to be used when encoding this layer. This setting takes effect when RateControlMode of video codec is set at CRF mode. The range of CRF value is between 0 and 51, where lower values would result in better quality, at the expense of higher file sizes. Higher values mean more compression, but at some point quality degradation will be noticed. Default value is 23.
+    types:
+    - uid: number
   - name: referenceFrames
     description: The number of reference frames to be used when encoding this layer. If not specified, the encoder determines an appropriate number based on the encoder complexity setting.
     types:
@@ -2042,11 +2049,6 @@ definitions:
     description: Whether or not adaptive B-frames are to be used when encoding this layer. If not specified, the encoder will turn it on whenever the video profile permits its use.
     types:
     - uid: boolean
-  - name: '@odata.type'
-    description: The discriminator for derived types.
-    types:
-    - uid: '#Microsoft.Media.H264Layer'
-    typesTitle: string
   - name: width
     description: The width of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in width as the input.
     types:
@@ -2059,6 +2061,22 @@ definitions:
     description: The alphanumeric label for this layer, which can be used in multiplexing different video and audio layers, or in naming the output file.
     types:
     - uid: string
+- name: H264RateControlMode
+  description: The video rate control mode
+  kind: enum
+  properties:
+  - name: ABR
+    description: 'Average Bitrate (ABR) mode that hits the target bitrate: Default mode.'
+    types:
+    - uid: string
+  - name: CBR
+    description: Constant Bitrate (CBR) mode that tightens bitrate variations around target bitrate.
+    types:
+    - uid: string
+  - name: CRF
+    description: Constant Rate Factor (CRF) mode that targets at constant subjective quality.
+    types:
+    - uid: string
 - name: JpgLayer
   description: Describes the settings to produce a JPEG image from the input video.
   kind: object
@@ -2067,11 +2085,6 @@ definitions:
     description: The compression quality of the JPEG output. Range is from 0-100 and the default is 70.
     types:
     - uid: integer
-  - name: '@odata.type'
-    description: The discriminator for derived types.
-    types:
-    - uid: '#Microsoft.Media.JpgLayer'
-    typesTitle: string
   - name: width
     description: The width of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in width as the input.
     types:
@@ -2088,11 +2101,6 @@ definitions:
   description: Describes the settings to produce a PNG image from the input video.
   kind: object
   properties:
-  - name: '@odata.type'
-    description: The discriminator for derived types.
-    types:
-    - uid: '#Microsoft.Media.PngLayer'
-    typesTitle: string
   - name: width
     description: The width of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in width as the input.
     types:
@@ -2142,6 +2150,10 @@ definitions:
     description: Main profile (https://x265.readthedocs.io/en/default/cli.html?highlight=profile#profile-level-tier)
     types:
     - uid: string
+  - name: Main10
+    description: Main 10 profile (https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding#Main_10)
+    types:
+    - uid: string
 - name: H264VideoProfile
   description: We currently support Baseline, Main, High, High422, High444. Default is Auto.
   kind: enum
@@ -2185,7 +2197,7 @@ definitions:
 examples:
 - name: Lists all of the Jobs for the Transform.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2021-06-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2021-11-01
   responses:
   - statusCode: "200"
     body: >-
@@ -2196,7 +2208,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job1",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2021-06-01T00:00:00Z",
+              "created": "2021-11-01T00:00:00Z",
               "state": "Queued",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -2209,7 +2221,7 @@ examples:
                   }
                 ]
               },
-              "lastModified": "2021-06-01T00:00:00Z",
+              "lastModified": "2021-11-01T00:00:00Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
@@ -2225,10 +2237,10 @@ examples:
             "systemData": {
               "createdBy": "contoso@microsoft.com",
               "createdByType": "User",
-              "createdAt": "2021-06-01T00:00:00Z",
+              "createdAt": "2021-11-01T00:00:00Z",
               "lastModifiedBy": "contoso@microsoft.com",
               "lastModifiedByType": "User",
-              "lastModifiedAt": "2021-06-01T00:00:00Z"
+              "lastModifiedAt": "2021-11-01T00:00:00Z"
             }
           },
           {
@@ -2236,7 +2248,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2021-06-01T00:00:00Z",
+              "created": "2021-11-01T00:00:00Z",
               "state": "Processing",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -2249,7 +2261,7 @@ examples:
                   }
                 ]
               },
-              "lastModified": "2021-06-01T00:00:00Z",
+              "lastModified": "2021-11-01T00:00:00Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
@@ -2267,10 +2279,10 @@ examples:
             "systemData": {
               "createdBy": "contoso@microsoft.com",
               "createdByType": "User",
-              "createdAt": "2021-06-01T00:00:00Z",
+              "createdAt": "2021-11-01T00:00:00Z",
               "lastModifiedBy": "contoso@microsoft.com",
               "lastModifiedByType": "User",
-              "lastModifiedAt": "2021-06-01T00:00:00Z"
+              "lastModifiedAt": "2021-11-01T00:00:00Z"
             }
           },
           {
@@ -2278,7 +2290,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2021-06-01T00:00:00Z",
+              "created": "2021-11-01T00:00:00Z",
               "state": "Finished",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -2291,7 +2303,7 @@ examples:
                   }
                 ]
               },
-              "lastModified": "2021-06-01T00:00:00Z",
+              "lastModified": "2021-11-01T00:00:00Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
@@ -2311,17 +2323,17 @@ examples:
             "systemData": {
               "createdBy": "contoso@microsoft.com",
               "createdByType": "User",
-              "createdAt": "2021-06-01T00:00:00Z",
+              "createdAt": "2021-11-01T00:00:00Z",
               "lastModifiedBy": "contoso@microsoft.com",
               "lastModifiedByType": "User",
-              "lastModifiedAt": "2021-06-01T00:00:00Z"
+              "lastModifiedAt": "2021-11-01T00:00:00Z"
             }
           }
         ]
       }
 - name: Lists Jobs for the Transform filter by name.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2021-06-01&$filter=name eq 'job1' or name eq 'job2'&$orderby=name
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2021-11-01&$filter=name eq 'job1' or name eq 'job2'&$orderby=name
   responses:
   - statusCode: "200"
     body: >-
@@ -2332,7 +2344,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job1",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2021-06-01T00:00:00Z",
+              "created": "2021-11-01T00:00:00Z",
               "state": "Queued",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -2345,7 +2357,7 @@ examples:
                   }
                 ]
               },
-              "lastModified": "2021-06-01T00:00:00Z",
+              "lastModified": "2021-11-01T00:00:00Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
@@ -2361,10 +2373,10 @@ examples:
             "systemData": {
               "createdBy": "contoso@microsoft.com",
               "createdByType": "User",
-              "createdAt": "2021-06-01T00:00:00Z",
+              "createdAt": "2021-11-01T00:00:00Z",
               "lastModifiedBy": "contoso@microsoft.com",
               "lastModifiedByType": "User",
-              "lastModifiedAt": "2021-06-01T00:00:00Z"
+              "lastModifiedAt": "2021-11-01T00:00:00Z"
             }
           },
           {
@@ -2372,7 +2384,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2021-06-01T00:00:00Z",
+              "created": "2021-11-01T00:00:00Z",
               "state": "Processing",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -2385,7 +2397,7 @@ examples:
                   }
                 ]
               },
-              "lastModified": "2021-06-01T00:00:00Z",
+              "lastModified": "2021-11-01T00:00:00Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
@@ -2403,17 +2415,17 @@ examples:
             "systemData": {
               "createdBy": "contoso@microsoft.com",
               "createdByType": "User",
-              "createdAt": "2021-06-01T00:00:00Z",
+              "createdAt": "2021-11-01T00:00:00Z",
               "lastModifiedBy": "contoso@microsoft.com",
               "lastModifiedByType": "User",
-              "lastModifiedAt": "2021-06-01T00:00:00Z"
+              "lastModifiedAt": "2021-11-01T00:00:00Z"
             }
           }
         ]
       }
 - name: Lists Jobs for the Transform filter by state equal.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2021-06-01&$filter=properties/state eq Microsoft.Media.JobState'Processing'
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2021-11-01&$filter=properties/state eq Microsoft.Media.JobState'Processing'
   responses:
   - statusCode: "200"
     body: >-
@@ -2424,7 +2436,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2021-06-01T00:00:00Z",
+              "created": "2021-11-01T00:00:00Z",
               "state": "Processing",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -2437,7 +2449,7 @@ examples:
                   }
                 ]
               },
-              "lastModified": "2021-06-01T00:00:00Z",
+              "lastModified": "2021-11-01T00:00:00Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
@@ -2455,10 +2467,10 @@ examples:
             "systemData": {
               "createdBy": "contoso@microsoft.com",
               "createdByType": "User",
-              "createdAt": "2021-06-01T00:00:00Z",
+              "createdAt": "2021-11-01T00:00:00Z",
               "lastModifiedBy": "contoso@microsoft.com",
               "lastModifiedByType": "User",
-              "lastModifiedAt": "2021-06-01T00:00:00Z"
+              "lastModifiedAt": "2021-11-01T00:00:00Z"
             }
           },
           {
@@ -2466,7 +2478,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2021-06-01T00:00:00Z",
+              "created": "2021-11-01T00:00:00Z",
               "state": "Processing",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -2479,7 +2491,7 @@ examples:
                   }
                 ]
               },
-              "lastModified": "2021-06-01T00:00:00Z",
+              "lastModified": "2021-11-01T00:00:00Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
@@ -2497,17 +2509,17 @@ examples:
             "systemData": {
               "createdBy": "contoso@microsoft.com",
               "createdByType": "User",
-              "createdAt": "2021-06-01T00:00:00Z",
+              "createdAt": "2021-11-01T00:00:00Z",
               "lastModifiedBy": "contoso@microsoft.com",
               "lastModifiedByType": "User",
-              "lastModifiedAt": "2021-06-01T00:00:00Z"
+              "lastModifiedAt": "2021-11-01T00:00:00Z"
             }
           }
         ]
       }
 - name: Lists Jobs for the Transform filter by state not equal.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2021-06-01&$filter=properties/state ne Microsoft.Media.JobState'processing'
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2021-11-01&$filter=properties/state ne Microsoft.Media.JobState'processing'
   responses:
   - statusCode: "200"
     body: >-
@@ -2518,7 +2530,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job1",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2021-06-01T00:00:00Z",
+              "created": "2021-11-01T00:00:00Z",
               "state": "Queued",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -2531,7 +2543,7 @@ examples:
                   }
                 ]
               },
-              "lastModified": "2021-06-01T00:00:00Z",
+              "lastModified": "2021-11-01T00:00:00Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
@@ -2547,10 +2559,10 @@ examples:
             "systemData": {
               "createdBy": "contoso@microsoft.com",
               "createdByType": "User",
-              "createdAt": "2021-06-01T00:00:00Z",
+              "createdAt": "2021-11-01T00:00:00Z",
               "lastModifiedBy": "contoso@microsoft.com",
               "lastModifiedByType": "User",
-              "lastModifiedAt": "2021-06-01T00:00:00Z"
+              "lastModifiedAt": "2021-11-01T00:00:00Z"
             }
           },
           {
@@ -2558,7 +2570,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job4",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2021-06-01T00:00:00Z",
+              "created": "2021-11-01T00:00:00Z",
               "state": "Finished",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -2571,7 +2583,7 @@ examples:
                   }
                 ]
               },
-              "lastModified": "2021-06-01T00:00:00Z",
+              "lastModified": "2021-11-01T00:00:00Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
@@ -2591,17 +2603,17 @@ examples:
             "systemData": {
               "createdBy": "contoso@microsoft.com",
               "createdByType": "User",
-              "createdAt": "2021-06-01T00:00:00Z",
+              "createdAt": "2021-11-01T00:00:00Z",
               "lastModifiedBy": "contoso@microsoft.com",
               "lastModifiedByType": "User",
-              "lastModifiedAt": "2021-06-01T00:00:00Z"
+              "lastModifiedAt": "2021-11-01T00:00:00Z"
             }
           }
         ]
       }
 - name: Lists Jobs for the Transform filter by name and state.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2021-06-01&$filter=name eq 'job3' and properties/state eq Microsoft.Media.JobState'finished'
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2021-11-01&$filter=name eq 'job3' and properties/state eq Microsoft.Media.JobState'finished'
   responses:
   - statusCode: "200"
     body: >-
@@ -2612,7 +2624,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2021-06-01T00:00:00Z",
+              "created": "2021-11-01T00:00:00Z",
               "state": "Finished",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -2625,7 +2637,7 @@ examples:
                   }
                 ]
               },
-              "lastModified": "2021-06-01T00:00:00Z",
+              "lastModified": "2021-11-01T00:00:00Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
@@ -2645,17 +2657,17 @@ examples:
             "systemData": {
               "createdBy": "contoso@microsoft.com",
               "createdByType": "User",
-              "createdAt": "2021-06-01T00:00:00Z",
+              "createdAt": "2021-11-01T00:00:00Z",
               "lastModifiedBy": "contoso@microsoft.com",
               "lastModifiedByType": "User",
-              "lastModifiedAt": "2021-06-01T00:00:00Z"
+              "lastModifiedAt": "2021-11-01T00:00:00Z"
             }
           }
         ]
       }
 - name: Lists Jobs for the Transform filter by created.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2021-06-01&$filter=properties/created ge 2021-06-01T00:00:10.0000000Z and properties/created le 2021-06-01T00:00:20.0000000Z&$orderby=properties/created
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2021-11-01&$filter=properties/created ge 2021-11-01T00:00:10.0000000Z and properties/created le 2021-11-01T00:00:20.0000000Z&$orderby=properties/created
   responses:
   - statusCode: "200"
     body: >-
@@ -2666,7 +2678,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2021-06-01T00:00:10Z",
+              "created": "2021-11-01T00:00:10Z",
               "state": "Processing",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -2679,7 +2691,7 @@ examples:
                   }
                 ]
               },
-              "lastModified": "2021-06-01T00:00:10Z",
+              "lastModified": "2021-11-01T00:00:10Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
@@ -2697,10 +2709,10 @@ examples:
             "systemData": {
               "createdBy": "contoso@microsoft.com",
               "createdByType": "User",
-              "createdAt": "2021-06-01T00:00:10Z",
+              "createdAt": "2021-11-01T00:00:10Z",
               "lastModifiedBy": "contoso@microsoft.com",
               "lastModifiedByType": "User",
-              "lastModifiedAt": "2021-06-01T00:00:10Z"
+              "lastModifiedAt": "2021-11-01T00:00:10Z"
             }
           },
           {
@@ -2708,7 +2720,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2021-06-01T00:00:20Z",
+              "created": "2021-11-01T00:00:20Z",
               "state": "Finished",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -2721,7 +2733,7 @@ examples:
                   }
                 ]
               },
-              "lastModified": "2021-06-01T00:00:20Z",
+              "lastModified": "2021-11-01T00:00:20Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
@@ -2741,17 +2753,17 @@ examples:
             "systemData": {
               "createdBy": "contoso@microsoft.com",
               "createdByType": "User",
-              "createdAt": "2021-06-01T00:00:20Z",
+              "createdAt": "2021-11-01T00:00:20Z",
               "lastModifiedBy": "contoso@microsoft.com",
               "lastModifiedByType": "User",
-              "lastModifiedAt": "2021-06-01T00:00:20Z"
+              "lastModifiedAt": "2021-11-01T00:00:20Z"
             }
           }
         ]
       }
 - name: Lists Jobs for the Transform filter by lastmodified.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2021-06-01&$filter=properties/lastmodified ge 2021-06-01T00:00:10.0000000Z and properties/lastmodified le 2021-06-01T00:00:20.0000000Z&$orderby=properties/lastmodified desc
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2021-11-01&$filter=properties/lastmodified ge 2021-11-01T00:00:10.0000000Z and properties/lastmodified le 2021-11-01T00:00:20.0000000Z&$orderby=properties/lastmodified desc
   responses:
   - statusCode: "200"
     body: >-
@@ -2762,7 +2774,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2021-06-01T00:00:20Z",
+              "created": "2021-11-01T00:00:20Z",
               "state": "Finished",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -2775,7 +2787,7 @@ examples:
                   }
                 ]
               },
-              "lastModified": "2021-06-01T00:00:20Z",
+              "lastModified": "2021-11-01T00:00:20Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
@@ -2795,10 +2807,10 @@ examples:
             "systemData": {
               "createdBy": "contoso@microsoft.com",
               "createdByType": "User",
-              "createdAt": "2021-06-01T00:00:20Z",
+              "createdAt": "2021-11-01T00:00:20Z",
               "lastModifiedBy": "contoso@microsoft.com",
               "lastModifiedByType": "User",
-              "lastModifiedAt": "2021-06-01T00:00:20Z"
+              "lastModifiedAt": "2021-11-01T00:00:20Z"
             }
           },
           {
@@ -2806,7 +2818,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2021-06-01T00:00:10Z",
+              "created": "2021-11-01T00:00:10Z",
               "state": "Processing",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -2819,7 +2831,7 @@ examples:
                   }
                 ]
               },
-              "lastModified": "2021-06-01T00:00:10Z",
+              "lastModified": "2021-11-01T00:00:10Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
@@ -2837,10 +2849,10 @@ examples:
             "systemData": {
               "createdBy": "contoso@microsoft.com",
               "createdByType": "User",
-              "createdAt": "2021-06-01T00:00:10Z",
+              "createdAt": "2021-11-01T00:00:10Z",
               "lastModifiedBy": "contoso@microsoft.com",
               "lastModifiedByType": "User",
-              "lastModifiedAt": "2021-06-01T00:00:10Z"
+              "lastModifiedAt": "2021-11-01T00:00:10Z"
             }
           }
         ]
