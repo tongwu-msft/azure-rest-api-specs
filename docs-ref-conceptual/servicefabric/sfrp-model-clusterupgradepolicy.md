@@ -1,5 +1,6 @@
 ---
 title: "ClusterUpgradePolicy"
+description: "Describe the policy used when upgrading the cluster. Some Properties include forceRestart, upgrade Timeout, and healthCheckWaitDuration."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

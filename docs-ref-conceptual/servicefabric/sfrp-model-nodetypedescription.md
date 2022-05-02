@@ -1,5 +1,6 @@
 ---
 title: "NodeTypeDescription"
+description: "Learn about NodeTypeDescription that describes a node type in the cluster, each node type represents sub set of nodes in the cluster."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
