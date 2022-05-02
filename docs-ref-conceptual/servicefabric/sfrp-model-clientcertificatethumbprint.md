@@ -1,5 +1,6 @@
 ---
 title: "ClientCertificateThumbprint"
+description: "Describes the client certificate details using thumbprint. Properties include isAdmin and certificateThumbprint."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
