@@ -59,7 +59,7 @@ The following table describes required and optional request headers:
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests, but optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-KiB character limit that's recorded in the analytics logs when Storage Analytics logging is enabled. We highly recommend using this header to correlate client-side activities with requests that the server receives. For more information, see [About Storage Analytics logging](About-Storage-Analytics-Logging.md).|
-|`x-ms-handle-id`|Required. Specifies the handle ID to be closed. Use an asterisk ('*') as a wildcard string to specify all handles.|
+|`x-ms-handle-id`|Required. Specifies the handle ID to be closed. Use an asterisk (*) as a wildcard string to specify all handles.|
 |`x-ms-recursive`|Optional. A Boolean value that specifies if the operation should also apply to the files and subdirectories of the directory specified in the URI.|
   
 ### Request body
