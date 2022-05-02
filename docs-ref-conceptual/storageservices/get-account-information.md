@@ -11,13 +11,13 @@ ms.author: pemari
 
 # Get Account Information
 
-The `Get Account Information` operation returns the SKU name and account kind for the specified account. It's available on version `2018-03-28` and later versions of the service.
+The `Get Account Information` operation returns the SKU name and account kind for the specified account. It's available on version 2018-03-28 and later versions of the service.
   
 ## Request 
 
 You can construct the `Get Account Information` request by using a valid request that's authorized through shared key or shared access signature (SAS) authorization.  
 
-If you add a `restype` value of `account` and `comp` value of `properties`, the request will use the `Get Account Information` operation. The following table shows examples.  
+If you add a `restype` value of `account` and a `comp` value of `properties`, the request will use the `Get Account Information` operation. The following table shows examples:  
   
 |Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
@@ -43,7 +43,7 @@ The following table describes required and optional request headers:
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
-|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For this operation, the version must be `2018-03-28` or later. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For this operation, the version must be 2018-03-28 or later. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-KiB character limit that's recorded in the analytics logs when Storage Analytics logging is enabled. We highly recommend using this header to correlate client-side activities with requests that the server receives. For more information, see [About Storage Analytics logging](About-Storage-Analytics-Logging.md).|  
 
 ### Request body  
@@ -67,7 +67,7 @@ The response for this operation includes the following headers. The response mig
 |Response header|Description|  
 |---------------------|-----------------|  
 |`x-ms-request-id`|Uniquely identifies the request that was made. You can use it to troubleshoot the request. For more information, see [Troubleshoot API operations](Troubleshooting-API-Operations.md).|  
-|`x-ms-version`|Version 2009-09-19 and later. Indicates the version of Azure Blob Service that's used to execute the request.|  
+|`x-ms-version`|Version 2009-09-19 and later. Indicates the version of Azure Blob Storage that's used to execute the request.|  
 |`Date`|Indicates the time at which the response started. The service generates this UTC date/time value.|  
 |`Content-Length`| Specifies the length of the request body. For this operation, the content length will always be zero.|  
 |`x-ms-sku-name`|Identifies the [SKU name](../storagerp/SRP_SKU_Types.md) of the specified account.|  
