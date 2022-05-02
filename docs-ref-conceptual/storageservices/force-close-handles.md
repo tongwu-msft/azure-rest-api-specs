@@ -12,9 +12,9 @@ ms.author: wgries
 # Force Close Handles
 The `Force Close Handles` operation closes a handle or handles opened on a directory or a file at the service. It supports closing a single handle specified by handle ID on a file or directory. It also supports closing all handles opened on that resource. It optionally supports recursively closing handles on subresources when the resource is a directory.
 
-This API is intended to be used alongside [List Handles](List-Handles.md) to force close handles that block operations, such as renaming a directory. SMB clients might have leaked or lost track of these handles. The API has client-side impact on the handle that's being closed, including user-visible errors due to failed attempts to read or write files. This API is not intended for use as a replacement or alternative for closing an SMB session.
+You use this operation alongside [List Handles](List-Handles.md) to force-close handles that block operations, such as renaming a directory. SMB clients might have leaked or lost track of these handles. The operation has a client-side impact on the handle that you're closing, including user-visible errors due to failed attempts to read or write files. This operation is not intended for use as a replacement or alternative for closing an SMB session.
 
-This API is available beginning in version 2018-11-09.
+This operation is available in version 2018-11-09 and later.
 
 ## Protocol availability
 
@@ -81,25 +81,25 @@ The response for this operation includes the following headers. The response mig
 |`x-ms-request-id`|Uniquely identifies the request that was made. You can use it to troubleshoot the request. For more information, see [Troubleshoot API operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of Azure Files that's used to execute the request.|  
 |`Date`|Indicates the time at which the response started. The service generates this UTC date/time value. |
-|`x-ms-marker`|A string describing the next handle to be closed. It is returned when more handles need to be closed in order to complete the request. The string is used in subsequent requests to force close remaining handles. Absence of x-ms-marker indicates that all relevant handles were closed.|
-|`x-ms-number-of-handles-closed`|Count of the number of handles closed.|
-|`x-ms-number-of-handles-failed`|Count of the number of handles that failed to be closed.|
+|`x-ms-marker`|Describes the next handle to be closed. This string is returned when more handles need to be closed in order to complete the request. The string is used in subsequent requests to force-close remaining handles. The absence of `x-ms-marker` indicates that all relevant handles were closed.|
+|`x-ms-number-of-handles-closed`|Indicates the number of closed handles.|
+|`x-ms-number-of-handles-failed`|Indicates the number of handles that failed to be closed.|
 |`x-ms-client-request-id`|Can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header, if it's present in the request and the value is at most 1,024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header won't be present in the response.|  
   
-### Response Body
+### Response body
 Empty.
 
 ## Authorization
 Only the account owner can call this operation.  
   
 ## Remarks
-If no handles are closed during processing of requests (for example, supplied x-ms-handle-id specifies an invalid handle, or no open handles were found in the supplied file or directory) results in 200 (OK) status response with `x-ms-number-of-handles-closed=0`.
+If no handles are closed during the processing of requests (for example, the supplied `x-ms-handle-id` value specifies an invalid handle, or no open handles were found in the supplied file or directory) you'll get a 200 (OK) status response with `x-ms-number-of-handles-closed=0`.
 
-The `x-ms-recursive` header is valid only for directories and causes 400 (Bad Request) response if specified for a file.
+The `x-ms-recursive` header is valid only for directories. If you specify it for a file, you'll get a 400 (Bad Request) response.
 
-Force-closing a handle opened with `FILE_FLAG_DELETE_ON_CLOSE` might not cause the file to be deleted.
+Force-closing a handle that was opened with `FILE_FLAG_DELETE_ON_CLOSE` might not cause the file to be deleted.
 
-`x-ms-handle-id` is a service-side handle ID that [List Handles](List-Handles.md) returns. This handle ID is different from the corresponding client-side handle maintained by SMB or by application.
+[List Handles](List-Handles.md) returns the `x-ms-handle-id` service-side handle ID. This handle ID is different from the corresponding client-side handle that SMB or an application maintains.
   
 ## See also
 
