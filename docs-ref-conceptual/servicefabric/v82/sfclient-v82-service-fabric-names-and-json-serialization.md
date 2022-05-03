@@ -1,5 +1,6 @@
 ---
 title: "Service Fabric Names and JSON Serialization v8.2"
+description: "Service Fabric Names and JSON Serialization v81 refers to requests and responses that include names and IDs of the Service Fabric application, service, partition, or replicas."
 ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"

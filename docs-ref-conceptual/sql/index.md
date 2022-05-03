@@ -1,10 +1,11 @@
 ---
 ms.assetid: 709f9922-66f0-4315-ad60-4cac7beb4847
 title: Azure SQL Database REST API reference
+description: "The Azure SQL Database REST API includes operations for managing Azure SQL Database resources."
 ms.service: sql-database
-author: stevestein
+author: JasonWHowell
 ms.date: 03/30/2021
-ms.author: sstein
+ms.author: jasonh
 ms.manager: douge
 service_description: To be added
 ---

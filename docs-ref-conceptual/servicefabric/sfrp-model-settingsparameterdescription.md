@@ -1,5 +1,6 @@
 ---
 title: "SettingsParameterDescription"
+description: "SettingsParameterDescription refers to a parameter in fabric settings of the cluster. Properties are name and value that is parameter name of fabric setting and parameter value of fabric setting."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

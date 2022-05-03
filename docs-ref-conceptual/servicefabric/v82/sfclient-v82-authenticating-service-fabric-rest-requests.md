@@ -1,5 +1,6 @@
 ---
 title: "Authenticating Service Fabric REST Requests v8.2"
+description: "X.509 certificates, Kerberos, or a combination of X.509 certificates and Kerberos can be used to secure a Service Fabric cluster."
 ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"
