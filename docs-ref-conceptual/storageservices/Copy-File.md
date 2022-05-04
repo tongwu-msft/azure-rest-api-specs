@@ -68,6 +68,7 @@ The following table describes required and optional request headers.
 |`x-ms-file-last-write-time`|Optional. Version 2019-07-07 and newer. The Coordinated Universal Time (UTC) last write time property to set on the destination file. A value of `source` may be used to copy the last write time from the source file to the destination file.|
 |`x-ms-file-copy-set-archive`|Optional. Version 2019-07-07 and newer. A boolean value that specifies whether the `Archive` attribute should be set, irrespective of the `x-ms-file-attributes` header value.|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
+| `x-ms-file-change-time: { <DateTime> ¦ source }` | Optional. Version 2021-06-08 and newer. The Coordinated Universal Time (UTC) change time property for the file, formatted in the ISO 8601 format. A value of `source` may be used to copy the change time from the source file to the destination file. The default timestamp is the time of the request. |
 
 ### Request body
 None.
