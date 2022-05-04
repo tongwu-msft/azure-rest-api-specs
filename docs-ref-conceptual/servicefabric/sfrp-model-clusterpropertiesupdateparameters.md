@@ -1,5 +1,7 @@
 ---
 title: "ClusterPropertiesUpdateParameters"
+description: "ClusterPropertiesUpdateParameters describe the cluster resource properties that can be updated during PATCH operation."
+
 ms.date: 06/04/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -1,7 +1,7 @@
 ---
-title: "ContainerEvent"
+title: "Container Event"
 description: "ContainerEvent"
-ms.date: "10/21/2020"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ContainerEvent
+# Container Event
 
 A container event.
 

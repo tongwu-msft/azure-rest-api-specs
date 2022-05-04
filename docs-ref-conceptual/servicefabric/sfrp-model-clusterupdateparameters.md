@@ -1,5 +1,7 @@
 ---
 title: "ClusterUpdateParameters"
+description: "Learn about Cluster update request. Properties include properties and tag. Properties Describes the cluster resource properties that can be updated during PATCH operation."
+ 
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
