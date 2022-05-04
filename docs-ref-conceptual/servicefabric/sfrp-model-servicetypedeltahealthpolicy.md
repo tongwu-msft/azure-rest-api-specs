@@ -12,7 +12,6 @@ helpviewer_keywords:
   - "Service Fabric Resource Manager REST API Reference"
 author: "erikadoyle"
 ms.author: "edoyle"
-manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"

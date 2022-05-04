@@ -5,7 +5,6 @@ description: "Service Map REST API Reference discovers application components on
 ms.service: azure-maps
 author: JasonWHowell
 ms.author: jasonh
-ms.manager: niburlin
 service_description: To be added
 ---
 
