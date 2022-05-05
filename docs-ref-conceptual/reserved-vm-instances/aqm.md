@@ -28,7 +28,7 @@ Using the API, you can:
 
 ## Private Preview
 
-Automated Quota Management API is in **private preview**. Review the [reference](xref:management.azure.com.reserved-vm-instances.autoquotaincrease)  documentation for API details.
+Automated Quota Management API is in **private preview**. Review the [reference](xref:management.azure.com.reserved-vm-instances.quota)  documentation for API details.
 
 > [!IMPORTANT]
 > Automated quota management is in limited preview with select partners and customers through **invitation** only.
