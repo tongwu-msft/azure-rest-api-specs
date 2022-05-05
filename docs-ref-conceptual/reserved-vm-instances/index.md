@@ -5,7 +5,7 @@ author: Onkarb
 ms.author: v-jutao
 ms.date: 11/15/2017
 ms.topic: reference
-ms.service: Azure
+ms.service: api-management
 ms.devlang: rest-api
 ---
 

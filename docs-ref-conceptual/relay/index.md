@@ -15,7 +15,7 @@ ms.devlang: rest-api
 Azure Relay provides cloud-enabled communication with enterprise messaging and relayed communication that helps you connect on-premises solutions with the cloud. 
 
 > [!IMPORTANT]
-> If you are using **"Classic" or RDFE management APIs**, they are [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+> If you are using **"Classic" or RDFE management APIs**, they are [**obsolete and retired**](/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
 
 
 ## REST Operation Groups 
@@ -28,5 +28,5 @@ Azure Relay provides cloud-enabled communication with enterprise messaging and r
 
 ## See also
 
-- [Azure Relay documentation](https://docs.microsoft.com/azure/azure-relay)
+- [Azure Relay documentation](/azure/azure-relay)
 - [Azure Relay code samples on GitHub](https://github.com/Azure/azure-relay/tree/master/samples)
