@@ -2,7 +2,7 @@
 title: Azure Automated Quota Management REST API Reference
 description: API reference documentation for the operations available in the Azure Automated Quota Management REST API, a RESTful web service for managing Azure Automated Quota Management resources in Azure.
 author: onkarb
-ms.author: Taojunshen
+ms.author: v-jutao
 ms.date: 05/27/2020
 ms.topic: reference
 ms.service: api-management
