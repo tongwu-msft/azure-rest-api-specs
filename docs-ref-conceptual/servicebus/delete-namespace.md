@@ -28,7 +28,7 @@ translation.priority.mt:
 # Delete Namespace
 
 > [!IMPORTANT]
-> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+> This API is [**obsolete and retired**](/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
 
 Deletes an existing namespace. This operation also removes all associated entities including queues, topics, relay points, and messages stored under the namespace.  
   

@@ -40,7 +40,7 @@ Discovers messaging entities.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Specifies a Shared Access Signature (SAS) token with "Manage" rights. See [Service Bus authentication with Shared Access Signatures](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas) for details.|  
+|Authorization|Specifies a Shared Access Signature (SAS) token with "Manage" rights. See [Service Bus authentication with Shared Access Signatures](/azure/service-bus-messaging/service-bus-sas) for details.|  
   
 ### Request Body  
  None.  

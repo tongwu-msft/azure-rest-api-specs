@@ -28,7 +28,7 @@ translation.priority.mt:
 # Create Queue
 
 > [!IMPORTANT]
-> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+> This API is [**obsolete and retired**](/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
 
 Creates a new queue. Once created, the queue resource manifest is immutable. This operation is idempotent. Repeating the create call after a queue with same name has been created successfully, results in a 409 Conflict error message.  
   
