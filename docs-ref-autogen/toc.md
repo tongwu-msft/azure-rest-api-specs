@@ -12375,6 +12375,9 @@
 ## Operations
 ### [Overview](managedservices/Operations.yml)
 ### [List](managedservices/Operations/List.yml)
+## Operations With Scope
+### [Overview](managedservices/Operations-With-Scope.yml)
+### [List](managedservices/Operations-With-Scope/List.yml)
 ## Registration Assignments
 ### [Overview](managedservices/Registration-Assignments.yml)
 ### [Create Or Update](managedservices/Registration-Assignments/Create-Or-Update.yml)
