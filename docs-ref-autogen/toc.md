@@ -10676,6 +10676,7 @@
 ### [Get](hybridkubernetes/Connected-Cluster/Get.yml)
 ### [List By Resource Group](hybridkubernetes/Connected-Cluster/List-By-Resource-Group.yml)
 ### [List By Subscription](hybridkubernetes/Connected-Cluster/List-By-Subscription.yml)
+### [List Cluster User Credential](hybridkubernetes/Connected-Cluster/List-Cluster-User-Credential.yml)
 ### [Update](hybridkubernetes/Connected-Cluster/Update.yml)
 ## Operations
 ### [Overview](hybridkubernetes/Operations.yml)
