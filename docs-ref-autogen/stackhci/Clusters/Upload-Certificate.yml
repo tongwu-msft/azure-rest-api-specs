@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.stackhci.clusters.delete
-name: Delete
+uid: management.azure.com.stackhci.clusters.uploadcertificate
+name: Upload Certificate
 service: Azure Stack HCI
 groupName: Clusters
 apiVersion: 2022-05-01
-summary: Delete an HCI cluster.
+summary: Upload certificate.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}?api-version=2022-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/uploadCertificate?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,18 +37,30 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: OK
 - name: 202 Accepted
   description: Accepted
-- name: 204 No Content
-  description: No content
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties
+    in: body
+    description: ''
+    types:
+    - uid: RawCertificateData
 requestHeader: []
 definitions:
+- name: RawCertificateData
+  kind: object
+  properties:
+  - name: certificates
+    description: ''
+    types:
+    - uid: string
+      isArray: true
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -57,6 +69,13 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: UploadCertificateRequest
+  kind: object
+  properties:
+  - name: properties
+    description: ''
+    types:
+    - uid: RawCertificateData
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -103,13 +122,20 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Delete cluster
+- name: Upload certificate
   request:
-    uri: DELETE https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-05-01
+    uri: POST https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster/uploadCertificate?api-version=2022-05-01
+    body: >-
+      {
+        "properties": {
+          "certificates": [
+            "base64cert",
+            "base64cert"
+          ]
+        }
+      }
   responses:
-  - statusCode: "200"
   - statusCode: "202"
-  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2
@@ -120,5 +146,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Stack HCI service - Delete an HCI cluster.
+  description: Learn more about Azure Stack HCI service - Upload certificate.
 errorCodes: []
