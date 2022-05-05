@@ -1,5 +1,5 @@
 ---
-title: "Update"
+title: Service Fabric Update
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Update
+# Service Fabric Update
+
 Updates a Service Fabric application resource.
 
 Update a Service Fabric application resource with the specified name.

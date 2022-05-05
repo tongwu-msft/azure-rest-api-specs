@@ -4,7 +4,7 @@ description: Permanently delete a skillset definition from an Azure Cognitive Se
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: HeidiSteen

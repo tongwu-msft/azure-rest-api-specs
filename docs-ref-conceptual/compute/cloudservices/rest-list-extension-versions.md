@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - List Extension Versions | Microsoft Docs"
+description: Learn how the List Extension Versions operation lists the versions of an extension that are available to add to a cloud service.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

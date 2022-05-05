@@ -4,7 +4,7 @@ description: Indexers are resources that automate many aspects of data ingestion
 ms.date: 03/15/2022
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: HeidiSteen
