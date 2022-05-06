@@ -9398,6 +9398,53 @@
 ### [List](dns/Zones/List.yml)
 ### [List By Resource Group](dns/Zones/List-By-Resource-Group.yml)
 ### [Update](dns/Zones/Update.yml)
+## Dns Resolver
+### Dns Forwarding Rulesets
+#### [Overview](dns/dnsresolver/Dns-Forwarding-Rulesets.yml)
+#### [Create Or Update](dns/dnsresolver/Dns-Forwarding-Rulesets/Create-Or-Update.yml)
+#### [Delete](dns/dnsresolver/Dns-Forwarding-Rulesets/Delete.yml)
+#### [Get](dns/dnsresolver/Dns-Forwarding-Rulesets/Get.yml)
+#### [List](dns/dnsresolver/Dns-Forwarding-Rulesets/List.yml)
+#### [List By Resource Group](dns/dnsresolver/Dns-Forwarding-Rulesets/List-By-Resource-Group.yml)
+#### [List By Virtual Network](dns/dnsresolver/Dns-Forwarding-Rulesets/List-By-Virtual-Network.yml)
+#### [Update](dns/dnsresolver/Dns-Forwarding-Rulesets/Update.yml)
+### Dns Resolvers
+#### [Overview](dns/dnsresolver/Dns-Resolvers.yml)
+#### [Create Or Update](dns/dnsresolver/Dns-Resolvers/Create-Or-Update.yml)
+#### [Delete](dns/dnsresolver/Dns-Resolvers/Delete.yml)
+#### [Get](dns/dnsresolver/Dns-Resolvers/Get.yml)
+#### [List](dns/dnsresolver/Dns-Resolvers/List.yml)
+#### [List By Resource Group](dns/dnsresolver/Dns-Resolvers/List-By-Resource-Group.yml)
+#### [List By Virtual Network](dns/dnsresolver/Dns-Resolvers/List-By-Virtual-Network.yml)
+#### [Update](dns/dnsresolver/Dns-Resolvers/Update.yml)
+### Forwarding Rules
+#### [Overview](dns/dnsresolver/Forwarding-Rules.yml)
+#### [Create Or Update](dns/dnsresolver/Forwarding-Rules/Create-Or-Update.yml)
+#### [Delete](dns/dnsresolver/Forwarding-Rules/Delete.yml)
+#### [Get](dns/dnsresolver/Forwarding-Rules/Get.yml)
+#### [List](dns/dnsresolver/Forwarding-Rules/List.yml)
+#### [Update](dns/dnsresolver/Forwarding-Rules/Update.yml)
+### Inbound Endpoints
+#### [Overview](dns/dnsresolver/Inbound-Endpoints.yml)
+#### [Create Or Update](dns/dnsresolver/Inbound-Endpoints/Create-Or-Update.yml)
+#### [Delete](dns/dnsresolver/Inbound-Endpoints/Delete.yml)
+#### [Get](dns/dnsresolver/Inbound-Endpoints/Get.yml)
+#### [List](dns/dnsresolver/Inbound-Endpoints/List.yml)
+#### [Update](dns/dnsresolver/Inbound-Endpoints/Update.yml)
+### Outbound Endpoints
+#### [Overview](dns/dnsresolver/Outbound-Endpoints.yml)
+#### [Create Or Update](dns/dnsresolver/Outbound-Endpoints/Create-Or-Update.yml)
+#### [Delete](dns/dnsresolver/Outbound-Endpoints/Delete.yml)
+#### [Get](dns/dnsresolver/Outbound-Endpoints/Get.yml)
+#### [List](dns/dnsresolver/Outbound-Endpoints/List.yml)
+#### [Update](dns/dnsresolver/Outbound-Endpoints/Update.yml)
+### Virtual Network Links
+#### [Overview](dns/dnsresolver/Virtual-Network-Links.yml)
+#### [Create Or Update](dns/dnsresolver/Virtual-Network-Links/Create-Or-Update.yml)
+#### [Delete](dns/dnsresolver/Virtual-Network-Links/Delete.yml)
+#### [Get](dns/dnsresolver/Virtual-Network-Links/Get.yml)
+#### [List](dns/dnsresolver/Virtual-Network-Links/List.yml)
+#### [Update](dns/dnsresolver/Virtual-Network-Links/Update.yml)
 ## Private Dns
 ### Private Zones
 #### [Overview](dns/privatedns/Private-Zones.yml)
