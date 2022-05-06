@@ -10,15 +10,15 @@ ms.author: wgries
 ---
 
 # Azure Files REST API
-Azure Files provides hosted cloud file shares that you can access ("mount") by using industry-standard file system protocols such as SMB and NFS. When you mount a file share on your computer by using SMB or NFS, your operating system redirects local file system API requests, such as those that you might make by using .NET `System.IO` interfaces or Python open/read/write methods. This means that users of these applications don't need to do anything special or even know that their data is on a remote file share instead of local storage.
+Azure Files provides hosted cloud file shares that you can access (*mount*) by using industry-standard file system protocols such as SMB and NFS. When you mount a file share on your computer by using SMB or NFS, your operating system redirects API requests for the local file system. The redirection includes local API requests that you make by using .NET `System.IO` interfaces or Python open, read, or write methods. This means that users of these applications don't need to do anything special or even know that their data is on a remote file share instead of local storage.
 
-Azure Files also provides a REST API, often called the FileREST API, which provides another method of accessing data stored in Azure file shares. SMB and NFS enable transparent access to remote file shares through native file system APIs, but the FileREST protocol provides a different method for accessing file share data. 
+Azure Files also provides a REST API, which is often called the FileREST API. It provides another method of accessing data stored in Azure file shares. SMB and NFS enable transparent access to remote file shares through native file system APIs, but the FileREST protocol provides a different method for accessing file share data. 
 
 To use the FileREST API, you create HTTPS requests against the FileREST HTTPS endpoints. You could write code to create HTTPS requests yourself, but the expected way that you consume the FileREST API is via the Azure SDKs. These SDKs provide idiomatic language APIs for popular languages such as C#, Java, Python, JavaScript, and Go.
 
-Because the FileREST API was designed specifically for Azure Files, it enables you to access features of Azure Files that are not accessible over SMB or NFS. It also enables you to perform certain operations, such as copy, more efficiently than you can via SMB or NFS. 
+Because the FileREST API was designed specifically for Azure Files, it enables you to access features of Azure Files that you can't access over SMB or NFS. It also enables you to perform certain operations, such as copy, more efficiently than you can via SMB or NFS. 
 
-The stateless nature of HTTPS makes the FileREST API useful for cloud services or applications that need to access many Azure file shares. For example, you can attach value-added services or applications to an Azure file share to add a capability. These might include antivirus, backup, data management, or replication products. Azure File Sync and Azure Backup are notable Microsoft services that extensively use the FileREST API to add value on top of a customer-owned Azure file share.
+The stateless nature of HTTPS makes the FileREST API useful for cloud services or applications that need to access many Azure file shares. For example, you can attach value-added services or applications to an Azure file share to add a capability. These services or applications might include antivirus, backup, data management, or replication products. Azure File Sync and Azure Backup are notable Microsoft services that extensively use the FileREST API to add value on top of a customer-owned Azure file share.
 
 Consider using the FileREST API if you're building value-added services or applications, especially if you're providing those services to customers. If you're constructing a line-of-business application, particularly one that users will use against a mounted Azure file share, you can use either SMB/NFS or FileREST. However, you might find that using SMB or NFS provides an easier path because those protocols enable you to use native file system APIs. 
 
@@ -31,9 +31,9 @@ To learn more about Azure Files, including deployment, networking, and identity 
 - [Create an Azure file share](/azure/storage/files/storage-how-to-create-file-share)
 
 ## Control plane
-In Azure, the control plane is provided through Azure Resource Manager, which provides a common way of exposing Azure resources that the customer will manage. The top-level unit of management is the storage account. The storage account is a *tracked resource* in Azure Files and other storage services such as Azure Blob Storage.
+In Azure, the control plane is provided through Azure Resource Manager, which provides a common way to expose Azure resources that the customer will manage. The top-level unit of management is the storage account. The storage account is a *tracked resource* in Azure Files and other storage services, such as Azure Blob Storage.
 
-The storage account is managed by the storage resource provider, which has the namespace `Microsoft.Storage`. The storage resource provider also exposes management of child resources, or *proxy resources*, that enable the management of the storage services bundled in the storage account. For Azure Files, there are two relevant *proxy resources*:
+The storage account is managed by the storage resource provider, which has the namespace `Microsoft.Storage`. The storage resource provider also exposes management of child resources, or *proxy resources*, that enable the management of the storage services bundled in the storage account. For Azure Files, there are two relevant proxy resources:
 
 - The `FileService` resource. It provides settings specific to Azure Files that apply to all of the file shares in the storage account. The `FileService` resource is a child of the storage account. A storage account always has only one `FileService` resource: `default`.
 

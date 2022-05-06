@@ -20,7 +20,7 @@ This section contains the following topics:
 - [Set timeouts for Azure Files operations](Setting-Timeouts-for-File-Service-Operations.md)
 - [Specify the range header for Azure Files operations](Specifying-the-Range-Header-for-File-Service-Operations.md)  
 - [Features not supported in Azure Files](Features-Not-Supported-By-the-Azure-File-Service.md)  
-- [Decide when to use Azure Blobs, Azure Files, or Azure Data Disks](/azure/storage/common/storage-decide-blobs-files-disks)
+- [Decide when to use Azure Blob Storage, Azure Files, or Azure managed disks](/azure/storage/common/storage-decide-blobs-files-disks)
   
 ## See also
 [Azure Files REST API](File-Service-REST-API.md)

@@ -13,7 +13,7 @@ ms.author: pemari
 
 Azure Queue Storage stores messages that can be read by any client that has access to the storage account.  
   
-A queue can contain an unlimited number of messages. Each message can be up to 64 KB in size for version 2011-08-18 or later. For previous versions, the maximum size of a message is 8 KB. Messages are generally added to the end of the queue and retrieved from the front of the queue, although first in, first out (FIFO) behavior is not guaranteed.  
+A queue can contain an unlimited number of messages. Each message can be up to 64 KB in size for version 2011-08-18 or later. For earlier versions, the maximum size of a message is 8 KB. Messages are generally added to the end of the queue and retrieved from the front of the queue, although first in, first out (FIFO) behavior is not guaranteed.  
   
 If you need to store messages larger than 64 KB, you can store message data as a blob or in a table. You can then store a reference to the data as a message in a queue.  
   
