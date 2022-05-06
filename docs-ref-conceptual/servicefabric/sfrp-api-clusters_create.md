@@ -1,5 +1,6 @@
 ---
-title: "Create"
+title: Create a Service Fabric cluster resource
+description: "Learn to create or update a Service Fabric cluster resource with the specified name. Responses table includes HTTP Status Code, Description and Response Schema."
 ms.date: 06/04/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create
+# Create a Service Fabric cluster resource
 Creates or updates a Service Fabric cluster resource.
 
 Create or update a Service Fabric cluster resource with the specified name.

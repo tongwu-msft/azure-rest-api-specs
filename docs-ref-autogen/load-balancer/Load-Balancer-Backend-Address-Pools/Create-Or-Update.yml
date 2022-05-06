@@ -3,14 +3,14 @@ uid: management.azure.com.load-balancer.loadbalancerbackendaddresspools.createor
 name: Create Or Update
 service: Load balancer
 groupName: Load Balancer Backend Address Pools
-apiVersion: 2021-05-01
+apiVersion: 2021-08-01
 summary: Creates or updates a load balancer backend address pool.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}?api-version=2021-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -80,6 +80,11 @@ requestBody:
     types:
     - uid: LoadBalancerBackendAddress
       isArray: true
+  - name: properties.drainPeriodInSeconds
+    in: body
+    description: Amount of seconds Load Balancer waits for before sending RESET to client and backend address.
+    types:
+    - uid: integer
   - name: id
     in: body
     description: Resource ID.
@@ -142,6 +147,10 @@ definitions:
     types:
     - uid: NatRulePortMapping
       isArray: true
+  - name: properties.adminState
+    description: A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.
+    types:
+    - uid: LoadBalancerBackendAddressAdminState
 - name: NetworkInterfaceIPConfiguration
   description: IPConfiguration in a network interface.
   kind: object
@@ -300,6 +309,10 @@ definitions:
     description: The provisioning state of the backend address pool resource.
     types:
     - uid: ProvisioningState
+  - name: properties.drainPeriodInSeconds
+    description: Amount of seconds Load Balancer waits for before sending RESET to client and backend address.
+    types:
+    - uid: integer
   - name: id
     description: Resource ID.
     types:
@@ -354,6 +367,22 @@ definitions:
     description: Backend port.
     types:
     - uid: integer
+- name: LoadBalancerBackendAddressAdminState
+  description: A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Up
+    types:
+    - uid: string
+  - name: Down
+    types:
+    - uid: string
+  - name: Drain
+    types:
+    - uid: string
 - name: VirtualNetworkTap
   description: Virtual Network Tap resource.
   kind: object
@@ -1926,6 +1955,10 @@ definitions:
     description: Migration phase of Network Interface resource.
     types:
     - uid: NetworkInterfaceMigrationPhase
+  - name: properties.auxiliaryMode
+    description: Auxiliary mode of Network Interface resource.
+    types:
+    - uid: NetworkInterfaceAuxiliaryMode
   - name: id
     description: Resource ID.
     types:
@@ -2422,6 +2455,19 @@ definitions:
   - name: Committed
     types:
     - uid: string
+- name: NetworkInterfaceAuxiliaryMode
+  description: Auxiliary mode of Network Interface resource.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: MaxConnections
+    types:
+    - uid: string
+  - name: Floating
+    types:
+    - uid: string
 - name: RetentionPolicyParameters
   description: Parameters that define the retention policy for flow log.
   kind: object
@@ -2636,7 +2682,7 @@ definitions:
 examples:
 - name: Update load balancer backend pool with backend addresses containing virtual network and  IP address.
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/backend?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/backend?api-version=2021-08-01
     body: >-
       {
         "properties": {

@@ -1,5 +1,6 @@
 ---
 title: "SKU Types (Azure Storage)"
+description: List of valid SKU types and supported account kinds.
 ---
 # SKU Types
 

@@ -1,0 +1,166 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.convertgraphrunbookcontent.convertgraphrunbookcontent
+name: convert Graph Runbook Content
+service: Automation
+groupName: convert Graph Runbook Content
+apiVersion: 2021-06-22
+summary: Post operation to serialize or deserialize GraphRunbookContent
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/convertGraphRunbookContent?api-version=2021-06-22
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure Resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The name of the automation account.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: GraphicalRunbookContent
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: rawContent
+    in: body
+    description: Raw graphical Runbook content.
+    types:
+    - uid: RawGraphicalRunbookContent
+  - name: graphRunbookJson
+    in: body
+    description: Graphical Runbook content as JSON
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: RawGraphicalRunbookContent
+  description: Raw Graphical Runbook content
+  kind: object
+  properties:
+  - name: schemaVersion
+    description: Schema version of the serializer.
+    types:
+    - uid: string
+  - name: runbookDefinition
+    description: Serialized Graphical runbook
+    types:
+    - uid: string
+  - name: runbookType
+    description: Runbook Type
+    types:
+    - uid: GraphRunbookType
+- name: GraphicalRunbookContent
+  description: Graphical Runbook Content
+  kind: object
+  properties:
+  - name: rawContent
+    description: Raw graphical Runbook content.
+    types:
+    - uid: RawGraphicalRunbookContent
+  - name: graphRunbookJson
+    description: Graphical Runbook content as JSON
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: GraphRunbookType
+  description: Runbook Type
+  kind: enum
+  properties:
+  - name: GraphPowerShell
+    types:
+    - uid: string
+  - name: GraphPowerShellWorkflow
+    types:
+    - uid: string
+examples:
+- name: Get Graphical raw runbook content from graphical runbook JSON object
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/MyAutomationAccount/convertGraphRunbookContent?api-version=2021-06-22
+    body: >-
+      {
+        "graphRunbookJson": "<GraphRunbookJSON>"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "rawContent": {
+          "schemaVersion": "1.10",
+          "runbookDefinition": "AAEAAADAQAAAAAAAAAMAgAAAGJPcmNoZXN0cmF0b3IuR3JhcGhSdW5ib29rLk1vZGVsLCBWZXJzaW9uPTcuMy4wLjAsIEN1bHR....",
+          "runbookType": "GraphPowerShell"
+        },
+        "graphRunbookJson": "<GraphRunbookJSON>"
+      }
+- name: Get Graphical runbook content from raw content
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/MyAutomationAccount/convertGraphRunbookContent?api-version=2021-06-22
+    body: >-
+      {
+        "rawContent": {
+          "schemaVersion": "1.10",
+          "runbookDefinition": "AAEAAADAQAAAAAAAAAMAgAAAGJPcmNoZXN0cmF0b3IuR3JhcGhSdW5ib29rLk1vZGVsLCBWZXJzaW9uPTcuMy4wLjAsIEN1bHR....",
+          "runbookType": "GraphPowerShell"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "rawContent": {
+          "schemaVersion": "1.10",
+          "runbookDefinition": "AAEAAADAQAAAAAAAAAMAgAAAGJPcmNoZXN0cmF0b3IuR3JhcGhSdW5ib29rLk1vZGVsLCBWZXJzaW9uPTcuMy4wLjAsIEN1bHR....",
+          "runbookType": "GraphPowerShell"
+        },
+        "graphRunbookJson": "<GraphRunbookJSON>"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Automation service - Post operation to serialize or deserialize GraphRunbookContent
+errorCodes: []

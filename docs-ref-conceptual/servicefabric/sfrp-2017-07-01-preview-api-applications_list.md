@@ -1,5 +1,5 @@
 ---
-title: "List"
+title: Service Fabric List
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +24,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List
+# Service Fabric List
+
 Gets the list of application resources created in the specified Service Fabric cluster resource.
 
 Gets all application resources created or in the process of being created in the Service Fabric cluster resource.

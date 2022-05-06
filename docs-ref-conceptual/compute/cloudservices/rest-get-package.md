@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Get Package | Microsoft Docs"
+description: Learn how the Get Package operation retrieves a cloud service package for a deployment and stores the package files in Microsoft Azure Blob storage. 
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

@@ -3,15 +3,15 @@ uid: management.azure.com.virtualnetwork.virtualnetworks.get
 name: Get
 service: Virtual Networks
 groupName: Virtual Networks
-apiVersion: 2021-05-01
+apiVersion: 2021-08-01
 summary: Gets the specified virtual network by resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2021-05-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2021-05-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2021-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2021-08-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -1234,6 +1234,10 @@ definitions:
     description: Migration phase of Network Interface resource.
     types:
     - uid: NetworkInterfaceMigrationPhase
+  - name: properties.auxiliaryMode
+    description: Auxiliary mode of Network Interface resource.
+    types:
+    - uid: NetworkInterfaceAuxiliaryMode
   - name: id
     description: Resource ID.
     types:
@@ -1971,6 +1975,19 @@ definitions:
   - name: Committed
     types:
     - uid: string
+- name: NetworkInterfaceAuxiliaryMode
+  description: Auxiliary mode of Network Interface resource.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: MaxConnections
+    types:
+    - uid: string
+  - name: Floating
+    types:
+    - uid: string
 - name: RetentionPolicyParameters
   description: Parameters that define the retention policy for flow log.
   kind: object
@@ -2374,6 +2391,10 @@ definitions:
     description: The provisioning state of the backend address pool resource.
     types:
     - uid: ProvisioningState
+  - name: properties.drainPeriodInSeconds
+    description: Amount of seconds Load Balancer waits for before sending RESET to client and backend address.
+    types:
+    - uid: integer
   - name: id
     description: Resource ID.
     types:
@@ -2796,6 +2817,10 @@ definitions:
     types:
     - uid: NatRulePortMapping
       isArray: true
+  - name: properties.adminState
+    description: A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.
+    types:
+    - uid: LoadBalancerBackendAddressAdminState
 - name: TransportProtocol
   description: The transport protocol for the endpoint.
   kind: enum
@@ -2858,10 +2883,26 @@ definitions:
     description: Backend port.
     types:
     - uid: integer
+- name: LoadBalancerBackendAddressAdminState
+  description: A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Up
+    types:
+    - uid: string
+  - name: Down
+    types:
+    - uid: string
+  - name: Drain
+    types:
+    - uid: string
 examples:
 - name: Get virtual network
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-05-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-08-01
   responses:
   - statusCode: "200"
     body: >-
@@ -2897,7 +2938,7 @@ examples:
       }
 - name: Get virtual network with a delegated subnet
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-05-01
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-08-01
   responses:
   - statusCode: "200"
     body: >-
@@ -2945,7 +2986,7 @@ examples:
       }
 - name: Get virtual network with service association links
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-05-01
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-08-01
   responses:
   - statusCode: "200"
     body: >-

@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.storageaccounts.create
 name: Create
 service: Storage Resource Provider
 groupName: Storage Accounts
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01
 summary: Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2021-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -84,6 +84,16 @@ requestBody:
     description: The identity of the resource.
     types:
     - uid: Identity
+  - name: properties.allowedCopyScope
+    in: body
+    description: Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
+    types:
+    - uid: AllowedCopyScope
+  - name: properties.publicNetworkAccess
+    in: body
+    description: Allow or disallow public network access to Storage Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'.
+    types:
+    - uid: PublicNetworkAccess
   - name: properties.sasPolicy
     in: body
     description: SasPolicy assigned to the storage account.
@@ -101,7 +111,7 @@ requestBody:
     - uid: CustomDomain
   - name: properties.encryption
     in: body
-    description: Not applicable. Azure Storage encryption is enabled for all storage accounts and cannot be disabled.
+    description: Encryption settings to be used for server-side encryption for the storage account.
     types:
     - uid: Encryption
   - name: properties.networkAcls
@@ -111,7 +121,7 @@ requestBody:
     - uid: NetworkRuleSet
   - name: properties.accessTier
     in: body
-    description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
+    description: Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type.
     types:
     - uid: AccessTier
   - name: properties.azureFilesIdentityBasedAuthentication
@@ -122,6 +132,16 @@ requestBody:
   - name: properties.supportsHttpsTrafficOnly
     in: body
     description: Allows https traffic only to storage service if sets to true. The default value is true since API version 2019-04-01.
+    types:
+    - uid: boolean
+  - name: properties.isSftpEnabled
+    in: body
+    description: Enables Secure File Transfer Protocol, if set to true
+    types:
+    - uid: boolean
+  - name: properties.isLocalUserEnabled
+    in: body
+    description: Enables local users feature, if set to true
     types:
     - uid: boolean
   - name: properties.isHnsEnabled
@@ -164,6 +184,21 @@ requestBody:
     description: Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property.
     types:
     - uid: boolean
+  - name: properties.defaultToOAuthAuthentication
+    in: body
+    description: A boolean flag which indicates whether the default authentication is OAuth or not. The default interpretation is false for this property.
+    types:
+    - uid: boolean
+  - name: properties.immutableStorageWithVersioning
+    in: body
+    description: The property is immutable and can only be set to true at the account creation time. When set to true, it enables object level immutability for all the new containers in the account by default.
+    types:
+    - uid: ImmutableStorageAccount
+  - name: properties.dnsEndpointType
+    in: body
+    description: Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone identifier.
+    types:
+    - uid: DnsEndpointType
 requestHeader: []
 definitions:
 - name: Sku
@@ -332,6 +367,18 @@ definitions:
     description: A boolean flag which indicates whether internet routing storage endpoints are to be published
     types:
     - uid: boolean
+- name: ImmutableStorageAccount
+  description: This property enables and defines account-level immutability. Enabling the feature auto-enables Blob Versioning.
+  kind: object
+  properties:
+  - name: enabled
+    description: A boolean flag which enables account-level immutability. All the containers under such an account have object-level immutability enabled by default.
+    types:
+    - uid: boolean
+  - name: immutabilityPolicy
+    description: Specifies the default account-level immutability policy which is inherited and applied to objects that do not possess an explicit immutability policy at the object level. The object-level immutability policy has higher precedence than the container-level immutability policy, which has a higher precedence than the account-level immutability policy.
+    types:
+    - uid: AccountImmutabilityPolicyProperties
 - name: StorageAccount
   description: The storage account.
   kind: object
@@ -421,12 +468,12 @@ definitions:
     - uid: Endpoints
   - name: properties.encryption
     isReadyOnly: true
-    description: Gets the encryption settings on the account. If unspecified, the account is unencrypted.
+    description: Encryption settings to be used for server-side encryption for the storage account.
     types:
     - uid: Encryption
   - name: properties.accessTier
     isReadyOnly: true
-    description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
+    description: Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type.
     types:
     - uid: AccessTier
   - name: properties.azureFilesIdentityBasedAuthentication
@@ -442,6 +489,14 @@ definitions:
     description: Network rule set
     types:
     - uid: NetworkRuleSet
+  - name: properties.isSftpEnabled
+    description: Enables Secure File Transfer Protocol, if set to true
+    types:
+    - uid: boolean
+  - name: properties.isLocalUserEnabled
+    description: Enables local users feature, if set to true
+    types:
+    - uid: boolean
   - name: properties.isHnsEnabled
     description: Account HierarchicalNamespace enabled if sets to true.
     types:
@@ -495,6 +550,30 @@ definitions:
     description: Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property.
     types:
     - uid: boolean
+  - name: properties.defaultToOAuthAuthentication
+    description: A boolean flag which indicates whether the default authentication is OAuth or not. The default interpretation is false for this property.
+    types:
+    - uid: boolean
+  - name: properties.publicNetworkAccess
+    description: Allow or disallow public network access to Storage Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'.
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.immutableStorageWithVersioning
+    description: The property is immutable and can only be set to true at the account creation time. When set to true, it enables object level immutability for all the containers in the account by default.
+    types:
+    - uid: ImmutableStorageAccount
+  - name: properties.allowedCopyScope
+    description: Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
+    types:
+    - uid: AllowedCopyScope
+  - name: properties.storageAccountSkuConversionStatus
+    description: This property is readOnly and is set by server during asynchronous storage account sku conversion operations.
+    types:
+    - uid: StorageAccountSkuConversionStatus
+  - name: properties.dnsEndpointType
+    description: Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone identifier.
+    types:
+    - uid: DnsEndpointType
   - name: tags
     description: Resource tags.
     types:
@@ -554,6 +633,14 @@ definitions:
     description: The identity of the resource.
     types:
     - uid: Identity
+  - name: properties.allowedCopyScope
+    description: Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
+    types:
+    - uid: AllowedCopyScope
+  - name: properties.publicNetworkAccess
+    description: Allow or disallow public network access to Storage Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'.
+    types:
+    - uid: PublicNetworkAccess
   - name: properties.sasPolicy
     description: SasPolicy assigned to the storage account.
     types:
@@ -567,7 +654,7 @@ definitions:
     types:
     - uid: CustomDomain
   - name: properties.encryption
-    description: Not applicable. Azure Storage encryption is enabled for all storage accounts and cannot be disabled.
+    description: Encryption settings to be used for server-side encryption for the storage account.
     types:
     - uid: Encryption
   - name: properties.networkAcls
@@ -575,7 +662,7 @@ definitions:
     types:
     - uid: NetworkRuleSet
   - name: properties.accessTier
-    description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
+    description: Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type.
     types:
     - uid: AccessTier
   - name: properties.azureFilesIdentityBasedAuthentication
@@ -584,6 +671,14 @@ definitions:
     - uid: AzureFilesIdentityBasedAuthentication
   - name: properties.supportsHttpsTrafficOnly
     description: Allows https traffic only to storage service if sets to true. The default value is true since API version 2019-04-01.
+    types:
+    - uid: boolean
+  - name: properties.isSftpEnabled
+    description: Enables Secure File Transfer Protocol, if set to true
+    types:
+    - uid: boolean
+  - name: properties.isLocalUserEnabled
+    description: Enables local users feature, if set to true
     types:
     - uid: boolean
   - name: properties.isHnsEnabled
@@ -618,6 +713,18 @@ definitions:
     description: Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property.
     types:
     - uid: boolean
+  - name: properties.defaultToOAuthAuthentication
+    description: A boolean flag which indicates whether the default authentication is OAuth or not. The default interpretation is false for this property.
+    types:
+    - uid: boolean
+  - name: properties.immutableStorageWithVersioning
+    description: The property is immutable and can only be set to true at the account creation time. When set to true, it enables object level immutability for all the new containers in the account by default.
+    types:
+    - uid: ImmutableStorageAccount
+  - name: properties.dnsEndpointType
+    description: Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone identifier.
+    types:
+    - uid: DnsEndpointType
 - name: SkuName
   description: The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called accountType.
   kind: enum
@@ -756,12 +863,21 @@ definitions:
     description: Timestamp of last rotation of the Key Vault Key.
     types:
     - uid: string
+  - name: currentVersionedKeyExpirationTimestamp
+    isReadyOnly: true
+    description: This is a read only property that represents the expiration time of the current version of the customer managed key used for encryption.
+    types:
+    - uid: string
 - name: EncryptionIdentity
   description: Encryption identity for the storage account.
   kind: object
   properties:
   - name: userAssignedIdentity
     description: Resource identifier of the UserAssigned identity to be associated with server-side encryption on the storage account.
+    types:
+    - uid: string
+  - name: federatedIdentityClientId
+    description: ClientId of the multi-tenant application to be used in conjunction with the user-assigned identity for cross-tenant customer-managed-keys server-side encryption on the storage account.
     types:
     - uid: string
 - name: Bypass
@@ -871,6 +987,16 @@ definitions:
     description: Specifies the security identifier (SID) for Azure Storage.
     types:
     - uid: string
+  - name: samAccountName
+    description: Specifies the Active Directory SAMAccountName for Azure Storage.
+    types:
+    - uid: string
+  - name: accountType
+    description: Specifies the Active Directory account type for Azure Storage.
+    types:
+    - uid: User
+    - uid: Computer
+    typesTitle: enum
 - name: DefaultSharePermission
   description: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
   kind: enum
@@ -887,9 +1013,6 @@ definitions:
   - name: StorageFileDataSmbShareElevatedContributor
     types:
     - uid: string
-  - name: StorageFileDataSmbShareOwner
-    types:
-    - uid: string
 - name: RoutingChoice
   description: Routing Choice defines the kind of network routing opted by the user.
   kind: enum
@@ -900,6 +1023,22 @@ definitions:
   - name: InternetRouting
     types:
     - uid: string
+- name: AccountImmutabilityPolicyProperties
+  description: This defines account-level immutability policy properties.
+  kind: object
+  properties:
+  - name: immutabilityPeriodSinceCreationInDays
+    description: The immutability period for the blobs in the container since the policy creation, in days.
+    types:
+    - uid: integer
+  - name: state
+    description: The ImmutabilityPolicy state defines the mode of the policy. Disabled state disables the policy, Unlocked state allows increase and decrease of immutability retention time and also allows toggling allowProtectedAppendWrites property, Locked state only allows the increase of the immutability retention time. A policy can only be created in a Disabled or Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition to a Locked state which cannot be reverted.
+    types:
+    - uid: AccountImmutabilityPolicyState
+  - name: allowProtectedAppendWrites
+    description: This property can only be changed for disabled and unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted.
+    types:
+    - uid: boolean
 - name: Kind
   description: Indicates the type of storage account.
   kind: enum
@@ -997,13 +1136,16 @@ definitions:
     types:
     - uid: string
 - name: AccessTier
-  description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
+  description: Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type.
   kind: enum
   properties:
   - name: Hot
     types:
     - uid: string
   - name: Cool
+    types:
+    - uid: string
+  - name: Premium
     types:
     - uid: string
 - name: GeoReplicationStats
@@ -1104,17 +1246,70 @@ definitions:
   - name: TLS1_2
     types:
     - uid: string
+- name: PublicNetworkAccess
+  description: Allow or disallow public network access to Storage Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: AllowedCopyScope
+  description: Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
+  kind: enum
+  properties:
+  - name: PrivateLink
+    types:
+    - uid: string
+  - name: AAD
+    types:
+    - uid: string
+- name: StorageAccountSkuConversionStatus
+  description: This defines the sku conversion status object for asynchronous sku conversions.
+  kind: object
+  properties:
+  - name: skuConversionStatus
+    isReadyOnly: true
+    description: This property indicates the current sku conversion status.
+    types:
+    - uid: SkuConversionStatus
+  - name: targetSkuName
+    description: This property represents the target sku name to which the account sku is being converted asynchronously.
+    types:
+    - uid: SkuName
+  - name: startTime
+    isReadyOnly: true
+    description: This property represents the sku conversion start time.
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: This property represents the sku conversion end time.
+    types:
+    - uid: string
+- name: DnsEndpointType
+  description: Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone identifier.
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: AzureDnsZone
+    types:
+    - uid: string
 - name: EncryptionService
   description: A service that allows server-side encryption to be used.
   kind: object
   properties:
   - name: enabled
-    description: A boolean indicating whether or not the service encrypts the data as it is stored.
+    description: A boolean indicating whether or not the service encrypts the data as it is stored. Encryption at rest is enabled by default today and cannot be disabled.
     types:
     - uid: boolean
   - name: lastEnabledTime
     isReadyOnly: true
-    description: Gets a rough estimate of the date/time when the encryption was last enabled by the user. Only returned when encryption is enabled. There might be some unencrypted blobs which were written after this time, as it is just a rough estimate.
+    description: Gets a rough estimate of the date/time when the encryption was last enabled by the user. Data is encrypted at rest by default today and cannot be disabled.
     types:
     - uid: string
   - name: keyType
@@ -1145,6 +1340,19 @@ definitions:
     types:
     - uid: string
   - name: NetworkSourceDeleted
+    types:
+    - uid: string
+- name: AccountImmutabilityPolicyState
+  description: The ImmutabilityPolicy state defines the mode of the policy. Disabled state disables the policy, Unlocked state allows increase and decrease of immutability retention time and also allows toggling allowProtectedAppendWrites property, Locked state only allows the increase of the immutability retention time. A policy can only be created in a Disabled or Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition to a Locked state which cannot be reverted.
+  kind: enum
+  properties:
+  - name: Unlocked
+    types:
+    - uid: string
+  - name: Locked
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: StorageAccountMicrosoftEndpoints
@@ -1285,6 +1493,19 @@ definitions:
     types:
     - uid: BlobRestoreRange
       isArray: true
+- name: SkuConversionStatus
+  description: This property indicates the current sku conversion status.
+  kind: enum
+  properties:
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
 - name: KeyType
   description: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped encryption key will be used. 'Service' key type implies that a default service key is used.
   kind: enum
@@ -1323,7 +1544,7 @@ definitions:
 examples:
 - name: StorageAccountCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-04-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-09-01
     body: >-
       {
         "sku": {
@@ -1344,7 +1565,9 @@ examples:
             "expirationAction": "Log"
           },
           "isHnsEnabled": true,
+          "isSftpEnabled": true,
           "allowBlobPublicAccess": false,
+          "defaultToOAuthAuthentication": false,
           "minimumTlsVersion": "TLS1_2",
           "allowSharedKeyAccess": true,
           "routingPreference": {
@@ -1397,6 +1620,7 @@ examples:
             "key2": "2021-03-18T04:42:22.4322836Z"
           },
           "isHnsEnabled": true,
+          "isSftpEnabled": true,
           "allowBlobPublicAccess": false,
           "minimumTlsVersion": "TLS1_2",
           "allowSharedKeyAccess": true,
@@ -1464,7 +1688,7 @@ examples:
   - statusCode: "202"
 - name: NfsV3AccountCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-04-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-09-01
     body: >-
       {
         "sku": {
@@ -1520,7 +1744,7 @@ examples:
   - statusCode: "202"
 - name: StorageAccountCreateUserAssignedEncryptionIdentityWithCMK
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-04-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-09-01
     body: >-
       {
         "identity": {
@@ -1629,6 +1853,1126 @@ examples:
           "primaryLocation": "eastus",
           "statusOfPrimary": "available"
         }
+      }
+  - statusCode: "202"
+- name: StorageAccountCreateWithImmutabilityPolicy
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-09-01
+    body: >-
+      {
+        "sku": {
+          "name": "Standard_GRS"
+        },
+        "kind": "Storage",
+        "location": "eastus",
+        "extendedLocation": {
+          "type": "EdgeZone",
+          "name": "losangeles001"
+        },
+        "properties": {
+          "immutableStorageWithVersioning": {
+            "immutabilityPolicy": {
+              "immutabilityPeriodSinceCreationInDays": 15,
+              "allowProtectedAppendWrites": true,
+              "state": "Unlocked"
+            },
+            "enabled": true
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445",
+        "kind": "Storage",
+        "location": "eastus",
+        "name": "sto4445",
+        "extendedLocation": {
+          "type": "EdgeZone",
+          "name": "losangeles001"
+        },
+        "properties": {
+          "creationTime": "2017-05-24T13:25:33.4863236Z",
+          "primaryEndpoints": {
+            "web": "https://sto4445.web.core.windows.net/",
+            "dfs": "https://sto4445.dfs.core.windows.net/",
+            "blob": "https://sto4445.blob.core.windows.net/",
+            "file": "https://sto4445.file.core.windows.net/",
+            "queue": "https://sto4445.queue.core.windows.net/",
+            "table": "https://sto4445.table.core.windows.net/"
+          },
+          "primaryLocation": "eastus2euap",
+          "provisioningState": "Succeeded",
+          "immutableStorageWithVersioning": {
+            "immutabilityPolicy": {
+              "immutabilityPeriodSinceCreationInDays": 15,
+              "allowProtectedAppendWrites": true,
+              "state": "Unlocked"
+            },
+            "enabled": true
+          }
+        },
+        "sku": {
+          "name": "Standard_GRS",
+          "tier": "Standard"
+        },
+        "type": "Microsoft.Storage/storageAccounts"
+      }
+  - statusCode: "202"
+- name: StorageAccountCreateDisallowPublicNetworkAccess
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-09-01
+    body: >-
+      {
+        "sku": {
+          "name": "Standard_GRS"
+        },
+        "kind": "Storage",
+        "location": "eastus",
+        "extendedLocation": {
+          "type": "EdgeZone",
+          "name": "losangeles001"
+        },
+        "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
+          "isHnsEnabled": true,
+          "allowBlobPublicAccess": false,
+          "minimumTlsVersion": "TLS1_2",
+          "allowSharedKeyAccess": true,
+          "publicNetworkAccess": "Disabled",
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true
+              }
+            },
+            "requireInfrastructureEncryption": false,
+            "keySource": "Microsoft.Storage"
+          }
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445",
+        "kind": "Storage",
+        "location": "eastus",
+        "name": "sto4445",
+        "extendedLocation": {
+          "type": "EdgeZone",
+          "name": "losangeles001"
+        },
+        "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
+          "keyCreationTime": {
+            "key1": "2021-03-18T04:42:22.4322836Z",
+            "key2": "2021-03-18T04:42:22.4322836Z"
+          },
+          "isHnsEnabled": true,
+          "allowBlobPublicAccess": false,
+          "minimumTlsVersion": "TLS1_2",
+          "allowSharedKeyAccess": true,
+          "creationTime": "2017-05-24T13:25:33.4863236Z",
+          "primaryEndpoints": {
+            "web": "https://sto4445.web.core.windows.net/",
+            "dfs": "https://sto4445.dfs.core.windows.net/",
+            "blob": "https://sto4445.blob.core.windows.net/",
+            "file": "https://sto4445.file.core.windows.net/",
+            "queue": "https://sto4445.queue.core.windows.net/",
+            "table": "https://sto4445.table.core.windows.net/",
+            "microsoftEndpoints": {
+              "web": "https://sto4445-microsoftrouting.web.core.windows.net/",
+              "dfs": "https://sto4445-microsoftrouting.dfs.core.windows.net/",
+              "blob": "https://sto4445-microsoftrouting.blob.core.windows.net/",
+              "file": "https://sto4445-microsoftrouting.file.core.windows.net/",
+              "queue": "https://sto4445-microsoftrouting.queue.core.windows.net/",
+              "table": "https://sto4445-microsoftrouting.table.core.windows.net/"
+            },
+            "internetEndpoints": {
+              "web": "https://sto4445-internetrouting.web.core.windows.net/",
+              "dfs": "https://sto4445-internetrouting.dfs.core.windows.net/",
+              "blob": "https://sto4445-internetrouting.blob.core.windows.net/",
+              "file": "https://sto4445-internetrouting.file.core.windows.net/"
+            }
+          },
+          "primaryLocation": "eastus2euap",
+          "provisioningState": "Succeeded",
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              }
+            },
+            "requireInfrastructureEncryption": false,
+            "keySource": "Microsoft.Storage"
+          },
+          "secondaryLocation": "centraluseuap",
+          "statusOfPrimary": "available",
+          "statusOfSecondary": "available",
+          "supportsHttpsTrafficOnly": true,
+          "publicNetworkAccess": "Disabled"
+        },
+        "sku": {
+          "name": "Standard_GRS",
+          "tier": "Standard"
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "type": "Microsoft.Storage/storageAccounts"
+      }
+  - statusCode: "202"
+- name: StorageAccountCreateEnablePublicNetworkAccess
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-09-01
+    body: >-
+      {
+        "sku": {
+          "name": "Standard_GRS"
+        },
+        "kind": "Storage",
+        "location": "eastus",
+        "extendedLocation": {
+          "type": "EdgeZone",
+          "name": "losangeles001"
+        },
+        "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
+          "isHnsEnabled": true,
+          "allowBlobPublicAccess": false,
+          "minimumTlsVersion": "TLS1_2",
+          "allowSharedKeyAccess": true,
+          "publicNetworkAccess": "Enabled",
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true
+              }
+            },
+            "requireInfrastructureEncryption": false,
+            "keySource": "Microsoft.Storage"
+          }
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445",
+        "kind": "Storage",
+        "location": "eastus",
+        "name": "sto4445",
+        "extendedLocation": {
+          "type": "EdgeZone",
+          "name": "losangeles001"
+        },
+        "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
+          "keyCreationTime": {
+            "key1": "2021-03-18T04:42:22.4322836Z",
+            "key2": "2021-03-18T04:42:22.4322836Z"
+          },
+          "isHnsEnabled": true,
+          "allowBlobPublicAccess": false,
+          "minimumTlsVersion": "TLS1_2",
+          "allowSharedKeyAccess": true,
+          "creationTime": "2017-05-24T13:25:33.4863236Z",
+          "primaryEndpoints": {
+            "web": "https://sto4445.web.core.windows.net/",
+            "dfs": "https://sto4445.dfs.core.windows.net/",
+            "blob": "https://sto4445.blob.core.windows.net/",
+            "file": "https://sto4445.file.core.windows.net/",
+            "queue": "https://sto4445.queue.core.windows.net/",
+            "table": "https://sto4445.table.core.windows.net/",
+            "microsoftEndpoints": {
+              "web": "https://sto4445-microsoftrouting.web.core.windows.net/",
+              "dfs": "https://sto4445-microsoftrouting.dfs.core.windows.net/",
+              "blob": "https://sto4445-microsoftrouting.blob.core.windows.net/",
+              "file": "https://sto4445-microsoftrouting.file.core.windows.net/",
+              "queue": "https://sto4445-microsoftrouting.queue.core.windows.net/",
+              "table": "https://sto4445-microsoftrouting.table.core.windows.net/"
+            },
+            "internetEndpoints": {
+              "web": "https://sto4445-internetrouting.web.core.windows.net/",
+              "dfs": "https://sto4445-internetrouting.dfs.core.windows.net/",
+              "blob": "https://sto4445-internetrouting.blob.core.windows.net/",
+              "file": "https://sto4445-internetrouting.file.core.windows.net/"
+            }
+          },
+          "primaryLocation": "eastus2euap",
+          "provisioningState": "Succeeded",
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              }
+            },
+            "requireInfrastructureEncryption": false,
+            "keySource": "Microsoft.Storage"
+          },
+          "secondaryLocation": "centraluseuap",
+          "statusOfPrimary": "available",
+          "statusOfSecondary": "available",
+          "supportsHttpsTrafficOnly": true,
+          "publicNetworkAccess": "Enabled"
+        },
+        "sku": {
+          "name": "Standard_GRS",
+          "tier": "Standard"
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "type": "Microsoft.Storage/storageAccounts"
+      }
+  - statusCode: "202"
+- name: StorageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res131918/providers/Microsoft.Storage/storageAccounts/sto131918?api-version=2021-09-01
+    body: >-
+      {
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managed-identity-name}": {}
+          }
+        },
+        "sku": {
+          "name": "Standard_LRS"
+        },
+        "kind": "Storage",
+        "location": "eastus",
+        "properties": {
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true
+              }
+            },
+            "keyvaultproperties": {
+              "keyvaulturi": "https://myvault8569.vault.azure.net",
+              "keyname": "wrappingKey",
+              "keyversion": ""
+            },
+            "keySource": "Microsoft.Keyvault",
+            "identity": {
+              "userAssignedIdentity": "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managed-identity-name}",
+              "federatedIdentityClientId": "f83c6b1b-4d34-47e4-bb34-9d83df58b540"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "identity": {
+          "userAssignedIdentities": {
+            "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managed-identity-name}": {
+              "principalId": "8d823284-1060-42a5-9ec4-ed3d831e24d7",
+              "clientId": "fbaa6278-1ecc-415c-819f-6e2058d3acb5"
+            }
+          },
+          "type": "UserAssigned"
+        },
+        "sku": {
+          "name": "Standard_LRS",
+          "tier": "Standard"
+        },
+        "kind": "StorageV2",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445",
+        "name": "sto4445",
+        "type": "Microsoft.Storage/storageAccounts",
+        "location": "eastus",
+        "tags": {},
+        "properties": {
+          "privateEndpointConnections": [],
+          "networkAcls": {
+            "bypass": "AzureServices",
+            "virtualNetworkRules": [],
+            "ipRules": [],
+            "defaultAction": "Allow"
+          },
+          "supportsHttpsTrafficOnly": true,
+          "encryption": {
+            "identity": {
+              "userAssignedIdentity": "/subscriptions/{subscription-id}/resourcegroups/res9101/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managed-identity-name}",
+              "federatedIdentityClientId": "f83c6b1b-4d34-47e4-bb34-9d83df58b540"
+            },
+            "keyvaultproperties": {
+              "keyvaulturi": "https://myvault8569.vault.azure.net",
+              "keyname": "wrappingKey",
+              "keyversion": "",
+              "currentVersionedKeyIdentifier": "https://myvault8569.vault.azure.net/keys/wrappingKey/0682afdd9c104f4285df20107e956cad",
+              "lastKeyRotationTimestamp": "2019-12-13T20:36:23.7023290Z"
+            },
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2020-12-15T00:43:14.1739587Z"
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2020-12-15T00:43:14.1739587Z"
+              }
+            },
+            "keySource": "Microsoft.Keyvault"
+          },
+          "accessTier": "Hot",
+          "provisioningState": "Succeeded",
+          "creationTime": "2020-12-15T00:43:14.0839093Z",
+          "primaryEndpoints": {
+            "web": "https://sto4445.web.core.windows.net/",
+            "dfs": "https://sto4445.dfs.core.windows.net/",
+            "blob": "https://sto4445.blob.core.windows.net/",
+            "file": "https://sto4445.file.core.windows.net/",
+            "queue": "https://sto4445.queue.core.windows.net/",
+            "table": "https://sto4445.table.core.windows.net/"
+          },
+          "primaryLocation": "eastus",
+          "statusOfPrimary": "available"
+        }
+      }
+  - statusCode: "202"
+- name: StorageAccountCreateAllowedCopyScopeToPrivateLink
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-09-01
+    body: >-
+      {
+        "sku": {
+          "name": "Standard_GRS"
+        },
+        "kind": "Storage",
+        "location": "eastus",
+        "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
+          "isHnsEnabled": true,
+          "allowBlobPublicAccess": false,
+          "minimumTlsVersion": "TLS1_2",
+          "allowSharedKeyAccess": true,
+          "allowedCopyScope": "PrivateLink",
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true
+              }
+            },
+            "requireInfrastructureEncryption": false,
+            "keySource": "Microsoft.Storage"
+          }
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445",
+        "kind": "Storage",
+        "location": "eastus",
+        "name": "sto4445",
+        "extendedLocation": {
+          "type": "EdgeZone",
+          "name": "losangeles001"
+        },
+        "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
+          "keyCreationTime": {
+            "key1": "2021-03-18T04:42:22.4322836Z",
+            "key2": "2021-03-18T04:42:22.4322836Z"
+          },
+          "isHnsEnabled": true,
+          "allowBlobPublicAccess": false,
+          "minimumTlsVersion": "TLS1_2",
+          "allowSharedKeyAccess": true,
+          "creationTime": "2017-05-24T13:25:33.4863236Z",
+          "primaryEndpoints": {
+            "web": "https://sto4445.web.core.windows.net/",
+            "dfs": "https://sto4445.dfs.core.windows.net/",
+            "blob": "https://sto4445.blob.core.windows.net/",
+            "file": "https://sto4445.file.core.windows.net/",
+            "queue": "https://sto4445.queue.core.windows.net/",
+            "table": "https://sto4445.table.core.windows.net/",
+            "microsoftEndpoints": {
+              "web": "https://sto4445-microsoftrouting.web.core.windows.net/",
+              "dfs": "https://sto4445-microsoftrouting.dfs.core.windows.net/",
+              "blob": "https://sto4445-microsoftrouting.blob.core.windows.net/",
+              "file": "https://sto4445-microsoftrouting.file.core.windows.net/",
+              "queue": "https://sto4445-microsoftrouting.queue.core.windows.net/",
+              "table": "https://sto4445-microsoftrouting.table.core.windows.net/"
+            },
+            "internetEndpoints": {
+              "web": "https://sto4445-internetrouting.web.core.windows.net/",
+              "dfs": "https://sto4445-internetrouting.dfs.core.windows.net/",
+              "blob": "https://sto4445-internetrouting.blob.core.windows.net/",
+              "file": "https://sto4445-internetrouting.file.core.windows.net/"
+            }
+          },
+          "primaryLocation": "eastus2euap",
+          "provisioningState": "Succeeded",
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              }
+            },
+            "requireInfrastructureEncryption": false,
+            "keySource": "Microsoft.Storage"
+          },
+          "secondaryLocation": "centraluseuap",
+          "statusOfPrimary": "available",
+          "statusOfSecondary": "available",
+          "supportsHttpsTrafficOnly": true,
+          "allowedCopyScope": "PrivateLink"
+        },
+        "sku": {
+          "name": "Standard_GRS",
+          "tier": "Standard"
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "type": "Microsoft.Storage/storageAccounts"
+      }
+  - statusCode: "202"
+- name: StorageAccountCreateAllowedCopyScopeToAAD
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-09-01
+    body: >-
+      {
+        "sku": {
+          "name": "Standard_GRS"
+        },
+        "kind": "Storage",
+        "location": "eastus",
+        "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
+          "isHnsEnabled": true,
+          "allowBlobPublicAccess": false,
+          "minimumTlsVersion": "TLS1_2",
+          "allowSharedKeyAccess": true,
+          "allowedCopyScope": "AAD",
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true
+              }
+            },
+            "requireInfrastructureEncryption": false,
+            "keySource": "Microsoft.Storage"
+          }
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445",
+        "kind": "Storage",
+        "location": "eastus",
+        "name": "sto4445",
+        "extendedLocation": {
+          "type": "EdgeZone",
+          "name": "losangeles001"
+        },
+        "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
+          "keyCreationTime": {
+            "key1": "2021-03-18T04:42:22.4322836Z",
+            "key2": "2021-03-18T04:42:22.4322836Z"
+          },
+          "isHnsEnabled": true,
+          "allowBlobPublicAccess": false,
+          "minimumTlsVersion": "TLS1_2",
+          "allowSharedKeyAccess": true,
+          "creationTime": "2017-05-24T13:25:33.4863236Z",
+          "primaryEndpoints": {
+            "web": "https://sto4445.web.core.windows.net/",
+            "dfs": "https://sto4445.dfs.core.windows.net/",
+            "blob": "https://sto4445.blob.core.windows.net/",
+            "file": "https://sto4445.file.core.windows.net/",
+            "queue": "https://sto4445.queue.core.windows.net/",
+            "table": "https://sto4445.table.core.windows.net/",
+            "microsoftEndpoints": {
+              "web": "https://sto4445-microsoftrouting.web.core.windows.net/",
+              "dfs": "https://sto4445-microsoftrouting.dfs.core.windows.net/",
+              "blob": "https://sto4445-microsoftrouting.blob.core.windows.net/",
+              "file": "https://sto4445-microsoftrouting.file.core.windows.net/",
+              "queue": "https://sto4445-microsoftrouting.queue.core.windows.net/",
+              "table": "https://sto4445-microsoftrouting.table.core.windows.net/"
+            },
+            "internetEndpoints": {
+              "web": "https://sto4445-internetrouting.web.core.windows.net/",
+              "dfs": "https://sto4445-internetrouting.dfs.core.windows.net/",
+              "blob": "https://sto4445-internetrouting.blob.core.windows.net/",
+              "file": "https://sto4445-internetrouting.file.core.windows.net/"
+            }
+          },
+          "primaryLocation": "eastus2euap",
+          "provisioningState": "Succeeded",
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              }
+            },
+            "requireInfrastructureEncryption": false,
+            "keySource": "Microsoft.Storage"
+          },
+          "secondaryLocation": "centraluseuap",
+          "statusOfPrimary": "available",
+          "statusOfSecondary": "available",
+          "supportsHttpsTrafficOnly": true,
+          "allowedCopyScope": "AAD"
+        },
+        "sku": {
+          "name": "Standard_GRS",
+          "tier": "Standard"
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "type": "Microsoft.Storage/storageAccounts"
+      }
+  - statusCode: "202"
+- name: StorageAccountCreatePremiumBlockBlobStorage
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-09-01
+    body: >-
+      {
+        "sku": {
+          "name": "Premium_LRS"
+        },
+        "kind": "BlockBlobStorage",
+        "location": "eastus",
+        "properties": {
+          "minimumTlsVersion": "TLS1_2",
+          "allowSharedKeyAccess": true,
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true
+              }
+            },
+            "requireInfrastructureEncryption": false,
+            "keySource": "Microsoft.Storage"
+          }
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445",
+        "kind": "Storage",
+        "location": "eastus",
+        "name": "sto4445",
+        "properties": {
+          "allowBlobPublicAccess": false,
+          "minimumTlsVersion": "TLS1_2",
+          "creationTime": "2017-05-24T13:25:33.4863236Z",
+          "primaryEndpoints": {
+            "blob": "https://sto4445.blob.core.windows.net/",
+            "web": "https://sto4445.web.core.windows.net/",
+            "dfs": "https://sto4445.dfs.core.windows.net/"
+          },
+          "primaryLocation": "eastus2euap",
+          "accessTier": "Premium",
+          "provisioningState": "Succeeded",
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              }
+            },
+            "requireInfrastructureEncryption": false,
+            "keySource": "Microsoft.Storage"
+          },
+          "statusOfPrimary": "available",
+          "statusOfSecondary": "available",
+          "supportsHttpsTrafficOnly": true
+        },
+        "sku": {
+          "name": "Premium_LRS",
+          "tier": "Premium"
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "type": "Microsoft.Storage/storageAccounts"
+      }
+  - statusCode: "202"
+- name: StorageAccountCreateDnsEndpointTypeToAzureDnsZone
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-09-01
+    body: >-
+      {
+        "sku": {
+          "name": "Standard_GRS"
+        },
+        "kind": "Storage",
+        "location": "eastus",
+        "extendedLocation": {
+          "type": "EdgeZone",
+          "name": "losangeles001"
+        },
+        "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
+          "dnsEndpointType": "AzureDnsZone",
+          "isHnsEnabled": true,
+          "isSftpEnabled": true,
+          "allowBlobPublicAccess": false,
+          "defaultToOAuthAuthentication": false,
+          "minimumTlsVersion": "TLS1_2",
+          "allowSharedKeyAccess": true,
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true
+              }
+            },
+            "requireInfrastructureEncryption": false,
+            "keySource": "Microsoft.Storage"
+          }
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445",
+        "kind": "Storage",
+        "location": "eastus",
+        "name": "sto4445",
+        "extendedLocation": {
+          "type": "EdgeZone",
+          "name": "losangeles001"
+        },
+        "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
+          "keyCreationTime": {
+            "key1": "2021-03-18T04:42:22.4322836Z",
+            "key2": "2021-03-18T04:42:22.4322836Z"
+          },
+          "dnsEndpointType": "AzureDnsZone",
+          "isHnsEnabled": true,
+          "isSftpEnabled": true,
+          "allowBlobPublicAccess": false,
+          "minimumTlsVersion": "TLS1_2",
+          "allowSharedKeyAccess": true,
+          "creationTime": "2017-05-24T13:25:33.4863236Z",
+          "primaryEndpoints": {
+            "web": "https://sto4445.z24.web.storage.azure.net/",
+            "dfs": "https://sto4445.z24.dfs.storage.azure.net/",
+            "blob": "https://sto4445.z24.blob.storage.azure.net/",
+            "file": "https://sto4445.z24.file.storage.azure.net/",
+            "queue": "https://sto4445.z24.queue.storage.azure.net/",
+            "table": "https://sto4445.z24.table.storage.azure.net/",
+            "microsoftEndpoints": {
+              "web": "https://sto4445-microsoftrouting.z24.web.storage.azure.net/",
+              "dfs": "https://sto4445-microsoftrouting.z24.dfs.storage.azure.net/",
+              "blob": "https://sto4445-microsoftrouting.z24.blob.storage.azure.net/",
+              "file": "https://sto4445-microsoftrouting.z24.file.storage.azure.net/",
+              "queue": "https://sto4445-microsoftrouting.z24.queue.storage.azure.net/",
+              "table": "https://sto4445-microsoftrouting.z24.table.storage.azure.net/"
+            },
+            "internetEndpoints": {
+              "web": "https://sto4445-internetrouting.z24.web.storage.azure.net/",
+              "dfs": "https://sto4445-internetrouting.z24.dfs.storage.azure.net/",
+              "blob": "https://sto4445-internetrouting.z24.blob.storage.azure.net/",
+              "file": "https://sto4445-internetrouting.z24.file.storage.azure.net/"
+            }
+          },
+          "primaryLocation": "eastus2euap",
+          "provisioningState": "Succeeded",
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              }
+            },
+            "requireInfrastructureEncryption": false,
+            "keySource": "Microsoft.Storage"
+          },
+          "secondaryLocation": "centraluseuap",
+          "statusOfPrimary": "available",
+          "statusOfSecondary": "available",
+          "supportsHttpsTrafficOnly": true
+        },
+        "sku": {
+          "name": "Standard_GRS",
+          "tier": "Standard"
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "type": "Microsoft.Storage/storageAccounts"
+      }
+  - statusCode: "202"
+- name: StorageAccountCreateDnsEndpointTypeToStandard
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-09-01
+    body: >-
+      {
+        "sku": {
+          "name": "Standard_GRS"
+        },
+        "kind": "Storage",
+        "location": "eastus",
+        "extendedLocation": {
+          "type": "EdgeZone",
+          "name": "losangeles001"
+        },
+        "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
+          "dnsEndpointType": "Standard",
+          "isHnsEnabled": true,
+          "isSftpEnabled": true,
+          "allowBlobPublicAccess": false,
+          "defaultToOAuthAuthentication": false,
+          "minimumTlsVersion": "TLS1_2",
+          "allowSharedKeyAccess": true,
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true
+              }
+            },
+            "requireInfrastructureEncryption": false,
+            "keySource": "Microsoft.Storage"
+          }
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445",
+        "kind": "Storage",
+        "location": "eastus",
+        "name": "sto4445",
+        "extendedLocation": {
+          "type": "EdgeZone",
+          "name": "losangeles001"
+        },
+        "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
+          "keyCreationTime": {
+            "key1": "2021-03-18T04:42:22.4322836Z",
+            "key2": "2021-03-18T04:42:22.4322836Z"
+          },
+          "dnsEndpointType": "Standard",
+          "isHnsEnabled": true,
+          "isSftpEnabled": true,
+          "allowBlobPublicAccess": false,
+          "minimumTlsVersion": "TLS1_2",
+          "allowSharedKeyAccess": true,
+          "creationTime": "2017-05-24T13:25:33.4863236Z",
+          "primaryEndpoints": {
+            "web": "https://sto4445.web.core.windows.net/",
+            "dfs": "https://sto4445.dfs.core.windows.net/",
+            "blob": "https://sto4445.blob.core.windows.net/",
+            "file": "https://sto4445.file.core.windows.net/",
+            "queue": "https://sto4445.queue.core.windows.net/",
+            "table": "https://sto4445.table.core.windows.net/",
+            "microsoftEndpoints": {
+              "web": "https://sto4445-microsoftrouting.web.core.windows.net/",
+              "dfs": "https://sto4445-microsoftrouting.dfs.core.windows.net/",
+              "blob": "https://sto4445-microsoftrouting.blob.core.windows.net/",
+              "file": "https://sto4445-microsoftrouting.file.core.windows.net/",
+              "queue": "https://sto4445-microsoftrouting.queue.core.windows.net/",
+              "table": "https://sto4445-microsoftrouting.table.core.windows.net/"
+            },
+            "internetEndpoints": {
+              "web": "https://sto4445-internetrouting.web.core.windows.net/",
+              "dfs": "https://sto4445-internetrouting.dfs.core.windows.net/",
+              "blob": "https://sto4445-internetrouting.blob.core.windows.net/",
+              "file": "https://sto4445-internetrouting.file.core.windows.net/"
+            }
+          },
+          "primaryLocation": "eastus2euap",
+          "provisioningState": "Succeeded",
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              }
+            },
+            "requireInfrastructureEncryption": false,
+            "keySource": "Microsoft.Storage"
+          },
+          "secondaryLocation": "centraluseuap",
+          "statusOfPrimary": "available",
+          "statusOfSecondary": "available",
+          "supportsHttpsTrafficOnly": true
+        },
+        "sku": {
+          "name": "Standard_GRS",
+          "tier": "Standard"
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "type": "Microsoft.Storage/storageAccounts"
       }
   - statusCode: "202"
 security:
