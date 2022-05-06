@@ -1,6 +1,6 @@
 ---
-title: Queue service error codes (REST API) - Azure Storage
-description: Queue service error codes.
+title: Queue Storage error codes (REST API) - Azure Storage
+description: Get error codes for Azure Queue Storage.
 author: pemari-msft
 
 ms.date: 09/30/2019
@@ -9,9 +9,9 @@ ms.topic: reference
 ms.author: pemari
 ---
 
-# Queue service error codes
+# Queue Storage error codes
 
-The error codes listed in the following table may be returned by an operation on the Queue service.  
+The following table lists error codes that an operation on Azure Queue Storage might return:   
   
 |Error code|HTTP status code|User message|  
 |----------------|----------------------|------------------|  
@@ -25,10 +25,10 @@ The error codes listed in the following table may be returned by an operation on
 |QueueNotEmpty|Conflict (409)|The specified queue is not empty.|  
 |QueueNotFound|Not Found (404)|The specified queue does not exist.|  
   
-## See Also  
- [Common REST API Error Codes](Common-REST-API-Error-Codes.md)   
- [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
- [Table Service Error Codes](Table-Service-Error-Codes.md)   
- [Troubleshooting API Operations](Troubleshooting-API-Operations.md)   
- [HttpStatusCode Enumeration](https://go.microsoft.com/fwlink/?LinkId=152845)   
- [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)
+## See also  
+ [Common REST API error codes](Common-REST-API-Error-Codes.md)   
+ [Blob Storage error codes](Blob-Service-Error-Codes.md)   
+ [Table Storage error codes](Table-Service-Error-Codes.md)   
+ [Troubleshoot API operations](Troubleshooting-API-Operations.md)   
+ [HttpStatusCode enumeration](https://go.microsoft.com/fwlink/?LinkId=152845)   
+ [Azure Storage REST API reference](Azure-Storage-Services-REST-API-Reference.md)
