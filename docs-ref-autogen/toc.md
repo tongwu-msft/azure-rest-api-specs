@@ -12123,6 +12123,18 @@
 ### [Delete](azureml/Code-Versions/Delete.yml)
 ### [Get](azureml/Code-Versions/Get.yml)
 ### [List](azureml/Code-Versions/List.yml)
+## Component Containers
+### [Overview](azureml/Component-Containers.yml)
+### [Create Or Update](azureml/Component-Containers/Create-Or-Update.yml)
+### [Delete](azureml/Component-Containers/Delete.yml)
+### [Get](azureml/Component-Containers/Get.yml)
+### [List](azureml/Component-Containers/List.yml)
+## Component Versions
+### [Overview](azureml/Component-Versions.yml)
+### [Create Or Update](azureml/Component-Versions/Create-Or-Update.yml)
+### [Delete](azureml/Component-Versions/Delete.yml)
+### [Get](azureml/Component-Versions/Get.yml)
+### [List](azureml/Component-Versions/List.yml)
 ## Compute
 ### [Overview](azureml/Compute.yml)
 ### [Create Or Update](azureml/Compute/Create-Or-Update.yml)
@@ -12135,7 +12147,6 @@
 ### [Start](azureml/Compute/Start.yml)
 ### [Stop](azureml/Compute/Stop.yml)
 ### [Update](azureml/Compute/Update.yml)
-### [Update Schedules](azureml/Compute/Update-Schedules.yml)
 ## Data Containers
 ### [Overview](azureml/Data-Containers.yml)
 ### [Create Or Update](azureml/Data-Containers/Create-Or-Update.yml)
@@ -12161,12 +12172,12 @@
 ### [Delete](azureml/Environment-Containers/Delete.yml)
 ### [Get](azureml/Environment-Containers/Get.yml)
 ### [List](azureml/Environment-Containers/List.yml)
-## Environment Specification Versions
-### [Overview](azureml/Environment-Specification-Versions.yml)
-### [Create Or Update](azureml/Environment-Specification-Versions/Create-Or-Update.yml)
-### [Delete](azureml/Environment-Specification-Versions/Delete.yml)
-### [Get](azureml/Environment-Specification-Versions/Get.yml)
-### [List](azureml/Environment-Specification-Versions/List.yml)
+## Environment Versions
+### [Overview](azureml/Environment-Versions.yml)
+### [Create Or Update](azureml/Environment-Versions/Create-Or-Update.yml)
+### [Delete](azureml/Environment-Versions/Delete.yml)
+### [Get](azureml/Environment-Versions/Get.yml)
+### [List](azureml/Environment-Versions/List.yml)
 ## Jobs
 ### [Overview](azureml/Jobs.yml)
 ### [Cancel](azureml/Jobs/Cancel.yml)
@@ -12174,15 +12185,6 @@
 ### [Delete](azureml/Jobs/Delete.yml)
 ### [Get](azureml/Jobs/Get.yml)
 ### [List](azureml/Jobs/List.yml)
-## Labeling Jobs
-### [Overview](azureml/Labeling-Jobs.yml)
-### [Create Or Update](azureml/Labeling-Jobs/Create-Or-Update.yml)
-### [Delete](azureml/Labeling-Jobs/Delete.yml)
-### [Export Labels](azureml/Labeling-Jobs/Export-Labels.yml)
-### [Get](azureml/Labeling-Jobs/Get.yml)
-### [List](azureml/Labeling-Jobs/List.yml)
-### [Pause](azureml/Labeling-Jobs/Pause.yml)
-### [Resume](azureml/Labeling-Jobs/Resume.yml)
 ## Model Containers
 ### [Overview](azureml/Model-Containers.yml)
 ### [Create Or Update](azureml/Model-Containers/Create-Or-Update.yml)
@@ -12202,6 +12204,7 @@
 ### [Get](azureml/Online-Deployments/Get.yml)
 ### [Get Logs](azureml/Online-Deployments/Get-Logs.yml)
 ### [List](azureml/Online-Deployments/List.yml)
+### [List Skus](azureml/Online-Deployments/List-Skus.yml)
 ### [Update](azureml/Online-Deployments/Update.yml)
 ## Online Endpoints
 ### [Overview](azureml/Online-Endpoints.yml)
@@ -12241,16 +12244,21 @@
 ### [Delete](azureml/Workspace-Connections/Delete.yml)
 ### [Get](azureml/Workspace-Connections/Get.yml)
 ### [List](azureml/Workspace-Connections/List.yml)
+## Workspace Features
+### [Overview](azureml/Workspace-Features.yml)
+### [List](azureml/Workspace-Features/List.yml)
 ## Workspaces
 ### [Overview](azureml/Workspaces.yml)
 ### [Create Or Update](azureml/Workspaces/Create-Or-Update.yml)
 ### [Delete](azureml/Workspaces/Delete.yml)
+### [Diagnose](azureml/Workspaces/Diagnose.yml)
 ### [Get](azureml/Workspaces/Get.yml)
 ### [List By Resource Group](azureml/Workspaces/List-By-Resource-Group.yml)
 ### [List By Subscription](azureml/Workspaces/List-By-Subscription.yml)
 ### [List Keys](azureml/Workspaces/List-Keys.yml)
 ### [List Notebook Access Token](azureml/Workspaces/List-Notebook-Access-Token.yml)
 ### [List Notebook Keys](azureml/Workspaces/List-Notebook-Keys.yml)
+### [List Outbound Network Dependencies Endpoints](azureml/Workspaces/List-Outbound-Network-Dependencies-Endpoints.yml)
 ### [List Storage Account Keys](azureml/Workspaces/List-Storage-Account-Keys.yml)
 ### [Prepare Notebook](azureml/Workspaces/Prepare-Notebook.yml)
 ### [Resync Keys](azureml/Workspaces/Resync-Keys.yml)
