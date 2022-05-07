@@ -1,5 +1,5 @@
 ---
-title: "ServiceCorrelationDescription"
+title: "Service Correlation Overview"
 description: API reference documentation for the operations available in the ServiceCorrelationDescription REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceCorrelationDescription
+# Service Correlation Overview
 
 Creates a particular correlation between services.
 
