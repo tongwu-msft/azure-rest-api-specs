@@ -3,14 +3,14 @@ uid: management.azure.com.compute.diskencryptionsets.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Disk Encryption Sets
-apiVersion: 2020-12-01
+apiVersion: 2021-12-01
 summary: Creates or updates a disk encryption set
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}?api-version=2020-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}?api-version=2021-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: diskEncryptionSetName
   in: path
   isRequired: true
-  description: The name of the disk encryption set that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+  description: The name of the disk encryption set that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
   types:
   - uid: string
 - name: api-version
@@ -119,6 +119,31 @@ definitions:
     description: Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of rotationToLatestKeyVersionEnabled value.
     types:
     - uid: string
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
 - name: DiskEncryptionSet
   description: disk encryption set resource.
   kind: object
@@ -155,6 +180,11 @@ definitions:
     description: The time when the active key of this disk encryption set was updated.
     types:
     - uid: string
+  - name: properties.autoKeyRotationError
+    isReadyOnly: true
+    description: The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed.
+    types:
+    - uid: ApiError
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -208,43 +238,6 @@ definitions:
     description: Resource Id
     types:
     - uid: string
-- name: DiskEncryptionSetType
-  description: The type of key used to encrypt the data of the disk.
-  kind: enum
-  properties:
-  - name: EncryptionAtRestWithCustomerKey
-    description: Resource using diskEncryptionSet would be encrypted at rest with Customer managed key that can be changed and revoked by a customer.
-    types:
-    - uid: string
-  - name: EncryptionAtRestWithPlatformAndCustomerKeys
-    description: Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed.
-    types:
-    - uid: string
-- name: ApiError
-  description: Api error.
-  kind: object
-  properties:
-  - name: details
-    description: The Api error details
-    types:
-    - uid: ApiErrorBase
-      isArray: true
-  - name: innererror
-    description: The Api inner error
-    types:
-    - uid: InnerError
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
 - name: ApiErrorBase
   description: Api error base.
   kind: object
@@ -273,10 +266,26 @@ definitions:
     description: The internal error message or exception dump.
     types:
     - uid: string
+- name: DiskEncryptionSetType
+  description: The type of key used to encrypt the data of the disk.
+  kind: enum
+  properties:
+  - name: EncryptionAtRestWithCustomerKey
+    description: Resource using diskEncryptionSet would be encrypted at rest with Customer managed key that can be changed and revoked by a customer.
+    types:
+    - uid: string
+  - name: EncryptionAtRestWithPlatformAndCustomerKeys
+    description: Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed.
+    types:
+    - uid: string
+  - name: ConfidentialVmEncryptedWithCustomerKey
+    description: Confidential VM supported disk and VM guest state would be encrypted with customer managed key.
+    types:
+    - uid: string
 examples:
 - name: Create a disk encryption set.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2020-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2021-12-01
     body: >-
       {
         "location": "West US",
@@ -334,7 +343,7 @@ examples:
       }
 - name: Create a disk encryption set with key vault from a different subscription.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2020-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2021-12-01
     body: >-
       {
         "location": "West US",

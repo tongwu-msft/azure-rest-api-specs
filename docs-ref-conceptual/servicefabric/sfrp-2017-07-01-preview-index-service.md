@@ -1,5 +1,5 @@
 ---
-title: Service Fabric Service (2017-07-01-preview)
+title: Service Fabric APIs (2017-07-01-preview)
 description: API reference documentation for the operations available in the Service Fabric Service REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Service Fabric Service (2017-07-01-preview)
+# Service Fabric APIs (2017-07-01-preview)
 
 | Name | Description |
 | --- | --- |

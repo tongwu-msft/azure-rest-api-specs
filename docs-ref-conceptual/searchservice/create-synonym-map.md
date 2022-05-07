@@ -4,7 +4,7 @@ description: "A synonym map to expand or rewrite a search query can be created u
 ms.date: 02/11/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

@@ -1,5 +1,6 @@
 ---
 title: "Error Codes for Update Storage Account (Azure Storage)"
+description: List of error codes and HTTP status for the Update Storage Account operation.
 ---
 # Error Codes for Update Storage Account
 
