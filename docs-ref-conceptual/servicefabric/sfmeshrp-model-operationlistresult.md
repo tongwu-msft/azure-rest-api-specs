@@ -1,5 +1,5 @@
 ---
-title: "OperationListResult"
+title: "Service Fabric Operations Request Result"
 description: Service Fabric Mesh Resource Manager API Reference
 services: service-fabric-mesh
 author: VipulM-MSFT
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# OperationListResult
+# Service Fabric Operations Request Result
 
 Describes the result of the request to list Service Fabric operations.
 
