@@ -1,5 +1,5 @@
 ---
-title: "OperationResult"
+title: "Operation List Result"
 description: API reference documentation for the operations available in the OperationResult REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# OperationResult
+# Operation List Result
 
 Available operation list result
 
