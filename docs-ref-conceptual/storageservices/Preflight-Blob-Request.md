@@ -11,7 +11,9 @@ ms.author: pemari
 
 # Preflight Blob Request
 
-The `Preflight Blob Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for Azure Blob Storage before sending the request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the request that the agent wants to make. If CORS is enabled for Blob Storage, then Blob Storage evaluates the preflight request against the CORS rules that the account owner has configured via [Set Blob Service Properties](Set-Blob-Service-Properties.md). Blob Storage then accepts or rejects the request.  
+The `Preflight Blob Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for Azure Blob Storage before sending the request. 
+
+A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the request that the agent wants to make. If CORS is enabled for Blob Storage, then Blob Storage evaluates the preflight request against the CORS rules that the account owner has configured via [Set Blob Service Properties](Set-Blob-Service-Properties.md). Blob Storage then accepts or rejects the request.  
   
 For more information about CORS and the preflight request, see [the CORS specification](https://www.w3.org/TR/cors/) and [CORS support for Azure Storage](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
   
@@ -22,7 +24,7 @@ You can specify `Preflight Blob Request` as follows. Replace `<account-name>` wi
 |---------------|-----------------|------------------|  
 |`OPTIONS`|`http://<account-name>.blob.core.windows.net/<blob-resource>`|HTTP/1.1|  
   
-The URI must always include the forward slash (/), to separate the host name from the path and query portions of the URI. In the case of this operation, the path portion of the URI can be empty, or it can point to any container or blob resource. 
+The URI must always include the forward slash (/) to separate the host name from the path and query portions of the URI. In the case of this operation, the path portion of the URI can be empty, or it can point to any container or blob resource. 
 
 The resource might or might not exist at the time that the preflight request is made. The preflight request is evaluated at the service level against the service's CORS rules, so the presence or absence of the resource name does not affect the success or failure of the operation.  
   

@@ -11,9 +11,11 @@ ms.author: pemari
 
 # Preflight Queue Request
 
-The `Preflight Queue Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for Azure Queue Storage before sending the request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the request that the agent wants to make. If CORS is enabled for Queue Storage, then Queue Storage evaluates the preflight request against the CORS rules that the account owner has configured via [Set Queue Service Properties](Set-Queue-Service-Properties.md). Queue Storage then accepts or rejects the request.  
+The `Preflight Queue Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for Azure Queue Storage before sending the request. 
+
+A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the request that the agent wants to make. If CORS is enabled for Queue Storage, then Queue Storage evaluates the preflight request against the CORS rules that the account owner has configured via [Set Queue Service Properties](Set-Queue-Service-Properties.md). Queue Storage then accepts or rejects the request.  
   
-For more information about CORS and the preflight request, see [the CORS specification](https://www.w3.org/TR/cors/) and [CORS Support for Azure Storage](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
+For more information about CORS and the preflight request, see [the CORS specification](https://www.w3.org/TR/cors/) and [CORS support for Azure Storage](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
   
 ## Request  
 You can specify `Preflight Queue Request` as follows. Replace `<account-name>` with the name of your storage account. Replace `<queue-resource>` with the name of the queue resource that will be the target of the request.  

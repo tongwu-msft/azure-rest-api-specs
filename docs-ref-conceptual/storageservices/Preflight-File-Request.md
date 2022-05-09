@@ -10,9 +10,11 @@ ms.author: wgries
 ---
 
 # Preflight File Request
-The `Preflight File Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for Azure Files before sending the request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the request that the agent wants to make. If CORS is enabled for Azure Files, then Azure Files evaluates the preflight request against the CORS rules that the account owner has configured via [Set File Service Properties](Set-File-Service-Properties.md). Azure Files then accepts or rejects the request.  
+The `Preflight File Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for Azure Files before sending the request. 
+
+A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the request that the agent wants to make. If CORS is enabled for Azure Files, then Azure Files evaluates the preflight request against the CORS rules that the account owner has configured via [Set File Service Properties](Set-File-Service-Properties.md). Azure Files then accepts or rejects the request.  
   
-For more information about CORS and the preflight request, see [the CORS specification](https://www.w3.org/TR/cors/) and [Cross-Origin Resource Sharing (CORS) support for Azure Storage](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).
+For more information about CORS and the preflight request, see [the CORS specification](https://www.w3.org/TR/cors/) and [CORS support for Azure Storage](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).
 
 ## Protocol availability
 
@@ -28,7 +30,7 @@ You can specify `Preflight File Request` as follows. Replace `<account-name>` wi
 |---------------|-----------------|------------------|  
 |`OPTIONS`|`http://<account-name>.file.core.windows.net/<file-resource>`<br /><br /> `http://<account-name>.file.core.windows.net/<file-resource>?restype=share`<br /><br /> `http://<account-name>.file.core.windows.net/<file-resource>?restype=directory`|HTTP/1.1|  
   
-The URI must always include the forward slash (/), to separate the host name from the path and query portions of the URI. In the case of this operation, the path portion of the URI can be empty, or it can point to any Azure Files resource. If the Azure Files resource is a share or a directory, the `restype` query parameter is required. 
+The URI must always include the forward slash (/) to separate the host name from the path and query portions of the URI. In the case of this operation, the path portion of the URI can be empty, or it can point to any Azure Files resource. If the Azure Files resource is a share or a directory, the `restype` query parameter is required. 
 
 The resource might or might not exist at the time that the preflight request is made. The preflight request is evaluated at the service level against the service's CORS rules, so the presence or absence of the resource name does not affect the success or failure of the operation.  
   
