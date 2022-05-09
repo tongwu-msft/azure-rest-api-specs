@@ -1,6 +1,6 @@
 ---
 title: "Status and Error Codes v82"
-description: "status and error codes"
+description: "REST API operations for Service Fabric return standard HTTP status codes, as defined in the TTP/1.1 Status Code Definitions."
 ms.date: "11/08/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -14,7 +14,6 @@ helpviewer_keywords:
   - "Service Fabric REST API Reference"
 author: "erikadoyle"
 ms.author: "edoyle"
-manager: "gwallace"
 translation.priority.mt:
   - "de-de"
   - "es-es"
