@@ -2,7 +2,7 @@
 ms.assetid: 0c725cba-40fa-4ff3-8be5-cef3f5cc5443
 title: Request quota increase via Support API 
 description: Learn how to request a quota increase using the Azure Support REST API.
-ms.service: Support
+ms.service: azure
 author: gangan
 ms.author: gangan
 ms.date: 02/10/2020

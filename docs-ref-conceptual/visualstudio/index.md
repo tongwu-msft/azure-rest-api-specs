@@ -5,7 +5,7 @@ author: tfitzmac
 ms.author: tomfitz
 ms.date: 01/31/2018
 ms.topic: reference
-ms.service: visual-studio
+ms.service: azure
 ms.devlang: rest-api
 ---
 
