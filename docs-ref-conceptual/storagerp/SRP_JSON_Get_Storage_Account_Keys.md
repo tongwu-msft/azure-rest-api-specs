@@ -1,5 +1,6 @@
 ---
 title: "JSON payloads for Get Storage Account Keys (Azure Storage)"
+description: JSON request and response payloads for the Get Storage Account Keys operation.
 ---
 # JSON payloads for Get Storage Account Keys
 
