@@ -1,15 +1,15 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.azureml.environmentspecificationversions.list
+uid: management.azure.com.azureml.environmentversions.list
 name: List
 service: Machine Learning
-groupName: Environment Specification Versions
-apiVersion: 2021-03-01-preview
+groupName: Environment Versions
+apiVersion: 2022-02-01-preview
 summary: List versions.
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}/versions?api-version=2021-03-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}/versions?api-version=2021-03-01-preview&$orderBy={$orderBy}&$top={$top}&$skip={$skip}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}/versions?api-version=2022-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}/versions?api-version=2022-02-01-preview&$orderBy={$orderBy}&$top={$top}&$skip={$skip}&listViewType={listViewType}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -33,7 +33,7 @@ uriParameters:
 - name: name
   in: path
   isRequired: true
-  description: Container name.
+  description: Container name. This is case-sensitive.
   types:
   - uid: string
 - name: api-version
@@ -58,6 +58,11 @@ uriParameters:
   description: Continuation token for pagination.
   types:
   - uid: string
+- name: listViewType
+  in: query
+  description: View type for including/excluding (for example) archived entities.
+  types:
+  - uid: ListViewType
 responses:
 - name: Other Status Codes
   description: Error
@@ -66,9 +71,21 @@ responses:
 - name: 200 OK
   description: Success
   types:
-  - uid: EnvironmentSpecificationVersionResourceArmPaginatedResult
+  - uid: EnvironmentVersionResourceArmPaginatedResult
 requestHeader: []
 definitions:
+- name: ListViewType
+  kind: enum
+  properties:
+  - name: ActiveOnly
+    types:
+    - uid: string
+  - name: ArchivedOnly
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -77,18 +94,18 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: EnvironmentSpecificationVersionResourceArmPaginatedResult
-  description: A paginated list of EnvironmentSpecificationVersion entities.
+- name: EnvironmentVersionResourceArmPaginatedResult
+  description: A paginated list of EnvironmentVersion entities.
   kind: object
   properties:
   - name: nextLink
-    description: The link to the next page of EnvironmentSpecificationVersion objects. If null, there are no additional pages.
+    description: The link to the next page of EnvironmentVersion objects. If null, there are no additional pages.
     types:
     - uid: string
   - name: value
-    description: An array of objects of type EnvironmentSpecificationVersion.
+    description: An array of objects of type EnvironmentVersion.
     types:
-    - uid: EnvironmentSpecificationVersionResource
+    - uid: EnvironmentVersionResource
       isArray: true
 - name: ErrorDetail
   description: The error detail.
@@ -121,19 +138,14 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: EnvironmentSpecificationVersionResource
+- name: EnvironmentVersionResource
   description: Azure Resource Manager resource envelope.
   kind: object
   properties:
   - name: properties
     description: '[Required] Additional attributes of the entity.'
     types:
-    - uid: EnvironmentSpecificationVersion
-  - name: systemData
-    isReadyOnly: true
-    description: System data associated with resource provider
-    types:
-    - uid: systemData
+    - uid: EnvironmentVersion
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -149,6 +161,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -163,13 +180,14 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: EnvironmentSpecificationVersion
-  description: >-
-    Environment specification version details.
-
-    <see href="https://repo2docker.readthedocs.io/en/latest/specification.html" />
+- name: EnvironmentVersion
+  description: Environment version details.
   kind: object
   properties:
+  - name: build
+    description: Configuration settings for Docker build context.
+    types:
+    - uid: BuildContext
   - name: condaFile
     description: >-
       Standard configuration file used by Conda that lets you install any kind of package, including Python, R, and C/C++ packages.
@@ -177,32 +195,41 @@ definitions:
       <see href="https://repo2docker.readthedocs.io/en/latest/config_files.html#environment-yml-install-a-conda-environment" />
     types:
     - uid: string
-  - name: description
-    description: The asset description text.
-    types:
-    - uid: string
-  - name: docker
-    description: Configuration settings for Docker.
-    types:
-    - uid: DockerBuild
-    - uid: DockerImage
-    typesTitle: DockerSpecification
-  - name: environmentSpecificationType
+  - name: environmentType
     isReadyOnly: true
     description: >-
-      Environment specification is either user managed or curated by the Azure ML service
+      Environment type is either user managed or curated by the Azure ML service
 
       <see href="https://docs.microsoft.com/en-us/azure/machine-learning/resource-curated-environments" />
     types:
-    - uid: EnvironmentSpecificationType
-  - name: inferenceContainerProperties
+    - uid: EnvironmentType
+  - name: image
+    description: >-
+      Name of the image that will be used for the environment.
+
+      <seealso href="https://docs.microsoft.com/en-us/azure/machine-learning/how-to-deploy-custom-docker-image#use-a-custom-base-image" />
+    types:
+    - uid: string
+  - name: inferenceConfig
     description: Defines configuration specific to inference.
     types:
     - uid: InferenceContainerProperties
+  - name: osType
+    description: The OS type of the environment.
+    types:
+    - uid: OperatingSystemType
   - name: isAnonymous
     description: If the name version are system generated (anonymous registration).
     types:
     - uid: boolean
+  - name: isArchived
+    description: Is the asset archived?
+    types:
+    - uid: boolean
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
   - name: properties
     description: The asset property dictionary.
     types:
@@ -247,8 +274,26 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: EnvironmentSpecificationType
-  description: Environment specification is either user created or curated by Azure ML service
+- name: BuildContext
+  description: Configuration settings for Docker build context
+  kind: object
+  properties:
+  - name: contextUri
+    description: >-
+      [Required] URI of the Docker build context used to build the image. Supports blob URIs on environment creation and may return blob or Git URIs.
+
+      <seealso href="https://docs.docker.com/engine/reference/commandline/build/#extended-description" />
+    types:
+    - uid: string
+  - name: dockerfilePath
+    description: >-
+      Path to the Dockerfile in the build context.
+
+      <seealso href="https://docs.docker.com/engine/reference/builder/" />
+    types:
+    - uid: string
+- name: EnvironmentType
+  description: Environment type is either user created or curated by Azure ML service
   kind: enum
   properties:
   - name: Curated
@@ -272,6 +317,16 @@ definitions:
     description: The port to send the scoring requests to, within the inference server container.
     types:
     - uid: Route
+- name: OperatingSystemType
+  description: The type of operating system.
+  kind: enum
+  properties:
+  - name: Linux
+    types:
+    - uid: string
+  - name: Windows
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -288,55 +343,6 @@ definitions:
   - name: Key
     types:
     - uid: string
-- name: DockerBuild
-  description: Class to represent configuration settings for Docker Build
-  kind: object
-  properties:
-  - name: context
-    description: >-
-      Path to a snapshot of the Docker Context. This property is only valid if Dockerfile is specified.
-
-      The path is relative to the asset path which must contain a single Blob URI value.
-
-      <seealso href="https://docs.docker.com/engine/context/working-with-contexts/" />
-    types:
-    - uid: string
-  - name: dockerfile
-    description: >-
-      [Required] Docker command line instructions to assemble an image.
-
-      <seealso href="https://repo2docker.readthedocs.io/en/latest/config_files.html#dockerfile-advanced-environments" />
-    types:
-    - uid: string
-  - name: dockerSpecificationType
-    description: '[Required] Docker specification must be either Build or Image'
-    types:
-    - uid: Build
-    typesTitle: string
-  - name: platform
-    description: The platform information of the docker image.
-    types:
-    - uid: DockerImagePlatform
-- name: DockerImage
-  description: Class to represent configuration settings for Docker Build
-  kind: object
-  properties:
-  - name: dockerImageUri
-    description: >-
-      [Required] Image name of a custom base image.
-
-      <seealso href="https://docs.microsoft.com/en-us/azure/machine-learning/how-to-deploy-custom-docker-image#use-a-custom-base-image" />
-    types:
-    - uid: string
-  - name: dockerSpecificationType
-    description: '[Required] Docker specification must be either Build or Image'
-    types:
-    - uid: Image
-    typesTitle: string
-  - name: platform
-    description: The platform information of the docker image.
-    types:
-    - uid: DockerImagePlatform
 - name: Route
   kind: object
   properties:
@@ -348,101 +354,55 @@ definitions:
     description: '[Required] The port for the route.'
     types:
     - uid: integer
-- name: DockerSpecificationType
-  description: Enum to determine docker specification type. Must be either Build or Image.
-  kind: enum
-  properties:
-  - name: Build
-    types:
-    - uid: string
-  - name: Image
-    types:
-    - uid: string
-- name: DockerImagePlatform
-  kind: object
-  properties:
-  - name: operatingSystemType
-    description: The OS type the Environment.
-    types:
-    - uid: OperatingSystemType
-- name: OperatingSystemType
-  description: The type of operating system.
-  kind: enum
-  properties:
-  - name: Linux
-    types:
-    - uid: string
-  - name: Windows
-    types:
-    - uid: string
 examples:
-- name: List Environment Specification Version.
+- name: List Environment Version.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/environments/testEnvironment/versions?api-version=2021-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/environments/string/versions?api-version=2022-02-01-preview&$orderBy=string&$top=1
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/environments/testEnvironment/versions/1",
-            "name": "1",
-            "type": "Microsoft.MachineLearningServices/workspaces/environments/versions",
+            "id": "string",
+            "name": "string",
+            "type": "string",
             "properties": {
-              "docker": {
-                "dockerSpecificationType": "Build",
-                "dockerfile": "FROM myimage"
-              },
-              "condaFile": "channels:\n- defaults\ndependencies:\n- python=3.7.7\nname: my-env",
               "description": "string",
               "tags": {
-                "additionalProp1": "string",
-                "additionalProp2": "string",
-                "additionalProp3": "string"
+                "string": "string"
               },
               "properties": {
-                "additionalProp1": "string",
-                "additionalProp2": "string",
-                "additionalProp3": "string"
+                "string": "string"
+              },
+              "isAnonymous": false,
+              "environmentType": "Curated",
+              "image": "docker.io/tensorflow/serving:latest",
+              "condaFile": "string",
+              "build": {
+                "contextUri": "https://storage-account.blob.core.windows.net/azureml/DockerBuildContext/95ddede6b9b8c4e90472db3acd0a8d28/",
+                "dockerfilePath": "prod/Dockerfile"
+              },
+              "inferenceConfig": {
+                "livenessRoute": {
+                  "path": "string",
+                  "port": 1
+                },
+                "readinessRoute": {
+                  "path": "string",
+                  "port": 1
+                },
+                "scoringRoute": {
+                  "path": "string",
+                  "port": 1
+                }
               }
             },
             "systemData": {
-              "createdAt": "2020-12-08T01:15:45.909Z",
+              "createdAt": "2020-01-01T12:34:56.999Z",
               "createdBy": "string",
               "createdByType": "User",
-              "lastModifiedAt": "2020-12-08T01:15:45.909Z",
-              "lastModifiedBy": "string",
-              "lastModifiedByType": "User"
-            }
-          },
-          {
-            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/environments/testEnvironment/versions/1",
-            "name": "2",
-            "type": "Microsoft.MachineLearningServices/workspaces/environments/versions",
-            "properties": {
-              "environmentSpecificationType": "Curated",
-              "docker": {
-                "dockerSpecificationType": "Build",
-                "dockerfile": "FROM myimage"
-              },
-              "condaFile": "channels:\n- defaults\ndependencies:\n- python=3.7.7\nname: my-env",
-              "description": "string",
-              "tags": {
-                "additionalProp1": "string",
-                "additionalProp2": "string",
-                "additionalProp3": "string"
-              },
-              "properties": {
-                "additionalProp1": "string",
-                "additionalProp2": "string",
-                "additionalProp3": "string"
-              }
-            },
-            "systemData": {
-              "createdAt": "2020-12-08T01:15:45.909Z",
-              "createdBy": "string",
-              "createdByType": "User",
-              "lastModifiedAt": "2020-12-08T01:15:45.909Z",
+              "lastModifiedAt": "2020-01-01T12:34:56.999Z",
               "lastModifiedBy": "string",
               "lastModifiedByType": "User"
             }

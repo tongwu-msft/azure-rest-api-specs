@@ -3,12 +3,12 @@ uid: management.azure.com.azureml.datacontainers.get
 name: Get
 service: Machine Learning
 groupName: Data Containers
-apiVersion: 2021-03-01-preview
+apiVersion: 2022-02-01-preview
 summary: Get container.
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}?api-version=2021-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}?api-version=2022-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -67,11 +67,6 @@ definitions:
     description: '[Required] Additional attributes of the entity.'
     types:
     - uid: DataContainer
-  - name: systemData
-    isReadyOnly: true
-    description: System data associated with resource provider
-    types:
-    - uid: systemData
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -87,6 +82,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -122,6 +122,24 @@ definitions:
   description: Container for data asset versions.
   kind: object
   properties:
+  - name: dataType
+    description: '[Required] Specifies the type of data.'
+    types:
+    - uid: DataType
+  - name: isArchived
+    description: Is the asset archived?
+    types:
+    - uid: boolean
+  - name: latestVersion
+    isReadyOnly: true
+    description: The latest version inside this container.
+    types:
+    - uid: string
+  - name: nextVersion
+    isReadyOnly: true
+    description: The next auto incremental version
+    types:
+    - uid: string
   - name: description
     description: The asset description text.
     types:
@@ -184,6 +202,19 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: DataType
+  description: Enum to determine the type of data.
+  kind: enum
+  properties:
+  - name: UriFile
+    types:
+    - uid: string
+  - name: UriFolder
+    types:
+    - uid: string
+  - name: MLTable
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -203,7 +234,7 @@ definitions:
 examples:
 - name: Get Data Container.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspace123/data/datacontainer123?api-version=2021-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspace123/data/datacontainer123?api-version=2022-02-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -212,6 +243,7 @@ examples:
         "name": "datacontainer123",
         "type": "Microsoft.MachineLearningServices/workspaces/data",
         "properties": {
+          "dataType": "UriFile",
           "description": "string",
           "tags": {
             "tag1": "value1",
