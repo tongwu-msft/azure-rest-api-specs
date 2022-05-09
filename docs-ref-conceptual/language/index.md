@@ -19,7 +19,7 @@ The API reference for authoring and runtime APIs for Conversational Language Und
 
 |Service|Description|API Reference|
 |--|--|--|
-|Conversational Language Understanding - Authoring|Authoring API calls to create, build, manage, train, and deploy your CLU projects|[Reference](/docs-ref-autogen/language/conversationalanalysisauthoring/Conversational-Analysis-Authoring.yml)|
-|Conversational Language Understanding - Runtime|Runtime prediction calls to query your deployed CLU project|[Reference](/docs-ref-autogen/language/conversationalanalysisruntime/Conversation-Analysis/Analyze-Conversation.yml)|
-|Custom Text Classification & Custom Named Entity Recognition - Authoring|Authoring API calls to create, build, train, and deploy your projects Custom Text Classification or Custom Named Entity Recognition projects|[Reference](/docs-ref-autogen/language/textanalysisauthoring/Text-Analysis-Authoring.yml)|
-|Custom Text Classification & Custom Named Entity Recognition - Runtime|Runtime prediction calls to query your deployed projects.|[Reference](/docs-ref-autogen/language/textanalysisruntime/Analyze-Text.yml)|
+|Conversational Language Understanding - Authoring|Authoring API calls to create, build, manage, train, and deploy your CLU projects|[Reference](/rest/api/language/conversational-analysis-authoring)|
+|Conversational Language Understanding - Runtime|Runtime prediction calls to query your deployed CLU project|[Reference](/rest/api/language/conversation-analysis)|
+|Custom Text Classification & Custom Named Entity Recognition - Authoring|Authoring API calls to create, build, train, and deploy your projects Custom Text Classification or Custom Named Entity Recognition projects|[Reference](/rest/api/language/text-analysis-authoring)|
+|Custom Text Classification & Custom Named Entity Recognition - Runtime|Runtime prediction calls to query your deployed projects.|[Reference](/rest/api/language/analyze-text)|
