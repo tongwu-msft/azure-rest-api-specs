@@ -61,7 +61,7 @@ For details about preflight request headers, see [the CORS specification](https:
 |Response header|Description|  
 |---------------------|-----------------|  
 |`Access-Control-Allow-Origin`|Indicates the allowed origin, which matches the origin header in the request if the preflight request succeeds.|  
-|`Access-Control-Allow-Methods`|If the preflight requests succeeds, this header is set to the value or values specified for the request header `Access-Control-Request-Method`.|  
+|`Access-Control-Allow-Methods`|If the preflight request succeeds, this header is set to the value or values specified for the request header `Access-Control-Request-Method`.|  
 |`Access-Control-Allow-Headers`|If the preflight request succeeds, this header is set to the value or values specified for the request header `Access-Control-Request-Headers`.|  
 |`Access-Control-Max-Age`|Specifies the length of time that the user agent is allowed to cache the preflight request for future requests.|  
 |`Access-Control-Allow-Credentials`|Indicates whether the request can be made through credentials. This header is always set to `true`.|  
