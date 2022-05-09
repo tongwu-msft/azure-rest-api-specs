@@ -9028,6 +9028,20 @@
 ## Operations
 ### [Overview](desktopvirtualization/Operations.yml)
 ### [List](desktopvirtualization/Operations/List.yml)
+## Private Endpoint Connections
+### [Overview](desktopvirtualization/Private-Endpoint-Connections.yml)
+### [Delete By Host Pool](desktopvirtualization/Private-Endpoint-Connections/Delete-By-Host-Pool.yml)
+### [Delete By Workspace](desktopvirtualization/Private-Endpoint-Connections/Delete-By-Workspace.yml)
+### [Get By Host Pool](desktopvirtualization/Private-Endpoint-Connections/Get-By-Host-Pool.yml)
+### [Get By Workspace](desktopvirtualization/Private-Endpoint-Connections/Get-By-Workspace.yml)
+### [List By Host Pool](desktopvirtualization/Private-Endpoint-Connections/List-By-Host-Pool.yml)
+### [List By Workspace](desktopvirtualization/Private-Endpoint-Connections/List-By-Workspace.yml)
+### [Update By Host Pool](desktopvirtualization/Private-Endpoint-Connections/Update-By-Host-Pool.yml)
+### [Update By Workspace](desktopvirtualization/Private-Endpoint-Connections/Update-By-Workspace.yml)
+## Private Link Resources
+### [Overview](desktopvirtualization/Private-Link-Resources.yml)
+### [List By Host Pool](desktopvirtualization/Private-Link-Resources/List-By-Host-Pool.yml)
+### [List By Workspace](desktopvirtualization/Private-Link-Resources/List-By-Workspace.yml)
 ## Scaling Plans
 ### [Overview](desktopvirtualization/Scaling-Plans.yml)
 ### [Create](desktopvirtualization/Scaling-Plans/Create.yml)
