@@ -3,7 +3,7 @@ title: Blob Batch (REST API) - Azure Storage
 description: The Blob Batch operation allows multiple API calls to be embedded into a single HTTP request.
 author: pemari-msft
 
-ms.date: 05/03/2021
+ms.date: 04/05/2022
 ms.author: pemari
 ms.service: storage
 ms.topic: reference
@@ -11,7 +11,7 @@ ms.topic: reference
 
 # Blob Batch
 
-The `Blob Batch` operation allows multiple API calls to be embedded into a single HTTP request. This API supports two types of subrequests: [SetBlobTier](set-blob-tier.md) for block blobs and [DeleteBlob](Delete-Blob.md). The response returned by the server for a batch request contains the results for each subrequest in the batch. The batch request and response uses the syntax of OData batch processing specification with modifications to semantics. This API is available starting in version `2018-11-09`.
+The `Blob Batch` operation allows multiple API calls to be embedded into a single HTTP request. This API supports two types of subrequests: [Set Blob Tier](set-blob-tier.md) for block blobs and [Delete Blob](Delete-Blob.md). The response returned by the server for a batch request contains the results for each subrequest in the batch. The batch request and response uses the syntax of OData batch processing specification with modifications to semantics. This API is available starting in version `2018-11-09`.
   
 ## Request  
  The `Blob Batch` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -27,7 +27,7 @@ The following additional parameters may be specified on the request URI.
 |Parameter|Description|
 |-------------|-----------|
 |`timeout`|Optional. The timeout parameter is expressed in seconds with a maximum value of 120 seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|
-|`restype`|Optional, version 2020-04-08 and newer. The only value supported for the restype parameter is container. When this parameter is specified, the URI must include the container name. Any sub-requests must be scoped to the same container.|
+|`restype`|Optional, version 2020-04-08 and newer. The only value supported for the `restype` parameter is *container*. When this parameter is specified, the URI must include the container name. Any sub-requests must be scoped to the same container.|
 
 ### Request Headers
 The following table describes required and optional request headers.
@@ -39,7 +39,7 @@ The following table describes required and optional request headers.
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. This version will be used for all subrequests. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Length`|Required. The length of the request.|  
 |`Content-Type`|Required. The value of this header must be `multipart/mixed` with a batch boundary. Example header value: `multipart/mixed; boundary=batch_a81786c8-e301-4e42-a729-a32ca24ae252`|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
 
 ### Request Body
 The request body for a blob batch contains a list of all subrequests. The format uses the syntax of the OData batch specification with modifications to semantics. The request body starts with a batch boundary followed by two mandatory headers: `Content-Type` header with value `application/http` and `Content-Transfer-Encoding` with value `binary`. This is followed by an optional `Content-ID` header with a string value to track each of the subrequests. The response will contain the `Content-ID` header for each corresponding subrequest response to use for tracking. These request headers are followed by a mandatory empty line and then the definition for each subrequest. The body of each subrequest is a complete HTTP request with verb, URL, headers, and body needed for the request. Note the following caveats: 
@@ -170,12 +170,12 @@ One of the main benefits of using a batch request is the reduction in the number
   * Each subrequest must be for a resource within the same storage account. A single batch request does not support executing requests from different storage accounts.
   * A nested request body is not supported.
   * If the server fails to parse the request body, the result is a failure of the entire batch and no request will be executed.
-  * Note that [Account SAS](create-account-sas.md) is the only SAS type supported by Blob Batch when batch is not using restype=container.
+  * Note that [Account SAS](create-account-sas.md) is the only SAS type supported by Blob Batch when batch is not using `restype=container`.
 
 **Scope all subrequests to specific container**
-Beginning with REST version 2020-04-08, the Blob Batch API supports scoping sub-requests to a specified container. When the request URI includes the container name and the restype=container parameter, then each sub-request must apply to the same container. If the container name specified for a sub-request does not match the container name provided in URI, then the request will fail with error code 400 (Bad Request).
+Beginning with REST version 2020-04-08, the Blob Batch API supports scoping sub-requests to a specified container. When the request URI includes the container name and the `restype=container` parameter, then each sub-request must apply to the same container. If the container name specified for a sub-request does not match the container name provided in URI, then the request will fail with error code 400 (Bad Request).
 
-All authorization mechanisms supported for a container are valid for a Blob Batch operations that is scoped to the container. Each sub-request sends an Authorization header to the service.
+All authorization mechanisms supported for a container are valid for a Blob Batch operation that is scoped to the container. Each sub-request sends an Authorization header to the service.
 
 ## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   

@@ -1,5 +1,6 @@
 ---
 title: "ServerCertificateCommonName"
+description: "Learn about the server certificate details using common name. Properties include certificateCommonName and certificateIssuerThumbprint." 
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

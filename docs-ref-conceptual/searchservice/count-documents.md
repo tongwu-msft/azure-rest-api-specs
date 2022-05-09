@@ -4,7 +4,7 @@ description: Return a count of total number of documents in an Azure Cognitive S
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

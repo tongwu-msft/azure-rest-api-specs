@@ -1,5 +1,6 @@
 ---
-title: "List"
+title: Service Fabric List Operations
+description: API reference documentation for the operations available in the Service Fabric List Operations REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List
+# Service Fabric List Operations
+
 Lists all of the available Service Fabric resource provider API operations.
 
 Get the list of available Service Fabric resource provider API operations.

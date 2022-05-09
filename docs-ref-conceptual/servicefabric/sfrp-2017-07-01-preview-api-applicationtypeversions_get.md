@@ -1,5 +1,6 @@
 ---
-title: "Get"
+title: Service Fabric Get Application Type Version
+description: API reference documentation for the operations available in the Service Fabric Get Application Type Version REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get
+# Service Fabric Get Application Type Version
+
 Gets a Service Fabric application type version resource.
 
 Get a Service Fabric application type version resource created or in the process of being created in the Service Fabric application type name resource.

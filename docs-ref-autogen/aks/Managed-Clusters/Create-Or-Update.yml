@@ -3,25 +3,25 @@ uid: management.azure.com.aks.managedclusters.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2022-01-01
+apiVersion: 2022-02-01
 summary: Creates or updates a managed cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2022-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2022-02-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
 - name: resourceName
@@ -34,7 +34,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -273,6 +273,10 @@ definitions:
   description: Profile for the container service agent pool.
   kind: object
   properties:
+  - name: name
+    description: "Unique name of the agent pool profile in the context of the subscription and resource group.  \nWindows agent pool names must be 6 characters or less."
+    types:
+    - uid: string
   - name: count
     description: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.
     types:
@@ -441,10 +445,6 @@ definitions:
     description: CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot.
     types:
     - uid: CreationData
-  - name: name
-    description: "Unique name of the agent pool profile in the context of the subscription and resource group.  \nWindows agent pool names must be 6 characters or less."
-    types:
-    - uid: string
 - name: ContainerServiceLinuxProfile
   description: Profile for Linux VMs in the container service cluster.
   kind: object
@@ -812,6 +812,34 @@ definitions:
     description: Azure Defender settings for the security profile.
     types:
     - uid: ManagedClusterSecurityProfileAzureDefender
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: ManagedCluster
   description: Managed cluster.
   kind: object
@@ -966,19 +994,24 @@ definitions:
     - uid: PublicNetworkAccess
   - name: id
     isReadyOnly: true
-    description: Resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: SystemData
   - name: location
     description: Resource location
     types:
@@ -1560,6 +1593,22 @@ definitions:
     description: Resource ID of the Log Analytics workspace to be associated with Azure Defender.  When Azure Defender is enabled, this field is required and must be a valid workspace resource ID. When Azure Defender is disabled, leave the field empty.
     types:
     - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: PublicNetworkAccess
   description: PublicNetworkAccess of the managedCluster
   kind: enum
@@ -1816,7 +1865,7 @@ definitions:
 examples:
 - name: Create/Update Managed Cluster
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -2114,7 +2163,7 @@ examples:
       }
 - name: Create/Update AAD Managed Cluster with EnableAzureRBAC
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -2391,7 +2440,7 @@ examples:
       }
 - name: Create Managed Cluster with PPG
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -2640,7 +2689,7 @@ examples:
       }
 - name: Create Managed Cluster with OSSKU
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -2916,7 +2965,7 @@ examples:
       }
 - name: Create Managed Cluster with GPUMIG
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -3192,7 +3241,7 @@ examples:
       }
 - name: Create/Update Managed Cluster with EnableAHUB
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -3480,7 +3529,7 @@ examples:
       }
 - name: Create Managed Cluster with EncryptionAtHost enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -3729,7 +3778,7 @@ examples:
       }
 - name: Create Managed Cluster with UltraSSD enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -3978,7 +4027,7 @@ examples:
       }
 - name: Create Managed Cluster with PodIdentity enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -4236,7 +4285,7 @@ examples:
       }
 - name: Create Managed Private Cluster with fqdn subdomain specified
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -4495,7 +4544,7 @@ examples:
       }
 - name: Create Managed Private Cluster with Public FQDN specified
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -4758,7 +4807,7 @@ examples:
       }
 - name: Create Managed Cluster with RunCommand disabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -5016,7 +5065,7 @@ examples:
       }
 - name: Create Managed Cluster with Node Public IP Prefix
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -5265,7 +5314,7 @@ examples:
       }
 - name: Create Managed Cluster with FIPS enabled OS
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -5514,7 +5563,7 @@ examples:
       }
 - name: Create Managed Cluster with HTTP proxy configured
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -5787,7 +5836,7 @@ examples:
       }
 - name: Create Managed Cluster with Security Profile configured
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -6027,7 +6076,7 @@ examples:
       }
 - name: Create Managed Cluster with AKS-managed NAT gateway as outbound type
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -6253,7 +6302,7 @@ examples:
       }
 - name: Create Managed Cluster with user-assigned NAT gateway as outbound type
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -6446,7 +6495,7 @@ examples:
       }
 - name: Create Managed Cluster using an agent pool snapshot
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -6704,7 +6753,7 @@ examples:
       }
 - name: Create/Update Managed Cluster with Windows gMSA enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",
@@ -6998,7 +7047,7 @@ examples:
       }
 - name: Create/Update Managed Cluster with dual-stack networking
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
     body: >-
       {
         "location": "location1",

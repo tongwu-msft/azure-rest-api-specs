@@ -3,13 +3,13 @@ uid: management.azure.com.azureml.onlinedeployments.list
 name: List
 service: Machine Learning
 groupName: Online Deployments
-apiVersion: 2021-03-01-preview
+apiVersion: 2022-02-01-preview
 summary: List Inference Endpoint Deployments.
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments?api-version=2021-03-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments?api-version=2021-03-01-preview&$orderBy={$orderBy}&$top={$top}&$skip={$skip}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments?api-version=2022-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments?api-version=2022-02-01-preview&$orderBy={$orderBy}&$top={$top}&$skip={$skip}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -125,24 +125,23 @@ definitions:
   kind: object
   properties:
   - name: identity
-    description: Service identity associated with a resource.
+    description: Managed service identity (system assigned and/or user assigned identities)
     types:
-    - uid: ResourceIdentity
+    - uid: ManagedServiceIdentity
   - name: kind
     description: Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type.
     types:
     - uid: string
   - name: properties
-    description: Additional attributes of the entity.
+    description: '[Required] Additional attributes of the entity.'
     types:
-    - uid: K8sOnlineDeployment
+    - uid: KubernetesOnlineDeployment
     - uid: ManagedOnlineDeployment
     typesTitle: OnlineDeployment
-  - name: systemData
-    isReadyOnly: true
-    description: System data associated with resource provider
+  - name: sku
+    description: Sku details required for ARM contract for Autoscaling.
     types:
-    - uid: systemData
+    - uid: Sku
   - name: tags
     description: Resource tags.
     types:
@@ -170,6 +169,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -184,32 +188,56 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: ResourceIdentity
-  description: Service identity associated with a resource.
+- name: ManagedServiceIdentity
+  description: Managed service identity (system assigned and/or user assigned identities)
   kind: object
   properties:
   - name: principalId
     isReadyOnly: true
-    description: Client ID that is used when authenticating.
+    description: The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
     types:
     - uid: string
   - name: tenantId
     isReadyOnly: true
-    description: AAD Tenant where this identity lives.
+    description: The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
     types:
     - uid: string
   - name: type
-    description: Defines values for a ResourceIdentity's type.
+    description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
     types:
-    - uid: ResourceIdentityAssignment
+    - uid: ManagedServiceIdentityType
   - name: userAssignedIdentities
-    description: Dictionary of the user assigned identities, key is ARM resource ID of the UAI.
+    description: "User-Assigned Identities  \nThe set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
-      - uid: UserAssignedIdentityMeta
+      - uid: UserAssignedIdentity
+- name: Sku
+  description: The resource model definition representing SKU
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU. Ex - P3. It is typically a letter+number code
+    types:
+    - uid: string
+  - name: tier
+    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    types:
+    - uid: SkuTier
+  - name: size
+    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -238,10 +266,13 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: ResourceIdentityAssignment
-  description: Defines values for a ResourceIdentity's type.
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
   kind: enum
   properties:
+  - name: None
+    types:
+    - uid: string
   - name: SystemAssigned
     types:
     - uid: string
@@ -251,106 +282,90 @@ definitions:
   - name: SystemAssigned,UserAssigned
     types:
     - uid: string
-  - name: None
-    types:
-    - uid: string
-- name: UserAssignedIdentityMeta
-  description: User assigned identities associated with a resource.
+- name: UserAssignedIdentity
+  description: User assigned identity properties
   kind: object
   properties:
-  - name: clientId
-    description: Aka application ID, a unique identifier generated by Azure AD that is tied to an application and service principal during its initial provisioning.
-    types:
-    - uid: string
   - name: principalId
-    description: The object ID of the service principal object for your managed identity that is used to grant role-based access to an Azure resource.
+    isReadyOnly: true
+    description: The principal ID of the assigned identity.
     types:
     - uid: string
-- name: K8sOnlineDeployment
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the assigned identity.
+    types:
+    - uid: string
+- name: KubernetesOnlineDeployment
+  description: Properties specific to a KubernetesOnlineDeployment.
   kind: object
   properties:
   - name: containerResourceRequirements
-    description: Resource requirements for each container instance within an online deployment.
+    description: The resource requirements for the container (cpu and memory).
     types:
     - uid: ContainerResourceRequirements
   - name: appInsightsEnabled
     description: If true, enables Application Insights logging.
     types:
     - uid: boolean
-  - name: codeConfiguration
-    description: Code configuration for the endpoint deployment.
+  - name: egressPublicNetworkAccess
+    description: 'If Enabled, allow egress public network access. If Disabled, this will create secure egress. Default: Enabled.'
     types:
-    - uid: CodeConfiguration
-  - name: description
-    description: Description of the endpoint deployment.
-    types:
-    - uid: string
+    - uid: EgressPublicNetworkAccessType
   - name: endpointComputeType
-    description: The compute type of the endpoint.
+    description: '[Required] The compute type of the endpoint.'
     types:
-    - uid: K8S
+    - uid: Kubernetes
     typesTitle: string
-  - name: environmentId
-    description: ARM resource ID of the environment specification for the endpoint deployment.
-    types:
-    - uid: string
-  - name: environmentVariables
-    description: Environment variables configuration for the deployment.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: livenessProbe
-    description: Deployment container liveness/readiness probe configuration.
-    types:
-    - uid: ProbeSettings
-  - name: model
-    description: Reference to the model asset for the endpoint deployment.
-    types:
-    - uid: DataPathAssetReference
-    - uid: IdAssetReference
-    - uid: OutputPathAssetReference
-    typesTitle: AssetReferenceBase
-  - name: properties
-    description: Property dictionary. Properties can be added, but not removed or altered.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: provisioningState
-    isReadyOnly: true
-    description: Provisioning state for the endpoint deployment.
-    types:
-    - uid: DeploymentProvisioningState
-  - name: requestSettings
-    description: Online deployment scoring requests configuration.
-    types:
-    - uid: OnlineRequestSettings
-  - name: scaleSettings
-    description: Online deployment scaling configuration.
-    types:
-    - uid: AutoScaleSettings
-    - uid: ManualScaleSettings
-    typesTitle: OnlineScaleSettings
-- name: ManagedOnlineDeployment
-  kind: object
-  properties:
   - name: instanceType
     description: Compute instance type.
     types:
     - uid: string
-  - name: readinessProbe
-    description: Deployment container liveness/readiness probe configuration.
+  - name: livenessProbe
+    description: Liveness probe monitors the health of the container regularly.
     types:
     - uid: ProbeSettings
-  - name: appInsightsEnabled
-    description: If true, enables Application Insights logging.
+  - name: model
+    description: The URI path to the model.
+    types:
+    - uid: string
+  - name: modelMountPath
+    description: The path to mount the model in custom container.
+    types:
+    - uid: string
+  - name: privateNetworkConnection
+    description: >-
+      If true, enable private network connection.
+
+      DEPRECATED for future API versions. Use EgressPublicNetworkAccess.
     types:
     - uid: boolean
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state for the endpoint deployment.
+    types:
+    - uid: DeploymentProvisioningState
+  - name: readinessProbe
+    description: Readiness probe validates if the container is ready to serve traffic. The properties and defaults are the same as liveness probe.
+    types:
+    - uid: ProbeSettings
+  - name: requestSettings
+    description: Request settings for the deployment.
+    types:
+    - uid: OnlineRequestSettings
+  - name: scaleSettings
+    description: >-
+      Scale settings for the deployment.
+
+      If it is null or not provided,
+
+      it defaults to TargetUtilizationScaleSettings for KubernetesOnlineDeployment
+
+      and to DefaultScaleSettings for ManagedOnlineDeployment.
+    types:
+    - uid: DefaultScaleSettings
+    - uid: TargetUtilizationScaleSettings
+    typesTitle: OnlineScaleSettings
   - name: codeConfiguration
     description: Code configuration for the endpoint deployment.
     types:
@@ -359,11 +374,6 @@ definitions:
     description: Description of the endpoint deployment.
     types:
     - uid: string
-  - name: endpointComputeType
-    description: The compute type of the endpoint.
-    types:
-    - uid: Managed
-    typesTitle: string
   - name: environmentId
     description: ARM resource ID of the environment specification for the endpoint deployment.
     types:
@@ -376,17 +386,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: livenessProbe
-    description: Deployment container liveness/readiness probe configuration.
-    types:
-    - uid: ProbeSettings
-  - name: model
-    description: Reference to the model asset for the endpoint deployment.
-    types:
-    - uid: DataPathAssetReference
-    - uid: IdAssetReference
-    - uid: OutputPathAssetReference
-    typesTitle: AssetReferenceBase
   - name: properties
     description: Property dictionary. Properties can be added, but not removed or altered.
     types:
@@ -395,21 +394,116 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ManagedOnlineDeployment
+  description: Properties specific to a ManagedOnlineDeployment.
+  kind: object
+  properties:
+  - name: appInsightsEnabled
+    description: If true, enables Application Insights logging.
+    types:
+    - uid: boolean
+  - name: egressPublicNetworkAccess
+    description: 'If Enabled, allow egress public network access. If Disabled, this will create secure egress. Default: Enabled.'
+    types:
+    - uid: EgressPublicNetworkAccessType
+  - name: endpointComputeType
+    description: '[Required] The compute type of the endpoint.'
+    types:
+    - uid: Managed
+    typesTitle: string
+  - name: instanceType
+    description: Compute instance type.
+    types:
+    - uid: string
+  - name: livenessProbe
+    description: Liveness probe monitors the health of the container regularly.
+    types:
+    - uid: ProbeSettings
+  - name: model
+    description: The URI path to the model.
+    types:
+    - uid: string
+  - name: modelMountPath
+    description: The path to mount the model in custom container.
+    types:
+    - uid: string
+  - name: privateNetworkConnection
+    description: >-
+      If true, enable private network connection.
+
+      DEPRECATED for future API versions. Use EgressPublicNetworkAccess.
+    types:
+    - uid: boolean
   - name: provisioningState
     isReadyOnly: true
     description: Provisioning state for the endpoint deployment.
     types:
     - uid: DeploymentProvisioningState
+  - name: readinessProbe
+    description: Readiness probe validates if the container is ready to serve traffic. The properties and defaults are the same as liveness probe.
+    types:
+    - uid: ProbeSettings
   - name: requestSettings
-    description: Online deployment scoring requests configuration.
+    description: Request settings for the deployment.
     types:
     - uid: OnlineRequestSettings
   - name: scaleSettings
-    description: Online deployment scaling configuration.
+    description: >-
+      Scale settings for the deployment.
+
+      If it is null or not provided,
+
+      it defaults to TargetUtilizationScaleSettings for KubernetesOnlineDeployment
+
+      and to DefaultScaleSettings for ManagedOnlineDeployment.
     types:
-    - uid: AutoScaleSettings
-    - uid: ManualScaleSettings
+    - uid: DefaultScaleSettings
+    - uid: TargetUtilizationScaleSettings
     typesTitle: OnlineScaleSettings
+  - name: codeConfiguration
+    description: Code configuration for the endpoint deployment.
+    types:
+    - uid: CodeConfiguration
+  - name: description
+    description: Description of the endpoint deployment.
+    types:
+    - uid: string
+  - name: environmentId
+    description: ARM resource ID of the environment specification for the endpoint deployment.
+    types:
+    - uid: string
+  - name: environmentVariables
+    description: Environment variables configuration for the deployment.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties
+    description: Property dictionary. Properties can be added, but not removed or altered.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: SkuTier
+  description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -427,55 +521,25 @@ definitions:
     types:
     - uid: string
 - name: ContainerResourceRequirements
-  description: The resource requirements for the container (cpu and memory).
+  description: Resource requirements for each container instance within an online deployment.
   kind: object
   properties:
-  - name: cpu
-    description: >-
-      The minimum amount of CPU cores to be used by the container. More info:
-
-      https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+  - name: containerResourceLimits
+    description: 'Container resource limit info:'
     types:
-    - uid: number
-  - name: cpuLimit
-    description: >-
-      The maximum amount of CPU cores allowed to be used by the container. More info:
-
-      https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+    - uid: ContainerResourceSettings
+  - name: containerResourceRequests
+    description: 'Container resource request info:'
     types:
-    - uid: number
-  - name: memoryInGB
-    description: >-
-      The minimum amount of memory (in GB) to be used by the container. More info:
-
-      https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
-    types:
-    - uid: number
-  - name: memoryInGBLimit
-    description: >-
-      The maximum amount of memory (in GB) allowed to be used by the container. More info:
-
-      https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
-    types:
-    - uid: number
-  - name: gpu
-    description: The number of GPU cores in the container.
-    types:
-    - uid: integer
-  - name: fpga
-    description: The number of FPGA PCIE devices exposed to the container. Must be multiple of 2.
-    types:
-    - uid: integer
-- name: CodeConfiguration
-  description: Configuration for a scoring code asset.
-  kind: object
+    - uid: ContainerResourceSettings
+- name: EgressPublicNetworkAccessType
+  description: Enum to determine whether PublicNetworkAccess is Enabled or Disabled for egress of a deployment.
+  kind: enum
   properties:
-  - name: codeId
-    description: ARM resource ID of the code asset.
+  - name: Enabled
     types:
     - uid: string
-  - name: scoringScript
-    description: The script to execute on startup. eg. "score.py"
+  - name: Disabled
     types:
     - uid: string
 - name: EndpointComputeType
@@ -485,7 +549,7 @@ definitions:
   - name: Managed
     types:
     - uid: string
-  - name: K8S
+  - name: Kubernetes
     types:
     - uid: string
   - name: AzureMLCompute
@@ -516,6 +580,7 @@ definitions:
     types:
     - uid: string
 - name: DeploymentProvisioningState
+  description: Possible values for DeploymentProvisioningState.
   kind: enum
   properties:
   - name: Creating
@@ -544,67 +609,78 @@ definitions:
   kind: object
   properties:
   - name: maxConcurrentRequestsPerInstance
-    description: The number of requests allowed to queue at once for this deployment.
+    description: The number of maximum concurrent requests per node allowed per deployment. Defaults to 1.
     types:
     - uid: integer
   - name: maxQueueWait
-    description: The maximum queue wait time in ISO 8601 format. Supports millisecond precision.
+    description: >-
+      The maximum amount of time a request will stay in the queue in ISO 8601 format.
+
+      Defaults to 500ms.
     types:
     - uid: string
   - name: requestTimeout
-    description: The request timeout in ISO 8601 format. Supports millisecond precision.
+    description: >-
+      The scoring timeout in ISO 8601 format.
+
+      Defaults to 5000ms.
     types:
     - uid: string
-- name: DataPathAssetReference
-  description: Reference to an asset via its path in a datastore.
+- name: CodeConfiguration
+  description: Configuration for a scoring code asset.
   kind: object
   properties:
-  - name: datastoreId
-    description: ARM resource ID of the datastore where the asset is located.
+  - name: codeId
+    description: ARM resource ID of the code asset.
     types:
     - uid: string
-  - name: path
-    description: The path of the file/directory in the datastore.
+  - name: scoringScript
+    description: '[Required] The script to execute on startup. eg. "score.py"'
     types:
     - uid: string
-  - name: referenceType
-    description: Specifies the type of asset reference.
+- name: ContainerResourceSettings
+  kind: object
+  properties:
+  - name: cpu
+    description: >-
+      Number of vCPUs request/limit for container. More info:
+
+      https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
     types:
-    - uid: DataPath
+    - uid: string
+  - name: gpu
+    description: >-
+      Number of Nvidia GPU cards request/limit for container. More info:
+
+      https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+    types:
+    - uid: string
+  - name: memory
+    description: >-
+      Memory size request/limit for container. More info:
+
+      https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+    types:
+    - uid: string
+- name: DefaultScaleSettings
+  kind: object
+  properties:
+  - name: scaleType
+    description: '[Required] Type of deployment scaling algorithm'
+    types:
+    - uid: Default
     typesTitle: string
-- name: IdAssetReference
-  description: Reference to an asset via its ARM resource ID.
+- name: TargetUtilizationScaleSettings
   kind: object
   properties:
-  - name: assetId
-    description: ARM resource ID of the asset.
+  - name: maxInstances
+    description: The maximum number of instances that the deployment can scale to. The quota will be reserved for max_instances.
     types:
-    - uid: string
-  - name: referenceType
-    description: Specifies the type of asset reference.
+    - uid: integer
+  - name: minInstances
+    description: The minimum number of instances to always be present.
     types:
-    - uid: Id
-    typesTitle: string
-- name: OutputPathAssetReference
-  description: Reference to an asset via its path in a job output.
-  kind: object
-  properties:
-  - name: jobId
-    description: ARM resource ID of the job.
-    types:
-    - uid: string
-  - name: path
-    description: The path of the file/directory in the job output.
-    types:
-    - uid: string
-  - name: referenceType
-    description: Specifies the type of asset reference.
-    types:
-    - uid: OutputPath
-    typesTitle: string
-- name: AutoScaleSettings
-  kind: object
-  properties:
+    - uid: integer
   - name: pollingInterval
     description: The polling interval in ISO 8691 format. Only supports duration with precision as low as Seconds.
     types:
@@ -613,195 +689,108 @@ definitions:
     description: Target CPU usage for the autoscaler.
     types:
     - uid: integer
-  - name: maxInstances
-    description: Maximum number of instances for this deployment.
-    types:
-    - uid: integer
-  - name: minInstances
-    description: Minimum number of instances for this deployment.
-    types:
-    - uid: integer
   - name: scaleType
-    description: Type of deployment scaling algorithm
+    description: '[Required] Type of deployment scaling algorithm'
     types:
-    - uid: Auto
+    - uid: TargetUtilization
     typesTitle: string
-- name: ManualScaleSettings
-  kind: object
-  properties:
-  - name: instanceCount
-    description: Fixed number of instances for this deployment.
-    types:
-    - uid: integer
-  - name: maxInstances
-    description: Maximum number of instances for this deployment.
-    types:
-    - uid: integer
-  - name: minInstances
-    description: Minimum number of instances for this deployment.
-    types:
-    - uid: integer
-  - name: scaleType
-    description: Type of deployment scaling algorithm
-    types:
-    - uid: Manual
-    typesTitle: string
-- name: ReferenceType
-  description: Enum to determine which reference method to use for an asset.
-  kind: enum
-  properties:
-  - name: Id
-    types:
-    - uid: string
-  - name: DataPath
-    types:
-    - uid: string
-  - name: OutputPath
-    types:
-    - uid: string
 - name: ScaleType
   kind: enum
   properties:
-  - name: Auto
+  - name: Default
     types:
     - uid: string
-  - name: Manual
+  - name: TargetUtilization
     types:
     - uid: string
 examples:
 - name: List Online Deployments.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspace123/onlineEndpoints/testEndpoint/deployments?api-version=2021-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/onlineEndpoints/testEndpointName/deployments?api-version=2022-02-01-preview&$orderBy=string&$top=1
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "tags": {
-              "additionalProp1": "string",
-              "additionalProp2": "string",
-              "additionalProp3": "string"
-            },
-            "location": "string",
-            "kind": "string",
-            "identity": {
-              "type": "UserAssigned",
-              "userAssignedIdentities": {
-                "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myuseridentity": {
-                  "clientId": "string"
-                }
-              }
-            },
-            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/onlineEndpoints/testEndpoint/deployments/testDeployment",
-            "name": "testDeployment",
-            "type": "Microsoft.MachineLearningServices/workspaces/onlineEndpoints/deployments",
+            "id": "string",
+            "name": "string",
+            "type": "string",
             "properties": {
-              "endpointComputeType": "Managed",
-              "readinessProbe": {
-                "failureThreshold": 50,
-                "successThreshold": 50,
-                "timeout": "PT1M",
-                "period": "PT1M",
-                "initialDelay": "PT1M"
-              },
-              "scaleSettings": {
-                "pollingInterval": "PT1M",
-                "scaleType": "Auto",
-                "targetUtilizationPercentage": 50
-              },
-              "requestSettings": {
-                "maxQueueWait": "PT1M",
-                "requestTimeout": "PT1M",
-                "maxConcurrentRequestsPerInstance": 5
-              },
-              "provisioningState": "Creating",
               "description": "string",
               "properties": {
-                "additionalProp1": "string",
-                "additionalProp2": "string",
-                "additionalProp3": "string"
-              },
-              "appInsightsEnabled": true,
-              "livenessProbe": {
-                "failureThreshold": 50,
-                "successThreshold": 50,
-                "timeout": "PT1M",
-                "period": "PT1M",
-                "initialDelay": "PT1M"
-              },
-              "model": {
-                "referenceType": "Id",
-                "assetId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/models/model123"
+                "string": "string"
               },
               "codeConfiguration": {
-                "codeId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/codes/code123/versions/1",
+                "codeId": "string",
                 "scoringScript": "string"
               },
-              "environmentId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/environments/env123"
-            }
-          },
-          {
-            "tags": {
-              "additionalProp1": "string",
-              "additionalProp2": "string",
-              "additionalProp3": "string"
-            },
-            "location": "string",
-            "kind": "string",
-            "identity": {
-              "type": "UserAssigned",
-              "userAssignedIdentities": {
-                "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myuseridentity": {
-                  "clientId": "string"
-                }
-              }
-            },
-            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/onlineEndpoints/testEndpoint/deployments/testDeployment",
-            "name": "testDeployment",
-            "type": "Microsoft.MachineLearningServices/workspaces/onlineEndpoints/deployments",
-            "properties": {
-              "endpointComputeType": "K8S",
+              "environmentId": "string",
+              "environmentVariables": {
+                "string": "string"
+              },
+              "scaleSettings": {
+                "scaleType": "Default"
+              },
+              "requestSettings": {
+                "maxQueueWait": "PT5M",
+                "requestTimeout": "PT5M",
+                "maxConcurrentRequestsPerInstance": 1
+              },
+              "modelMountPath": "string",
+              "appInsightsEnabled": false,
+              "livenessProbe": {
+                "failureThreshold": 1,
+                "successThreshold": 1,
+                "timeout": "PT5M",
+                "period": "PT5M",
+                "initialDelay": "PT5M"
+              },
+              "provisioningState": "Creating",
+              "instanceType": "string",
+              "model": "string",
+              "endpointComputeType": "Kubernetes",
               "containerResourceRequirements": {
-                "cpu": 4,
-                "cpuLimit": 4,
-                "memoryInGB": 64,
-                "memoryInGBLimit": 64
-              },
-              "scaleSettings": {
-                "pollingInterval": "PT1M",
-                "scaleType": "Auto",
-                "targetUtilizationPercentage": 50
-              },
-              "requestSettings": {
-                "maxQueueWait": "PT1M",
-                "requestTimeout": "PT1M",
-                "maxConcurrentRequestsPerInstance": 5
-              },
-              "provisioningState": "Creating",
-              "description": "string",
-              "properties": {
-                "additionalProp1": "string",
-                "additionalProp2": "string",
-                "additionalProp3": "string"
-              },
-              "appInsightsEnabled": true,
-              "livenessProbe": {
-                "failureThreshold": 50,
-                "successThreshold": 50,
-                "timeout": "PT1M",
-                "period": "PT1M",
-                "initialDelay": "PT1M"
-              },
-              "model": {
-                "referenceType": "Id",
-                "assetId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/models/model123"
-              },
-              "codeConfiguration": {
-                "codeId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/codes/code123/versions/1",
-                "scoringScript": "string"
-              },
-              "environmentId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/environments/env123"
+                "containerResourceRequests": {
+                  "cpu": "\"1\"",
+                  "memory": "\"2Gi\"",
+                  "gpu": "\"1\""
+                },
+                "containerResourceLimits": {
+                  "cpu": "\"1\"",
+                  "memory": "\"2Gi\"",
+                  "gpu": "\"1\""
+                }
+              }
+            },
+            "systemData": {
+              "createdAt": "2020-01-01T12:34:56.999Z",
+              "createdBy": "string",
+              "createdByType": "User",
+              "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+              "lastModifiedBy": "string",
+              "lastModifiedByType": "User"
+            },
+            "tags": {},
+            "location": "string",
+            "kind": "string",
+            "identity": {
+              "type": "SystemAssigned",
+              "principalId": "00000000-1111-2222-3333-444444444444",
+              "tenantId": "00000000-1111-2222-3333-444444444444",
+              "userAssignedIdentities": {
+                "string": {
+                  "principalId": "00000000-1111-2222-3333-444444444444",
+                  "clientId": "00000000-1111-2222-3333-444444444444"
+                }
+              }
+            },
+            "sku": {
+              "name": "string",
+              "tier": "Free",
+              "size": "string",
+              "family": "string",
+              "capacity": 1
             }
           }
         ],

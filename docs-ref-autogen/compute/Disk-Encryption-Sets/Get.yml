@@ -3,14 +3,14 @@ uid: management.azure.com.compute.diskencryptionsets.get
 name: Get
 service: Compute
 groupName: Disk Encryption Sets
-apiVersion: 2020-12-01
+apiVersion: 2021-12-01
 summary: Gets information about a disk encryption set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}?api-version=2020-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}?api-version=2021-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: diskEncryptionSetName
   in: path
   isRequired: true
-  description: The name of the disk encryption set that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+  description: The name of the disk encryption set that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
   types:
   - uid: string
 - name: api-version
@@ -83,6 +83,11 @@ definitions:
     description: The time when the active key of this disk encryption set was updated.
     types:
     - uid: string
+  - name: properties.autoKeyRotationError
+    isReadyOnly: true
+    description: The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed.
+    types:
+    - uid: ApiError
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -146,6 +151,10 @@ definitions:
     - uid: string
   - name: EncryptionAtRestWithPlatformAndCustomerKeys
     description: Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed.
+    types:
+    - uid: string
+  - name: ConfidentialVmEncryptedWithCustomerKey
+    description: Confidential VM supported disk and VM guest state would be encrypted with customer managed key.
     types:
     - uid: string
 - name: KeyForDiskEncryptionSet
@@ -234,7 +243,7 @@ definitions:
 examples:
 - name: Get information about a disk encryption set.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2020-12-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2021-12-01
   responses:
   - statusCode: "200"
     body: >-
@@ -252,6 +261,41 @@ examples:
           "encryptionType": "EncryptionAtRestWithCustomerKey",
           "previousKeys": [],
           "provisioningState": "Succeeded"
+        },
+        "type": "Microsoft.Compute/diskEncryptionSets",
+        "location": "westus",
+        "tags": {
+          "department": "Development",
+          "project": "Encryption"
+        },
+        "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet",
+        "name": "myDiskEncryptionSet"
+      }
+- name: Get information about a disk encryption set when auto-key rotation failed.
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2021-12-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "properties": {
+          "activeKey": {
+            "sourceVault": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault"
+            },
+            "keyUrl": "https://myvmvault.vault-int.azure-int.net/keys/{key}"
+          },
+          "encryptionType": "EncryptionAtRestWithCustomerKey",
+          "previousKeys": [],
+          "rotationToLatestKeyVersionEnabled": true,
+          "provisioningState": "Succeeded",
+          "autoKeyRotationError": {
+            "code": "ManagedServiceIdentityNotFound",
+            "message": "Auto-key rotation was disabled as managed service identity associated with DiskEncryptionSet 'myDiskEncryptionSet' was not found. Please update the resource with correct identity to re-enable auto-key rotation."
+          }
         },
         "type": "Microsoft.Compute/diskEncryptionSets",
         "location": "westus",
