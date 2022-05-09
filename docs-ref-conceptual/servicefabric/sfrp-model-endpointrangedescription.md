@@ -1,5 +1,6 @@
 ---
 title: "EndpointRangeDescription"
+description: "EndpointRangeDescription gives the port range details. Properties include startPort and endPort."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -1,5 +1,6 @@
 ---
 title: Service Fabric Get Application Type
+description: API reference documentation for the operations available in the Get REST API for the Service Fabric application type name resource.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

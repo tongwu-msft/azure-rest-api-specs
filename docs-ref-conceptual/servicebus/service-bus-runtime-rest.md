@@ -1,5 +1,6 @@
 ---
 title: "Service Bus Runtime REST"
+description: API reference documentation for the operations available in the Service Bus Runtime REST API, a RESTful web service for managing Service Bus Runtime resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""
