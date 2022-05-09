@@ -13,10 +13,10 @@ ms.author: pemari
 
 The `Preflight Blob Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for Azure Blob Storage before sending the request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the request that the agent wants to make. If CORS is enabled for Blob Storage, then Blob Storage evaluates the preflight request against the CORS rules that the account owner has configured via [Set Blob Service Properties](Set-Blob-Service-Properties.md). Blob Storage then accepts or rejects the request.  
   
-For more information about CORS and the preflight request, see [the CORS specification](https://www.w3.org/TR/cors/) and [CORS support for the Azure Storage services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
+For more information about CORS and the preflight request, see [the CORS specification](https://www.w3.org/TR/cors/) and [CORS support for Azure Storage](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
   
 ## Request  
-You can specify `Preflight Blob Request` as follows. Replace `<account-name>` with the name of your storage account. Replace `<blob-resource>` with the container or blob resource that will be the target of the actual request. 
+You can specify `Preflight Blob Request` as follows. Replace `<account-name>` with the name of your storage account. Replace `<blob-resource>` with the container or blob resource that will be the target of the request. 
   
 |HTTP verb|Request URI|HTTP version|  
 |---------------|-----------------|------------------|  
@@ -24,7 +24,7 @@ You can specify `Preflight Blob Request` as follows. Replace `<account-name>` wi
   
 The URI must always include the forward slash (/), to separate the host name from the path and query portions of the URI. In the case of this operation, the path portion of the URI can be empty, or it can point to any container or blob resource. 
 
-The resource might or might not exist at the time the preflight request is made. The preflight request is evaluated at the service level against the service's CORS rules, so the presence or absence of the resource name does not affect the success or failure of the operation.  
+The resource might or might not exist at the time that the preflight request is made. The preflight request is evaluated at the service level against the service's CORS rules, so the presence or absence of the resource name does not affect the success or failure of the operation.  
   
 ### URI parameters  
 None.  
@@ -36,7 +36,7 @@ The following table describes required and optional request headers:
 |--------------------|-----------------|  
 |`Origin`|Required. Specifies the origin from which the request will be issued. The origin is checked against the service's CORS rules to determine the success or failure of the preflight request.|  
 |`Access-Control-Request-Method`|Required. Specifies the method (or HTTP verb) for the request. The method is checked against the service's CORS rules to determine the failure or success of the preflight request.|  
-|`Access-Control-Request-Headers`|Optional. Specifies the headers for the request headers that will be sent. If it's not present, the service assumes that no headers are sent with the request.|  
+|`Access-Control-Request-Headers`|Optional. Specifies the request headers that will be sent. If it's not present, the service assumes that the request doesn't include headers.|  
   
 ### Request body  
 None.  
@@ -56,7 +56,7 @@ For details about preflight request headers, see [the CORS specification](https:
   
 |Response header|Description|  
 |---------------------|-----------------|  
-|`Access-Control-Allow-Origin`|Indicates the allowed origin, which matches the origin header in the request if the preflight request succeeded.|  
+|`Access-Control-Allow-Origin`|Indicates the allowed origin, which matches the origin header in the request if the preflight request succeeds.|  
 |`Access-Control-Allow-Methods`|If the preflight requests succeeds, this header is set to the value or values specified for the request header `Access-Control-Request-Method`.|  
 |`Access-Control-Allow-Headers`|If the preflight request succeeds, this header is set to the value or values specified for the request header `Access-Control-Request-Headers`.|  
 |`Access-Control-Max-Age`|Specifies the length of time that the user agent is allowed to cache the preflight request for future requests.|  
@@ -69,10 +69,10 @@ None.
 The `Preflight Blob Request` operation always runs anonymously. It does not require authorization, and it ignores credentials if they're provided. 
 
 > [!NOTE]
-> If you've enabled Azure Storage analytics and are logging metrics, a call to the `Preflight Blob Request` operation is logged as `AnonymousSuccess`. For this reason, if you view metrics in the Azure portal, you'll see `AnonymousSuccess` logged for `Preflight Blob Request`. This metric does not indicate that your private data has been compromised, but only that the `Preflight Blob Request` operation succeeded with a status code of 200 (OK). 
+> If you have enabled Azure Storage analytics and are logging metrics, a call to the `Preflight Blob Request` operation is logged as `AnonymousSuccess`. For this reason, if you view metrics in the Azure portal, you'll see `AnonymousSuccess` logged for `Preflight Blob Request`. This metric does not indicate that your private data has been compromised, but only that the `Preflight Blob Request` operation succeeded with a status code of 200 (OK). 
   
 ## Sample request and response  
-The following example sends a preflight request for the origin `www.contoso.com`, with the request method set to `PUT` and the request headers set to `content-type` and `accept`:  
+The following example sends a preflight request for the origin `www.contoso.com`. The request method is set to `PUT`, and the request headers are set to `content-type` and `accept`.  
   
 ```  
 OPTIONS http://myaccount.blob.core.windows.net/mycontainer/myblockblob  HTTP/1.1  
@@ -101,14 +101,14 @@ Access-Control-Allow-Headers: accept,content-type
 ```  
   
 ## Remarks  
-If CORS is enabled for the service and there is a CORS rule that matches the preflight request, the service responds to the preflight request with status code 200 (`OK`). The response includes the required `Access-Control` headers. In this case, the request is billed.  
+If CORS is enabled for the service and a CORS rule matches the preflight request, the service responds to the preflight request with status code 200 (OK). The response includes the required `Access-Control` headers. In this case, the request is billed.  
   
-If CORS is not enabled or no CORS rule matches the preflight request, the service responds with status code 403 (`Forbidden`). In this case, the request is not billed.  
+If CORS is not enabled or no CORS rule matches the preflight request, the service responds with status code 403 (Forbidden). In this case, the request is not billed.  
   
-If the `OPTIONS` request is malformed, the service responds with status code 400 (`Bad Request`) and the request is not billed. An example of a malformed request is one that doesn't contain the required `Origin` and `Access-Control-Request-Method` headers.  
+If the `OPTIONS` request is malformed, the service responds with status code 400 (Bad Request) and the request is not billed. An example of a malformed request is one that doesn't contain the required `Origin` and `Access-Control-Request-Method` headers.  
   
-The preflight request is a mechanism to query the CORS capability of a storage service associated with a certain storage account. The preflight request is not targeted to a specific resource.  
+The preflight request is a mechanism to query the CORS capability of a storage service that's associated with a certain storage account. The preflight request is not targeted to a specific resource.  
   
 ## See also  
 [Operations on the account (Blob Storage)](Operations-on-the-Account--Blob-Service-.md)   
-[CORS support for the Azure Storage services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)
+[CORS support for Azure Storage](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)
