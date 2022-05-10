@@ -5636,15 +5636,9 @@
 #### [Train Custom Model Async](formrecognizer/2.1preview2/Train-Custom-Model-Async/Train-Custom-Model-Async.yml)
 # Cognitive Services - Language
 ## [Overview](../docs-ref-conceptual/language/index.md)
-## Analyze Text
-### [Overview](language/Analyze-Text.yml)
-### [Analyze Text](language/Analyze-Text/Analyze-Text.yml)
-### [Cancel Job](language/Analyze-Text/Cancel-Job.yml)
-### [Job Status](language/Analyze-Text/Job-Status.yml)
-### [Submit Job](language/Analyze-Text/Submit-Job.yml)
-## Conversation Analysis
-### [Overview](language/Conversation-Analysis.yml)
-### [Analyze Conversation](language/Conversation-Analysis/Analyze-Conversation.yml)
+## Conversation Analysis Runtime
+### [Overview](language/Conversation-Analysis-Runtime.yml)
+### [Analyze Conversation](language/Conversation-Analysis-Runtime/Analyze-Conversation.yml)
 ## Conversational Analysis Authoring
 ### [Overview](language/Conversational-Analysis-Authoring.yml)
 ### [Cancel Training Job](language/Conversational-Analysis-Authoring/Cancel-Training-Job.yml)
@@ -5704,6 +5698,12 @@
 ### [List Training Jobs](language/Text-Analysis-Authoring/List-Training-Jobs.yml)
 ### [Swap Deployments](language/Text-Analysis-Authoring/Swap-Deployments.yml)
 ### [Train](language/Text-Analysis-Authoring/Train.yml)
+## Text Analysis Runtime
+### [Overview](language/Text-Analysis-Runtime.yml)
+### [Analyze Text](language/Text-Analysis-Runtime/Analyze-Text.yml)
+### [Cancel Job](language/Text-Analysis-Runtime/Cancel-Job.yml)
+### [Job Status](language/Text-Analysis-Runtime/Job-Status.yml)
+### [Submit Job](language/Text-Analysis-Runtime/Submit-Job.yml)
 # Cognitive Services - LUIS
 ## [Overview](../docs-ref-conceptual/cognitiveservices-luis/index.md)
 ## Authoring v2.0
