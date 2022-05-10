@@ -77,7 +77,7 @@ Maximum allowed date range is 12 months in one request and data is available fro
 ### Getting list of billing periods
 For providing a valid billing period in request, client should first get a list of available billing periods by subscription, using following API
 
-       GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods?api-version=2017-04-24-preview
+`GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods?api-version=2017-04-24-preview`
 
 Using this list, client can pick a specific billing period to get consumption data.
 
@@ -97,28 +97,29 @@ These changes will result in a few scenarios that will need to be addressed when
 
 Sample Call for Additional Details:
 
-       GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/usageDetails?api-version=2018-03-31&$expand=properties/additionalProperties
+`GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/usageDetails?api-version=2018-03-31&$expand=properties/additionalProperties`
 
 Sample Response snippet:
 
-        "properties":{
-            "billingPeriodId":"/subscriptions/{subscriptionid}/providers/Microsoft.Billing/billingPeriods/20180501",
-            "usageStart":"2018-05-01T00:00:00.0000000Z",
-            "usageEnd":"2018-05-01T23:59:59.0000000Z
-            instanceId":"/subscriptions/{subscriptionid}/resourceGroups/{resourcegroup}/providers/Microsoft.Cdn/profiles/{profile}",
-            "instanceName":"{id}",
-            "instanceLocation":"SouthCentralUS",
-            "meterId":"6b88ada0-cbc0-4874-be0e-23004f8b4de7",
-            "usageQuantity":0.002065,
-            "pretaxCost":0,
-            "currency":"USD",
-            "additionalProperties":"{
-                \"Provider\": \"1\",
-                \"ConsumptionBeginTime\": \"2018-05-01T19:00:00\",
-                \"ConsumptionEndTime\": \"2018-05-01T20:00:00\"
-                }",
-
-
+```json
+  "properties": {
+    "billingPeriodId":"/subscriptions/{subscriptionid}/providers/Microsoft.Billing/billingPeriods/20180501",
+    "usageStart":"2018-05-01T00:00:00.0000000Z",
+    "usageEnd":"2018-05-01T23:59:59.0000000Z",
+    "instanceId":"/subscriptions/{subscriptionid}/resourceGroups/{resourcegroup}/providers/Microsoft.Cdn/profiles/{profile}",
+    "instanceName":"{id}",
+    "instanceLocation":"SouthCentralUS",
+    "meterId":"6b88ada0-cbc0-4874-be0e-23004f8b4de7",
+    "usageQuantity":0.002065,
+    "pretaxCost":0,
+    "currency":"USD",
+    "additionalProperties": {
+      "Provider": "1",
+      "ConsumptionBeginTime": "2018-05-01T19:00:00",
+      "ConsumptionEndTime": "2018-05-01T20:00:00"
+    }
+  }
+```
 
 ## See also
 
