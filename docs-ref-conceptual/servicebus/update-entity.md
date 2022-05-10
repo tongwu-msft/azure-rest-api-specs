@@ -1,5 +1,6 @@
 ---
 title: "Create or Update Entity"
+description: API reference documentation for the operations available in the Create or Update Entity REST API, a RESTful web service for managing Create or Update Entity resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""
@@ -41,7 +42,7 @@ The entity path can be a multi-segment name, with segments separated by '/'. The
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization| Specifies a Shared Access Signature (SAS) token with "Manage" rights. See [Service Bus authentication with Shared Access Signatures](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas) for details.|  
+|Authorization| Specifies a Shared Access Signature (SAS) token with "Manage" rights. See [Service Bus authentication with Shared Access Signatures](/azure/service-bus-messaging/service-bus-sas) for details.|  
 |Content-Type|Set to **application/atom+xml;type=entry;charset=utf-8**.|  
 |If-Match|Set this header to “*” to update the entity. You must provide all the property values that are desired on the updated entity. Any values not provided are set to the service default values. If this header is missing, the update call returns an error indicating that this entity already exists.|  
   

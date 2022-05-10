@@ -1,5 +1,6 @@
 ---
 title: "Update Topic"
+description: API reference documentation for the operations available in the Update Topic REST API, a RESTful web service for managing Update Topic resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""
@@ -27,7 +28,7 @@ translation.priority.mt:
 # Update Topic
 
 > [!IMPORTANT]
-> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+> This API is [**obsolete and retired**](/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
 
 Updates a topic. The updated descriptor is sent in the request body. The API updates the topic entries in the FE/BE entries.  
   

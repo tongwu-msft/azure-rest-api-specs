@@ -1,5 +1,6 @@
 ---
 title: "REST vs. .NET Client Support"
+description: Learn about REST versus .NET client support and the the REST API versions supported by each Service Bus release.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""
