@@ -4,11 +4,11 @@ description: Delete data source connection information used by an Azure Cognitiv
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
-author: jennifermarsman
-ms.author: jennmar
+author: gmndrg
+ms.author: gimondra
 ---
 # Delete Data Source (Azure Cognitive Search REST API)
 

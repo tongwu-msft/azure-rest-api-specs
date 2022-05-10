@@ -3,14 +3,14 @@ uid: management.azure.com.compute.diskencryptionsets.update
 name: Update
 service: Compute
 groupName: Disk Encryption Sets
-apiVersion: 2020-12-01
+apiVersion: 2021-12-01
 summary: Updates (patches) a disk encryption set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}?api-version=2020-12-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}?api-version=2021-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: diskEncryptionSetName
   in: path
   isRequired: true
-  description: The name of the disk encryption set that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+  description: The name of the disk encryption set that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
   types:
   - uid: string
 - name: api-version
@@ -149,6 +149,11 @@ definitions:
     description: The time when the active key of this disk encryption set was updated.
     types:
     - uid: string
+  - name: properties.autoKeyRotationError
+    isReadyOnly: true
+    description: The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed.
+    types:
+    - uid: ApiError
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -242,6 +247,10 @@ definitions:
     description: Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed.
     types:
     - uid: string
+  - name: ConfidentialVmEncryptedWithCustomerKey
+    description: Confidential VM supported disk and VM guest state would be encrypted with customer managed key.
+    types:
+    - uid: string
 - name: ApiError
   description: Api error.
   kind: object
@@ -298,7 +307,7 @@ definitions:
 examples:
 - name: Update a disk encryption set.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2020-12-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2021-12-01
     body: >-
       {
         "properties": {
@@ -317,6 +326,9 @@ examples:
       }
   responses:
   - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2021-04-01
     body: >-
       {
         "name": "myDiskEncryptionSet",
@@ -356,7 +368,7 @@ examples:
           },
           "encryptionType": "EncryptionAtRestWithCustomerKey",
           "previousKeys": [],
-          "lastKeyRotationTimestamp": "2020-12-01T04:41:35.079872+00:00"
+          "lastKeyRotationTimestamp": "2021-04-01T04:41:35.079872+00:00"
         },
         "tags": {
           "department": "Development",
@@ -365,7 +377,7 @@ examples:
       }
 - name: Update a disk encryption set with rotationToLatestKeyVersionEnabled set to true - Succeeded
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2020-12-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2021-12-01
     body: >-
       {
         "identity": {
@@ -381,6 +393,9 @@ examples:
       }
   responses:
   - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2021-04-01
     body: >-
       {
         "name": "myDiskEncryptionSet",
@@ -415,12 +430,12 @@ examples:
           "encryptionType": "EncryptionAtRestWithCustomerKey",
           "rotationToLatestKeyVersionEnabled": true,
           "provisioningState": "Succeeded",
-          "lastKeyRotationTimestamp": "2020-12-01T04:41:35.079872+00:00"
+          "lastKeyRotationTimestamp": "2021-04-01T04:41:35.079872+00:00"
         }
       }
 - name: Update a disk encryption set with rotationToLatestKeyVersionEnabled set to true - Updating
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2020-12-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2021-12-01
     body: >-
       {
         "identity": {
@@ -436,6 +451,9 @@ examples:
       }
   responses:
   - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2021-04-01
     body: >-
       {
         "name": "myDiskEncryptionSet",
@@ -475,7 +493,7 @@ examples:
             }
           ],
           "provisioningState": "Updating",
-          "lastKeyRotationTimestamp": "2020-12-01T04:41:35.079872+00:00"
+          "lastKeyRotationTimestamp": "2021-04-01T04:41:35.079872+00:00"
         }
       }
 security:

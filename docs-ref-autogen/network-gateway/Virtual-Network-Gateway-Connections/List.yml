@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgatewayconnections.list
 name: List
 service: Network Gateway
 groupName: Virtual Network Gateway Connections
-apiVersion: 2021-05-01
+apiVersion: 2021-08-01
 summary: The List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections?api-version=2021-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections?api-version=2021-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -151,6 +151,11 @@ definitions:
     description: EnableBgp flag.
     types:
     - uid: boolean
+  - name: properties.gatewayCustomBgpIpAddresses
+    description: GatewayCustomBgpIpAddresses to be used for virtual network gateway Connection.
+    types:
+    - uid: GatewayCustomBgpIpAddressIpConfiguration
+      isArray: true
   - name: properties.useLocalAzureIpAddress
     description: Use private local Azure IP for the connection.
     types:
@@ -505,6 +510,18 @@ definitions:
   - name: lastConnectionEstablishedUtcTime
     isReadyOnly: true
     description: The time at which connection was established in Utc format.
+    types:
+    - uid: string
+- name: GatewayCustomBgpIpAddressIpConfiguration
+  description: GatewayCustomBgpIpAddressIpConfiguration for a virtual network gateway connection.
+  kind: object
+  properties:
+  - name: ipConfigurationId
+    description: The IpconfigurationId of ipconfiguration which belongs to gateway.
+    types:
+    - uid: string
+  - name: customBgpIpAddress
+    description: The custom BgpPeeringAddress which belongs to IpconfigurationId.
     types:
     - uid: string
 - name: IpsecPolicy
@@ -1228,7 +1245,7 @@ definitions:
 examples:
 - name: ListVirtualNetworkGatewayConnectionsinResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections?api-version=2021-05-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections?api-version=2021-08-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1266,6 +1283,16 @@ examples:
               "routingWeight": 0,
               "dpdTimeoutSeconds": 30,
               "enableBgp": false,
+              "gatewayCustomBgpIpAddresses": [
+                {
+                  "ipConfigurationId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/default",
+                  "customBgpIpAddress": "169.254.21.1"
+                },
+                {
+                  "ipConfigurationId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/ActiveActive",
+                  "customBgpIpAddress": "169.254.21.3"
+                }
+              ],
               "useLocalAzureIpAddress": false,
               "usePolicyBasedTrafficSelectors": false,
               "ipsecPolicies": [],
@@ -1307,6 +1334,16 @@ examples:
               "routingWeight": 0,
               "dpdTimeoutSeconds": 20,
               "enableBgp": false,
+              "gatewayCustomBgpIpAddresses": [
+                {
+                  "ipConfigurationId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw2/ipConfigurations/default",
+                  "customBgpIpAddress": "169.254.21.4"
+                },
+                {
+                  "ipConfigurationId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw2/ipConfigurations/ActiveActive",
+                  "customBgpIpAddress": "169.254.21.6"
+                }
+              ],
               "useLocalAzureIpAddress": true,
               "usePolicyBasedTrafficSelectors": false,
               "ipsecPolicies": [],

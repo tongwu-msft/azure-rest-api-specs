@@ -5,10 +5,10 @@ ms.date: 03/22/2022
 
 ms.service: cognitive-search
 ms.devlang: rest-api
-ms.topic: language-reference
+ms.topic: reference
 
-author: jennifermarsman
-ms.author: jennmar
+author: gmndrg
+ms.author: gimondra
 ms.manager: nitinme
 ---
 

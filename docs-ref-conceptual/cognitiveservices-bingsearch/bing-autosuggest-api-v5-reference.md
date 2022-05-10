@@ -1,5 +1,4 @@
 ---
-ms.assetid:
 title: Bing Autosuggest API v5 Reference | Microsoft Docs
 description: Describes the programming elements of the Bing Autosuggest API.
 services: cognitive-services

@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.vpnsitelinkconnections.get
 name: Get
 service: Virtual WAN
 groupName: Vpn Site Link Connections
-apiVersion: 2021-05-01
+apiVersion: 2021-08-01
 summary: Retrieves the details of a vpn site link connection.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}?api-version=2021-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}?api-version=2021-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -120,6 +120,11 @@ definitions:
     description: EnableBgp flag.
     types:
     - uid: boolean
+  - name: properties.vpnGatewayCustomBgpAddresses
+    description: vpnGatewayCustomBgpAddresses used by this connection.
+    types:
+    - uid: GatewayCustomBgpIpAddressIpConfiguration
+      isArray: true
   - name: properties.usePolicyBasedTrafficSelectors
     description: Enable policy-based traffic selectors.
     types:
@@ -209,6 +214,18 @@ definitions:
     types:
     - uid: string
   - name: IKEv1
+    types:
+    - uid: string
+- name: GatewayCustomBgpIpAddressIpConfiguration
+  description: GatewayCustomBgpIpAddressIpConfiguration for a virtual network gateway connection.
+  kind: object
+  properties:
+  - name: ipConfigurationId
+    description: The IpconfigurationId of ipconfiguration which belongs to gateway.
+    types:
+    - uid: string
+  - name: customBgpIpAddress
+    description: The custom BgpPeeringAddress which belongs to IpconfigurationId.
     types:
     - uid: string
 - name: IpsecPolicy
@@ -446,7 +463,7 @@ definitions:
 examples:
 - name: VpnSiteLinkConnectionGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections/vpnConnection1/vpnLinkConnections/Connection-Link1?api-version=2021-05-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections/vpnConnection1/vpnLinkConnections/Connection-Link1?api-version=2021-08-01
   responses:
   - statusCode: "200"
     body: >-
@@ -467,6 +484,16 @@ examples:
           "ingressBytesTransferred": 0,
           "egressBytesTransferred": 0,
           "enableBgp": false,
+          "vpnGatewayCustomBgpAddresses": [
+            {
+              "ipConfigurationId": "Instance0",
+              "customBgpIpAddress": "169.254.21.1"
+            },
+            {
+              "ipConfigurationId": "Instance1",
+              "customBgpIpAddress": "169.254.21.3"
+            }
+          ],
           "enableRateLimiting": false,
           "useLocalAzureIpAddress": false,
           "usePolicyBasedTrafficSelectors": false,

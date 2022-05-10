@@ -1,5 +1,6 @@
 ---
 title: "JSON payloads for List Storage Accounts for Resource Group (Azure Storage)"
+description: JSON request and response payloads for the List Storage Accounts for Resource Group operation.
 ---
 # JSON payloads for List Storage Accounts for Resource Group
 

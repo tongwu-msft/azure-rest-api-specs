@@ -3,14 +3,14 @@ uid: management.azure.com.compute.snapshots.grantaccess
 name: Grant Access
 service: Compute
 groupName: Snapshots
-apiVersion: 2020-12-01
+apiVersion: 2021-12-01
 summary: Grants access to a snapshot.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess?api-version=2020-12-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess?api-version=2021-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: snapshotName
   in: path
   isRequired: true
-  description: The name of the snapshot that is being created. The name can't be changed after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name length is 80 characters.
+  description: The name of the snapshot that is being created. The name can't be changed after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name length is 80 characters.
   types:
   - uid: string
 - name: api-version
@@ -58,6 +58,11 @@ requestBody:
     description: Time duration in seconds until the SAS access expires.
     types:
     - uid: integer
+  - name: getSecureVMGuestStateSAS
+    in: body
+    description: Set this flag to true to get additional SAS for VM guest state
+    types:
+    - uid: boolean
 requestHeader: []
 definitions:
 - name: AccessUri
@@ -67,6 +72,11 @@ definitions:
   - name: accessSAS
     isReadyOnly: true
     description: A SAS uri for accessing a disk.
+    types:
+    - uid: string
+  - name: securityDataAccessSAS
+    isReadyOnly: true
+    description: A SAS uri for accessing a VM guest state.
     types:
     - uid: string
 - name: GrantAccessData
@@ -81,6 +91,10 @@ definitions:
     description: Time duration in seconds until the SAS access expires.
     types:
     - uid: integer
+  - name: getSecureVMGuestStateSAS
+    description: Set this flag to true to get additional SAS for VM guest state
+    types:
+    - uid: boolean
 - name: AccessLevel
   kind: enum
   properties:
@@ -96,7 +110,7 @@ definitions:
 examples:
 - name: Get a sas on a snapshot.
   request:
-    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot/beginGetAccess?api-version=2020-12-01
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot/beginGetAccess?api-version=2021-12-01
     body: >-
       {
         "access": "Read",
