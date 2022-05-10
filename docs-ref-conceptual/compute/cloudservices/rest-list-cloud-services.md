@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - List Cloud Services | Microsoft Docs"
+description: Learn how the List Cloud Services operation lists the cloud services that are available under the specified subscription.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

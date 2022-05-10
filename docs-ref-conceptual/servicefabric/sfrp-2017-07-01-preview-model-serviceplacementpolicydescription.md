@@ -1,5 +1,6 @@
 ---
-title: "ServicePlacementPolicyDescription"
+title: Service Fabric policy overview
+description: "Policy description for placement of a Service Fabric service. It is the base type of the polymorphic type model."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,8 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePlacementPolicyDescription
-
+# Service Fabric policy overview
 Describes the policy to be used for placement of a Service Fabric service.
 ## Inheritance
 

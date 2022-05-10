@@ -1,10 +1,11 @@
 ---
 title: Site Recovery REST API | Microsoft Docs
 author: rayne-wiselman
+description: "Site Recovery replicates on-premises and Azure workloads to a secondary location."
 ms.author: raynew
 ms.date: 08/28/2017
 ms.topic: reference
-ms.service: Azure
+ms.service: azure
 ms.devlang: rest-api
 service_description: To be added
 ---

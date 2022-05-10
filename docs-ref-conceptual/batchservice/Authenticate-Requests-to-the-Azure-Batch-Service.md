@@ -1,5 +1,6 @@
 ---
 title: "Authenticate Requests to the Azure Batch Service | Microsoft Docs"
+description: Learn how the Batch service supports authentication either via Shared Key or Azure Active Directory (Azure AD).
 ms.custom: ""
 ms.date: 02/01/2017
 ms.reviewer: ""

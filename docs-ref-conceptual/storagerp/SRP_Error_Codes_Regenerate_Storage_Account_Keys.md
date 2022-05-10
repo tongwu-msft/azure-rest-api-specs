@@ -1,5 +1,6 @@
 ---
 title: "Error Codes for Regenerate Storage Account Keys (Azure Storage)"
+description: List of error codes and HTTP status for the Regenerate Storage Account Keys operation.
 ---
 # Error Codes for Regenerate Storage Account Keys
 

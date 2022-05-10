@@ -1,5 +1,6 @@
 ---
 title: "Service Fabric Resource Manager REST API Reference"
+description: "Service Fabric is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices."
 ms.date: 06/04/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -11,7 +12,6 @@ helpviewer_keywords:
   - "Service Fabric Resource Manager REST API Reference"
 author: "erikadoyle"
 ms.author: "edoyle"
-manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"

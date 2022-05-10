@@ -4,7 +4,7 @@ description: Describes the REST APIs used to create and manage a collection of c
 ms.date: 01/18/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: HeidiSteen
