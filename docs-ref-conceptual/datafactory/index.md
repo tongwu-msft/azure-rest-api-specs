@@ -1,6 +1,7 @@
 ---
 ms.assetid: b5b9ca4d-ede3-491c-8dbc-96f6b5d2912d
-title: Azure Data Factory overviewdescription: Learn how Azure Data Factory is a cloud-based data integration service that orchestrates and automates the movement and transformation of data.
+title: Azure Data Factory
+description: Learn how Azure Data Factory is a cloud-based data integration service that orchestrates and automates the movement and transformation of data.
 ms.service: data-factory
 author: spelluru
 ms.author: spelluru
