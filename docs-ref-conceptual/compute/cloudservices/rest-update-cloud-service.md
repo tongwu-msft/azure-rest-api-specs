@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Update Cloud Service | Microsoft Docs"
+description: Learn how the Update Cloud Service operation updates the label or description of a cloud service. 
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"
