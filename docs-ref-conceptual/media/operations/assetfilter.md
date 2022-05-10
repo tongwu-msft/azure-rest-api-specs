@@ -1,5 +1,6 @@
 ---
 title: "AssetFilter"
+description: Learn how AssetFilter entities are used to define filters for your asset’s streaming manifests.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""
