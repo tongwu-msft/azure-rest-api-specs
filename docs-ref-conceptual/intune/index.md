@@ -2,7 +2,7 @@
 ms.assetid: 3c9be37f-e505-4975-a5bd-0d34decab288
 title: Azure Intune REST API reference
 description: Learn how Azure Intune provides mobile device management, mobile application management, and PC management capabilities from the cloud.
-ms.service: intune
+ms.service: microsoft-intune
 author: steved0x
 ms.author: sdanie
 ms.manager: douge

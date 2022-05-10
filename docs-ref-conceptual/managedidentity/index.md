@@ -2,7 +2,7 @@
 ms.assetid:
 title: Managed Identity REST API | Microsoft Docs
 description: Learn how Managed identities for Azure resources provides Azure services with an automatically managed identity in Azure Active Directory.
-ms.service: Managed Identity
+ms.service: active-directory
 author: danielqiu
 ms.author: daqi
 ms.manager: sudheerb

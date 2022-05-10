@@ -16,4 +16,4 @@ The IoT Hub Device Provisioning Service is a helper service for IoT Hub that ena
 
 ## Authentication and Permissions
 
-For information on how to authenticate to the  Device Provisioning Service REST APIs and the permission model, refer to [Control access to Azure IoT Hub Device Provisioning Service](https://docs.microsoft.com/en-us/azure/iot-dps/how-to-control-access).
+For information on how to authenticate to the  Device Provisioning Service REST APIs and the permission model, refer to [Control access to Azure IoT Hub Device Provisioning Service](https://docs.microsoft.com/azure/iot-dps/how-to-control-access).

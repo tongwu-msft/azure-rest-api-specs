@@ -1,6 +1,7 @@
 ---
 title: Azure Lab Services
 description: Learn how Azure Lab Services enables you to easily set up and provide on-demand access to preconfigured virtual machines for your workloads.
+ms.service: azure
 ---
  
 # Azure Lab Services
