@@ -5,7 +5,7 @@ author: snehaamicrosoft
 ms.author: snehaa
 ms.date: 08/08/2019
 ms.topic: reference
-ms.service: Azure
+ms.service: azure
 ms.devlang: rest-api
 service_description: To be added
 ---
