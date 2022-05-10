@@ -3,14 +3,14 @@ uid: keyvault.keys.importkey.importkey
 name: Import Key
 service: Key Vault
 groupName: Import Key
-apiVersion: "7.2"
+apiVersion: "7.3"
 summary: "Imports an externally created key, stores it, and returns key parameters and attributes to the client.  \nThe import key operation may be used to import any key type into an Azure Key Vault. If the named key already exists, Azure Key Vault creates a new version of the key. This operation requires the keys/import permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT {vaultBaseUrl}/keys/{key-name}?api-version=7.2
+- content: PUT {vaultBaseUrl}/keys/{key-name}?api-version=7.3
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -69,6 +69,11 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: release_policy
+    in: body
+    description: The policy rules under which the key can be exported.
+    types:
+    - uid: KeyReleasePolicy
 requestHeader: []
 definitions:
 - name: JsonWebKey
@@ -154,6 +159,10 @@ definitions:
     description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
     types:
     - uid: DeletionRecoveryLevel
+  - name: exportable
+    description: Indicates if the private key can be exported.
+    types:
+    - uid: boolean
   - name: enabled
     description: Determines whether the object is enabled.
     types:
@@ -176,6 +185,21 @@ definitions:
     description: Last updated time in UTC.
     types:
     - uid: integer
+- name: KeyReleasePolicy
+  kind: object
+  properties:
+  - name: contentType
+    description: Content type and version of key release policy
+    types:
+    - uid: string
+  - name: immutable
+    description: Defines the mutability state of the policy. Once marked immutable, this flag cannot be reset and the policy cannot be changed under any circumstances.
+    types:
+    - uid: boolean
+  - name: data
+    description: Blob encoding the policy rules under which the key can be released.
+    types:
+    - uid: string
 - name: KeyBundle
   description: A KeyBundle consisting of a WebKey plus its attributes.
   kind: object
@@ -201,6 +225,10 @@ definitions:
     description: True if the key's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true.
     types:
     - uid: boolean
+  - name: release_policy
+    description: The policy rules under which the key can be exported.
+    types:
+    - uid: KeyReleasePolicy
 - name: KeyVaultError
   description: The key vault error exception.
   kind: object
@@ -234,6 +262,10 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: release_policy
+    description: The policy rules under which the key can be exported.
+    types:
+    - uid: KeyReleasePolicy
 - name: JsonWebKeyType
   description: JsonWebKey Key Type (kty), as defined in https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40.
   kind: enum
@@ -243,7 +275,7 @@ definitions:
     types:
     - uid: string
   - name: EC-HSM
-    description: Elliptic Curve with a private key which is not exportable from the HSM.
+    description: Elliptic Curve with a private key which is stored in the HSM.
     types:
     - uid: string
   - name: RSA
@@ -251,7 +283,7 @@ definitions:
     types:
     - uid: string
   - name: RSA-HSM
-    description: RSA with a private key which is not exportable from the HSM.
+    description: RSA with a private key which is stored in the HSM.
     types:
     - uid: string
   - name: oct
@@ -259,7 +291,7 @@ definitions:
     types:
     - uid: string
   - name: oct-HSM
-    description: Octet sequence (used to represent symmetric keys) which is not exportable from the HSM.
+    description: Octet sequence (used to represent symmetric keys) which is stored the HSM.
     types:
     - uid: string
 - name: JsonWebKeyCurveName
@@ -336,7 +368,7 @@ definitions:
 examples:
 - name: Import key
   request:
-    uri: PUT https://myvault.vault.azure.net//keys/ImportSoftKeyTest?api-version=7.2
+    uri: PUT https://myvault.vault.azure.net//keys/ImportSoftKeyTest?api-version=7.3
     body: >-
       {
         "key": {

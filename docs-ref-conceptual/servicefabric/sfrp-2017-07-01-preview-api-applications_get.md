@@ -1,5 +1,6 @@
 ---
-title: "Get"
+title: Service Fabric Get
+description: API reference documentation for the operations available in the Get REST API, a RESTful web service for managing Get resources in Azure.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get
+# Service Fabric Get
+
 Gets a Service Fabric application resource.
 
 Get a Service Fabric application resource created or in the process of being created in the Service Fabric cluster resource.

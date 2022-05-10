@@ -5,7 +5,7 @@ description: The content of an alias can be retrieved using REST API in Azure Co
 ms.date: 03/01/2022
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: dereklegenzoff
@@ -60,3 +60,7 @@ The response body will look similar to the example below.
   "indexes" : ["my-index"]
 }  
 ```  
+
+## See also  
+
++ [Create an index alias in Azure Cognitive Search](/azure/search/search-how-to-alias)   

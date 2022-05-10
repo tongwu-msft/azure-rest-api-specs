@@ -1,5 +1,6 @@
 ---
 title: "ProvisioningState"
+description: "ProvisioningState enum type is string. Possible values include: Updating, Succeeded, Failed, Canceled."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

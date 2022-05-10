@@ -53,9 +53,8 @@ The `Rollback Update Or Upgrade` operation cancels an in-progress configuration 
   
  The following table describes the elements of the request.  
   
-|||  
-|-|-|  
 |Element Name|Description|  
+|-|-|    
 |Mode|Required. Specifies whether the rollback should proceed automatically.<br /><br /> -   `Auto` – The rollback proceeds without further user input.<br />-   `Manual` – You must call the [Walk Upgrade Domain](rest-walk-upgrade-domain.md) operation to apply the rollback to each upgrade domain.|  
 |Force|Required. Specifies whether the rollback should proceed even when it will cause local data to be lost from some role instances. `True` if the rollback should proceed; otherwise `false`.|  
   

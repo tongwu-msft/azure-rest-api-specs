@@ -1,5 +1,6 @@
 ---
-title: "Update"
+title: Service Fabric Update
+description: API reference documentation for the operations available in the Update REST API, a RESTful web service for managing Update resources in Azure.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Update
+# Service Fabric Update
+
 Updates a Service Fabric application resource.
 
 Update a Service Fabric application resource with the specified name.
