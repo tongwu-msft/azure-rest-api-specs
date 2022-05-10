@@ -4,7 +4,7 @@ description: Return a specific document by ID from an Azure Cognitive Search ind
 ms.date: 03/05/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

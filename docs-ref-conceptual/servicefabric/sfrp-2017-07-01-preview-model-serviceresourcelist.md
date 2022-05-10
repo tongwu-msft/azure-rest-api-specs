@@ -1,5 +1,6 @@
 ---
 title: "ServiceResourceList"
+description: "Learn about the list of service resources. Properties include name and type with Value Type being array of ServiceResource." 
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

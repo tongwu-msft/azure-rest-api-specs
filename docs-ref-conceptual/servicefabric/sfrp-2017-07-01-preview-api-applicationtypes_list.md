@@ -1,5 +1,6 @@
 ---
-title: "List"
+title: Service Fabric List Application Type
+description: API reference documentation for the operations available in the List REST API for the Service Fabric application type name resource.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List
+# Service Fabric List Application Type
+
 Gets the list of application type name resources created in the specified Service Fabric cluster resource.
 
 Gets all application type name resources created or in the process of being created in the Service Fabric cluster resource.

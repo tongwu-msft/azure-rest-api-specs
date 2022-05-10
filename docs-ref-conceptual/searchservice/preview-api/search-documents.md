@@ -27,9 +27,9 @@ ms.author: beloh
 > + **"queryLanguage"** is required for both "queryType=semantic" and "speller".
 > + **"featuresMode"** unpacks a search score, reporting on per-field term frequency, per-field similarity score, and per-field number of unique matches.
 
-A query request targets the documents collection of a single index on a search service. It includes parameters that define the match criteria, and parameters that shape the response.
+A query request targets the documents collection of a single index on a search service. It includes parameters that define the match criteria, and parameters that shape the response. You can also use an [index alias](/azure/search/search-how-to-alias) to target a particular index instead of using the index name itself.
 
-You can use GET or POST. [Query parameters](#query-parameters) are specified on the query string in the case of GET requests, and in the request body in the case of POST requests.
+You can use GET or POST. [Query parameters](#query-parameters) are specified on the query string in the case of GET requests, and in the request body in the case of POST requests. 
 
 ```http
 GET https://[service name].search.windows.net/indexes/[index name]/docs?[query parameters] 
@@ -54,7 +54,7 @@ With POST, the number of clauses in a filter is the limiting factor, not the siz
 | Parameter   | Description  |
 |-------------|--------------|
 | [service name] | Required. Set this name to the unique, user-defined name of your search service. |
-| [index name]/docs  | Required. Specifies the documents collection of a named index. |
+| [index name]/docs  | Required. Specifies the documents collection of a named index. The name of an [index alias](/azure/search/search-how-to-alias) can also be used in place of the index name. |
 | [query parameters] | Query parameters are specified on the URI for GET requests and in the request body for POST requests. |
 | api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
 

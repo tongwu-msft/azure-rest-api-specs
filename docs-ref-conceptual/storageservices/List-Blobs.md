@@ -39,7 +39,7 @@ The `List Blobs` operation returns a list of the blobs under the specified conta
 |`marker`|Optional. A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items.<br /><br /> The marker value is opaque to the client.|  
 |`maxresults`|Optional. Specifies the maximum number of blobs to return, including all `BlobPrefix` elements. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items. If there are additional results to return, the service returns a continuation token in the `NextMarker` response element. In certain cases, the service may return fewer results than specified by `maxresults` and also return a continuation token.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request).|  
 |`include={snapshots,metadata,uncommittedblobs,copy,deleted,tags,versions,`<br/>`deletedwithversions,immutabilitypolicy,legalhold,permissions}`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -   `snapshots`: Specifies that snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response.<br />-   `metadata`: Specifies that blob metadata be returned in the response.<br />-   `uncommittedblobs`: Specifies that blobs for which blocks have been uploaded, but which have not been committed using [Put Block List](Put-Block-List.md), be included in the response.<br />-   `copy`: Version 2012-02-12 and newer. Specifies that metadata related to any current or previous `Copy Blob` operation should be included in the response.<br />-`deleted`: Version 2017-07-29 and newer. Specifies that soft deleted blobs should be included in the response. <br />-`tags`: Version 2019-12-12 and newer. Specifies that user-defined Blob Index tags should be included in the response. <br />-`versions`: Version 2019-12-12 and newer. Specifies that Versions of blobs should be included in the enumeration.<br />-`deletedwithversions`: Version 2020-10-02 and newer. Specifies that deleted blobs with any versions (active or deleted) should be included in the response with a tag <b>\<HasVersionsOnly\></b> and value true.<br />-`immutabilitypolicy`: Version 2020-06-12 and newer.  Specifies that immutability policy until date and immutability policy mode of the blobs should be included in the enumeration.<br />-`legalhold`: Version 2020-06-12 and newer.  Specifies that legal hold of blobs should be included in the enumeration.<br />-`permissions`: Version 2020-06-12 and newer. Supported only for accounts with a hierarchical namespace enabled. If a request includes this parameter, then the Owner, Group, Permissions, and Access Control List for the listed blobs or directories will be included in the enumeration. <br /><br /> To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma ("%82").|
-|`showonly={deleted}`|Optional. Version 2020-08-04 and newer. Only for accounts with Hierarchical Namespace enabled. When a request includes this parameter, the list only contains soft deleted blobs. If include=deleted is also specified, the request will fail with Bad Request (400).| 
+|`showonly={deleted,files,directories}`|Optional. Specifies one of these datasets to be returned in the response:<br /><br />-`deleted`: Optional. Version 2020-08-04 and newer. Only for accounts with Hierarchical Namespace enabled. When a request includes this parameter, the list only contains soft deleted blobs. If include=deleted is also specified, the request will fail with Bad Request (400).<br />-`files`: Optional. Version 2020-12-06 and newer.  Only for accounts with Hierarchical Namespace enabled. When a request includes this parameter, the list only contains files. <br />-`directories`: Optional. Version 2020-12-06 and newer.  Only for accounts with Hierarchical Namespace enabled. When a request includes this parameter, the list only contains directories.|
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
@@ -146,12 +146,18 @@ For version 2020-06-12 and above, `List Blobs` returns the `ImmutabilityPolicyUn
 For version 2020-06-12 and above, `List Blobs` returns the `LegalHold` element when this operation includes the `include={legalhold}` parameter.
 
 For version 2020-06-12 and above, for accounts with a hierarchical namespace enabled, `List Blobs` returns `Owner`, `Group`, `Permissions` and `Acl` element when the request contains `include={permissions}` parameter. Note that `Acl` element will be a combined list of Access and Default Acl's that were set on the file/directory.
+  
+For version 2020-06-12 and above, for accounts with a hierarchical namespace enabled, `List Blobs` with a delimiter returns the `Properties` element in the `BlobPrefix` element, that corresponds with the Properties on the directory.
 
 For version 2020-08-04 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `DeletionId` element for deleted blobs. `DeletionId` is an unsigned 64 bit identifier that uniquely identifies a soft deleted path to distinguish it from other deleted blobs with the same path.
 
 For version 2020-10-02 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `ResourceType` property element for the path, which can be either `file`/`directory`.   
 
 For version 2021-02-12 and above, `List Blobs` will percent-encode (per RFC 2396) all `Blob` `Name` or `BlobPrefix` `Name` element values which contain characters invalid in XML (specifically, U+FFFE or U+FFFF). If encoded, the `Name` element will include an `Encoded=true` attribute. Note that this will only occur for the `Name` element values containing the characters invalid in XML, not the remaining `Name` elements in the response.
+  
+For version 2021-06-08 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `Placeholder` properties element in the `BlobPrefix` element for placeholder directories when listing deleted blobs with a delimiter. These placeholder directories only exist to help navigate down to soft deleted blobs.
+
+For version  2020-02-10 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `Expiry-Time` element for deleted blobs. `Expiry-Time` is the time when the file will expire and will be returned for file if expiry is set on the same. 
 
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -176,6 +182,7 @@ For version 2021-02-12 and above, `List Blobs` will percent-encode (per RFC 2396
         <Permissions>permission string</Permissions>
         <Acl>access control list</Acl>
         <ResourceType>file | directory</ResourceType>
+        <Placeholder>true</Placeholder>
         <Content-Length>size-in-bytes</Content-Length>  
         <Content-Type>blob-content-type</Content-Type>  
         <Content-Encoding />  
@@ -204,6 +211,7 @@ For version 2021-02-12 and above, `List Blobs` will percent-encode (per RFC 2396
         <RemainingRetentionDays>no-of-days</RemainingRetentionDays>
         <TagCount>number of tags between 1 to 10</TagCount>
         <RehydratePriority>rehydrate priority</RehydratePriority>
+        <Expiry-Time>date-time-value</Expiry-Time>
       </Properties>  
       <Metadata>     
         <Name>value</Name>  

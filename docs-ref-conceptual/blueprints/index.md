@@ -1,5 +1,6 @@
 ---
 title: Blueprints REST API
+description: Learn how Azure Blueprints enables the creation of an Azure native package of artifacts that can be dynamically deployed to subscriptions.
 author: DCtheGeek
 ms.author: dacoulte
 ms.manager: carmonm

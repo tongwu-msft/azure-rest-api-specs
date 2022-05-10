@@ -1,6 +1,7 @@
 ---
 ms.assetid:
 title: Azure Data Explorer REST API | Microsoft Docs
+description: Learn how the Azure Data Explorer is a fully managed data analytics service for real-time analysis on large volumes of data streaming from many sources.
 ms.service: data-explorer
 author: orspod
 ms.author: orspodek

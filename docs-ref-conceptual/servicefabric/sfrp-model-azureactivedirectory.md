@@ -1,5 +1,6 @@
 ---
 title: "AzureActiveDirectory"
+description: "Define the settings to enable AAD authentication on the cluster. Properties include tenantId, clusterApplication, and clientApplication."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

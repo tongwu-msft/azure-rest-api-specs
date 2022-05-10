@@ -1,5 +1,6 @@
 ---
 title: "Specifying Conditional Headers | Microsoft Docs"
+description: Learn how the Batch service follows the [HTTP/1.1 protocol specification](https://tools.ietf.org/html/rfc7232) for conditional headers.
 ms.custom: ""
 ms.date: 02/01/2017
 ms.reviewer: ""

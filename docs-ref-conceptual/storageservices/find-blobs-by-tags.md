@@ -9,7 +9,8 @@ ms.topic: reference
 ms.author: rerdmann
 ---
 
-# Find Blobs by Tags
+# Find Blobs by Tags operation
+
 The `Find Blobs by Tags` operation finds all blobs in the storage account whose tags match a given search expression.  
   
 ## Request  
