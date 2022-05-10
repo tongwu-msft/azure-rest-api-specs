@@ -1,5 +1,6 @@
 ---
 title: "ContentKey"
+description: Learn how a ContentKey provides secure access to an Asset and how you must also use a protection key to encrypt the content key that you generate.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

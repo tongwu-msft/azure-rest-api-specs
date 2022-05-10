@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgatewayconnections.creat
 name: Create Or Update
 service: Network Gateway
 groupName: Virtual Network Gateway Connections
-apiVersion: 2021-05-01
+apiVersion: 2021-08-01
 summary: Creates or updates a virtual network gateway connection in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2021-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -126,6 +126,12 @@ requestBody:
     description: EnableBgp flag.
     types:
     - uid: boolean
+  - name: properties.gatewayCustomBgpIpAddresses
+    in: body
+    description: GatewayCustomBgpIpAddresses to be used for virtual network gateway Connection.
+    types:
+    - uid: GatewayCustomBgpIpAddressIpConfiguration
+      isArray: true
   - name: properties.useLocalAzureIpAddress
     in: body
     description: Use private local Azure IP for the connection.
@@ -396,6 +402,18 @@ definitions:
     description: The time at which connection was established in Utc format.
     types:
     - uid: string
+- name: GatewayCustomBgpIpAddressIpConfiguration
+  description: GatewayCustomBgpIpAddressIpConfiguration for a virtual network gateway connection.
+  kind: object
+  properties:
+  - name: ipConfigurationId
+    description: The IpconfigurationId of ipconfiguration which belongs to gateway.
+    types:
+    - uid: string
+  - name: customBgpIpAddress
+    description: The custom BgpPeeringAddress which belongs to IpconfigurationId.
+    types:
+    - uid: string
 - name: IpsecPolicy
   description: An IPSec Policy configuration for a virtual network gateway connection.
   kind: object
@@ -534,6 +552,11 @@ definitions:
     description: EnableBgp flag.
     types:
     - uid: boolean
+  - name: properties.gatewayCustomBgpIpAddresses
+    description: GatewayCustomBgpIpAddresses to be used for virtual network gateway Connection.
+    types:
+    - uid: GatewayCustomBgpIpAddressIpConfiguration
+      isArray: true
   - name: properties.useLocalAzureIpAddress
     description: Use private local Azure IP for the connection.
     types:
@@ -1347,7 +1370,7 @@ definitions:
 examples:
 - name: CreateVirtualNetworkGatewayConnection_S2S
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/connS2S?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/connS2S?api-version=2021-08-01
     body: >-
       {
         "properties": {
@@ -1407,6 +1430,16 @@ examples:
           "egressNatRules": [
             {
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2"
+            }
+          ],
+          "gatewayCustomBgpIpAddresses": [
+            {
+              "ipConfigurationId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/default",
+              "customBgpIpAddress": "169.254.21.1"
+            },
+            {
+              "ipConfigurationId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/ActiveActive",
+              "customBgpIpAddress": "169.254.21.3"
             }
           ],
           "connectionType": "IPsec",
@@ -1501,6 +1534,16 @@ examples:
           "dpdTimeoutSeconds": 30,
           "sharedKey": "Abc123",
           "enableBgp": false,
+          "gatewayCustomBgpIpAddresses": [
+            {
+              "ipConfigurationId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/default",
+              "customBgpIpAddress": "169.254.21.1"
+            },
+            {
+              "ipConfigurationId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/ActiveActive",
+              "customBgpIpAddress": "169.254.21.3"
+            }
+          ],
           "useLocalAzureIpAddress": false,
           "usePolicyBasedTrafficSelectors": false,
           "ipsecPolicies": [],

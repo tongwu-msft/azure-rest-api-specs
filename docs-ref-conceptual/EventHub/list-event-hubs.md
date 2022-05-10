@@ -1,5 +1,6 @@
 ---
 title: "List Event Hubs"
+description: Learn how the List Event Hubs operation retrieves all metadata associated with all Event Hubs within a specified Service Bus namespace.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

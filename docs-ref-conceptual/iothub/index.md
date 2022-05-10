@@ -1,5 +1,6 @@
 ---
 title: "IoT Hub REST"
+description: Learn how the REST APIs for IoT Hub offer programmatic access to the device, messaging, and job services, as well as the resource provider, in IoT Hub.
 ms.custom: ""
 ms.date: 09/30/2015
 ms.reviewer: ""
