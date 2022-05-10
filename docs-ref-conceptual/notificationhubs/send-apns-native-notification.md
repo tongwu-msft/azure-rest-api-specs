@@ -41,12 +41,13 @@ The following table describes required and optional request headers.
 
 The request body is an XML document as [specified by Apple](http://developer.apple.com/library/ios/#documentation/networkinginternet/conceptual/remotenotificationspg/applepushservice/applepushservice.html). For example:
 
+```json
     { 
         "aps" : { 
             "alert" : " This is my toast message for iOS!", 
         }, 
     }
-
+```
 ## Response
 
 The response includes an HTTP status code and a set of response headers.
