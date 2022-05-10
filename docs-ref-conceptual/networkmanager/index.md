@@ -1,7 +1,7 @@
 ---
 title: Azure Virtual Network Manager REST API Reference | Microsoft Docs
 description: API reference documentation for the operations available in the Azure Virtual Network Manager REST API, a RESTful web service for managing Azure Virtual Network Manager resources in Azure.
-ms.service: networkmanager
+ms.service: virtual-network-manager
 author: jayLi
 ms.author: jayLi
 ms.manager: None
