@@ -2981,6 +2981,75 @@
 ## Signing Certificates
 ### [Overview](attestation/Signing-Certificates.yml)
 ### [Get](attestation/Signing-Certificates/Get.yml)
+# Azure Container Apps
+## [Overview](../docs-ref-conceptual/containerapps/index.md)
+## Certificates
+### [Overview](containerapps/Certificates.yml)
+### [Create Or Update](containerapps/Certificates/Create-Or-Update.yml)
+### [Delete](containerapps/Certificates/Delete.yml)
+### [Get](containerapps/Certificates/Get.yml)
+### [List](containerapps/Certificates/List.yml)
+### [Update](containerapps/Certificates/Update.yml)
+## Container Apps
+### [Overview](containerapps/Container-Apps.yml)
+### [Create Or Update](containerapps/Container-Apps/Create-Or-Update.yml)
+### [Delete](containerapps/Container-Apps/Delete.yml)
+### [Get](containerapps/Container-Apps/Get.yml)
+### [List By Resource Group](containerapps/Container-Apps/List-By-Resource-Group.yml)
+### [List By Subscription](containerapps/Container-Apps/List-By-Subscription.yml)
+### [List Custom Host Name Analysis](containerapps/Container-Apps/List-Custom-Host-Name-Analysis.yml)
+### [List Secrets](containerapps/Container-Apps/List-Secrets.yml)
+### [Update](containerapps/Container-Apps/Update.yml)
+## Container Apps Auth Configs
+### [Overview](containerapps/Container-Apps-Auth-Configs.yml)
+### [Create Or Update](containerapps/Container-Apps-Auth-Configs/Create-Or-Update.yml)
+### [Delete](containerapps/Container-Apps-Auth-Configs/Delete.yml)
+### [Get](containerapps/Container-Apps-Auth-Configs/Get.yml)
+### [List By Container App](containerapps/Container-Apps-Auth-Configs/List-By-Container-App.yml)
+## Container Apps Revision Replicas
+### [Overview](containerapps/Container-Apps-Revision-Replicas.yml)
+### [Get Replica](containerapps/Container-Apps-Revision-Replicas/Get-Replica.yml)
+### [List Replicas](containerapps/Container-Apps-Revision-Replicas/List-Replicas.yml)
+## Container Apps Revisions
+### [Overview](containerapps/Container-Apps-Revisions.yml)
+### [Activate Revision](containerapps/Container-Apps-Revisions/Activate-Revision.yml)
+### [Deactivate Revision](containerapps/Container-Apps-Revisions/Deactivate-Revision.yml)
+### [Get Revision](containerapps/Container-Apps-Revisions/Get-Revision.yml)
+### [List Revisions](containerapps/Container-Apps-Revisions/List-Revisions.yml)
+### [Restart Revision](containerapps/Container-Apps-Revisions/Restart-Revision.yml)
+## Container Apps Source Controls
+### [Overview](containerapps/Container-Apps-Source-Controls.yml)
+### [Create Or Update](containerapps/Container-Apps-Source-Controls/Create-Or-Update.yml)
+### [Delete](containerapps/Container-Apps-Source-Controls/Delete.yml)
+### [Get](containerapps/Container-Apps-Source-Controls/Get.yml)
+### [List By Container App](containerapps/Container-Apps-Source-Controls/List-By-Container-App.yml)
+## Dapr Components
+### [Overview](containerapps/Dapr-Components.yml)
+### [Create Or Update](containerapps/Dapr-Components/Create-Or-Update.yml)
+### [Delete](containerapps/Dapr-Components/Delete.yml)
+### [Get](containerapps/Dapr-Components/Get.yml)
+### [List](containerapps/Dapr-Components/List.yml)
+### [List Secrets](containerapps/Dapr-Components/List-Secrets.yml)
+## Managed Environments
+### [Overview](containerapps/Managed-Environments.yml)
+### [Create Or Update](containerapps/Managed-Environments/Create-Or-Update.yml)
+### [Delete](containerapps/Managed-Environments/Delete.yml)
+### [Get](containerapps/Managed-Environments/Get.yml)
+### [List By Resource Group](containerapps/Managed-Environments/List-By-Resource-Group.yml)
+### [List By Subscription](containerapps/Managed-Environments/List-By-Subscription.yml)
+### [Update](containerapps/Managed-Environments/Update.yml)
+## Managed Environments Storages
+### [Overview](containerapps/Managed-Environments-Storages.yml)
+### [Create Or Update](containerapps/Managed-Environments-Storages/Create-Or-Update.yml)
+### [Delete](containerapps/Managed-Environments-Storages/Delete.yml)
+### [Get](containerapps/Managed-Environments-Storages/Get.yml)
+### [List](containerapps/Managed-Environments-Storages/List.yml)
+## Namespaces
+### [Overview](containerapps/Namespaces.yml)
+### [Check Name Availability](containerapps/Namespaces/Check-Name-Availability.yml)
+## Operations
+### [Overview](containerapps/Operations.yml)
+### [List](containerapps/Operations/List.yml)
 # Azure Kusto
 ## [Overview](../docs-ref-conceptual/azurerekusto/index.md)
 ## Attached Database Configurations
