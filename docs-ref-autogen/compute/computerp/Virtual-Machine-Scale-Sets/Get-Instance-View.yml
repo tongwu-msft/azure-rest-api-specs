@@ -1,0 +1,307 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.computerp.virtualmachinescalesets.getinstanceview
+name: Get Instance View
+service: Compute
+groupName: Virtual Machine Scale Sets
+apiVersion: 2022-03-01
+summary: Gets the status of a VM scale set instance.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/instanceView?api-version=2022-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: vmScaleSetName
+  in: path
+  isRequired: true
+  description: The name of the VM scale set.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: VirtualMachineScaleSetInstanceView
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: VirtualMachineScaleSetInstanceView
+  description: The instance view of a virtual machine scale set.
+  kind: object
+  properties:
+  - name: virtualMachine
+    isReadyOnly: true
+    description: The instance view status summary for the virtual machine scale set.
+    types:
+    - uid: VirtualMachineScaleSetInstanceViewStatusesSummary
+  - name: extensions
+    isReadyOnly: true
+    description: The extensions information.
+    types:
+    - uid: VirtualMachineScaleSetVMExtensionsSummary
+      isArray: true
+  - name: statuses
+    description: The resource status information.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+  - name: orchestrationServices
+    isReadyOnly: true
+    description: The orchestration services information.
+    types:
+    - uid: OrchestrationServiceSummary
+      isArray: true
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
+- name: VirtualMachineScaleSetInstanceViewStatusesSummary
+  description: Instance view statuses summary for virtual machines of a virtual machine scale set.
+  kind: object
+  properties:
+  - name: statusesSummary
+    isReadyOnly: true
+    description: The extensions information.
+    types:
+    - uid: VirtualMachineStatusCodeCount
+      isArray: true
+- name: VirtualMachineScaleSetVMExtensionsSummary
+  description: Extensions summary for virtual machines of a virtual machine scale set.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The extension name.
+    types:
+    - uid: string
+  - name: statusesSummary
+    isReadyOnly: true
+    description: The extensions information.
+    types:
+    - uid: VirtualMachineStatusCodeCount
+      isArray: true
+- name: InstanceViewStatus
+  description: Instance view status.
+  kind: object
+  properties:
+  - name: code
+    description: The status code.
+    types:
+    - uid: string
+  - name: level
+    description: The level code.
+    types:
+    - uid: StatusLevelTypes
+  - name: displayStatus
+    description: The short localizable label for the status.
+    types:
+    - uid: string
+  - name: message
+    description: The detailed status message, including for alerts and error messages.
+    types:
+    - uid: string
+  - name: time
+    description: The time of the status.
+    types:
+    - uid: string
+- name: OrchestrationServiceSummary
+  description: Summary for an orchestration service of a virtual machine scale set.
+  kind: object
+  properties:
+  - name: serviceName
+    isReadyOnly: true
+    description: The name of the service.
+    types:
+    - uid: OrchestrationServiceNames
+  - name: serviceState
+    isReadyOnly: true
+    description: The current state of the service.
+    types:
+    - uid: OrchestrationServiceState
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: VirtualMachineStatusCodeCount
+  description: The status code and count of the virtual machine scale set instance view status summary.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The instance view status code.
+    types:
+    - uid: string
+  - name: count
+    isReadyOnly: true
+    description: The number of instances having a particular status code.
+    types:
+    - uid: integer
+- name: StatusLevelTypes
+  description: The level code.
+  kind: enum
+  properties:
+  - name: Info
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+- name: OrchestrationServiceNames
+  description: The name of the service.
+  kind: enum
+  properties:
+  - name: AutomaticRepairs
+    types:
+    - uid: string
+- name: OrchestrationServiceState
+  description: The current state of the service.
+  kind: enum
+  properties:
+  - name: NotRunning
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Suspended
+    types:
+    - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+examples:
+- name: VirtualMachineScaleSets_GetInstanceView_MaximumSet_Gen
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaa/instanceView?api-version=2022-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "virtualMachine": {
+          "statusesSummary": [
+            {
+              "code": "aa",
+              "count": 21
+            }
+          ]
+        },
+        "extensions": [
+          {
+            "name": "aaaaaaaaaaa",
+            "statusesSummary": [
+              {
+                "code": "aa",
+                "count": 21
+              }
+            ]
+          }
+        ],
+        "statuses": [
+          {
+            "code": "ProvisioningState/succeeded",
+            "level": "Info",
+            "displayStatus": "Provisioning succeeded",
+            "message": "aaaaaaaaaaaaaaaaaaaaaaa",
+            "time": "2021-11-30T12:58:26.526Z"
+          }
+        ],
+        "orchestrationServices": [
+          {
+            "serviceName": "AutomaticRepairs",
+            "serviceState": "NotRunning"
+          }
+        ]
+      }
+- name: VirtualMachineScaleSets_GetInstanceView_MinimumSet_Gen
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaa/instanceView?api-version=2022-03-01
+  responses:
+  - statusCode: "200"
+    body: '{}'
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Compute service - Gets the status of a VM scale set instance.
+errorCodes: []

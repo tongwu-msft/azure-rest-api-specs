@@ -1,0 +1,154 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.computerp.virtualmachinescalesetvms.poweroff
+name: Power Off
+service: Compute
+groupName: Virtual Machine Scale Set VMs
+apiVersion: 2022-03-01
+summary: Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/poweroff?api-version=2022-03-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/poweroff?skipShutdown={skipShutdown}&api-version=2022-03-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: vmScaleSetName
+  in: path
+  isRequired: true
+  description: The name of the VM scale set.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  description: The instance ID of the virtual machine.
+  types:
+  - uid: string
+- name: skipShutdown
+  in: query
+  description: The parameter to request non-graceful VM shutdown. True value for this flag indicates non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false if not specified
+  types:
+  - uid: boolean
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+- name: 202 Accepted
+  description: Accepted
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+examples:
+- name: VirtualMachineScaleSetVMs_PowerOff_MaximumSet_Gen
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaa/virtualmachines/aaaaaaaaa/poweroff?skipShutdown=True&api-version=2022-03-01
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://foo.com/operationstatus
+- name: VirtualMachineScaleSetVMs_PowerOff_MinimumSet_Gen
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/virtualmachines/aaaaaaaaaaaaaaaaaaaaaa/poweroff?api-version=2022-03-01
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://foo.com/operationstatus
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources.
+errorCodes: []
