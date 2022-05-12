@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.desktopvirtualization.usersessions.get
-name: Get
+uid: management.azure.com.desktopvirtualization.privateendpointconnections.getbyhostpool
+name: Get By Host Pool
 service: Desktop Virtualization
-groupName: User Sessions
+groupName: Private Endpoint Connections
 apiVersion: 2022-02-10-preview
-summary: Get a userSession.
+summary: Get a private endpoint connection.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}/userSessions/{userSessionId}?api-version=2022-02-10-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2022-02-10-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,16 +30,10 @@ uriParameters:
   description: The name of the host pool within the specified resource group
   types:
   - uid: string
-- name: sessionHostName
+- name: privateEndpointConnectionName
   in: path
   isRequired: true
-  description: The name of the session host within the specified host pool
-  types:
-  - uid: string
-- name: userSessionId
-  in: path
-  isRequired: true
-  description: The name of the user session within the specified session host
+  description: The name of the private endpoint connection associated with the Azure resource
   types:
   - uid: string
 - name: api-version
@@ -50,17 +44,17 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Successfully retrieved user session.
+  description: Successfully retrieved the connection.
   types:
-  - uid: UserSession
+  - uid: PrivateEndpointConnectionWithSystemData
 - name: Other Status Codes
   description: Automation error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: UserSession
-  description: Represents a UserSession definition.
+- name: PrivateEndpointConnectionWithSystemData
+  description: The Private Endpoint Connection resource.
   kind: object
   properties:
   - name: systemData
@@ -68,31 +62,19 @@ definitions:
     description: Metadata pertaining to creation and last modification of the resource.
     types:
     - uid: systemData
-  - name: properties.objectId
+  - name: properties.privateEndpoint
+    description: The resource of private end point.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: properties.provisioningState
     isReadyOnly: true
-    description: ObjectId of user session. (internal use)
+    description: The provisioning state of the private endpoint connection resource.
     types:
-    - uid: string
-  - name: properties.userPrincipalName
-    description: The user principal name.
-    types:
-    - uid: string
-  - name: properties.applicationType
-    description: Application type of application.
-    types:
-    - uid: ApplicationType
-  - name: properties.sessionState
-    description: State of user session.
-    types:
-    - uid: SessionState
-  - name: properties.activeDirectoryUserName
-    description: The active directory user name.
-    types:
-    - uid: string
-  - name: properties.createTime
-    description: The timestamp of the user session create.
-    types:
-    - uid: string
+    - uid: PrivateEndpointConnectionProvisioningState
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -144,36 +126,45 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: ApplicationType
-  description: Application type of application.
+- name: PrivateEndpoint
+  description: The Private Endpoint resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ARM identifier for Private Endpoint
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: A collection of information about the state of the connection between service consumer and provider.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+    types:
+    - uid: PrivateEndpointServiceConnectionStatus
+  - name: description
+    description: The reason for approval/rejection of the connection.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
+    types:
+    - uid: string
+- name: PrivateEndpointConnectionProvisioningState
+  description: The current provisioning state.
   kind: enum
   properties:
-  - name: RemoteApp
+  - name: Succeeded
     types:
     - uid: string
-  - name: Desktop
+  - name: Creating
     types:
     - uid: string
-- name: SessionState
-  description: State of user session.
-  kind: enum
-  properties:
-  - name: Unknown
+  - name: Deleting
     types:
     - uid: string
-  - name: Active
-    types:
-    - uid: string
-  - name: Disconnected
-    types:
-    - uid: string
-  - name: Pending
-    types:
-    - uid: string
-  - name: LogOff
-    types:
-    - uid: string
-  - name: UserProfileDiskMounted
+  - name: Failed
     types:
     - uid: string
 - name: CloudErrorProperties
@@ -204,17 +195,30 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: PrivateEndpointServiceConnectionStatus
+  description: The private endpoint connection status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
 examples:
-- name: UserSession_Get
+- name: PrivateEndpointConnection_GetByHostPool
   request:
-    uri: GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1/sessionHosts/sessionHost1.microsoft.com/userSessions/1?api-version=2022-02-10-preview
+    uri: GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1/privateEndpointConnections/hostPool1.377103f1-5179-4bdf-8556-4cdd3207cc5b?api-version=2022-02-10-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "name": "1",
-        "id": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1/sessionHosts/sessionHost1.microsoft.com/userSessions/1",
-        "type": "Microsoft.DesktopVirtualization/hostPools/sessionHosts/userSessions",
+        "name": "hostPool1.377103f1-5179-4bdf-8556-4cdd3207cc5b",
+        "id": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostpools/hostPool1/privateEndpointConnections/hostPool1.377103f1-5179-4bdf-8556-4cdd3207cc5b",
+        "type": "Microsoft.DesktopVirtualization/hostpools/privateEndpointConnections",
         "systemData": {
           "createdBy": "user1",
           "createdByType": "User",
@@ -224,15 +228,18 @@ examples:
           "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
         },
         "properties": {
-          "objectId": "7877fb31-4bde-49fd-9df3-c046e0ec5325",
-          "userPrincipalName": "user1@microsoft.com",
-          "applicationType": "Desktop",
-          "sessionState": "Active",
-          "activeDirectoryUserName": "WVDARM\\user1",
-          "createTime": "2008-09-22T14:01:54.9571247Z"
+          "provisioningState": "Succeeded",
+          "privateEndpoint": {
+            "id": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup2/providers/Microsoft.Network/privateEndpoints/endpointName1"
+          },
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Auto-Approved",
+            "actionsRequired": "None"
+          }
         }
       }
 security: []
 metadata:
-  description: Learn more about Desktop Virtualization service - Get a userSession.
+  description: Learn more about Desktop Virtualization service - Get a private endpoint connection.
 errorCodes: []
