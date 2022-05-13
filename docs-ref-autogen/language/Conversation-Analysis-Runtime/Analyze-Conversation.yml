@@ -385,7 +385,7 @@ definitions:
   - name: callingOptions
     description: The options sent to a Question Answering KB.
     types:
-    - uid: object
+    - uid: AnswersOptions
   - name: targetProjectKind
     description: The type of a target service.
     types:
@@ -485,6 +485,50 @@ definitions:
     description: If true, the query will be saved for customers to further review in authoring, to improve the model quality.
     types:
     - uid: boolean
+- name: AnswersOptions
+  description: Parameters to query a knowledge base.
+  kind: object
+  properties:
+  - name: qnaId
+    description: Exact QnA ID to fetch from the knowledge base, this field takes priority over question.
+    types:
+    - uid: integer
+  - name: question
+    description: User question to query against the knowledge base.
+    types:
+    - uid: string
+  - name: top
+    description: Max number of answers to be returned for the question.
+    types:
+    - uid: integer
+  - name: userId
+    description: Unique identifier for the user.
+    types:
+    - uid: string
+  - name: confidenceScoreThreshold
+    description: Minimum threshold score for answers, value ranges from 0 to 1.
+    types:
+    - uid: number
+  - name: context
+    description: Context object with previous QnA's information.
+    types:
+    - uid: KnowledgeBaseAnswerContext
+  - name: rankerType
+    description: Type of ranker to be used.
+    types:
+    - uid: RankerKind
+  - name: filters
+    description: Filter QnAs based on given metadata list and knowledge base sources.
+    types:
+    - uid: QueryFilters
+  - name: answerSpanRequest
+    description: To configure Answer span prediction feature.
+    types:
+    - uid: ShortAnswerOptions
+  - name: includeUnstructuredSources
+    description: (Optional) Flag to enable Query over Unstructured Sources.
+    types:
+    - uid: boolean
 - name: ConversationPrediction
   description: Represents the prediction section of a Conversation project.
   kind: object
@@ -529,6 +573,63 @@ definitions:
     description: The intent with the highest score.
     types:
     - uid: string
+- name: KnowledgeBaseAnswerContext
+  description: Context object with previous QnA's information.
+  kind: object
+  properties:
+  - name: previousQnaId
+    description: Previous turn top answer result QnA ID.
+    types:
+    - uid: integer
+  - name: previousUserQuery
+    description: Previous user query.
+    types:
+    - uid: string
+- name: RankerKind
+  description: Type of ranker to be used.
+  kind: enum
+  properties:
+  - name: Default
+    description: Default ranker.
+    types:
+    - uid: string
+  - name: QuestionOnly
+    description: Question only ranker.
+    types:
+    - uid: string
+- name: QueryFilters
+  description: filters over knowledge base.
+  kind: object
+  properties:
+  - name: metadataFilter
+    description: Find QnAs that are associated with the given list of metadata.
+    types:
+    - uid: MetadataFilter
+  - name: sourceFilter
+    description: Find QnAs that are associated with any of the given list of sources in knowledge base.
+    types:
+    - uid: string
+      isArray: true
+  - name: logicalOperation
+    description: Logical operation used to join metadata filter with source filter.
+    types:
+    - uid: LogicalOperationKind
+- name: ShortAnswerOptions
+  description: To configure Answer span prediction feature.
+  kind: object
+  properties:
+  - name: enable
+    description: Enable or disable Answer Span prediction.
+    types:
+    - uid: enable
+  - name: confidenceScoreThreshold
+    description: Minimum threshold score required to include an answer span, value ranges from 0 to 1.
+    types:
+    - uid: number
+  - name: topAnswersWithSpan
+    description: Number of Top answers to be considered for span prediction from 1 to 10.
+    types:
+    - uid: integer
 - name: ConversationIntent
   description: The intent classification result of a Conversation project.
   kind: object
@@ -607,6 +708,36 @@ definitions:
     - uid: ListKey
       isArray: true
     typesTitle: BaseExtraInformation[]
+- name: MetadataFilter
+  description: Find QnAs that are associated with the given list of metadata.
+  kind: object
+  properties:
+  - name: metadata
+    description: Object to provide the key value pair for each metadata.
+    types:
+    - uid: MetadataRecord
+      isArray: true
+  - name: logicalOperation
+    description: Operation used to join metadata filters.
+    types:
+    - uid: LogicalOperationKind
+- name: LogicalOperationKind
+  description: Set to 'OR' or 'AND' for using corresponding logical operation.
+  kind: enum
+  properties:
+  - name: AND
+    types:
+    - uid: string
+  - name: OR
+    types:
+    - uid: string
+- name: enable
+  description: Enable or disable Answer Span prediction.
+  kind: enum
+  properties:
+  - name: "True"
+    types:
+    - uid: Boolean
 - name: NoneLinkedTargetIntentResult
   description: A wrap up of non-linked intent response.
   kind: object
@@ -677,7 +808,7 @@ definitions:
   - name: result
     description: The generated answer by a Question Answering KB.
     types:
-    - uid: object
+    - uid: AnswersResult
   - name: targetProjectKind
     description: This discriminator property specifies the type of the target project that returns the response.
     types:
@@ -691,6 +822,18 @@ definitions:
     description: The prediction score and it ranges from 0.0 to 1.0.
     types:
     - uid: number
+- name: MetadataRecord
+  description: Object to provide the key value pair for each metadata.
+  kind: object
+  properties:
+  - name: key
+    description: Metadata Key from Metadata dictionary used in the QnA.
+    types:
+    - uid: string
+  - name: value
+    description: Metadata Value from Metadata dictionary used in the QnA.
+    types:
+    - uid: string
 - name: AgeResolution
   description: Represents the Age entity resolution model.
   kind: object
@@ -880,7 +1023,7 @@ definitions:
   - name: modifier
     description: An optional modifier of a date/time instance.
     types:
-    - uid: Modifier
+    - uid: TemporalModifier
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
@@ -943,7 +1086,7 @@ definitions:
   - name: modifier
     description: An optional modifier of a date/time instance.
     types:
-    - uid: Modifier
+    - uid: TemporalModifier
   - name: resolutionKind
     description: The entity resolution object kind.
     types:
@@ -1012,6 +1155,15 @@ definitions:
     description: The predicted result for the query.
     types:
     - uid: ConversationPrediction
+- name: AnswersResult
+  description: Represents List of Question Answers.
+  kind: object
+  properties:
+  - name: answers
+    description: Represents Answer Result list.
+    types:
+    - uid: KnowledgeBaseAnswer
+      isArray: true
 - name: AgeUnit
   description: The Age Unit of measurement
   kind: enum
@@ -1396,7 +1548,7 @@ definitions:
   - name: Set
     types:
     - uid: string
-- name: Modifier
+- name: TemporalModifier
   description: An optional modifier of a date/time instance.
   kind: enum
   properties:
@@ -1523,6 +1675,96 @@ definitions:
   - name: Currency
     types:
     - uid: string
+- name: KnowledgeBaseAnswer
+  description: Represents knowledge base answer.
+  kind: object
+  properties:
+  - name: questions
+    description: List of questions associated with the answer.
+    types:
+    - uid: string
+      isArray: true
+  - name: answer
+    description: Answer text.
+    types:
+    - uid: string
+  - name: confidenceScore
+    description: Answer confidence score, value ranges from 0 to 1.
+    types:
+    - uid: number
+  - name: id
+    description: ID of the QnA result.
+    types:
+    - uid: integer
+  - name: source
+    description: Source of QnA result.
+    types:
+    - uid: string
+  - name: metadata
+    description: Metadata associated with the answer, useful to categorize or filter question answers.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: dialog
+    description: Dialog associated with Answer.
+    types:
+    - uid: KnowledgeBaseAnswerDialog
+  - name: answerSpan
+    description: Answer span object of QnA with respect to user's question.
+    types:
+    - uid: AnswerSpan
+- name: KnowledgeBaseAnswerDialog
+  description: Dialog associated with Answer.
+  kind: object
+  properties:
+  - name: isContextOnly
+    description: To mark if a prompt is relevant only with a previous question or not. If true, do not include this QnA as search result for queries without context; otherwise, if false, ignores context and includes this QnA in search result.
+    types:
+    - uid: boolean
+  - name: prompts
+    description: List of prompts associated with the answer.
+    types:
+    - uid: KnowledgeBaseAnswerPrompt
+      isArray: true
+- name: AnswerSpan
+  description: Answer span object of QnA.
+  kind: object
+  properties:
+  - name: text
+    description: Predicted text of answer span.
+    types:
+    - uid: string
+  - name: confidenceScore
+    description: Predicted score of answer span, value ranges from 0 to 1.
+    types:
+    - uid: number
+  - name: offset
+    description: The answer span offset from the start of answer.
+    types:
+    - uid: integer
+  - name: length
+    description: The length of the answer span.
+    types:
+    - uid: integer
+- name: KnowledgeBaseAnswerPrompt
+  description: Prompt for an answer.
+  kind: object
+  properties:
+  - name: displayOrder
+    description: Index of the prompt - used in ordering of the prompts.
+    types:
+    - uid: integer
+  - name: qnaId
+    description: QnA ID corresponding to the prompt.
+    types:
+    - uid: integer
+  - name: displayText
+    description: Text displayed to represent a follow up question prompt.
+    types:
+    - uid: string
 examples:
 - name: Conversation project result
   request:
@@ -1582,7 +1824,7 @@ examples:
           }
         }
       }
-- name: Arbitration result
+- name: Orchestration result
   request:
     uri: POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
     body: >-
@@ -1653,7 +1895,7 @@ examples:
           }
         }
       }
-- name: Orchestrator direct target result
+- name: Orchestration direct target result
   request:
     uri: POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
     body: >-
@@ -1675,13 +1917,11 @@ examples:
               "targetProjectKind": "QuestionAnswering",
               "callingOptions": {
                 "context": {
-                  "previousQuery": "Meet Surface Pro 4",
-                  "previousQnAId": 4
+                  "previousUserQuery": "Meet Surface Pro 4",
+                  "previousQnaId": 4
                 },
-                "top": 3,
-                "isTest": true,
-                "userId": "Default",
-                "question": "Ports and connectors"
+                "top": 1,
+                "question": "App Service overview"
               }
             }
           }
@@ -1696,7 +1936,7 @@ examples:
       {
         "kind": "ConversationResult",
         "result": {
-          "query": "Ports and connectors",
+          "query": "App Service overview",
           "prediction": {
             "projectKind": "Orchestration",
             "topIntent": "qnaTargetApp",
@@ -1708,46 +1948,17 @@ examples:
                   "answers": [
                     {
                       "questions": [
-                        "Power and charging"
+                        "App Service overview"
                       ],
-                      "answer": "Power and charging**\n\nIt takes two to four hours to charge the Surface Pro 4 battery fully from an empty state. It can take longer if you are using your Surface for power-intensive activities like gaming or video streaming while you’re charging it.\n\nYou can use the USB port on your Surface Pro 4 power supply to charge other devices, like a phone, while your Surface charges. The USB port on the power supply is only for charging, not for data transfer. If you want to use a USB device, plug it into the USB port on your Surface.",
-                      "confidenceScore": 0.65,
-                      "id": 20,
-                      "source": "surface-pro-4-user-guide-EN.pdf",
-                      "metadata": {
-                        "category": "api",
-                        "editorial": "chitchat"
-                      },
+                      "answer": "The compute resources you use are determined by the *App Service plan* that you run your apps on.",
+                      "confidenceScore": 0.7384000000000001,
+                      "id": 1,
+                      "source": "https://docs.microsoft.com/en-us/azure/app-service/overview",
+                      "metadata": {},
                       "dialog": {
                         "isContextOnly": false,
-                        "prompts": [
-                          {
-                            "displayOrder": 1,
-                            "qnaId": 23,
-                            "displayText": "prompt1"
-                          },
-                          {
-                            "displayOrder": 2,
-                            "qnaId": 36,
-                            "displayText": "prompt2"
-                          }
-                        ]
-                      },
-                      "answerSpan": {
-                        "text": "two to four hours",
-                        "confidenceScore": 0.3,
-                        "offset": 33,
-                        "length": 50
+                        "prompts": []
                       }
-                    },
-                    {
-                      "questions": [
-                        "Charge your Surface Pro 4"
-                      ],
-                      "answer": "**Charge your Surface Pro 4**\n\n1.  Connect the two parts of the power cord.\n\n2.  Connect the power cord securely to the charging port.\n\n3.  Plug the power supply into an electrical outlet.",
-                      "confidenceScore": 0.32,
-                      "id": 13,
-                      "source": "surface-pro-4-user-guide-EN.pdf"
                     }
                   ]
                 }
