@@ -1,7 +1,8 @@
 ---
 ms.assetid: b33c823f-bb44-4a18-b932-808885665f32
 title: Azure Monitor REST API reference
-ms.service: monitoring-and-diagnostics
+description: API reference documentation for the operations available in the Azure Monitor REST API, a RESTful web service for managing Azure Monitor resources in Azure.
+ms.service: azure-monitor
 author: steved0x
 ms.author: sdanie
 ms.manager: douge

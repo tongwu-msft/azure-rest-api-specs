@@ -1,5 +1,6 @@
 ---
 title: "Slice (Azure Data Factory)"
+description: Learn how Get gets data slices for a table in a data factory.
 ---
 # Slice version 1 (V1)
 

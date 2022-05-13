@@ -1,6 +1,7 @@
 ---
 ms.assetid: 6f3911f9-189d-4713-9a29-881b4b3d70fa
 title: Azure Analysis Services REST API reference | Microsoft Docs
+description: API reference documentation for the operations available in the Azure Analysis Services REST API, a RESTful web service for managing Azure Analysis Services resources in Azure.
 ms.service: analysis-services
 ms.date: 11/26/2018
 author: minewiskan

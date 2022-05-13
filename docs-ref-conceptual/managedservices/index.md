@@ -1,6 +1,7 @@
 ---
 title: Azure Managed Services REST API | Microsoft Docs
-ms.service: service-provider-toolkit
+description: Learn how Azure Managed Services enables you to delegate resources for access through an Azure Active Directory tenant.
+ms.service: azure-resource-manager
 ms.date: 05/20/2019
 author: tfitzmac
 ms.author: tomfitz

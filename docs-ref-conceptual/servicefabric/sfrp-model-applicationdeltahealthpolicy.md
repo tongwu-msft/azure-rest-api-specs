@@ -1,5 +1,6 @@
 ---
 title: "ApplicationDeltaHealthPolicy"
+description: "Define a delta health policy used to evaluate the health of an application or one of its child entities when upgrading the cluster."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

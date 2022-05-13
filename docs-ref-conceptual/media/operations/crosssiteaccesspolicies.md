@@ -1,5 +1,6 @@
 ---
 title: "CrossSiteAccessPolicies"
+description: Learn how CrossSiteAccessPolicies is used by the StreamingEndpoint and Channel entities to specify cross site access policies for various clients.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

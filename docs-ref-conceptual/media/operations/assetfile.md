@@ -1,5 +1,6 @@
 ---
 title: "AssetFile"
+description: Learn how the AssetFile entity represents an actual video or audio file that is stored in a blob container.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

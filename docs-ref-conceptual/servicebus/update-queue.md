@@ -1,5 +1,6 @@
 ---
 title: "Update Queue"
+description: API reference documentation for the operations available in the Update Queue REST API, a RESTful web service for managing Update Queue resources in Azure.
 ms.custom: ""
 ms.date: "01/17/2021"
 ms.reviewer: ""
@@ -27,7 +28,7 @@ translation.priority.mt:
 # Update Queue
 
 > [!IMPORTANT]
-> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+> This API is [**obsolete and retired**](/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
 
 Updates the queue description and sends the updates status to the FE/BE to update corresponding DB entries.  
   

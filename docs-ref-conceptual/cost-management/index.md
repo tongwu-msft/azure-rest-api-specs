@@ -1,6 +1,7 @@
 ---
 ms.assetid:
 title: Azure Cost Management REST APIs
+description: Learn how the Azure Cost Management APIs provide the ability to explore cost and usage data via multidimensional analysis.
 ms.service: cost-management-billing
 author: ms-premp
 ms.author: prprak
