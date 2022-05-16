@@ -38,7 +38,7 @@ Azure API for FHIR enables rapid exchange of data through FHIR APIs, backed by a
 
 ### Operations
 
-API for FHIR REST API provides operations for working with the following resources:
+Azure Health Data Services and API for FHIR REST API provides operations for working with the following resources:
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
