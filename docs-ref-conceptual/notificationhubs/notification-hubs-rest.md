@@ -1,5 +1,6 @@
 ﻿---
 title: "Notification Hubs REST APIs"
+description: Use this API reference documentation to performing operations on Azure Notification Hubs.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

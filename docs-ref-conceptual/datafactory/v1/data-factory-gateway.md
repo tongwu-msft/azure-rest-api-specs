@@ -1,5 +1,6 @@
 ---
 title: "Gateway (Azure Data Factory)"
+description: Learn how to construct a Create or Update Gateway request.
 ---
 # Gateway version 1 (V1)
 

@@ -1,5 +1,6 @@
 ---
 title: Azure Container Instances REST API reference
+description: Learn how Azure Container Instances offers the fastest and simplest way to run a container in Azure.
 author: dlepow
 ms.author: danlep
 ms.date: 07/01/2020

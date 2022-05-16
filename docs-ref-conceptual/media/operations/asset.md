@@ -1,5 +1,6 @@
 ---
 title: "Asset"
+description: Learn how the Asset entity contains digital files (including video, audio, images, and closed caption files) and the metadata about these files.
 ms.custom: ""
 ms.date: "10/19/2021"
 ms.reviewer: ""

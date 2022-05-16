@@ -1,5 +1,6 @@
 ---
 title: "Common parameters and headers: queues"
+description: Learn about common parameters and headers for Service Bus queues, as well as tasks you might complete related to Service Bus queues.
 ms.custom: ""
 ms.date: 07/08/2020
 ms.reviewer: ""

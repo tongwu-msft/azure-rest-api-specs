@@ -1,7 +1,8 @@
 ---
 title: Azure Firewall REST API | Microsoft Docs
+description: Learn how Azure Firewall is a managed cloud-based network security service that protects your Azure Virtual Network resources.
 ms.date: 07/11/2018
-ms.service: azure-firewall
+ms.service: firewall
 ms.topic: reference
 ms.devlang: rest-api
 author: yairt

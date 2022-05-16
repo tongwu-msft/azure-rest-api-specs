@@ -1,5 +1,6 @@
 ---
 title: Service Fabric Delete Application Type Version
+description: API reference documentation for the operations available in the Service Fabric Delete Application Type Version REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

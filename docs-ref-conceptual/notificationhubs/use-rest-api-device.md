@@ -1,5 +1,6 @@
 ﻿---
 title: "Use REST APIs from a device"
+description: Use this API reference documentation to use REST APIs from a device.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

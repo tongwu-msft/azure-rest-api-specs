@@ -1,5 +1,6 @@
 ---
 title: "MonitoringConfiguration"
+description: "Learn about the Azure Media Services telemetry/monitoring REST types: MonitoringConfiguration and ComponentMonitoringSettings." 
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

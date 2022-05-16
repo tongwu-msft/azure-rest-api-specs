@@ -1,5 +1,6 @@
 ---
 title: "Update Event Hub"
+description: Learn how the Update Event Hub operation updates an Event Hub. When updating an event hub, you can only change the properties listed here.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

@@ -1,5 +1,6 @@
 ---
 ms.assetid: d6454772-1594-4c44-9f01-456ccfed94d1
+description: Learn how Azure Redis Cache gives you access to a secure, dedicated Redis cache, managed by Microsoft and accessible from any application within Azure.
 title: Azure Redis Cache
 ms.service: redis-cache
 author: steved0x
