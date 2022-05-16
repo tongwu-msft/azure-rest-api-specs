@@ -125,11 +125,11 @@ Sample Response snippet:
 
 For more information about using this API in one of the language-specific SDKs, visit the following
 
-[Azure Consumption Python SDK](/python/api/overview/azure/consumption?view=azure-python)
+[Azure Consumption Python SDK](/python/api/overview/azure/consumption?view=azure-python&preserve-view=true)
 
-[Azure Consumption CLI](/cli/azure/consumption?view=azure-cli-latest)
+[Azure Consumption CLI](/cli/azure/consumption?view=azure-cli-latest&preserve-view=true)
 
-[Azure Consumption .NET SDK](/dotnet/api/overview/azure/consumption/management?view=azure-dotnet)
+[Azure Consumption .NET SDK](/dotnet/api/overview/azure/consumption/management?view=azure-dotnet&preserve-view=true)
 
 [Azure Consumption NodeJS SDK](/javascript/api/overview/azure/consumption)
 
