@@ -15,7 +15,7 @@ ms.author: "spelluru"
 manager: "femila"
 ---
 # Get revoked publishers
-Retrieves all revoked publishers within the specified Event Hub. See [RevokedPublisherDescription Properties](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.revokedpublisherdescription?view=azure-dotnet#properties&preserve-view=true).  
+Retrieves all revoked publishers within the specified Event Hub. See [RevokedPublisherDescription Properties](/dotnet/api/microsoft.servicebus.messaging.revokedpublisherdescription?view=azure-dotnet#properties&preserve-view=true).  
   
 ## Request  
   
