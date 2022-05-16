@@ -10554,12 +10554,51 @@
 ## [Interactive session](../docs-ref-conceptual/hdinsightspark/hdinsight-spark-interactive-session.md)
 # Healthcare Apis
 ## [Overview](../docs-ref-conceptual/healthcareapis/index.md)
+## Dicom Services
+### [Overview](healthcareapis/Dicom-Services.yml)
+### [Create Or Update](healthcareapis/Dicom-Services/Create-Or-Update.yml)
+### [Delete](healthcareapis/Dicom-Services/Delete.yml)
+### [Get](healthcareapis/Dicom-Services/Get.yml)
+### [List By Workspace](healthcareapis/Dicom-Services/List-By-Workspace.yml)
+### [Update](healthcareapis/Dicom-Services/Update.yml)
+## Fhir Destinations
+### [Overview](healthcareapis/Fhir-Destinations.yml)
+### [List By Iot Connector](healthcareapis/Fhir-Destinations/List-By-Iot-Connector.yml)
+## Fhir Services
+### [Overview](healthcareapis/Fhir-Services.yml)
+### [Create Or Update](healthcareapis/Fhir-Services/Create-Or-Update.yml)
+### [Delete](healthcareapis/Fhir-Services/Delete.yml)
+### [Get](healthcareapis/Fhir-Services/Get.yml)
+### [List By Workspace](healthcareapis/Fhir-Services/List-By-Workspace.yml)
+### [Update](healthcareapis/Fhir-Services/Update.yml)
+## Iot Connector Fhir Destination
+### [Overview](healthcareapis/Iot-Connector-Fhir-Destination.yml)
+### [Create Or Update](healthcareapis/Iot-Connector-Fhir-Destination/Create-Or-Update.yml)
+### [Delete](healthcareapis/Iot-Connector-Fhir-Destination/Delete.yml)
+### [Get](healthcareapis/Iot-Connector-Fhir-Destination/Get.yml)
+## Iot Connectors
+### [Overview](healthcareapis/Iot-Connectors.yml)
+### [Create Or Update](healthcareapis/Iot-Connectors/Create-Or-Update.yml)
+### [Delete](healthcareapis/Iot-Connectors/Delete.yml)
+### [Get](healthcareapis/Iot-Connectors/Get.yml)
+### [List By Workspace](healthcareapis/Iot-Connectors/List-By-Workspace.yml)
+### [Update](healthcareapis/Iot-Connectors/Update.yml)
 ## Operation Results
 ### [Overview](healthcareapis/Operation-Results.yml)
 ### [Get](healthcareapis/Operation-Results/Get.yml)
 ## Operations
 ### [Overview](healthcareapis/Operations.yml)
 ### [List](healthcareapis/Operations/List.yml)
+## Private Endpoint Connections
+### [Overview](healthcareapis/Private-Endpoint-Connections.yml)
+### [Create Or Update](healthcareapis/Private-Endpoint-Connections/Create-Or-Update.yml)
+### [Delete](healthcareapis/Private-Endpoint-Connections/Delete.yml)
+### [Get](healthcareapis/Private-Endpoint-Connections/Get.yml)
+### [List By Service](healthcareapis/Private-Endpoint-Connections/List-By-Service.yml)
+## Private Link Resources
+### [Overview](healthcareapis/Private-Link-Resources.yml)
+### [Get](healthcareapis/Private-Link-Resources/Get.yml)
+### [List By Service](healthcareapis/Private-Link-Resources/List-By-Service.yml)
 ## Services
 ### [Overview](healthcareapis/Services.yml)
 ### [Check Name Availability](healthcareapis/Services/Check-Name-Availability.yml)
@@ -10569,6 +10608,24 @@
 ### [List](healthcareapis/Services/List.yml)
 ### [List By Resource Group](healthcareapis/Services/List-By-Resource-Group.yml)
 ### [Update](healthcareapis/Services/Update.yml)
+## Workspace Private Endpoint Connections
+### [Overview](healthcareapis/Workspace-Private-Endpoint-Connections.yml)
+### [Create Or Update](healthcareapis/Workspace-Private-Endpoint-Connections/Create-Or-Update.yml)
+### [Delete](healthcareapis/Workspace-Private-Endpoint-Connections/Delete.yml)
+### [Get](healthcareapis/Workspace-Private-Endpoint-Connections/Get.yml)
+### [List By Workspace](healthcareapis/Workspace-Private-Endpoint-Connections/List-By-Workspace.yml)
+## Workspace Private Link Resources
+### [Overview](healthcareapis/Workspace-Private-Link-Resources.yml)
+### [Get](healthcareapis/Workspace-Private-Link-Resources/Get.yml)
+### [List By Workspace](healthcareapis/Workspace-Private-Link-Resources/List-By-Workspace.yml)
+## Workspaces
+### [Overview](healthcareapis/Workspaces.yml)
+### [Create Or Update](healthcareapis/Workspaces/Create-Or-Update.yml)
+### [Delete](healthcareapis/Workspaces/Delete.yml)
+### [Get](healthcareapis/Workspaces/Get.yml)
+### [List By Resource Group](healthcareapis/Workspaces/List-By-Resource-Group.yml)
+### [List By Subscription](healthcareapis/Workspaces/List-By-Subscription.yml)
+### [Update](healthcareapis/Workspaces/Update.yml)
 # Hybrid Compute
 ## [Overview](../docs-ref-conceptual/hybridcompute/index.md)
 ## Machine Extensions
