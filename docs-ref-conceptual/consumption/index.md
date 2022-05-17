@@ -127,7 +127,7 @@ For more information about using this API in one of the language-specific SDKs, 
 
 [Azure Consumption Python SDK](/python/api/overview/azure/consumption)
 
-[Azure Consumption CLI](/cli/azure/consumption?view=azure-cli-latest)
+[Azure Consumption CLI](/cli/azure/consumption)
 
 [Azure Consumption .NET SDK](/dotnet/api/overview/azure/consumption/management)
 
