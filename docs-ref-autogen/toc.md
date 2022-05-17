@@ -4061,12 +4061,18 @@
 ### [List](videoindexer/Accounts/List.yml)
 ### [List By Resource Group](videoindexer/Accounts/List-By-Resource-Group.yml)
 ### [Update](videoindexer/Accounts/Update.yml)
+## Classic Accounts
+### [Overview](videoindexer/Classic-Accounts.yml)
+### [Get Details](videoindexer/Classic-Accounts/Get-Details.yml)
 ## Generate
 ### [Overview](videoindexer/Generate.yml)
 ### [Access Token](videoindexer/Generate/Access-Token.yml)
 ## Operations
 ### [Overview](videoindexer/Operations.yml)
 ### [List](videoindexer/Operations/List.yml)
+## User Classic Accounts
+### [Overview](videoindexer/User-Classic-Accounts.yml)
+### [List](videoindexer/User-Classic-Accounts/List.yml)
 # Azure Web PubSub Service
 ## [Overview](../docs-ref-conceptual/webpubsub/index.md)
 ## Control plane

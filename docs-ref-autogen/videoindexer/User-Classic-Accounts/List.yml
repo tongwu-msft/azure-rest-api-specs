@@ -1,36 +1,23 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.videoindexer.accounts.delete
-name: Delete
+uid: management.azure.com.videoindexer.userclassicaccounts.list
+name: List
 service: Azure Video Indexer
-groupName: Accounts
+groupName: User Classic Accounts
 apiVersion: 2022-04-13-preview
-summary: Delete an Azure Video Indexer account.
+summary: Lists all Azure Video Indexer classic accounts
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VideoIndexer/accounts/{accountName}?api-version=2022-04-13-preview
+- content: GET https://management.azure.com/providers/Microsoft.VideoIndexer/locations/{location}/userClassicAccounts?api-version=2022-04-13-preview
 uriParameters:
-- name: subscriptionId
+- name: location
   in: path
   isRequired: true
-  description: The ID of the target subscription.
+  description: The name of Azure region.
   types:
   - uid: string
-- name: resourceGroupName
-  in: path
-  isRequired: true
-  description: The name of the resource group. The name is case insensitive.
-  types:
-  - uid: string
-- name: accountName
-  in: path
-  isRequired: true
-  description: The name of the Azure Video Indexer account.
-  types:
-  - uid: string
-  pattern: ^[A-Za-z0-9-]+$
 - name: api-version
   in: query
   isRequired: true
@@ -39,11 +26,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The Azure Video Indexer account was successfully deleted.
-- name: 202 Accepted
-  description: The Azure Video Indexer account will be deleted asynchronously.
-- name: 204 No Content
-  description: The Azure Video Indexer account does not exist.
+  description: OK
+  types:
+  - uid: UserClassicAccountList
 - name: 500 Internal Server Error
   description: Internal Server Error
   types:
@@ -54,6 +39,20 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: UserClassicAccountList
+  description: The list of user classic accounts.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of classic account names and their location.
+    types:
+    - uid: ClassicAccountSlim
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response.
   kind: object
@@ -62,6 +61,25 @@ definitions:
     description: The error details.
     types:
     - uid: ErrorDefinition
+- name: ClassicAccountSlim
+  description: An Azure Video Indexer classic account.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The account's name
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The account's location
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The account's id
+    types:
+    - uid: string
 - name: ErrorDefinition
   description: Error definition.
   kind: object
@@ -83,13 +101,22 @@ definitions:
     - uid: ErrorDefinition
       isArray: true
 examples:
-- name: Delete account
+- name: List accounts
   request:
-    uri: DELETE https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contoso-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
+    uri: GET https://management.azure.com/providers/Microsoft.VideoIndexer/locations/NorthEurope/userClassicAccounts?api-version=2022-04-13-preview
   responses:
   - statusCode: "200"
-  - statusCode: "202"
-  - statusCode: "204"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "contoso-videoanalyzer",
+            "location": "NorthEurope",
+            "id": "462af7c5-d1f6-4b91-86e3-8bc5e8a61574"
+          }
+        ],
+        "nextLink": "link"
+      }
   - statusCode: "500"
     body: >-
       {
@@ -108,5 +135,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Video Indexer service - Delete an Azure Video Indexer account.
+  description: Learn more about Azure Video Indexer service - Lists all Azure Video Indexer classic accounts
 errorCodes: []
