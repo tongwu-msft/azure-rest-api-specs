@@ -1,5 +1,6 @@
 ---
 title: Service Fabric List
+description: API reference documentation for the operations available in the List REST API, a RESTful web service for managing List resources in Azure.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

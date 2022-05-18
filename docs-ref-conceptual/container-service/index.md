@@ -1,5 +1,6 @@
 ---
 title: Azure Container Service (ACS) REST API reference
+description: Learn how Azure Container Service (ACS) allows you to quickly deploy a production ready Kubernetes, DC/OS, or Docker Swarm cluster.
 author: mmacy
 ms.author: marsma
 ms.date: 10/27/2017

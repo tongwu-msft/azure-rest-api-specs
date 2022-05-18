@@ -1,5 +1,6 @@
 ---
 title: "Resume publisher"
+description: Learn how the Resume Publisher operation enables the publisher to resume sending events to the specified Event Hub.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

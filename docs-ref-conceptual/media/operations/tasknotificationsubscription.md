@@ -1,5 +1,6 @@
 ---
 title: "TaskNotificationSubscription"
+description: Learn how TaskNotificationSubscription defines the notification endpoint task state changes and indicates whether to include task progress for which to be notified. 
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

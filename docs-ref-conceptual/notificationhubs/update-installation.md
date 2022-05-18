@@ -1,5 +1,6 @@
 ﻿---
 title: "Update an installation"
+description: Use this API reference documentation to update an installation using the JSON-Patch standard in RFC6902.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""
@@ -59,6 +60,7 @@ The response includes an HTTP status code and a set of response headers.
 ## Response codes
 
 | Code | Description |
+|---|---|
 | 204 | The installation was patched successfully |
 | 400 | The installation could not be patched because the request was malformed. |
 | 401 | Authorization failure. The access key was incorrect. |

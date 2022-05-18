@@ -1,5 +1,6 @@
 ﻿---
 title: "Read a registration"
+description: Use this API reference documentation to retrieve information about a registration.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""
