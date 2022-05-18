@@ -49,9 +49,9 @@ You might receive any of the following status codes:
 
 - `200 (Success)`: The blob is sealed. The call is idempotent and will succeed if the blob is already sealed.
 
-- `409 (InvalidBlobType)`: You get this status code if the call is on an existing page blob or block blob.
+- `409 (InvalidBlobType)`: The service returns this status code if the call is on an existing page blob or block blob.
 
-- `404 (BlobNotFound)`: You get this status code if the call is on a non-existent blob.
+- `404 (BlobNotFound)`: The service returns this status code if the call is on a non-existent blob.
 
 ### Remarks
 

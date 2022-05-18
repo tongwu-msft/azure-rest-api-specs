@@ -156,7 +156,7 @@ You can specify the following optional, conditional headers on the request:
 
     Clients that use a single writer can use this header to determine whether when an `Append Block From URL` operation succeeded, despite network failure.  
 
-- `x-ms-blob-condition-maxsize`: Clients can use this header to ensure that append operations don't increase the blob size beyond an expected maximum size in bytes. If the condition fails, the request fails with a 412.  
+- `x-ms-blob-condition-maxsize`: Clients can use this header to ensure that append operations don't increase the blob size beyond an expected maximum size in bytes. If the condition fails, the request fails with a 412 (Precondition Failed).  
 
 Each block can be a different size, up to a maximum of 4 MiB. A maximum of 50,000 appends are permitted for each append blob. The maximum size of an append blob is therefore slightly more than 195 GiB (4 MiB X 50,000 blocks).
 
