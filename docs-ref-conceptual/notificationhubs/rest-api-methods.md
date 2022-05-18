@@ -1,5 +1,6 @@
 ﻿---
 title: "REST API methods"
+description: Use this API reference documentation to learn about Notification Hubs REST API method references.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

@@ -1,5 +1,6 @@
 ---
 title: "Get consumer group"
+description: Learn how the Get Consumer Group operation retrieves all metadata associated with the specified consumer group.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

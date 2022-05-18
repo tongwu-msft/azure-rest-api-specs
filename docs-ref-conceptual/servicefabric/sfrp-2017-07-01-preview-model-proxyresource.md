@@ -1,5 +1,6 @@
 ---
-title: "ProxyResource"
+title: "Proxy Resource Model"
+description: API reference documentation for the operations available in the ProxyResource REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ProxyResource
+# Proxy Resource Model
 
 The resource model definition for proxy-only resource.
 

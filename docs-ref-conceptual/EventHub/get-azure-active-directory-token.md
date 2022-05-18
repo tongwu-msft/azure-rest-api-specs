@@ -1,5 +1,6 @@
 ---
 title: Use Azure Active Directory authentication to send messages to an event hub
+description: Learn how to get an Azure Active Directory (Azure AD) token that you can use to send events to and receive events from a Service Bus namespace.
 ms.date: "07/15/2020"
 ms.service: "event-hubs"
 ms.topic: "reference"

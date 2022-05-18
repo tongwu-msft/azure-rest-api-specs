@@ -1,5 +1,6 @@
 ﻿---
 title: "Create or update namespace PNS credentials"
+description: Use this API reference documentation to set the unified PNS credentials for a namespace.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

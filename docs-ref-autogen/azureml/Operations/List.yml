@@ -3,14 +3,14 @@ uid: management.azure.com.azureml.operations.list
 name: List
 service: Machine Learning
 groupName: Operations
-apiVersion: 2021-03-01-preview
+apiVersion: 2022-02-01-preview
 summary: Lists all of the available Azure Machine Learning Workspaces REST API operations.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.MachineLearningServices/operations?api-version=2021-03-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.MachineLearningServices/operations?api-version=2022-02-01-preview
 uriParameters:
 - name: api-version
   in: query
@@ -22,21 +22,21 @@ responses:
 - name: 200 OK
   description: The request was successful; the request was well-formed and received properly.
   types:
-  - uid: OperationListResult
+  - uid: AmlOperationListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: OperationListResult
+- name: AmlOperationListResult
   description: An array of operations supported by the resource provider.
   kind: object
   properties:
   - name: value
     description: List of AML workspace operations supported by the AML workspace resource provider.
     types:
-    - uid: Operation
+    - uid: AmlOperation
       isArray: true
 - name: ErrorResponse
   description: Error response
@@ -46,7 +46,7 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: Operation
+- name: AmlOperation
   description: Azure Machine Learning workspace REST API operation
   kind: object
   properties:
@@ -58,6 +58,10 @@ definitions:
     description: Display name of operation
     types:
     - uid: Display
+  - name: isDataAction
+    description: Indicates whether the operation applies to data-plane
+    types:
+    - uid: boolean
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -123,7 +127,41 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-examples: []
+examples:
+- name: OperationsList
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.MachineLearningServices/operations?api-version=2022-02-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.MachineLearningServices/workspaces/write",
+            "display": {
+              "provider": "Microsoft MachineLearningServices",
+              "resource": "workspaces",
+              "operation": "Create/Update Machine Learning workspaces"
+            }
+          },
+          {
+            "name": "Microsoft.MachineLearningServices/workspaces/delete",
+            "display": {
+              "provider": "Microsoft MachineLearningServices",
+              "resource": "workspaces",
+              "operation": "Delete Machine Learning workspaces"
+            }
+          },
+          {
+            "name": "Microsoft.MachineLearningServices/workspaces/listkeys/action",
+            "display": {
+              "provider": "Microsoft MachineLearningServices",
+              "resource": "workspaces",
+              "operation": "List workspace Keys"
+            }
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2

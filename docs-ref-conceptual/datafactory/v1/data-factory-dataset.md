@@ -1,5 +1,6 @@
 ---
 title: "Dataset (Azure Data Factory)"
+description: Learn how to create a new dataset or update content of an existing dataset.
 ---
 # Dataset version 1 (V1)
 
