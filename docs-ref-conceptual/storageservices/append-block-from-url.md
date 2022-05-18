@@ -160,11 +160,11 @@ You can specify the following optional, conditional headers on the request:
 
 Each block can be a different size, up to a maximum of 4 MiB. A maximum of 50,000 appends are permitted for each append blob. The maximum size of an append blob is therefore slightly more than 195 GiB (4 MiB X 50,000 blocks).
 
-If you attempt to upload a block that is larger than 4 MiB, the service returns HTTP status code 413 (Request Entity Too Large). The service also returns additional information about the error in the response, including the maximum block size permitted in bytes. If you attempt to upload more than 50,000 blocks, the service returns the 409 error (Conflict).  
+If you attempt to upload a block that is larger than 4 MiB, the service returns HTTP status code 413 (Request Entity Too Large). The service also returns additional information about the error in the response, including the maximum block size permitted in bytes. If you attempt to upload more than 50,000 blocks, the service returns error code 409 (Conflict).  
 
-If the blob has an active lease, the client must specify a valid lease ID on the request in order to write a block to the blob. If the client doesn't specify a lease ID, or specifies an invalid lease ID, Blob Storage returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob doesn't have an active lease, you also get a 412 error.  
+If the blob has an active lease, the client must specify a valid lease ID on the request in order to write a block to the blob. If the client doesn't specify a lease ID, or specifies an invalid lease ID, Blob Storage returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob doesn't have an active lease, the service returns error code 412.  
 
-If you call `Append Block From URL` on an existing block blob or page blob, you get a 409 error (Conflict). If you call `Append Block From URL` on a non-existent blob, you get a 404 error (Not Found).  
+If you call `Append Block From URL` on an existing block blob or page blob, the service returns error code 409 (Conflict). If you call `Append Block From URL` on a non-existent blob, the service returns error code 404 (Not Found).  
 
 ### Avoid duplicate or delayed appends  
 

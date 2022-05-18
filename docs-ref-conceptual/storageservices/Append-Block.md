@@ -160,7 +160,7 @@ If you attempt to upload a block that is larger than 4 MiB, the service returns 
   
 If the blob has an active lease, the client must specify a valid lease ID on the request in order to write a block to the blob. If the client doesn't specify a lease ID, or specifies an invalid lease ID, Blob Storage returns error code 412 (*Precondition Failed*). If the client specifies a lease ID, but the blob doesn't have an active lease, Blob Storage also returns error code 412.  
   
-If you call `Append Block` on an existing block blob or page blob, you get a conflict error. If you call `Append Block` on a non-existent blob, you also get an error.  
+If you call `Append Block` on an existing block blob or page blob, the service returns a conflict error. If you call `Append Block` on a non-existent blob, the service also returns an error.  
   
 ### Avoid duplicate or delayed appends  
 

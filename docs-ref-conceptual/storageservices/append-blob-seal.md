@@ -65,7 +65,7 @@ When you copy a sealed blob, the sealed flag is propagated by default. A header 
 
 A new XML element will be added to the `ListBlob` response, named `Sealed`. The value can be either `true` or `false`.
 
-If you call `AppendBlock` on a blob that is already sealed, you get the error message shown in the following table. This applies to older versions of the API.
+If you call `AppendBlock` on a blob that is already sealed, the service returns the error message shown in the following table. This applies to older versions of the API.
 
 |**Error code** | **HTTP status code** | **User message** |
 |---------------| ---------------------|------------------|

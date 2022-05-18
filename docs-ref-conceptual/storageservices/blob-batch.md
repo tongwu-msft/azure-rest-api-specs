@@ -192,7 +192,7 @@ One of the main benefits of using a batch request is the reduction in the number
 
 ### Scope all subrequests to a specific container
 
-Beginning with REST version 2020-04-08, the `Blob Batch` API supports scoping subrequests to a specified container. When the request URI includes the container name and the `restype=container` parameter, then each subrequest must apply to the same container. If the container name specified for a subrequest doesn't match the container name provided in URI, you get error code 400 (Bad Request).
+Beginning with REST version 2020-04-08, the `Blob Batch` API supports scoping subrequests to a specified container. When the request URI includes the container name and the `restype=container` parameter, then each subrequest must apply to the same container. If the container name specified for a subrequest doesn't match the container name provided in URI, the service returns error code 400 (Bad Request).
 
 All authorization mechanisms supported for a container are valid for a `Blob Batch` operation that is scoped to the container. Each subrequest sends an authorization header to the service.
 
