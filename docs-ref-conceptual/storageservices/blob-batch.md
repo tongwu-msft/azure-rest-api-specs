@@ -41,7 +41,7 @@ The following table describes required and optional request headers.
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. This version will be used for all subrequests. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Length`|Required. The length of the request.|  
 |`Content-Type`|Required. The value of this header must be `multipart/mixed`, with a batch boundary. Example header value: `multipart/mixed; boundary=batch_a81786c8-e301-4e42-a729-a32ca24ae252`.|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kB character limit. This value is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server.|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value, with a 1 KiB character limit, that is recorded in the Azure Monitor logs when logging is configured. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob Storage](/azure/storage/blobs/monitor-blob-storage).|  
 
 ### Request body
 
