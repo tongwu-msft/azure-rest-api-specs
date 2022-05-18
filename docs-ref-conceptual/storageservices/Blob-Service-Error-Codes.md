@@ -24,7 +24,7 @@ You might see the following error codes returned by an operation against Azure B
 |`BlobTierInadequateForContentLength`|Conflict (409)|*The specified blob tier size limit cannot be less than content length.*|  
 |`BlockCountExceedsLimit`|Conflict (409)|*The committed block count cannot exceed the maximum limit of 50,000 blocks.*|  
 |`BlockCountExceedsLimit`|Conflict (409)|*The uncommitted block count cannot exceed the maximum limit of 100,000 blocks.*|
-|`BlockListTooLong`|Bad Request (400)|*The block list may not contain more than 50,000 blocks.*|
+|`BlockListTooLong`|Bad Request (400)|*The blocklist may not contain more than 50,000 blocks.*|
 |`CannotChangeToLowerTier`|Conflict (409)|*A higher blob tier has already been explicitly set.*|  
 |`CannotVerifyCopySource`|Internal Server Error (500)|*Could not verify the copy source within the specified time. Examine the HTTP status code and message for more information about the failure.*|  
 |`ContainerAlreadyExists`|Conflict (409)|*The specified container already exists.*|  
@@ -47,7 +47,7 @@ You might see the following error codes returned by an operation against Azure B
 |`InvalidBlobTier`|Bad Request (400)|*The specified blob tier is invalid.*|  
 |`InvalidBlobType`|Conflict (409)|*The blob type is invalid for this operation.*|  
 |`InvalidBlockId`|Bad Request (400)|*The specified block ID is invalid. The block ID must be Base64-encoded.*|  
-|`InvalidBlockList`|Bad Request (400)|*The specified block list is invalid.*|  
+|`InvalidBlockList`|Bad Request (400)|*The specified blocklist is invalid.*|  
 |`InvalidOperation`|Bad Request (400)|*Invalid operation against a blob snapshot.*|  
 |`InvalidPageRange`|Requested Range Not Satisfiable (416)|*The page range specified is invalid.*|  
 |`InvalidSourceBlobType`|Conflict (409)|*The copy source blob type is invalid for this operation.*|
