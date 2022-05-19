@@ -52,7 +52,7 @@ The following table describes required and optional request headers.
 |`x-ms-version`|Required for all authorized requests. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id:<ID>`|Required if the destination blob has an active infinite lease.|  
 |`x-ms-copy-action: abort`|Required.|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value, with a 1 KiB character limit, that is recorded in the Azure Monitor logs when logging is configured. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob Storage](/azure/storage/blobs/monitor-blob-storage).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Blob Storage](/azure/storage/blobs/monitor-blob-storage).|  
   
 ### Request body  
 
