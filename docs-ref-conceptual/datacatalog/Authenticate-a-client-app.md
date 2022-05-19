@@ -14,7 +14,6 @@ ms.date: 08/08/2019
 ---  
 This article shows you how to authenticate a Data Catalog client app. It includes examples in C#; however, the authentication process is the same for other programming languages.  
   
-## In this article  
 - [What you need to authenticate a Data Catalog client app](#What)  
 - [How to make a request to Data Catalog REST API using a token](#Datarequest)  
 - [Azure Authentication Context Flow](#Flow)  

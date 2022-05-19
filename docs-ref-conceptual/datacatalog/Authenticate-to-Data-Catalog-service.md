@@ -13,7 +13,6 @@ ms.date: 08/29/2019
 
 The Data Catalog REST API is a REST-based API that provides programmatic access to Data Catalog resources to register, annotate, and search data assets programmatically.  
 
-### In this article  
 - [Introduction to authentication in Data Catalog](#intro)  
 - [Azure app client ID](#clientID)  
   
