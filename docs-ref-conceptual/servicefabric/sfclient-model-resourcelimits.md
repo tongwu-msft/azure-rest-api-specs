@@ -1,5 +1,5 @@
 ---
-title: "ResourceLimits"
+title: Container Resource Limits
 description: "ResourceLimits"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ResourceLimits
+# Container Resource Limits
 
 This type describes the resource limits for a given container. It describes the most amount of resources a container is allowed to use before being restarted.
 

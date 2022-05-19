@@ -1,5 +1,5 @@
 ---
-title: "ServiceLoadMetricWeight"
+title: Service Load Metric Weight Configuration
 description: "ServiceLoadMetricWeight"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceLoadMetricWeight enum
+# Service Load Metric Weight Configuration
 
 type: string
 
