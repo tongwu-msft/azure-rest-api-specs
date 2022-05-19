@@ -1,5 +1,6 @@
 ---
 title: "REST API Functions"
+description: REST API functions support the Microsoft Azure Media Services entities by performing various tasks such as canceling jobs, retrieving protection keys, and so on.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

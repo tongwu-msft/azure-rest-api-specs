@@ -1,5 +1,6 @@
 ---
 title: "Delete Queue"
+description: API reference documentation for the operations available in the Delete Queue REST API, a RESTful web service for managing Delete Queue resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""
@@ -27,7 +28,7 @@ translation.priority.mt:
 # Delete Queue
 
 > [!IMPORTANT]
-> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+> This API is [**obsolete and retired**](/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
 
 Deletes an existing queue. This operation removes all associated state, including messages in the queue.  
   

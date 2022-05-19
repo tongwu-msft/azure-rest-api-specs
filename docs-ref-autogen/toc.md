@@ -4061,12 +4061,18 @@
 ### [List](videoindexer/Accounts/List.yml)
 ### [List By Resource Group](videoindexer/Accounts/List-By-Resource-Group.yml)
 ### [Update](videoindexer/Accounts/Update.yml)
+## Classic Accounts
+### [Overview](videoindexer/Classic-Accounts.yml)
+### [Get Details](videoindexer/Classic-Accounts/Get-Details.yml)
 ## Generate
 ### [Overview](videoindexer/Generate.yml)
 ### [Access Token](videoindexer/Generate/Access-Token.yml)
 ## Operations
 ### [Overview](videoindexer/Operations.yml)
 ### [List](videoindexer/Operations/List.yml)
+## User Classic Accounts
+### [Overview](videoindexer/User-Classic-Accounts.yml)
+### [List](videoindexer/User-Classic-Accounts/List.yml)
 # Azure Web PubSub Service
 ## [Overview](../docs-ref-conceptual/webpubsub/index.md)
 ## Control plane
@@ -6414,6 +6420,15 @@
 #### [Get Update Domain](compute/Cloud-Services-Update-Domain/Get-Update-Domain.yml)
 #### [List Update Domains](compute/Cloud-Services-Update-Domain/List-Update-Domains.yml)
 #### [Walk Update Domain](compute/Cloud-Services-Update-Domain/Walk-Update-Domain.yml)
+### Community Galleries
+#### [Overview](compute/Community-Galleries.yml)
+#### [Get](compute/Community-Galleries/Get.yml)
+### Community Gallery Image Versions
+#### [Overview](compute/Community-Gallery-Image-Versions.yml)
+#### [Get](compute/Community-Gallery-Image-Versions/Get.yml)
+### Community Gallery Images
+#### [Overview](compute/Community-Gallery-Images.yml)
+#### [Get](compute/Community-Gallery-Images/Get.yml)
 ### Dedicated Host Groups
 #### [Overview](compute/Dedicated-Host-Groups.yml)
 #### [Create Or Update](compute/Dedicated-Host-Groups/Create-Or-Update.yml)
@@ -6515,46 +6530,6 @@
 #### [List](compute/Images/List.yml)
 #### [List By Resource Group](compute/Images/List-By-Resource-Group.yml)
 #### [Update](compute/Images/Update.yml)
-### Inbound Nat Rules
-#### [Overview](compute/Inbound-Nat-Rules.yml)
-#### [Create Or Update](compute/Inbound-Nat-Rules/Create-Or-Update.yml)
-#### [Delete](compute/Inbound-Nat-Rules/Delete.yml)
-#### [Get](compute/Inbound-Nat-Rules/Get.yml)
-#### [List](compute/Inbound-Nat-Rules/List.yml)
-### Load Balancer Backend Address Pools
-#### [Overview](compute/Load-Balancer-Backend-Address-Pools.yml)
-#### [Create Or Update](compute/Load-Balancer-Backend-Address-Pools/Create-Or-Update.yml)
-#### [Delete](compute/Load-Balancer-Backend-Address-Pools/Delete.yml)
-#### [Get](compute/Load-Balancer-Backend-Address-Pools/Get.yml)
-#### [List](compute/Load-Balancer-Backend-Address-Pools/List.yml)
-### Load Balancer Frontend IP Configurations
-#### [Overview](compute/Load-Balancer-Frontend-IP-Configurations.yml)
-#### [Get](compute/Load-Balancer-Frontend-IP-Configurations/Get.yml)
-#### [List](compute/Load-Balancer-Frontend-IP-Configurations/List.yml)
-### Load Balancer Load Balancing Rules
-#### [Overview](compute/Load-Balancer-Load-Balancing-Rules.yml)
-#### [Get](compute/Load-Balancer-Load-Balancing-Rules/Get.yml)
-#### [List](compute/Load-Balancer-Load-Balancing-Rules/List.yml)
-### Load Balancer Network Interfaces
-#### [Overview](compute/Load-Balancer-Network-Interfaces.yml)
-#### [List](compute/Load-Balancer-Network-Interfaces/List.yml)
-### Load Balancer Outbound Rules
-#### [Overview](compute/Load-Balancer-Outbound-Rules.yml)
-#### [Get](compute/Load-Balancer-Outbound-Rules/Get.yml)
-#### [List](compute/Load-Balancer-Outbound-Rules/List.yml)
-### Load Balancer Probes
-#### [Overview](compute/Load-Balancer-Probes.yml)
-#### [Get](compute/Load-Balancer-Probes/Get.yml)
-#### [List](compute/Load-Balancer-Probes/List.yml)
-### Load Balancers
-#### [Overview](compute/Load-Balancers.yml)
-#### [Create Or Update](compute/Load-Balancers/Create-Or-Update.yml)
-#### [Delete](compute/Load-Balancers/Delete.yml)
-#### [Get](compute/Load-Balancers/Get.yml)
-#### [List](compute/Load-Balancers/List.yml)
-#### [List All](compute/Load-Balancers/List-All.yml)
-#### [Swap Public Ip Addresses](compute/Load-Balancers/Swap-Public-Ip-Addresses.yml)
-#### [Update Tags](compute/Load-Balancers/Update-Tags.yml)
 ### Log Analytics
 #### [Overview](compute/Log-Analytics.yml)
 #### [Export Request Rate By Interval](compute/Log-Analytics/Export-Request-Rate-By-Interval.yml)
@@ -6684,6 +6659,7 @@
 #### [Update](compute/Virtual-Machine-Scale-Set-VM-Run-Commands/Update.yml)
 ### Virtual Machine Scale Set VMs
 #### [Overview](compute/Virtual-Machine-Scale-Set-VMs.yml)
+#### [Run Command](compute/Virtual-Machine-Scale-Set-VMs/Run-Command.yml)
 #### [Deallocate](compute/Virtual-Machine-Scale-Set-VMs/Deallocate.yml)
 #### [Delete](compute/Virtual-Machine-Scale-Set-VMs/Delete.yml)
 #### [Get](compute/Virtual-Machine-Scale-Set-VMs/Get.yml)
@@ -6724,14 +6700,12 @@
 #### [Start](compute/Virtual-Machine-Scale-Sets/Start.yml)
 #### [Update](compute/Virtual-Machine-Scale-Sets/Update.yml)
 #### [Update Instances](compute/Virtual-Machine-Scale-Sets/Update-Instances.yml)
-### Virtual Machine ScaleSetVMs Run Commands
-#### [Overview](compute/Virtual-Machine-Scale-Set-VMs-Run-Commands.yml)
-#### [Run Command](compute/Virtual-Machine-Scale-Set-VMs-Run-Commands/Run-Command.yml)
 ### Virtual Machine Sizes
 #### [Overview](compute/Virtual-Machine-Sizes.yml)
 #### [List](compute/Virtual-Machine-Sizes/List.yml)
 ### Virtual Machines
 #### [Overview](compute/Virtual-Machines.yml)
+#### [Run Command](compute/Virtual-Machines/Run-Command.yml)
 #### [Assess Patches](compute/Virtual-Machines/Assess-Patches.yml)
 #### [Capture](compute/Virtual-Machines/Capture.yml)
 #### [Convert To Managed Disks](compute/Virtual-Machines/Convert-To-Managed-Disks.yml)
@@ -6756,9 +6730,6 @@
 #### [Simulate Eviction](compute/Virtual-Machines/Simulate-Eviction.yml)
 #### [Start](compute/Virtual-Machines/Start.yml)
 #### [Update](compute/Virtual-Machines/Update.yml)
-### Virtual Machines Run Commands
-#### [Overview](compute/Virtual-Machines-Run-Commands.yml)
-#### [Run Command](compute/Virtual-Machines-Run-Commands/Run-Command.yml)
 # Confluent
 ## [Overview](../docs-ref-conceptual/confluent/index.md)
 ## Marketplace Agreements
@@ -9028,6 +8999,20 @@
 ## Operations
 ### [Overview](desktopvirtualization/Operations.yml)
 ### [List](desktopvirtualization/Operations/List.yml)
+## Private Endpoint Connections
+### [Overview](desktopvirtualization/Private-Endpoint-Connections.yml)
+### [Delete By Host Pool](desktopvirtualization/Private-Endpoint-Connections/Delete-By-Host-Pool.yml)
+### [Delete By Workspace](desktopvirtualization/Private-Endpoint-Connections/Delete-By-Workspace.yml)
+### [Get By Host Pool](desktopvirtualization/Private-Endpoint-Connections/Get-By-Host-Pool.yml)
+### [Get By Workspace](desktopvirtualization/Private-Endpoint-Connections/Get-By-Workspace.yml)
+### [List By Host Pool](desktopvirtualization/Private-Endpoint-Connections/List-By-Host-Pool.yml)
+### [List By Workspace](desktopvirtualization/Private-Endpoint-Connections/List-By-Workspace.yml)
+### [Update By Host Pool](desktopvirtualization/Private-Endpoint-Connections/Update-By-Host-Pool.yml)
+### [Update By Workspace](desktopvirtualization/Private-Endpoint-Connections/Update-By-Workspace.yml)
+## Private Link Resources
+### [Overview](desktopvirtualization/Private-Link-Resources.yml)
+### [List By Host Pool](desktopvirtualization/Private-Link-Resources/List-By-Host-Pool.yml)
+### [List By Workspace](desktopvirtualization/Private-Link-Resources/List-By-Workspace.yml)
 ## Scaling Plans
 ### [Overview](desktopvirtualization/Scaling-Plans.yml)
 ### [Create](desktopvirtualization/Scaling-Plans/Create.yml)
@@ -10656,12 +10641,51 @@
 ## [Interactive session](../docs-ref-conceptual/hdinsightspark/hdinsight-spark-interactive-session.md)
 # Healthcare Apis
 ## [Overview](../docs-ref-conceptual/healthcareapis/index.md)
+## Dicom Services
+### [Overview](healthcareapis/Dicom-Services.yml)
+### [Create Or Update](healthcareapis/Dicom-Services/Create-Or-Update.yml)
+### [Delete](healthcareapis/Dicom-Services/Delete.yml)
+### [Get](healthcareapis/Dicom-Services/Get.yml)
+### [List By Workspace](healthcareapis/Dicom-Services/List-By-Workspace.yml)
+### [Update](healthcareapis/Dicom-Services/Update.yml)
+## Fhir Destinations
+### [Overview](healthcareapis/Fhir-Destinations.yml)
+### [List By Iot Connector](healthcareapis/Fhir-Destinations/List-By-Iot-Connector.yml)
+## Fhir Services
+### [Overview](healthcareapis/Fhir-Services.yml)
+### [Create Or Update](healthcareapis/Fhir-Services/Create-Or-Update.yml)
+### [Delete](healthcareapis/Fhir-Services/Delete.yml)
+### [Get](healthcareapis/Fhir-Services/Get.yml)
+### [List By Workspace](healthcareapis/Fhir-Services/List-By-Workspace.yml)
+### [Update](healthcareapis/Fhir-Services/Update.yml)
+## Iot Connector Fhir Destination
+### [Overview](healthcareapis/Iot-Connector-Fhir-Destination.yml)
+### [Create Or Update](healthcareapis/Iot-Connector-Fhir-Destination/Create-Or-Update.yml)
+### [Delete](healthcareapis/Iot-Connector-Fhir-Destination/Delete.yml)
+### [Get](healthcareapis/Iot-Connector-Fhir-Destination/Get.yml)
+## Iot Connectors
+### [Overview](healthcareapis/Iot-Connectors.yml)
+### [Create Or Update](healthcareapis/Iot-Connectors/Create-Or-Update.yml)
+### [Delete](healthcareapis/Iot-Connectors/Delete.yml)
+### [Get](healthcareapis/Iot-Connectors/Get.yml)
+### [List By Workspace](healthcareapis/Iot-Connectors/List-By-Workspace.yml)
+### [Update](healthcareapis/Iot-Connectors/Update.yml)
 ## Operation Results
 ### [Overview](healthcareapis/Operation-Results.yml)
 ### [Get](healthcareapis/Operation-Results/Get.yml)
 ## Operations
 ### [Overview](healthcareapis/Operations.yml)
 ### [List](healthcareapis/Operations/List.yml)
+## Private Endpoint Connections
+### [Overview](healthcareapis/Private-Endpoint-Connections.yml)
+### [Create Or Update](healthcareapis/Private-Endpoint-Connections/Create-Or-Update.yml)
+### [Delete](healthcareapis/Private-Endpoint-Connections/Delete.yml)
+### [Get](healthcareapis/Private-Endpoint-Connections/Get.yml)
+### [List By Service](healthcareapis/Private-Endpoint-Connections/List-By-Service.yml)
+## Private Link Resources
+### [Overview](healthcareapis/Private-Link-Resources.yml)
+### [Get](healthcareapis/Private-Link-Resources/Get.yml)
+### [List By Service](healthcareapis/Private-Link-Resources/List-By-Service.yml)
 ## Services
 ### [Overview](healthcareapis/Services.yml)
 ### [Check Name Availability](healthcareapis/Services/Check-Name-Availability.yml)
@@ -10671,6 +10695,24 @@
 ### [List](healthcareapis/Services/List.yml)
 ### [List By Resource Group](healthcareapis/Services/List-By-Resource-Group.yml)
 ### [Update](healthcareapis/Services/Update.yml)
+## Workspace Private Endpoint Connections
+### [Overview](healthcareapis/Workspace-Private-Endpoint-Connections.yml)
+### [Create Or Update](healthcareapis/Workspace-Private-Endpoint-Connections/Create-Or-Update.yml)
+### [Delete](healthcareapis/Workspace-Private-Endpoint-Connections/Delete.yml)
+### [Get](healthcareapis/Workspace-Private-Endpoint-Connections/Get.yml)
+### [List By Workspace](healthcareapis/Workspace-Private-Endpoint-Connections/List-By-Workspace.yml)
+## Workspace Private Link Resources
+### [Overview](healthcareapis/Workspace-Private-Link-Resources.yml)
+### [Get](healthcareapis/Workspace-Private-Link-Resources/Get.yml)
+### [List By Workspace](healthcareapis/Workspace-Private-Link-Resources/List-By-Workspace.yml)
+## Workspaces
+### [Overview](healthcareapis/Workspaces.yml)
+### [Create Or Update](healthcareapis/Workspaces/Create-Or-Update.yml)
+### [Delete](healthcareapis/Workspaces/Delete.yml)
+### [Get](healthcareapis/Workspaces/Get.yml)
+### [List By Resource Group](healthcareapis/Workspaces/List-By-Resource-Group.yml)
+### [List By Subscription](healthcareapis/Workspaces/List-By-Subscription.yml)
+### [Update](healthcareapis/Workspaces/Update.yml)
 # Hybrid Compute
 ## [Overview](../docs-ref-conceptual/hybridcompute/index.md)
 ## Machine Extensions
@@ -12170,6 +12212,18 @@
 ### [Delete](azureml/Code-Versions/Delete.yml)
 ### [Get](azureml/Code-Versions/Get.yml)
 ### [List](azureml/Code-Versions/List.yml)
+## Component Containers
+### [Overview](azureml/Component-Containers.yml)
+### [Create Or Update](azureml/Component-Containers/Create-Or-Update.yml)
+### [Delete](azureml/Component-Containers/Delete.yml)
+### [Get](azureml/Component-Containers/Get.yml)
+### [List](azureml/Component-Containers/List.yml)
+## Component Versions
+### [Overview](azureml/Component-Versions.yml)
+### [Create Or Update](azureml/Component-Versions/Create-Or-Update.yml)
+### [Delete](azureml/Component-Versions/Delete.yml)
+### [Get](azureml/Component-Versions/Get.yml)
+### [List](azureml/Component-Versions/List.yml)
 ## Compute
 ### [Overview](azureml/Compute.yml)
 ### [Create Or Update](azureml/Compute/Create-Or-Update.yml)
@@ -12182,7 +12236,6 @@
 ### [Start](azureml/Compute/Start.yml)
 ### [Stop](azureml/Compute/Stop.yml)
 ### [Update](azureml/Compute/Update.yml)
-### [Update Schedules](azureml/Compute/Update-Schedules.yml)
 ## Data Containers
 ### [Overview](azureml/Data-Containers.yml)
 ### [Create Or Update](azureml/Data-Containers/Create-Or-Update.yml)
@@ -12208,12 +12261,12 @@
 ### [Delete](azureml/Environment-Containers/Delete.yml)
 ### [Get](azureml/Environment-Containers/Get.yml)
 ### [List](azureml/Environment-Containers/List.yml)
-## Environment Specification Versions
-### [Overview](azureml/Environment-Specification-Versions.yml)
-### [Create Or Update](azureml/Environment-Specification-Versions/Create-Or-Update.yml)
-### [Delete](azureml/Environment-Specification-Versions/Delete.yml)
-### [Get](azureml/Environment-Specification-Versions/Get.yml)
-### [List](azureml/Environment-Specification-Versions/List.yml)
+## Environment Versions
+### [Overview](azureml/Environment-Versions.yml)
+### [Create Or Update](azureml/Environment-Versions/Create-Or-Update.yml)
+### [Delete](azureml/Environment-Versions/Delete.yml)
+### [Get](azureml/Environment-Versions/Get.yml)
+### [List](azureml/Environment-Versions/List.yml)
 ## Jobs
 ### [Overview](azureml/Jobs.yml)
 ### [Cancel](azureml/Jobs/Cancel.yml)
@@ -12221,15 +12274,6 @@
 ### [Delete](azureml/Jobs/Delete.yml)
 ### [Get](azureml/Jobs/Get.yml)
 ### [List](azureml/Jobs/List.yml)
-## Labeling Jobs
-### [Overview](azureml/Labeling-Jobs.yml)
-### [Create Or Update](azureml/Labeling-Jobs/Create-Or-Update.yml)
-### [Delete](azureml/Labeling-Jobs/Delete.yml)
-### [Export Labels](azureml/Labeling-Jobs/Export-Labels.yml)
-### [Get](azureml/Labeling-Jobs/Get.yml)
-### [List](azureml/Labeling-Jobs/List.yml)
-### [Pause](azureml/Labeling-Jobs/Pause.yml)
-### [Resume](azureml/Labeling-Jobs/Resume.yml)
 ## Model Containers
 ### [Overview](azureml/Model-Containers.yml)
 ### [Create Or Update](azureml/Model-Containers/Create-Or-Update.yml)
@@ -12249,6 +12293,7 @@
 ### [Get](azureml/Online-Deployments/Get.yml)
 ### [Get Logs](azureml/Online-Deployments/Get-Logs.yml)
 ### [List](azureml/Online-Deployments/List.yml)
+### [List Skus](azureml/Online-Deployments/List-Skus.yml)
 ### [Update](azureml/Online-Deployments/Update.yml)
 ## Online Endpoints
 ### [Overview](azureml/Online-Endpoints.yml)
@@ -12288,16 +12333,21 @@
 ### [Delete](azureml/Workspace-Connections/Delete.yml)
 ### [Get](azureml/Workspace-Connections/Get.yml)
 ### [List](azureml/Workspace-Connections/List.yml)
+## Workspace Features
+### [Overview](azureml/Workspace-Features.yml)
+### [List](azureml/Workspace-Features/List.yml)
 ## Workspaces
 ### [Overview](azureml/Workspaces.yml)
 ### [Create Or Update](azureml/Workspaces/Create-Or-Update.yml)
 ### [Delete](azureml/Workspaces/Delete.yml)
+### [Diagnose](azureml/Workspaces/Diagnose.yml)
 ### [Get](azureml/Workspaces/Get.yml)
 ### [List By Resource Group](azureml/Workspaces/List-By-Resource-Group.yml)
 ### [List By Subscription](azureml/Workspaces/List-By-Subscription.yml)
 ### [List Keys](azureml/Workspaces/List-Keys.yml)
 ### [List Notebook Access Token](azureml/Workspaces/List-Notebook-Access-Token.yml)
 ### [List Notebook Keys](azureml/Workspaces/List-Notebook-Keys.yml)
+### [List Outbound Network Dependencies Endpoints](azureml/Workspaces/List-Outbound-Network-Dependencies-Endpoints.yml)
 ### [List Storage Account Keys](azureml/Workspaces/List-Storage-Account-Keys.yml)
 ### [Prepare Notebook](azureml/Workspaces/Prepare-Notebook.yml)
 ### [Resync Keys](azureml/Workspaces/Resync-Keys.yml)

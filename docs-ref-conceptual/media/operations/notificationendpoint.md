@@ -1,5 +1,6 @@
 ---
 title: "NotificationEndPoint"
+description: Learn how NotificationEndPoint is the endpoint to which the notifications about the job state are sent.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

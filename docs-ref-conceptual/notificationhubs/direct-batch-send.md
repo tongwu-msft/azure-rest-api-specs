@@ -1,5 +1,6 @@
 ﻿---
 title: "Send batches directly to a collection of device handles"
+description: Use this API reference documentation to send a batch of notifications directly to a collection of device handles (a valid token as expressed by the Notification type).
 ms.custom: ""
 ms.date: "10/14/2019"
 ms.reviewer: ""
