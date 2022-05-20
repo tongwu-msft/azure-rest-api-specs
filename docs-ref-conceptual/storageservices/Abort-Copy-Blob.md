@@ -1,8 +1,7 @@
 ---
 title: Abort Copy Blob (REST API) - Azure Storage
-description: The Abort Copy Blob operation stops a pending Copy Blob operation, and leaves a destination blob with zero length and full metadata.
+description: The Abort Copy Blob operation cancels a pending Copy Blob operation, and leaves a destination blob with zero length and full metadata.
 author: pemari-msft
-
 ms.date: 09/09/2019
 ms.author: pemari
 ms.service: storage
@@ -11,7 +10,7 @@ ms.topic: reference
 
 # Abort Copy Blob
 
-The `Abort Copy Blob` operation stops a pending `Copy Blob` operation, and leaves a destination blob with zero length and full metadata. This operation applies to version 2012-02-12 and newer.  
+The `Abort Copy Blob` operation cancels a pending `Copy Blob` operation, and leaves a destination blob with zero length and full metadata. This operation applies to version 2012-02-12 and newer.  
   
 ## Request  
 
@@ -83,9 +82,9 @@ Only the account owner can call this operation.
   
 ## Remarks  
 
-When you stop a pending `Copy Blob` operation, the destination blob’s `x-ms-copy-status` header is set to `aborted`. Stopping a copy operation results in a destination blob of zero length for block blobs, append blobs, and page blobs. However, the metadata for the destination blob will have the new values copied from the source blob, or set explicitly in the `Copy Blob` operation call. To keep the original metadata from before the copy, make a snapshot of the destination blob before calling `Copy Blob`.  
+When you cancel a pending `Copy Blob` operation, the destination blob’s `x-ms-copy-status` header is set to `aborted`. Canceling a copy operation results in a destination blob of zero length for block blobs, append blobs, and page blobs. However, the metadata for the destination blob will have the new values copied from the source blob, or set explicitly in the `Copy Blob` operation call. To keep the original metadata from before the copy, make a snapshot of the destination blob before calling `Copy Blob`.  
   
- You can only stop a copy operation that is pending. Trying to stop a copy that has completed, or failed, results in a conflict error. Trying to stop a copy operation by using an incorrect copy ID also results in a conflict error.  
+ You can only cancel a copy operation that is pending. Trying to cancel a copy that has completed, or failed, results in a conflict error. Trying to cancel a copy operation by using an incorrect copy ID also results in a conflict error.  
   
 ## See also  
 

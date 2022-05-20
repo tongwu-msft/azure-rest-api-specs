@@ -2,7 +2,6 @@
 title: Append Block From URL (REST API) - Azure Storage
 description: The Append Block From URL operation commits a new block of data to the end of an existing append blob.
 author: pemari-msft
-
 ms.date: 09/20/2019
 ms.service: storage
 ms.topic: reference

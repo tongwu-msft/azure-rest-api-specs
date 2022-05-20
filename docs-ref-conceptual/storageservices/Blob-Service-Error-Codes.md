@@ -2,7 +2,6 @@
 title: Blob Storage error codes (REST API) - Azure Storage
 description: Error codes for Azure Blob Storage operations.
 author: pemari-msft
-
 ms.date: 10/20/2020
 ms.service: storage
 ms.topic: reference

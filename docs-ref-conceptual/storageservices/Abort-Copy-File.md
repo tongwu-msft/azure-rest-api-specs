@@ -1,8 +1,7 @@
 ---
 title: Abort Copy File (FileREST API) - Azure Files
-description: The Abort Copy File operation stops a pending Copy File operation, and leaves a destination file with zero length and full metadata.
+description: The Abort Copy File operation cancels a pending Copy File operation, and leaves a destination file with zero length and full metadata.
 author: wmgries
-
 ms.date: 06/06/2021
 ms.author: wgries
 ms.service: storage
@@ -11,7 +10,7 @@ ms.topic: reference
 
 # Abort Copy File
 
-The `Abort Copy File` operation stops a pending `Copy File` operation, and leaves a destination file with zero length and full metadata. This operation applies to version 2015-02-21 and newer.
+The `Abort Copy File` operation cancels a pending `Copy File` operation, and leaves a destination file with zero length and full metadata. This operation applies to version 2015-02-21 and newer.
 
 ## Protocol availability
 
@@ -60,7 +59,7 @@ The following table describes required and optional request headers.
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later.<br /><br /> For more information, see [Versioning for the Azure Storage services](versioning-for-the-azure-storage-services.md).|  
 |`x-ms-copy-action:abort`|Required.| 
 |`x-ms-lease-id:<ID>`|Required if the destination file has an active lease. Available for versions 2019-02-02 and later. |
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Blob Storage](/azure/storage/blobs/monitor-blob-storage).|
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Files](/azure/storage/files/storage-files-monitoring).|
   
 ### Request body
 
@@ -95,6 +94,6 @@ Only the account owner can call this operation.
   
 ## Remarks
 
-When you stop a pending `Copy File` operation, the destination file's `x-ms-copy-status` header is set to `aborted`. Stopping a copy operation results in a destination file of zero length. However, the metadata for the destination file will have the new values copied from the source blob or file, or set explicitly in the `Copy File` operation call.  
+When you cancel a pending `Copy File` operation, the destination file's `x-ms-copy-status` header is set to `aborted`. Canceling a copy operation results in a destination file of zero length. However, the metadata for the destination file will have the new values copied from the source blob or file, or set explicitly in the `Copy File` operation call.  
   
-You can only stop a copy operation that is pending. Trying to stop a copy that has completed, or failed, results in conflict error. Trying to stop a copy operation by using an incorrect copy ID also results in conflict error.
+You can only cancel a copy operation that is pending. Trying to cancel a copy that has completed, or failed, results in conflict error. Trying to cancel a copy operation by using an incorrect copy ID also results in conflict error.

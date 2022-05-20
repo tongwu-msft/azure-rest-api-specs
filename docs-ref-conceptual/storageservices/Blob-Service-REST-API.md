@@ -2,7 +2,6 @@
 title: Blob Storage REST API - Azure Storage
 description: Azure Blob Storage stores text and binary data as objects in the cloud.
 author: pemari-msft
-
 ms.date: 09/23/2019
 ms.service: storage
 ms.topic: reference

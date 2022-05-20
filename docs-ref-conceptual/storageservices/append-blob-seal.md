@@ -2,7 +2,6 @@
 title: Append Blob Seal (REST API) - Azure Storage
 description: The Append Blob Seal operation allows users and applications to seal append blobs, marking them as read-only.
 author: amishra-dev
-
 ms.date: 04/12/2021
 ms.service: storage
 ms.topic: reference
