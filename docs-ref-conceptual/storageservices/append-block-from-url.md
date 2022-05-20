@@ -28,7 +28,7 @@ When you're making a request against the emulated storage service, specify the e
 |----------------------------|------------------|  
 |`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=appendblock`|HTTP/1.1|  
 
-For more information, see [Use Azurite emulator for local Azure Storage development](/azure/storage/common/storage-use-azurite).  
+For more information, see [Use the Azurite emulator for local Azure Storage development](/azure/storage/common/storage-use-azurite).  
   
 ### URI parameters  
   
