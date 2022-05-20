@@ -46,7 +46,7 @@ You can specify the following additional parameter on the request URI.
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting timeouts for Azure Files operations](setting-timeouts-for-file-service-operations).|  
+|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting timeouts for Azure Files operations](setting-timeouts-for-file-service-operations.md).|  
   
 ### Request headers
 
