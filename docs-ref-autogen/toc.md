@@ -8233,6 +8233,12 @@
 #### [List](datafactory/Factories/List.yml)
 #### [List By Resource Group](datafactory/Factories/List-By-Resource-Group.yml)
 #### [Update](datafactory/Factories/Update.yml)
+### Global Parameters
+#### [Overview](datafactory/Global-Parameters.yml)
+#### [Create Or Update](datafactory/Global-Parameters/Create-Or-Update.yml)
+#### [Delete](datafactory/Global-Parameters/Delete.yml)
+#### [Get](datafactory/Global-Parameters/Get.yml)
+#### [List By Factory](datafactory/Global-Parameters/List-By-Factory.yml)
 ### Integration Runtime Nodes
 #### [Overview](datafactory/Integration-Runtime-Nodes.yml)
 #### [Delete](datafactory/Integration-Runtime-Nodes/Delete.yml)
