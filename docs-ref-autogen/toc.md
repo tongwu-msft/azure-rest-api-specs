@@ -9597,58 +9597,40 @@
 ### [Update Order Item](edgehardwarecenter/Update-Order-Item/Update-Order-Item.yml)
 # Education
 ## [Overview](../docs-ref-conceptual/education/index.md)
-## Approve
-### [Overview](education/Approve.yml)
-### [Invite](education/Approve/Invite.yml)
-## Create
-### [Overview](education/Create.yml)
-### [Lab](education/Create/Lab.yml)
-### [Student](education/Create/Student.yml)
-## Delete
-### [Overview](education/Delete.yml)
-### [Lab](education/Delete/Lab.yml)
-### [Student](education/Delete/Student.yml)
-## Deny
-### [Overview](education/Deny.yml)
-### [Invite](education/Deny/Invite.yml)
-## Generate
-### [Overview](education/Generate.yml)
-### [Invite Code](education/Generate/Invite-Code.yml)
-## Get
-### [Overview](education/Get.yml)
-### [Grant](education/Get/Grant.yml)
-### [Lab](education/Get/Lab.yml)
-### [Student](education/Get/Student.yml)
-### [Student Lab](education/Get/Student-Lab.yml)
-## Grant
-### [Overview](education/Grant.yml)
-### [List](education/Grant/List.yml)
 ## Grants
 ### [Overview](education/Grants.yml)
+### [Get](education/Grants/Get.yml)
 ### [List](education/Grants/List.yml)
-## Join Request
-### [Overview](education/Join-Request.yml)
-### [Get](education/Join-Request/Get.yml)
+### [List All](education/Grants/List-All.yml)
 ## Join Requests
 ### [Overview](education/Join-Requests.yml)
+### [Approve](education/Join-Requests/Approve.yml)
+### [Deny](education/Join-Requests/Deny.yml)
+### [Get](education/Join-Requests/Get.yml)
 ### [List](education/Join-Requests/List.yml)
-## Lab
-### [Overview](education/Lab.yml)
-### [List](education/Lab/List.yml)
 ## Labs
 ### [Overview](education/Labs.yml)
+### [Create Or Update](education/Labs/Create-Or-Update.yml)
+### [Delete](education/Labs/Delete.yml)
+### [Generate Invite Code](education/Labs/Generate-Invite-Code.yml)
+### [Get](education/Labs/Get.yml)
 ### [List](education/Labs/List.yml)
+### [List All](education/Labs/List-All.yml)
 ## Operations
 ### [Overview](education/Operations.yml)
 ### [List](education/Operations/List.yml)
-## Redeem
-### [Overview](education/Redeem.yml)
-### [Invite](education/Redeem/Invite.yml)
+## Redeem Invitation Code
+### [Overview](education/Redeem-Invitation-Code.yml)
+### [Redeem Invitation Code](education/Redeem-Invitation-Code/Redeem-Invitation-Code.yml)
 ## Student Labs
 ### [Overview](education/Student-Labs.yml)
-### [List](education/Student-Labs/List.yml)
+### [Get](education/Student-Labs/Get.yml)
+### [List All](education/Student-Labs/List-All.yml)
 ## Students
 ### [Overview](education/Students.yml)
+### [Create Or Update](education/Students/Create-Or-Update.yml)
+### [Delete](education/Students/Delete.yml)
+### [Get](education/Students/Get.yml)
 ### [List](education/Students/List.yml)
 # Elastic
 ## [Overview](../docs-ref-conceptual/elastic/index.md)

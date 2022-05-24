@@ -1,23 +1,42 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.education.get.studentlab
-name: Student Lab
+uid: management.azure.com.education.labs.generateinvitecode
+name: Generate Invite Code
 service: Education
-groupName: Get
+groupName: Labs
 apiVersion: 2021-12-01-preview
-summary: Get the details for a specified lab associated with the student lab.
+summary: Generate invite code for a lab
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Education/studentLabs/{studentLabName}?api-version=2021-12-01-preview
+- content: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default/generateInviteCode?api-version=2021-12-01-preview
+- content: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default/generateInviteCode?onlyUpdateStudentCountParameter={onlyUpdateStudentCountParameter}&api-version=2021-12-01-preview
+  isOptional: true
 uriParameters:
-- name: studentLabName
+- name: billingAccountName
   in: path
   isRequired: true
-  description: Student lab name.
+  description: Billing account name.
   types:
   - uid: string
+- name: billingProfileName
+  in: path
+  isRequired: true
+  description: Billing profile name.
+  types:
+  - uid: string
+- name: invoiceSectionName
+  in: path
+  isRequired: true
+  description: Invoice section name.
+  types:
+  - uid: string
+- name: onlyUpdateStudentCountParameter
+  in: query
+  description: set this flag to true if you want to update student count without generating a new invite code
+  types:
+  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
@@ -26,64 +45,79 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Lab details.
+  description: lab detail.
   types:
-  - uid: StudentLabDetails
+  - uid: LabDetails
 - name: Other Status Codes
   description: Describes the error if the operation is not successful.
   types:
   - uid: ErrorResponseBody
+requestBody:
+- name: default
+  parameters:
+  - name: maxStudentCount
+    in: body
+    description: the total number of students that can be accepted to the lab.
+    types:
+    - uid: number
 requestHeader: []
 definitions:
-- name: StudentLabDetails
-  description: Student lab details.
+- name: LabDetails
+  description: Lab details.
   kind: object
   properties:
   - name: properties.displayName
-    isReadyOnly: true
-    description: Student lab Display Name
+    description: Lab Display Name
     types:
     - uid: string
+  - name: properties.budgetPerStudent
+    description: Default monetary cap for each student in this lab
+    types:
+    - uid: Amount
   - name: properties.description
-    isReadyOnly: true
     description: Detail description of this lab
     types:
     - uid: string
   - name: properties.expirationDate
-    isReadyOnly: true
-    description: Date the lab will expire and by default will be the expiration date for each student in this lab
+    description: Default expiration date for each student in this lab
     types:
     - uid: string
-  - name: properties.role
+  - name: properties.effectiveDate
     isReadyOnly: true
-    description: Student Role
-    types:
-    - uid: Student role
-  - name: properties.budget
-    isReadyOnly: true
-    description: Student Budget
-    types:
-    - uid: Amount
-  - name: properties.subscriptionId
-    isReadyOnly: true
-    description: Subscription Id
+    description: Lab creation date
     types:
     - uid: string
   - name: properties.status
     isReadyOnly: true
-    description: Student Lab Status
+    description: The status of this lab
     types:
-    - uid: Student Lab Status
-  - name: properties.effectiveDate
+    - uid: LabStatus
+  - name: properties.maxStudentCount
     isReadyOnly: true
-    description: User Added Date
+    description: the total number of students that can be accepted to the lab.
+    types:
+    - uid: number
+  - name: properties.invitationCode
+    isReadyOnly: true
+    description: invitation code for redeemable lab
     types:
     - uid: string
-  - name: properties.labScope
-    isReadyOnly: true
-    description: Lab Scope. /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default
+  - name: properties.totalBudget.currency
+    description: The type of currency being used for the value.
     types:
     - uid: string
+  - name: properties.totalBudget.value
+    description: Amount value.
+    types:
+    - uid: number
+  - name: properties.totalAllocatedBudget.currency
+    description: The type of currency being used for the value.
+    types:
+    - uid: string
+  - name: properties.totalAllocatedBudget.value
+    description: Amount value.
+    types:
+    - uid: number
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -112,16 +146,14 @@ definitions:
     description: The details of the error.
     types:
     - uid: ErrorResponse
-- name: Student role
-  description: Student Role
-  kind: enum
+- name: InviteCodeGenerateRequest
+  description: invite code generate request.
+  kind: object
   properties:
-  - name: Student
+  - name: maxStudentCount
+    description: the total number of students that can be accepted to the lab.
     types:
-    - uid: string
-  - name: Admin
-    types:
-    - uid: string
+    - uid: number
 - name: Amount
   description: The amount.
   kind: object
@@ -134,20 +166,11 @@ definitions:
     description: Amount value.
     types:
     - uid: number
-- name: Student Lab Status
-  description: Student Lab Status
+- name: LabStatus
+  description: The status of this lab
   kind: enum
   properties:
   - name: Active
-    types:
-    - uid: string
-  - name: Disabled
-    types:
-    - uid: string
-  - name: Expired
-    types:
-    - uid: string
-  - name: Pending
     types:
     - uid: string
   - name: Deleted
@@ -210,29 +233,32 @@ definitions:
     types:
     - uid: string
 examples:
-- name: StudentLab
+- name: CreateLab
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Education/studentLabs/{studentLabName}?api-version=2021-12-01-preview
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default/generateInviteCode?api-version=2021-12-01-preview
+    body: >-
+      {
+        "maxStudentCount": 10
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": " /providers/Microsoft.Education/studentLabs/{studentLabName}",
-        "name": "{studentLabName}",
-        "type": "Microsoft.Education/StudentLabs",
+        "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default",
+        "name": "default",
+        "type": "Microsoft.Education/Labs",
         "properties": {
-          "displayName": "example lab name",
-          "description": "example lab description",
-          "expirationDate": "2022-11-09T21:54:17.438Z",
-          "role": "Student",
-          "budget": {
+          "displayName": "example lab",
+          "budgetPerStudent": {
             "currency": "USD",
             "value": 100
           },
-          "subscriptionId": "000000000-0000-0000-0000-00000000000000",
+          "description": "example lab description",
+          "expirationDate": "2021-12-09T21:25:56.838Z",
+          "effectiveDate": "2021-11-09T21:25:56.838Z",
           "status": "Active",
-          "effectiveDate": "2021-11-09T21:54:17.438Z",
-          "labScope": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default"
+          "maxStudentCount": 10,
+          "invitationCode": "exampleIviteCode"
         }
       }
 security:
@@ -245,5 +271,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Education service - Get the details for a specified lab associated with the student lab.
+  description: Learn more about Education service - Generate invite code for a lab
 errorCodes: []

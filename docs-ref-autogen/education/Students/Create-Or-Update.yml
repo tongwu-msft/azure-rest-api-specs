@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.education.create.lab
-name: Lab
+uid: management.azure.com.education.students.createorupdate
+name: Create Or Update
 service: Education
-groupName: Create
+groupName: Students
 apiVersion: 2021-12-01-preview
-summary: Create a new lab or update a previously created lab.
+summary: Create and add a new student to the specified lab or update the details of an existing student in a lab. Note the student must have a valid tenant to accept the lab after they have been added to lab.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?api-version=2021-12-01-preview
+- content: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default/students/{studentAlias}?api-version=2021-12-01-preview
 uriParameters:
 - name: billingAccountName
   in: path
@@ -30,6 +30,12 @@ uriParameters:
   description: Invoice section name.
   types:
   - uid: string
+- name: studentAlias
+  in: path
+  isRequired: true
+  description: Student alias.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -38,13 +44,13 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
-  description: Accepted. Lab details.
+  description: Successfully created student detail.
   types:
-  - uid: LabDetails
+  - uid: StudentDetails
 - name: 200 OK
-  description: Normal response to get lab details.
+  description: Successfully updated student detail.
   types:
-  - uid: LabDetails
+  - uid: StudentDetails
 - name: Other Status Codes
   description: Describes the error if the operation is not successful.
   types:
@@ -52,50 +58,52 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.displayName
+  - name: properties.firstName
     in: body
     isRequired: true
-    description: Lab Display Name
+    description: First Name
     types:
     - uid: string
-  - name: properties.budgetPerStudent
+  - name: properties.lastName
     in: body
     isRequired: true
-    description: Default monetary cap for each student in this lab
+    description: Last Name
+    types:
+    - uid: string
+  - name: properties.email
+    in: body
+    isRequired: true
+    description: Student Email
+    types:
+    - uid: string
+  - name: properties.role
+    in: body
+    isRequired: true
+    description: Student Role
+    types:
+    - uid: Student role
+  - name: properties.budget
+    in: body
+    isRequired: true
+    description: Student Budget
     types:
     - uid: Amount
-  - name: properties.description
-    in: body
-    isRequired: true
-    description: Detail description of this lab
-    types:
-    - uid: string
   - name: properties.expirationDate
     in: body
     isRequired: true
-    description: Default expiration date for each student in this lab
+    description: Date this student is set to expire from the lab.
     types:
     - uid: string
-  - name: properties.totalBudget.currency
+  - name: properties.subscriptionAlias
     in: body
-    description: The type of currency being used for the value.
+    description: Subscription alias
     types:
     - uid: string
-  - name: properties.totalBudget.value
+  - name: properties.subscriptionInviteLastSentDate
     in: body
-    description: Amount value.
-    types:
-    - uid: number
-  - name: properties.totalAllocatedBudget.currency
-    in: body
-    description: The type of currency being used for the value.
+    description: subscription invite last sent date
     types:
     - uid: string
-  - name: properties.totalAllocatedBudget.value
-    in: body
-    description: Amount value.
-    types:
-    - uid: number
 requestHeader: []
 definitions:
 - name: Amount
@@ -138,62 +146,57 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: LabDetails
-  description: Lab details.
+- name: StudentDetails
+  description: Student details.
   kind: object
   properties:
-  - name: properties.displayName
-    description: Lab Display Name
+  - name: properties.firstName
+    description: First Name
     types:
     - uid: string
-  - name: properties.budgetPerStudent
-    description: Default monetary cap for each student in this lab
+  - name: properties.lastName
+    description: Last Name
+    types:
+    - uid: string
+  - name: properties.email
+    description: Student Email
+    types:
+    - uid: string
+  - name: properties.role
+    description: Student Role
+    types:
+    - uid: Student role
+  - name: properties.budget
+    description: Student Budget
     types:
     - uid: Amount
-  - name: properties.description
-    description: Detail description of this lab
+  - name: properties.subscriptionId
+    isReadyOnly: true
+    description: Subscription Id
     types:
     - uid: string
   - name: properties.expirationDate
-    description: Default expiration date for each student in this lab
-    types:
-    - uid: string
-  - name: properties.effectiveDate
-    isReadyOnly: true
-    description: Lab creation date
+    description: Date this student is set to expire from the lab.
     types:
     - uid: string
   - name: properties.status
     isReadyOnly: true
-    description: The status of this lab
+    description: Student Lab Status
     types:
-    - uid: LabStatus
-  - name: properties.maxStudentCount
+    - uid: Student Lab Status
+  - name: properties.effectiveDate
     isReadyOnly: true
-    description: the total number of students that can be accepted to the lab.
-    types:
-    - uid: number
-  - name: properties.invitationCode
-    isReadyOnly: true
-    description: invitation code for redeemable lab
+    description: Date student was added to the lab
     types:
     - uid: string
-  - name: properties.totalBudget.currency
-    description: The type of currency being used for the value.
+  - name: properties.subscriptionAlias
+    description: Subscription alias
     types:
     - uid: string
-  - name: properties.totalBudget.value
-    description: Amount value.
-    types:
-    - uid: number
-  - name: properties.totalAllocatedBudget.currency
-    description: The type of currency being used for the value.
+  - name: properties.subscriptionInviteLastSentDate
+    description: subscription invite last sent date
     types:
     - uid: string
-  - name: properties.totalAllocatedBudget.value
-    description: Amount value.
-    types:
-    - uid: number
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -238,11 +241,30 @@ definitions:
   - name: Key
     types:
     - uid: string
-- name: LabStatus
-  description: The status of this lab
+- name: Student role
+  description: Student Role
+  kind: enum
+  properties:
+  - name: Student
+    types:
+    - uid: string
+  - name: Admin
+    types:
+    - uid: string
+- name: Student Lab Status
+  description: Student Lab Status
   kind: enum
   properties:
   - name: Active
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Expired
+    types:
+    - uid: string
+  - name: Pending
     types:
     - uid: string
   - name: Deleted
@@ -261,56 +283,64 @@ definitions:
     types:
     - uid: string
 examples:
-- name: CreateLab
+- name: Student
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?api-version=2021-12-01-preview
+    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default/students/{studentAlias}?api-version=2021-12-01-preview
     body: >-
       {
         "properties": {
-          "displayName": "example lab",
-          "budgetPerStudent": {
+          "firstName": "test",
+          "lastName": "user",
+          "email": "test@contoso.com",
+          "role": "Student",
+          "budget": {
             "currency": "USD",
             "value": 100
           },
-          "description": "example lab description",
-          "expirationDate": "2021-12-09T22:11:29.422Z"
+          "expirationDate": "2021-11-09T22:13:21.795Z"
         }
       }
   responses:
   - statusCode: "201"
     body: >-
       {
-        "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default",
-        "name": "default",
-        "type": "Microsoft.Education/Labs",
+        "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default/students/{studentAlias}",
+        "name": "{studentAlias}",
+        "type": "Microsoft.Education/Students",
         "properties": {
-          "displayName": "example lab",
-          "budgetPerStudent": {
+          "firstName": "test",
+          "lastName": "user",
+          "email": "test@contoso.com",
+          "role": "Student",
+          "budget": {
             "currency": "USD",
             "value": 100
           },
-          "description": "example lab description",
-          "expirationDate": "2021-12-09T21:25:56.838Z",
-          "effectiveDate": "2021-11-09T21:25:56.838Z",
-          "status": "Active"
+          "subscriptionId": "000000000-0000-0000-0000-00000000000000",
+          "expirationDate": "2022-11-09T21:43:54.161Z",
+          "status": "Active",
+          "effectiveDate": "2021-11-09T21:43:54.161Z"
         }
       }
   - statusCode: "200"
     body: >-
       {
-        "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default",
-        "name": "default",
-        "type": "Microsoft.Education/Labs",
+        "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default/students/{studentAlias}",
+        "name": "{studentAlias}",
+        "type": "Microsoft.Education/Students",
         "properties": {
-          "displayName": "example lab",
-          "budgetPerStudent": {
+          "firstName": "test",
+          "lastName": "user",
+          "email": "test@contoso.com",
+          "role": "Student",
+          "budget": {
             "currency": "USD",
             "value": 100
           },
-          "description": "example lab description",
-          "expirationDate": "2021-12-09T21:25:56.838Z",
-          "effectiveDate": "2021-11-09T21:25:56.838Z",
-          "status": "Active"
+          "subscriptionId": "000000000-0000-0000-0000-00000000000000",
+          "expirationDate": "2022-11-09T21:43:54.161Z",
+          "status": "Active",
+          "effectiveDate": "2021-11-09T21:43:54.161Z"
         }
       }
 security:
@@ -323,5 +353,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Education service - Create a new lab or update a previously created lab.
+  description: Create and add a new student to the specified lab or update the details of an existing student in a lab.
 errorCodes: []

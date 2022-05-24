@@ -1,36 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.education.grant.list
-name: List
+uid: management.azure.com.education.studentlabs.listall
+name: List All
 service: Education
-groupName: Grant
+groupName: Student Labs
 apiVersion: 2021-12-01-preview
-summary: Get details for a specific grant linked to the provided billing account and billing profile.
+summary: Get a list of all labs associated with the caller of the API.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/grants?api-version=2021-12-01-preview
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/grants?includeAllocatedBudget={includeAllocatedBudget}&api-version=2021-12-01-preview
-  isOptional: true
+- content: GET https://management.azure.com/providers/Microsoft.Education/studentLabs?api-version=2021-12-01-preview
 uriParameters:
-- name: billingAccountName
-  in: path
-  isRequired: true
-  description: Billing account name.
-  types:
-  - uid: string
-- name: billingProfileName
-  in: path
-  isRequired: true
-  description: Billing profile name.
-  types:
-  - uid: string
-- name: includeAllocatedBudget
-  in: query
-  description: May be used to include information about budget that has been allocated.
-  types:
-  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
@@ -39,24 +20,24 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: list of Grants
+  description: Lab details.
   types:
-  - uid: GrantListResponse
+  - uid: StudentLabListResult
 - name: Other Status Codes
   description: Describes the error if the operation is not successful.
   types:
   - uid: ErrorResponseBody
 requestHeader: []
 definitions:
-- name: GrantListResponse
-  description: List of Grants info.
+- name: StudentLabListResult
+  description: List of labs.
   kind: object
   properties:
   - name: value
     isReadyOnly: true
     description: The list of labs.
     types:
-    - uid: GrantDetails
+    - uid: StudentLabDetails
       isArray: true
   - name: nextLink
     isReadyOnly: true
@@ -71,40 +52,55 @@ definitions:
     description: The details of the error.
     types:
     - uid: ErrorResponse
-- name: GrantDetails
-  description: Grant details.
+- name: StudentLabDetails
+  description: Student lab details.
   kind: object
   properties:
-  - name: properties.offerCap
+  - name: properties.displayName
     isReadyOnly: true
-    description: Offer Cap
-    types:
-    - uid: Amount
-  - name: properties.effectiveDate
-    isReadyOnly: true
-    description: Grant Effective Date
+    description: Student lab Display Name
     types:
     - uid: string
-  - name: properties.offerType
+  - name: properties.description
     isReadyOnly: true
-    description: Grant Offer Type
+    description: Detail description of this lab
     types:
-    - uid: Grant type
+    - uid: string
   - name: properties.expirationDate
     isReadyOnly: true
-    description: Expiration Date
+    description: Date the lab will expire and by default will be the expiration date for each student in this lab
+    types:
+    - uid: string
+  - name: properties.role
+    isReadyOnly: true
+    description: Student Role
+    types:
+    - uid: Student role
+  - name: properties.budget
+    isReadyOnly: true
+    description: Student Budget
+    types:
+    - uid: Amount
+  - name: properties.subscriptionId
+    isReadyOnly: true
+    description: Subscription Id
     types:
     - uid: string
   - name: properties.status
     isReadyOnly: true
-    description: Grant status
+    description: Student Lab Status
     types:
-    - uid: Grant status
-  - name: properties.allocatedBudget
+    - uid: Student Lab Status
+  - name: properties.effectiveDate
     isReadyOnly: true
-    description: allocated budget
+    description: User Added Date
     types:
-    - uid: Amount
+    - uid: string
+  - name: properties.labScope
+    isReadyOnly: true
+    description: Lab Scope. /providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -137,6 +133,16 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
+- name: Student role
+  description: Student Role
+  kind: enum
+  properties:
+  - name: Student
+    types:
+    - uid: string
+  - name: Admin
+    types:
+    - uid: string
 - name: Amount
   description: The amount.
   kind: object
@@ -149,24 +155,23 @@ definitions:
     description: Amount value.
     types:
     - uid: number
-- name: Grant type
-  description: Grant Offer Type
-  kind: enum
-  properties:
-  - name: Student
-    types:
-    - uid: string
-  - name: Academic
-    types:
-    - uid: string
-- name: Grant status
-  description: Grant status
+- name: Student Lab Status
+  description: Student Lab Status
   kind: enum
   properties:
   - name: Active
     types:
     - uid: string
-  - name: Inactive
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Expired
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Deleted
     types:
     - uid: string
 - name: systemData
@@ -214,56 +219,31 @@ definitions:
     types:
     - uid: string
 examples:
-- name: GrantList
+- name: StudentLabList
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/grants?includeAllocatedBudget=False&api-version=2021-12-01-preview
+    uri: GET https://management.azure.com/providers/Microsoft.Education/studentLabs?api-version=2021-12-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/grants/default",
-            "name": "default",
-            "type": "Microsoft.Education/Grants",
+            "id": " /providers/Microsoft.Education/studentLabs/{studentLabName}",
+            "name": "{studentLabName}",
+            "type": "Microsoft.Education/StudentLabs",
             "properties": {
-              "offerCap": {
+              "displayName": "example lab name",
+              "description": "example lab description",
+              "expirationDate": "2022-11-09T21:54:17.438Z",
+              "role": "Student",
+              "budget": {
                 "currency": "USD",
-                "value": 1000
+                "value": 100
               },
-              "effectiveDate": "2021-11-09T09:08:05.505Z",
-              "offerType": "Academic",
-              "expirationDate": "2021-11-09T09:08:05.505Z",
-              "status": "Active"
-            }
-          }
-        ]
-      }
-- name: GrantListIncludeAllocatedBudget
-  request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/grants?includeAllocatedBudget=False&api-version=2021-12-01-preview
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "value": [
-          {
-            "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/grants/default",
-            "name": "default",
-            "type": "Microsoft.Education/Grants",
-            "properties": {
-              "offerCap": {
-                "currency": "USD",
-                "value": 1000
-              },
-              "effectiveDate": "2021-11-09T09:08:05.505Z",
-              "offerType": "Academic",
-              "expirationDate": "2021-11-09T09:08:05.505Z",
+              "subscriptionId": "000000000-0000-0000-0000-00000000000000",
               "status": "Active",
-              "allocatedBudget": {
-                "currency": "USD",
-                "value": 0
-              }
+              "effectiveDate": "2021-11-09T21:54:17.438Z",
+              "labScope": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default"
             }
           }
         ]
@@ -278,5 +258,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Education service - Get details for a specific grant linked to the provided billing account and billing profile.
+  description: Learn more about Education service - Get a list of all labs associated with the caller of the API.
 errorCodes: []

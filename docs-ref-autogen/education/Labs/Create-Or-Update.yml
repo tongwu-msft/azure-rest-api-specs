@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.education.get.lab
-name: Lab
+uid: management.azure.com.education.labs.createorupdate
+name: Create Or Update
 service: Education
-groupName: Get
+groupName: Labs
 apiVersion: 2021-12-01-preview
-summary: Get the details for a specific lab associated with the provided billing account name, billing profile name, and invoice section name.
+summary: Create a new lab or update a previously created lab.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?api-version=2021-12-01-preview
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?includeBudget={includeBudget}&api-version=2021-12-01-preview
-  isOptional: true
+- content: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?api-version=2021-12-01-preview
 uriParameters:
 - name: billingAccountName
   in: path
@@ -32,11 +30,6 @@ uriParameters:
   description: Invoice section name.
   types:
   - uid: string
-- name: includeBudget
-  in: query
-  description: May be used to include budget information.
-  types:
-  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
@@ -44,16 +37,107 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 201 Created
+  description: Accepted. Lab details.
+  types:
+  - uid: LabDetails
 - name: 200 OK
-  description: Lab details.
+  description: Normal response to get lab details.
   types:
   - uid: LabDetails
 - name: Other Status Codes
   description: Describes the error if the operation is not successful.
   types:
   - uid: ErrorResponseBody
+requestBody:
+- name: default
+  parameters:
+  - name: properties.displayName
+    in: body
+    isRequired: true
+    description: Lab Display Name
+    types:
+    - uid: string
+  - name: properties.budgetPerStudent
+    in: body
+    isRequired: true
+    description: Default monetary cap for each student in this lab
+    types:
+    - uid: Amount
+  - name: properties.description
+    in: body
+    isRequired: true
+    description: Detail description of this lab
+    types:
+    - uid: string
+  - name: properties.expirationDate
+    in: body
+    isRequired: true
+    description: Default expiration date for each student in this lab
+    types:
+    - uid: string
+  - name: properties.totalBudget.currency
+    in: body
+    description: The type of currency being used for the value.
+    types:
+    - uid: string
+  - name: properties.totalBudget.value
+    in: body
+    description: Amount value.
+    types:
+    - uid: number
+  - name: properties.totalAllocatedBudget.currency
+    in: body
+    description: The type of currency being used for the value.
+    types:
+    - uid: string
+  - name: properties.totalAllocatedBudget.value
+    in: body
+    description: Amount value.
+    types:
+    - uid: number
 requestHeader: []
 definitions:
+- name: Amount
+  description: The amount.
+  kind: object
+  properties:
+  - name: currency
+    description: The type of currency being used for the value.
+    types:
+    - uid: string
+  - name: value
+    description: Amount value.
+    types:
+    - uid: number
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: LabDetails
   description: Lab details.
   kind: object
@@ -138,68 +222,6 @@ definitions:
     description: The details of the error.
     types:
     - uid: ErrorResponse
-- name: Amount
-  description: The amount.
-  kind: object
-  properties:
-  - name: currency
-    description: The type of currency being used for the value.
-    types:
-    - uid: string
-  - name: value
-    description: Amount value.
-    types:
-    - uid: number
-- name: LabStatus
-  description: The status of this lab
-  kind: enum
-  properties:
-  - name: Active
-    types:
-    - uid: string
-  - name: Deleted
-    types:
-    - uid: string
-- name: systemData
-  description: Metadata pertaining to creation and last modification of the resource.
-  kind: object
-  properties:
-  - name: createdBy
-    description: The identity that created the resource.
-    types:
-    - uid: string
-  - name: createdByType
-    description: The type of identity that created the resource.
-    types:
-    - uid: createdByType
-  - name: createdAt
-    description: The timestamp of resource creation (UTC).
-    types:
-    - uid: string
-  - name: lastModifiedBy
-    description: The identity that last modified the resource.
-    types:
-    - uid: string
-  - name: lastModifiedByType
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: createdByType
-  - name: lastModifiedAt
-    description: The timestamp of resource last modification (UTC)
-    types:
-    - uid: string
-- name: ErrorResponse
-  description: Describes the format of Error response.
-  kind: object
-  properties:
-  - name: code
-    description: Error code
-    types:
-    - uid: string
-  - name: message
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -216,17 +238,34 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: LabStatus
+  description: The status of this lab
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
 examples:
-- name: Lab
+- name: CreateLab
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?includeBudget=False&api-version=2021-12-01-preview
-  responses:
-  - statusCode: "200"
+    uri: PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?api-version=2021-12-01-preview
     body: >-
       {
-        "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default",
-        "name": "default",
-        "type": "Microsoft.Education/Labs",
         "properties": {
           "displayName": "example lab",
           "budgetPerStudent": {
@@ -234,17 +273,28 @@ examples:
             "value": 100
           },
           "description": "example lab description",
-          "expirationDate": "2021-12-09T21:25:56.838Z",
-          "effectiveDate": "2021-11-09T21:25:56.838Z",
-          "status": "Active",
-          "maxStudentCount": 0,
-          "invitationCode": ""
+          "expirationDate": "2021-12-09T22:11:29.422Z"
         }
       }
-- name: LabIncludeBudget
-  request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?includeBudget=True&api-version=2021-12-01-preview
   responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default",
+        "name": "default",
+        "type": "Microsoft.Education/Labs",
+        "properties": {
+          "displayName": "example lab",
+          "budgetPerStudent": {
+            "currency": "USD",
+            "value": 100
+          },
+          "description": "example lab description",
+          "expirationDate": "2021-12-09T21:25:56.838Z",
+          "effectiveDate": "2021-11-09T21:25:56.838Z",
+          "status": "Active"
+        }
+      }
   - statusCode: "200"
     body: >-
       {
@@ -260,17 +310,7 @@ examples:
           "description": "example lab description",
           "expirationDate": "2021-12-09T21:25:56.838Z",
           "effectiveDate": "2021-11-09T21:25:56.838Z",
-          "status": "Active",
-          "totalBudget": {
-            "currency": "USD",
-            "value": 500
-          },
-          "totalAllocatedBudget": {
-            "currency": "USD",
-            "value": 500
-          },
-          "maxStudentCount": 0,
-          "invitationCode": ""
+          "status": "Active"
         }
       }
 security:
@@ -283,5 +323,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Get the details for a specific lab associated with the provided billing account name, billing profile name, and invoice section name.
+  description: Learn more about Education service - Create a new lab or update a previously created lab.
 errorCodes: []

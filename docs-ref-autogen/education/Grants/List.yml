@@ -4,16 +4,28 @@ name: List
 service: Education
 groupName: Grants
 apiVersion: 2021-12-01-preview
-summary: Get a list of grants that Microsoft has provided.
+summary: Get details for a specific grant linked to the provided billing account and billing profile.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Education/grants?api-version=2021-12-01-preview
-- content: GET https://management.azure.com/providers/Microsoft.Education/grants?includeAllocatedBudget={includeAllocatedBudget}&api-version=2021-12-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/grants?api-version=2021-12-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/grants?includeAllocatedBudget={includeAllocatedBudget}&api-version=2021-12-01-preview
   isOptional: true
 uriParameters:
+- name: billingAccountName
+  in: path
+  isRequired: true
+  description: Billing account name.
+  types:
+  - uid: string
+- name: billingProfileName
+  in: path
+  isRequired: true
+  description: Billing profile name.
+  types:
+  - uid: string
 - name: includeAllocatedBudget
   in: query
   description: May be used to include information about budget that has been allocated.
@@ -204,7 +216,7 @@ definitions:
 examples:
 - name: GrantList
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Education/grants?includeAllocatedBudget=False&api-version=2021-12-01-preview
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/grants?includeAllocatedBudget=False&api-version=2021-12-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -229,7 +241,7 @@ examples:
       }
 - name: GrantListIncludeAllocatedBudget
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Education/grants?includeAllocatedBudget=True&api-version=2021-12-01-preview
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/grants?includeAllocatedBudget=False&api-version=2021-12-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -266,5 +278,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Education service - Get a list of grants that Microsoft has provided.
+  description: Learn more about Education service - Get details for a specific grant linked to the provided billing account and billing profile.
 errorCodes: []

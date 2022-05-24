@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.education.generate.invitecode
-name: Invite Code
+uid: management.azure.com.education.labs.listall
+name: List All
 service: Education
-groupName: Generate
+groupName: Labs
 apiVersion: 2021-12-01-preview
-summary: Generate invite code for a lab
+summary: Get a list of labs associated with the provided billing account name and billing profile name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default/generateInviteCode?api-version=2021-12-01-preview
-- content: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default/generateInviteCode?onlyUpdateStudentCountParameter={onlyUpdateStudentCountParameter}&api-version=2021-12-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/labs?api-version=2021-12-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/labs?includeBudget={includeBudget}&includeDeleted={includeDeleted}&api-version=2021-12-01-preview
   isOptional: true
 uriParameters:
 - name: billingAccountName
@@ -26,15 +26,14 @@ uriParameters:
   description: Billing profile name.
   types:
   - uid: string
-- name: invoiceSectionName
-  in: path
-  isRequired: true
-  description: Invoice section name.
-  types:
-  - uid: string
-- name: onlyUpdateStudentCountParameter
+- name: includeBudget
   in: query
-  description: set this flag to true if you want to update student count without generating a new invite code
+  description: May be used to include budget information.
+  types:
+  - uid: boolean
+- name: includeDeleted
+  in: query
+  description: May be used to show deleted items.
   types:
   - uid: boolean
 - name: api-version
@@ -45,23 +44,38 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: lab detail.
+  description: Lab details.
   types:
-  - uid: LabDetails
+  - uid: LabListResult
 - name: Other Status Codes
   description: Describes the error if the operation is not successful.
   types:
   - uid: ErrorResponseBody
-requestBody:
-- name: default
-  parameters:
-  - name: maxStudentCount
-    in: body
-    description: the total number of students that can be accepted to the lab.
-    types:
-    - uid: number
 requestHeader: []
 definitions:
+- name: LabListResult
+  description: List of labs.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of labs.
+    types:
+    - uid: LabDetails
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+- name: ErrorResponseBody
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorResponse
 - name: LabDetails
   description: Lab details.
   kind: object
@@ -138,22 +152,18 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-- name: ErrorResponseBody
-  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+- name: ErrorResponse
+  description: Describes the format of Error response.
   kind: object
   properties:
-  - name: error
-    description: The details of the error.
+  - name: code
+    description: Error code
     types:
-    - uid: ErrorResponse
-- name: InviteCodeGenerateRequest
-  description: invite code generate request.
-  kind: object
-  properties:
-  - name: maxStudentCount
-    description: the total number of students that can be accepted to the lab.
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
     types:
-    - uid: number
+    - uid: string
 - name: Amount
   description: The amount.
   kind: object
@@ -204,18 +214,6 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: ErrorResponse
-  description: Describes the format of Error response.
-  kind: object
-  properties:
-  - name: code
-    description: Error code
-    types:
-    - uid: string
-  - name: message
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -233,33 +231,65 @@ definitions:
     types:
     - uid: string
 examples:
-- name: CreateLab
+- name: LabList
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default/generateInviteCode?api-version=2021-12-01-preview
-    body: >-
-      {
-        "maxStudentCount": 10
-      }
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/labs?includeBudget=False&api-version=2021-12-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default",
-        "name": "default",
-        "type": "Microsoft.Education/Labs",
-        "properties": {
-          "displayName": "example lab",
-          "budgetPerStudent": {
-            "currency": "USD",
-            "value": 100
-          },
-          "description": "example lab description",
-          "expirationDate": "2021-12-09T21:25:56.838Z",
-          "effectiveDate": "2021-11-09T21:25:56.838Z",
-          "status": "Active",
-          "maxStudentCount": 10,
-          "invitationCode": "exampleIviteCode"
-        }
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default",
+            "name": "default",
+            "type": "Microsoft.Education/Labs",
+            "properties": {
+              "displayName": "example lab",
+              "budgetPerStudent": {
+                "currency": "USD",
+                "value": 100
+              },
+              "description": "example lab description",
+              "expirationDate": "2021-12-09T21:25:56.838Z",
+              "effectiveDate": "2021-11-09T21:25:56.838Z",
+              "status": "Active"
+            }
+          }
+        ]
+      }
+- name: LabListIncludeBudget
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/labs?includeBudget=True&api-version=2021-12-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default",
+            "name": "default",
+            "type": "Microsoft.Education/Labs",
+            "properties": {
+              "displayName": "example lab",
+              "budgetPerStudent": {
+                "currency": "USD",
+                "value": 100
+              },
+              "description": "example lab description",
+              "expirationDate": "2021-12-09T21:25:56.838Z",
+              "effectiveDate": "2021-11-09T21:25:56.838Z",
+              "status": "Active",
+              "totalBudget": {
+                "currency": "USD",
+                "value": 500
+              },
+              "totalAllocatedBudget": {
+                "currency": "USD",
+                "value": 500
+              }
+            }
+          }
+        ]
       }
 security:
 - name: azure_auth
@@ -271,5 +301,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Education service - Generate invite code for a lab
+  description: Learn more about Education service - Get a list of labs associated with the provided billing account name and billing profile name.
 errorCodes: []

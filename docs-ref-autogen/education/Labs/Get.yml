@@ -1,16 +1,18 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.education.get.student
-name: Student
+uid: management.azure.com.education.labs.get
+name: Get
 service: Education
-groupName: Get
+groupName: Labs
 apiVersion: 2021-12-01-preview
-summary: Get the details for a specific student in the specified lab by student alias
+summary: Get the details for a specific lab associated with the provided billing account name, billing profile name, and invoice section name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default/students/{studentAlias}?api-version=2021-12-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?api-version=2021-12-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?includeBudget={includeBudget}&api-version=2021-12-01-preview
+  isOptional: true
 uriParameters:
 - name: billingAccountName
   in: path
@@ -30,12 +32,11 @@ uriParameters:
   description: Invoice section name.
   types:
   - uid: string
-- name: studentAlias
-  in: path
-  isRequired: true
-  description: Student alias.
+- name: includeBudget
+  in: query
+  description: May be used to include budget information.
   types:
-  - uid: string
+  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
@@ -44,66 +45,71 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: student detail.
+  description: Lab details.
   types:
-  - uid: StudentDetails
+  - uid: LabDetails
 - name: Other Status Codes
   description: Describes the error if the operation is not successful.
   types:
   - uid: ErrorResponseBody
 requestHeader: []
 definitions:
-- name: StudentDetails
-  description: Student details.
+- name: LabDetails
+  description: Lab details.
   kind: object
   properties:
-  - name: properties.firstName
-    description: First Name
+  - name: properties.displayName
+    description: Lab Display Name
     types:
     - uid: string
-  - name: properties.lastName
-    description: Last Name
-    types:
-    - uid: string
-  - name: properties.email
-    description: Student Email
-    types:
-    - uid: string
-  - name: properties.role
-    description: Student Role
-    types:
-    - uid: Student role
-  - name: properties.budget
-    description: Student Budget
+  - name: properties.budgetPerStudent
+    description: Default monetary cap for each student in this lab
     types:
     - uid: Amount
-  - name: properties.subscriptionId
-    isReadyOnly: true
-    description: Subscription Id
+  - name: properties.description
+    description: Detail description of this lab
     types:
     - uid: string
   - name: properties.expirationDate
-    description: Date this student is set to expire from the lab.
+    description: Default expiration date for each student in this lab
+    types:
+    - uid: string
+  - name: properties.effectiveDate
+    isReadyOnly: true
+    description: Lab creation date
     types:
     - uid: string
   - name: properties.status
     isReadyOnly: true
-    description: Student Lab Status
+    description: The status of this lab
     types:
-    - uid: Student Lab Status
-  - name: properties.effectiveDate
+    - uid: LabStatus
+  - name: properties.maxStudentCount
     isReadyOnly: true
-    description: Date student was added to the lab
+    description: the total number of students that can be accepted to the lab.
+    types:
+    - uid: number
+  - name: properties.invitationCode
+    isReadyOnly: true
+    description: invitation code for redeemable lab
     types:
     - uid: string
-  - name: properties.subscriptionAlias
-    description: Subscription alias
+  - name: properties.totalBudget.currency
+    description: The type of currency being used for the value.
     types:
     - uid: string
-  - name: properties.subscriptionInviteLastSentDate
-    description: subscription invite last sent date
+  - name: properties.totalBudget.value
+    description: Amount value.
+    types:
+    - uid: number
+  - name: properties.totalAllocatedBudget.currency
+    description: The type of currency being used for the value.
     types:
     - uid: string
+  - name: properties.totalAllocatedBudget.value
+    description: Amount value.
+    types:
+    - uid: number
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -132,16 +138,6 @@ definitions:
     description: The details of the error.
     types:
     - uid: ErrorResponse
-- name: Student role
-  description: Student Role
-  kind: enum
-  properties:
-  - name: Student
-    types:
-    - uid: string
-  - name: Admin
-    types:
-    - uid: string
 - name: Amount
   description: The amount.
   kind: object
@@ -154,20 +150,11 @@ definitions:
     description: Amount value.
     types:
     - uid: number
-- name: Student Lab Status
-  description: Student Lab Status
+- name: LabStatus
+  description: The status of this lab
   kind: enum
   properties:
   - name: Active
-    types:
-    - uid: string
-  - name: Disabled
-    types:
-    - uid: string
-  - name: Expired
-    types:
-    - uid: string
-  - name: Pending
     types:
     - uid: string
   - name: Deleted
@@ -230,31 +217,60 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Student
+- name: Lab
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default/students/{studentAlias}?api-version=2021-12-01-preview
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?includeBudget=False&api-version=2021-12-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default/students/{studentAlias}",
-        "name": "{studentAlias}",
-        "type": "Microsoft.Education/Students",
+        "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default",
+        "name": "default",
+        "type": "Microsoft.Education/Labs",
         "properties": {
-          "firstName": "test",
-          "lastName": "user",
-          "email": "test@contoso.com",
-          "role": "Student",
-          "budget": {
+          "displayName": "example lab",
+          "budgetPerStudent": {
             "currency": "USD",
             "value": 100
           },
-          "subscriptionId": "000000000-0000-0000-0000-00000000000000",
-          "expirationDate": "2022-11-09T21:43:54.161Z",
+          "description": "example lab description",
+          "expirationDate": "2021-12-09T21:25:56.838Z",
+          "effectiveDate": "2021-11-09T21:25:56.838Z",
           "status": "Active",
-          "effectiveDate": "2021-11-09T21:43:54.161Z",
-          "subscriptionAlias": "000000000-0000-0000-0000-00000000000000",
-          "subscriptionInviteLastSentDate": "2021-11-09T21:43:54.161Z"
+          "maxStudentCount": 0,
+          "invitationCode": ""
+        }
+      }
+- name: LabIncludeBudget
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?includeBudget=True&api-version=2021-12-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default",
+        "name": "default",
+        "type": "Microsoft.Education/Labs",
+        "properties": {
+          "displayName": "example lab",
+          "budgetPerStudent": {
+            "currency": "USD",
+            "value": 100
+          },
+          "description": "example lab description",
+          "expirationDate": "2021-12-09T21:25:56.838Z",
+          "effectiveDate": "2021-11-09T21:25:56.838Z",
+          "status": "Active",
+          "totalBudget": {
+            "currency": "USD",
+            "value": 500
+          },
+          "totalAllocatedBudget": {
+            "currency": "USD",
+            "value": 500
+          },
+          "maxStudentCount": 0,
+          "invitationCode": ""
         }
       }
 security:
@@ -267,5 +283,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Education service - Get the details for a specific student in the specified lab by student alias
+  description: Get the details for a specific lab associated with the provided billing account name, billing profile name, and invoice section name.
 errorCodes: []

@@ -4,14 +4,14 @@ name: List
 service: Education
 groupName: Labs
 apiVersion: 2021-12-01-preview
-summary: Get a list of labs associated with the provided billing account name and billing profile name.
+summary: Get the details for a specific lab associated with the provided billing account name, billing profile name, and invoice section name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/labs?api-version=2021-12-01-preview
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/labs?includeBudget={includeBudget}&includeDeleted={includeDeleted}&api-version=2021-12-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs?api-version=2021-12-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs?includeBudget={includeBudget}&api-version=2021-12-01-preview
   isOptional: true
 uriParameters:
 - name: billingAccountName
@@ -26,14 +26,15 @@ uriParameters:
   description: Billing profile name.
   types:
   - uid: string
+- name: invoiceSectionName
+  in: path
+  isRequired: true
+  description: Invoice section name.
+  types:
+  - uid: string
 - name: includeBudget
   in: query
   description: May be used to include budget information.
-  types:
-  - uid: boolean
-- name: includeDeleted
-  in: query
-  description: May be used to show deleted items.
   types:
   - uid: boolean
 - name: api-version
@@ -231,9 +232,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: LabList
+- name: LabListWithInvoiceSectionName
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/labs?includeBudget=False&api-version=2021-12-01-preview
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs?includeBudget=True&api-version=2021-12-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -252,14 +253,22 @@ examples:
               "description": "example lab description",
               "expirationDate": "2021-12-09T21:25:56.838Z",
               "effectiveDate": "2021-11-09T21:25:56.838Z",
-              "status": "Active"
+              "status": "Active",
+              "totalBudget": {
+                "currency": "USD",
+                "value": 500
+              },
+              "totalAllocatedBudget": {
+                "currency": "USD",
+                "value": 500
+              }
             }
           }
         ]
       }
-- name: LabListIncludeBudget
+- name: LabListWithInvoiceSectionNameIncludeBudget
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/labs?includeBudget=True&api-version=2021-12-01-preview
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs?includeBudget=True&api-version=2021-12-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -301,5 +310,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Education service - Get a list of labs associated with the provided billing account name and billing profile name.
+  description: Get the details for a specific lab associated with the provided billing account name, billing profile name, and invoice section name.
 errorCodes: []
