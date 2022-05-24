@@ -31,7 +31,7 @@ The `Create Container` operation creates a new container under the specified acc
 |------------|-----------------|------------------|  
 |`PUT`|`http://127.0.0.1:10000/devstoreaccount1/mycontainer?restype=container`|HTTP/1.1|  
   
- For more information, see [Use the Azure Storage Emulator for development and testing](/azure/storage/storage-use-emulator) and [Differences between the Storage Emulator and Azure Storage services](/azure/storage/storage-use-emulator#differences-between-the-storage-emulator-and-azure-storage).  
+For more information, see [Use the Azurite emulator for local Azure Storage development](/azure/storage/common/storage-use-azurite).  
   
 ### URI parameters
   
@@ -52,7 +52,7 @@ The `Create Container` operation creates a new container under the specified acc
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-meta-name:value`|Optional. A name-value pair to associate with the container as metadata. **Note**: As of version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).|  
 |`x-ms-blob-public-access`|Optional. Specifies whether data in the container can be accessed publicly and the level of access. Possible values include:<br /><br /> - `container`: Specifies full public read access for container and blob data. Clients can enumerate blobs within the container via anonymous request, but they can't enumerate containers within the storage account.<br />- `blob:` Specifies public read access for blobs. Blob data within this container can be read via anonymous request, but container data isn't available. Clients can't enumerate blobs within the container via anonymous request.<br /><br /> If this header isn't included in the request, container data is private to the account owner.|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit, which is recorded in the analytics logs when storage analytics logging is enabled. We highly recommend that you use this header when you're correlating client-side activities with requests that are received by the server. For more information, see [About Azure Storage analytics logging](About-Storage-Analytics-Logging.md) and [Azure logging: Use logs to track storage requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Blob Storage](/azure/storage/blobs/monitor-blob-storage).|  
   
 ### Request headers (encryption scopes)
   
