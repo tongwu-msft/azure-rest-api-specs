@@ -1,6 +1,6 @@
 ---
 title: Create Share (FileREST API) - Azure Files
-description: The Create Share operation creates a new Azure File share under the specified account. If the share with the same name already exists, the operation fails. 
+description: The Create Share operation creates a new Azure Files share under the specified account. If the share with the same name already exists, the operation fails. 
 author: wmgries
 
 ms.date: 06/05/2021
@@ -60,7 +60,7 @@ The required and optional request headers are described in the following table:
 |`x-ms-access-tier`|Optional. Supported in version 2019-12-12 and later. Specifies the access tier of the share. Valid values are `TransactionOptimized`, `Hot`, and `Cool`. For detailed information about file share tiers, see [Azure Files storage tiers](/azure/storage/files/storage-files-planning#storage-tiers).|  
 |`x-ms-enabled-protocols: <SMB \| NFS>`|Optional. Supported in version 2020-02-10 and later. Specifies the enabled protocols on the share. If they're not specified, the default is SMB.<br /><br />- `SMB`: The share can be accessed by SMBv3.0, SMBv2.1, and REST.<br />- `NFS`: The share can be accessed by NFSv4.1. A premium account is required for this option.</li></ul>|  
 |`x-ms-root-squash: <NoRootSquash \| RootSquash \| AllSquash>`|Optional. Supported in version 2020-02-10 and later. Specifies the root squashing behavior on the share when NFS is enabled. If it's not specified, the default is NoRootSquash. <br /><br />- `NoRootSquash`: Turn off root squashing.<br />- `RootSquash`: Map requests from uid/gid 0 to the anonymous uid/gid.<br />- `AllSquash`: Map all uids and gids to the anonymous user.</li></ul>|
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit, which is recorded in the analytics logs when storage analytics logging is enabled. We highly recommend that you use this header when you're correlating client-side activities with requests that are received by the server. For more information, see [Monitor Azure Blob Storage](/azure/storage/blobs/monitor-blob-storage).|
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Files](/azure/storage/files/storage-files-monitoring).|
   
 ### Request body
 None.  
