@@ -20,12 +20,14 @@ The `Create Queue` operation creates a queue in a storage account.
 |------------|-----------------|------------------|  
 |`PUT`|`https://myaccount.queue.core.windows.net/myqueue`|HTTP/1.1|  
   
-### Emulated storage service URI  
+### Emulated storage service request  
  When you make a request against the emulated storage service, specify the emulator hostname and Azure Queue Storage port as `127.0.0.1:10001`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP&nbsp;version|  
 |------------|-----------------|------------------|  
-|`PUT`|`http://127.0.0.1:10001/devstoreaccount1/myqueue`|HTTP/1.1|  
+|`PUT`|`http://127.0.0.1:10001/devstoreaccount1/myqueue`|HTTP/1.1|
+
+For more information, see [Use the Azurite emulator for local Azure Storage development](/azure/storage/common/storage-use-azurite).
   
 ### URI parameters  
  You can specify additional parameters on the request URI, as shown here.  
@@ -43,7 +45,7 @@ The `Create Queue` operation creates a queue in a storage account.
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-meta-name:value`|Optional. A name-value pair to associate with the queue as metadata.<br /><br /> **Note**: As of version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit, which is recorded in the analytics logs when storage analytics logging is enabled. We highly recommend that you use this header when you're correlating client-side activities with requests that are received by the server. For more information, see [About storage analytics logging](About-Storage-Analytics-Logging.md) and [Azure logging: Use logs to track storage requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Queue Storage](/azure/storage/queues/monitor-queue-storage).|  
   
 ### Request Body  
  None.  
