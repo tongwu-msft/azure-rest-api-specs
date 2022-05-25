@@ -90,6 +90,8 @@ In Azure Load Testing, the load test creation and the file uploads are decoupled
     > [!NOTE]
     > Each PUT call supports only 1 file to be uploaded. If multiple files are uploaded in the same call, all files apart from the first are discarded. Depending upon the requirement, the you might need to make multiple calls, one for each, i.e. JMX script, ZIP file, CSV file, user.properties, etc.
 
+    The uploaded JMX file is validated if it adheres to XML norms and if it is a valid JMeter script. The validationStatus field shows the status of the validation. If JMeter is able to accept the JMX script without any errors, it is considered “VALIDATION_SUCCESS” and the file is successfully associated with the load test. All subsequent test runs will use this file.
+
     A successful response for a request made using this signature will be similar to the following:
 
     ```json
@@ -102,8 +104,6 @@ In Azure Load Testing, the load test creation and the file uploads are decoupled
       "validationStatus": "VALIDATION_SUCCESS" 
     }
     ```
-
-    Each uploaded file is validated if it adheres to some criteria,. For example, if the JMX script is a valid XML file and if it is understood by JMeter properly. The validationStatus field shows the status of the validation. If it is “VALIDATION_SUCCESS”, the file is successfully associated with the load test. All subsequent test runs will use this file.
 
 1. Configure AppComponents for monitoring using the following steps. AppComponents can be configured for either a load test or only a test run.
 
