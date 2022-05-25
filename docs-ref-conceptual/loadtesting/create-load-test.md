@@ -31,7 +31,7 @@ The configuration of a load test consists of:
 
 In Azure Load Testing, the load test creation and the file uploads are decoupled, i.e., they are separate API operations. The section shows the steps involved in creating a load test.
 
-1. Obtain the data plane URL for the Azure Load Testing resource as mentioned [here]([Azure Load Testing Data Plane REST API](data-plane-url.md)).
+1. Obtain the data plane URL for the Azure Load Testing resource as mentioned [here]([Azure Load Testing Data Plane REST API](data-plane-uri.md)).
 
 1. Create a new test
 
