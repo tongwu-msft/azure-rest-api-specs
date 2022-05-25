@@ -66,13 +66,13 @@ The required and optional request headers are described in the following table:
 |`x-ms-content-disposition`|Optional. Sets the file's `Content-Disposition` header.|  
 |`x-ms-type: file`|Required. Set this header to `file`.|  
 |`x-ms-meta-name:value`|Optional. Name-value pairs associated with the file as metadata. Metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).<br /><br /> **Note**: File metadata that's specified via Azure Files isn't accessible from a Server Message Block (SMB) client.|  
-| `x-ms-file-permission: { inherit ¦ <SDDL> }` | In version 2019-02-02 through 2021-04-10, this header is required if `x-ms-file-permission-key` isn't specified. As of version 2021-06-08, both headers are optional. This permission is the security descriptor for the file that's specified in the [Security Descriptor Definition Language (SDDL)](/windows/win32/secauthz/security-descriptor-definition-language). You can use this header if the permissions size is over 8 KiB. If it isn't, you can use `x-ms-file-permission-key`. If you specify the header, it must have an owner, group, and [discretionary access control list (DACL)](/windows/win32/secauthz/access-control-lists). You can pass a value of `inherit` to inherit from the parent directory.<br /><br />**Note**: You can specify either `x-ms-file-permission` or `x-ms-file-permission-key`, but not both. If neither header is specified, the default value of `inherit` is used. |
+| `x-ms-file-permission: { inherit ¦ <SDDL> }` | In version 2019-02-02 through 2021-04-10, this header is required if `x-ms-file-permission-key` isn't specified. As of version 2021-06-08, both headers are optional. This permission is the security descriptor for the file that's specified in the [Security Descriptor Definition Language (SDDL)](/windows/win32/secauthz/security-descriptor-definition-language). You can use this header if the permissions size is over 8 KiB. If it isn't, you can use `x-ms-file-permission-key`. If you specify the header, it must have an owner, group, and [discretionary access control list (DACL)](/windows/win32/secauthz/access-control-lists). You can pass a value of `inherit` to inherit from the parent directory. |
 | `x-ms-file-permission-key: <PermissionKey>` | In version 2019-02-02 through 2021-04-10, this header is required if `x-ms-file-permission` isn't specified. As of version 2021-06-08, both headers are optional. If neither header is specified, the default value of `inherit` is used for the `x-ms-file-permission` header.<br /><br />You can create the key by calling the `Create Permission` API. |
 | `x-ms-file-attributes` | Required: version 2019-02-02 through 2021-04-10; optional: version 2021-06-08 and later. This header contains the file system attributes to be set on the file. For more information, see the list of [available attributes](#file-system-attributes). The default value is None. |
 | `x-ms-file-creation-time: { now ¦ <DateTime> }` | Required: version 2019-02-02 through 2021-04-10; optional: version 2021-06-08 and later. The Coordinated Universal Time (UTC) creation time property for the file. A value of `now` may be used to indicate the time of the request. The default value is `now`. |
 | `x-ms-file-last-write-time: { now ¦ <DateTime> }` | Required: version 2019-02-02 through 2021-04-10; optional: version 2021-06-08 and later. The Coordinated Universal Time (UTC) last write property for the file. You can use a value of `now` to indicate the time of the request. The default value is `now`. |
 | `x-ms-lease-id: <ID>`| Required if the file has an active lease. Available for version 2019-02-02 and later.|
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-KiB character limit, which is recorded in the analytics logs when storage analytics logging is enabled. We highly recommend that you use this header for correlating client-side activities with requests that are received by the server. For more information, see [Monitor Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Files](/azure/storage/files/storage-files-monitoring).|
 | `x-ms-file-change-time: { now ¦ <DateTime> }` | Optional. Version 2021-06-08 and later. The Coordinated Universal Time (UTC) change time property for the file, in the ISO 8601 format. You can use a value of `now` to indicate the time of the request. The default value is `now`. |
   
 ### Request body
@@ -111,7 +111,7 @@ The response for this operation includes the headers that are described in the f
 |Response header|Description|  
 |---------------------|-----------------|  
 |`ETag`|The ETag contains a value that represents the version of the file. The value is enclosed in quotation marks.|  
-|`Last-Modified`|Returns the date and time when the file was last modified. The date format follows RFC 1123. For more information, see [Representation of date/time values in headers](Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any operation that modifies the directory or its properties updates the last modified time. Operations on files don't affect the last modified time of the directory.|
+|`Last-Modified`|Returns the date and time when the file was last modified. The date format follows RFC 1123. For more information, see [Represent date/time values in headers](Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any operation that modifies the directory or its properties updates the last modified time. Operations on files don't affect the last modified time of the directory.|
 |`x-ms-request-id`|Uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshoot API operations](Troubleshooting-API-Operations.md)|  
 |`x-ms-version`|Indicates the Azure Files version that's used to execute the request.|  
 |`Date`|A UTC date/time value that's generated by the service, which indicates the time when the response was initiated.|  
@@ -123,7 +123,7 @@ The response for this operation includes the headers that are described in the f
 | `x-ms-file-change-time` | The UTC date/time that value that represents the change time property for the file. |
 | `x-ms-file-file-id` | The file ID of the file. |
 | `x-ms-file-parent-id` | The parent file ID of the file. |
-|`x-ms-client-request-id`|Used to troubleshoot requests and their corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value contains no more than 1024 visible ASCII characters. If the `x-ms-client-request-id` header isn't present in the request, this header won't be present in the response.|
+|`x-ms-client-request-id`|Used to troubleshoot requests and their corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it's present in the request and the value contains no more than 1,024 visible ASCII characters. If the `x-ms-client-request-id` header isn't present in the request, it isn't present in the response.|
   
 ### Response body
 
@@ -179,4 +179,4 @@ If an existing file with an active lease is overwritten by a `Create File` opera
 `Create File` isn't supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot fails with status code 400 (InvalidQueryParameterValue).
 
 ## See also
-[Operations on files](Operations-on-Files.md)
+[Operations on Azure Files](Operations-on-Files.md)
