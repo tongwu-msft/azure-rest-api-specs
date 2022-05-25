@@ -13,7 +13,7 @@ ms.author: pemari
 
 The `Create Container` operation creates a new container under the specified account. If the container with the same name already exists, the operation fails.  
   
- The container resource includes metadata and properties for that container. It does not include a list of the blobs that are contained by the container.  
+ The container resource includes metadata and properties for that container. It doesn't include a list of the blobs in the container.  
   
 ## Request  
 
@@ -45,7 +45,7 @@ For more information, see [Use the Azurite emulator for local Azure Storage deve
 
  The required and optional request headers are described in the following table:  
   
-|Request&nbsp;header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -58,10 +58,10 @@ For more information, see [Use the Azurite emulator for local Azure Storage deve
   
 As of version 2019-02-02, you can specify the following headers on a request to set a default encryption scope on a container. If you set an encryption scope, it is automatically used to encrypt all blobs that are uploaded to the container.  
   
-|Request&nbsp;header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`x-ms-default-encryption-scope`|Required. The encryption scope to set as the default on the container.|  
-|`x-ms-deny-encryption-scope-override`|Required. Values are `true` or `false`. A scope of `true` prevents any blob upload from specifying a different encryption scope.|  
+|`x-ms-deny-encryption-scope-override`|Required. Values are `true` or `false`. Setting this header to `true` ensures that every blob that's uploaded to this container uses the default encryption scope. When this header is `false`, a client can upload a blob with an encryption scope other than the default scope.|  
   
 ### Request body  
 
@@ -94,7 +94,7 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=
 
  The response for this operation includes the headers that are described in the following table. The response can also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Response&nbsp;header|Description|  
+|Response header|Description|  
 |---------------------|-----------------|  
 |`ETag`|The ETag for the container. If the request version is 2011-08-18 or later, the ETag value is enclosed in quotation marks.|  
 |`Last-Modified`|Returns the date and time when the container was last modified. The date format follows RFC 1123. For more information, see [Representation of date/time values in headers](Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any operation that modifies the container or its properties or metadata updates the last modified time. Operations on blobs do not affect the last modified time of the container.|  
@@ -129,7 +129,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 
  Containers are created immediately within the storage account. It isn't possible to nest one container within another.  
   
- You can optionally create a default or root container for your storage account. The root container can be inferred from a URL that requests a blob resource. The root container makes it possible to reference a blob from the top level of the storage account hierarchy, without referencing the container name.  
+ You can optionally create a default or root container for your storage account. The root container makes it possible to reference a blob from the top level of the storage account hierarchy, without referencing the container name.  
   
  To add the root container to your storage account, create a container named `$root`. Construct the request as follows:  
   
