@@ -21,7 +21,7 @@ The `Create Table` operation creates a new table in a storage account.
 |------------|-----------------|------------------|  
 |`POST`|`https://myaccount.table.core.windows.net/Tables`|HTTP/1.1|  
   
-### Emulated storage service URI  
+### Emulated storage service request  
 
 When you're making a request against the emulated storage service, specify the emulator hostname and Azure Table Storage port as `127.0.0.1:10002`, followed by the emulated storage account name:  
   
