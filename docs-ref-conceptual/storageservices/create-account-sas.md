@@ -238,8 +238,8 @@ https://myaccount.blob.core.windows.net/?restype=service&comp=properties&sv=2019
 | Name | SAS&nbsp;portion | Description |
 | --- | --- | --- |
 | Resource URI |`https://myaccount.blob.core.windows.net/?restype=service&comp=properties` |The service endpoint, with parameters for getting service properties (when called with GET) or setting service properties (when called with SET). Based on the value of the signed services field (`ss`), this SAS can be used with either Blob Storage or Azure Files. |
-| Azure Storage version |`sv=2019-02-02` |For Azure Storage version 2012-02-12 and later, this parameter indicates which version to use. |
-| Services |`ss=bf` |The SAS applies to Blob Storage and Azure Files. |
+| Storage services version |`sv=2019-02-02` |For Azure Storage services version 2012-02-12 and later, this parameter indicates which version to use. |
+| Services |`ss=bf` |The SAS applies to the Blob and File services. |
 | Resource types |`srt=s` |The SAS applies to service-level operations. |
 | Start time |`st=2019-08-01T22%3A18%3A26Z` |Specified in UTC time. If you want the SAS to be valid immediately, omit the start time. |
 | Expiry time |`se=2019-08-10T02%3A23%3A26Z` |Specified in UTC time. |
