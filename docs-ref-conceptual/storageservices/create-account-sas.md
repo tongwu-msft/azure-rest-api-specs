@@ -27,23 +27,23 @@ As of version 2015-04-05, Azure Storage supports creating a new type of shared a
 Stored access policies are currently not supported for an account SAS.
   
 > [!CAUTION]
-> Shared access signatures are keys that grant permissions to storage resources, and you should protect them just as you would protect an account key. It's important to protect an SAS from malicious or unintended use. Use discretion in distributing an SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and SAS URIs should be distributed only on a secure connection, such as HTTPS.  
+> Shared access signatures are keys that grant permissions to storage resources, and you should protect them just as you would protect an account key. It's important to protect a SAS from malicious or unintended use. Use discretion in distributing a SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and SAS URIs should be distributed only on a secure connection, such as HTTPS.  
 
-## Authorization of an account SAS
+## Authorize an account SAS
 
 You secure an account SAS by using a storage account key. When you create an account SAS, your client application must possess the account key.
 
-To use Azure Active Directory (Azure AD) credentials to secure an SAS for a container or blob, [create a user delegation SAS](create-user-delegation-sas.md).
+To use Azure Active Directory (Azure AD) credentials to secure a SAS for a container or blob, [create a user delegation SAS](create-user-delegation-sas.md).
   
 ## Construct an account SAS URI  
 
-The account SAS URI consists of the URI to the resource for which the SAS will delegate access, followed by an SAS token. The SAS token is the query string that includes all the information that's required to authorize a request to the resource. It specifies the service, resource, and permissions that are available for access, and the time period during which the signature is valid.  
+The account SAS URI consists of the URI to the resource for which the SAS will delegate access, followed by a SAS token. The SAS token is the query string that includes all the information that's required to authorize a request to the resource. It specifies the service, resource, and permissions that are available for access, and the time period during which the signature is valid.  
   
 ### Specify the account SAS parameters  
 
 The required and optional parameters for the SAS token are described in the following table:  
   
-|SAS&nbsp;query&nbsp;parameter|Description|  
+|SAS query parameter|Description|  
 |-------------------------|-----------------|  
 |`api-version`|Optional. Specifies the storage service version to use to execute the request that's made using the account SAS URI.|  
 |`SignedVersion (sv)`|Required. Specifies the signed storage service version to use to authorize requests that are made with this account SAS. It must be set to version 2015-04-05 or later.|  
@@ -99,133 +99,133 @@ StringToSign = accountname + "\n" +
 
 The tables in the following sections list various APIs for each service and the signed resource types and signed permissions that are supported for each operation.  
   
-### Blob Storage
+### Blob service
   
-The following table lists Blob Storage operations and indicates which signed resource type and signed permissions to specify when you delegate access to those operations.  
+The following table lists Blob service operations and indicates which signed resource type and signed permissions to specify when you delegate access to those operations.  
   
-|Operation|Signed&nbsp;service|Signed&nbsp;resource&nbsp;type|Signed&nbsp;permission|  
+|Operation|Signed service|Signed resource type|Signed permission|  
 |---------------|--------------------|--------------------------|-----------------------|  
-|List Containers|Blob Storage (b)|Service (s)|List (l)|  
-|Get Blob Storage Properties|Blob Storage (b)|Service (s)|Read (r)|  
-|Set Blob Storage Properties|Blob Storage (b)|Service (s)|Write (w)|  
-|Get Blob Storage Stats|Blob Storage (b)|Service (s)|Read (r)|  
-|Create Container|Blob Storage (b)|Container (c)|Create (c) or Write (w)|  
-|Get Container Properties|Blob Storage (b)|Container (c)|Read (r)|  
-|Get Container Metadata|Blob Storage (b)|Container (c)|Read (r)|  
-|Set Container Metadata|Blob Storage (b)|Container (c)|Write (w)|  
-|Lease Container|Blob Storage (b)|Container (c)|Write (w) or Delete (d)<Sup>1</Sup>|  
-|Delete Container|Blob Storage (b)|Container (c)|Delete (d)|  
-|List Blobs|Blob Storage (b)|Container (c)|List (l)|  
-|Put Blob (create new block blob)|Blob Storage (b)|Object (o)|Create (c) or Write (w)|  
-|Put Blob (overwrite existing block blob)|Blob Storage (b)|Object (o)|Write (w)|  
-|Put Blob (create new page blob)|Blob Storage (b)|Object (o)|Create (c) or Write (w)|  
-|Put Blob (overwrite existing page blob)|Blob Storage (b)|Object (o)|Write (w)|  
-|Get Blob|Blob Storage (b)|Object (o)|Read (r)|  
-|Get Blob Properties|Blob Storage (b)|Object (o)|Read (r)|  
-|Set Blob Properties|Blob Storage (b)|Object (o)|Write (w)|  
-|Get Blob Metadata|Blob Storage (b)|Object (o)|Read (r)|  
-|Set Blob Metadata|Blob Storage (b)|Object (o)|Write (w)|  
-|Get Blob Tags|Blob Storage (b)|Object (o)|Tags (t)|  
-|Set Blob Tags|Blob Storage (b)|Object (o)|Tags (t)|  
-|Find Blobs by Tags|Blob Storage (b)|Object (o)|Find (f)|  
-|Delete Blob|Blob Storage (b)|Object (o)|Delete (d)|  
-|Permanently delete snapshot / version |Blob Storage (b)|Object (o)|Permanent Delete (y)|
-|Lease Blob|Blob Storage (b)|Object (o)|Write (w) or Delete (d)<Sup>1</Sup>|  
-|Snapshot Blob|Blob Storage (b)|Object (o)|Create (c)  or Write (w)|  
-|Copy Blob (destination is new blob)|Blob Storage (b)|Object (o)|Create (c)  or Write (w)|  
-|Copy Blob (destination is an existing blob)|Blob Storage (b)|Object (o)|Write (w)|  
-|Incremental Copy|Blob Storage (b)|Object (o)|Create (c)  or Write (w)| 
-|Abort Copy Blob|Blob Storage (b)|Object (o)|Write (w)|  
-|Put Block|Blob Storage (b)|Object (o)|Write (w)|  
-|Put Block List (create new blob)|Blob Storage (b)|Object (o)|Write (w)|  
-|Put Block List (update existing blob)|Blob Storage (b)|Object (o)|Write (w)|  
-|Get Block List|Blob Storage (b)|Object (o)|Read (r)|  
-|Put Page|Blob Storage (b)|Object (o)|Write (w)|  
-|Get Page Ranges|Blob Storage (b)|Object (o)|Read (r)|  
-|Append Block|Blob Storage (b)|Object (o)|Add (a) or Write (w)|  
-|Clear Page|Blob Storage (b)|Object (o)|Write (w)|  
+|List Containers|Blob (b)|Service (s)|List (l)|  
+|Get Blob Service Properties|Blob (b)|Service (s)|Read (r)|  
+|Set Blob Service Properties|Blob (b)|Service (s)|Write (w)|  
+|Get Blob Service Stats|Blob (b)|Service (s)|Read (r)|  
+|Create Container|Blob (b)|Container (c)|Create(c) or Write (w)|  
+|Get Container Properties|Blob (b)|Container (c)|Read (r)|  
+|Get Container Metadata|Blob (b)|Container (c)|Read (r)|  
+|Set Container Metadata|Blob (b)|Container (c)|Write (w)|  
+|Lease Container|Blob (b)|Container (c)|Write (w) or Delete (d)<Sup>1</Sup>|  
+|Delete Container|Blob (b)|Container (c)|Delete (d)|  
+|List Blobs|Blob (b)|Container (c)|List (l)|  
+|Put Blob (create new block blob)|Blob (b)|Object (o)|Create (c) or Write (w)|  
+|Put Blob (overwrite existing block blob)|Blob (b)|Object (o)|Write (w)|  
+|Put Blob (create new page blob)|Blob (b)|Object (o)|Create (c) or Write (w)|  
+|Put Blob (overwrite existing page blob)|Blob (b)|Object (o)|Write (w)|  
+|Get Blob|Blob (b)|Object (o)|Read (r)|  
+|Get Blob Properties|Blob (b)|Object (o)|Read (r)|  
+|Set Blob Properties|Blob (b)|Object (o)|Write (w)|  
+|Get Blob Metadata|Blob (b)|Object (o)|Read (r)|  
+|Set Blob Metadata|Blob (b)|Object (o)|Write (w)|  
+|Get Blob Tags|Blob (b)|Object (o)|Tags (t)|  
+|Set Blob Tags|Blob (b)|Object (o)|Tags (t)|  
+|Find Blobs by Tags|Blob (b)|Object (o)|Find (f)|  
+|Delete Blob|Blob (b)|Object (o)|Delete (d)|  
+|Permanently delete snapshot / version |Blob (b)|Object (o)|Permanent Delete (y)|
+|Lease Blob|Blob (b)|Object (o)|Write (w) or Delete (d)<Sup>1</Sup>|  
+|Snapshot Blob|Blob (b)|Object (o)|Create (c)  or Write (w)|  
+|Copy Blob (destination is new blob)|Blob (b)|Object (o)|Create (c)  or Write (w)|  
+|Copy Blob (destination is an existing blob)|Blob (b)|Object (o)|Write (w)|  
+|Incremental Copy|Blob (b)|Object (o)|Create (c)  or Write (w)| 
+|Abort Copy Blob|Blob (b)|Object (o)|Write (w)|  
+|Put Block|Blob (b)|Object (o)|Write (w)|  
+|Put Block List (create new blob)|Blob (b)|Object (o)|Write (w)|  
+|Put Block List (update existing blob)|Blob (b)|Object (o)|Write (w)|  
+|Get Block List|Blob (b)|Object (o)|Read (r)|  
+|Put Page|Blob (b)|Object (o)|Write (w)|  
+|Get Page Ranges|Blob (b)|Object (o)|Read (r)|  
+|Append Block|Blob (b)|Object (o)|Add (a) or Write (w)|  
+|Clear Page|Blob (b)|Object (o)|Write (w)|  
   
 > [!NOTE]
 > The `Delete` permission allows breaking a lease on a blob or container with version 2017-07-29 and later.
   
-### Queue Storage
+### Queue service
 
-The following table lists Azure Queue Storage operations and indicates which signed resource type and signed permissions to specify when you delegate access to those operations.  
+The following table lists Queue service operations and indicates which signed resource type and signed permissions to specify when you delegate access to those operations.  
   
-|Operation|Signed&nbsp;service|Signed&nbsp;resource&nbsp;type|Signed&nbsp;permission|  
+|Operation|Signed service|Signed resource type|Signed permission|  
 |---------------|--------------------|--------------------------|-----------------------|  
-|Get Queue Storage Properties|Queue Storage (q)|Service (s)|Read (r)|  
-|Set Queue Storage Properties|Queue Storage (q)|Service (s)|Write (w)|  
-|List Queues|Queue Storage (q)|Service (s)|List (l)|  
-|Get Queue Storage Stats|Queue Storage (q)|Service (s)|Read (r)|  
-|Create Queue|Queue Storage (q)|Container (c)|Create (c) or Write (w)|  
-|Delete Queue|Queue Storage (q)|Container (c)|Delete (d)|  
-|Get Queue Metadata|Queue Storage (q)|Container (c)|Read (r)|  
-|Set Queue Metadata|Queue Storage (q)|Container (c)|Write (w)|  
-|Put Message|Queue Storage (q)|Object (o)|Add (a)|  
-|Get Messages|Queue Storage (q)|Object (o)|Process (p)|  
-|Peek Messages|Queue Storage (q)|Object (o)|Read (r)|  
-|Delete Message|Queue Storage (q)|Object (o)|Process (p)|  
-|Clear Messages|Queue Storage (q)|Object (o)|Delete (d)|  
-|Update Message|Queue Storage (q)|Object (o)|Update (u)|  
+|Get Queue Service Properties|Queue (q)|Service (s)|Read (r)|  
+|Set Queue Service Properties|Queue (q)|Service (s)|Write (w)|  
+|List Queues|Queue (q)|Service (s)|List (l)|  
+|Get Queue Service Stats|Queue (q)|Service (s)|Read (r)|  
+|Create Queue|Queue (q)|Container (c)|Create(c) or Write (w)|  
+|Delete Queue|Queue (q)|Container (c)|Delete (d)|  
+|Get Queue Metadata|Queue (q)|Container (c)|Read (r)|  
+|Set Queue Metadata|Queue (q)|Container (c)|Write (w)|  
+|Put Message|Queue (q)|Object (o)|Add (a)|  
+|Get Messages|Queue (q)|Object (o)|Process (p)|  
+|Peek Messages|Queue (q)|Object (o)|Read (r)|  
+|Delete Message|Queue (q)|Object (o)|Process (p)|  
+|Clear Messages|Queue (q)|Object (o)|Delete (d)|  
+|Update Message|Queue (q)|Object (o)|Update (u)|  
   
-### Table Storage
+### Table service
 
-The following table lists Azure Table Storage operations and indicates which signed resource type and signed permissions to specify when you delegate access to those operations.  
+The following table lists Table service operations and indicates which signed resource type and signed permissions to specify when you delegate access to those operations.  
   
-|Operation|Signed&nbsp;service|Signed&nbsp;resource&nbsp;type|Signed&nbsp;permission|  
+|Operation|Signed service|Signed resource type|Signed permission|  
 |---------------|--------------------|--------------------------|-----------------------|  
-|Get Table Storage Properties|Table Storage (t)|Service (s)|Read (r)|  
-|Set Table Storage Properties|Table Storage (t)|Service (s)|Write (w)|  
-|Get Table Storage Stats|Table Storage (t)|Service (s)|Read (r)|  
-|Query Tables|Table Storage (t)|Container (c)|List (l)|  
-|Create Table|Table Storage (t)|Container (c)|Create (c) or Write (w)|  
-|Delete Table|Table Storage (t)|Container (c)|Delete (d)|  
-|Query Entities|Table Storage (t)|Object (o)|Read (r)|  
-|Insert Entity|Table Storage (t)|Object (o)|Add (a)|  
-|Insert Or Merge Entity|Table Storage (t)|Object (o)|Add (a) and Update (u)<sup>1</sup>|  
-|Insert Or Replace Entity|Table Storage (t)|Object (o)|Add (a) and Update (u)<sup>1</sup>|  
-|Update Entity|Table Storage (t)|Object (o)|Update (u)|  
-|Merge Entity|Table Storage (t)|Object (o)|Update (u)|  
-|Delete Entity|Table Storage (t)|Object (o)|Delete (d)|  
+|Get Table Service Properties|Table (t)|Service (s)|Read (r)|  
+|Set Table Service Properties|Table (t)|Service (s)|Write (w)|  
+|Get Table Service Stats|Table (t)|Service (s)|Read (r)|  
+|Query Tables|Table (t)|Container (c)|List (l)|  
+|Create Table|Table (t)|Container (c)|Create (c) or Write (w)|  
+|Delete  Table|Table (t)|Container (c)|Delete (d)|  
+|Query Entities|Table (t)|Object (o)|Read (r)|  
+|Insert Entity|Table (t)|Object (o)|Add (a)|  
+|Insert Or Merge Entity|Table (t)|Object (o)|Add (a) and Update (u)<sup>1</sup>|  
+|Insert Or Replace Entity|Table (t)|Object (o)|Add (a) and Update (u)<sup>1</sup>|  
+|Update Entity|Table (t)|Object (o)|Update (u)|  
+|Merge Entity|Table (t)|Object (o)|Update (u)|  
+|Delete Entity|Table (t)|Object (o)|Delete (d)|  
 
-<sup>1</sup> Add and Update permissions are required for upsert operations on Table Storage.
+<sup>1</sup> Add and Update permissions are required for upsert operations on the Table service.
   
-### Azure Files
+### File service
 
-The following table lists Azure Files operations and indicates which signed resource type and signed permissions to specify when you delegate access to those operations.  
+The following table lists File service operations and indicates which signed resource type and signed permissions to specify when you delegate access to those operations.  
   
-|Operation|Signed&nbsp;service|Signed&nbsp;resource&nbsp;type|Signed&nbsp;permission|  
+|Operation|Signed service|Signed resource type|Signed permission|  
 |---------------|--------------------|--------------------------|-----------------------|  
-|List Shares|Azure Files (f)|Service (s)|List (l)|  
-|Get Azure Files Properties|Azure Files (f)|Service (s)|Read (r)|  
-|Set Azure Files Properties|Azure Files (f)|Service (s)|Write (w)|  
-|Get Share Stats|Azure Files (f)|Container (c)|Read (r)|  
-|Create Share|Azure Files (f)|Container (c)|Create (c) or Write (w)|  
-|Snapshot Share|Azure Files (f)|Container (c)|Create (c) or Write (w)|  
-|Get Share Properties|Azure Files (f)|Container (c)|Read (r)|  
-|Set Share Properties|Azure Files (f)|Container (c)|Write (w)|  
-|Get Share Metadata|Azure Files (f)|Container (c)|Read (r)|  
-|Set Share Metadata|Azure Files (f)|Container (c)|Write (w)|  
-|Delete Share|Azure Files (f)|Container (c)|Delete (d)|  
-|List Directories and Files|Azure Files (f)|Container (c)|List (l)|  
-|Create Directory|Azure Files (f)|Object (o)|Create (c) or Write (w)|  
-|Get Directory Properties|Azure Files (f)|Object (o)|Read (r)|  
-|Get Directory Metadata|Azure Files (f)|Object (o)|Read (r)|  
-|Set Directory Metadata|Azure Files (f)|Object (o)|Write (w)|  
-|Delete Directory|Azure Files (f)|Object (o)|Delete (d)|  
-|Create File (create new)|Azure Files (f)|Object (o)|Create (c) or Write (w)|  
-|Create File (overwrite existing)|Azure Files (f)|Object (o)|Write (w)|  
-|Get File|Azure Files (f)|Object (o)|Read (r)|  
-|Get File Properties|Azure Files (f)|Object (o)|Read (r)|  
-|Get File Metadata|Azure Files (f)|Object (o)|Read (r)|  
-|Set File Metadata|Azure Files (f)|Object (o)|Write (w)|  
-|Delete File|Azure Files (f)|Object (o)|Delete (d)|  
-|Put Range|Azure Files (f)|Object (o)|Write (w)|  
-|List Ranges|Azure Files (f)|Object (o)|Read (r)|  
-|Abort Copy File|Azure Files (f)|Object (o)|Write (w)|  
-|Copy File|Azure Files (f)|Object (o)|Write (w)|  
-|Clear Range|Azure Files (f)|Object (o)|Write (w)|  
+|List Shares|File (f)|Service (s)|List (l)|  
+|Get File Service Properties|File (f)|Service (s)|Read (r)|  
+|Set File Service Properties|File (f)|Service (s)|Write (w)|  
+|Get Share Stats|File (f)|Container (c)|Read (r)|  
+|Create Share|File (f)|Container (c)|Create (c) or Write (w)|  
+|Snapshot Share|File (f)|Container (c)|Create (c) or Write (w)|  
+|Get Share Properties|File (f)|Container (c)|Read (r)|  
+|Set Share Properties|File (f)|Container (c)|Write (w)|  
+|Get Share Metadata|File (f)|Container (c)|Read (r)|  
+|Set Share Metadata|File (f)|Container (c)|Write (w)|  
+|Delete Share|File (f)|Container (c)|Delete (d)|  
+|List Directories and Files|File (f)|Container (c)|List (l)|  
+|Create Directory|File (f)|Object (o)|Create (c) or Write (w)|  
+|Get Directory Properties|File (f)|Object (o)|Read (r)|  
+|Get Directory Metadata|File (f)|Object (o)|Read (r)|  
+|Set Directory Metadata|File (f)|Object (o)|Write (w)|  
+|Delete Directory|File (f)|Object (o)|Delete (d)|  
+|Create File (create new)|File (f)|Object (o)|Create (c) or Write (w)|  
+|Create File (overwrite existing)|File (f)|Object (o)|Write (w)|  
+|Get File|File (f)|Object (o)|Read (r)|  
+|Get File Properties|File (f)|Object (o)|Read (r)|  
+|Get File Metadata|File (f)|Object (o)|Read (r)|  
+|Set File Metadata|File (f)|Object (o)|Write (w)|  
+|Delete File|File (f)|Object (o)|Delete (d)|  
+|Put Range|File (f)|Object (o)|Write (w)|  
+|List Ranges|File (f)|Object (o)|Read (r)|  
+|Abort Copy File|File (f)|Object (o)|Write (w)|  
+|Copy File|File (f)|Object (o)|Write (w)|  
+|Clear Range|File (f)|Object (o)|Write (w)|  
 
 ### Account SAS URI example
 
@@ -248,7 +248,7 @@ https://myaccount.blob.core.windows.net/?restype=service&comp=properties&sv=2019
 | Protocol |`spr=https` |Only requests that use HTTPS are permitted. |
 | Signature |`sig=F%6GRVAZ5Cdj2Pw4tgU7IlSTkWgn7bUkkAg8P6HESXwmf%4B` |Used to authorize access to the blob. The signature is an HMAC that's computed over a string-to-sign and key by using the SHA256 algorithm, and then encoded by using Base64 encoding. |
 
-Because permissions are restricted to the service level, accessible operations with this SAS are *Get Blob Storage Properties* (read) and *Set Blob Storage Properties* (write). However, with a different resource URI, the same SAS token could also be used to delegate access to *Get Blob Storage Stats* (read).
+Because permissions are restricted to the service level, accessible operations with this SAS are *Get Blob Service Properties* (read) and *Set Blob Service Properties* (write). However, with a different resource URI, the same SAS token could also be used to delegate access to *Get Blob Service Stats* (read).
   
 ## See also
 
