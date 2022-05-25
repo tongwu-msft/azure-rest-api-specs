@@ -45,7 +45,7 @@ For more information about path-naming restrictions, see [Name and reference sha
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Set timeouts for Azure Files service operations](Setting-Timeouts-for-File-Service-Operations.md).|  
+|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Set time-outs for File service operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request body
 
@@ -63,10 +63,10 @@ The required and optional request headers are described in the following table:
 |`x-ms-meta-name:value`|Optional. Version 2015-02-21 or later. A name-value pair to associate with the directory as metadata.<br /><br /> Metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).|
 | `x-ms-file-permission: { inherit ¦ <SDDL> }` | In version 2019-02-02 through 2021-04-10, this header is required if `x-ms-file-permission-key` isn't specified. As of version 2021-06-08, both headers are optional. This permission is the security descriptor for the directory that's specified in the [Security Descriptor Definition Language (SDDL)](/windows/win32/secauthz/security-descriptor-definition-language). This header can be used if the permissions size is over 8 kibibytes (KiB). Otherwise, you can use `x-ms-file-permission-key`. If it's specified, it must have an owner, group, and [discretionary access control list (DACL)](/windows/win32/secauthz/access-control-lists). You can pass a value of `inherit` to inherit from the parent directory.<br /><br />**Note**: You can specify either `x-ms-file-permission` or `x-ms-file-permission-key`. If neither header is specified, the default value of `inherit` is used. |
 | `x-ms-file-permission-key: <PermissionKey>` | The key of the permission to be set for the directory. In version 2019-02-02 through 2021-04-10, this header is required if `x-ms-file-permission` isn't specified. As of version 2021-06-08, both headers are optional. You can create this key by using the `Create-Permission` API.<br /><br />**Note**: You can specify either `x-ms-file-permission` or `x-ms-file-permission-key`. If neither header is specified, the default value of `inherit` is used for the `x-ms-file-permission` header. |
-| `x-ms-file-attributes` | Required: version 2019-02-02 through 2021-04-10; optional: version 2021-06-08 or later. The file system attributes to be set on the directory. See the list of [available attributes](#file-system-attributes). The default value is Directory. |
-| `x-ms-file-creation-time: { now ¦ <DateTime> }` | Required: version 2019-02-02 to 2021-04-10; optional: version 2021-06-08 and newer. The Coordinated Universal Time (UTC) creation time property for the directory. You can use a value of `now` to indicate the time of the request. The default value is `now`. |
-| `x-ms-file-last-write-time: { now ¦ <DateTime> }` |Required: version 2019-02-02 through 2021-04-10; optional: version 2021-06-08 or later. The Coordinated Universal Time (UTC) last write property for the directory. You can use a value of `now` to indicate the time of the request. The default value is `now`. |
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-KiB character limit, which is recorded in the analytics logs when storage analytics logging is enabled. We highly recommend that you use this header to correlate client-side activities with requests that are received by the server. For more information, see [Monitor Azure Blob Storage](/azure/storage/blobs/monitor-blob-storage).|
+| `x-ms-file-attributes` | Required: version 2019-02-02 through 2021-04-10. Optional: version 2021-06-08 and later. The file system attributes to be set on the directory. See the list of [available attributes](#file-system-attributes). The default value is Directory. |
+| `x-ms-file-creation-time: { now ¦ <DateTime> }` | Required: version 2019-02-02 to 2021-04-10. Optional: version 2021-06-08 and newer. The Coordinated Universal Time (UTC) creation time property for the directory. You can use a value of `now` to indicate the time of the request. The default value is `now`. |
+| `x-ms-file-last-write-time: { now ¦ <DateTime> }` |Required: version 2019-02-02 through 2021-04-10. Optional: version 2021-06-08 or later. The Coordinated Universal Time (UTC) last write property for the directory. You can use a value of `now` to indicate the time of the request. The default value is `now`. |
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Files](/azure/storage/files/storage-files-monitoring).|
 | `x-ms-file-change-time: { now ¦ <DateTime> }` | Optional. The Coordinated Universal Time (UTC) change time property for the directory, in the ISO 8601 format. Version 2021-06-08 and newer. You can use a value of `now` to indicate the time of the request. The default value is `now`. |
   
 ### Sample request  
@@ -89,19 +89,19 @@ The response includes an HTTP status code and a set of response headers.
 
 A successful operation returns status code 201 (Created).
   
-For information about status codes, see [Status and error codes](Status-and-Error-Codes2.md).  
+For more information about status codes, see [Status and error codes](Status-and-Error-Codes2.md).  
   
 ### Response headers
 
 The response for this operation includes the headers that are described in the following table. The response can also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Response&nbsp;header|Description|  
+|Response header|Description|  
 |---------------------|-----------------|  
 |`ETag`|Contains a value that represents the version of the directory, enclosed in quotation marks.|  
-|`Last-Modified`|Returns the date and time when the directory was last modified. The date format follows RFC 1123. For more information, see [Representation of date/time values in headers](Representation-of-Date-Time-Values-in-Headers.md). Any operation that modifies the directory or its properties updates the last modified time. Operations on files don't affect the last modified time of the directory.|  
-|`x-ms-request-id`|Uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
-|`x-ms-version`|Indicates the Azure Files version that's used to execute the request.|  
-|`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
+|`Last-Modified`|Returns the date and time when the directory was last modified. The date format follows RFC 1123. For more information, see [Represent date/time values in headers](Representation-of-Date-Time-Values-in-Headers.md). Any operation that modifies the directory or its properties updates the last modified time. Operations on files don't affect the last modified time of the directory.|  
+|`x-ms-request-id`|Uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshoot API Operations](Troubleshooting-API-Operations.md).|  
+|`x-ms-version`|Indicates the Azure Files version that was used to execute the request.|  
+|`Date`|A UTC date/time value that's generated by the service, which indicates the time when the response was initiated.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2017-04-17 or later. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
 | `x-ms-file-permission-key` | The key of the permission of the directory. |
 | `x-ms-file-attributes` | The file system attributes on the directory. See the list of [available attributes](#file-system-attributes). |
