@@ -24,7 +24,7 @@ The `Create File` operation creates a new file or replaces a file. When you call
 
 You can construct a `Create File` request by doing the following. We recommend that you use HTTPS.  
   
-|Method|Request URI|HTTP&nbsp;version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`PUT`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`|HTTP/1.1|  
   
@@ -51,7 +51,7 @@ You can specify the following additional parameters on the request URI:
 
 The required and optional request headers are described in the following table:  
   
-|Request&nbsp;header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -65,12 +65,12 @@ The required and optional request headers are described in the following table:
 |`x-ms-content-md5`|Optional. Sets the file's MD5 hash.|  
 |`x-ms-content-disposition`|Optional. Sets the file's `Content-Disposition` header.|  
 |`x-ms-type: file`|Required. Set this header to `file`.|  
-|`x-ms-meta-name:value`|Optional. Name-value pairs associated with the file as metadata. Metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).<br /><br /> **Note**: File metadata that's specified via Azure Files isn't accessible from a Server Message Block (SMB) client.|  
+|`x-ms-meta-name:value`|Optional. Name-value pairs that are associated with the file as metadata. Metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).<br /><br /> **Note**: File metadata that's specified via Azure Files isn't accessible from a Server Message Block (SMB) client.|  
 | `x-ms-file-permission: { inherit ¦ <SDDL> }` | In version 2019-02-02 through 2021-04-10, this header is required if `x-ms-file-permission-key` isn't specified. As of version 2021-06-08, both headers are optional. This permission is the security descriptor for the file that's specified in the [Security Descriptor Definition Language (SDDL)](/windows/win32/secauthz/security-descriptor-definition-language). You can use this header if the permissions size is over 8 KiB. If it isn't, you can use `x-ms-file-permission-key`. If you specify the header, it must have an owner, group, and [discretionary access control list (DACL)](/windows/win32/secauthz/access-control-lists). You can pass a value of `inherit` to inherit from the parent directory. |
 | `x-ms-file-permission-key: <PermissionKey>` | In version 2019-02-02 through 2021-04-10, this header is required if `x-ms-file-permission` isn't specified. As of version 2021-06-08, both headers are optional. If neither header is specified, the default value of `inherit` is used for the `x-ms-file-permission` header.<br /><br />You can create the key by calling the `Create Permission` API. |
-| `x-ms-file-attributes` | Required: version 2019-02-02 through 2021-04-10; optional: version 2021-06-08 and later. This header contains the file system attributes to be set on the file. For more information, see the list of [available attributes](#file-system-attributes). The default value is None. |
-| `x-ms-file-creation-time: { now ¦ <DateTime> }` | Required: version 2019-02-02 through 2021-04-10; optional: version 2021-06-08 and later. The Coordinated Universal Time (UTC) creation time property for the file. A value of `now` may be used to indicate the time of the request. The default value is `now`. |
-| `x-ms-file-last-write-time: { now ¦ <DateTime> }` | Required: version 2019-02-02 through 2021-04-10; optional: version 2021-06-08 and later. The Coordinated Universal Time (UTC) last write property for the file. You can use a value of `now` to indicate the time of the request. The default value is `now`. |
+| `x-ms-file-attributes` | Required: version 2019-02-02 through 2021-04-10. Optional: version 2021-06-08 and later. This header contains the file system attributes to be set on the file. For more information, see the list of [available attributes](#file-system-attributes). The default value is `None`. |
+| `x-ms-file-creation-time: { now ¦ <DateTime> }` | Required: version 2019-02-02 through 2021-04-10. Optional: version 2021-06-08 and later. The Coordinated Universal Time (UTC) creation time property for the file. A value of `now` may be used to indicate the time of the request. The default value is `now`. |
+| `x-ms-file-last-write-time: { now ¦ <DateTime> }` | Required: version 2019-02-02 through 2021-04-10. Optional: version 2021-06-08 and later. The Coordinated Universal Time (UTC) last write property for the file. You can use a value of `now` to indicate the time of the request. The default value is `now`. |
 | `x-ms-lease-id: <ID>`| Required if the file has an active lease. Available for version 2019-02-02 and later.|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Files](/azure/storage/files/storage-files-monitoring).|
 | `x-ms-file-change-time: { now ¦ <DateTime> }` | Optional. Version 2021-06-08 and later. The Coordinated Universal Time (UTC) change time property for the file, in the ISO 8601 format. You can use a value of `now` to indicate the time of the request. The default value is `now`. |
