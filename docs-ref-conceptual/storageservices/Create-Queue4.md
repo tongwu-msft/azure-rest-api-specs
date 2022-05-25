@@ -16,14 +16,14 @@ The `Create Queue` operation creates a queue in a storage account.
 ## Request
  You can construct the `Create Queue` request as shown here. We recommend that you use HTTPS. Replace *myaccount* with the name of your storage account.  
   
-|Method|Request URI|HTTP&nbsp;version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`PUT`|`https://myaccount.queue.core.windows.net/myqueue`|HTTP/1.1|  
   
 ### Emulated storage service request  
  When you make a request against the emulated storage service, specify the emulator hostname and Azure Queue Storage port as `127.0.0.1:10001`, followed by the emulated storage account name:  
   
-|Method|Request URI|HTTP&nbsp;version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`PUT`|`http://127.0.0.1:10001/devstoreaccount1/myqueue`|HTTP/1.1|
 
@@ -34,12 +34,12 @@ For more information, see [Use the Azurite emulator for local Azure Storage deve
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Set timeouts for Azure Queue operations](Setting-Timeouts-for-Queue-Service-Operations.md).|  
+|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Set time-outs for Queue service operations](Setting-Timeouts-for-Queue-Service-Operations.md).|  
   
 ### Request headers  
  The required and optional request headers are described in the following table:  
   
-|Request&nbsp;header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -61,7 +61,7 @@ For more information, see [Use the Azurite emulator for local Azure Storage deve
 ### Response headers  
  The response for this operation includes the headers that are described in the following table. The response might also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Response&nbsp;header|Description|  
+|Response header|Description|  
 |---------------------|-----------------|  
 |`ms-request-id`|Uniquely identifies the request that was made, and you can use it to troubleshoot the request. For more information, see [Troubleshoot API operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the Azure Queue Storage version that's used to execute the request. This header is returned for requests made against version 2009-09-19 and later.|  
