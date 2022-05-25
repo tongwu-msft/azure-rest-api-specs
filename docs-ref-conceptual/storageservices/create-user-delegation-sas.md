@@ -83,7 +83,7 @@ After you have the user delegation key, you can use it to create any number of u
 
 The following table summarizes the fields that are supported for a user delegation SAS token. Subsequent sections provide additional detail about how to specify these parameters.
 
-| SAS field name | SAS token parameter | Required or optional | Version&nbsp;support | Description |
+| SAS field name | SAS token parameter | Required or optional | Version support | Description |
 |--|--|--|--|--|
 | `signedVersion` | `sv` | Required | 2018-11-09 and later | Indicates the version of the service that's used to construct the signature field. It also specifies the service version that handles requests that are made with this SAS. |
 | `signedResource` | `sr` | Required | All | Specifies which blob resources are accessible via the shared access signature. |
@@ -117,7 +117,7 @@ The required `signedVersion` (`sv`) field specifies the service version for the 
 
 The required `signedResource` (`sr`) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob, container, or directory resource in the SAS token:  
 
-| Resource | Parameter value | Supported&nbsp;versions | Description |
+| Resource | Parameter value | Supported versions | Description |
 |---|---|---|---|
 | Blob | b | All | Grants access to the content and metadata of the blob. |
 | Blob version | bv | 2018-11-09 and later | Grants access to the content and metadata of the blob version, but not the base blob. |
@@ -153,7 +153,7 @@ To construct an SAS that grants access to these operations, use an account SAS. 
   
 The permissions that are supported for each resource type are described in the following table:  
 
-| Permission | URI symbol | Resource | Version&nbsp;support | Allowed operations |
+| Permission | URI symbol | Resource | Version support | Allowed operations |
 |--|--|--|--|--|
 | Read | r | Container<br />Directory<br />Blob | All | Read the content, blocklist, properties, and metadata of any blob in the container or directory. Use a blob as the source of a copy operation. |
 | Add | a | Container<br />Directory<br />Blob | All | Add a block to an append blob. |
@@ -178,7 +178,7 @@ When you specify a range of IP addresses, the range is inclusive. For example, s
 
 The following table describes whether to include the `signedIp` field on an SAS token for a given scenario, based on the client environment and the location of the storage account.
 
-| Client environment | Storage&nbsp;account&nbsp;location | Recommendation |
+| Client environment | Storage account location | Recommendation |
 |--|--|--|
 | Client running in Azure | In the same region as the client | An SAS that's provided to the client in this scenario shouldn't include an outbound IP address for the `signedIp` field. Requests that you make from within the same region by using an SAS with a specified outbound IP address will fail.<br /><br/> Instead, use an Azure virtual network to manage network security restrictions. Requests to Azure Storage from within the same region always take place over a private IP address. For more information, see [Configure Azure Storage firewalls and virtual networks](/azure/storage/common/storage-network-security). |
 | Client running in Azure | In a different region from the client | An SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. Requests that you make with the SAS must originate from the specified IP address or range of addresses. |
