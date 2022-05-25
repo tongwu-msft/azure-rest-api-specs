@@ -25,13 +25,13 @@ If a share with the same name already exists, the operation fails. The share res
 
 You can construct the `Create Share` request as shown here. We recommend that you use HTTPS.  
   
-|Method|Request URI|HTTP&nbsp;version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`PUT`|`https://myaccount.file.core.windows.net/myshare?restype=share`|HTTP/1.1|  
   
 Replace the path components that are shown in the request URI with your own, as follows:  
   
-|Path&nbsp;component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
 |`myaccount`|The name of your storage account.|  
 |`myshare`|The name of your file share. The name can contain only lowercase characters.|  
@@ -44,13 +44,13 @@ You can specify the following additional parameters on the request URI:
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Set timeouts for Azure Files operations](Setting-Timeouts-for-File-Service-Operations.md).|  
+|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Set time-outs for File service operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request headers
 
 The required and optional request headers are described in the following table:  
   
-|Request&nbsp;header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -90,7 +90,7 @@ For more information, see [Status and error codes](Status-and-Error-Codes2.md).
 ### Response headers
 The response for this operation includes the following headers. The response might also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Response&nbsp;header|Description|  
+|Response header|Description|  
 |---------------------|-----------------|  
 |`ETag`|Contains a value that represents the version of the share, enclosed in quotation marks.|  
 |`Last-Modified`|Returns the date and time when the share was last modified. The date format follows RFC 1123. For more information, see [Represent date/time values in headers](Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any operation that modifies the share or its properties or metadata updates the last modified time. Operations on files don't affect the last modified time of the share.|  
