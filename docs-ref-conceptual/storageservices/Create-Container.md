@@ -39,7 +39,7 @@ For more information, see [Use the Azurite emulator for local Azure Storage deve
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Set timeouts for Blob Storage operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
+|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Set time-outs for Blob Storage operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request headers  
 
