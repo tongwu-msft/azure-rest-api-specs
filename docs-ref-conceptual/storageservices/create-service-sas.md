@@ -21,13 +21,13 @@ An SAS can also specify the supported IP address or address range from which req
 Finally, every SAS token includes a signature.  
 
 > [!CAUTION]
-> Shared access signatures are keys that grant permissions to storage resources, and you should protected them just as you would protect an account key. It's important to protect an SAS from malicious or unintended use. Use discretion in distributing an SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and SAS URIs should be distributed only on a secure connection, such as HTTPS.  
+> Shared access signatures are keys that grant permissions to storage resources, and you should protect them just as you would protect an account key. It's important to protect a SAS from malicious or unintended use. Use discretion in distributing a SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and SAS URIs should be distributed only on a secure connection, such as HTTPS.  
   
 ## Authorize a service SAS
 
 You secure an account SAS by using a storage account key. When you create an account SAS, your client application must possess the account key.
 
-To use Azure Active Directory (Azure AD) credentials to secure an SAS for a container or blob, [create a user delegation SAS](create-user-delegation-sas.md).
+To use Azure Active Directory (Azure AD) credentials to secure a SAS for a container or blob, [create a user delegation SAS](create-user-delegation-sas.md).
 
 ## Service SAS support for directory-scoped access
 
@@ -51,7 +51,7 @@ For information about which version is used when you execute requests via a shar
 
 For information about how this parameter affects the authorization of requests made with a shared access signature, see [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md).
   
-|Field name|Query&nbsp;parameter|Description|  
+|Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
 |`signedVersion`|`sv`|Required. Supported in version 2012-02-12 and later. The storage service version to use to authorize and handle requests that you make with this shared access signature. For more information, see [Versioning for Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|
 
@@ -66,7 +66,7 @@ In legacy scenarios where `signedVersion` isn't used, Blob Storage applies rules
 
 The required `signedResource` (`sr`) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob or container resource in the SAS token.  
 
-| Resource | Parameter value | Supported&nbsp;versions | Description |
+| Resource | Parameter value | Supported versions | Description |
 |--|--|--|--|
 | Blob | b | All | Grants access to the content and metadata of the blob. |
 | Blob version | bv | 2018-11-09 and later | Grants access to the content and metadata of the blob version, but not the base blob. |
@@ -142,7 +142,7 @@ A service SAS can't grant access to certain operations:
 - Queues can't be cleared, and their metadata can't be written.  
 - Containers can't be leased.  
 
-To construct an SAS that grants access to these operations, use an account SAS. For more information, see [Create an account SAS](create-account-sas.md).
+To construct a SAS that grants access to these operations, use an account SAS. For more information, see [Create an account SAS](create-account-sas.md).
   
 > [!IMPORTANT]
 > Shared access signatures are keys that grant permissions to storage resources, and you should protect them just as you would protect an account key. Perform operations that use shared access signatures only over an HTTPS connection, and distribute shared access signature URIs only on a secure connection, such as HTTPS.  
@@ -153,7 +153,7 @@ The permissions that are supported for each resource type are described in the f
   
 The permissions that are supported for each resource type are described in the following table: 
 
-| Permission | URI&nbsp;symbol | Resource | Version&nbsp;support | Allowed operations |
+| Permission | URI symbol | Resource | Version support | Allowed operations |
 |--|--|--|--|--|
 | Read | r | Container<br />Directory<br />Blob | All | Read the content, blocklist, properties, and metadata of any blob in the container or directory. Use a blob as the source of a copy operation. |
 | Add | a | Container<br />Directory<br />Blob | All | Add a block to an append blob. |
@@ -173,7 +173,7 @@ The permissions that are supported for each resource type are described in the f
   
 #### Permissions for a file
   
-|Permission|URI&nbsp;symbol|Allowed operations|  
+|Permission|URI symbol|Allowed operations|  
 |----------------|----------------|------------------------|  
 |Read|r|Read the content, properties, metadata. Use the file as the source of a copy operation.|  
 |Create|c|Create a new file or copy a file to a new file.|  
@@ -182,7 +182,7 @@ The permissions that are supported for each resource type are described in the f
   
 #### Permissions for a share  
   
-|Permission|URI&nbsp;symbol|Allowed operations|  
+|Permission|URI symbol|Allowed operations|  
 |----------------|----------------|------------------------|  
 |Read|r|Read the content, properties, or metadata of any file in the share. Use any file in the share as the source of a copy operation.|  
 |Create|c|Create a new file in the share, or copy a file to a new file in the share.|  
@@ -192,7 +192,7 @@ The permissions that are supported for each resource type are described in the f
   
 #### Permissions for a queue
   
-|Permission|URI&nbsp;symbol|Allowed operations|  
+|Permission|URI symbol|Allowed operations|  
 |----------------|----------------|------------------------|  
 |Read|r|Read metadata and properties, including message count. Peek at messages.|  
 |Add|a|Add messages to the queue.|  
@@ -201,7 +201,7 @@ The permissions that are supported for each resource type are described in the f
   
 #### Permissions for a table
   
-|Permission|URI&nbsp;symbol|Allowed operations|  
+|Permission|URI symbol|Allowed operations|  
 |----------------|----------------|------------------------|  
 |Query|r|Get entities and query entities.|  
 |Add|a|Add entities. **Note**: Add and Update permissions are required for upsert operations.|  
@@ -216,7 +216,7 @@ When you're specifying a range of IP addresses, note that the range is inclusive
 
 The following table describes whether to include the `signedIp` field on an SAS token for a specified scenario, based on the client environment and the location of the storage account.
 
-| Client&nbsp;environment | Storage&nbsp;account&nbsp;location | Recommendation |
+| Client environment | Storage account location | Recommendation |
 |--|--|--|
 | Client running in Azure | In the same region as the client | An SAS that's provided to the client in this scenario shouldn't include an outbound IP address for the `signedIp` field. Requests that are made from within the same region that use an SAS with a specified outbound IP address will fail.<br /><br/> Instead, use an Azure virtual network to manage network security restrictions. Requests to Azure Storage from within the same region always take place over a private IP address. For more information, see [Configure Azure Storage firewalls and virtual networks](/azure/storage/common/storage-network-security). |
 | Client running in Azure | In a different region from the client | An SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. A request made with the SAS must originate from the specified IP address or range of addresses. |
@@ -236,7 +236,7 @@ If `startPk` equals `endPk` and `startRk` equals `endRk`, the shared access sign
 
 To understand how these fields constrain access to entities in a table, refer to the following table:  
   
-|Fields&nbsp;present|Scope of constraint|  
+|Fields present|Scope of constraint|  
 |--------------------|-------------------------|  
 |`startPk`|partitionKey >= `startPk`|  
 |`endPk`|partitionKey <= `endPk`|  
@@ -269,7 +269,7 @@ By using the `signedEncryptionScope` field on the URI, you can specify the encry
 
 The following table describes how to refer to a signed encryption scope on the URI:
 
-|Field&nbsp;name|Query parameter|Description|  
+|Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
 |`signedEncryptionScope`|`ses`|Optional. Indicates the encryption scope to use to encrypt the request contents.| 
 
@@ -485,7 +485,7 @@ When you're constructing the string to be signed, keep in mind the following:
   
 - The `canonicalizedResource` portion of the string is a canonical path to the signed resource. It must include the service name (Blob Storage, Table Storage, Queue Storage, or Azure Files) for version 2015-02-21 or later, the storage account name, and the resource name, and it must be URL-decoded. Names of blobs must include the blob’s container. Table names must be lowercase.
 
-The canonicalized resource string for a container, queue, table, or file share must omit the trailing slash (/) for an SAS that provides access to that object.
+The canonicalized resource string for a container, queue, table, or file share must omit the trailing slash (/) for a SAS that provides access to that object.
 
 The following examples show how to construct the `canonicalizedResource` portion of the string, depending on the type of resource.  
   
@@ -576,7 +576,7 @@ canonicalizedResource = "/myaccount/employees"
 
 ## Lifetime and revocation of a shared access signature  
 
-Shared access signatures grant users access rights to storage account resources. When you're planning to use an SAS, think about the lifetime of the SAS and whether your application might need to revoke access rights under certain circumstances.  
+Shared access signatures grant users access rights to storage account resources. When you're planning to use a SAS, think about the lifetime of the SAS and whether your application might need to revoke access rights under certain circumstances.  
 
 ### Ad hoc SAS versus stored access policy
 
@@ -586,13 +586,13 @@ A service SAS can take one of two forms:
 
     You can manage the lifetime of an ad hoc SAS by using the `signedExpiry` field. If you want to continue to grant a client access to the resource after the expiration time, you must issue a new signature. We recommend that you keep the lifetime of a shared access signature short. Prior to version 2012-02-12, a shared access signature not associated with a stored access policy could not have an active period that exceeded one hour.
 
-- **SAS with stored access policy**: A stored access policy is defined on a resource container, which can be a blob container, table, queue, or file share. You can use the stored access policy to manage constraints for one or more shared access signatures. When you associate an SAS with a stored access policy, the SAS inherits the constraints (that is, the start time, expiration time, and permissions) that are defined for the stored access policy.
+- **SAS with stored access policy**: A stored access policy is defined on a resource container, which can be a blob container, table, queue, or file share. You can use the stored access policy to manage constraints for one or more shared access signatures. When you associate a SAS with a stored access policy, the SAS inherits the constraints (that is, the start time, expiration time, and permissions) that are defined for the stored access policy.
 
     The stored access policy is represented by the `signedIdentifier` field on the URI. A stored access policy provides an additional measure of control over one or more shared access signatures, including the ability to revoke the signature if needed.  
 
-### Revoke an SAS
+### Revoke a SAS
 
-Because an SAS URI is a URL, anyone who obtains the SAS can use it, regardless of who originally created it. If an SAS is published publicly, it can be used by anyone in the world. An SAS grants access to resources to anyone who possesses it until one of four things happens:
+Because a SAS URI is a URL, anyone who obtains the SAS can use it, regardless of who originally created it. If a SAS is published publicly, it can be used by anyone in the world. An SAS grants access to resources to anyone who possesses it until one of four things happens:
 
 * The expiration time that's specified on an ad hoc SAS is reached.
 
