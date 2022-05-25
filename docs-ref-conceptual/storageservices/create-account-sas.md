@@ -235,7 +235,7 @@ The following example shows an account SAS URI that provides read and write perm
 https://myaccount.blob.core.windows.net/?restype=service&comp=properties&sv=2019-02-02&ss=bf&srt=s&st=2019-08-01T22%3A18%3A26Z&se=2019-08-10T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=F%6GRVAZ5Cdj2Pw4tgU7IlSTkWgn7bUkkAg8P6HESXwmf%4B
 ```
 
-| Name | SAS&nbsp;portion | Description |
+| Name | SAS portion | Description |
 | --- | --- | --- |
 | Resource URI |`https://myaccount.blob.core.windows.net/?restype=service&comp=properties` |The service endpoint, with parameters for getting service properties (when called with GET) or setting service properties (when called with SET). Based on the value of the signed services field (`ss`), this SAS can be used with either Blob Storage or Azure Files. |
 | Storage services version |`sv=2019-02-02` |For Azure Storage services version 2012-02-12 and later, this parameter indicates which version to use. |
