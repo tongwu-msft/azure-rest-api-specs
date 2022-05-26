@@ -69,7 +69,7 @@ To create an eligible role assignment (grant access), you use the [Role Eligibil
 1. Start with the following request and body:
 
     ```http
-    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}?api-version=2020-10-01-preview
+    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}?api-version=2020-10-01
     ```
 
     ```json
@@ -116,7 +116,7 @@ To remove an eligible role assignment (remove access), use the [Role Eligibility
 1. Start with the following request:
 
     ```http
-    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}?api-version=2020-10-01-preview
+    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}?api-version=2020-10-01
     ```
     
     ```json
