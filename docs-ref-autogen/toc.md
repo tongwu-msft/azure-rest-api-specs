@@ -3088,9 +3088,6 @@
 #### [Delete App Component](loadtesting/dataplane/App-Component/Delete-App-Component.yml)
 #### [Get App Component](loadtesting/dataplane/App-Component/Get-App-Component.yml)
 #### [Get App Component By Name](loadtesting/dataplane/App-Component/Get-App-Component-By-Name.yml)
-### File
-#### [Overview](loadtesting/dataplane/File.yml)
-#### [File Validate](loadtesting/dataplane/File/File-Validate.yml)
 ### Server Metrics
 #### [Overview](loadtesting/dataplane/Server-Metrics.yml)
 #### [Create Or Update Server Metrics Config](loadtesting/dataplane/Server-Metrics/Create-Or-Update-Server-Metrics-Config.yml)
@@ -3113,24 +3110,36 @@
 #### [Overview](loadtesting/dataplane/Test-Run.yml)
 #### [Create And Update Test](loadtesting/dataplane/Test-Run/Create-And-Update-Test.yml)
 #### [Delete Test Run](loadtesting/dataplane/Test-Run/Delete-Test-Run.yml)
-#### [Get App Test Runs Search](loadtesting/dataplane/Test-Run/Get-App-Test-Runs-Search.yml)
 #### [Get Test Run](loadtesting/dataplane/Test-Run/Get-Test-Run.yml)
 #### [Get Test Run Client Metrics](loadtesting/dataplane/Test-Run/Get-Test-Run-Client-Metrics.yml)
 #### [Get Test Run Client Metrics Filters](loadtesting/dataplane/Test-Run/Get-Test-Run-Client-Metrics-Filters.yml)
 #### [Get Test Run File](loadtesting/dataplane/Test-Run/Get-Test-Run-File.yml)
+#### [List Test Runs Search](loadtesting/dataplane/Test-Run/List-Test-Runs-Search.yml)
 #### [Stop Test Run](loadtesting/dataplane/Test-Run/Stop-Test-Run.yml)
-## Resource Manager
+## Resource Manager (2021-12-01-preview - deprecated)
 ### Load Test Resource
-#### [Overview](loadtesting/resourcemanager/Load-Test-Resource.yml)
-#### [Create Or Update](loadtesting/resourcemanager/Load-Test-Resource/Create-Or-Update.yml)
-#### [Delete](loadtesting/resourcemanager/Load-Test-Resource/Delete.yml)
-#### [Get](loadtesting/resourcemanager/Load-Test-Resource/Get.yml)
-#### [List By Resource Group](loadtesting/resourcemanager/Load-Test-Resource/List-By-Resource-Group.yml)
-#### [List By Subscription](loadtesting/resourcemanager/Load-Test-Resource/List-By-Subscription.yml)
-#### [Update](loadtesting/resourcemanager/Load-Test-Resource/Update.yml)
+#### [Overview](loadtesting/resourcemanager(2021-12-01-preview-deprecated)/Load-Test-Resource.yml)
+#### [Create Or Update](loadtesting/resourcemanager(2021-12-01-preview-deprecated)/Load-Test-Resource/Create-Or-Update.yml)
+#### [Delete](loadtesting/resourcemanager(2021-12-01-preview-deprecated)/Load-Test-Resource/Delete.yml)
+#### [Get](loadtesting/resourcemanager(2021-12-01-preview-deprecated)/Load-Test-Resource/Get.yml)
+#### [List By Resource Group](loadtesting/resourcemanager(2021-12-01-preview-deprecated)/Load-Test-Resource/List-By-Resource-Group.yml)
+#### [List By Subscription](loadtesting/resourcemanager(2021-12-01-preview-deprecated)/Load-Test-Resource/List-By-Subscription.yml)
+#### [Update](loadtesting/resourcemanager(2021-12-01-preview-deprecated)/Load-Test-Resource/Update.yml)
 ### Operations
-#### [Overview](loadtesting/resourcemanager/Operations.yml)
-#### [List](loadtesting/resourcemanager/Operations/List.yml)
+#### [Overview](loadtesting/resourcemanager(2021-12-01-preview-deprecated)/Operations.yml)
+#### [List](loadtesting/resourcemanager(2021-12-01-preview-deprecated)/Operations/List.yml)
+## Resource Manager (2022-04-15-preview)
+### Load Test Resource
+#### [Overview](loadtesting/resourcemanager(2022-04-15-preview)/Load-Test-Resource.yml)
+#### [Create Or Update](loadtesting/resourcemanager(2022-04-15-preview)/Load-Test-Resource/Create-Or-Update.yml)
+#### [Delete](loadtesting/resourcemanager(2022-04-15-preview)/Load-Test-Resource/Delete.yml)
+#### [Get](loadtesting/resourcemanager(2022-04-15-preview)/Load-Test-Resource/Get.yml)
+#### [List By Resource Group](loadtesting/resourcemanager(2022-04-15-preview)/Load-Test-Resource/List-By-Resource-Group.yml)
+#### [List By Subscription](loadtesting/resourcemanager(2022-04-15-preview)/Load-Test-Resource/List-By-Subscription.yml)
+#### [Update](loadtesting/resourcemanager(2022-04-15-preview)/Load-Test-Resource/Update.yml)
+### Operations
+#### [Overview](loadtesting/resourcemanager(2022-04-15-preview)/Operations.yml)
+#### [List](loadtesting/resourcemanager(2022-04-15-preview)/Operations/List.yml)
 # Azure Migrate
 ## [Overview](../docs-ref-conceptual/migrate/index.md)
 ## Assessment
@@ -8300,6 +8309,12 @@
 #### [List](datafactory/Factories/List.yml)
 #### [List By Resource Group](datafactory/Factories/List-By-Resource-Group.yml)
 #### [Update](datafactory/Factories/Update.yml)
+### Global Parameters
+#### [Overview](datafactory/Global-Parameters.yml)
+#### [Create Or Update](datafactory/Global-Parameters/Create-Or-Update.yml)
+#### [Delete](datafactory/Global-Parameters/Delete.yml)
+#### [Get](datafactory/Global-Parameters/Get.yml)
+#### [List By Factory](datafactory/Global-Parameters/List-By-Factory.yml)
 ### Integration Runtime Nodes
 #### [Overview](datafactory/Integration-Runtime-Nodes.yml)
 #### [Delete](datafactory/Integration-Runtime-Nodes/Delete.yml)

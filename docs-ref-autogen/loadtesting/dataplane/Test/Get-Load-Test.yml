@@ -1,26 +1,26 @@
 ### YamlMime:RESTOperation
-uid: loadtesting.dataplane.test.getloadtest
+uid: <dataplaneurl>.loadtesting.dataplane.test.getloadtest
 name: Get Load Test
 service: Azure Load Testing
 groupName: Test
-apiVersion: 2021-07-01-preview
-summary: Get load test model of given test name
+apiVersion: 2022-06-01-preview
+summary: Get load test details by test name
 produces:
 - application/json
 paths:
-- content: GET /loadtests/{testId}?api-version=2021-07-01-preview
+- content: GET https://<dataPlaneURL>/loadtests/{testId}?api-version=2022-06-01-preview
 uriParameters:
 - name: testId
   in: path
   isRequired: true
-  description: Unique identifier for load test name, must be a valid URL character ^[a-z0-9_-]*$
+  description: Unique name for load test, must be a valid URL character ^[a-z0-9_-]*$.
   types:
   - uid: string
   pattern: ^[a-z0-9_-]*$
 - name: api-version
   in: query
   isRequired: true
-  description: Api version
+  description: API version
   types:
   - uid: string
 responses:
@@ -32,78 +32,68 @@ responses:
   headers:
   - name: x-ms-error-code
     value: string
-  description: >-
-    *** Error Responses: ***
-
-     * "400", "InvalidHostOrResourceName", "Host name or domain is not valid"
-
-     * "400", "RequiredTestId", "testId field is required"
-
-     * "400", "InvalidTestId", "testId field should be valid"
-
-     * "404", "TestNotFound", "Test not found with given identifier"
-
-    * "500", "InternalServerError", "Unable to process the request, please retry"
+  description: Load Testing service error response.
   types:
-  - uid: DefaultErrorResponseBody
-requestHeader:
-- name: Authorization
-  in: header
-  isRequired: true
-  description: JWT Authorization header using the Bearer scheme.
-  types:
-  - uid: string
+  - uid: ErrorResponseBody
+requestHeader: []
 definitions:
 - name: TestModel
   description: Load test model
   kind: object
   properties:
   - name: testId
-    description: '[ReadOnly] Unique test name as identifier'
+    isReadyOnly: true
+    description: Unique test name as identifier.
     types:
     - uid: string
   - name: description
-    description: The test description
+    description: The test description.
     types:
     - uid: string
   - name: displayName
-    description: 'Display name of a test '
+    description: Display name of a test.
     types:
     - uid: string
   - name: resourceId
-    description: '[ReadOnly] Fully qualified resource Id e.g /subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}'
+    isReadyOnly: true
+    description: Fully qualified resource Id e.g /subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}.
     types:
     - uid: string
   - name: loadTestConfig
-    description: The load test configuration
+    description: The load test configuration.
     types:
     - uid: LoadTestConfig
   - name: passFailCriteria
-    description: Pass fail criteria for a test
+    description: Pass fail criteria for a test.
     types:
     - uid: PassFailCriteria
   - name: createdDateTime
-    description: '[ReadOnly] The created DateTime(Iso8601Literal format) of the test model'
+    isReadyOnly: true
+    description: The created DateTime(ISO 8601 literal format) of the test model.
     types:
     - uid: string
   - name: createdBy
-    description: '[ReadOnly] The user that created the test model'
+    isReadyOnly: true
+    description: The user that created the test model.
     types:
     - uid: string
   - name: lastModifiedDateTime
-    description: '[ReadOnly] The last Modified DateTime(Iso8601Literal format) of the test model'
+    isReadyOnly: true
+    description: The last Modified DateTime(ISO 8601 literal format) of the test model.
     types:
     - uid: string
   - name: lastModifiedBy
-    description: '[ReadOnly] The user that last modified the test model'
+    isReadyOnly: true
+    description: The user that last modified the test model.
     types:
     - uid: string
   - name: inputArtifacts
-    description: '[ReadOnly]The input artifacts for the test'
+    isReadyOnly: true
+    description: The input artifacts for the test.
     types:
     - uid: InputTestArtifacts
   - name: secrets
-    description: 'Secrets of higher importance , which are stored in a key-vault typically. Allowed secret type: AKV_SECRET_URI'
+    description: Secrets can be stored in an Azure Key Vault or any other secret store. If the secret is stored in an Azure Key Vault, the value should be the secret identifier and the type should be AKV_SECRET_URI. If the secret is stored elsewhere, the secret value should be provided directly and the type should be SECRET_VALUE.
     types:
     - uid: object
       isDictionary: true
@@ -111,35 +101,51 @@ definitions:
       - uid: string
       - uid: SecretMetadata
   - name: environmentVariables
-    description: Secrets of relatively lesser importance , which are defined as a set of <name,value> pairs.
+    description: Environment variables which are defined as a set of <name,value> pairs.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-- name: DefaultErrorResponseBody
+  - name: subnetId
+    description: Subnet ID on which the load test instances should run.
+    types:
+    - uid: string
+  - name: keyvaultReferenceIdentityType
+    description: Type of the managed identity referencing the Key vault.
+    types:
+    - uid: string
+  - name: keyvaultReferenceIdentityId
+    description: Resource Id of the managed identity referencing the Key vault.
+    types:
+    - uid: string
+- name: ErrorResponseBody
   description: The definition of an error object.
   kind: object
   properties:
   - name: error
-    description: The error response object.
+    description: Error from a REST request.
     types:
-    - uid: ErrorResponseBody
+    - uid: Error
 - name: LoadTestConfig
-  description: The load test configuration
+  description: The load test configuration.
   kind: object
   properties:
   - name: engineInstances
-    description: The number of engine instances to execute load test. Supported values are in range of 1-50. Required for creating a new Test.
+    description: The number of engine instances to execute load test. Supported values are in range of 1-45. Required for creating a new test.
     types:
     - uid: integer
+  - name: splitAllCSVs
+    description: Whether all the input CSV files should be split evenly across all engines.
+    types:
+    - uid: boolean
 - name: PassFailCriteria
-  description: Pass fail criteria for a test
+  description: Pass fail criteria for a test.
   kind: object
   properties:
   - name: passFailMetrics
-    description: 'Map of id and pass fail metrics { id  : pass fail metrics }'
+    description: 'Map of id and pass fail metrics { id  : pass fail metrics }.'
     types:
     - uid: object
       isDictionary: true
@@ -147,23 +153,28 @@ definitions:
       - uid: string
       - uid: PassFailMetric
 - name: InputTestArtifacts
-  description: '[ReadOnly]The input artifacts for the test'
+  description: The input artifacts for the test.
   kind: object
   properties:
   - name: configUrl
-    description: FileUrl Model
+    description: FileUrl Model.
     types:
     - uid: FileUrl
   - name: testScriptUrl
-    description: FileUrl Model
+    description: FileUrl Model.
+    types:
+    - uid: FileUrl
+  - name: userPropUrl
+    description: FileUrl Model.
     types:
     - uid: FileUrl
   - name: inputArtifactsZipFileurl
-    description: FileUrl Model
+    description: FileUrl Model.
     types:
     - uid: FileUrl
   - name: additionalUrls
-    description: '[ReadOnly]The input artifacts file { name : url } map for the test run'
+    isReadyOnly: true
+    description: 'The input artifacts file { name : url } map for the test run.'
     types:
     - uid: FileUrl
       isArray: true
@@ -171,15 +182,15 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: The value of the secret. of type== akv-secret-uri or secret-value
+    description: The value of the secret, of type AKV_SECRET_URI or SECRET_VALUE
     types:
     - uid: string
   - name: type
     description: Type of secret. eg. AKV_SECRET_URI/SECRET_VALUE
     types:
     - uid: string
-- name: ErrorResponseBody
-  description: The error response object.
+- name: Error
+  description: Error from a REST request.
   kind: object
   properties:
   - name: code
@@ -197,17 +208,17 @@ definitions:
   - name: details
     description: Additional details and inner errors.
     types:
-    - uid: ErrorResponseBody
+    - uid: Error
       isArray: true
 - name: PassFailMetric
   kind: object
   properties:
   - name: clientmetric
-    description: 'The client metric on which the criteria should be applied. Allowed values - ‘response_time_ms’ , ‘latency’, ‘error’ '
+    description: The client metric on which the criteria should be applied. Allowed values - ‘response_time_ms’ , ‘latency’, ‘error’.
     types:
     - uid: string
   - name: aggregate
-    description: 'The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’ - for response_time_ms and latency metric '
+    description: The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’ - for response_time_ms and latency metric.
     types:
     - uid: string
   - name: condition
@@ -215,122 +226,146 @@ definitions:
     types:
     - uid: string
   - name: value
-    description: 'The value to compare with the client metric. Allowed values - ‘error : [0.0 , 100.0] unit- % ’, response_time_ms and latency : any integer value unit- ms'
+    description: 'The value to compare with the client metric. Allowed values - ‘error : [0.0 , 100.0] unit- % ’, response_time_ms and latency : any integer value unit- ms.'
     types:
     - uid: number
   - name: action
-    description: Either ‘stop’ or ‘continue’ after the threshold is met. Default is ‘continue’
+    description: Either ‘stop’ or ‘continue’ after the threshold is met. Default is ‘continue’.
     types:
     - uid: string
   - name: actualValue
-    description: '[ReadOnly] The actual value of the client metric for the test run '
+    isReadyOnly: true
+    description: The actual value of the client metric for the test run.
     types:
     - uid: number
   - name: result
-    description: '[ReadOnly] Outcome of the testRun. possible outcome - ‘passed’ , ‘failed’ , ‘undetermined’ '
+    isReadyOnly: true
+    description: Outcome of the test run. possible outcome - ‘passed’ , ‘failed’ , ‘undetermined’.
     types:
     - uid: string
 - name: FileUrl
-  description: FileUrl Model
+  description: FileUrl Model.
   kind: object
   properties:
   - name: url
-    description: File url
+    description: File URL.
     types:
     - uid: string
   - name: fileId
-    description: File unique identifier
+    description: File unique identifier.
     types:
     - uid: string
   - name: filename
-    description: Name of the file
+    description: Name of the file.
     types:
     - uid: string
+  - name: fileType
+    description: Integer representation of the file type (0 = JMX_FILE, 1 = USER_PROPERTIES, 2 = ADDITIONAL_ARTIFACTS)
+    types:
+    - uid: FileType
   - name: expireTime
     description: Expiry time of the file
     types:
     - uid: string
+  - name: validationStatus
+    description: Validation status of the file
+    types:
+    - uid: string
+- name: FileType
+  description: Integer representation of the file type (0 = JMX_FILE, 1 = USER_PROPERTIES, 2 = ADDITIONAL_ARTIFACTS)
+  kind: enum
+  properties:
+  - name: "0"
+    types:
+    - uid: Integer
+  - name: "1"
+    types:
+    - uid: Integer
+  - name: "2"
+    types:
+    - uid: Integer
 examples:
-- name: Test_GetLoadTest_MaximumSet_Gen
+- name: GetLoadTest
   request:
-    uri: GET /loadtests/_n7__?api-version=2021-07-01-preview
+    uri: GET https://<dataPlaneURL>/loadtests/12345678-1234-1234-1234-123456789012?api-version=2022-06-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "testId": "aaaaaaaaaaaaaaaaaaaaaaa",
-        "description": "aaaaaaaaaaaaaaaaaaaaaaa",
-        "displayName": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "resourceId": "aaaaaaaaaaaaaaaaa",
+        "testId": "12345678-1234-1234-1234-123456789012",
+        "description": "sample description",
+        "displayName": "Performance_LoadTest",
+        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.loadtestservice/sampleresourcetype/sampleresourcename",
         "loadTestConfig": {
-          "engineInstances": 6
+          "engineInstances": 6,
+          "splitAllCSVs": true
         },
         "passFailCriteria": {
           "passFailMetrics": {
-            "key1348": {
-              "clientmetric": "aaaaaaaaaaaaaaaaaaaaaaa",
-              "aggregate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-              "condition": "aaaaaaaaaaaa",
-              "value": 24,
-              "action": "aaaaaaaaaaaaaaaaaa",
-              "actualValue": 10,
-              "result": "aaaaaaaaaaaaaaaaaaaaaaaaaa"
+            "fefd759d-7fe8-4f83-8b6d-aeebe0f491fe": {
+              "clientmetric": "response_time_ms",
+              "aggregate": "percentage",
+              "condition": ">",
+              "value": 20,
+              "action": "continue",
+              "actualValue": 0,
+              "result": null
             }
           }
         },
         "createdDateTime": "2021-12-05T16:43:46.072Z",
-        "createdBy": "aaaaaaaaaa",
+        "createdBy": "elon-musk@microsoft.com",
         "lastModifiedDateTime": "2021-12-05T16:43:46.072Z",
-        "lastModifiedBy": "aaaaaaaaaaaaaaaaaaaaaaa",
+        "lastModifiedBy": "elon-musk@microsoft.com",
         "inputArtifacts": {
           "configUrl": {
-            "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
-            "fileId": "aaaaaaaaaaaaaaaaaa",
-            "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-            "expireTime": "2021-12-05T16:43:46.072Z"
+            "url": "https://dummyurl.com/configresource",
+            "fileId": "92345678-1234-1111-1234-123456789012",
+            "filename": "config.yaml",
+            "fileType": 2,
+            "expireTime": "2021-12-05T16:43:46.072Z",
+            "validationStatus": ""
           },
           "testScriptUrl": {
-            "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
-            "fileId": "aaaaaaaaaaaaaaaaaa",
-            "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-            "expireTime": "2021-12-05T16:43:46.072Z"
+            "url": "https://dummyurl.com/testscriptresource",
+            "fileId": "92345678-1234-1111-1234-123456789011",
+            "filename": "sample.jmx",
+            "fileType": 0,
+            "expireTime": "2021-12-05T16:43:46.072Z",
+            "validationStatus": "VALIDATION_SUCCESS"
+          },
+          "userPropUrl": {
+            "url": "https://dummyurl.com/userpropresource",
+            "fileId": "92345678-1234-1111-1234-123456789013",
+            "filename": "user.properties",
+            "fileType": 1,
+            "expireTime": "2021-12-05T16:43:46.072Z",
+            "validationStatus": ""
           },
           "inputArtifactsZipFileurl": {
-            "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
-            "fileId": "aaaaaaaaaaaaaaaaaa",
-            "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-            "expireTime": "2021-12-05T16:43:46.072Z"
+            "url": "https://dummyurl.com/inputartifactzipresource",
+            "fileId": "92345678-1234-1111-1234-123456789012",
+            "filename": "inputartifacts.zip",
+            "fileType": 2,
+            "expireTime": "2021-12-05T16:43:46.072Z",
+            "validationStatus": ""
           },
-          "additionalUrls": [
-            {
-              "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
-              "fileId": "aaaaaaaaaaaaaaaaaa",
-              "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-              "expireTime": "2021-12-05T16:43:46.072Z"
-            }
-          ]
+          "additionalUrls": []
         },
         "secrets": {
-          "key9927": {
-            "value": "aaaaaaaaaaaaaaa",
-            "type": "aaaaaaaaaaaaaaaaaaaaaaaaaa"
+          "secret1": {
+            "value": "https://samplevault.vault.azure.net/secrets/samplesecret/f113f91fd4c44a368049849c164db827",
+            "type": "AKV_SECRET_URI"
           }
         },
         "environmentVariables": {
-          "key2687": "aaaaa"
-        }
+          "envvar1": "sampletext"
+        },
+        "subnetId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/Microsoft.Network/virtualNetworks/samplenetworkresource/subnets/AAAAA0A0A0",
+        "keyvaultReferenceIdentityType": "UserAssigned",
+        "keyvaultReferenceIdentityId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1"
       }
-- name: Test_GetLoadTest_MinimumSet_Gen
-  request:
-    uri: GET /loadtests/__?api-version=2021-07-01-preview
-  responses:
-  - statusCode: "200"
-    body: '{}'
-security:
-- name: Authorization
-  type: apiKey
-  description: JWT Authorization header using the Bearer scheme.
-  in: header
+security: []
 metadata:
-  description: Learn more about Azure Load Testing service - Get load test model of given test name
+  description: Learn more about Azure Load Testing service - Get load test details by test name
 errorCodes: []

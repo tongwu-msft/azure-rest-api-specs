@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.loadtesting.resourcemanager.loadtestresource.createorupdate
+uid: management.azure.com.loadtesting.resourcemanager(2021-12-01-preview-deprecated).loadtestresource.createorupdate
 name: Create Or Update
 service: Azure Load Testing
 groupName: Load Test Resource
-apiVersion: 2022-04-15-preview
+apiVersion: 2021-12-01-preview
 summary: Create or update LoadTest resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/loadTests/{loadTestName}?api-version=2022-04-15-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/loadTests/{loadTestName}?api-version=2021-12-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: loadTestName
   in: path
   isRequired: true
-  description: Load Test name.
+  description: Load Test resource name.
   types:
   - uid: string
 - name: api-version
@@ -41,10 +41,6 @@ responses:
   description: Success
   types:
   - uid: LoadTestResource
-- name: 201 Created
-  description: Created -- LoadTest resource created
-  types:
-  - uid: LoadTestResource
 - name: Other Status Codes
   description: Resource provider error response about the failure.
   types:
@@ -56,17 +52,12 @@ requestBody:
     in: body
     description: The type of identity used for the resource.
     types:
-    - uid: ManagedServiceIdentity
+    - uid: SystemAssignedServiceIdentity
   - name: properties.description
     in: body
     description: Description of the resource.
     types:
     - uid: string
-  - name: properties.encryption
-    in: body
-    description: CMK Encryption property.
-    types:
-    - uid: EncryptionProperties
   - name: tags
     in: body
     description: Resource tags.
@@ -84,8 +75,8 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
-- name: ManagedServiceIdentity
-  description: Managed service identity (system assigned and/or user assigned identities)
+- name: SystemAssignedServiceIdentity
+  description: Managed service identity (either system assigned, or none)
   kind: object
   properties:
   - name: principalId
@@ -99,29 +90,9 @@ definitions:
     types:
     - uid: string
   - name: type
-    description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+    description: Type of managed service identity (either system assigned, or none).
     types:
-    - uid: ManagedServiceIdentityType
-  - name: userAssignedIdentities
-    description: "User-Assigned Identities  \nThe set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: UserAssignedIdentity
-- name: EncryptionProperties
-  description: Key and identity details for Customer Managed Key encryption of load test resource
-  kind: object
-  properties:
-  - name: identity
-    description: All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault.
-    types:
-    - uid: Identity
-  - name: keyUrl
-    description: 'key encryption key Url, versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek.'
-    types:
-    - uid: string
+    - uid: SystemAssignedServiceIdentityType
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -157,7 +128,7 @@ definitions:
   - name: identity
     description: The type of identity used for the resource.
     types:
-    - uid: ManagedServiceIdentity
+    - uid: SystemAssignedServiceIdentity
   - name: properties.description
     description: Description of the resource.
     types:
@@ -172,10 +143,6 @@ definitions:
     description: Resource data plane URI.
     types:
     - uid: string
-  - name: properties.encryption
-    description: CMK Encryption property.
-    types:
-    - uid: EncryptionProperties
   - name: tags
     description: Resource tags.
     types:
@@ -216,46 +183,14 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: ManagedServiceIdentityType
-  description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+- name: SystemAssignedServiceIdentityType
+  description: Type of managed service identity (either system assigned, or none).
   kind: enum
   properties:
   - name: None
     types:
     - uid: string
   - name: SystemAssigned
-    types:
-    - uid: string
-  - name: UserAssigned
-    types:
-    - uid: string
-  - name: SystemAssigned,UserAssigned
-    types:
-    - uid: string
-- name: UserAssignedIdentity
-  description: User assigned identity properties
-  kind: object
-  properties:
-  - name: principalId
-    isReadyOnly: true
-    description: The principal ID of the assigned identity.
-    types:
-    - uid: string
-  - name: clientId
-    isReadyOnly: true
-    description: The client ID of the assigned identity.
-    types:
-    - uid: string
-- name: Identity
-  description: All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault.
-  kind: object
-  properties:
-  - name: type
-    description: Managed identity type to use for accessing encryption key Url
-    types:
-    - uid: type
-  - name: resourceId
-    description: 'user assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId'
     types:
     - uid: string
 - name: createdByType
@@ -321,16 +256,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: type
-  description: Managed identity type to use for accessing encryption key Url
-  kind: enum
-  properties:
-  - name: SystemAssigned
-    types:
-    - uid: string
-  - name: UserAssigned
-    types:
-    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -348,22 +273,18 @@ definitions:
 examples:
 - name: LoadTests_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dummyrg/providers/Microsoft.LoadTestService/loadTests/myLoadTest?api-version=2022-04-15-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dummyrg/providers/Microsoft.LoadTestService/loadTests/myLoadTest?api-version=2021-12-01-preview
     body: >-
       {
         "location": "westus",
         "tags": {
           "Team": "Dev Exp"
         },
+        "identity": {
+          "type": "SystemAssigned"
+        },
         "properties": {
-          "description": "This is new load test resource",
-          "encryption": {
-            "identity": {
-              "type": "UserAssigned",
-              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dummyrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1"
-            },
-            "keyUrl": "https://dummy.vault.azure.net/keys/dummykey1"
-          }
+          "description": "This is new load test resource"
         }
       }
   responses:
@@ -374,14 +295,7 @@ examples:
         "properties": {
           "description": "This is new load test resource",
           "dataPlaneURI": "https://myLoadTest.00000000-0000-0000-0000-000000000000.cnt-dp.domain.com",
-          "provisioningState": "Succeeded",
-          "encryption": {
-            "identity": {
-              "type": "UserAssigned",
-              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dummyrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1"
-            },
-            "keyUrl": "https://dummy.vault.azure.net/keys/dummykey1"
-          }
+          "provisioningState": "Succeeded"
         },
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dummyrg/providers/Microsoft.LoadTestService/loadTests/myLoadTest",
         "name": "myLoadTest",
@@ -389,36 +303,10 @@ examples:
         "tags": {
           "Team": "Dev Exp"
         },
-        "systemData": {
-          "createdBy": "userId1001",
-          "createdByType": "User",
-          "createdAt": "2021-09-28T12:32:33Z",
-          "lastModifiedBy": "userId1001",
-          "lastModifiedByType": "User",
-          "lastModifiedAt": "2021-09-28T12:32:33Z"
-        }
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "location": "westus",
-        "properties": {
-          "description": "This is new load test resource",
-          "dataPlaneURI": "https://myLoadTest.00000000-0000-0000-0000-000000000000.cnt-dp.domain.com",
-          "provisioningState": "Succeeded",
-          "encryption": {
-            "identity": {
-              "type": "UserAssigned",
-              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dummyrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1"
-            },
-            "keyUrl": "https://dummy.vault.azure.net/keys/dummykey1"
-          }
-        },
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dummyrg/providers/Microsoft.LoadTestService/loadTests/myLoadTest",
-        "name": "myLoadTest",
-        "type": "Microsoft.LoadTestService/loadTests",
-        "tags": {
-          "Team": "Dev Exp"
+        "identity": {
+          "type": "SystemAssigned",
+          "principalId": "12345678-1234-1234-1234-123456789012",
+          "tenantId": "12345678-1234-1234-4321-123456789012"
         },
         "systemData": {
           "createdBy": "userId1001",

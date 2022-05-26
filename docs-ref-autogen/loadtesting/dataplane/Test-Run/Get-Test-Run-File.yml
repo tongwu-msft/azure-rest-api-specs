@@ -1,19 +1,19 @@
 ### YamlMime:RESTOperation
-uid: loadtesting.dataplane.testrun.gettestrunfile
+uid: <dataplaneurl>.loadtesting.dataplane.testrun.gettestrunfile
 name: Get Test Run File
 service: Azure Load Testing
 groupName: Test Run
-apiVersion: 2021-07-01-preview
-summary: Get testrun file with given file name.
+apiVersion: 2022-06-01-preview
+summary: Get test run file by file name.
 produces:
 - application/json
 paths:
-- content: GET /testruns/{testRunId}/files/{fileId}?api-version=2021-07-01-preview
+- content: GET https://<dataPlaneURL>/testruns/{testRunId}/files/{fileId}?api-version=2022-06-01-preview
 uriParameters:
 - name: testRunId
   in: path
   isRequired: true
-  description: Unique identifier for load test run name, must be a valid URL character ^[a-z0-9_-]*$
+  description: Unique name of load test run, must be a valid URL character ^[a-z0-9_-]*$
   types:
   - uid: string
   pattern: ^[a-z0-9_-]*$
@@ -27,54 +27,74 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Api version
+  description: API version
   types:
   - uid: string
 responses:
 - name: 200 OK
-  description: The requested testrun file url
+  description: The URL for the requested test run file
   types:
-  - uid: FileUrlPath
+  - uid: FileUrl
 - name: Other Status Codes
   headers:
   - name: x-ms-error-code
     value: string
-  description: "*** Error Responses: ***\n\n * \"400\", \"InvalidHostOrResourceName\", \"Host name or domain is not valid\"\n\n * \"400\", \"RequiredTestRunId\", \"testRunId field is required\"\n\n* \"400\", \"InvalidTestRunId\", \"testRunId field should be valid\"\n\n * \"400\", \"RequiredFileId\", \"fileId field is required\"\n\n * \"400\", \"InvalidFileId\", \"fileId field is not valid\"   \n\n * \"404\", \"TestRunNotFound\", \"test run not found with given identifier\"\n\n * \"404\", \"TestRunFileNotFound\", \"test run file not found\"\n\n * \"500\", \"InternalServerError\", \"Unable to process the request, please retry\""
+  description: Load Testing service error response.
   types:
-  - uid: DefaultErrorResponseBody
-requestHeader:
-- name: Authorization
-  in: header
-  isRequired: true
-  description: JWT Authorization header using the Bearer scheme.
-  types:
-  - uid: string
+  - uid: ErrorResponseBody
+requestHeader: []
 definitions:
-- name: FileUrlPath
+- name: FileUrl
+  description: FileUrl Model.
   kind: object
   properties:
-  - name: id
-    description: Path of the file
-    types:
-    - uid: string
   - name: url
-    description: url of the file
+    description: File URL.
     types:
     - uid: string
+  - name: fileId
+    description: File unique identifier.
+    types:
+    - uid: string
+  - name: filename
+    description: Name of the file.
+    types:
+    - uid: string
+  - name: fileType
+    description: Integer representation of the file type (0 = JMX_FILE, 1 = USER_PROPERTIES, 2 = ADDITIONAL_ARTIFACTS)
+    types:
+    - uid: FileType
   - name: expireTime
     description: Expiry time of the file
     types:
     - uid: string
-- name: DefaultErrorResponseBody
+  - name: validationStatus
+    description: Validation status of the file
+    types:
+    - uid: string
+- name: ErrorResponseBody
   description: The definition of an error object.
   kind: object
   properties:
   - name: error
-    description: The error response object.
+    description: Error from a REST request.
     types:
-    - uid: ErrorResponseBody
-- name: ErrorResponseBody
-  description: The error response object.
+    - uid: Error
+- name: FileType
+  description: Integer representation of the file type (0 = JMX_FILE, 1 = USER_PROPERTIES, 2 = ADDITIONAL_ARTIFACTS)
+  kind: enum
+  properties:
+  - name: "0"
+    types:
+    - uid: Integer
+  - name: "1"
+    types:
+    - uid: Integer
+  - name: "2"
+    types:
+    - uid: Integer
+- name: Error
+  description: Error from a REST request.
   kind: object
   properties:
   - name: code
@@ -92,31 +112,24 @@ definitions:
   - name: details
     description: Additional details and inner errors.
     types:
-    - uid: ErrorResponseBody
+    - uid: Error
       isArray: true
 examples:
-- name: TestRun_GetTestRunFile_MaximumSet_Gen
+- name: GetTestRunFile
   request:
-    uri: GET /testruns/_v4/files/-253_9?api-version=2021-07-01-preview
+    uri: GET https://<dataPlaneURL>/testruns/12316678-1234-1234-1234-122451189012/files/92345678-1234-1111-1234-123456789012?api-version=2022-06-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaa",
-        "url": "aaaa",
-        "expireTime": "2021-12-05T16:43:47.120Z"
+        "url": "https://dummyurl.com/testscriptresource",
+        "fileId": "92345678-1234-1111-1234-123456789012",
+        "filename": "sample.jmx",
+        "fileType": 0,
+        "expireTime": "2021-12-05T16:43:46.072Z",
+        "validationStatus": "VALIDATION_SUCCESS"
       }
-- name: TestRun_GetTestRunFile_MinimumSet_Gen
-  request:
-    uri: GET /testruns/43-_/files/__b?api-version=2021-07-01-preview
-  responses:
-  - statusCode: "200"
-    body: '{}'
-security:
-- name: Authorization
-  type: apiKey
-  description: JWT Authorization header using the Bearer scheme.
-  in: header
+security: []
 metadata:
-  description: Learn more about Azure Load Testing service - Get testrun file with given file name.
+  description: Learn more about Azure Load Testing service - Get test run file by file name.
 errorCodes: []

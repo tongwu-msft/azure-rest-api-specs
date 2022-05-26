@@ -1,26 +1,26 @@
 ### YamlMime:RESTOperation
-uid: loadtesting.dataplane.testrun.gettestrunclientmetricsfilters
+uid: <dataplaneurl>.loadtesting.dataplane.testrun.gettestrunclientmetricsfilters
 name: Get Test Run Client Metrics Filters
 service: Azure Load Testing
 groupName: Test Run
-apiVersion: 2021-07-01-preview
-summary: Get all client metrics supported filters list for a given load test run
+apiVersion: 2022-06-01-preview
+summary: Get all filters that are supported for client metrics for a given load test run
 produces:
 - application/json
 paths:
-- content: GET /testruns/{testRunId}/clientMetricsFilters?api-version=2021-07-01-preview
+- content: GET https://<dataPlaneURL>/testruns/{testRunId}/clientMetricsFilters?api-version=2022-06-01-preview
 uriParameters:
 - name: testRunId
   in: path
   isRequired: true
-  description: Unique identifier for load test run name, must be a valid URL character ^[a-z0-9_-]*$
+  description: Unique name for load test run, must be a valid URL character ^[a-z0-9_-]*$
   types:
   - uid: string
   pattern: ^[a-z0-9_-]*$
 - name: api-version
   in: query
   isRequired: true
-  description: Api version
+  description: API version
   types:
   - uid: string
 responses:
@@ -32,26 +32,10 @@ responses:
   headers:
   - name: x-ms-error-code
     value: string
-  description: >-
-    ***Error Responses: ***
-
-
-    * "400", "InvalidHostOrResourceName", "Host name or domain is not valid"
-
-     * "400", "InvalidTestRunId", "testRunId field should be valid"
-
-     * "400", "RequiredTestRunId", "testRunId field is required"  * "404", "TestRunNotFound", "test run not found with given identifier"
-
-      * "500", "InternalServerError", "Unable to process the request, please retry"
+  description: Load Testing service error response.
   types:
-  - uid: DefaultErrorResponseBody
-requestHeader:
-- name: Authorization
-  in: header
-  isRequired: true
-  description: JWT Authorization header using the Bearer scheme.
-  types:
-  - uid: string
+  - uid: ErrorResponseBody
+requestHeader: []
 definitions:
 - name: ClientMetricsFilters
   kind: object
@@ -68,24 +52,24 @@ definitions:
     description: ''
     types:
     - uid: TimeRange
-- name: DefaultErrorResponseBody
+- name: ErrorResponseBody
   description: The definition of an error object.
   kind: object
   properties:
   - name: error
-    description: The error response object.
+    description: Error from a REST request.
     types:
-    - uid: ErrorResponseBody
+    - uid: Error
 - name: Filters
   kind: object
   properties:
   - name: requestSamplerValues
-    description: List of request sampler for the test run, for which client metrics can be filtered
+    description: List of request sampler for the test run, for which client metrics can be filtered.
     types:
     - uid: string
       isArray: true
   - name: errorFiltersValues
-    description: List of errors occurred for the test run, for which client metrics can be filtered
+    description: List of errors occurred for the test run, for which client metrics can be filtered.
     types:
     - uid: string
       isArray: true
@@ -93,15 +77,15 @@ definitions:
   kind: object
   properties:
   - name: startTime
-    description: start DateTime(Iso8601Literal format) for the requested client metrics filter
+    description: start DateTime(ISO 8601 literal format) for the requested client metrics filter.
     types:
     - uid: string
   - name: endTime
-    description: end DateTime(Iso8601Literal format) for the requested client metrics filter
+    description: end DateTime(ISO 8601 literal format) for the requested client metrics filter.
     types:
     - uid: string
-- name: ErrorResponseBody
-  description: The error response object.
+- name: Error
+  description: Error from a REST request.
   kind: object
   properties:
   - name: code
@@ -119,23 +103,23 @@ definitions:
   - name: details
     description: Additional details and inner errors.
     types:
-    - uid: ErrorResponseBody
+    - uid: Error
       isArray: true
 examples:
-- name: TestRun_GetTestRunClientMetricsFilters_MaximumSet_Gen
+- name: GetTestRunClientMetricsFilters
   request:
-    uri: GET /testruns/__-8/clientMetricsFilters?api-version=2021-07-01-preview
+    uri: GET https://<dataPlaneURL>/testruns/12316678-1234-1234-1234-122451189012/clientMetricsFilters?api-version=2022-06-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "testRunId": "aaaaaaaaaaaaaaaaaa",
+        "testRunId": "12316678-1234-1234-1234-122451189012",
         "filters": {
           "requestSamplerValues": [
-            "aaaaaaa"
+            "Homepage"
           ],
           "errorFiltersValues": [
-            "aaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            "500"
           ]
         },
         "timeRange": {
@@ -143,17 +127,7 @@ examples:
           "endTime": "2021-12-05T16:43:49.590Z"
         }
       }
-- name: TestRun_GetTestRunClientMetricsFilters_MinimumSet_Gen
-  request:
-    uri: GET /testruns/44_7_/clientMetricsFilters?api-version=2021-07-01-preview
-  responses:
-  - statusCode: "200"
-    body: '{}'
-security:
-- name: Authorization
-  type: apiKey
-  description: JWT Authorization header using the Bearer scheme.
-  in: header
+security: []
 metadata:
-  description: Learn more about Azure Load Testing service - Get all client metrics supported filters list for a given load test run
+  description: Learn more about Azure Load Testing service - Get all filters that are supported for client metrics for a given load test run
 errorCodes: []

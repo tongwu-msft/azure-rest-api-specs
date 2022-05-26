@@ -1,67 +1,53 @@
 ### YamlMime:RESTOperation
-uid: loadtesting.dataplane.appcomponent.getappcomponentbyname
+uid: <dataplaneurl>.loadtesting.dataplane.appcomponent.getappcomponentbyname
 name: Get App Component By Name
 service: Azure Load Testing
 groupName: App Component
-apiVersion: 2021-07-01-preview
-summary: Get App components for a given appComponentName in query param.
+apiVersion: 2022-06-01-preview
+summary: Get App Component details by App Component name.
 produces:
 - application/json
 paths:
-- content: GET /appcomponents/{name}?api-version=2021-07-01-preview
+- content: GET https://<dataPlaneURL>/appcomponents/{name}?api-version=2022-06-01-preview
 uriParameters:
 - name: name
   in: path
   isRequired: true
-  description: Unique identifier for app component name, must be a valid URL character ^[a-z0-9_-]*$
+  description: Unique name of the App Component, must be a valid URL character ^[a-z0-9_-]*$.
   types:
   - uid: string
   pattern: ^[a-z0-9_-]*$
 - name: api-version
   in: query
   isRequired: true
-  description: Api version
+  description: API version
   types:
   - uid: string
 responses:
 - name: 200 OK
-  description: The requested app components
+  description: The requested App Components.
   types:
   - uid: AppComponentsMap
 - name: Other Status Codes
   headers:
   - name: x-ms-error-code
     value: string
-  description: >-
-    ***Error Responses: ***
-
-     * "400", "InvalidHostOrResourceName", "Host name or domain is not valid" .
-
-     * "400", "RequiredAppComponentName", "name field is required"
-
-     * "400", "InvalidAppComponentName", "name field should be valid"
-
-     * "500", "InternalServerError", "Unable to process the request, please retry"
+  description: Load Testing service error response.
   types:
-  - uid: DefaultErrorResponseBody
-requestHeader:
-- name: Authorization
-  in: header
-  isRequired: true
-  description: JWT Authorization header using the Bearer scheme.
-  types:
-  - uid: string
+  - uid: ErrorResponseBody
+requestHeader: []
 definitions:
 - name: AppComponentsMap
-  description: App components model
+  description: App Components model
   kind: object
   properties:
   - name: resourceId
-    description: '[ReadOnly] Load test resource id'
+    isReadyOnly: true
+    description: Azure Load Testing resource Id
     types:
     - uid: string
   - name: testId
-    description: '[Required if testRunId is not given] Load test unique identifier'
+    description: '[Required, if testRunId is not given] Load test unique identifier'
     types:
     - uid: string
   - name: testRunId
@@ -69,7 +55,8 @@ definitions:
     types:
     - uid: string
   - name: name
-    description: '[ReadOnly] AppComponent name'
+    isReadyOnly: true
+    description: AppComponent name
     types:
     - uid: string
   - name: value
@@ -80,20 +67,20 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: AppComponent
-- name: DefaultErrorResponseBody
+- name: ErrorResponseBody
   description: The definition of an error object.
   kind: object
   properties:
   - name: error
-    description: The error response object.
+    description: Error from a REST request.
     types:
-    - uid: ErrorResponseBody
+    - uid: Error
 - name: AppComponent
-  description: 'The Azure resource object (Refer azure generic resource model : https://docs.microsoft.com/en-us/rest/api/resources/resources/get-by-id#genericresource)'
+  description: 'An Azure resource object (Refer azure generic resource model : https://docs.microsoft.com/en-us/rest/api/resources/resources/get-by-id#genericresource)'
   kind: object
   properties:
   - name: resourceId
-    description: '[ReadOnly] Fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}'
+    description: Fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}
     types:
     - uid: string
   - name: resourceName
@@ -105,23 +92,25 @@ definitions:
     types:
     - uid: string
   - name: displayName
-    description: '[ReadOnly] Azure resource display name'
+    description: Azure resource display name
     types:
     - uid: string
   - name: resourceGroup
-    description: '[ReadOnly] Resource group name of Azure resource'
+    isReadyOnly: true
+    description: Resource group name of the Azure resource
     types:
     - uid: string
   - name: subscriptionId
-    description: '[ReadOnly] Subscription Id of Azure resource'
+    isReadyOnly: true
+    description: Subscription Id of the Azure resource
     types:
     - uid: string
   - name: kind
     description: Kind of Azure resource type
     types:
     - uid: string
-- name: ErrorResponseBody
-  description: The error response object.
+- name: Error
+  description: Error from a REST request.
   kind: object
   properties:
   - name: code
@@ -139,46 +128,33 @@ definitions:
   - name: details
     description: Additional details and inner errors.
     types:
-    - uid: ErrorResponseBody
+    - uid: Error
       isArray: true
 examples:
-- name: AppComponent_GetAppComponentByName_MaximumSet_Gen
+- name: GetAppComponentByName
   request:
-    uri: GET /appcomponents/l2-_on?api-version=2021-07-01-preview
+    uri: GET https://<dataPlaneURL>/appcomponents/ee843bd9-a6d4-4364-a45c-427a03c39fa7?api-version=2022-06-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "resourceId": "aaaaaaaaaaaaaaaaaaaaaaaaa",
-        "testId": "aaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "testRunId": "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "name": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.loadtestservice/sampleresourcetype/sampleresourcename",
+        "testId": "12345678-1234-1234-1234-123456789012",
+        "testRunId": "12316678-1234-1234-1234-122451189012",
+        "name": "ee843bd9-a6d4-4364-a45c-427a03c39fa7",
         "value": {
-          "key8748": {
-            "resourceId": "aaaaaaaaaaaaaaaaa",
-            "resourceName": "aaaaaaaa",
-            "resourceType": "aaaaaaaaaaaaaaaaaaaaa",
-            "displayName": "aaaaaaaaaaaaaaaaaaaaaaaaaa",
-            "resourceGroup": "aaaaaaaaaaaaa",
-            "subscriptionId": "aa",
-            "kind": "aaaaaaaaaa"
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.insights/components/appcomponentresource": {
+            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.insights/components/appcomponentresource",
+            "resourceType": "microsoft.insights/components",
+            "resourceName": "appcomponentresource",
+            "displayName": "Performance_LoadTest_Insights",
+            "resourceGroup": "samplerg",
+            "subscriptionId": "00000000-0000-0000-0000-000000000000",
+            "kind": "web"
           }
         }
       }
-- name: AppComponent_GetAppComponentByName_MinimumSet_Gen
-  request:
-    uri: GET /appcomponents/_--8?api-version=2021-07-01-preview
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "value": {}
-      }
-security:
-- name: Authorization
-  type: apiKey
-  description: JWT Authorization header using the Bearer scheme.
-  in: header
+security: []
 metadata:
-  description: Learn more about Azure Load Testing service - Get App components for a given appComponentName in query param.
+  description: Learn more about Azure Load Testing service - Get App Component details by App Component name.
 errorCodes: []
