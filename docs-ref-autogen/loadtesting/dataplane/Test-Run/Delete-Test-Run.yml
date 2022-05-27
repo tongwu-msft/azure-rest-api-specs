@@ -1,67 +1,50 @@
 ### YamlMime:RESTOperation
-uid: loadtesting.dataplane.testrun.deletetestrun
+uid: <dataplaneurl>.loadtesting.dataplane.testrun.deletetestrun
 name: Delete Test Run
 service: Azure Load Testing
 groupName: Test Run
-apiVersion: 2021-07-01-preview
-summary: Delete a test run with given name. Test run name must be a valid URL character ^[a-z0-9_-]*$
+apiVersion: 2022-06-01-preview
+summary: Delete a test run by its name.
 produces:
 - application/json
 paths:
-- content: DELETE /testruns/{testRunId}?api-version=2021-07-01-preview
+- content: DELETE https://<dataPlaneURL>/testruns/{testRunId}?api-version=2022-06-01-preview
 uriParameters:
 - name: testRunId
   in: path
   isRequired: true
-  description: Unique identifier for load test run name, must be a valid URL character ^[a-z0-9_-]*$
+  description: Unique name of the load test run, must be a valid URL character ^[a-z0-9_-]*$.
   types:
   - uid: string
   pattern: ^[a-z0-9_-]*$
 - name: api-version
   in: query
   isRequired: true
-  description: Api version
+  description: API version
   types:
   - uid: string
 responses:
 - name: 204 No Content
-  description: The test run is deleted
+  description: The test run is deleted.
 - name: Other Status Codes
   headers:
   - name: x-ms-error-code
     value: string
-  description: >-
-    *** Error Responses: ***
-
-     * "400", "InvalidHostOrResourceName", "Host name or domain is not valid"
-
-     * "400", "RequiredTestRunId", "testRunId field is required"
-
-    * "400", "InvalidTestRunId", "testRunId field should be valid"
-
-     * "404", "TestRunNotFound", "test run not found with given identifier"
-
-     * "500", "InternalServerError", "Unable to process the request, please retry"
+  description: Load Testing service error response.
   types:
-  - uid: DefaultErrorResponseBody
-requestHeader:
-- name: Authorization
-  in: header
-  isRequired: true
-  description: JWT Authorization header using the Bearer scheme.
-  types:
-  - uid: string
+  - uid: ErrorResponseBody
+requestHeader: []
 definitions:
-- name: DefaultErrorResponseBody
+- name: ErrorResponseBody
   description: The definition of an error object.
   kind: object
   properties:
   - name: error
-    description: The error response object.
+    description: Error from a REST request.
     types:
-    - uid: ErrorResponseBody
-- name: ErrorResponseBody
-  description: The error response object.
+    - uid: Error
+- name: Error
+  description: Error from a REST request.
   kind: object
   properties:
   - name: code
@@ -79,24 +62,15 @@ definitions:
   - name: details
     description: Additional details and inner errors.
     types:
-    - uid: ErrorResponseBody
+    - uid: Error
       isArray: true
 examples:
-- name: TestRun_DeleteTestRun_MaximumSet_Gen
+- name: DeleteTestRun
   request:
-    uri: DELETE /testruns/4k-4?api-version=2021-07-01-preview
+    uri: DELETE https://<dataPlaneURL>/testruns/12316678-1234-1234-1234-122451189012?api-version=2022-06-01-preview
   responses:
   - statusCode: "204"
-- name: TestRun_DeleteTestRun_MinimumSet_Gen
-  request:
-    uri: DELETE /testruns/798l0?api-version=2021-07-01-preview
-  responses:
-  - statusCode: "204"
-security:
-- name: Authorization
-  type: apiKey
-  description: JWT Authorization header using the Bearer scheme.
-  in: header
+security: []
 metadata:
-  description: Learn more about Azure Load Testing service - Delete a test run with given name. Test run name must be a valid URL character ^[a-z0-9_-]*$
+  description: Learn more about Azure Load Testing service - Delete a test run by its name.
 errorCodes: []

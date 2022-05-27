@@ -1,183 +1,110 @@
 ### YamlMime:RESTOperation
-uid: loadtesting.dataplane.test.uploadtestfile
+uid: <dataplaneurl>.loadtesting.dataplane.test.uploadtestfile
 name: Upload Test File
 service: Azure Load Testing
 groupName: Test
-apiVersion: 2021-07-01-preview
-summary: Upload input file for a given test name. File name must be a valid URL character ^[a-z0-9_-]*$. File size can't be more than 50 MB. Existing file with same name for the given test will be overwritten.
+apiVersion: 2022-06-01-preview
+summary: Upload input file for a given test name. File size can't be more than 50 MB. Existing file with same name for the given test will be overwritten.
 consumes:
 - multipart/form-data
 produces:
 - application/json
 paths:
-- content: PUT /loadtests/{testId}/files/{fileId}?api-version=2021-07-01-preview
+- content: PUT https://<dataPlaneURL>/loadtests/{testId}/files/{fileId}?api-version=2022-06-01-preview
+- content: PUT https://<dataPlaneURL>/loadtests/{testId}/files/{fileId}?fileType={fileType}&api-version=2022-06-01-preview
+  isOptional: true
 uriParameters:
 - name: testId
   in: path
   isRequired: true
-  description: Unique identifier for load test name, must be a valid URL character ^[a-z0-9_-]*$
+  description: Unique name for load test, must be a valid URL character ^[a-z0-9_-]*$.
   types:
   - uid: string
   pattern: ^[a-z0-9_-]*$
 - name: fileId
   in: path
   isRequired: true
-  description: Unique identifier for test file, must be a valid URL character ^[a-z0-9_-]*$
+  description: Unique identifier for test file, must be a valid URL character ^[a-z0-9_-]*$.
   types:
   - uid: string
   pattern: ^[a-z0-9_-]*$
+- name: fileType
+  in: query
+  description: Integer representation of the file type (0 = JMX_FILE, 1 = USER_PROPERTIES, 2 = ADDITIONAL_ARTIFACTS).
+  types:
+  - uid: integer
+  format: int32
 - name: api-version
   in: query
   isRequired: true
-  description: Api version
+  description: API version
   types:
   - uid: string
 responses:
 - name: 201 Created
-  description: The test artifact was uploaded
+  description: The test artifact is uploaded.
   types:
-  - uid: TestModel
+  - uid: FileUrl
 - name: Other Status Codes
   headers:
   - name: x-ms-error-code
     value: string
-  description: "*** Error Responses: ***\n\n * \"400\", \"InvalidHostOrResourceName\", \"Host name or domain is not valid\"\n\n * \"400\", \"RequiredTestId\", \"testId field is required\"\n\n * \"400\", \"InvalidTestId\", \"testId field should be valid\"\n\n * \"400\", \"RequiredFileId\", \"fileId field is required\"\n\n * \"400\", \"InvalidFileId\", \"fileId field is not valid\"   \n\n * \"400\", \"InvalidFile\", \"File is not valid error -\"\n\n * \"404\", \"TestNotFound\", \"Test not found with given identifier\"\n\n * \"500\", \"InternalServerError\", \"Unable to process the request, please retry\""
+  description: Load Testing service error response.
   types:
-  - uid: DefaultErrorResponseBody
-requestHeader:
-- name: Authorization
-  in: header
-  isRequired: true
-  description: JWT Authorization header using the Bearer scheme.
-  types:
-  - uid: string
+  - uid: ErrorResponseBody
+requestHeader: []
 definitions:
-- name: TestModel
-  description: Load test model
+- name: FileUrl
+  description: FileUrl Model.
   kind: object
   properties:
-  - name: testId
-    description: '[ReadOnly] Unique test name as identifier'
+  - name: url
+    description: File URL.
     types:
     - uid: string
-  - name: description
-    description: The test description
+  - name: fileId
+    description: File unique identifier.
     types:
     - uid: string
-  - name: displayName
-    description: 'Display name of a test '
+  - name: filename
+    description: Name of the file.
     types:
     - uid: string
-  - name: resourceId
-    description: '[ReadOnly] Fully qualified resource Id e.g /subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}'
+  - name: fileType
+    description: Integer representation of the file type (0 = JMX_FILE, 1 = USER_PROPERTIES, 2 = ADDITIONAL_ARTIFACTS)
+    types:
+    - uid: FileType
+  - name: expireTime
+    description: Expiry time of the file
     types:
     - uid: string
-  - name: loadTestConfig
-    description: The load test configuration
-    types:
-    - uid: LoadTestConfig
-  - name: passFailCriteria
-    description: Pass fail criteria for a test
-    types:
-    - uid: PassFailCriteria
-  - name: createdDateTime
-    description: '[ReadOnly] The created DateTime(Iso8601Literal format) of the test model'
+  - name: validationStatus
+    description: Validation status of the file
     types:
     - uid: string
-  - name: createdBy
-    description: '[ReadOnly] The user that created the test model'
-    types:
-    - uid: string
-  - name: lastModifiedDateTime
-    description: '[ReadOnly] The last Modified DateTime(Iso8601Literal format) of the test model'
-    types:
-    - uid: string
-  - name: lastModifiedBy
-    description: '[ReadOnly] The user that last modified the test model'
-    types:
-    - uid: string
-  - name: inputArtifacts
-    description: '[ReadOnly]The input artifacts for the test'
-    types:
-    - uid: InputTestArtifacts
-  - name: secrets
-    description: 'Secrets of higher importance , which are stored in a key-vault typically. Allowed secret type: AKV_SECRET_URI'
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: SecretMetadata
-  - name: environmentVariables
-    description: Secrets of relatively lesser importance , which are defined as a set of <name,value> pairs.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: DefaultErrorResponseBody
+- name: ErrorResponseBody
   description: The definition of an error object.
   kind: object
   properties:
   - name: error
-    description: The error response object.
+    description: Error from a REST request.
     types:
-    - uid: ErrorResponseBody
-- name: LoadTestConfig
-  description: The load test configuration
-  kind: object
+    - uid: Error
+- name: FileType
+  description: Integer representation of the file type (0 = JMX_FILE, 1 = USER_PROPERTIES, 2 = ADDITIONAL_ARTIFACTS)
+  kind: enum
   properties:
-  - name: engineInstances
-    description: The number of engine instances to execute load test. Supported values are in range of 1-50. Required for creating a new Test.
+  - name: "0"
     types:
-    - uid: integer
-- name: PassFailCriteria
-  description: Pass fail criteria for a test
-  kind: object
-  properties:
-  - name: passFailMetrics
-    description: 'Map of id and pass fail metrics { id  : pass fail metrics }'
+    - uid: Integer
+  - name: "1"
     types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: PassFailMetric
-- name: InputTestArtifacts
-  description: '[ReadOnly]The input artifacts for the test'
-  kind: object
-  properties:
-  - name: configUrl
-    description: FileUrl Model
+    - uid: Integer
+  - name: "2"
     types:
-    - uid: FileUrl
-  - name: testScriptUrl
-    description: FileUrl Model
-    types:
-    - uid: FileUrl
-  - name: inputArtifactsZipFileurl
-    description: FileUrl Model
-    types:
-    - uid: FileUrl
-  - name: additionalUrls
-    description: '[ReadOnly]The input artifacts file { name : url } map for the test run'
-    types:
-    - uid: FileUrl
-      isArray: true
-- name: SecretMetadata
-  kind: object
-  properties:
-  - name: value
-    description: The value of the secret. of type== akv-secret-uri or secret-value
-    types:
-    - uid: string
-  - name: type
-    description: Type of secret. eg. AKV_SECRET_URI/SECRET_VALUE
-    types:
-    - uid: string
-- name: ErrorResponseBody
-  description: The error response object.
+    - uid: Integer
+- name: Error
+  description: Error from a REST request.
   kind: object
   properties:
   - name: code
@@ -195,134 +122,24 @@ definitions:
   - name: details
     description: Additional details and inner errors.
     types:
-    - uid: ErrorResponseBody
+    - uid: Error
       isArray: true
-- name: PassFailMetric
-  kind: object
-  properties:
-  - name: clientmetric
-    description: 'The client metric on which the criteria should be applied. Allowed values - ‘response_time_ms’ , ‘latency’, ‘error’ '
-    types:
-    - uid: string
-  - name: aggregate
-    description: 'The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’ - for response_time_ms and latency metric '
-    types:
-    - uid: string
-  - name: condition
-    description: 'The comparison operator. Supported types ‘>’ '
-    types:
-    - uid: string
-  - name: value
-    description: 'The value to compare with the client metric. Allowed values - ‘error : [0.0 , 100.0] unit- % ’, response_time_ms and latency : any integer value unit- ms'
-    types:
-    - uid: number
-  - name: action
-    description: Either ‘stop’ or ‘continue’ after the threshold is met. Default is ‘continue’
-    types:
-    - uid: string
-  - name: actualValue
-    description: '[ReadOnly] The actual value of the client metric for the test run '
-    types:
-    - uid: number
-  - name: result
-    description: '[ReadOnly] Outcome of the testRun. possible outcome - ‘passed’ , ‘failed’ , ‘undetermined’ '
-    types:
-    - uid: string
-- name: FileUrl
-  description: FileUrl Model
-  kind: object
-  properties:
-  - name: url
-    description: File url
-    types:
-    - uid: string
-  - name: fileId
-    description: File unique identifier
-    types:
-    - uid: string
-  - name: filename
-    description: Name of the file
-    types:
-    - uid: string
-  - name: expireTime
-    description: Expiry time of the file
-    types:
-    - uid: string
 examples:
-- name: Test_UploadTestFile_MaximumSet_Gen
+- name: UploadTestFile
   request:
-    uri: PUT /loadtests/9-7_/files/8_-?api-version=2021-07-01-preview
+    uri: PUT https://<dataPlaneURL>/loadtests/12345678-1234-1234-1234-123456789012/files/92345678-1234-1111-1234-123456789012?fileType=2&api-version=2022-06-01-preview
   responses:
   - statusCode: "201"
     body: >-
       {
-        "testId": "aaaaaaaaaaaaaaaaaaaaaaa",
-        "description": "aaaaaaaaaaaaaaaaaaaaaaa",
-        "displayName": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "resourceId": "aaaaaaaaaaaaaaaaa",
-        "loadTestConfig": {
-          "engineInstances": 6
-        },
-        "passFailCriteria": {
-          "passFailMetrics": {
-            "key1348": {
-              "clientmetric": "aaaaaaaaaaaaaaaaaaaaaaa",
-              "aggregate": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-              "condition": "aaaaaaaaaaaa",
-              "value": 24,
-              "action": "aaaaaaaaaaaaaaaaaa",
-              "actualValue": 10,
-              "result": "aaaaaaaaaaaaaaaaaaaaaaaaaa"
-            }
-          }
-        },
-        "createdDateTime": "2021-12-05T16:43:46.072Z",
-        "createdBy": "aaaaaaaaaa",
-        "lastModifiedDateTime": "2021-12-05T16:43:46.072Z",
-        "lastModifiedBy": "aaaaaaaaaaaaaaaaaaaaaaa",
-        "inputArtifacts": {
-          "configUrl": {
-            "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
-            "fileId": "aaaaaaaaaaaaaaaaaa",
-            "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-            "expireTime": "2021-12-05T16:43:46.072Z"
-          },
-          "testScriptUrl": {
-            "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
-            "fileId": "aaaaaaaaaaaaaaaaaa",
-            "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-            "expireTime": "2021-12-05T16:43:46.072Z"
-          },
-          "inputArtifactsZipFileurl": {
-            "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
-            "fileId": "aaaaaaaaaaaaaaaaaa",
-            "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-            "expireTime": "2021-12-05T16:43:46.072Z"
-          },
-          "additionalUrls": [
-            {
-              "url": "aaaaaaaaaaaaaaaaaaaaaaaa",
-              "fileId": "aaaaaaaaaaaaaaaaaa",
-              "filename": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-              "expireTime": "2021-12-05T16:43:46.072Z"
-            }
-          ]
-        },
-        "secrets": {
-          "key9927": {
-            "value": "aaaaaaaaaaaaaaa",
-            "type": "aaaaaaaaaaaaaaaaaaaaaaaaaa"
-          }
-        },
-        "environmentVariables": {
-          "key2687": "aaaaa"
-        }
+        "url": "https://dummyurl.com/testscriptresource",
+        "fileId": "92345678-1234-1111-1234-123456789012",
+        "filename": "sample.jmx",
+        "fileType": 0,
+        "expireTime": "2021-12-05T16:43:46.072Z",
+        "validationStatus": "VALIDATION_SUCCESS"
       }
-security:
-- name: Authorization
-  type: apiKey
-  description: JWT Authorization header using the Bearer scheme.
-  in: header
+security: []
 metadata:
-  description: Upload input file for a given test name. File name must be a valid URL character ^[a-z0-9_-]*$. File size can't be more than 50 MB.
+  description: Upload input file for a given test name. File size can't be more than 50 MB. Existing file with same name for the given test will be overwritten.
 errorCodes: []
