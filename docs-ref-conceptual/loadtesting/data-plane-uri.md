@@ -19,9 +19,11 @@ This section shows to get the data plane URL for an Azure Load Testing resource.
 
 1. Create an Azure Load Testing resource
 
-    `PUT https://management.azure.com/subscriptions/{subcriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.LoadTestService/loadTests/{resourceName}?api-version=2022-04-15-previewloadtests`
+    ```http
+    PUT https://management.azure.com/subscriptions/{subcriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.LoadTestService/loadTests/{resourceName}?api-version=2022-04-15-previewloadtests\
+    ```  
 
-    For a client making a request with this signature, the [Create or Update Load Test resource](/rest/api/loadtesting/resourcemanager/load-test-resource/create-or-update) operation will be executed.
+    For a client making a request with this signature, the [Create or Update Load Test resource](/rest/api/loadtesting/resourcemanager(2022-04-15-preview)/load-test-resource/create-or-update) operation will be executed.
 
     A successful response for a request made using this signature will be similar to the following:
 

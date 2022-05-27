@@ -31,11 +31,13 @@ The configuration of a load test consists of:
 
 In Azure Load Testing, the load test creation and the file uploads are decoupled, i.e., they are separate API operations. The section shows the steps involved in creating a load test.
 
-1. Obtain the data plane URL for the Azure Load Testing resource as mentioned [here]([Azure Load Testing Data Plane REST API](data-plane-uri.md)).
+1. Obtain the data plane URL for the Azure Load Testing resource as mentioned [here](data-plane-uri.md)).
 
 1. Create a new test
 
-    `PATCH https://<dataPlaneURL>/loadtests/{testId}?api-version=2022-06-01-preview`
+    ```http
+    PATCH https://<dataPlaneURL>/loadtests/{testId}?api-version=2022-06-01-preview`
+    ```
 
     For a client making a request with this signature, the [Create or Update Test](/rest/api/loadtesting/dataplane/test/create-or-update-test) operation will be executed.
 
@@ -79,11 +81,15 @@ In Azure Load Testing, the load test creation and the file uploads are decoupled
 
 1. Upload files to the test created
 
-    `PUT https://<dataPlaneURL>/loadtests/{testId}/files/{fileId}?api-version=2022-06-01-preview`
+    ```http
+    PUT https://<dataPlaneURL>/loadtests/{testId}/files/{fileId}?api-version=2022-06-01-preview
+    ```
 
     or
 
-    `PUT https://<dataPlaneURL>/loadtests/{testId}/files/{fileId}?fileType={fileType}&api-version=2022-06-01-preview`
+    ```http
+    PUT https://<dataPlaneURL>/loadtests/{testId}/files/{fileId}?fileType={fileType}&api-version=2022-06-01-preview
+    ```
 
      For a client making a request with this signature, the [Upload test file](/rest/api/loadtesting/dataplane/test/upload-test-file) operation will be executed.
 
@@ -107,9 +113,11 @@ In Azure Load Testing, the load test creation and the file uploads are decoupled
 
 1. Configure AppComponents for monitoring using the following steps. AppComponents can be configured for either a load test or only a test run.
 
-    `PATCH https://<dataPlaneURL>/appcomponents/{name}?api-version=2022-06-01-preview`
+    ```http
+    PATCH https://<dataPlaneURL>/appcomponents/{name}?api-version=2022-06-01-preview
+    ```
 
-    For a client making a request with this signature, the [Upload test file](/rest/api/loadtesting/dataplane/app-component/create-or-update-app-components) operation will be executed. The request body should contain either a testId or a testRunId.
+    For a client making a request with this signature, the [Create Or Update App Components](/rest/api/loadtesting/dataplane/app-component/create-or-update-app-components) operation will be executed. The request body should contain either a testId or a testRunId.
 
     A successful response for a request made using this signature will be similar to the following:
 
