@@ -9,13 +9,13 @@ ms.service: load-testing
 ms.devlang: rest-api
 ---
 
-# Azure Load Testing Data Plane REST API
+# Azure Load Testing Data Plane URI
 
 Azure Load Testing Preview has control plane and data plane operations. For example, creating an Azure Load Testing resource is a control plane operation and creating a load test is a data plane operation. To perform data plane operations, you will need to get the data plane URI for the resource you created.
 
 ## Get the data plane URI for an Azure Load Testing resource
 
-This section shows to get the data plane URL for an Azure Load Testing resource.
+This section shows to get the data plane URI for an Azure Load Testing resource.
 
 1. Create an Azure Load Testing resource
 
@@ -59,6 +59,6 @@ This section shows to get the data plane URL for an Azure Load Testing resource.
         }
     ```
 
-1. Get the data plane URL for the resource created.
+1. Get the data plane URI for the resource created.
 
     In the *properties* section of the response, you can find different properties related to the new Azure Load Testing resource and its state. If the *provisioningState* is **Succeeded**, you can use the *dataPlaneURI* to perform data plane API operations on the resource.
