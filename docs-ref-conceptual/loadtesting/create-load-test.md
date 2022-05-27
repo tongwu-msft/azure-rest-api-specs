@@ -19,15 +19,15 @@ The configuration of a load test consists of:
 
 - The Apache JMeter test script and related data and configuration files. For example, a CSV data file.
 
-- Environment variables.
+- [Environment variables](/azure/load-testing/how-to-parameterize-load-tests).
 
-- Secret parameters.
+- [Secret parameters](/azure/load-testing/how-to-parameterize-load-tests).
 
-- The number of test engines to run the test script on.
+- The number of [test engines](/azure/load-testing/concept-load-testing-concepts#test-engine) to run the test script on.
 
-- The pass/fail criteria for the test.
+- The [pass/fail criteria](/azure/load-testing/how-to-define-test-criteria) for the test.
 
-- The list of app components and resource metrics to monitor during the test execution.
+- The list of [app components and resource metrics to monitor](/azure/load-testing/how-to-monitor-server-side-metrics) during the test execution.
 
 In Azure Load Testing, the load test creation and the file uploads are decoupled, i.e., they are separate API operations. The section shows the steps involved in creating a load test.
 
