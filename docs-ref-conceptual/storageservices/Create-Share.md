@@ -134,4 +134,4 @@ When the sum of the sizes of the files on the share exceeds the quota that's set
 Changing or setting the quota has no effect on billing. You are still billed for the size of the files plus the overhead.  
   
 ## See also
-[Operations on Azure Files shares)](Operations-on-Shares--File-Service-.md)
+[Operations on Azure Files shares](Operations-on-Shares--File-Service-.md)
