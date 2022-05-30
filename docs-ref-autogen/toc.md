@@ -9530,6 +9530,38 @@
 #### [Get](dns/privatedns/Virtual-Network-Links/Get.yml)
 #### [List](dns/privatedns/Virtual-Network-Links/List.yml)
 #### [Update](dns/privatedns/Virtual-Network-Links/Update.yml)
+# Dynatrace
+## [Overview](../docs-ref-conceptual/dynatrace/index.md)
+## Monitors
+### [Overview](dynatrace/Monitors.yml)
+### [Create Or Update](dynatrace/Monitors/Create-Or-Update.yml)
+### [Delete](dynatrace/Monitors/Delete.yml)
+### [Get](dynatrace/Monitors/Get.yml)
+### [Get Account Credentials](dynatrace/Monitors/Get-Account-Credentials.yml)
+### [Get SSO Details](dynatrace/Monitors/Get-SSO-Details.yml)
+### [Get VM Host Payload](dynatrace/Monitors/Get-VM-Host-Payload.yml)
+### [List App Services](dynatrace/Monitors/List-App-Services.yml)
+### [List By Resource Group](dynatrace/Monitors/List-By-Resource-Group.yml)
+### [List By Subscription Id](dynatrace/Monitors/List-By-Subscription-Id.yml)
+### [List Hosts](dynatrace/Monitors/List-Hosts.yml)
+### [List Linkable Environments](dynatrace/Monitors/List-Linkable-Environments.yml)
+### [List Monitored Resources](dynatrace/Monitors/List-Monitored-Resources.yml)
+### [Update](dynatrace/Monitors/Update.yml)
+## Operations
+### [Overview](dynatrace/Operations.yml)
+### [List](dynatrace/Operations/List.yml)
+## Single Sign On
+### [Overview](dynatrace/Single-Sign-On.yml)
+### [Create Or Update](dynatrace/Single-Sign-On/Create-Or-Update.yml)
+### [Get](dynatrace/Single-Sign-On/Get.yml)
+### [List](dynatrace/Single-Sign-On/List.yml)
+## Tag Rules
+### [Overview](dynatrace/Tag-Rules.yml)
+### [Create Or Update](dynatrace/Tag-Rules/Create-Or-Update.yml)
+### [Delete](dynatrace/Tag-Rules/Delete.yml)
+### [Get](dynatrace/Tag-Rules/Get.yml)
+### [List](dynatrace/Tag-Rules/List.yml)
+### [Update](dynatrace/Tag-Rules/Update.yml)
 # Edge Hardware Center
 ## [Overview](../docs-ref-conceptual/edgehardwarecenter/index.md)
 ## Cancel Order Item
