@@ -80,7 +80,7 @@ The response for this operation includes the following headers. The response mig
 |---------------------|-----------------|  
 |`x-ms-request-id`|Uniquely identifies the request that was made. You can use it to troubleshoot the request. For more information, see [Troubleshoot API operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of Azure Files that's used to execute the request.|  
-|`Date`|Indicates the time at which the response started. The service generates this UTC date/time value. |
+|`Date`|A UTC date/time value that indicates the time at which the service sent the response. |
 |`x-ms-marker`|Describes the next handle to be closed. This string is returned when more handles need to be closed in order to complete the request. The string is used in subsequent requests to force-close remaining handles. The absence of `x-ms-marker` indicates that all relevant handles were closed.|
 |`x-ms-number-of-handles-closed`|Indicates the number of closed handles.|
 |`x-ms-number-of-handles-failed`|Indicates the number of handles that failed to be closed.|
