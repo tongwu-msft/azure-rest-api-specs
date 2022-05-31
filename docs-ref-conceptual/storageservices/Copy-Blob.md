@@ -102,7 +102,7 @@ The response for this operation includes the following headers. The response can
 |`Date`|Indicates the time at which the response started. The service generates this UTC date/time value.|  
 |`x-ms-copy-id: <id>`|Version 2012-02-12 and later. Provides a string identifier for this copy operation. Use with `Get Blob` or `Get Blob Properties` to check the status of this copy operation, or pass to `Abort Copy Blob` to cancel a pending copy operation.|  
 |`x-ms-copy-status: <success &#124; pending>`|Version 2012-02-12 and later. Indicates the state of the copy operation, with these values:<br /><br /> -   `success`: The operation finished successfully.<br />-   `pending`: The operation is in progress.|  
-|`x-ms-version-id: <DateTime>`|Version 2019-12-12 and later. Uniquely identifies the blob by its version. The service returns this `DateTime` value. You can use it in subsequent requests to access this version of the blob. Treat this value as opaque.|  
+|`x-ms-version-id: <DateTime>`|Version 2019-12-12 and later. Uniquely identifies the blob by its version. You can use this opaque value in subsequent requests to access this version of the blob.|  
 |`x-ms-client-request-id`|Can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header, if it's present in the request and the value is at most 1,024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header won't be present in the response.|  
   
 ## Response body  
