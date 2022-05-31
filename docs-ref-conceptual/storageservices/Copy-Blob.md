@@ -99,7 +99,7 @@ The response for this operation includes the following headers. The response can
 |`Last-Modified`|Returns the date/time that the copy operation to the destination blob finished.|  
 |`x-ms-request-id`|Uniquely identifies the request that was made. You can use this header to troubleshoot the request. For more information, see [Troubleshoot API operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of Blob Storage that's used to execute the request. This header is returned for requests made against version 2009-09-19 and later.|  
-|`Date`|Indicates the time at which the response started. The service generates this UTC date/time value.|  
+|`Date`|A UTC date/time value that indicates the time at which the service sent the response.|  
 |`x-ms-copy-id: <id>`|Version 2012-02-12 and later. Provides a string identifier for this copy operation. Use with `Get Blob` or `Get Blob Properties` to check the status of this copy operation, or pass to `Abort Copy Blob` to cancel a pending copy operation.|  
 |`x-ms-copy-status: <success &#124; pending>`|Version 2012-02-12 and later. Indicates the state of the copy operation, with these values:<br /><br /> -   `success`: The operation finished successfully.<br />-   `pending`: The operation is in progress.|  
 |`x-ms-version-id: <DateTime>`|Version 2019-12-12 and later. Uniquely identifies the blob by its version. You can use this opaque value in subsequent requests to access this version of the blob.|  
@@ -135,7 +135,7 @@ Access to the source blob or file is authorized separately, as described in the 
   
 The following table describes how the destination and source objects for a `Copy Blob` operation can be authorized:  
   
-|Blob|Authorization with shared key or shared key lite|Authorization with shared access signature|Public object not requiring authorization|  
+|Blob|Authorization with Shared Key or Shared Key Lite|Authorization with shared access signature|Public object not requiring authorization|  
 |-|-----------------------------------------------------|-------------------------------------------------|------------------------------------------------|  
 |Destination blob|Yes|Yes|No|  
 |Source blob in same account|Yes|Yes|Yes|  
