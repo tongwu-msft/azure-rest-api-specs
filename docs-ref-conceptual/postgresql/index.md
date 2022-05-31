@@ -1,9 +1,6 @@
 ---
 title: Azure Database for PostgreSQL REST API | Microsoft Docs
 description: This article describes the REST APIs available for you to use with Azure Database for PostgreSQL to create, delete, manage, and list servers, databases, logs, firewall rules, and operations.
-author: jasonwhowell
-ms.author: jasonh
-manager: kfile
 ms.topic: reference
 ms.service: postgresql
 ms.devlang: rest-api
