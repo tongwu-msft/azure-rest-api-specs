@@ -6321,6 +6321,10 @@
 #### [List Keys](communication/Communication-Service/List-Keys.yml)
 #### [Regenerate Key](communication/Communication-Service/Regenerate-Key.yml)
 #### [Update](communication/Communication-Service/Update.yml)
+### Email
+#### [Overview](communication/Email.yml)
+#### [Get Send Status](communication/Email/Get-Send-Status.yml)
+#### [Send](communication/Email/Send.yml)
 ### Operations
 #### [Overview](communication/Operations.yml)
 #### [List](communication/Operations/List.yml)
