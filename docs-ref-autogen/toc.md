@@ -14258,7 +14258,7 @@
 ### [List For Subscription](policy/Remediations/List-For-Subscription.yml)
 # PostgreSQL
 ## [Overview](../docs-ref-conceptual/postgresql/index.md)
-## Flexible Server (Preview)
+## Flexible Server
 ### Check Name Availability
 #### [Overview](postgresql/flexibleserver(preview)/Check-Name-Availability.yml)
 #### [Execute](postgresql/flexibleserver(preview)/Check-Name-Availability/Execute.yml)
