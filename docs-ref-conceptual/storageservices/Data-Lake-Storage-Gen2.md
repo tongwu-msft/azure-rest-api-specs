@@ -16,7 +16,7 @@ Use the Azure Data Lake Storage Gen2 REST APIs to interact with Azure Blob Stora
 
 ## Authorization
 
-Azure Data Lake Storage Gen2 REST APIs support Azure Active Directory (Azure AD), shared key, and shared access signature (SAS) authorization. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).
+Azure Data Lake Storage Gen2 REST APIs support Azure Active Directory (Azure AD), Shared Key, and shared access signature (SAS) authorization. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).
 
 ## Operations
 
