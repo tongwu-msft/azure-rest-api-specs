@@ -1,9 +1,10 @@
 ---
 ms.assetid: 842d85e5-8987-4868-84de-e39ba3cff16d
+description: API reference documentation for the Azure Scheduler REST APIs.
 title: Azure Scheduler Service
 ms.service: scheduler
 author: erickson-doug
-ms.author: douge
+ms.author: jasonh 
 ms.manager: douge
 service_description: To be added
 ---

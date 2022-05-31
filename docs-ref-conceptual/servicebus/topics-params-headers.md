@@ -1,5 +1,6 @@
 ---
 title: "Common parameters and headers: topics"
+description: Learn about common parameters and headers for Service Bus topic, as well as tasks you might complete related to Service Bus topic.
 ms.custom: ""
 ms.date: 07/08/2020
 ms.reviewer: ""

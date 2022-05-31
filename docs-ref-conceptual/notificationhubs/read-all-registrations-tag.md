@@ -1,5 +1,6 @@
 ﻿---
 title: "Read all registrations with a tag"
+description: Use this API reference documentation to retrieve all registrations with a specific tag.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Upgrade Deployment | Microsoft Docs"
+description: Learn how the Upgrade Deployment asynchronous operation initiates an update of role instances in a deployment using the package and configuration that you specify.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"
