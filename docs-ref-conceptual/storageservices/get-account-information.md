@@ -68,7 +68,7 @@ The response for this operation includes the following headers. The response mig
 |---------------------|-----------------|  
 |`x-ms-request-id`|Uniquely identifies the request that was made. You can use it to troubleshoot the request. For more information, see [Troubleshoot API operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Version 2009-09-19 and later. Indicates the version of Azure Blob Storage that's used to execute the request.|  
-|`Date`|Indicates the time at which the response started. The service generates this UTC date/time value.|  
+|`Date`|A UTC date/time value that indicates the time at which the service sent the response.|  
 |`Content-Length`| Specifies the length of the request body. For this operation, the content length will always be zero.|  
 |`x-ms-sku-name`|Identifies the [SKU name](../storagerp/SRP_SKU_Types.md) of the specified account.|  
 |`x-ms-account-kind`|Identifies the [account kind](../storagerp/SRP_SKU_Types.md) of the specified account. The possible values are `Storage`, `BlobStorage`, and `StorageV2`. The header distinguishes between General Purpose v1 (GPv1) and General Purpose v2 (GPv2) storage accounts by using the substring `V2` for GPv2 accounts.|  
