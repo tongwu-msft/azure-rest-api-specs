@@ -61,7 +61,7 @@ The response for this operation includes the following headers. The response als
 |--------------------|-----------------|  
 |`x-ms-request-id`|Uniquely identifies the request that was made. You can use this header to troubleshoot the request. For more information, see [Troubleshoot API operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of Queue Storage that's used to execute the request. This header is returned for requests made against version 2009-09-19 and later.|  
-|`Date`|Indicates the time at which the response started. The service generates this UTC date/time value.|  
+|`Date`|A UTC date/time value that indicates the time at which the service sent the response.|  
 |`x-ms-client-request-id`|Can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header, if it's present in the request and the value is at most 1,024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header won't be present in the response.|  
   
 ### Response body  
