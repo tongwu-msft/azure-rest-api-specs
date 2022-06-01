@@ -1,7 +1,7 @@
 ---
 title: "StatelessServiceInfo"
 description: "StatelessServiceInfo"
-ms.date: "10/21/2020"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -41,6 +41,7 @@ Information about a stateless Service Fabric service.
 | [`HealthState`](#healthstate) | string (enum) | No |
 | [`ServiceStatus`](#servicestatus) | string (enum) | No |
 | [`IsServiceGroup`](#isservicegroup) | boolean | No |
+| [`ServiceMetadata`](#servicemetadata) | [ServiceMetadata](sfclient-model-servicemetadata.md) | No |
 
 ____
 ### `Id`
@@ -118,3 +119,10 @@ __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>
 Whether the service is in a service group.
+
+____
+### `ServiceMetadata`
+__Type__: [ServiceMetadata](sfclient-model-servicemetadata.md) <br/>
+__Required__: No<br/>
+<br/>
+Metadata associated with a specific service.

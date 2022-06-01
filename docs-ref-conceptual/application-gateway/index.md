@@ -1,5 +1,6 @@
 ---
 title: Azure Application Gateway REST API | Microsoft Docs
+description: Learn how the Application Gateway is a Network Service which provides HTTP Load balancing as a Service to Azure customers.
 ms.date: 08/09/2017
 ms.service: application-gateway
 ms.devlang: rest-api

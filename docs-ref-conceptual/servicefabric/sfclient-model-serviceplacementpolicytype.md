@@ -1,5 +1,5 @@
 ---
-title: "ServicePlacementPolicyType"
+title: Service Placement Policy Types
 description: "ServicePlacementPolicyType"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePlacementPolicyType enum
+# Service Placement Policy Types
 
 type: string
 

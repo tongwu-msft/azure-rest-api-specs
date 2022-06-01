@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Walk Upgrade Domain | Microsoft Docs"
+description: Learn how the Walk Upgrade Domain asynchronous operation specifies an update domain in which a role instance must be updated.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

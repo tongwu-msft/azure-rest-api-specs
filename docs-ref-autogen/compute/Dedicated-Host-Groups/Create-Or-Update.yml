@@ -3,14 +3,14 @@ uid: management.azure.com.compute.dedicatedhostgroups.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Dedicated Host Groups
-apiVersion: 2021-11-01
+apiVersion: 2022-03-01
 summary: Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}?api-version=2021-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -69,6 +69,11 @@ requestBody:
     description: "Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. <br><br>Minimum api-version: 2020-06-01."
     types:
     - uid: boolean
+  - name: properties.additionalCapabilities
+    in: body
+    description: 'Enables or disables a capability on the dedicated host group.<br><br>Minimum api-version: 2022-03-01.'
+    types:
+    - uid: AdditionalCapabilities
   - name: location
     in: body
     isRequired: true
@@ -102,6 +107,14 @@ definitions:
     types:
     - uid: DedicatedHostInstanceViewWithName
       isArray: true
+- name: AdditionalCapabilities
+  description: 'Enables or disables a capability on the dedicated host group.<br><br>Minimum api-version: 2022-03-01.'
+  kind: object
+  properties:
+  - name: ultraSSDEnabled
+    description: "The flag that enables or disables a capability to have UltraSSD Enabled Virtual Machines on Dedicated Hosts of the Dedicated Host Group. For the Virtual Machines to be UltraSSD Enabled, UltraSSDEnabled flag for the resource needs to be set true as well. The value is defaulted to 'false' when not provided. Please refer to https://docs.microsoft.com/en-us/azure/virtual-machines/disks-enable-ultra-ssd for more details on Ultra SSD feature. <br><br>NOTE: The ultraSSDEnabled setting can only be enabled for Host Groups that are created as zonal. <br><br>Minimum api-version: 2022-03-01."
+    types:
+    - uid: boolean
 - name: DedicatedHostGroup
   description: Specifies information about the dedicated host group that the dedicated hosts should be assigned to. <br><br> Currently, a dedicated host can only be added to a dedicated host group at creation time. An existing dedicated host cannot be added to another dedicated host group.
   kind: object
@@ -130,6 +143,10 @@ definitions:
     description: "Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. <br><br>Minimum api-version: 2020-06-01."
     types:
     - uid: boolean
+  - name: properties.additionalCapabilities
+    description: 'Enables or disables a capability on the dedicated host group.<br><br>Minimum api-version: 2022-03-01.'
+    types:
+    - uid: AdditionalCapabilities
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -302,7 +319,7 @@ definitions:
 examples:
 - name: Create or update a dedicated host group.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -341,6 +358,68 @@ examples:
         "properties": {
           "platformFaultDomainCount": 3,
           "supportAutomaticPlacement": true
+        },
+        "location": "westus",
+        "tags": {
+          "department": "finance",
+          "owner": "myCompany"
+        },
+        "name": "myDedicatedHostGroup",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/HostGroups/myDedicatedHostGroup",
+        "zones": [
+          "1"
+        ]
+      }
+- name: Create or update a dedicated host group with Ultra SSD support.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2022-03-01
+    body: >-
+      {
+        "location": "westus",
+        "tags": {
+          "department": "finance"
+        },
+        "zones": [
+          "1"
+        ],
+        "properties": {
+          "platformFaultDomainCount": 3,
+          "supportAutomaticPlacement": true,
+          "additionalCapabilities": {
+            "ultraSSDEnabled": true
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "myDedicatedHostGroup",
+        "location": "westus",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/HostGroups/myDedicatedHostGroup",
+        "tags": {
+          "department": "finance"
+        },
+        "zones": [
+          "1"
+        ],
+        "properties": {
+          "platformFaultDomainCount": 3,
+          "supportAutomaticPlacement": true,
+          "additionalCapabilities": {
+            "ultraSSDEnabled": true
+          }
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "platformFaultDomainCount": 3,
+          "supportAutomaticPlacement": true,
+          "additionalCapabilities": {
+            "ultraSSDEnabled": true
+          }
         },
         "location": "westus",
         "tags": {

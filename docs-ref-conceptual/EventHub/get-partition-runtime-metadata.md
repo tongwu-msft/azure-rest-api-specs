@@ -1,5 +1,6 @@
 ---
 title: "Get partition runtime metadata"
+description: Learn how the Get Partition Runtime Metadata operation retrieves the metadata for a specified partition on an Event Hub.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

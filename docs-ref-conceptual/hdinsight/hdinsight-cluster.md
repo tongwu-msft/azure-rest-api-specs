@@ -1,5 +1,6 @@
 ---
 title: "Cluster REST API (Azure HDInsight)"
+description: Learn how the Cluster REST API in Azure HD Insight creates a cluster in the specified subscription..
 ms.service: hdinsight
 ms.topic: reference
 author: jasonwhowell
@@ -13,7 +14,7 @@ ms.date: 4/17/2019
 Creates a cluster in the specified subscription.  
   
 ###  <a name="bk_createrequest"></a> Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -305,7 +306,7 @@ Creates a cluster in the specified subscription.
 Create a premium domain-joined cluster with Apache Ranger. User needs to provide SecurityProfile in the request body to create a secure cluster.
   
 ###  <a name="bk_createrequest_premium"></a> Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -618,7 +619,7 @@ Creates a cluster in the specified subscription with Azure Data Lake Store as th
 Azure Data Lake can be configured as the default filesystem for cluster versions starting from 3.5 inclusive.  
   
 ###  <a name="bk_createrequest_adls"></a> Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -897,7 +898,7 @@ The following example shows the request body for creating a Linux-based Hadoop c
 Deletes an HDInsight cluster.  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -914,7 +915,7 @@ Deletes an HDInsight cluster.
 Gets the details/properties of the specified cluster.  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -1028,7 +1029,7 @@ Gets the details/properties of the specified cluster.
 Retrieves all cluster configuration details (including sensitive information).  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -1065,7 +1066,7 @@ Retrieves all cluster configuration details (including sensitive information).
 Gets details about a single configuration type (omits sensitive values).  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -1091,7 +1092,7 @@ Gets details about a single configuration type (omits sensitive values).
 This operation retrieves cluster gateway HTTP credentials.  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -1114,7 +1115,7 @@ This operation retrieves cluster gateway HTTP credentials.
 This operation allows users to change the cluster gateway HTTP credentials. 
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -1138,7 +1139,7 @@ This operation allows users to change the cluster gateway HTTP credentials.
 Use [updateGatewaySettings](#update-gateway-settings) instead.
   	
 ### Request  	
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.
 
 |Method|Request URI|  
 |------------|-----------------|
@@ -1158,7 +1159,7 @@ Use [updateGatewaySettings](#update-gateway-settings) instead.
 Lists all the clusters in the user’s subscription in the specified resource group.  
   
 ### Request  
- See  [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See  [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -1185,7 +1186,7 @@ Lists all the clusters in the user’s subscription in the specified resource gr
 Lists all the clusters in the user’s subscription.  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -1232,7 +1233,7 @@ Lists all the clusters in the user’s subscription.
 This operation allows a user to enable/disable RDP. It applies to Windows-based clusters.  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -1300,7 +1301,7 @@ This operation allows a user to enable/disable RDP. It applies to Windows-based 
 Execute Script action on a running cluster.  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -1347,7 +1348,7 @@ Execute Script action on a running cluster.
 This operation returns all the persisted scripts actions of the specified cluster.  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -1389,7 +1390,7 @@ This operation returns all the persisted scripts actions of the specified cluste
 This operation removes an HDInsight persisted script action for a cluster.  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -1406,7 +1407,7 @@ This operation removes an HDInsight persisted script action for a cluster.
 This operation returns latest scripts action execution of the specified cluster or execution details for an individual script execution.  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -1466,7 +1467,7 @@ This operation returns latest scripts action execution of the specified cluster 
 This operation promotes an HDInsight script from script execution history to be persisted.  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -1483,7 +1484,7 @@ This operation promotes an HDInsight script from script execution history to be 
 Resizes an existing HDInsight cluster.  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -1514,7 +1515,7 @@ Updates tags for a cluster.
  All other updates are separate actions described separately.  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  

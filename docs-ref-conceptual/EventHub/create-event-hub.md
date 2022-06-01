@@ -1,5 +1,6 @@
 ---
 title: "Create Event Hub"
+description: Learn that when creating a new Event Hub, you can specify properties that appear in the Event Hub description, but are ignored by the service.  
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

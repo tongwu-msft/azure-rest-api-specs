@@ -1,5 +1,6 @@
 ---
 title: Microsoft Device Update REST API Reference
+description: Learn how Device Update for IoT Hub is an end-to-end platform that customers can use to publish and manage over-the-air updates.
 ms.service: iot-hub-device-update
 author: abatishchev 
 ms.author: valls
