@@ -2,29 +2,28 @@
 ms.assetid: d6454772-1594-4c44-9f01-456ccfed94d1
 description: Learn how Azure Redis Cache gives you access to a secure, dedicated Redis cache, managed by Microsoft and accessible from any application within Azure.
 title: Azure Redis Cache
-ms.service: redis-cache
-author: steved0x
-ms.author: sdanie
-ms.manager: douge
-service_description: To be added
+description: Reference for Azure Cache for Redis REST APIs 
+ms.service: cache
+author: flang-msft
+ms.author: franlanglois
+ms.topic: reference
+ms.date: 03/10/2022
+
 ---
 
+# Azure Cache for Redis
 
-# Azure Redis Cache
-
-Azure Redis Cache is based on the popular open-source [Redis cache](http://redis.io). It gives you access to a secure, dedicated Redis cache, managed by Microsoft and accessible from any application within Azure. For a more detailed overview, see the [Azure Redis Cache product page](https://azure.microsoft.com/services/cache/).
+Azure Cache for Redis is based on the popular open-source [Redis cache](http://redis.io). It gives you access to a secure, dedicated Redis server, managed by Microsoft and accessible from any application within Azure. For a more detailed overview, see [Azure Cache for Redis](/azure/azure-cache-for-redis/).
 
 ## REST Operation Groups
 
 | Operation Group | Description |
 |-----------------|-------------|
-| [Patch Schedules](xref:management.azure.com.redis.patchschedules) | Provides operations for managing the [maintenance window](https://azure.microsoft.com/documentation/articles/cache-administration/#schedule-updates) for Premium tier Azure Redis Cache instances.            |
+| [Patch Schedules](xref:management.azure.com.redis.patchschedules) | Provides operations for managing the [maintenance window](/azure-cache-for-redis/cache-administration.md/#schedule-updates) for Premium tier Azure Redis Cache instances.            |
 | [Redis](xref:management.azure.com.redis.redis)           | Provides operations for creating and managing Azure Redis Cache instances such as create, update, delete, reboot, import/export, and key regeneration.      |
-
 
 ## See Also
 
-- [Azure Redis Cache documentation](https://azure.microsoft.com/documentation/services/redis-cache/)
-- [Azure Redis Cache FAQ](https://azure.microsoft.com/documentation/articles/cache-faq/)
-- [Azure Redis Cache Premium tier](https://azure.microsoft.com/documentation/articles/cache-premium-tier-intro/)
-
+- [Azure Cache for Redis documentation](/azure/azure-cache-for-redis/)
+- [Azure Cache for Redis Overview](/azure/azure-cache-for-redis/cache-overview)
+- [Azure Cache for Redis FAQ](/azure/azure-cache-for-redis/cache-faq)
