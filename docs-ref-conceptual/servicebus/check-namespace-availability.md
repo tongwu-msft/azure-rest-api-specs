@@ -1,5 +1,6 @@
 ---
 title: "Check Namespace Availability"
+description: API reference documentation for the operations available in the Check Namespace Availability REST API, a RESTful web service for managing Check Namespace Availability resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""
@@ -27,7 +28,7 @@ translation.priority.mt:
 # Check Namespace Availability
 
 > [!IMPORTANT]
-> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+> This API is [**obsolete and retired**](/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
 
 Checks the availability of the given service namespace across all Microsoft Azure subscriptions. This is useful because the domain name is created based on the namespace name.  
   

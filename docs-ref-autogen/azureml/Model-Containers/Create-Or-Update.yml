@@ -3,14 +3,14 @@ uid: management.azure.com.azureml.modelcontainers.createorupdate
 name: Create Or Update
 service: Machine Learning
 groupName: Model Containers
-apiVersion: 2021-03-01-preview
+apiVersion: 2022-02-01-preview
 summary: Create or update container.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}?api-version=2021-03-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}?api-version=2022-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,7 +33,7 @@ uriParameters:
 - name: name
   in: path
   isRequired: true
-  description: Container name.
+  description: Container name. This is case-sensitive.
   types:
   - uid: string
   pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,254}$
@@ -70,6 +70,20 @@ definitions:
 - name: ModelContainer
   kind: object
   properties:
+  - name: isArchived
+    description: Is the asset archived?
+    types:
+    - uid: boolean
+  - name: latestVersion
+    isReadyOnly: true
+    description: The latest version inside this container.
+    types:
+    - uid: string
+  - name: nextVersion
+    isReadyOnly: true
+    description: The next auto incremental version
+    types:
+    - uid: string
   - name: description
     description: The asset description text.
     types:
@@ -134,11 +148,6 @@ definitions:
     description: '[Required] Additional attributes of the entity.'
     types:
     - uid: ModelContainer
-  - name: systemData
-    isReadyOnly: true
-    description: System data associated with resource provider
-    types:
-    - uid: systemData
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -154,6 +163,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -218,7 +232,7 @@ definitions:
 examples:
 - name: CreateOrUpdate Model Container.
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspace123/models/testContainer?api-version=2021-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspace123/models/testContainer?api-version=2022-02-01-preview
     body: >-
       {
         "properties": {

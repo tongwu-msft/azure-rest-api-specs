@@ -1,10 +1,10 @@
 ---
 ms.assetid: f21ddf47-4cbe-42e0-b6e8-670efa4f671d
 title: Service Map REST API
-ms.service: ServiceMap
-author: daveirwin1
-ms.author: dairwin
-ms.manager: niburlin
+description: "Service Map REST API Reference discovers application components on Windows and Linux systems and maps the communication between services."
+ms.service: azure-maps
+author: JasonWHowell
+ms.author: jasonh
 service_description: To be added
 ---
 
@@ -30,5 +30,5 @@ The Service Map REST API allows you to query Service Map dependency data from an
 
 ## See also
 
-- [Service Map documentation](https://docs.microsoft.com/azure/operations-management-suite/operations-management-suite-service-map)
-- [Configuring Service Map](https://docs.microsoft.com/azure/azure-monitor/insights/service-map#enable-service-map)
+- [Service Map documentation](/azure/operations-management-suite/operations-management-suite-service-map)
+- [Configuring Service Map](/azure/azure-monitor/insights/service-map#enable-service-map)

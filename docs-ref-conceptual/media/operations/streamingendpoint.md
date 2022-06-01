@@ -1,5 +1,6 @@
 ---
 title: "StreamingEndpoint"
+description: Learn how the StreamingEndpoint entity represents a streaming service that can deliver content directly to a client player application
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

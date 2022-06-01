@@ -1,5 +1,6 @@
 ﻿---
 title: "Delete an installation"
+description: Use this API reference documentation to delete an installation.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

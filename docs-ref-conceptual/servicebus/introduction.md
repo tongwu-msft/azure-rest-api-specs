@@ -1,5 +1,6 @@
 ---
 title: "Introduction"
+description: Learn about brokered message properties and how you can specify message properties when you send a message.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""

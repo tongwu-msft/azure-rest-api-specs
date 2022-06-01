@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Swap Deployment | Microsoft Docs"
+description: Learn how the Swap Deployment asynchronous operation initiates a virtual IP address swap between the staging and production deployment environments for a service.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

@@ -3,14 +3,14 @@ uid: management.azure.com.aks.agentpools.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Agent Pools
-apiVersion: 2022-02-01
+apiVersion: 2022-04-01
 summary: Creates or updates an agent pool in the specified managed cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2022-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2022-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -146,7 +146,7 @@ requestBody:
     - uid: AgentPoolMode
   - name: properties.orchestratorVersion
     in: body
-    description: "The version of Kubernetes running on the Agent Pool.  \nAs a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool)."
+    description: "The version of Kubernetes specified by the user.  \nBoth patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool)."
     types:
     - uid: string
   - name: properties.upgradeSettings
@@ -422,7 +422,12 @@ definitions:
     types:
     - uid: AgentPoolMode
   - name: properties.orchestratorVersion
-    description: "The version of Kubernetes running on the Agent Pool.  \nAs a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool)."
+    description: "The version of Kubernetes specified by the user.  \nBoth patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool)."
+    types:
+    - uid: string
+  - name: properties.currentOrchestratorVersion
+    isReadyOnly: true
+    description: "The version of Kubernetes the Agent Pool is running.  \nIf orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used."
     types:
     - uid: string
   - name: properties.nodeImageVersion
@@ -833,7 +838,7 @@ definitions:
 examples:
 - name: Create/Update Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -865,6 +870,7 @@ examples:
         "properties": {
           "provisioningState": "Succeeded",
           "orchestratorVersion": "1.9.6",
+          "currentOrchestratorVersion": "1.9.6",
           "count": 3,
           "vmSize": "Standard_DS1_v2",
           "maxPods": 110,
@@ -893,6 +899,7 @@ examples:
         "properties": {
           "provisioningState": "Creating",
           "orchestratorVersion": "1.9.6",
+          "currentOrchestratorVersion": "1.9.6",
           "count": 3,
           "vmSize": "Standard_DS1_v2",
           "maxPods": 110,
@@ -913,7 +920,7 @@ examples:
       }
 - name: Update Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -941,6 +948,7 @@ examples:
         "properties": {
           "provisioningState": "Succeeded",
           "orchestratorVersion": "1.9.6",
+          "currentOrchestratorVersion": "1.9.6",
           "count": 3,
           "enableAutoScaling": true,
           "minCount": 2,
@@ -964,6 +972,7 @@ examples:
         "properties": {
           "provisioningState": "Updating",
           "orchestratorVersion": "1.9.6",
+          "currentOrchestratorVersion": "1.9.6",
           "count": 3,
           "enableAutoScaling": true,
           "minCount": 2,
@@ -980,7 +989,7 @@ examples:
       }
 - name: Create Spot Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -1011,6 +1020,7 @@ examples:
         "properties": {
           "provisioningState": "Succeeded",
           "orchestratorVersion": "1.9.6",
+          "currentOrchestratorVersion": "1.9.6",
           "count": 3,
           "vmSize": "Standard_DS1_v2",
           "maxPods": 110,
@@ -1038,6 +1048,7 @@ examples:
         "properties": {
           "provisioningState": "Creating",
           "orchestratorVersion": "1.9.6",
+          "currentOrchestratorVersion": "1.9.6",
           "count": 3,
           "vmSize": "Standard_DS1_v2",
           "maxPods": 110,
@@ -1058,7 +1069,7 @@ examples:
       }
 - name: Create Agent Pool with PPG
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -1079,6 +1090,7 @@ examples:
         "properties": {
           "provisioningState": "Succeeded",
           "orchestratorVersion": "1.9.6",
+          "currentOrchestratorVersion": "1.9.6",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1095,6 +1107,7 @@ examples:
         "properties": {
           "provisioningState": "Creating",
           "orchestratorVersion": "1.9.6",
+          "currentOrchestratorVersion": "1.9.6",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1104,7 +1117,7 @@ examples:
       }
 - name: Create Agent Pool with OSSKU
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -1149,6 +1162,7 @@ examples:
         "properties": {
           "provisioningState": "Succeeded",
           "orchestratorVersion": "1.17.8",
+          "currentOrchestratorVersion": "1.17.8",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1189,6 +1203,7 @@ examples:
         "properties": {
           "provisioningState": "Creating",
           "orchestratorVersion": "1.17.8",
+          "currentOrchestratorVersion": "1.17.8",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1223,7 +1238,7 @@ examples:
       }
 - name: Create Agent Pool with GPUMIG
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -1268,6 +1283,7 @@ examples:
         "properties": {
           "provisioningState": "Succeeded",
           "orchestratorVersion": "1.17.8",
+          "currentOrchestratorVersion": "1.17.8",
           "count": 3,
           "vmSize": "Standard_ND96asr_v4",
           "maxPods": 110,
@@ -1308,6 +1324,7 @@ examples:
         "properties": {
           "provisioningState": "Creating",
           "orchestratorVersion": "1.17.8",
+          "currentOrchestratorVersion": "1.17.8",
           "count": 3,
           "vmSize": "Standard_ND96asr_v4",
           "maxPods": 110,
@@ -1342,7 +1359,7 @@ examples:
       }
 - name: Create Agent Pool with Ephemeral OS Disk
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -1364,6 +1381,7 @@ examples:
         "properties": {
           "provisioningState": "Succeeded",
           "orchestratorVersion": "1.17.8",
+          "currentOrchestratorVersion": "1.17.8",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1381,6 +1399,7 @@ examples:
         "properties": {
           "provisioningState": "Creating",
           "orchestratorVersion": "1.17.8",
+          "currentOrchestratorVersion": "1.17.8",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1392,7 +1411,7 @@ examples:
       }
 - name: Create Agent Pool with KubeletConfig and LinuxOSConfig
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -1436,6 +1455,7 @@ examples:
         "properties": {
           "provisioningState": "Succeeded",
           "orchestratorVersion": "1.17.8",
+          "currentOrchestratorVersion": "1.17.8",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1475,6 +1495,7 @@ examples:
         "properties": {
           "provisioningState": "Creating",
           "orchestratorVersion": "1.17.8",
+          "currentOrchestratorVersion": "1.17.8",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1508,7 +1529,7 @@ examples:
       }
 - name: Create Agent Pool with EncryptionAtHost enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -1529,6 +1550,7 @@ examples:
         "properties": {
           "provisioningState": "Succeeded",
           "orchestratorVersion": "1.17.13",
+          "currentOrchestratorVersion": "1.17.13",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1545,6 +1567,7 @@ examples:
         "properties": {
           "provisioningState": "Creating",
           "orchestratorVersion": "1.17.13",
+          "currentOrchestratorVersion": "1.17.13",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1554,7 +1577,7 @@ examples:
       }
 - name: Create Agent Pool with UltraSSD enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -1575,6 +1598,7 @@ examples:
         "properties": {
           "provisioningState": "Succeeded",
           "orchestratorVersion": "1.17.13",
+          "currentOrchestratorVersion": "1.17.13",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1591,6 +1615,7 @@ examples:
         "properties": {
           "provisioningState": "Creating",
           "orchestratorVersion": "1.17.13",
+          "currentOrchestratorVersion": "1.17.13",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1600,7 +1625,7 @@ examples:
       }
 - name: Create Agent Pool with FIPS enabled OS
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -1621,6 +1646,7 @@ examples:
         "properties": {
           "provisioningState": "Succeeded",
           "orchestratorVersion": "1.19.6",
+          "currentOrchestratorVersion": "1.19.6",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1637,6 +1663,7 @@ examples:
         "properties": {
           "provisioningState": "Creating",
           "orchestratorVersion": "1.19.6",
+          "currentOrchestratorVersion": "1.19.6",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1646,7 +1673,7 @@ examples:
       }
 - name: Create Agent Pool using an agent pool snapshot
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -1670,6 +1697,7 @@ examples:
         "properties": {
           "provisioningState": "Succeeded",
           "orchestratorVersion": "1.19.6",
+          "currentOrchestratorVersion": "1.19.6",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1689,6 +1717,7 @@ examples:
         "properties": {
           "provisioningState": "Creating",
           "orchestratorVersion": "1.19.6",
+          "currentOrchestratorVersion": "1.19.6",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1701,7 +1730,7 @@ examples:
       }
 - name: Create Agent Pool with Krustlet and the WASI runtime
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -1724,6 +1753,7 @@ examples:
         "properties": {
           "provisioningState": "Succeeded",
           "orchestratorVersion": "1.17.8",
+          "currentOrchestratorVersion": "1.17.8",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1742,6 +1772,7 @@ examples:
         "properties": {
           "provisioningState": "Creating",
           "orchestratorVersion": "1.17.8",
+          "currentOrchestratorVersion": "1.17.8",
           "count": 3,
           "vmSize": "Standard_DS2_v2",
           "maxPods": 110,
@@ -1753,7 +1784,7 @@ examples:
       }
 - name: Stop Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -1799,7 +1830,7 @@ examples:
       }
 - name: Start Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2022-04-01
     body: >-
       {
         "properties": {

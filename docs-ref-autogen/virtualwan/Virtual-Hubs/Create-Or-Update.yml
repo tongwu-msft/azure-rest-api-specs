@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.virtualhubs.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: Virtual Hubs
-apiVersion: 2021-05-01
+apiVersion: 2021-08-01
 summary: Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}?api-version=2021-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -129,6 +129,11 @@ requestBody:
     description: The preferred gateway to route on-prem traffic
     types:
     - uid: PreferredRoutingGateway
+  - name: properties.hubRoutingPreference
+    in: body
+    description: The hubRoutingPreference of this VirtualHub.
+    types:
+    - uid: HubRoutingPreference
   - name: id
     in: body
     description: Resource ID.
@@ -298,6 +303,10 @@ definitions:
     description: The preferred gateway to route on-prem traffic
     types:
     - uid: PreferredRoutingGateway
+  - name: properties.hubRoutingPreference
+    description: The hubRoutingPreference of this VirtualHub.
+    types:
+    - uid: HubRoutingPreference
   - name: id
     description: Resource ID.
     types:
@@ -412,6 +421,19 @@ definitions:
   - name: None
     types:
     - uid: string
+- name: HubRoutingPreference
+  description: The hub routing preference gateway types
+  kind: enum
+  properties:
+  - name: ExpressRoute
+    types:
+    - uid: string
+  - name: VpnGateway
+    types:
+    - uid: string
+  - name: ASPath
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -436,7 +458,7 @@ definitions:
 examples:
 - name: VirtualHubPut
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2?api-version=2021-08-01
     body: >-
       {
         "location": "West US",
@@ -475,7 +497,8 @@ examples:
             "10.10.1.13"
           ],
           "allowBranchToBranchTraffic": false,
-          "preferredRoutingGateway": "ExpressRoute"
+          "preferredRoutingGateway": "ExpressRoute",
+          "hubRoutingPreference": "ExpressRoute"
         }
       }
   - statusCode: "201"
@@ -501,7 +524,8 @@ examples:
             "10.10.1.13"
           ],
           "allowBranchToBranchTraffic": false,
-          "preferredRoutingGateway": "ExpressRoute"
+          "preferredRoutingGateway": "ExpressRoute",
+          "hubRoutingPreference": "ExpressRoute"
         }
       }
 security:

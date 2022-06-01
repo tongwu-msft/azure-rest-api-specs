@@ -3,15 +3,15 @@ uid: management.azure.com.azureml.datastores.createorupdate
 name: Create Or Update
 service: Machine Learning
 groupName: Datastores
-apiVersion: 2021-03-01-preview
+apiVersion: 2022-02-01-preview
 summary: Create or update datastore.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}?api-version=2021-03-01-preview
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}?api-version=2021-03-01-preview&skipValidation={skipValidation}
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}?api-version=2022-02-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}?api-version=2022-02-01-preview&skipValidation={skipValidation}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -58,11 +58,11 @@ responses:
 - name: 200 OK
   description: Success
   types:
-  - uid: DatastorePropertiesResource
+  - uid: DatastoreResource
 - name: 201 Created
   description: Created
   types:
-  - uid: DatastorePropertiesResource
+  - uid: DatastoreResource
 requestBody:
 - name: default
   parameters:
@@ -71,57 +71,14 @@ requestBody:
     isRequired: true
     description: '[Required] Additional attributes of the entity.'
     types:
-    - uid: DatastoreProperties
+    - uid: AzureBlobDatastore
+    - uid: AzureDataLakeGen1Datastore
+    - uid: AzureDataLakeGen2Datastore
+    - uid: AzureFileDatastore
+    - uid: HdfsDatastore
+    typesTitle: Datastore
 requestHeader: []
 definitions:
-- name: DatastoreProperties
-  description: Datastore definition.
-  kind: object
-  properties:
-  - name: contents
-    description: '[Required] Reference to the datastore storage contents.'
-    types:
-    - uid: AzureBlobContents
-    - uid: AzureDataLakeGen1Contents
-    - uid: AzureDataLakeGen2Contents
-    - uid: AzureFileContents
-    - uid: AzurePostgreSqlContents
-    - uid: AzureSqlDatabaseContents
-    - uid: GlusterFsContents
-    typesTitle: DatastoreContents
-  - name: description
-    description: The asset description text.
-    types:
-    - uid: string
-  - name: hasBeenValidated
-    isReadyOnly: true
-    description: Whether the service has validated access to the datastore with the provided credentials.
-    types:
-    - uid: boolean
-  - name: isDefault
-    description: Whether this datastore is the default for the workspace.
-    types:
-    - uid: boolean
-  - name: linkedInfo
-    description: Information about the datastore origin, if linked.
-    types:
-    - uid: LinkedInfo
-  - name: properties
-    description: The asset property dictionary.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: tags
-    description: Tag dictionary. Tags can be added, removed, and updated.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -158,19 +115,19 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: DatastorePropertiesResource
+- name: DatastoreResource
   description: Azure Resource Manager resource envelope.
   kind: object
   properties:
   - name: properties
     description: '[Required] Additional attributes of the entity.'
     types:
-    - uid: DatastoreProperties
-  - name: systemData
-    isReadyOnly: true
-    description: System data associated with resource provider
-    types:
-    - uid: systemData
+    - uid: AzureBlobDatastore
+    - uid: AzureDataLakeGen1Datastore
+    - uid: AzureDataLakeGen2Datastore
+    - uid: AzureFileDatastore
+    - uid: HdfsDatastore
+    typesTitle: Datastore
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -186,22 +143,315 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: LinkedInfo
-  description: Information about a datastore origin, if linked.
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: AzureBlobDatastore
+  description: Azure Blob datastore configuration.
   kind: object
   properties:
-  - name: linkedId
-    description: Linked service ID.
+  - name: accountName
+    description: Storage account name.
     types:
     - uid: string
-  - name: linkedResourceName
-    description: Linked service resource name.
+  - name: containerName
+    description: Storage account container name.
     types:
     - uid: string
-  - name: origin
-    description: Type of the linked service.
+  - name: endpoint
+    description: Azure cloud endpoint for the storage account.
     types:
-    - uid: OriginType
+    - uid: string
+  - name: protocol
+    description: Protocol used to communicate with the storage account.
+    types:
+    - uid: string
+  - name: serviceDataAccessAuthIdentity
+    description: Indicates which identity to use to authenticate service data access to customer's storage.
+    types:
+    - uid: ServiceDataAccessAuthIdentity
+  - name: credentials
+    description: '[Required] Account credentials.'
+    types:
+    - uid: AccountKeyDatastoreCredentials
+    - uid: CertificateDatastoreCredentials
+    - uid: KerberosKeytabCredentials
+    - uid: KerberosPasswordCredentials
+    - uid: NoneDatastoreCredentials
+    - uid: SasDatastoreCredentials
+    - uid: ServicePrincipalDatastoreCredentials
+    typesTitle: DatastoreCredentials
+  - name: datastoreType
+    description: '[Required] Storage type backing the datastore.'
+    types:
+    - uid: AzureBlob
+    typesTitle: string
+  - name: isDefault
+    isReadyOnly: true
+    description: Readonly property to indicate if datastore is the workspace default datastore
+    types:
+    - uid: boolean
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: AzureDataLakeGen1Datastore
+  description: Azure Data Lake Gen1 datastore configuration.
+  kind: object
+  properties:
+  - name: serviceDataAccessAuthIdentity
+    description: Indicates which identity to use to authenticate service data access to customer's storage.
+    types:
+    - uid: ServiceDataAccessAuthIdentity
+  - name: storeName
+    description: '[Required] Azure Data Lake store name.'
+    types:
+    - uid: string
+  - name: credentials
+    description: '[Required] Account credentials.'
+    types:
+    - uid: AccountKeyDatastoreCredentials
+    - uid: CertificateDatastoreCredentials
+    - uid: KerberosKeytabCredentials
+    - uid: KerberosPasswordCredentials
+    - uid: NoneDatastoreCredentials
+    - uid: SasDatastoreCredentials
+    - uid: ServicePrincipalDatastoreCredentials
+    typesTitle: DatastoreCredentials
+  - name: datastoreType
+    description: '[Required] Storage type backing the datastore.'
+    types:
+    - uid: AzureDataLakeGen1
+    typesTitle: string
+  - name: isDefault
+    isReadyOnly: true
+    description: Readonly property to indicate if datastore is the workspace default datastore
+    types:
+    - uid: boolean
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: AzureDataLakeGen2Datastore
+  description: Azure Data Lake Gen2 datastore configuration.
+  kind: object
+  properties:
+  - name: accountName
+    description: '[Required] Storage account name.'
+    types:
+    - uid: string
+  - name: endpoint
+    description: Azure cloud endpoint for the storage account.
+    types:
+    - uid: string
+  - name: filesystem
+    description: '[Required] The name of the Data Lake Gen2 filesystem.'
+    types:
+    - uid: string
+  - name: protocol
+    description: Protocol used to communicate with the storage account.
+    types:
+    - uid: string
+  - name: serviceDataAccessAuthIdentity
+    description: Indicates which identity to use to authenticate service data access to customer's storage.
+    types:
+    - uid: ServiceDataAccessAuthIdentity
+  - name: credentials
+    description: '[Required] Account credentials.'
+    types:
+    - uid: AccountKeyDatastoreCredentials
+    - uid: CertificateDatastoreCredentials
+    - uid: KerberosKeytabCredentials
+    - uid: KerberosPasswordCredentials
+    - uid: NoneDatastoreCredentials
+    - uid: SasDatastoreCredentials
+    - uid: ServicePrincipalDatastoreCredentials
+    typesTitle: DatastoreCredentials
+  - name: datastoreType
+    description: '[Required] Storage type backing the datastore.'
+    types:
+    - uid: AzureDataLakeGen2
+    typesTitle: string
+  - name: isDefault
+    isReadyOnly: true
+    description: Readonly property to indicate if datastore is the workspace default datastore
+    types:
+    - uid: boolean
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: AzureFileDatastore
+  description: Azure File datastore configuration.
+  kind: object
+  properties:
+  - name: accountName
+    description: '[Required] Storage account name.'
+    types:
+    - uid: string
+  - name: endpoint
+    description: Azure cloud endpoint for the storage account.
+    types:
+    - uid: string
+  - name: fileShareName
+    description: '[Required] The name of the Azure file share that the datastore points to.'
+    types:
+    - uid: string
+  - name: protocol
+    description: Protocol used to communicate with the storage account.
+    types:
+    - uid: string
+  - name: serviceDataAccessAuthIdentity
+    description: Indicates which identity to use to authenticate service data access to customer's storage.
+    types:
+    - uid: ServiceDataAccessAuthIdentity
+  - name: credentials
+    description: '[Required] Account credentials.'
+    types:
+    - uid: AccountKeyDatastoreCredentials
+    - uid: CertificateDatastoreCredentials
+    - uid: KerberosKeytabCredentials
+    - uid: KerberosPasswordCredentials
+    - uid: NoneDatastoreCredentials
+    - uid: SasDatastoreCredentials
+    - uid: ServicePrincipalDatastoreCredentials
+    typesTitle: DatastoreCredentials
+  - name: datastoreType
+    description: '[Required] Storage type backing the datastore.'
+    types:
+    - uid: AzureFile
+    typesTitle: string
+  - name: isDefault
+    isReadyOnly: true
+    description: Readonly property to indicate if datastore is the workspace default datastore
+    types:
+    - uid: boolean
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: HdfsDatastore
+  kind: object
+  properties:
+  - name: hdfsServerCertificate
+    description: The TLS cert of the HDFS server. Needs to be a base64 encoded string. Required if "Https" protocol is selected.
+    types:
+    - uid: string
+  - name: nameNodeAddress
+    description: '[Required] IP Address or DNS HostName.'
+    types:
+    - uid: string
+  - name: protocol
+    description: Protocol used to communicate with the storage account (Https/Http).
+    types:
+    - uid: string
+  - name: credentials
+    description: '[Required] Account credentials.'
+    types:
+    - uid: AccountKeyDatastoreCredentials
+    - uid: CertificateDatastoreCredentials
+    - uid: KerberosKeytabCredentials
+    - uid: KerberosPasswordCredentials
+    - uid: NoneDatastoreCredentials
+    - uid: SasDatastoreCredentials
+    - uid: ServicePrincipalDatastoreCredentials
+    typesTitle: DatastoreCredentials
+  - name: datastoreType
+    description: '[Required] Storage type backing the datastore.'
+    types:
+    - uid: Hdfs
+    typesTitle: string
+  - name: isDefault
+    isReadyOnly: true
+    description: Readonly property to indicate if datastore is the workspace default datastore
+    types:
+    - uid: boolean
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -249,230 +499,38 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: AzureBlobContents
-  description: Azure Blob datastore configuration.
-  kind: object
-  properties:
-  - name: accountName
-    description: '[Required] Storage account name.'
-    types:
-    - uid: string
-  - name: containerName
-    description: '[Required] Storage account container name.'
-    types:
-    - uid: string
-  - name: credentials
-    description: '[Required] Account credentials.'
-    types:
-    - uid: AccountKeyDatastoreCredentials
-    - uid: CertificateDatastoreCredentials
-    - uid: NoneDatastoreCredentials
-    - uid: SasDatastoreCredentials
-    - uid: ServicePrincipalDatastoreCredentials
-    - uid: SqlAdminDatastoreCredentials
-    typesTitle: DatastoreCredentials
-  - name: endpoint
-    description: '[Required] Azure cloud endpoint for the storage account.'
-    types:
-    - uid: string
-  - name: protocol
-    description: '[Required] Protocol used to communicate with the storage account.'
-    types:
-    - uid: string
-  - name: contentsType
-    description: '[Required] Storage type backing the datastore.'
-    types:
-    - uid: AzureBlob
-    typesTitle: string
-- name: AzureDataLakeGen1Contents
-  description: Azure Data Lake Gen1 datastore configuration.
-  kind: object
-  properties:
-  - name: credentials
-    description: '[Required] Account credentials.'
-    types:
-    - uid: AccountKeyDatastoreCredentials
-    - uid: CertificateDatastoreCredentials
-    - uid: NoneDatastoreCredentials
-    - uid: SasDatastoreCredentials
-    - uid: ServicePrincipalDatastoreCredentials
-    - uid: SqlAdminDatastoreCredentials
-    typesTitle: DatastoreCredentials
-  - name: storeName
-    description: '[Required] Azure Data Lake store name.'
-    types:
-    - uid: string
-  - name: contentsType
-    description: '[Required] Storage type backing the datastore.'
-    types:
-    - uid: AzureDataLakeGen1
-    typesTitle: string
-- name: AzureDataLakeGen2Contents
-  description: Azure Data Lake Gen2 datastore configuration.
-  kind: object
-  properties:
-  - name: accountName
-    description: '[Required] Storage account name.'
-    types:
-    - uid: string
-  - name: containerName
-    description: '[Required] Storage account container name.'
-    types:
-    - uid: string
-  - name: credentials
-    description: '[Required] Account credentials.'
-    types:
-    - uid: AccountKeyDatastoreCredentials
-    - uid: CertificateDatastoreCredentials
-    - uid: NoneDatastoreCredentials
-    - uid: SasDatastoreCredentials
-    - uid: ServicePrincipalDatastoreCredentials
-    - uid: SqlAdminDatastoreCredentials
-    typesTitle: DatastoreCredentials
-  - name: endpoint
-    description: '[Required] Azure cloud endpoint for the storage account.'
-    types:
-    - uid: string
-  - name: protocol
-    description: '[Required] Protocol used to communicate with the storage account.'
-    types:
-    - uid: string
-  - name: contentsType
-    description: '[Required] Storage type backing the datastore.'
-    types:
-    - uid: AzureDataLakeGen2
-    typesTitle: string
-- name: AzureFileContents
-  description: Azure File datastore configuration.
-  kind: object
-  properties:
-  - name: accountName
-    description: '[Required] Storage account name.'
-    types:
-    - uid: string
-  - name: containerName
-    description: '[Required] Storage account container name.'
-    types:
-    - uid: string
-  - name: credentials
-    description: '[Required] Account credentials.'
-    types:
-    - uid: AccountKeyDatastoreCredentials
-    - uid: CertificateDatastoreCredentials
-    - uid: NoneDatastoreCredentials
-    - uid: SasDatastoreCredentials
-    - uid: ServicePrincipalDatastoreCredentials
-    - uid: SqlAdminDatastoreCredentials
-    typesTitle: DatastoreCredentials
-  - name: endpoint
-    description: '[Required] Azure cloud endpoint for the storage account.'
-    types:
-    - uid: string
-  - name: protocol
-    description: '[Required] Protocol used to communicate with the storage account.'
-    types:
-    - uid: string
-  - name: contentsType
-    description: '[Required] Storage type backing the datastore.'
-    types:
-    - uid: AzureFile
-    typesTitle: string
-- name: AzurePostgreSqlContents
-  description: Azure Postgre SQL datastore configuration.
-  kind: object
-  properties:
-  - name: credentials
-    description: '[Required] Account credentials.'
-    types:
-    - uid: AccountKeyDatastoreCredentials
-    - uid: CertificateDatastoreCredentials
-    - uid: NoneDatastoreCredentials
-    - uid: SasDatastoreCredentials
-    - uid: ServicePrincipalDatastoreCredentials
-    - uid: SqlAdminDatastoreCredentials
-    typesTitle: DatastoreCredentials
-  - name: databaseName
-    description: '[Required] Azure SQL database name.'
-    types:
-    - uid: string
-  - name: enableSSL
-    description: Whether the Azure PostgreSQL server requires SSL.
-    types:
-    - uid: boolean
-  - name: endpoint
-    description: '[Required] Azure cloud endpoint for the database.'
-    types:
-    - uid: string
-  - name: portNumber
-    description: '[Required] Azure SQL server port.'
-    types:
-    - uid: integer
-  - name: serverName
-    description: '[Required] Azure SQL server name.'
-    types:
-    - uid: string
-  - name: contentsType
-    description: '[Required] Storage type backing the datastore.'
-    types:
-    - uid: AzurePostgreSql
-    typesTitle: string
-- name: AzureSqlDatabaseContents
-  description: Azure SQL Database datastore configuration.
-  kind: object
-  properties:
-  - name: credentials
-    description: '[Required] Account credentials.'
-    types:
-    - uid: AccountKeyDatastoreCredentials
-    - uid: CertificateDatastoreCredentials
-    - uid: NoneDatastoreCredentials
-    - uid: SasDatastoreCredentials
-    - uid: ServicePrincipalDatastoreCredentials
-    - uid: SqlAdminDatastoreCredentials
-    typesTitle: DatastoreCredentials
-  - name: databaseName
-    description: '[Required] Azure SQL database name.'
-    types:
-    - uid: string
-  - name: endpoint
-    description: '[Required] Azure cloud endpoint for the database.'
-    types:
-    - uid: string
-  - name: portNumber
-    description: '[Required] Azure SQL server port.'
-    types:
-    - uid: integer
-  - name: serverName
-    description: '[Required] Azure SQL server name.'
-    types:
-    - uid: string
-  - name: contentsType
-    description: '[Required] Storage type backing the datastore.'
-    types:
-    - uid: AzureSqlDatabase
-    typesTitle: string
-- name: GlusterFsContents
-  description: GlusterFs datastore configuration.
-  kind: object
-  properties:
-  - name: serverAddress
-    description: '[Required] GlusterFS server address (can be the IP address or server name).'
-    types:
-    - uid: string
-  - name: volumeName
-    description: '[Required] GlusterFS volume name.'
-    types:
-    - uid: string
-  - name: contentsType
-    description: '[Required] Storage type backing the datastore.'
-    types:
-    - uid: GlusterFs
-    typesTitle: string
-- name: OriginType
-  description: Enum to determine the type of linked service.
+- name: ServiceDataAccessAuthIdentity
   kind: enum
   properties:
-  - name: Synapse
+  - name: None
+    description: Do not use any identity for service data access.
+    types:
+    - uid: string
+  - name: WorkspaceSystemAssignedIdentity
+    description: Use the system assigned managed identity of the Workspace to authenticate service data access.
+    types:
+    - uid: string
+  - name: WorkspaceUserAssignedIdentity
+    description: Use the user assigned managed identity of the Workspace to authenticate service data access.
+    types:
+    - uid: string
+- name: DatastoreType
+  description: Enum to determine the datastore contents type.
+  kind: enum
+  properties:
+  - name: AzureBlob
+    types:
+    - uid: string
+  - name: AzureDataLakeGen1
+    types:
+    - uid: string
+  - name: AzureDataLakeGen2
+    types:
+    - uid: string
+  - name: AzureFile
+    types:
+    - uid: string
+  - name: Hdfs
     types:
     - uid: string
 - name: ErrorAdditionalInfo
@@ -489,40 +547,12 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: ContentsType
-  description: Enum to determine the datastore contents type.
-  kind: enum
-  properties:
-  - name: AzureBlob
-    types:
-    - uid: string
-  - name: AzureDataLakeGen1
-    types:
-    - uid: string
-  - name: AzureDataLakeGen2
-    types:
-    - uid: string
-  - name: AzureFile
-    types:
-    - uid: string
-  - name: AzureMySql
-    types:
-    - uid: string
-  - name: AzurePostgreSql
-    types:
-    - uid: string
-  - name: AzureSqlDatabase
-    types:
-    - uid: string
-  - name: GlusterFs
-    types:
-    - uid: string
 - name: AccountKeyDatastoreCredentials
   description: Account key datastore credentials configuration.
   kind: object
   properties:
   - name: secrets
-    description: Storage account secrets.
+    description: '[Required] Storage account secrets.'
     types:
     - uid: AccountKeyDatastoreSecrets
   - name: credentialsType
@@ -542,12 +572,12 @@ definitions:
     description: '[Required] Service principal client ID.'
     types:
     - uid: string
-  - name: resourceUri
+  - name: resourceUrl
     description: Resource the service principal has access to.
     types:
     - uid: string
   - name: secrets
-    description: Service principal secrets.
+    description: '[Required] Service principal secrets.'
     types:
     - uid: CertificateDatastoreSecrets
   - name: tenantId
@@ -563,14 +593,58 @@ definitions:
     types:
     - uid: Certificate
     typesTitle: string
+- name: KerberosKeytabCredentials
+  kind: object
+  properties:
+  - name: secrets
+    description: '[Required] Keytab secrets.'
+    types:
+    - uid: KerberosKeytabSecrets
+  - name: kerberosKdcAddress
+    description: '[Required] IP Address or DNS HostName.'
+    types:
+    - uid: string
+  - name: kerberosPrincipal
+    description: '[Required] Kerberos Username'
+    types:
+    - uid: string
+  - name: kerberosRealm
+    description: '[Required] Domain over which a Kerberos authentication server has the authority to authenticate a user, host or service.'
+    types:
+    - uid: string
+  - name: credentialsType
+    description: '[Required] Credential type used to authentication with storage.'
+    types:
+    - uid: KerberosKeytab
+    typesTitle: string
+- name: KerberosPasswordCredentials
+  kind: object
+  properties:
+  - name: secrets
+    description: '[Required] Kerberos password secrets.'
+    types:
+    - uid: KerberosPasswordSecrets
+  - name: kerberosKdcAddress
+    description: '[Required] IP Address or DNS HostName.'
+    types:
+    - uid: string
+  - name: kerberosPrincipal
+    description: '[Required] Kerberos Username'
+    types:
+    - uid: string
+  - name: kerberosRealm
+    description: '[Required] Domain over which a Kerberos authentication server has the authority to authenticate a user, host or service.'
+    types:
+    - uid: string
+  - name: credentialsType
+    description: '[Required] Credential type used to authentication with storage.'
+    types:
+    - uid: KerberosPassword
+    typesTitle: string
 - name: NoneDatastoreCredentials
   description: Empty/none datastore credentials.
   kind: object
   properties:
-  - name: secrets
-    description: Empty/none datastore secret.
-    types:
-    - uid: NoneDatastoreSecrets
   - name: credentialsType
     description: '[Required] Credential type used to authentication with storage.'
     types:
@@ -581,7 +655,7 @@ definitions:
   kind: object
   properties:
   - name: secrets
-    description: Storage container secrets.
+    description: '[Required] Storage container secrets.'
     types:
     - uid: SasDatastoreSecrets
   - name: credentialsType
@@ -601,12 +675,12 @@ definitions:
     description: '[Required] Service principal client ID.'
     types:
     - uid: string
-  - name: resourceUri
+  - name: resourceUrl
     description: Resource the service principal has access to.
     types:
     - uid: string
   - name: secrets
-    description: Service principal secrets.
+    description: '[Required] Service principal secrets.'
     types:
     - uid: ServicePrincipalDatastoreSecrets
   - name: tenantId
@@ -617,23 +691,6 @@ definitions:
     description: '[Required] Credential type used to authentication with storage.'
     types:
     - uid: ServicePrincipal
-    typesTitle: string
-- name: SqlAdminDatastoreCredentials
-  description: SQL Admin datastore credentials configuration.
-  kind: object
-  properties:
-  - name: secrets
-    description: SQL database secrets.
-    types:
-    - uid: SqlAdminDatastoreSecrets
-  - name: userId
-    description: '[Required] SQL database user name.'
-    types:
-    - uid: string
-  - name: credentialsType
-    description: '[Required] Credential type used to authentication with storage.'
-    types:
-    - uid: SqlAdmin
     typesTitle: string
 - name: AccountKeyDatastoreSecrets
   description: Datastore account key secrets.
@@ -667,7 +724,10 @@ definitions:
   - name: ServicePrincipal
     types:
     - uid: string
-  - name: SqlAdmin
+  - name: KerberosKeytab
+    types:
+    - uid: string
+  - name: KerberosPassword
     types:
     - uid: string
 - name: CertificateDatastoreSecrets
@@ -683,14 +743,29 @@ definitions:
     types:
     - uid: Certificate
     typesTitle: string
-- name: NoneDatastoreSecrets
-  description: Empty/none datastore secret.
+- name: KerberosKeytabSecrets
   kind: object
   properties:
+  - name: kerberosKeytab
+    description: Kerberos keytab secret.
+    types:
+    - uid: string
   - name: secretsType
     description: '[Required] Credential type used to authentication with storage.'
     types:
-    - uid: None
+    - uid: KerberosKeytab
+    typesTitle: string
+- name: KerberosPasswordSecrets
+  kind: object
+  properties:
+  - name: kerberosPassword
+    description: Kerberos password secret.
+    types:
+    - uid: string
+  - name: secretsType
+    description: '[Required] Credential type used to authentication with storage.'
+    types:
+    - uid: KerberosPassword
     typesTitle: string
 - name: SasDatastoreSecrets
   description: Datastore SAS secrets.
@@ -718,19 +793,6 @@ definitions:
     types:
     - uid: ServicePrincipal
     typesTitle: string
-- name: SqlAdminDatastoreSecrets
-  description: Datastore SQL Admin secrets.
-  kind: object
-  properties:
-  - name: password
-    description: SQL database password.
-    types:
-    - uid: string
-  - name: secretsType
-    description: '[Required] Credential type used to authentication with storage.'
-    types:
-    - uid: SqlAdmin
-    typesTitle: string
 - name: SecretsType
   description: Enum to determine the datastore secrets type.
   kind: enum
@@ -741,821 +803,378 @@ definitions:
   - name: Certificate
     types:
     - uid: string
-  - name: None
-    types:
-    - uid: string
   - name: Sas
     types:
     - uid: string
   - name: ServicePrincipal
     types:
     - uid: string
-  - name: SqlAdmin
+  - name: KerberosPassword
+    types:
+    - uid: string
+  - name: KerberosKeytab
     types:
     - uid: string
 examples:
 - name: CreateOrUpdate datastore (AzureBlob w/ AccountKey).
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore?api-version=2021-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/datastores/string?api-version=2022-02-01-preview&skipValidation=False
     body: >-
       {
         "properties": {
-          "contents": {
-            "contentsType": "AzureBlob",
-            "credentials": {
-              "credentialsType": "AccountKey",
-              "secrets": {
-                "secretsType": "AccountKey",
-                "key": "string"
-              }
-            },
-            "accountName": "string",
-            "containerName": "string",
-            "endpoint": "core.windows.net",
-            "protocol": "https"
-          },
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
           "description": "string",
           "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
+            "string": "string"
+          },
+          "properties": null,
+          "credentials": {
+            "credentialsType": "AccountKey",
+            "secrets": {
+              "secretsType": "AccountKey",
+              "key": "string"
+            }
+          },
+          "datastoreType": "AzureBlob",
+          "accountName": "string",
+          "containerName": "string",
+          "endpoint": "core.windows.net",
+          "protocol": "https"
         }
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "systemData": {
-          "createdAt": "2021-03-25T21:00:18.462Z",
-          "createdBy": "string",
-          "createdByType": "User",
-          "lastModifiedAt": "2021-03-25T21:00:18.462Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User"
-        },
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore",
-        "name": "testDatastore",
-        "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+        "id": "string",
+        "name": "string",
+        "type": "string",
         "properties": {
-          "contents": {
-            "contentsType": "AzureBlob",
-            "credentials": {
-              "credentialsType": "AccountKey"
-            },
-            "accountName": "string",
-            "containerName": "string",
-            "endpoint": "core.windows.net",
-            "protocol": "https"
-          },
-          "hasBeenValidated": true,
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
           "description": "string",
           "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
+            "string": "string"
+          },
+          "isDefault": false,
+          "properties": null,
+          "credentials": {
+            "credentialsType": "AccountKey"
+          },
+          "datastoreType": "AzureBlob",
+          "accountName": "string",
+          "containerName": "string",
+          "endpoint": "core.windows.net",
+          "protocol": "https"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
         }
       }
   - statusCode: "201"
     body: >-
       {
-        "systemData": {
-          "createdAt": "2021-03-25T21:00:18.462Z",
-          "createdBy": "string",
-          "createdByType": "User",
-          "lastModifiedAt": "2021-03-25T21:00:18.462Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User"
-        },
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore",
-        "name": "testDatastore",
-        "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+        "id": "string",
+        "name": "string",
+        "type": "string",
         "properties": {
-          "contents": {
-            "contentsType": "AzureBlob",
-            "credentials": {
-              "credentialsType": "AccountKey"
-            },
-            "accountName": "string",
-            "containerName": "string",
-            "endpoint": "core.windows.net",
-            "protocol": "https"
-          },
-          "hasBeenValidated": true,
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
           "description": "string",
           "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
+            "string": "string"
+          },
+          "isDefault": false,
+          "properties": null,
+          "credentials": {
+            "credentialsType": "AccountKey"
+          },
+          "datastoreType": "AzureBlob",
+          "accountName": "string",
+          "containerName": "string",
+          "endpoint": "core.windows.net",
+          "protocol": "https"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
         }
       }
 - name: CreateOrUpdate datastore (Azure Data Lake Gen1 w/ ServicePrincipal).
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore?api-version=2021-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/datastores/string?api-version=2022-02-01-preview&skipValidation=False
     body: >-
       {
         "properties": {
-          "contents": {
-            "contentsType": "AzureDataLakeGen1",
-            "credentials": {
-              "credentialsType": "ServicePrincipal",
-              "authorityUrl": "string",
-              "resourceUri": "string",
-              "tenantId": "00000000-1111-2222-3333-444444444444",
-              "clientId": "00000000-1111-2222-3333-444444444444",
-              "secrets": {
-                "secretsType": "ServicePrincipal",
-                "clientSecret": "string"
-              }
-            },
-            "storeName": "testStore"
-          },
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
           "description": "string",
           "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
+            "string": "string"
+          },
+          "properties": null,
+          "credentials": {
+            "credentialsType": "ServicePrincipal",
+            "authorityUrl": "string",
+            "resourceUrl": "string",
+            "tenantId": "00000000-1111-2222-3333-444444444444",
+            "clientId": "00000000-1111-2222-3333-444444444444",
+            "secrets": {
+              "secretsType": "ServicePrincipal",
+              "clientSecret": "string"
+            }
+          },
+          "datastoreType": "AzureDataLakeGen1",
+          "storeName": "string"
         }
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "systemData": {
-          "createdAt": "2021-03-25T21:00:18.462Z",
-          "createdBy": "string",
-          "createdByType": "User",
-          "lastModifiedAt": "2021-03-25T21:00:18.462Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User"
-        },
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore",
-        "name": "testDatastore",
-        "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+        "id": "string",
+        "name": "string",
+        "type": "string",
         "properties": {
-          "contents": {
-            "contentsType": "AzureDataLakeGen1",
-            "credentials": {
-              "credentialsType": "ServicePrincipal",
-              "authorityUrl": "string",
-              "resourceUri": "string",
-              "tenantId": "00000000-1111-2222-3333-444444444444",
-              "clientId": "00000000-1111-2222-3333-444444444444"
-            },
-            "storeName": "testStore"
-          },
-          "hasBeenValidated": true,
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
           "description": "string",
           "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
+            "string": "string"
+          },
+          "properties": null,
+          "credentials": {
+            "credentialsType": "ServicePrincipal",
+            "authorityUrl": "string",
+            "resourceUrl": "string",
+            "tenantId": "00000000-1111-2222-3333-444444444444",
+            "clientId": "00000000-1111-2222-3333-444444444444"
+          },
+          "datastoreType": "AzureDataLakeGen1",
+          "storeName": "string"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
         }
       }
   - statusCode: "201"
     body: >-
       {
-        "systemData": {
-          "createdAt": "2021-03-25T21:00:18.462Z",
-          "createdBy": "string",
-          "createdByType": "User",
-          "lastModifiedAt": "2021-03-25T21:00:18.462Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User"
-        },
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore",
-        "name": "testDatastore",
-        "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+        "id": "string",
+        "name": "string",
+        "type": "string",
         "properties": {
-          "contents": {
-            "contentsType": "AzureDataLakeGen1",
-            "credentials": {
-              "credentialsType": "ServicePrincipal",
-              "authorityUrl": "string",
-              "resourceUri": "string",
-              "tenantId": "00000000-1111-2222-3333-444444444444",
-              "clientId": "00000000-1111-2222-3333-444444444444"
-            },
-            "storeName": "testStore"
-          },
-          "hasBeenValidated": true,
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
           "description": "string",
           "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
+            "string": "string"
+          },
+          "properties": null,
+          "credentials": {
+            "credentialsType": "ServicePrincipal",
+            "authorityUrl": "string",
+            "resourceUrl": "string",
+            "tenantId": "00000000-1111-2222-3333-444444444444",
+            "clientId": "00000000-1111-2222-3333-444444444444"
+          },
+          "datastoreType": "AzureDataLakeGen1",
+          "storeName": "string"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
         }
       }
 - name: CreateOrUpdate datastore (Azure Data Lake Gen2 w/ Service Principal).
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore?api-version=2021-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/datastores/string?api-version=2022-02-01-preview&skipValidation=False
     body: >-
       {
         "properties": {
-          "contents": {
-            "contentsType": "AzureBlob",
-            "credentials": {
-              "credentialsType": "ServicePrincipal",
-              "authorityUrl": "string",
-              "resourceUri": "string",
-              "tenantId": "00000000-1111-2222-3333-444444444444",
-              "clientId": "00000000-1111-2222-3333-444444444444",
-              "secrets": {
-                "secretsType": "ServicePrincipal",
-                "clientSecret": "string"
-              }
-            },
-            "accountName": "string",
-            "containerName": "string",
-            "endpoint": "core.windows.net",
-            "protocol": "https"
-          },
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
           "description": "string",
           "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
+            "string": "string"
+          },
+          "properties": null,
+          "credentials": {
+            "credentialsType": "ServicePrincipal",
+            "authorityUrl": "string",
+            "resourceUrl": "string",
+            "tenantId": "00000000-1111-2222-3333-444444444444",
+            "clientId": "00000000-1111-2222-3333-444444444444",
+            "secrets": {
+              "secretsType": "ServicePrincipal",
+              "clientSecret": "string"
+            }
+          },
+          "datastoreType": "AzureDataLakeGen2",
+          "filesystem": "string",
+          "accountName": "string",
+          "endpoint": "string",
+          "protocol": "string"
         }
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "systemData": {
-          "createdAt": "2021-03-25T21:00:18.462Z",
-          "createdBy": "string",
-          "createdByType": "User",
-          "lastModifiedAt": "2021-03-25T21:00:18.462Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User"
-        },
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore",
-        "name": "testDatastore",
-        "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+        "id": "string",
+        "name": "string",
+        "type": "string",
         "properties": {
-          "contents": {
-            "contentsType": "AzureBlob",
-            "credentials": {
-              "credentialsType": "ServicePrincipal",
-              "authorityUrl": "string",
-              "resourceUri": "string",
-              "tenantId": "00000000-1111-2222-3333-444444444444",
-              "clientId": "00000000-1111-2222-3333-444444444444"
-            },
-            "accountName": "string",
-            "containerName": "string",
-            "endpoint": "core.windows.net",
-            "protocol": "https"
-          },
-          "hasBeenValidated": true,
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
           "description": "string",
           "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
+            "string": "string"
+          },
+          "properties": null,
+          "credentials": {
+            "credentialsType": "ServicePrincipal",
+            "authorityUrl": "string",
+            "resourceUrl": "string",
+            "tenantId": "00000000-1111-2222-3333-444444444444",
+            "clientId": "00000000-1111-2222-3333-444444444444"
+          },
+          "datastoreType": "AzureDataLakeGen2",
+          "filesystem": "string",
+          "accountName": "string",
+          "endpoint": "string",
+          "protocol": "string"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
         }
       }
   - statusCode: "201"
     body: >-
       {
-        "systemData": {
-          "createdAt": "2021-03-25T21:00:18.462Z",
-          "createdBy": "string",
-          "createdByType": "User",
-          "lastModifiedAt": "2021-03-25T21:00:18.462Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User"
-        },
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore",
-        "name": "testDatastore",
-        "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+        "id": "string",
+        "name": "string",
+        "type": "string",
         "properties": {
-          "contents": {
-            "contentsType": "AzureBlob",
-            "credentials": {
-              "credentialsType": "ServicePrincipal",
-              "authorityUrl": "string",
-              "resourceUri": "string",
-              "tenantId": "00000000-1111-2222-3333-444444444444",
-              "clientId": "00000000-1111-2222-3333-444444444444"
-            },
-            "accountName": "string",
-            "containerName": "string",
-            "endpoint": "core.windows.net",
-            "protocol": "https"
-          },
-          "hasBeenValidated": true,
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
           "description": "string",
           "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
+            "string": "string"
+          },
+          "properties": null,
+          "credentials": {
+            "credentialsType": "ServicePrincipal",
+            "authorityUrl": "string",
+            "resourceUrl": "string",
+            "tenantId": "00000000-1111-2222-3333-444444444444",
+            "clientId": "00000000-1111-2222-3333-444444444444"
+          },
+          "datastoreType": "AzureDataLakeGen2",
+          "filesystem": "string",
+          "accountName": "string",
+          "endpoint": "string",
+          "protocol": "string"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
         }
       }
 - name: CreateOrUpdate datastore (Azure File store w/ AccountKey).
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore?api-version=2021-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/datastores/string?api-version=2022-02-01-preview&skipValidation=False
     body: >-
       {
         "properties": {
-          "contents": {
-            "contentsType": "AzureFile",
-            "credentials": {
-              "credentialsType": "AccountKey",
-              "secrets": {
-                "secretsType": "AccountKey",
-                "key": "string"
-              }
-            },
-            "accountName": "string",
-            "containerName": "string",
-            "endpoint": "core.windows.net",
-            "protocol": "https"
-          },
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
           "description": "string",
           "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
+            "string": "string"
+          },
+          "properties": null,
+          "credentials": {
+            "credentialsType": "AccountKey",
+            "secrets": {
+              "secretsType": "AccountKey",
+              "key": "string"
+            }
+          },
+          "datastoreType": "AzureFile",
+          "accountName": "string",
+          "fileShareName": "string",
+          "endpoint": "string",
+          "protocol": "string"
         }
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "systemData": {
-          "createdAt": "2021-03-25T21:00:18.462Z",
-          "createdBy": "string",
-          "createdByType": "User",
-          "lastModifiedAt": "2021-03-25T21:00:18.462Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User"
-        },
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore",
-        "name": "testDatastore",
-        "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+        "id": "string",
+        "name": "string",
+        "type": "string",
         "properties": {
-          "contents": {
-            "contentsType": "AzureFile",
-            "credentials": {
-              "credentialsType": "AccountKey"
-            },
-            "accountName": "string",
-            "containerName": "string",
-            "endpoint": "core.windows.net",
-            "protocol": "https"
-          },
-          "hasBeenValidated": true,
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
           "description": "string",
           "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
+            "string": "string"
+          },
+          "properties": null,
+          "credentials": {
+            "credentialsType": "AccountKey"
+          },
+          "datastoreType": "AzureFile",
+          "accountName": "string",
+          "fileShareName": "string",
+          "endpoint": "string",
+          "protocol": "string"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
         }
       }
   - statusCode: "201"
     body: >-
       {
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "properties": {
+          "description": "string",
+          "tags": {
+            "string": "string"
+          },
+          "properties": null,
+          "credentials": {
+            "credentialsType": "AccountKey"
+          },
+          "datastoreType": "AzureFile",
+          "accountName": "string",
+          "fileShareName": "string",
+          "endpoint": "string",
+          "protocol": "string"
+        },
         "systemData": {
-          "createdAt": "2021-03-25T21:00:18.462Z",
+          "createdAt": "2020-01-01T12:34:56.999Z",
           "createdBy": "string",
           "createdByType": "User",
-          "lastModifiedAt": "2021-03-25T21:00:18.462Z",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
           "lastModifiedBy": "string",
           "lastModifiedByType": "User"
-        },
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore",
-        "name": "testDatastore",
-        "type": "Microsoft.MachineLearningServices/workspaces/datastores",
-        "properties": {
-          "contents": {
-            "contentsType": "AzureFile",
-            "credentials": {
-              "credentialsType": "AccountKey"
-            },
-            "accountName": "string",
-            "containerName": "string",
-            "endpoint": "core.windows.net",
-            "protocol": "https"
-          },
-          "hasBeenValidated": true,
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
-          "description": "string",
-          "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
-        }
-      }
-- name: CreateOrUpdate datastore (Azure Postgre SQL w/ SQL Admin).
-  request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore?api-version=2021-03-01-preview
-    body: >-
-      {
-        "properties": {
-          "contents": {
-            "contentsType": "AzurePostgreSql",
-            "credentials": {
-              "credentialsType": "SqlAdmin",
-              "userId": "string",
-              "secrets": {
-                "secretsType": "SqlAdmin",
-                "password": "string"
-              }
-            },
-            "enableSSL": true,
-            "databaseName": "string",
-            "endpoint": "string",
-            "portNumber": 123,
-            "serverName": "string"
-          },
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
-          "description": "string",
-          "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
-        }
-      }
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "systemData": {
-          "createdAt": "2021-03-25T21:00:18.462Z",
-          "createdBy": "string",
-          "createdByType": "User",
-          "lastModifiedAt": "2021-03-25T21:00:18.462Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User"
-        },
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore",
-        "name": "testDatastore",
-        "type": "Microsoft.MachineLearningServices/workspaces/datastores",
-        "properties": {
-          "contents": {
-            "contentsType": "AzurePostgreSql",
-            "credentials": {
-              "credentialsType": "SqlAdmin",
-              "userId": "string"
-            },
-            "enableSSL": true,
-            "databaseName": "string",
-            "endpoint": "string",
-            "portNumber": 123,
-            "serverName": "string"
-          },
-          "hasBeenValidated": true,
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
-          "description": "string",
-          "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
-        }
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "systemData": {
-          "createdAt": "2021-03-25T21:00:18.462Z",
-          "createdBy": "string",
-          "createdByType": "User",
-          "lastModifiedAt": "2021-03-25T21:00:18.462Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User"
-        },
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore",
-        "name": "testDatastore",
-        "type": "Microsoft.MachineLearningServices/workspaces/datastores",
-        "properties": {
-          "contents": {
-            "contentsType": "AzurePostgreSql",
-            "credentials": {
-              "credentialsType": "SqlAdmin",
-              "userId": "string"
-            },
-            "enableSSL": true,
-            "databaseName": "string",
-            "endpoint": "string",
-            "portNumber": 123,
-            "serverName": "string"
-          },
-          "hasBeenValidated": true,
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
-          "description": "string",
-          "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
-        }
-      }
-- name: CreateOrUpdate datastore (Azure SQL Database w/ SQL Admin).
-  request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore?api-version=2021-03-01-preview
-    body: >-
-      {
-        "properties": {
-          "contents": {
-            "contentsType": "AzureSqlDatabase",
-            "credentials": {
-              "credentialsType": "SqlAdmin",
-              "userId": "string",
-              "secrets": {
-                "secretsType": "SqlAdmin",
-                "password": "string"
-              }
-            },
-            "databaseName": "string",
-            "endpoint": "string",
-            "portNumber": 123,
-            "serverName": "string"
-          },
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
-          "description": "string",
-          "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
-        }
-      }
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "systemData": {
-          "createdAt": "2021-03-25T21:00:18.462Z",
-          "createdBy": "string",
-          "createdByType": "User",
-          "lastModifiedAt": "2021-03-25T21:00:18.462Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User"
-        },
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore",
-        "name": "testDatastore",
-        "type": "Microsoft.MachineLearningServices/workspaces/datastores",
-        "properties": {
-          "contents": {
-            "contentsType": "AzureSqlDatabase",
-            "credentials": {
-              "credentialsType": "SqlAdmin",
-              "userId": "string"
-            },
-            "databaseName": "string",
-            "endpoint": "string",
-            "portNumber": 123,
-            "serverName": "string"
-          },
-          "hasBeenValidated": true,
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
-          "description": "string",
-          "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
-        }
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "systemData": {
-          "createdAt": "2021-03-25T21:00:18.462Z",
-          "createdBy": "string",
-          "createdByType": "User",
-          "lastModifiedAt": "2021-03-25T21:00:18.462Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User"
-        },
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore",
-        "name": "testDatastore",
-        "type": "Microsoft.MachineLearningServices/workspaces/datastores",
-        "properties": {
-          "contents": {
-            "contentsType": "AzureSqlDatabase",
-            "credentials": {
-              "credentialsType": "SqlAdmin",
-              "userId": "string"
-            },
-            "databaseName": "string",
-            "endpoint": "string",
-            "portNumber": 123,
-            "serverName": "string"
-          },
-          "hasBeenValidated": true,
-          "isDefault": true,
-          "linkedInfo": {
-            "linkedId": "string",
-            "linkedResourceName": "string",
-            "origin": "Synapse"
-          },
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
-          "description": "string",
-          "tags": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
         }
       }
 security: []

@@ -1,5 +1,6 @@
 ---
 title: "Filter"
+description: Learn how Filter entities are used to define filters for assets’ streaming manifests.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""
