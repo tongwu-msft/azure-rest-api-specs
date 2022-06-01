@@ -35,7 +35,7 @@ Preview versions are released to test new functionality, gather feedback, and di
 
 ### 2022-05-31
 
-New GA release on May 2022, improves existed `1.0` and fully backward compatiable with `1.0`. The `1.0` version was marked as `deprecated` and will be end of support by May 2025, releases adds support for following:
+Our latest GA release on May 31st, 2022 improves the previously existing `1.0` release and is fully backwards compatible. As of today, the `1.0` release is now marked for `deprecation` and we will look to end support for it by May 2025. Here are set of updates captured in this release::
 
 + File Upload Storage Configuration Support
 + Device Group CRUD Support
