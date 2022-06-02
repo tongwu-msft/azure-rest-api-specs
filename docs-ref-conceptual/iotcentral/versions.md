@@ -19,7 +19,8 @@ This is the stable release versions that can be used to develop production solut
 
 | API version | Specification | API updates |
 |---------|---------------|-----------------|
-| `1.0` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/1.0) |  [Release note](#10) |
+| `2022-05-31` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/2022-05-31) | [Release note](#2022-05-31)
+| `1.0` (Deprecated) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/1.0) |  [Release note](#10) |
 
 ## Preview versions
 
@@ -32,6 +33,15 @@ Preview versions are released to test new functionality, gather feedback, and di
 
 ## Release notes
 
+### 2022-05-31
+
+Our latest GA release on May 31st, 2022 improves the previously existing `1.0` release and is fully backwards compatible. As of today, the `1.0` release is now marked for `deprecation` and we will look to end support for it by May 2025. Here are set of updates captured in this release::
+
++ File Upload Storage Configuration Support
++ Device Group CRUD Support
++ Organization CRUD Support
++ Organization Support on Devices, Roles, Users, and API Tokens
+ 
 ### 1.2-Preview
 
 The `1.2-preview` release continuously improves our API endpoints from previous preview releases and adds support for the following:
