@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.networkmanager.networksecurityperimeters.createorupdate
-name: Create Or Update
+uid: management.azure.com.networkmanager.nspassociationsproxy.get
+name: Get
 service: Network Manager
-groupName: Network Security Perimeters
+groupName: Nsp Associations Proxy
 apiVersion: 2021-02-01-preview
-summary: Creates or updates a Network Security Perimeter.
+summary: Gets the specified NSP association by name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}?api-version=2021-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/resourceAssociationProxies/{associationName}
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,65 +30,34 @@ uriParameters:
   description: The name of the network security perimeter.
   types:
   - uid: string
-- name: api-version
-  in: query
+- name: associationName
+  in: path
   isRequired: true
-  description: Client API version.
+  description: The name of the NSP association.
   types:
   - uid: string
 responses:
 - name: 200 OK
-  description: Resource Updated. Returns the network security perimeter.
+  description: OK - Returns information about the NSP resource association.
   types:
-  - uid: NetworkSecurityPerimeter
-- name: 201 Created
-  description: Resource Created. Returns the network security perimeter.
-  types:
-  - uid: NetworkSecurityPerimeter
+  - uid: NspAssociation
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-requestBody:
-- name: default
-  parameters:
-  - name: name
-    in: body
-    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: properties.perimeterGuid
-    in: body
-    description: perimeter guid of the network security perimeter.
-    types:
-    - uid: string
-  - name: tags
-    in: body
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 requestHeader: []
 definitions:
-- name: NetworkSecurityPerimeter
-  description: The Network Security Perimeter resource
+- name: NspAssociation
+  description: The NSP resource association resource
   kind: object
   properties:
-  - name: location
-    isReadyOnly: true
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
   - name: name
     description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
     types:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: Network security perimeter identifier.
+    description: NSP resource association identifier.
     types:
     - uid: string
   - name: type
@@ -98,11 +67,28 @@ definitions:
     - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The provisioning state of the scope assignment resource.
+    description: The provisioning state of the resource  association resource.
     types:
     - uid: nspProvisioningState
-  - name: properties.perimeterGuid
-    description: perimeter guid of the network security perimeter.
+  - name: properties.privateLinkResource
+    description: The PaaS resource to be associated.
+    types:
+    - uid: SubResource
+  - name: properties.profile
+    description: Profile id to which the PaaS resource is associated.
+    types:
+    - uid: SubResource
+  - name: properties.accessMode
+    description: Access mode on the association.
+    types:
+    - uid: AssociationAccessMode
+  - name: properties.hasProvisioningIssues
+    isReadyOnly: true
+    description: Specifies if there are provisioning issues
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
     types:
     - uid: string
   - name: tags
@@ -143,6 +129,27 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: AssociationAccessMode
+  description: Access mode on the association.
+  kind: enum
+  properties:
+  - name: Learning
+    types:
+    - uid: string
+  - name: Enforced
+    types:
+    - uid: string
+  - name: Audit
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -165,38 +172,26 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: Put Network Security Perimeter
+- name: NspAssociationGet
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1?api-version=2021-02-01-preview
-    body: >-
-      {
-        "properties": {}
-      }
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/resourceAssociationProxies/association1
   responses:
   - statusCode: "200"
     body: >-
       {
-        "name": "TestNetworkSecurityPerimeter",
-        "id": "/subscriptions/subId/resourceGroup/rg1/providers/Microsoft.Network/networkSecurityPerimeters/TestNetworkSecurityPerimeter",
-        "type": "Microsoft.Network/networkSecurityPerimeters",
-        "tags": {},
-        "location": "East US 2 EUAP",
+        "name": "association1",
+        "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/resourceAssociations/association1",
+        "type": "Microsoft.Network/networkSecurityPerimeters/resourceAssociations",
         "properties": {
-          "perimeterGuid": "guid",
-          "provisioningState": "Succeeded"
-        }
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "name": "TestNetworkSecurityPerimeter",
-        "id": "/subscriptions/subId/resourceGroup/rg1/providers/Microsoft.Network/networkSecurityPerimeters/TestNetworkSecurityPerimeter",
-        "type": "Microsoft.Network/networkSecurityPerimeters",
-        "tags": {},
-        "location": "East US 2 EUAP",
-        "properties": {
-          "perimeterGuid": "guid",
-          "provisioningState": "Succeeded"
+          "provisioningState": "Succeeded",
+          "privateLinkResource": {
+            "id": "/subscriptions/{paasSubscriptionId}/resourceGroups/{paasResourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}"
+          },
+          "profile": {
+            "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/profiles/{profileName}"
+          },
+          "accessMode": "Enforced",
+          "hasProvisioningIssues": "no"
         }
       }
 security:
@@ -209,5 +204,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Manager service - Creates or updates a Network Security Perimeter.
+  description: Learn more about Network Manager service - Gets the specified NSP association by name.
 errorCodes: []

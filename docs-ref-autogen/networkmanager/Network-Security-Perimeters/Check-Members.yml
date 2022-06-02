@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.networkmanager.nspprofiles.get
-name: Get
+uid: management.azure.com.networkmanager.networksecurityperimeters.checkmembers
+name: Check Members
 service: Network Manager
-groupName: Nsp Profiles
+groupName: Network Security Perimeters
 apiVersion: 2021-02-01-preview
-summary: Gets the specified NSP profile.
+summary: Action to check members associated to an NSP Profile
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}?api-version=2021-02-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{networkSecurityPerimeterProfile}/checkMembers?api-version=2021-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,10 +30,10 @@ uriParameters:
   description: The name of the network security perimeter.
   types:
   - uid: string
-- name: profileName
+- name: networkSecurityPerimeterProfile
   in: path
   isRequired: true
-  description: The name of the NSP profile.
+  description: The name of the network security perimeter profile.
   types:
   - uid: string
 - name: api-version
@@ -44,50 +44,50 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns information about the NSP profile.
+  description: Check members, nothing is getting created or updated.
   types:
-  - uid: NspProfile
+  - uid: CheckMembers
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: memberDestinations
+    in: body
+    description: ''
+    types:
+    - uid: MemberDestination
+      isArray: true
 requestHeader: []
 definitions:
-- name: NspProfile
-  description: The network security perimeter profile resource
+- name: MemberDestination
   kind: object
   properties:
-  - name: name
-    description: The name of the profile resource that is unique within a perimeter. This name can be used to access the resource.
+  - name: privateLinkResourceId
+    description: Private link resource Id.
     types:
     - uid: string
-  - name: id
+  - name: isMember
     isReadyOnly: true
-    description: Identifier of the network security perimeter profile in ARM id format.
+    description: yes/no, if it is member or not.
     types:
-    - uid: string
-  - name: type
+    - uid: isMember
+  - name: profile
     isReadyOnly: true
-    description: Resource type.
+    description: Network security perimeter profile.
     types:
     - uid: string
-  - name: properties.accessRulesVersion
-    isReadyOnly: true
-    description: Version number that increases with every update to access rules within the profile.
+- name: CheckMembers
+  description: Request object for check members API.
+  kind: object
+  properties:
+  - name: memberDestinations
+    description: ''
     types:
-    - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
+    - uid: MemberDestination
+      isArray: true
 - name: CloudError
   description: An error response from the service.
   kind: object
@@ -96,6 +96,16 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
+- name: isMember
+  description: yes/no, if it is member or not.
+  kind: enum
+  properties:
+  - name: yes
+    types:
+    - uid: string
+  - name: no
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -118,20 +128,28 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: NspProfilesGet
+- name: Post Check Members
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/profiles/profile1?api-version=2021-02-01-preview
+    uri: POST https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/profiles/NP1/checkMembers?api-version=2021-02-01-preview
+    body: >-
+      {
+        "memberDestinations": [
+          {
+            "privateLinkResourceId": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Sql/servers/resourceName1"
+          }
+        ]
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "name": "nsp1",
-        "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/profiles/profile1",
-        "type": "Microsoft.Network/networkSecurityPerimeters/profiles",
-        "location": "resource location",
-        "properties": {
-          "accessRulesVersion": "0"
-        }
+        "memberDestinations": [
+          {
+            "privateLinkResourceId": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Sql/servers/resourceName1",
+            "isMember": "no",
+            "profile": ""
+          }
+        ]
       }
 security:
 - name: azure_auth
@@ -143,5 +161,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Manager service - Gets the specified NSP profile.
+  description: Learn more about Network Manager service - Action to check members associated to an NSP Profile
 errorCodes: []
