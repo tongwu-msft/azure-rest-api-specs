@@ -182,7 +182,7 @@ New in this preview and applicable to skillsets only, you can specify the [cache
 
 **Example: Enrichment cache with a managed identity connection**
 
-This example illustrates the connection string format when using Azure Active Directory for authentication. The search service must be [configured to use a managed identity](/azure/search/search-howto-managed-identities-data-sources). The identity must have "Storage Blob Data Contributor" permissions so that it can write to the cache. The connection string is the unique Resource ID of your storage account, and it must include the container used to store the debug session.
+This example illustrates the connection string format when using Azure Active Directory for authentication. The search service must be [configured to use a managed identity](/azure/search/search-howto-managed-identities-data-sources). The identity must have "Storage Blob Data Contributor" permissions so that it can write to the cache. The connection string is the unique Resource ID of your storage account, and it must include the container used to store the cached enrichment.
 
 ```json
 {
