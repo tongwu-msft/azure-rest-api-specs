@@ -1612,21 +1612,76 @@
 ##### [List](apimanagement/previous-ga/User-Subscription/List.yml)
 # App Configuration
 ## [Overview](../docs-ref-conceptual/appconfiguration/index.md)
-## Configuration Stores
-### [Overview](appconfiguration/Configuration-Stores.yml)
-### [Create](appconfiguration/Configuration-Stores/Create.yml)
-### [Delete](appconfiguration/Configuration-Stores/Delete.yml)
-### [Get](appconfiguration/Configuration-Stores/Get.yml)
-### [List](appconfiguration/Configuration-Stores/List.yml)
-### [List By Resource Group](appconfiguration/Configuration-Stores/List-By-Resource-Group.yml)
-### [List Key Value](appconfiguration/Configuration-Stores/List-Key-Value.yml)
-### [List Keys](appconfiguration/Configuration-Stores/List-Keys.yml)
-### [Regenerate Key](appconfiguration/Configuration-Stores/Regenerate-Key.yml)
-### [Update](appconfiguration/Configuration-Stores/Update.yml)
-## Operations
-### [Overview](appconfiguration/Operations.yml)
-### [Check Name Availability](appconfiguration/Operations/Check-Name-Availability.yml)
-### [List](appconfiguration/Operations/List.yml)
+## Preview
+### Configuration Stores
+#### [Overview](appconfiguration/preview/Configuration-Stores.yml)
+#### [Create](appconfiguration/preview/Configuration-Stores/Create.yml)
+#### [Delete](appconfiguration/preview/Configuration-Stores/Delete.yml)
+#### [Get](appconfiguration/preview/Configuration-Stores/Get.yml)
+#### [Get Deleted](appconfiguration/preview/Configuration-Stores/Get-Deleted.yml)
+#### [List](appconfiguration/preview/Configuration-Stores/List.yml)
+#### [List By Resource Group](appconfiguration/preview/Configuration-Stores/List-By-Resource-Group.yml)
+#### [List Deleted](appconfiguration/preview/Configuration-Stores/List-Deleted.yml)
+#### [List Keys](appconfiguration/preview/Configuration-Stores/List-Keys.yml)
+#### [Purge Deleted](appconfiguration/preview/Configuration-Stores/Purge-Deleted.yml)
+#### [Regenerate Key](appconfiguration/preview/Configuration-Stores/Regenerate-Key.yml)
+#### [Update](appconfiguration/preview/Configuration-Stores/Update.yml)
+### Key Values
+#### [Overview](appconfiguration/preview/Key-Values.yml)
+#### [Create Or Update](appconfiguration/preview/Key-Values/Create-Or-Update.yml)
+#### [Delete](appconfiguration/preview/Key-Values/Delete.yml)
+#### [Get](appconfiguration/preview/Key-Values/Get.yml)
+#### [List By Configuration Store](appconfiguration/preview/Key-Values/List-By-Configuration-Store.yml)
+### Operations
+#### [Overview](appconfiguration/preview/Operations.yml)
+#### [Check Name Availability](appconfiguration/preview/Operations/Check-Name-Availability.yml)
+#### [List](appconfiguration/preview/Operations/List.yml)
+#### [Regional Check Name Availability](appconfiguration/preview/Operations/Regional-Check-Name-Availability.yml)
+### Private Endpoint Connections
+#### [Overview](appconfiguration/preview/Private-Endpoint-Connections.yml)
+#### [Create Or Update](appconfiguration/preview/Private-Endpoint-Connections/Create-Or-Update.yml)
+#### [Delete](appconfiguration/preview/Private-Endpoint-Connections/Delete.yml)
+#### [Get](appconfiguration/preview/Private-Endpoint-Connections/Get.yml)
+#### [List By Configuration Store](appconfiguration/preview/Private-Endpoint-Connections/List-By-Configuration-Store.yml)
+### Private Link Resources
+#### [Overview](appconfiguration/preview/Private-Link-Resources.yml)
+#### [Get](appconfiguration/preview/Private-Link-Resources/Get.yml)
+#### [List By Configuration Store](appconfiguration/preview/Private-Link-Resources/List-By-Configuration-Store.yml)
+## Stable
+### Configuration Stores
+#### [Overview](appconfiguration/stable/Configuration-Stores.yml)
+#### [Create](appconfiguration/stable/Configuration-Stores/Create.yml)
+#### [Delete](appconfiguration/stable/Configuration-Stores/Delete.yml)
+#### [Get](appconfiguration/stable/Configuration-Stores/Get.yml)
+#### [Get Deleted](appconfiguration/stable/Configuration-Stores/Get-Deleted.yml)
+#### [List](appconfiguration/stable/Configuration-Stores/List.yml)
+#### [List By Resource Group](appconfiguration/stable/Configuration-Stores/List-By-Resource-Group.yml)
+#### [List Deleted](appconfiguration/stable/Configuration-Stores/List-Deleted.yml)
+#### [List Keys](appconfiguration/stable/Configuration-Stores/List-Keys.yml)
+#### [Purge Deleted](appconfiguration/stable/Configuration-Stores/Purge-Deleted.yml)
+#### [Regenerate Key](appconfiguration/stable/Configuration-Stores/Regenerate-Key.yml)
+#### [Update](appconfiguration/stable/Configuration-Stores/Update.yml)
+### Key Values
+#### [Overview](appconfiguration/stable/Key-Values.yml)
+#### [Create Or Update](appconfiguration/stable/Key-Values/Create-Or-Update.yml)
+#### [Delete](appconfiguration/stable/Key-Values/Delete.yml)
+#### [Get](appconfiguration/stable/Key-Values/Get.yml)
+#### [List By Configuration Store](appconfiguration/stable/Key-Values/List-By-Configuration-Store.yml)
+### Operations
+#### [Overview](appconfiguration/stable/Operations.yml)
+#### [Check Name Availability](appconfiguration/stable/Operations/Check-Name-Availability.yml)
+#### [List](appconfiguration/stable/Operations/List.yml)
+#### [Regional Check Name Availability](appconfiguration/stable/Operations/Regional-Check-Name-Availability.yml)
+### Private Endpoint Connections
+#### [Overview](appconfiguration/stable/Private-Endpoint-Connections.yml)
+#### [Create Or Update](appconfiguration/stable/Private-Endpoint-Connections/Create-Or-Update.yml)
+#### [Delete](appconfiguration/stable/Private-Endpoint-Connections/Delete.yml)
+#### [Get](appconfiguration/stable/Private-Endpoint-Connections/Get.yml)
+#### [List By Configuration Store](appconfiguration/stable/Private-Endpoint-Connections/List-By-Configuration-Store.yml)
+### Private Link Resources
+#### [Overview](appconfiguration/stable/Private-Link-Resources.yml)
+#### [Get](appconfiguration/stable/Private-Link-Resources/Get.yml)
+#### [List By Configuration Store](appconfiguration/stable/Private-Link-Resources/List-By-Configuration-Store.yml)
 # App Service
 ## [Overview](../docs-ref-conceptual/appservice/index.md)
 ## App Service Certificate Orders

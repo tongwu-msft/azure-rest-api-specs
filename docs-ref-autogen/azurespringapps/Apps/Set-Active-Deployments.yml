@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringapps.apps.setactivedeployments
 name: Set Active Deployments
 service: Azure Spring Apps
 groupName: Apps
-apiVersion: 2022-03-01-preview
+apiVersion: 2022-05-01-preview
 summary: Set existing Deployment under the app as active
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/setActiveDeployments?api-version=2022-03-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/setActiveDeployments?api-version=2022-05-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -175,6 +175,10 @@ definitions:
     types:
     - uid: LoadedCertificate
       isArray: true
+  - name: vnetAddons
+    description: Additional App settings in vnet injection instance
+    types:
+    - uid: AppVNetAddons
 - name: ManagedIdentityProperties
   description: Managed identity properties retrieved from ARM request headers.
   kind: object
@@ -306,7 +310,7 @@ definitions:
     - uid: AzureFileVolume
     typesTitle: CustomPersistentDiskProperties
   - name: storageId
-    description: The resource id of Azure Spring Cloud Storage resource.
+    description: The resource id of Azure Spring Apps Storage resource.
     types:
     - uid: string
 - name: LoadedCertificate
@@ -321,6 +325,19 @@ definitions:
     description: Indicate whether the certificate will be loaded into default trust store, only work for Java runtime.
     types:
     - uid: boolean
+- name: AppVNetAddons
+  description: Additional App settings in vnet injection instance
+  kind: object
+  properties:
+  - name: publicEndpoint
+    description: Indicates whether the App in vnet injection instance exposes endpoint which could be accessed from internet.
+    types:
+    - uid: boolean
+  - name: publicEndpointUrl
+    isReadyOnly: true
+    description: URL of the App in vnet injection instance which could be accessed from internet
+    types:
+    - uid: string
 - name: ManagedIdentityType
   description: Type of the managed identity
   kind: enum
@@ -412,7 +429,7 @@ definitions:
 examples:
 - name: Apps_SetActiveDeployments
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/setActiveDeployments?api-version=2022-03-01-preview
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/setActiveDeployments?api-version=2022-05-01-preview
     body: >-
       {
         "activeDeploymentNames": [
@@ -482,9 +499,9 @@ examples:
   - statusCode: "202"
     headers:
     - name: Location
-      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/default/operationId/00000000-0000-0000-0000-000000000000?api-version=2022-03-01-preview
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/default/operationId/00000000-0000-0000-0000-000000000000?api-version=2022-05-01-preview
     - name: Azure-AsyncOperation
-      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationResults/00000000-0000-0000-0000-000000000000/Spring/default?api-version=2022-03-01-preview
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationResults/00000000-0000-0000-0000-000000000000/Spring/default?api-version=2022-05-01-preview
     body: >-
       {
         "properties": {
