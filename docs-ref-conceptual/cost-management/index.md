@@ -1,7 +1,7 @@
 ---
 ms.assetid:
-title: Azure Cost Management REST APIs
-description: Learn how the Azure Cost Management APIs provide the ability to explore cost and usage data via multidimensional analysis.
+title: Microsoft Cost Management REST APIs
+description: Learn how the Microsoft Cost Management APIs provide the ability to explore cost and usage data via multidimensional analysis.
 ms.service: cost-management-billing
 author: ms-premp
 ms.author: prprak
@@ -10,9 +10,9 @@ ms.date: 02/06/2019
 ---
 
 
-# Azure Cost Management
+# Microsoft Cost Management
 
-The Azure Cost Management APIs provide the ability to explore cost and usage data via multidimensional analysis, where creating customized filters and expressions allow you to answer consumption-related questions for your Azure resources. These APIs are currently available for Azure Enterprise customers.
+The Cost Management APIs provide the ability to explore cost and usage data via multidimensional analysis, where creating customized filters and expressions allow you to answer consumption-related questions for your Azure resources. These APIs are currently available for Azure Enterprise customers.
 
 
 
