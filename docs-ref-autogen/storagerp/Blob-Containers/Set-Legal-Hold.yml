@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.blobcontainers.setlegalhold
 name: Set Legal Hold
 service: Storage Resource Provider
 groupName: Blob Containers
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01
 summary: Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/setLegalHold?api-version=2021-04-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/setLegalHold?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -58,6 +58,11 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: allowProtectedAppendWritesAll
+    in: body
+    description: When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining legal hold protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted.
+    types:
+    - uid: boolean
 requestHeader: []
 definitions:
 - name: LegalHold
@@ -74,10 +79,14 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: allowProtectedAppendWritesAll
+    description: When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining legal hold protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted.
+    types:
+    - uid: boolean
 examples:
 - name: SetLegalHoldContainers
   request:
-    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res4303/providers/Microsoft.Storage/storageAccounts/sto7280/blobServices/default/containers/container8723/setLegalHold?api-version=2021-04-01
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res4303/providers/Microsoft.Storage/storageAccounts/sto7280/blobServices/default/containers/container8723/setLegalHold?api-version=2021-09-01
     body: >-
       {
         "tags": [
@@ -96,6 +105,30 @@ examples:
           "tag2",
           "tag3"
         ]
+      }
+- name: SetLegalHoldContainersWithAllowProtectedAppendWritesAll
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res4303/providers/Microsoft.Storage/storageAccounts/sto7280/blobServices/default/containers/container8723/setLegalHold?api-version=2021-09-01
+    body: >-
+      {
+        "tags": [
+          "tag1",
+          "tag2",
+          "tag3"
+        ],
+        "allowProtectedAppendWritesAll": true
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "hasLegalHold": true,
+        "tags": [
+          "tag1",
+          "tag2",
+          "tag3"
+        ],
+        "allowProtectedAppendWritesAll": true
       }
 security:
 - name: azure_auth

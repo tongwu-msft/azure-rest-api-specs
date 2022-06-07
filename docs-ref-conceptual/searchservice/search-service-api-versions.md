@@ -4,10 +4,10 @@ titleSuffix: Azure Cognitive Search
 description: Lists the generally available and preview versions of the Search REST APIs for Azure Cognitive Search.
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
-ms.date: 07/20/2021
+ms.date: 05/27/2022
 author: HeidiSteen
 ms.author: heidist
 ms.manager: nitinme
@@ -100,7 +100,7 @@ This preview version includes all of the features introduced in 2019-05-06-Previ
 
 ### 2019-05-06-Preview
 
-+ Indexer data source support for Cosmos DB MongoDB API, Cassandra API
++ Indexer data source support for Cosmos DB MongoDB API
 + Indexer data source for native blob soft delete in Blob Storage
 + featuresMode parameter that returns detailed information about a relevance score
 + Azure Machine Learning (AML) cognitive skill

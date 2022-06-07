@@ -1,5 +1,6 @@
 ---
-title: "Common error codes"
+title: IoT Central REST API common error codes
+description: Learn about the error codes that are common to the IoT Central REST API.
 ms.custom: ""
 ms.date: 10/28/2019
 ms.reviewer: ""
@@ -11,7 +12,7 @@ author: "avneet723"
 ms.author: "avneets"
 ---
 
-# Common error codes
+# IoT Central REST API common error codes
 The following table lists error codes common to the IoT Central REST APIs.  
   
 ## Common error codes  

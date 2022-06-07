@@ -1,5 +1,6 @@
 ---
 title: "Gateway (Azure Data Factory)"
+description: Learn how to construct a Create or Update Gateway request.
 ---
 # Gateway version 1 (V1)
 
@@ -708,9 +709,8 @@ Renerates a new key for an existing gateway that replaces the old key.
   
  The following table describes the elements of the response body.  
   
-|||  
+|Element Name|Description|  
 |-|-|  
-|**Element Name**|**Description**|  
 |key|Key of the gateway used for registration|  
   
 ### Sample Request and Response  

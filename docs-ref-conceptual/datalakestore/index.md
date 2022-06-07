@@ -1,6 +1,7 @@
 ---
 ms.assetid: 41e2b7a9-d76d-4dae-b997-278afe42600c
 title: Azure Data Lake Storage Gen1 REST API Reference
+description: Learn how to use the Azure Data Lake Store REST APIs to create and manage Data Lake Store resources through Azure Resource Manager.
 ms.service: data-lake-store
 author: nitinme
 ms.author: nitinme

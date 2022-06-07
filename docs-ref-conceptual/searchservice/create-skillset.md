@@ -5,7 +5,7 @@ ms.date: 08/17/2021
 
 ms.service: cognitive-search
 ms.devlang: rest-api
-ms.topic: language-reference
+ms.topic: reference
 
 author: HeidiSteen
 ms.author: heidist

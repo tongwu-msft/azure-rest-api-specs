@@ -3,7 +3,7 @@ uid: catalog.api.purview.catalogdataplane.glossary.getglossaryterm
 name: Get Glossary Term
 service: Purview
 groupName: Glossary
-apiVersion: 2021-05-01-preview
+apiVersion: 2022-03-01-preview
 summary: Get a specific glossary term by its GUID.
 consumes:
 - application/json
@@ -11,7 +11,7 @@ produces:
 - application/json
 paths:
 - content: GET {Endpoint}/catalog/api/atlas/v2/glossary/term/{termGuid}
-- content: GET {Endpoint}/catalog/api/atlas/v2/glossary/term/{termGuid}?includeTermHierarchy={includeTermHierarchy}
+- content: GET {Endpoint}/catalog/api/atlas/v2/glossary/term/{termGuid}?includeTermHierarchy={includeTermHierarchy}&excludeRelationshipTypes={excludeRelationshipTypes}
   isOptional: true
 uriParameters:
 - name: Endpoint
@@ -32,6 +32,11 @@ uriParameters:
   description: Whether include term hierarchy
   types:
   - uid: boolean
+- name: excludeRelationshipTypes
+  in: query
+  description: An array of relationship types which need to be excluded.
+  types:
+  - uid: array
 responses:
 - name: 200 OK
   description: OK. If glossary term exists for given GUID.
@@ -512,6 +517,63 @@ definitions:
     - uid: string
 examples:
 - name: Glossary_GetGlossaryTerm
+  request:
+    uri: GET {Endpoint}/catalog/api/atlas/v2/glossary/term/54688d39-b298-4104-9e80-f2a16f44aaea
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "guid": "54688d39-b298-4104-9e80-f2a16f44aaea",
+        "qualifiedName": "ExampleTerm1@Glossary",
+        "name": "ExampleTerm1",
+        "shortDescription": "Example Short Description",
+        "lastModifiedTS": "1",
+        "abbreviation": "T1",
+        "createdBy": "23863cef-a2e9-40a3-a427-44dc0d201f61",
+        "updatedBy": "23863cef-a2e9-40a3-a427-44dc0d201f61",
+        "createTime": 1606287247276,
+        "updateTime": 1606287247276,
+        "status": "Approved",
+        "anchor": {
+          "glossaryGuid": "c018ddaf-7c21-4b37-a838-dae5f110c3d8",
+          "relationGuid": "7b6a8149-a928-476a-a068-dce58653cfa0"
+        },
+        "seeAlso": [
+          {
+            "termGuid": "952c7ba4-4c89-42d8-a05a-7d2161be7008",
+            "relationGuid": "dfa44030-bd14-4111-a0f1-3d01c964eb01",
+            "displayText": "ExampleTerm2"
+          }
+        ],
+        "synonyms": [
+          {
+            "termGuid": "952c7ba4-4c89-42d8-a05a-7d2161be7008",
+            "relationGuid": "15bcbd12-eb48-4b63-8ff5-74f7ec3a562c",
+            "displayText": "ExampleTerm2"
+          }
+        ],
+        "contacts": {
+          "Expert": [
+            {
+              "id": "30435ff9-9b96-44af-a5a9-e05c8b1ae2df",
+              "info": "Example Expert Info"
+            }
+          ],
+          "Steward": [
+            {
+              "id": "30435ff9-9b96-44af-a5a9-e05c8b1ae2df",
+              "info": "Example Steward Info"
+            }
+          ]
+        },
+        "resources": [
+          {
+            "displayName": "Example Display Name",
+            "url": "Example Url"
+          }
+        ]
+      }
+- name: Glossary_GetGlossaryTerm_WithoutAssets
   request:
     uri: GET {Endpoint}/catalog/api/atlas/v2/glossary/term/54688d39-b298-4104-9e80-f2a16f44aaea
   responses:

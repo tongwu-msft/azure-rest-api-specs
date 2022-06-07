@@ -1,5 +1,7 @@
 ---
 title: "ClusterUpgradeDeltaHealthPolicy"
+description: "Describe the delta health policies for the cluster upgrade. The applicationDeltaHealthPolicies and maxPercentDeltaUnhealthyNodes are some of the properties." 
+
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

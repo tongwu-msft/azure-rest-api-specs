@@ -1,5 +1,6 @@
 ---
 title: "AccessPolicy"
+description: Learn about the AccessPolicy entity and how to execute various operations with the Media Services REST API.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

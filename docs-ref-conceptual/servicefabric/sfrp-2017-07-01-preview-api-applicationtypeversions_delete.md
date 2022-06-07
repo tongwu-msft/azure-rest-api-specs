@@ -1,5 +1,6 @@
 ---
-title: "Delete"
+title: Service Fabric Delete Application Type Version
+description: API reference documentation for the operations available in the Service Fabric Delete Application Type Version REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete
+# Service Fabric Delete Application Type Version
+
 Deletes a Service Fabric application type version resource.
 
 Delete a Service Fabric application type version resource with the specified name.

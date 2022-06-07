@@ -3,14 +3,14 @@ uid: management.azure.com.azureml.modelversions.createorupdate
 name: Create Or Update
 service: Machine Learning
 groupName: Model Versions
-apiVersion: 2021-03-01-preview
+apiVersion: 2022-05-01
 summary: Create or update version.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions/{version}?api-version=2021-03-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions/{version}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,14 +33,14 @@ uriParameters:
 - name: name
   in: path
   isRequired: true
-  description: Container name.
+  description: Container name. This is case-sensitive.
   types:
   - uid: string
   pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,254}$
 - name: version
   in: path
   isRequired: true
-  description: Version identifier.
+  description: Version identifier. This is case-sensitive.
   types:
   - uid: string
 - name: api-version
@@ -68,7 +68,7 @@ requestBody:
   - name: properties
     in: body
     isRequired: true
-    description: Additional attributes of the entity.
+    description: '[Required] Additional attributes of the entity.'
     types:
     - uid: ModelVersion
 requestHeader: []
@@ -77,14 +77,6 @@ definitions:
   description: Model asset version details.
   kind: object
   properties:
-  - name: datastoreId
-    description: ARM resource ID of the datastore where the asset is located.
-    types:
-    - uid: string
-  - name: description
-    description: The asset description text.
-    types:
-    - uid: string
   - name: flavors
     description: Mapping of model flavors to their properties.
     types:
@@ -93,12 +85,30 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: FlavorData
+  - name: jobName
+    description: Name of the training job which produced this model
+    types:
+    - uid: string
+  - name: modelType
+    description: The storage format for this entity. Used for NCD.
+    types:
+    - uid: string
+  - name: modelUri
+    description: The URI path to the model contents.
+    types:
+    - uid: string
   - name: isAnonymous
     description: If the name version are system generated (anonymous registration).
     types:
     - uid: boolean
-  - name: path
-    description: The path of the file/directory in the datastore.
+    defaultValue: false
+  - name: isArchived
+    description: Is the asset archived?
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: description
+    description: The asset description text.
     types:
     - uid: string
   - name: properties
@@ -158,14 +168,9 @@ definitions:
   kind: object
   properties:
   - name: properties
-    description: Additional attributes of the entity.
+    description: '[Required] Additional attributes of the entity.'
     types:
     - uid: ModelVersion
-  - name: systemData
-    isReadyOnly: true
-    description: System data associated with resource provider
-    types:
-    - uid: systemData
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -181,6 +186,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: FlavorData
   kind: object
   properties:
@@ -256,91 +266,95 @@ definitions:
 examples:
 - name: CreateOrUpdate Model Version.
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspace123/models/testContainer/versions/1?api-version=2021-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/models/string/versions/string?api-version=2022-05-01
     body: >-
       {
         "properties": {
-          "description": "Model version description",
-          "datastoreId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspace123/datastores/datastore123",
+          "description": "string",
+          "tags": {
+            "string": "string"
+          },
+          "properties": {
+            "string": "string"
+          },
+          "isAnonymous": false,
           "flavors": {
-            "python_function": {
+            "string": {
               "data": {
-                "loader_module": "myLoaderModule"
+                "string": "string"
               }
             }
           },
-          "tags": {
-            "tag1": "value1",
-            "tag2": "value2"
-          },
-          "properties": {
-            "prop1": "value1",
-            "prop2": "value2"
-          },
-          "path": "path/in/datastore"
+          "modelType": "CustomModel",
+          "modelUri": "string"
         }
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspace123/models/testContainer/versions/1",
-        "name": "1",
-        "type": "Microsoft.MachineLearningService/workspaces/models/versions",
+        "id": "string",
+        "name": "string",
+        "type": "string",
         "properties": {
-          "description": "Model version description",
-          "datastoreId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspace123/datastores/datastore123",
+          "description": "string",
+          "tags": {
+            "string": "string"
+          },
+          "properties": {
+            "string": "string"
+          },
+          "isAnonymous": false,
           "flavors": {
-            "python_function": {
+            "string": {
               "data": {
-                "loader_module": "myLoaderModule"
+                "string": "string"
               }
             }
           },
-          "tags": {
-            "tag1": "value1",
-            "tag2": "value2"
-          },
-          "properties": {
-            "prop1": "value1",
-            "prop2": "value2"
-          },
-          "path": "path/in/datastore"
+          "modelType": "CustomModel",
+          "modelUri": "string"
         },
         "systemData": {
-          "createdAt": "2020-12-01T12:00:00.000Z",
-          "createdBy": "John Smith",
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
           "createdByType": "User",
-          "lastModifiedAt": "2020-12-01T12:00:00.000Z",
-          "lastModifiedBy": "John Smith",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
           "lastModifiedByType": "User"
         }
       }
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspace123/models/testContainer/versions/999",
-        "name": "999",
-        "type": "Microsoft.MachineLearningService/workspaces/models/versions",
+        "id": "string",
+        "name": "string",
+        "type": "string",
         "properties": {
-          "description": "Model version description",
-          "datastoreId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspace123/datastores/datastore123",
+          "description": "string",
           "tags": {
-            "tag1": "value1",
-            "tag2": "value2"
+            "string": "string"
           },
           "properties": {
-            "prop1": "value1",
-            "prop2": "value2"
+            "string": "string"
           },
-          "path": "LocalUpload/12345/some/path"
+          "isAnonymous": false,
+          "flavors": {
+            "string": {
+              "data": {
+                "string": "string"
+              }
+            }
+          },
+          "modelType": "CustomModel",
+          "modelUri": "string"
         },
         "systemData": {
-          "createdAt": "2020-12-01T12:00:00.000Z",
-          "createdBy": "John Smith",
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
           "createdByType": "User",
-          "lastModifiedAt": "2020-12-01T12:00:00.000Z",
-          "lastModifiedBy": "John Smith",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
           "lastModifiedByType": "User"
         }
       }

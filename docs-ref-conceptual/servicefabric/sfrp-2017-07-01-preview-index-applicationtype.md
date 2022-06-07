@@ -1,5 +1,6 @@
 ---
-title: "ApplicationType"
+title: Service Fabric ApplicationType (2017-07-01-preview)
+description: API reference documentation for the operations available in the Service Fabric ApplicationType REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationType APIs
+# Service Fabric ApplicationType (2017-07-01-preview)
 
 | Name | Description |
 | --- | --- |
