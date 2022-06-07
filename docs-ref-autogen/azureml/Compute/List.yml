@@ -3,15 +3,15 @@ uid: management.azure.com.azureml.compute.list
 name: List
 service: Machine Learning
 groupName: Compute
-apiVersion: 2022-02-01-preview
+apiVersion: 2022-05-01
 summary: Gets computes in specified workspace.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes?api-version=2022-02-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes?api-version=2022-02-01-preview&$skip={$skip}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes?api-version=2022-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes?api-version=2022-05-01&$skip={$skip}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -1099,7 +1099,7 @@ definitions:
   - name: propertyBag
     description: A property bag containing additional properties.
     types:
-    - {}
+    - uid: object
 - name: ComputeInstanceProperties
   description: Compute Instance properties
   kind: object
@@ -1265,10 +1265,7 @@ definitions:
   - name: status
     description: Enable or disable ssl for scoring
     types:
-    - uid: Disabled
-    - uid: Enabled
-    - uid: Auto
-    typesTitle: enum
+    - uid: SslConfigStatus
   - name: cert
     description: Cert data
     types:
@@ -1759,6 +1756,19 @@ definitions:
     description: Private key data
     types:
     - uid: string
+- name: SslConfigStatus
+  description: Enable or disable ssl for scoring
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Auto
+    types:
+    - uid: string
 - name: Resources
   description: Resource requests/limits for this instance type
   kind: object
@@ -1895,11 +1905,9 @@ definitions:
     types:
     - uid: ComputePowerAction
   - name: schedule
-    description: Base definition of a schedule
+    description: ''
     types:
-    - uid: CronSchedule
-    - uid: RecurrenceSchedule
-    typesTitle: ScheduleBase
+    - uid: ScheduleBase
 - name: autosave
   description: Auto save settings.
   kind: enum
@@ -2046,162 +2054,46 @@ definitions:
   - name: Stop
     types:
     - uid: string
-- name: CronSchedule
-  description: Cron schedule definition
+- name: ScheduleBase
   kind: object
   properties:
-  - name: expression
-    description: >-
-      [Required] Specifies cron expression of schedule.
-
-      The expression should follow NCronTab format.
+  - name: id
+    description: ''
     types:
     - uid: string
-  - name: endTime
-    description: >-
-      Specifies end time of schedule in ISO 8601 format.
-
-      If not present, the schedule will run indefinitely
+  - name: provisioningStatus
+    description: ''
     types:
-    - uid: string
-  - name: scheduleStatus
-    description: Specifies the schedule's status
+    - uid: ScheduleProvisioningState
+  - name: status
+    description: ''
     types:
     - uid: ScheduleStatus
-    defaultValue: Enabled
-  - name: scheduleType
-    description: '[Required] Specifies the schedule type'
-    types:
-    - uid: Cron
-    typesTitle: string
-  - name: startTime
-    description: Specifies start time of schedule in ISO 8601 format.
-    types:
-    - uid: string
-  - name: timeZone
-    description: >-
-      Specifies time zone in which the schedule runs.
-
-      TimeZone should follow Windows time zone format.
-    types:
-    - uid: string
-    defaultValue: UTC
-- name: RecurrenceSchedule
-  description: Recurrence schedule definition
-  kind: object
+- name: ScheduleProvisioningState
+  kind: enum
   properties:
-  - name: frequency
-    description: '[Required] Specifies frequency with with which to trigger schedule'
-    types:
-    - uid: RecurrenceFrequency
-  - name: interval
-    description: '[Required] Specifies schedule interval in conjunction with frequency'
-    types:
-    - uid: integer
-  - name: pattern
-    description: Specifies the recurrence schedule pattern
-    types:
-    - uid: RecurrencePattern
-  - name: endTime
-    description: >-
-      Specifies end time of schedule in ISO 8601 format.
-
-      If not present, the schedule will run indefinitely
+  - name: Completed
     types:
     - uid: string
-  - name: scheduleStatus
-    description: Specifies the schedule's status
-    types:
-    - uid: ScheduleStatus
-    defaultValue: Enabled
-  - name: scheduleType
-    description: '[Required] Specifies the schedule type'
-    types:
-    - uid: Recurrence
-    typesTitle: string
-  - name: startTime
-    description: Specifies start time of schedule in ISO 8601 format.
+  - name: Provisioning
     types:
     - uid: string
-  - name: timeZone
-    description: >-
-      Specifies time zone in which the schedule runs.
-
-      TimeZone should follow Windows time zone format.
+  - name: Failed
     types:
     - uid: string
-    defaultValue: UTC
 - name: ScheduleStatus
-  description: Enum to describe status of schedule
   kind: enum
   properties:
   - name: Enabled
-    description: Schedule is enabled
     types:
     - uid: string
   - name: Disabled
-    description: Schedule is disabled
     types:
     - uid: string
-- name: ScheduleType
-  description: Enum to describe type of schedule
-  kind: enum
-  properties:
-  - name: Cron
-    description: Cron schedule type
-    types:
-    - uid: string
-  - name: Recurrence
-    description: Recurrence schedule type
-    types:
-    - uid: string
-- name: RecurrenceFrequency
-  description: Enum to describe the frequency of a recurrence schedule
-  kind: enum
-  properties:
-  - name: Minute
-    description: Minute frequency
-    types:
-    - uid: string
-  - name: Hour
-    description: Hour frequency
-    types:
-    - uid: string
-  - name: Day
-    description: Day frequency
-    types:
-    - uid: string
-  - name: Week
-    description: Week frequency
-    types:
-    - uid: string
-  - name: Month
-    description: Month frequency
-    types:
-    - uid: string
-- name: RecurrencePattern
-  description: Recurrence schedule pattern definition
-  kind: object
-  properties:
-  - name: hours
-    description: '[Required] List of hours for recurrence schedule pattern'
-    types:
-    - uid: integer
-      isArray: true
-  - name: minutes
-    description: '[Required] List of minutes for recurrence schedule pattern'
-    types:
-    - uid: integer
-      isArray: true
-  - name: weekdays
-    description: List of weekdays for recurrence schedule pattern
-    types:
-    - uid: string
-      isArray: true
 examples:
 - name: Get Computes
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspaces123/computes?api-version=2022-02-01-preview
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspaces123/computes?api-version=2022-05-01
   responses:
   - statusCode: "200"
     body: >-
