@@ -1,5 +1,6 @@
 ﻿---
 title: "Update a notification hub"
+description: Use this API reference documentation to update notification hubs.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

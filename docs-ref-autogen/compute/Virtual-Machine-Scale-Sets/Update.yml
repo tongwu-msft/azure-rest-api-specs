@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.update
 name: Update
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2021-11-01
+apiVersion: 2022-03-01
 summary: Update a VM scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2021-11-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -378,7 +378,7 @@ definitions:
     - uid: SpotRestorePolicy
   - name: properties.timeCreated
     isReadyOnly: true
-    description: 'Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2021-11-01.'
+    description: 'Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2022-03-01.'
     types:
     - uid: string
   - name: id
@@ -477,7 +477,7 @@ definitions:
       - uid: string
       - uid: string
 - name: ResourceIdentityType
-  description: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+  description: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set.
   kind: enum
   properties:
   - name: SystemAssigned
@@ -551,6 +551,10 @@ definitions:
     - uid: boolean
   - name: disableAutomaticRollback
     description: Whether OS image rollback feature should be disabled. Default value is false.
+    types:
+    - uid: boolean
+  - name: useRollingUpgradePolicy
+    description: Indicates whether rolling upgrade policy should be used during Auto OS Upgrade. Default value is false. Auto OS Upgrade will fallback to the default policy if no policy is defined on the VMSS.
     types:
     - uid: boolean
 - name: RepairAction
@@ -746,7 +750,7 @@ definitions:
     types:
     - uid: ApplicationProfile
   - name: hardwareProfile
-    description: 'Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2021-11-01.'
+    description: 'Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2022-03-01.'
     types:
     - uid: VirtualMachineScaleSetHardwareProfile
 - name: OrchestrationMode
@@ -924,6 +928,10 @@ definitions:
     description: The managed disk parameters.
     types:
     - uid: VirtualMachineScaleSetManagedDiskParameters
+  - name: deleteOption
+    description: 'Specifies whether OS Disk should be deleted or detached upon VMSS Flex deletion (This feature is available for VMSS with Flexible OrchestrationMode only). <br><br> Possible values: <br><br> **Delete** If this value is used, the OS disk is deleted when VMSS Flex VM is deleted.<br><br> **Detach** If this value is used, the OS disk is retained after VMSS Flex VM is deleted. <br><br> The default value is set to **Delete**. For an Ephemeral OS Disk, the default value is set to **Delete**. User cannot change the delete option for Ephemeral OS Disk.'
+    types:
+    - uid: DiskDeleteOptionTypes
 - name: VirtualMachineScaleSetDataDisk
   description: Describes a virtual machine scale set data disk.
   kind: object
@@ -964,6 +972,10 @@ definitions:
     description: Specifies the bandwidth in MB per second for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
     types:
     - uid: integer
+  - name: deleteOption
+    description: 'Specifies whether data disk should be deleted or detached upon VMSS Flex deletion (This feature is available for VMSS with Flexible OrchestrationMode only).<br><br> Possible values: <br><br> **Delete** If this value is used, the data disk is deleted when the VMSS Flex VM is deleted.<br><br> **Detach** If this value is used, the data disk is retained after VMSS Flex VM is deleted.<br><br> The default value is set to **Delete**.'
+    types:
+    - uid: DiskDeleteOptionTypes
 - name: ApiEntityReference
   description: The API entity reference.
   kind: object
@@ -1018,7 +1030,7 @@ definitions:
     types:
     - uid: string
 - name: NetworkApiVersion
-  description: specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations
+  description: specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'
   kind: enum
   properties:
   - name: 2020-11-01
@@ -1216,7 +1228,7 @@ definitions:
     types:
     - uid: NetworkApiVersion
 - name: VirtualMachinePriorityTypes
-  description: 'Specifies the priority for the virtual machine. <br><br>Minimum api-version: 2019-03-01'
+  description: 'Specifies the priority for the virtual machines in the scale set. <br><br>Minimum api-version: 2017-10-30-preview'
   kind: enum
   properties:
   - name: Regular
@@ -1260,7 +1272,7 @@ definitions:
   kind: object
   properties:
   - name: vmSizeProperties
-    description: 'Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2021-11-01. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details.'
+    description: 'Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2022-03-01. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details.'
     types:
     - uid: VMSizeProperties
 - name: ApiErrorBase
@@ -1327,6 +1339,10 @@ definitions:
     description: 'Specifies the mode of VM Guest patch assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine.<br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true. '
     types:
     - uid: WindowsPatchAssessmentMode
+  - name: automaticByPlatformSettings
+    description: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on Windows.
+    types:
+    - uid: WindowsVMGuestPatchAutomaticByPlatformSettings
 - name: WinRMConfiguration
   description: Describes Windows Remote Management configuration of the VM
   kind: object
@@ -1357,6 +1373,10 @@ definitions:
     description: Specifies the mode of VM Guest Patch Assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine. <br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
     types:
     - uid: LinuxPatchAssessmentMode
+  - name: automaticByPlatformSettings
+    description: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on Linux.
+    types:
+    - uid: LinuxVMGuestPatchAutomaticByPlatformSettings
 - name: VaultCertificate
   description: Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
   kind: object
@@ -1370,7 +1390,7 @@ definitions:
     types:
     - uid: string
 - name: CachingTypes
-  description: Gets the caching type.
+  description: 'Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage**'
   kind: enum
   properties:
   - name: None
@@ -1406,8 +1426,18 @@ definitions:
     description: Specifies the security profile for the managed disk.
     types:
     - uid: VMDiskSecurityProfile
+- name: DiskDeleteOptionTypes
+  description: 'Specifies whether OS Disk should be deleted or detached upon VMSS Flex deletion (This feature is available for VMSS with Flexible OrchestrationMode only). <br><br> Possible values: <br><br> **Delete** If this value is used, the OS disk is deleted when VMSS Flex VM is deleted.<br><br> **Detach** If this value is used, the OS disk is retained after VMSS Flex VM is deleted. <br><br> The default value is set to **Delete**. For an Ephemeral OS Disk, the default value is set to **Delete**. User cannot change the delete option for Ephemeral OS Disk.'
+  kind: enum
+  properties:
+  - name: Delete
+    types:
+    - uid: string
+  - name: Detach
+    types:
+    - uid: string
 - name: DiskCreateOptionTypes
-  description: Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.
+  description: 'Specifies how the virtual machines in the scale set should be created.<br><br> The only allowed value is: **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.'
   kind: enum
   properties:
   - name: FromImage
@@ -1477,7 +1507,7 @@ definitions:
     types:
     - uid: string
 - name: DeleteOptions
-  description: Specify what happens to the network interface when the VM is deleted
+  description: Specify what happens to the public IP when the VM is deleted
   kind: enum
   properties:
   - name: Delete
@@ -1531,6 +1561,10 @@ definitions:
     description: The managed disk parameters.
     types:
     - uid: VirtualMachineScaleSetManagedDiskParameters
+  - name: deleteOption
+    description: 'Specifies whether OS Disk should be deleted or detached upon VMSS Flex deletion (This feature is available for VMSS with Flexible OrchestrationMode only). <br><br> Possible values: <br><br> **Delete** If this value is used, the OS disk is deleted when VMSS Flex VM is deleted.<br><br> **Detach** If this value is used, the OS disk is retained after VMSS Flex VM is deleted. <br><br> The default value is set to **Delete**. For an Ephemeral OS Disk, the default value is set to **Delete**. User cannot change the delete option for Ephemeral OS Disk.'
+    types:
+    - uid: DiskDeleteOptionTypes
 - name: VirtualMachineScaleSetNetworkConfiguration
   description: Describes a virtual machine scale set network profile's network configurations.
   kind: object
@@ -1596,6 +1630,14 @@ definitions:
     description: Optional, Specifies the uri to an azure blob that will replace the default configuration for the package if provided
     types:
     - uid: string
+  - name: treatFailureAsDeploymentFailure
+    description: Optional, If true, any failure for any operation in the VmApplication will fail the deployment
+    types:
+    - uid: boolean
+  - name: enableAutomaticUpgrade
+    description: If set to true, when a new Gallery Application version is available in PIR/SIG, it will be automatically updated for the VM/VMSS
+    types:
+    - uid: boolean
 - name: VMSizeProperties
   description: Specifies VM Size Property settings on the virtual machine.
   kind: object
@@ -1655,6 +1697,14 @@ definitions:
   - name: AutomaticByPlatform
     types:
     - uid: string
+- name: WindowsVMGuestPatchAutomaticByPlatformSettings
+  description: Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Windows patch settings.
+  kind: object
+  properties:
+  - name: rebootSetting
+    description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+    types:
+    - uid: WindowsVMGuestPatchAutomaticByPlatformRebootSetting
 - name: WinRMListener
   description: Describes Protocol and thumbprint of Windows Remote Management listener
   kind: object
@@ -1699,6 +1749,14 @@ definitions:
   - name: AutomaticByPlatform
     types:
     - uid: string
+- name: LinuxVMGuestPatchAutomaticByPlatformSettings
+  description: Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Linux patch settings.
+  kind: object
+  properties:
+  - name: rebootSetting
+    description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+    types:
+    - uid: LinuxVMGuestPatchAutomaticByPlatformRebootSetting
 - name: StorageAccountTypes
   description: 'Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
   kind: enum
@@ -1719,6 +1777,9 @@ definitions:
     types:
     - uid: string
   - name: StandardSSD_ZRS
+    types:
+    - uid: string
+  - name: PremiumV2_LRS
     types:
     - uid: string
 - name: DiskEncryptionSetParameters
@@ -1788,7 +1849,7 @@ definitions:
     types:
     - uid: DiffDiskPlacement
 - name: OperatingSystemTypes
-  description: The operating system of the osDiskImage.
+  description: 'This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux**'
   kind: enum
   properties:
   - name: Windows
@@ -1845,6 +1906,22 @@ definitions:
     description: Resource Id
     types:
     - uid: string
+- name: WindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: IfRequired
+    types:
+    - uid: string
+  - name: Never
+    types:
+    - uid: string
+  - name: Always
+    types:
+    - uid: string
 - name: ProtocolTypes
   description: 'Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
   kind: enum
@@ -1853,6 +1930,22 @@ definitions:
     types:
     - uid: string
   - name: Https
+    types:
+    - uid: string
+- name: LinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: IfRequired
+    types:
+    - uid: string
+  - name: Never
+    types:
+    - uid: string
+  - name: Always
     types:
     - uid: string
 - name: securityEncryptionTypes
@@ -1974,7 +2067,7 @@ definitions:
 examples:
 - name: VirtualMachineScaleSets_Update_MaximumSet_Gen
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaa?api-version=2021-11-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaa?api-version=2022-03-01
     body: >-
       {
         "sku": {
@@ -2015,9 +2108,12 @@ examples:
                 "provisionVMAgent": true,
                 "enableAutomaticUpdates": true,
                 "patchSettings": {
-                  "patchMode": "AutomaticByOS",
+                  "patchMode": "AutomaticByPlatform",
                   "enableHotpatching": true,
-                  "assessmentMode": "ImageDefault"
+                  "assessmentMode": "ImageDefault",
+                  "automaticByPlatformSettings": {
+                    "rebootSetting": "Never"
+                  }
                 },
                 "timeZone": "aaaaaaaaaaaaaaaa",
                 "additionalUnattendContent": [
@@ -2339,9 +2435,12 @@ examples:
                   }
                 ],
                 "patchSettings": {
-                  "patchMode": "AutomaticByOS",
+                  "patchMode": "AutomaticByPlatform",
                   "enableHotpatching": true,
-                  "assessmentMode": "ImageDefault"
+                  "assessmentMode": "ImageDefault",
+                  "automaticByPlatformSettings": {
+                    "rebootSetting": "Never"
+                  }
                 },
                 "winRM": {
                   "listeners": [
@@ -2614,7 +2713,7 @@ examples:
       }
 - name: VirtualMachineScaleSets_Update_MinimumSet_Gen
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaa?api-version=2021-11-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaa?api-version=2022-03-01
     body: '{}'
   responses:
   - statusCode: "200"

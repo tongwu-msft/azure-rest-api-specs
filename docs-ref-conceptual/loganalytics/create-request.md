@@ -1,7 +1,8 @@
 ---
 ms.assetid: 56b6be3f-f20f-4024-94c2-92a1e762b409
 title: Log Analytics REST API Reference
-ms.service: LogAnalytics
+description: Learn how the Azure Log Analytics HTTP Data Collector API allows you to POST JSON data to a Log Analytics Workspace from any client that can call the REST API.
+ms.service: azure
 author: bwren
 ms.author: bwren
 ms.manager: carmon
@@ -41,42 +42,46 @@ Any request to the Log analytics HTTP Data Collector API must include the Author
 
 The format for the Authorization header is as follows:
 
-	Authorization: SharedKey <WorkspaceID>:<Signature>
+`Authorization: SharedKey <WorkspaceID>:<Signature>`
 
 *WorkspaceID* is the unique identifer for the Log Analytics workspace, and *Signature* is a Hash-based Message Authentication Code (HMAC) constructed from the request and computed by using the SHA256 algorithm, and then encoded using Base64 encoding.
 
 ### Constructing the signature string
 To encode the Shared Key signature string, use the following format: 
 
+```csharp
 	StringToSign = VERB + "\n" +
-				Content-Length + "\n" +
-				Content-Type + "\n" +
-				x-ms-date + "\n" +
-				"/api/logs";
+	Content-Length + "\n" +
+	Content-Type + "\n" +
+	x-ms-date + "\n" +
+	"/api/logs";
+```
 
 The following example shows a signature string:
  
-	POST\n1024\napplication/json\nx-ms-date:Mon, 04 Apr 2016 08:00:00 GMT\n/api/logs
+`POST \n1024\napplication/json\nx-ms-date:Mon, 04 Apr 2016 08:00:00 GMT\n/api/logs`
 
 Next, encode this string by using the HMAC-SHA256 algorithm over the UTF-8-encoded signature string, construct the Authorization header, and add the header to the request.
 
 ### Encoding the Signature
 To encode the signature, call the HMAC-SHA256 algorithm on the UTF-8-encoded signature string and encode the result as Base64. Use the following format (shown as pseudocode): 
 
-	Signature=Base64(HMAC-SHA256(UTF8(StringToSign)))
-
+`Signature=Base64(HMAC-SHA256(UTF8(StringToSign)))`
 
 ## Request body
 The body of the message submitted to the endpoint. 
+
+```json
 	{
 	  "key1": "value1",
-	  "key2": "value2"
+	  "key2": "value2",
 	  "key3": "value3",
 	  "key4": "value4"
 	}
-
+```
 You can batch multiple messages of the same type into a single request body. 
 
+```json
 	[
 	  {
 	    "key1": "value1",
@@ -91,6 +96,7 @@ You can batch multiple messages of the same type into a single request body.
 	    "key4": "value8"
 	  }
 	]
+```
 
 ### Data limits 
 

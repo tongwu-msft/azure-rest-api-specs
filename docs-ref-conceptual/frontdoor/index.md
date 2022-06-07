@@ -1,6 +1,7 @@
 ---
 ms.assetid: 
 title: Azure Front Door Service REST API Reference | Microsoft Docs
+description: Learn how Azure Front Door Service enables you to define, manage, and monitor the global routing for your web traffic.
 ms.date: "10/04/2019"
 ms.service: frontdoor
 author: dlepow

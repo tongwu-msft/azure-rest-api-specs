@@ -118,7 +118,7 @@ definitions:
     isReadyOnly: true
     description: The provisioning state of the resource  association resource.
     types:
-    - uid: ProvisioningState
+    - uid: nspProvisioningState
   - name: properties.privateLinkResource
     description: The PaaS resource to be associated.
     types:
@@ -131,6 +131,11 @@ definitions:
     description: Access mode on the association.
     types:
     - uid: AssociationAccessMode
+  - name: properties.hasProvisioningIssues
+    isReadyOnly: true
+    description: Specifies if there are provisioning issues
+    types:
+    - uid: string
   - name: location
     description: Resource location.
     types:
@@ -151,17 +156,23 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
-- name: ProvisioningState
-  description: The current provisioning state.
+- name: nspProvisioningState
+  description: The provisioning state of the scope assignment resource.
   kind: enum
   properties:
   - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
     types:
     - uid: string
   - name: Updating
     types:
     - uid: string
   - name: Deleting
+    types:
+    - uid: string
+  - name: Accepted
     types:
     - uid: string
   - name: Failed
@@ -171,16 +182,13 @@ definitions:
   description: Access mode on the association.
   kind: enum
   properties:
-  - name: Unspecified
+  - name: Learning
     types:
     - uid: string
-  - name: EnforceMode
+  - name: Enforced
     types:
     - uid: string
-  - name: LearningMode
-    types:
-    - uid: string
-  - name: DryRunMode
+  - name: Audit
     types:
     - uid: string
 - name: CloudErrorBody
@@ -217,7 +225,7 @@ examples:
           "profile": {
             "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/profiles/{profileName}"
           },
-          "accessMode": "EnforceMode"
+          "accessMode": "Enforced"
         }
       }
   responses:
@@ -235,7 +243,8 @@ examples:
           "profile": {
             "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/profiles/{profileName}"
           },
-          "accessMode": "EnforceMode"
+          "accessMode": "Enforced",
+          "hasProvisioningIssues": "no"
         }
       }
   - statusCode: "201"
@@ -252,7 +261,8 @@ examples:
           "profile": {
             "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/profiles/{profileName}"
           },
-          "accessMode": "EnforceMode"
+          "accessMode": "Enforced",
+          "hasProvisioningIssues": "no"
         }
       }
 security:

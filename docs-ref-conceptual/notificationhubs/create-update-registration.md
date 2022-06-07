@@ -1,5 +1,6 @@
 ﻿---
 title: "Create or update a registration"
+description: Use this API reference documentation to create or update a registration in the specified location.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

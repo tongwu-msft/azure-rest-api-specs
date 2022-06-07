@@ -3,13 +3,13 @@ uid: management.azure.com.azureml.dataversions.list
 name: List
 service: Machine Learning
 groupName: Data Versions
-apiVersion: 2021-03-01-preview
-summary: List data versions.
+apiVersion: 2022-05-01
+summary: List data versions in the data container
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions?api-version=2021-03-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions?api-version=2021-03-01-preview&$orderBy={$orderBy}&$top={$top}&$skip={$skip}&$tags={$tags}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions?api-version=2022-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions?api-version=2022-05-01&$orderBy={$orderBy}&$top={$top}&$skip={$skip}&$tags={$tags}&listViewType={listViewType}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -33,7 +33,7 @@ uriParameters:
 - name: name
   in: path
   isRequired: true
-  description: Data name.
+  description: Data container's name
   types:
   - uid: string
 - name: api-version
@@ -44,12 +44,15 @@ uriParameters:
   - uid: string
 - name: $orderBy
   in: query
-  description: Ordering of list.
+  description: Please choose OrderBy value from ['createdtime', 'modifiedtime']
   types:
   - uid: string
 - name: $top
   in: query
-  description: Maximum number of records to return.
+  description: >-
+    Top count of results, top count cannot be greater than the page size.
+
+                                  If topCount > page size, results with be default page size count will be returned
   types:
   - uid: integer
   format: int32
@@ -63,6 +66,11 @@ uriParameters:
   description: 'Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2'
   types:
   - uid: string
+- name: listViewType
+  in: query
+  description: '[ListViewType.ActiveOnly, ListViewType.ArchivedOnly, ListViewType.All]View type for including/excluding (for example) archived entities.'
+  types:
+  - uid: ListViewType
 responses:
 - name: Other Status Codes
   description: Error
@@ -71,9 +79,21 @@ responses:
 - name: 200 OK
   description: Success
   types:
-  - uid: DataVersionResourceArmPaginatedResult
+  - uid: DataVersionBaseResourceArmPaginatedResult
 requestHeader: []
 definitions:
+- name: ListViewType
+  kind: enum
+  properties:
+  - name: ActiveOnly
+    types:
+    - uid: string
+  - name: ArchivedOnly
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -82,18 +102,18 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: DataVersionResourceArmPaginatedResult
-  description: A paginated list of DataVersion entities.
+- name: DataVersionBaseResourceArmPaginatedResult
+  description: A paginated list of DataVersionBase entities.
   kind: object
   properties:
   - name: nextLink
-    description: The link to the next page of DataVersion objects. If null, there are no additional pages.
+    description: The link to the next page of DataVersionBase objects. If null, there are no additional pages.
     types:
     - uid: string
   - name: value
-    description: An array of objects of type DataVersion.
+    description: An array of objects of type DataVersionBase.
     types:
-    - uid: DataVersionResource
+    - uid: DataVersionBaseResource
       isArray: true
 - name: ErrorDetail
   description: The error detail.
@@ -126,19 +146,17 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: DataVersionResource
+- name: DataVersionBaseResource
   description: Azure Resource Manager resource envelope.
   kind: object
   properties:
   - name: properties
     description: '[Required] Additional attributes of the entity.'
     types:
-    - uid: DataVersion
-  - name: systemData
-    isReadyOnly: true
-    description: System data associated with resource provider
-    types:
-    - uid: systemData
+    - uid: MLTableData
+    - uid: UriFileDataVersion
+    - uid: UriFolderDataVersion
+    typesTitle: DataVersionBase
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -154,6 +172,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -168,46 +191,6 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: DataVersion
-  description: Data asset version details.
-  kind: object
-  properties:
-  - name: datasetType
-    description: The Format of dataset.
-    types:
-    - uid: DatasetType
-  - name: datastoreId
-    description: ARM resource ID of the datastore where the asset is located.
-    types:
-    - uid: string
-  - name: description
-    description: The asset description text.
-    types:
-    - uid: string
-  - name: isAnonymous
-    description: If the name version are system generated (anonymous registration).
-    types:
-    - uid: boolean
-  - name: path
-    description: '[Required] The path of the file/directory in the datastore.'
-    types:
-    - uid: string
-  - name: properties
-    description: The asset property dictionary.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: tags
-    description: Tag dictionary. Tags can be added, removed, and updated.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -236,15 +219,140 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: DatasetType
-  kind: enum
+- name: MLTableData
+  description: MLTable data definition
+  kind: object
   properties:
-  - name: Simple
+  - name: referencedUris
+    description: Uris referenced in the MLTable definition (required for lineage)
     types:
     - uid: string
-  - name: Dataflow
+      isArray: true
+  - name: dataType
+    description: '[Required] Specifies the type of data.'
+    types:
+    - uid: mltable
+    typesTitle: string
+  - name: dataUri
+    description: '[Required] Uri of the data. Usage/meaning depends on Microsoft.MachineLearning.ManagementFrontEnd.Contracts.V20220501.Assets.DataVersionBase.DataType'
     types:
     - uid: string
+  - name: isAnonymous
+    description: If the name version are system generated (anonymous registration).
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: isArchived
+    description: Is the asset archived?
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: UriFileDataVersion
+  description: uri-file data version entity
+  kind: object
+  properties:
+  - name: dataType
+    description: '[Required] Specifies the type of data.'
+    types:
+    - uid: uri_file
+    typesTitle: string
+  - name: dataUri
+    description: '[Required] Uri of the data. Usage/meaning depends on Microsoft.MachineLearning.ManagementFrontEnd.Contracts.V20220501.Assets.DataVersionBase.DataType'
+    types:
+    - uid: string
+  - name: isAnonymous
+    description: If the name version are system generated (anonymous registration).
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: isArchived
+    description: Is the asset archived?
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: UriFolderDataVersion
+  description: uri-folder data version entity
+  kind: object
+  properties:
+  - name: dataType
+    description: '[Required] Specifies the type of data.'
+    types:
+    - uid: uri_folder
+    typesTitle: string
+  - name: dataUri
+    description: '[Required] Uri of the data. Usage/meaning depends on Microsoft.MachineLearning.ManagementFrontEnd.Contracts.V20220501.Assets.DataVersionBase.DataType'
+    types:
+    - uid: string
+  - name: isAnonymous
+    description: If the name version are system generated (anonymous registration).
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: isArchived
+    description: Is the asset archived?
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -261,41 +369,49 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: DataType
+  description: Enum to determine the type of data.
+  kind: enum
+  properties:
+  - name: uri_file
+    types:
+    - uid: string
+  - name: uri_folder
+    types:
+    - uid: string
+  - name: mltable
+    types:
+    - uid: string
 examples:
-- name: List Data Version.
+- name: List Data Version Base.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspace123/data/dataset123/versions?api-version=2021-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/data/string/versions?api-version=2022-05-01&$orderBy=string&$top=1&$tags=string
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/data/dataset123/versions/1",
-            "name": "1",
-            "type": "Microsoft.MachineLearningServices/workspaces/data/versions",
+            "id": "string",
+            "name": "string",
+            "type": "string",
             "properties": {
-              "datasetType": "Simple",
-              "datastoreId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/mydatastore",
-              "path": "path/to/file.csv",
-              "isAnonymous": true,
+              "dataType": "uri_file",
+              "dataUri": "string",
               "description": "string",
               "tags": {
-                "additionalProp1": "string",
-                "additionalProp2": "string",
-                "additionalProp3": "string"
+                "string": "string"
               },
               "properties": {
-                "additionalProp1": "string",
-                "additionalProp2": "string",
-                "additionalProp3": "string"
-              }
+                "string": "string"
+              },
+              "isAnonymous": false
             },
             "systemData": {
-              "createdAt": "2021-03-25T21:39:02.230Z",
+              "createdAt": "2020-01-01T12:34:56.999Z",
               "createdBy": "string",
               "createdByType": "User",
-              "lastModifiedAt": "2021-03-25T21:39:02.230Z",
+              "lastModifiedAt": "2020-01-01T12:34:56.999Z",
               "lastModifiedBy": "string",
               "lastModifiedByType": "User"
             }
@@ -305,5 +421,5 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Machine Learning service - List data versions.
+  description: Learn more about Machine Learning service - List data versions in the data container
 errorCodes: []

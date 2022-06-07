@@ -1,5 +1,6 @@
 ---
 title: "Event Hubs service REST"
+description: Learn that these APIs enable you to access the Event Hubs service to perform operations on event hubs.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

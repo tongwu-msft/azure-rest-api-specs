@@ -1,5 +1,6 @@
 ---
 title: Service Fabric Create Service
+description: API reference documentation for the operations available in the Service Fabric Create Service REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

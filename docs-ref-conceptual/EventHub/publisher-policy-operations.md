@@ -1,5 +1,6 @@
 ---
 title: "Publisher policy operations"
+description: Learn how the Publisher Policy Operations APIs enable you to perform publisher policy operations on Event Hubs.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""
