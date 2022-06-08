@@ -2,7 +2,7 @@
 title: "ResourceRequirements"
 description: Describes the resource requirements for a container or service and provides the names, types, and requirements statuses for the available properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

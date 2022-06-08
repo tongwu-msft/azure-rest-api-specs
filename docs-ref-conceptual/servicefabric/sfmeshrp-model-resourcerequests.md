@@ -2,7 +2,7 @@
 title: "ResourceRequests"
 description: Describes the request resources for a given container and provides the names, types, and requirement statuses for the available properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

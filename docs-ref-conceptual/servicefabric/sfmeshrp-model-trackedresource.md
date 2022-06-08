@@ -2,7 +2,7 @@
 title: "TrackedResource"
 description: Describes the resource model definition for Azure Resource Manager's resources and provides the associated properties for tracked resources.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

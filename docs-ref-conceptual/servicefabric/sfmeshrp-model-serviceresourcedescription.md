@@ -1,8 +1,8 @@
 ---
-title: "ServiceResourceDescription"
+title: "Service Fabric Mesh ServiceResourceDescription"
 description: Describes the service resource and provides the names, types, and requirement statuses for the properties for service resources.
 services: service-fabric-mesh
-author: vipulm
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

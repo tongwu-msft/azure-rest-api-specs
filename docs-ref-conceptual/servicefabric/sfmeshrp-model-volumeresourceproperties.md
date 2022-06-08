@@ -2,7 +2,7 @@
 title: "VolumeResourceProperties"
 description: Describes the volume resource properties and provides the names, types, and requirement statuses for properties of a volume resource.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

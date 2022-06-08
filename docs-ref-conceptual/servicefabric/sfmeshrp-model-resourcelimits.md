@@ -2,7 +2,7 @@
 title: "ResourceLimits"
 description: Describes the resource limits for a given container and provides the property name, types, and requirement statuses for resource limits.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
