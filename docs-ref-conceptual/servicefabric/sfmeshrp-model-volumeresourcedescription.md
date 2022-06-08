@@ -1,5 +1,5 @@
 ---
-title: "Service Fabric Mesh Type VolumeProviderParametersAzureFile"
+title: "Service Fabric Mesh Type VolumeResourceDescription"
 description: Describes a volume resource and provides the names, types, and requirement statuses for properties of the volume resource description.
 services: service-fabric-mesh
 author: vipul-modi
