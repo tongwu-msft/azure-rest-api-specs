@@ -1,5 +1,5 @@
 ---
-title: "Service Fabric Mesh VolumeProviderParametersAzureFile"
+title: "Service Fabric Mesh Volume Provider Parameters Azure File"
 description: Describes a volume resource and provides the names, types, and requirement statuses for properties of the volume resource description.
 services: service-fabric-mesh
 author: vipul-modi
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Service Fabric Mesh VolumeResourceDescription
+# Service Fabric Mesh Volume Provider Parameters Azure File
 
 This type describes a volume resource.
 
