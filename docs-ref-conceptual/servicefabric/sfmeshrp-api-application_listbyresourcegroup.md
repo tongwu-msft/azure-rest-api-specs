@@ -1,8 +1,8 @@
 ---
-title: "List By Resource Group"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "List By Application Service Resource Group"
+description: Provides request and parameter information that includes information about the application's services and other runtime properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# List By Resource Group
+# List By Application Service Resource Group
 Gets all the application resources in a given resource group.
 
 Gets the information about all application resources in a given resource group. The information includes the information about the application's services and other runtime properties.
