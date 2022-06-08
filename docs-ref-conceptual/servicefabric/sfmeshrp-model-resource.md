@@ -1,8 +1,8 @@
 ---
 title: "Resource"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes the resource model definition for Azure Resource Manager resources and provides properties for the resource model.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

@@ -1,6 +1,6 @@
 ---
-title: Service Fabric Mesh ServiceReplicaProperties
-description: Service Fabric Mesh Resource Manager API Reference
+title: "ServiceReplicaProperties"
+description: Describes the properties of a service replica and provides the names, types, and requirement statuses of the available properties.
 services: service-fabric-mesh
 author: vipulm
 ms.date: 07/17/2018
