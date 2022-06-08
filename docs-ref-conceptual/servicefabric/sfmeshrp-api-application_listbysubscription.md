@@ -1,8 +1,8 @@
 ---
-title: "List By Subscription"
+title: "List By Resource Subscription"
 description: Provides information on how to get application resources in a given subscription, including the application's services and runtime properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# List By Subscription
+# List By Resource Subscription
 Gets all the application resources in a given subscription.
 
 Gets the information about all application resources in a given subscription. The information includes the information about the application's services and other runtime properties.

@@ -1,8 +1,8 @@
 ---
-title: "List By Resource Group"
+title: "List By Network Resource Group"
 description: Provides request methods, parameters, and examples of creating lists by resource groups, including network description and runtime properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
