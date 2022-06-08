@@ -3,14 +3,16 @@ uid: management.azure.com.orbital.spacecrafts.listbysubscription
 name: List By Subscription
 service: Orbital
 groupName: Spacecrafts
-apiVersion: 2021-04-04-preview
+apiVersion: 2022-03-01
 summary: Return list of spacecrafts
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/spacecrafts?api-version=2021-04-04-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/spacecrafts?api-version=2022-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/spacecrafts?api-version=2022-03-01&$skiptoken={$skiptoken}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,7 +23,12 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for this operation.
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: apiVersionParameter
+- name: $skiptoken
+  in: query
+  description: An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
   types:
   - uid: string
 responses:
@@ -35,6 +42,19 @@ responses:
   - uid: CloudError
 requestHeader: []
 definitions:
+- name: apiVersionParameter
+  description: Version of the API to be used with the client request.
+  kind: enum
+  properties:
+  - name: 2020-09-01-preview
+    types:
+    - uid: string
+  - name: 2021-04-04-preview
+    types:
+    - uid: string
+  - name: 2022-03-01
+    types:
+    - uid: string
 - name: SpacecraftListResult
   description: Response for the ListSpacecrafts API service call.
   kind: object
@@ -66,18 +86,12 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.provisioningState
+    description: The current state of the resource's creation, deletion, or modification
+    types:
+    - uid: ProvisioningState
   - name: properties.noradId
     description: NORAD ID of the spacecraft.
-    types:
-    - uid: string
-  - name: properties.authorizationStatus
-    isReadyOnly: true
-    description: Authorization status of spacecraft.
-    types:
-    - uid: AuthorizationStatus
-  - name: properties.authorizationStatusExtended
-    isReadyOnly: true
-    description: Details of the authorization status.
     types:
     - uid: string
   - name: properties.titleLine
@@ -150,23 +164,18 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: AuthorizationStatus
-  description: Authorization status of spacecraft.
-  kind: enum
-  properties:
-  - name: Allowed
-    types:
-    - uid: string
-  - name: Pending
-    types:
-    - uid: string
-  - name: Denied
-    types:
-    - uid: string
+- name: ProvisioningState
+  description: The current state of the resource's creation, deletion, or modification
+  kind: object
+  properties: []
 - name: SpacecraftLink
-  description: Spacecraft Link
+  description: Authorized Ground Stations for the link
   kind: object
   properties:
+  - name: name
+    description: Link name
+    types:
+    - uid: string
   - name: centerFrequencyMHz
     description: Center Frequency in MHz
     types:
@@ -183,6 +192,12 @@ definitions:
     description: polarization. eg (RHCP, LHCP)
     types:
     - uid: polarization
+  - name: authorizations
+    isReadyOnly: true
+    description: Authorized Ground Stations
+    types:
+    - uid: AuthorizedGroundstation
+      isArray: true
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -231,13 +246,22 @@ definitions:
   - name: LHCP
     types:
     - uid: string
-  - name: dualRhcpLhcp
-    types:
-    - uid: string
   - name: linearVertical
     types:
     - uid: string
   - name: linearHorizontal
+    types:
+    - uid: string
+- name: AuthorizedGroundstation
+  description: Authorized groundstation
+  kind: object
+  properties:
+  - name: groundStation
+    description: Groundstation name
+    types:
+    - uid: string
+  - name: expirationDate
+    description: Date of authorization expiration
     types:
     - uid: string
 - name: createdByType
@@ -259,7 +283,7 @@ definitions:
 examples:
 - name: List of Spacecraft by Subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Orbital/spacecrafts?api-version=2021-04-04-preview
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Orbital/spacecrafts?api-version=2022-03-01
   responses:
   - statusCode: "200"
     body: >-
@@ -270,24 +294,37 @@ examples:
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA",
             "location": "westus",
             "properties": {
+              "provisioningState": "Succeeded",
               "noradId": "27424",
-              "authorizationStatus": "Allowed",
-              "authorizationStatusExtended": "string",
               "titleLine": "AQUA",
               "tleLine1": "1 27424U 02022A   20195.59202355  .00000039  00000-0  18634-4 0  9991",
               "tleLine2": "2 27424  98.2098 135.8486 0000176  28.4050 144.5909 14.57108832967671",
               "links": [
                 {
+                  "name": "S_RHCP_DL",
                   "centerFrequencyMHz": 2106.4063,
                   "bandwidthMHz": 0.036,
                   "direction": "uplink",
-                  "polarization": "RHCP"
+                  "polarization": "RHCP",
+                  "authorizations": [
+                    {
+                      "groundStation": "Microsoft_Quincy",
+                      "expirationDate": "2020-07-16"
+                    }
+                  ]
                 },
                 {
+                  "name": "X_RHCP_DL",
                   "centerFrequencyMHz": 8125,
                   "bandwidthMHz": 150,
                   "direction": "downlink",
-                  "polarization": "RHCP"
+                  "polarization": "RHCP",
+                  "authorizations": [
+                    {
+                      "groundStation": "Microsoft_Gavle",
+                      "expirationDate": "2020-07-16"
+                    }
+                  ]
                 }
               ]
             },

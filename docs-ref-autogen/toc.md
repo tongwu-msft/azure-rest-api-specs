@@ -14129,6 +14129,9 @@
 ## Operations
 ### [Overview](orbital/Operations.yml)
 ### [List](orbital/Operations/List.yml)
+## Operations Results
+### [Overview](orbital/Operations-Results.yml)
+### [Get](orbital/Operations-Results/Get.yml)
 ## Spacecrafts
 ### [Overview](orbital/Spacecrafts.yml)
 ### [Create Or Update](orbital/Spacecrafts/Create-Or-Update.yml)

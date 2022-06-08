@@ -3,14 +3,14 @@ uid: management.azure.com.orbital.availablegroundstations.listbycapability
 name: List By Capability
 service: Orbital
 groupName: Available Ground Stations
-apiVersion: 2021-04-04-preview
+apiVersion: 2022-03-01
 summary: Returns list of available ground stations
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/availableGroundStations?api-version=2021-04-04-preview&capability={capability}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/availableGroundStations?api-version=2022-03-01&capability={capability}
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,15 +21,15 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for this operation.
+  description: Version of the API to be used with the client request.
   types:
-  - uid: string
+  - uid: apiVersionParameter
 - name: capability
   in: query
   isRequired: true
   description: Ground Station Capability
   types:
-  - uid: CapabilityType
+  - uid: capabilityParameter
 responses:
 - name: 200 OK
   description: Request successful. The operation returns a list of Ground Station resources.
@@ -41,7 +41,20 @@ responses:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: CapabilityType
+- name: apiVersionParameter
+  description: Version of the API to be used with the client request.
+  kind: enum
+  properties:
+  - name: 2020-09-01-preview
+    types:
+    - uid: string
+  - name: 2021-04-04-preview
+    types:
+    - uid: string
+  - name: 2022-03-01
+    types:
+    - uid: string
+- name: capabilityParameter
   description: Ground Station Capability
   kind: enum
   properties:
@@ -116,6 +129,10 @@ definitions:
     description: Altitude of the ground station
     types:
     - uid: number
+  - name: properties.releaseMode
+    description: Release Status of a ground station
+    types:
+    - uid: releaseMode
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -137,10 +154,20 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: releaseMode
+  description: Release Status of a ground station
+  kind: enum
+  properties:
+  - name: Preview
+    types:
+    - uid: string
+  - name: GA
+    types:
+    - uid: string
 examples:
 - name: List of Ground Stations by Capability
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Orbital/availableGroundStations?api-version=2021-04-04-preview&capability=EarthObservation
+    uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Orbital/availableGroundStations?api-version=2022-03-01&capability=EarthObservation
   responses:
   - statusCode: "200"
     body: >-
@@ -149,27 +176,29 @@ examples:
           {
             "name": "westus_gs1",
             "location": "westus",
-            "id": "/subscriptions/subId/providers/Microsoft.Orbital/availableGroundStations/westus_gs1",
+            "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Orbital/availableGroundStations/westus_gs1",
             "type": "Microsoft.Orbital/availableGroundStations",
             "properties": {
               "city": "redmond",
               "providerName": "Microsoft",
               "longitudeDegrees": 47.674,
               "latitudeDegrees": -122.122,
-              "altitudeMeters": 1500.83
+              "altitudeMeters": 1500.83,
+              "releaseMode": ""
             }
           },
           {
             "name": "westus_gs2",
             "location": "westus",
-            "id": "/subscriptions/subId/providers/Microsoft.Orbital/availableGroundStations/westus_gs2",
+            "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Orbital/availableGroundStations/westus_gs2",
             "type": "Microsoft.Orbital/availableGroundStations",
             "properties": {
               "city": "redmond",
               "providerName": "Microsoft",
               "longitudeDegrees": 47.674,
               "latitudeDegrees": -122.122,
-              "altitudeMeters": 1500.83
+              "altitudeMeters": 1500.83,
+              "releaseMode": ""
             }
           }
         ],

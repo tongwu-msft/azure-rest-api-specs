@@ -3,14 +3,14 @@ uid: management.azure.com.orbital.contactprofiles.createorupdate
 name: Create Or Update
 service: Orbital
 groupName: Contact Profiles
-apiVersion: 2021-04-04-preview
+apiVersion: 2022-03-01
 summary: Creates or updates a contact profile
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/contactProfiles/{contactProfileName}?api-version=2021-04-04-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/contactProfiles/{contactProfileName}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,15 +33,18 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for this operation.
+  description: Version of the API to be used with the client request.
   types:
-  - uid: string
+  - uid: apiVersionParameter
 responses:
 - name: 200 OK
   description: Update successful. The operation returns the resulting ContactProfile resource.
   types:
   - uid: ContactProfile
 - name: 201 Created
+  headers:
+  - name: Azure-AsyncOperation
+    value: string
   description: Create successful. The operation returns the resulting ContactProfile resource.
   types:
   - uid: ContactProfile
@@ -52,6 +55,26 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    in: body
+    description: The current state of the resource's creation, deletion, or modification
+    types:
+    - uid: ProvisioningState
   - name: properties.minimumViableContactDuration
     in: body
     description: Minimum viable contact duration in ISO 8601 format.
@@ -72,6 +95,12 @@ requestBody:
     description: The URI of the Event Hub used for telemetry
     types:
     - uid: string
+  - name: properties.networkConfiguration
+    in: body
+    isRequired: true
+    description: Network configuration of customer virtual network.
+    types:
+    - uid: NetworkConfiguration
   - name: properties.links
     in: body
     isRequired: true
@@ -79,48 +108,21 @@ requestBody:
     types:
     - uid: ContactProfileLink
       isArray: true
-  - name: tags
-    in: body
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: location
-    in: body
-    isRequired: true
-    description: The geo-location where the resource lives
-    types:
-    - uid: string
 requestHeader: []
 definitions:
-- name: ContactProfileLink
-  description: Contact Profile link
-  kind: object
+- name: apiVersionParameter
+  description: Version of the API to be used with the client request.
+  kind: enum
   properties:
-  - name: polarization
-    description: polarization. eg (RHCP, LHCP)
+  - name: 2020-09-01-preview
     types:
-    - uid: polarization
-  - name: direction
-    description: Direction (uplink or downlink)
+    - uid: string
+  - name: 2021-04-04-preview
     types:
-    - uid: direction
-  - name: gainOverTemperature
-    description: Gain To Noise Temperature in db/K.
+    - uid: string
+  - name: 2022-03-01
     types:
-    - uid: number
-  - name: eirpdBW
-    description: Effective Isotropic Radiated Power (EIRP) in dBW.
-    types:
-    - uid: number
-  - name: channels
-    description: Contact Profile Link Channel
-    types:
-    - uid: ContactProfileLinkChannel
-      isArray: true
+    - uid: string
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -149,6 +151,47 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
+- name: ProvisioningState
+  description: The current state of the resource's creation, deletion, or modification
+  kind: object
+  properties: []
+- name: NetworkConfiguration
+  description: Network configuration of customer virtual network.
+  kind: object
+  properties:
+  - name: subnetId
+    description: Customer subnet ARM resource identifier.
+    types:
+    - uid: string
+- name: ContactProfileLink
+  description: Contact Profile Link
+  kind: object
+  properties:
+  - name: name
+    description: Link name
+    types:
+    - uid: string
+  - name: polarization
+    description: polarization. eg (RHCP, LHCP)
+    types:
+    - uid: polarization
+  - name: direction
+    description: Direction (uplink or downlink)
+    types:
+    - uid: direction
+  - name: gainOverTemperature
+    description: Gain To Noise Temperature in db/K.
+    types:
+    - uid: number
+  - name: eirpdBW
+    description: Effective Isotropic Radiated Power (EIRP) in dBW.
+    types:
+    - uid: number
+  - name: channels
+    description: Contact Profile Link Channel
+    types:
+    - uid: ContactProfileLinkChannel
+      isArray: true
 - name: ContactProfile
   description: Customer creates a Contact Profile Resource, which will contain all of the configurations required for scheduling a contact.
   kind: object
@@ -158,27 +201,6 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-  - name: properties.minimumViableContactDuration
-    description: Minimum viable contact duration in ISO 8601 format.
-    types:
-    - uid: string
-  - name: properties.minimumElevationDegrees
-    description: Minimum viable elevation for the contact in decimal degrees.
-    types:
-    - uid: number
-  - name: properties.autoTrackingConfiguration
-    description: Auto track configuration.
-    types:
-    - uid: AutoTrackingConfiguration
-  - name: properties.eventHubUri
-    description: The URI of the Event Hub used for telemetry
-    types:
-    - uid: string
-  - name: properties.links
-    description: Links of the Contact Profile
-    types:
-    - uid: ContactProfileLink
-      isArray: true
   - name: tags
     description: Resource tags.
     types:
@@ -211,6 +233,35 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
+  - name: properties.provisioningState
+    description: The current state of the resource's creation, deletion, or modification
+    types:
+    - uid: ProvisioningState
+  - name: properties.minimumViableContactDuration
+    description: Minimum viable contact duration in ISO 8601 format.
+    types:
+    - uid: string
+  - name: properties.minimumElevationDegrees
+    description: Minimum viable elevation for the contact in decimal degrees.
+    types:
+    - uid: number
+  - name: properties.autoTrackingConfiguration
+    description: Auto track configuration.
+    types:
+    - uid: AutoTrackingConfiguration
+  - name: properties.eventHubUri
+    description: The URI of the Event Hub used for telemetry
+    types:
+    - uid: string
+  - name: properties.networkConfiguration
+    description: Network configuration of customer virtual network.
+    types:
+    - uid: NetworkConfiguration
+  - name: properties.links
+    description: Links of the Contact Profile
+    types:
+    - uid: ContactProfileLink
+      isArray: true
 - name: CloudError
   description: An error response from the service.
   kind: object
@@ -219,6 +270,22 @@ definitions:
     description: An error response from the service.
     types:
     - uid: CloudErrorBody
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: polarization
   description: polarization. eg (RHCP, LHCP)
   kind: enum
@@ -227,9 +294,6 @@ definitions:
     types:
     - uid: string
   - name: LHCP
-    types:
-    - uid: string
-  - name: dualRhcpLhcp
     types:
     - uid: string
   - name: linearVertical
@@ -252,6 +316,10 @@ definitions:
   description: Contact Profile Link Channel
   kind: object
   properties:
+  - name: name
+    description: Channel name
+    types:
+    - uid: string
   - name: centerFrequencyMHz
     description: Center Frequency in MHz
     types:
@@ -278,22 +346,6 @@ definitions:
     - uid: string
   - name: decodingConfiguration
     description: Configuration for decoding
-    types:
-    - uid: string
-- name: createdByType
-  description: The type of identity that created the resource.
-  kind: enum
-  properties:
-  - name: User
-    types:
-    - uid: string
-  - name: Application
-    types:
-    - uid: string
-  - name: ManagedIdentity
-    types:
-    - uid: string
-  - name: Key
     types:
     - uid: string
 - name: AutoTrackingConfiguration
@@ -363,7 +415,7 @@ definitions:
 examples:
 - name: Create a contact profile
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/contactProfiles/AQUA_DIRECTPLAYBACK_WITH_UPLINK?api-version=2021-04-04-preview
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/contactProfiles/AQUA_DIRECTPLAYBACK_WITH_UPLINK?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -372,14 +424,19 @@ examples:
           "minimumElevationDegrees": 10,
           "autoTrackingConfiguration": "xBand",
           "eventHubUri": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.EventHub/namespaces/orbitalppewestus2-ns/eventhubs/telemetry-hub/",
+          "networkConfiguration": {
+            "subnetId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnetName"
+          },
           "links": [
             {
+              "name": "RHCP_UL",
               "polarization": "RHCP",
               "direction": "uplink",
               "gainOverTemperature": 0,
               "eirpdBW": 45,
               "channels": [
                 {
+                  "name": "channel1",
                   "centerFrequencyMHz": 2106.4063,
                   "bandwidthMHz": 0.036,
                   "endPoint": {
@@ -396,12 +453,14 @@ examples:
               ]
             },
             {
+              "name": "RHCP_DL",
               "polarization": "RHCP",
               "direction": "downlink",
               "gainOverTemperature": 25,
               "eirpdBW": 0,
               "channels": [
                 {
+                  "name": "channel1",
                   "centerFrequencyMHz": 8160,
                   "bandwidthMHz": 150,
                   "endPoint": {
@@ -422,24 +481,33 @@ examples:
       }
   responses:
   - statusCode: "200"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/Microsoft.Orbital/operationResults/4e2ffff7-b331-4fcb-ab11-b5fa49368188?api-version=2022-03-01
     body: >-
       {
         "name": "AQUA_DIRECTPLAYBACK_WITH_UPLINK",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/contactProfiles/AQUA_DIRECTPLAYBACK_WITH_UPLINK",
         "location": "westus",
         "properties": {
+          "provisioningState": "Updating",
           "minimumViableContactDuration": "PT1M",
           "minimumElevationDegrees": 10,
           "autoTrackingConfiguration": "xBand",
           "eventHubUri": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.EventHub/namespaces/orbitalppewestus2-ns/eventhubs/telemetry-hub/",
+          "networkConfiguration": {
+            "subnetId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnetName"
+          },
           "links": [
             {
+              "name": "Link1",
               "polarization": "RHCP",
               "direction": "uplink",
               "gainOverTemperature": 0,
               "eirpdBW": 45,
               "channels": [
                 {
+                  "name": "channel1",
                   "centerFrequencyMHz": 2106.4063,
                   "bandwidthMHz": 0.036,
                   "endPoint": {
@@ -456,12 +524,14 @@ examples:
               ]
             },
             {
+              "name": "Link2",
               "polarization": "RHCP",
               "direction": "downlink",
               "gainOverTemperature": 25,
               "eirpdBW": 0,
               "channels": [
                 {
+                  "name": "channel2",
                   "centerFrequencyMHz": 8160,
                   "bandwidthMHz": 150,
                   "endPoint": {
@@ -482,24 +552,33 @@ examples:
         "type": "Microsoft.Orbital/contactProfiles"
       }
   - statusCode: "201"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/Microsoft.Orbital/operationResults/4e2ffff7-b331-4fcb-ab11-b5fa49368188?api-version=2022-03-01
     body: >-
       {
         "name": "contactProfile1",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/contactProfiles/contactProfile1",
         "location": "westus",
         "properties": {
+          "provisioningState": "Creating",
           "minimumViableContactDuration": "PT1M",
           "minimumElevationDegrees": 10,
           "autoTrackingConfiguration": "xBand",
           "eventHubUri": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.EventHub/namespaces/orbitalppewestus2-ns/eventhubs/telemetry-hub/",
+          "networkConfiguration": {
+            "subnetId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnetName"
+          },
           "links": [
             {
+              "name": "Link1",
               "polarization": "RHCP",
               "direction": "uplink",
               "gainOverTemperature": 0,
               "eirpdBW": 45,
               "channels": [
                 {
+                  "name": "channel1",
                   "centerFrequencyMHz": 2106.4063,
                   "bandwidthMHz": 0.036,
                   "endPoint": {
@@ -516,12 +595,14 @@ examples:
               ]
             },
             {
+              "name": "Link2",
               "polarization": "RHCP",
               "direction": "downlink",
               "gainOverTemperature": 25,
               "eirpdBW": 0,
               "channels": [
                 {
+                  "name": "channel1",
                   "centerFrequencyMHz": 8160,
                   "bandwidthMHz": 150,
                   "endPoint": {
