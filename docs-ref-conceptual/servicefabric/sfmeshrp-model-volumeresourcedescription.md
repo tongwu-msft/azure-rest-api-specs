@@ -1,8 +1,8 @@
 ---
-title: Service Fabric Mesh VolumeResourceDescription
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Service Fabric Mesh Type VolumeResourceDescription"
+description: Describes a volume resource and provides the names, types, and requirement statuses for properties of the volume resource description.
 services: service-fabric-mesh
-author: vipulm
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Service Fabric Mesh VolumeResourceDescription
+# Service Fabric Mesh Type VolumeResourceDescription
 
 This type describes a volume resource.
 
