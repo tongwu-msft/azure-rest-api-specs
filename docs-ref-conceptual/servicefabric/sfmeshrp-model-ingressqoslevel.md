@@ -2,7 +2,7 @@
 title: "IngressQoSLevel"
 description: Describes the ingress QOS level for APIs and includes the type and possible values for the ingress QOS level.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

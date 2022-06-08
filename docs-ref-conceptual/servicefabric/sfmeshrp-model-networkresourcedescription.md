@@ -2,7 +2,7 @@
 title: "NetworkResourceDescription"
 description: Describe a network resource and provides the name, type, and requirement status for various properties for network resource descriptions.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

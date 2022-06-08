@@ -2,7 +2,7 @@
 title: "EndpointProperties"
 description: Describes a container endpoint for endpoint properties and provides the names, types, and requirements statuses for the name and port properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

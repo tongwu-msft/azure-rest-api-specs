@@ -2,7 +2,7 @@
 title: "ErrorModel"
 description: Describes the model for error details and includes the name, type, and requirement status for the code and message properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

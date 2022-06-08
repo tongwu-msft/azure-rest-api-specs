@@ -2,7 +2,7 @@
 title: "ProvisionedResourceProperties"
 description: Describes common properties of a provisioned resource and provides the provisioningState property for the provisioned resource properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
