@@ -4,13 +4,12 @@ description: Describes the v5 iteration of the Bing Web Search API and provides 
 services: cognitive-services
 author: swhite-msft
 manager: ehansen
-
 ms.assetid: 671BB898-3942-4FEF-8DD5-BC81F0A341D4
 ms.service: cognitive-services
 ms.subservice: bing-web-search
 ms.topic: reference
 ms.date: 04/15/2017
-ms.author: scottwhi
+ms.author: stefhan
 ---
 
 

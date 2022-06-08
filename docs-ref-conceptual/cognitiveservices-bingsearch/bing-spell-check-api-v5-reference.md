@@ -4,13 +4,12 @@ description: Describes the v5 iteration of the Bing Spell Check API and provides
 services: cognitive-services
 author: swhite-msft
 manager: ehansen
-
 ms.assetid: 2CB12DAB-1659-4AC1-8018-6A1D481E625F
 ms.service: cognitive-services
 ms.subservice: bing-spell-check
 ms.topic: reference
 ms.date: 06/21/2016
-ms.author: scottwhi
+ms.author: stefhan
 ---
 
 
