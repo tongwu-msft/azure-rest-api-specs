@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# List By Resource Group
+# List By Network Resource Group
 Gets all the network resources in a given resource group.
 
 Gets the information about all network resources in a given resource group. The information includes the network description and other runtime properties.

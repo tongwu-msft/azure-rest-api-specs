@@ -2,7 +2,7 @@
 title: "List"
 description: Provides request method, parameters, and responses for creating lists of all available operations from resource provider.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

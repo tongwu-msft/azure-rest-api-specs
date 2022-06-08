@@ -1,5 +1,5 @@
 ---
-title: "List By Application Resource Group"
+title: "List By Application Service Resource Group"
 description: Provides request and parameter information that includes information about the application's services and other runtime properties.
 services: service-fabric-mesh
 author: vipul-modi
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# List By Application Resource Group
+# List By Application Service Resource Group
 Gets all the application resources in a given resource group.
 
 Gets the information about all application resources in a given resource group. The information includes the information about the application's services and other runtime properties.
