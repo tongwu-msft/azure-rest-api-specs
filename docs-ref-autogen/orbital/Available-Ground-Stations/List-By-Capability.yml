@@ -1,0 +1,181 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.orbital.availablegroundstations.listbycapability
+name: List By Capability
+service: Orbital
+groupName: Available Ground Stations
+apiVersion: 2021-04-04-preview
+summary: Returns list of available ground stations
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/availableGroundStations?api-version=2021-04-04-preview&capability={capability}
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: capability
+  in: query
+  isRequired: true
+  description: Ground Station Capability
+  types:
+  - uid: CapabilityType
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns a list of Ground Station resources.
+  types:
+  - uid: AvailableGroundStationListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed. If the resource group does not exist, 404 (NotFound) will be returned.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: CapabilityType
+  description: Ground Station Capability
+  kind: enum
+  properties:
+  - name: EarthObservation
+    types:
+    - uid: string
+  - name: Communication
+    types:
+    - uid: string
+- name: AvailableGroundStationListResult
+  description: Response for the AvailableGroundStations API service call.
+  kind: object
+  properties:
+  - name: value
+    description: A list of ground station resources.
+    types:
+    - uid: AvailableGroundStation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the service.
+    types:
+    - uid: CloudErrorBody
+- name: AvailableGroundStation
+  description: GroundStations available to schedule Contacts
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Id of groundStation
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the ground station.
+    types:
+    - uid: string
+  - name: location
+    description: Azure region
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.city
+    description: City of ground station.
+    types:
+    - uid: string
+  - name: properties.providerName
+    description: Ground station provider name.
+    types:
+    - uid: string
+  - name: properties.longitudeDegrees
+    description: Longitude of the ground station in decimal degrees.
+    types:
+    - uid: number
+  - name: properties.latitudeDegrees
+    description: Latitude of the ground station in decimal degrees.
+    types:
+    - uid: number
+  - name: properties.altitudeMeters
+    description: Altitude of the ground station
+    types:
+    - uid: number
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: List of Ground Stations by Capability
+  request:
+    uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Orbital/availableGroundStations?api-version=2021-04-04-preview&capability=EarthObservation
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "westus_gs1",
+            "location": "westus",
+            "id": "/subscriptions/subId/providers/Microsoft.Orbital/availableGroundStations/westus_gs1",
+            "type": "Microsoft.Orbital/availableGroundStations",
+            "properties": {
+              "city": "redmond",
+              "providerName": "Microsoft",
+              "longitudeDegrees": 47.674,
+              "latitudeDegrees": -122.122,
+              "altitudeMeters": 1500.83
+            }
+          },
+          {
+            "name": "westus_gs2",
+            "location": "westus",
+            "id": "/subscriptions/subId/providers/Microsoft.Orbital/availableGroundStations/westus_gs2",
+            "type": "Microsoft.Orbital/availableGroundStations",
+            "properties": {
+              "city": "redmond",
+              "providerName": "Microsoft",
+              "longitudeDegrees": 47.674,
+              "latitudeDegrees": -122.122,
+              "altitudeMeters": 1500.83
+            }
+          }
+        ],
+        "nextLink": "string"
+      }
+security: []
+metadata:
+  description: Learn more about Orbital service - Returns list of available ground stations
+errorCodes: []
