@@ -1,5 +1,6 @@
 ---
 title: "Application"
+description: API reference documentation for the operations available in the Application REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

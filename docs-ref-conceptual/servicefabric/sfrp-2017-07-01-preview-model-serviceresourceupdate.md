@@ -1,5 +1,7 @@
 ---
 title: "ServiceResourceUpdate"
+description: "ServiceResourceUpdate is the service resource for patch operations. Properties table includes id, name, type, location, properties."
+
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -4,7 +4,7 @@ description: Returns a list of cognitive search skillsets created in the current
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: HeidiSteen

@@ -3,13 +3,13 @@ uid: management.azure.com.azureml.datastores.list
 name: List
 service: Machine Learning
 groupName: Datastores
-apiVersion: 2021-03-01-preview
+apiVersion: 2022-05-01
 summary: List datastores.
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores?api-version=2021-03-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores?api-version=2021-03-01-preview&$skip={$skip}&count={count}&isDefault={isDefault}&names={names}&searchText={searchText}&orderBy={orderBy}&orderByAsc={orderByAsc}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores?api-version=2022-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores?api-version=2022-05-01&$skip={$skip}&count={count}&isDefault={isDefault}&names={names}&searchText={searchText}&orderBy={orderBy}&orderByAsc={orderByAsc}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -80,7 +80,7 @@ responses:
 - name: 200 OK
   description: Success
   types:
-  - uid: DatastorePropertiesResourceArmPaginatedResult
+  - uid: DatastoreResourceArmPaginatedResult
 requestHeader: []
 definitions:
 - name: ErrorResponse
@@ -91,18 +91,18 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: DatastorePropertiesResourceArmPaginatedResult
-  description: A paginated list of DatastoreProperties entities.
+- name: DatastoreResourceArmPaginatedResult
+  description: A paginated list of Datastore entities.
   kind: object
   properties:
   - name: nextLink
-    description: The link to the next page of DatastoreProperties objects. If null, there are no additional pages.
+    description: The link to the next page of Datastore objects. If null, there are no additional pages.
     types:
     - uid: string
   - name: value
-    description: An array of objects of type DatastoreProperties.
+    description: An array of objects of type Datastore.
     types:
-    - uid: DatastorePropertiesResource
+    - uid: DatastoreResource
       isArray: true
 - name: ErrorDetail
   description: The error detail.
@@ -135,19 +135,18 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: DatastorePropertiesResource
+- name: DatastoreResource
   description: Azure Resource Manager resource envelope.
   kind: object
   properties:
   - name: properties
-    description: Additional attributes of the entity.
+    description: '[Required] Additional attributes of the entity.'
     types:
-    - uid: DatastoreProperties
-  - name: systemData
-    isReadyOnly: true
-    description: System data associated with resource provider
-    types:
-    - uid: systemData
+    - uid: AzureBlobDatastore
+    - uid: AzureDataLakeGen1Datastore
+    - uid: AzureDataLakeGen2Datastore
+    - uid: AzureFileDatastore
+    typesTitle: Datastore
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -163,6 +162,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -177,54 +181,6 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: DatastoreProperties
-  description: Datastore definition.
-  kind: object
-  properties:
-  - name: contents
-    description: Reference to the datastore storage contents.
-    types:
-    - uid: AzureBlobContents
-    - uid: AzureDataLakeGen1Contents
-    - uid: AzureDataLakeGen2Contents
-    - uid: AzureFileContents
-    - uid: AzurePostgreSqlContents
-    - uid: AzureSqlDatabaseContents
-    - uid: GlusterFsContents
-    typesTitle: DatastoreContents
-  - name: description
-    description: The asset description text.
-    types:
-    - uid: string
-  - name: hasBeenValidated
-    isReadyOnly: true
-    description: Whether the service has validated access to the datastore with the provided credentials.
-    types:
-    - uid: boolean
-  - name: isDefault
-    description: Whether this datastore is the default for the workspace.
-    types:
-    - uid: boolean
-  - name: linkedInfo
-    description: Information about the datastore origin, if linked.
-    types:
-    - uid: LinkedInfo
-  - name: properties
-    description: The asset property dictionary.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: tags
-    description: Tag dictionary. Tags can be added, removed, and updated.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -253,22 +209,250 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: LinkedInfo
-  description: Information about a datastore origin, if linked.
+- name: AzureBlobDatastore
+  description: Azure Blob datastore configuration.
   kind: object
   properties:
-  - name: linkedId
-    description: Linked service ID.
+  - name: accountName
+    description: Storage account name.
     types:
     - uid: string
-  - name: linkedResourceName
-    description: Linked service resource name.
+  - name: containerName
+    description: Storage account container name.
     types:
     - uid: string
-  - name: origin
-    description: Type of the linked service.
+  - name: endpoint
+    description: Azure cloud endpoint for the storage account.
     types:
-    - uid: OriginType
+    - uid: string
+  - name: protocol
+    description: Protocol used to communicate with the storage account.
+    types:
+    - uid: string
+  - name: serviceDataAccessAuthIdentity
+    description: Indicates which identity to use to authenticate service data access to customer's storage.
+    types:
+    - uid: ServiceDataAccessAuthIdentity
+    defaultValue: None
+  - name: credentials
+    description: '[Required] Account credentials.'
+    types:
+    - uid: AccountKeyDatastoreCredentials
+    - uid: CertificateDatastoreCredentials
+    - uid: NoneDatastoreCredentials
+    - uid: SasDatastoreCredentials
+    - uid: ServicePrincipalDatastoreCredentials
+    typesTitle: DatastoreCredentials
+  - name: datastoreType
+    description: '[Required] Storage type backing the datastore.'
+    types:
+    - uid: AzureBlob
+    typesTitle: string
+  - name: isDefault
+    isReadyOnly: true
+    description: Readonly property to indicate if datastore is the workspace default datastore
+    types:
+    - uid: boolean
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: AzureDataLakeGen1Datastore
+  description: Azure Data Lake Gen1 datastore configuration.
+  kind: object
+  properties:
+  - name: serviceDataAccessAuthIdentity
+    description: Indicates which identity to use to authenticate service data access to customer's storage.
+    types:
+    - uid: ServiceDataAccessAuthIdentity
+    defaultValue: None
+  - name: storeName
+    description: '[Required] Azure Data Lake store name.'
+    types:
+    - uid: string
+  - name: credentials
+    description: '[Required] Account credentials.'
+    types:
+    - uid: AccountKeyDatastoreCredentials
+    - uid: CertificateDatastoreCredentials
+    - uid: NoneDatastoreCredentials
+    - uid: SasDatastoreCredentials
+    - uid: ServicePrincipalDatastoreCredentials
+    typesTitle: DatastoreCredentials
+  - name: datastoreType
+    description: '[Required] Storage type backing the datastore.'
+    types:
+    - uid: AzureDataLakeGen1
+    typesTitle: string
+  - name: isDefault
+    isReadyOnly: true
+    description: Readonly property to indicate if datastore is the workspace default datastore
+    types:
+    - uid: boolean
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: AzureDataLakeGen2Datastore
+  description: Azure Data Lake Gen2 datastore configuration.
+  kind: object
+  properties:
+  - name: accountName
+    description: '[Required] Storage account name.'
+    types:
+    - uid: string
+  - name: endpoint
+    description: Azure cloud endpoint for the storage account.
+    types:
+    - uid: string
+  - name: filesystem
+    description: '[Required] The name of the Data Lake Gen2 filesystem.'
+    types:
+    - uid: string
+  - name: protocol
+    description: Protocol used to communicate with the storage account.
+    types:
+    - uid: string
+  - name: serviceDataAccessAuthIdentity
+    description: Indicates which identity to use to authenticate service data access to customer's storage.
+    types:
+    - uid: ServiceDataAccessAuthIdentity
+    defaultValue: None
+  - name: credentials
+    description: '[Required] Account credentials.'
+    types:
+    - uid: AccountKeyDatastoreCredentials
+    - uid: CertificateDatastoreCredentials
+    - uid: NoneDatastoreCredentials
+    - uid: SasDatastoreCredentials
+    - uid: ServicePrincipalDatastoreCredentials
+    typesTitle: DatastoreCredentials
+  - name: datastoreType
+    description: '[Required] Storage type backing the datastore.'
+    types:
+    - uid: AzureDataLakeGen2
+    typesTitle: string
+  - name: isDefault
+    isReadyOnly: true
+    description: Readonly property to indicate if datastore is the workspace default datastore
+    types:
+    - uid: boolean
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: AzureFileDatastore
+  description: Azure File datastore configuration.
+  kind: object
+  properties:
+  - name: accountName
+    description: '[Required] Storage account name.'
+    types:
+    - uid: string
+  - name: endpoint
+    description: Azure cloud endpoint for the storage account.
+    types:
+    - uid: string
+  - name: fileShareName
+    description: '[Required] The name of the Azure file share that the datastore points to.'
+    types:
+    - uid: string
+  - name: protocol
+    description: Protocol used to communicate with the storage account.
+    types:
+    - uid: string
+  - name: serviceDataAccessAuthIdentity
+    description: Indicates which identity to use to authenticate service data access to customer's storage.
+    types:
+    - uid: ServiceDataAccessAuthIdentity
+    defaultValue: None
+  - name: credentials
+    description: '[Required] Account credentials.'
+    types:
+    - uid: AccountKeyDatastoreCredentials
+    - uid: CertificateDatastoreCredentials
+    - uid: NoneDatastoreCredentials
+    - uid: SasDatastoreCredentials
+    - uid: ServicePrincipalDatastoreCredentials
+    typesTitle: DatastoreCredentials
+  - name: datastoreType
+    description: '[Required] Storage type backing the datastore.'
+    types:
+    - uid: AzureFile
+    typesTitle: string
+  - name: isDefault
+    isReadyOnly: true
+    description: Readonly property to indicate if datastore is the workspace default datastore
+    types:
+    - uid: boolean
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -285,233 +469,22 @@ definitions:
   - name: Key
     types:
     - uid: string
-- name: AzureBlobContents
-  description: Azure Blob datastore configuration.
-  kind: object
-  properties:
-  - name: accountName
-    description: Storage account name.
-    types:
-    - uid: string
-  - name: containerName
-    description: Storage account container name.
-    types:
-    - uid: string
-  - name: credentials
-    description: Account credentials.
-    types:
-    - uid: AccountKeyDatastoreCredentials
-    - uid: CertificateDatastoreCredentials
-    - uid: NoneDatastoreCredentials
-    - uid: SasDatastoreCredentials
-    - uid: ServicePrincipalDatastoreCredentials
-    - uid: SqlAdminDatastoreCredentials
-    typesTitle: DatastoreCredentials
-  - name: endpoint
-    description: Azure cloud endpoint for the storage account.
-    types:
-    - uid: string
-  - name: protocol
-    description: Protocol used to communicate with the storage account.
-    types:
-    - uid: string
-  - name: contentsType
-    description: Storage type backing the datastore.
-    types:
-    - uid: AzureBlob
-    typesTitle: string
-- name: AzureDataLakeGen1Contents
-  description: Azure Data Lake Gen1 datastore configuration.
-  kind: object
-  properties:
-  - name: credentials
-    description: Account credentials.
-    types:
-    - uid: AccountKeyDatastoreCredentials
-    - uid: CertificateDatastoreCredentials
-    - uid: NoneDatastoreCredentials
-    - uid: SasDatastoreCredentials
-    - uid: ServicePrincipalDatastoreCredentials
-    - uid: SqlAdminDatastoreCredentials
-    typesTitle: DatastoreCredentials
-  - name: storeName
-    description: Azure Data Lake store name.
-    types:
-    - uid: string
-  - name: contentsType
-    description: Storage type backing the datastore.
-    types:
-    - uid: AzureDataLakeGen1
-    typesTitle: string
-- name: AzureDataLakeGen2Contents
-  description: Azure Data Lake Gen2 datastore configuration.
-  kind: object
-  properties:
-  - name: accountName
-    description: Storage account name.
-    types:
-    - uid: string
-  - name: containerName
-    description: Storage account container name.
-    types:
-    - uid: string
-  - name: credentials
-    description: Account credentials.
-    types:
-    - uid: AccountKeyDatastoreCredentials
-    - uid: CertificateDatastoreCredentials
-    - uid: NoneDatastoreCredentials
-    - uid: SasDatastoreCredentials
-    - uid: ServicePrincipalDatastoreCredentials
-    - uid: SqlAdminDatastoreCredentials
-    typesTitle: DatastoreCredentials
-  - name: endpoint
-    description: Azure cloud endpoint for the storage account.
-    types:
-    - uid: string
-  - name: protocol
-    description: Protocol used to communicate with the storage account.
-    types:
-    - uid: string
-  - name: contentsType
-    description: Storage type backing the datastore.
-    types:
-    - uid: AzureDataLakeGen2
-    typesTitle: string
-- name: AzureFileContents
-  description: Azure File datastore configuration.
-  kind: object
-  properties:
-  - name: accountName
-    description: Storage account name.
-    types:
-    - uid: string
-  - name: containerName
-    description: Storage account container name.
-    types:
-    - uid: string
-  - name: credentials
-    description: Account credentials.
-    types:
-    - uid: AccountKeyDatastoreCredentials
-    - uid: CertificateDatastoreCredentials
-    - uid: NoneDatastoreCredentials
-    - uid: SasDatastoreCredentials
-    - uid: ServicePrincipalDatastoreCredentials
-    - uid: SqlAdminDatastoreCredentials
-    typesTitle: DatastoreCredentials
-  - name: endpoint
-    description: Azure cloud endpoint for the storage account.
-    types:
-    - uid: string
-  - name: protocol
-    description: Protocol used to communicate with the storage account.
-    types:
-    - uid: string
-  - name: contentsType
-    description: Storage type backing the datastore.
-    types:
-    - uid: AzureFile
-    typesTitle: string
-- name: AzurePostgreSqlContents
-  description: Azure Postgre SQL datastore configuration.
-  kind: object
-  properties:
-  - name: credentials
-    description: Account credentials.
-    types:
-    - uid: AccountKeyDatastoreCredentials
-    - uid: CertificateDatastoreCredentials
-    - uid: NoneDatastoreCredentials
-    - uid: SasDatastoreCredentials
-    - uid: ServicePrincipalDatastoreCredentials
-    - uid: SqlAdminDatastoreCredentials
-    typesTitle: DatastoreCredentials
-  - name: databaseName
-    description: Azure SQL database name.
-    types:
-    - uid: string
-  - name: enableSSL
-    description: Whether the Azure PostgreSQL server requires SSL.
-    types:
-    - uid: boolean
-  - name: endpoint
-    description: Azure cloud endpoint for the database.
-    types:
-    - uid: string
-  - name: portNumber
-    description: Azure SQL server port.
-    types:
-    - uid: integer
-  - name: serverName
-    description: Azure SQL server name.
-    types:
-    - uid: string
-  - name: contentsType
-    description: Storage type backing the datastore.
-    types:
-    - uid: AzurePostgreSql
-    typesTitle: string
-- name: AzureSqlDatabaseContents
-  description: Azure SQL Database datastore configuration.
-  kind: object
-  properties:
-  - name: credentials
-    description: Account credentials.
-    types:
-    - uid: AccountKeyDatastoreCredentials
-    - uid: CertificateDatastoreCredentials
-    - uid: NoneDatastoreCredentials
-    - uid: SasDatastoreCredentials
-    - uid: ServicePrincipalDatastoreCredentials
-    - uid: SqlAdminDatastoreCredentials
-    typesTitle: DatastoreCredentials
-  - name: databaseName
-    description: Azure SQL database name.
-    types:
-    - uid: string
-  - name: endpoint
-    description: Azure cloud endpoint for the database.
-    types:
-    - uid: string
-  - name: portNumber
-    description: Azure SQL server port.
-    types:
-    - uid: integer
-  - name: serverName
-    description: Azure SQL server name.
-    types:
-    - uid: string
-  - name: contentsType
-    description: Storage type backing the datastore.
-    types:
-    - uid: AzureSqlDatabase
-    typesTitle: string
-- name: GlusterFsContents
-  description: GlusterFs datastore configuration.
-  kind: object
-  properties:
-  - name: serverAddress
-    description: GlusterFS server address (can be the IP address or server name).
-    types:
-    - uid: string
-  - name: volumeName
-    description: GlusterFS volume name.
-    types:
-    - uid: string
-  - name: contentsType
-    description: Storage type backing the datastore.
-    types:
-    - uid: GlusterFs
-    typesTitle: string
-- name: OriginType
-  description: Enum to determine the type of linked service.
+- name: ServiceDataAccessAuthIdentity
   kind: enum
   properties:
-  - name: Synapse
+  - name: None
+    description: Do not use any identity for service data access.
     types:
     - uid: string
-- name: ContentsType
+  - name: WorkspaceSystemAssignedIdentity
+    description: Use the system assigned managed identity of the Workspace to authenticate service data access.
+    types:
+    - uid: string
+  - name: WorkspaceUserAssignedIdentity
+    description: Use the user assigned managed identity of the Workspace to authenticate service data access.
+    types:
+    - uid: string
+- name: DatastoreType
   description: Enum to determine the datastore contents type.
   kind: enum
   properties:
@@ -527,28 +500,16 @@ definitions:
   - name: AzureFile
     types:
     - uid: string
-  - name: AzureMySql
-    types:
-    - uid: string
-  - name: AzurePostgreSql
-    types:
-    - uid: string
-  - name: AzureSqlDatabase
-    types:
-    - uid: string
-  - name: GlusterFs
-    types:
-    - uid: string
 - name: AccountKeyDatastoreCredentials
   description: Account key datastore credentials configuration.
   kind: object
   properties:
   - name: secrets
-    description: Storage account secrets.
+    description: '[Required] Storage account secrets.'
     types:
     - uid: AccountKeyDatastoreSecrets
   - name: credentialsType
-    description: Credential type used to authentication with storage.
+    description: '[Required] Credential type used to authentication with storage.'
     types:
     - uid: AccountKey
     typesTitle: string
@@ -561,27 +522,27 @@ definitions:
     types:
     - uid: string
   - name: clientId
-    description: Service principal client ID.
+    description: '[Required] Service principal client ID.'
     types:
     - uid: string
-  - name: resourceUri
+  - name: resourceUrl
     description: Resource the service principal has access to.
     types:
     - uid: string
   - name: secrets
-    description: Service principal secrets.
+    description: '[Required] Service principal secrets.'
     types:
     - uid: CertificateDatastoreSecrets
   - name: tenantId
-    description: ID of the tenant to which the service principal belongs.
+    description: '[Required] ID of the tenant to which the service principal belongs.'
     types:
     - uid: string
   - name: thumbprint
-    description: Thumbprint of the certificate used for authentication.
+    description: '[Required] Thumbprint of the certificate used for authentication.'
     types:
     - uid: string
   - name: credentialsType
-    description: Credential type used to authentication with storage.
+    description: '[Required] Credential type used to authentication with storage.'
     types:
     - uid: Certificate
     typesTitle: string
@@ -589,12 +550,8 @@ definitions:
   description: Empty/none datastore credentials.
   kind: object
   properties:
-  - name: secrets
-    description: Empty/none datastore secret.
-    types:
-    - uid: NoneDatastoreSecrets
   - name: credentialsType
-    description: Credential type used to authentication with storage.
+    description: '[Required] Credential type used to authentication with storage.'
     types:
     - uid: None
     typesTitle: string
@@ -603,11 +560,11 @@ definitions:
   kind: object
   properties:
   - name: secrets
-    description: Storage container secrets.
+    description: '[Required] Storage container secrets.'
     types:
     - uid: SasDatastoreSecrets
   - name: credentialsType
-    description: Credential type used to authentication with storage.
+    description: '[Required] Credential type used to authentication with storage.'
     types:
     - uid: Sas
     typesTitle: string
@@ -620,42 +577,25 @@ definitions:
     types:
     - uid: string
   - name: clientId
-    description: Service principal client ID.
+    description: '[Required] Service principal client ID.'
     types:
     - uid: string
-  - name: resourceUri
+  - name: resourceUrl
     description: Resource the service principal has access to.
     types:
     - uid: string
   - name: secrets
-    description: Service principal secrets.
+    description: '[Required] Service principal secrets.'
     types:
     - uid: ServicePrincipalDatastoreSecrets
   - name: tenantId
-    description: ID of the tenant to which the service principal belongs.
+    description: '[Required] ID of the tenant to which the service principal belongs.'
     types:
     - uid: string
   - name: credentialsType
-    description: Credential type used to authentication with storage.
+    description: '[Required] Credential type used to authentication with storage.'
     types:
     - uid: ServicePrincipal
-    typesTitle: string
-- name: SqlAdminDatastoreCredentials
-  description: SQL Admin datastore credentials configuration.
-  kind: object
-  properties:
-  - name: secrets
-    description: SQL database secrets.
-    types:
-    - uid: SqlAdminDatastoreSecrets
-  - name: userId
-    description: SQL database user name.
-    types:
-    - uid: string
-  - name: credentialsType
-    description: Credential type used to authentication with storage.
-    types:
-    - uid: SqlAdmin
     typesTitle: string
 - name: AccountKeyDatastoreSecrets
   description: Datastore account key secrets.
@@ -666,7 +606,7 @@ definitions:
     types:
     - uid: string
   - name: secretsType
-    description: Credential type used to authentication with storage.
+    description: '[Required] Credential type used to authentication with storage.'
     types:
     - uid: AccountKey
     typesTitle: string
@@ -689,9 +629,6 @@ definitions:
   - name: ServicePrincipal
     types:
     - uid: string
-  - name: SqlAdmin
-    types:
-    - uid: string
 - name: CertificateDatastoreSecrets
   description: Datastore certificate secrets.
   kind: object
@@ -701,18 +638,9 @@ definitions:
     types:
     - uid: string
   - name: secretsType
-    description: Credential type used to authentication with storage.
+    description: '[Required] Credential type used to authentication with storage.'
     types:
     - uid: Certificate
-    typesTitle: string
-- name: NoneDatastoreSecrets
-  description: Empty/none datastore secret.
-  kind: object
-  properties:
-  - name: secretsType
-    description: Credential type used to authentication with storage.
-    types:
-    - uid: None
     typesTitle: string
 - name: SasDatastoreSecrets
   description: Datastore SAS secrets.
@@ -723,7 +651,7 @@ definitions:
     types:
     - uid: string
   - name: secretsType
-    description: Credential type used to authentication with storage.
+    description: '[Required] Credential type used to authentication with storage.'
     types:
     - uid: Sas
     typesTitle: string
@@ -736,22 +664,9 @@ definitions:
     types:
     - uid: string
   - name: secretsType
-    description: Credential type used to authentication with storage.
+    description: '[Required] Credential type used to authentication with storage.'
     types:
     - uid: ServicePrincipal
-    typesTitle: string
-- name: SqlAdminDatastoreSecrets
-  description: Datastore SQL Admin secrets.
-  kind: object
-  properties:
-  - name: password
-    description: SQL database password.
-    types:
-    - uid: string
-  - name: secretsType
-    description: Credential type used to authentication with storage.
-    types:
-    - uid: SqlAdmin
     typesTitle: string
 - name: SecretsType
   description: Enum to determine the datastore secrets type.
@@ -763,68 +678,48 @@ definitions:
   - name: Certificate
     types:
     - uid: string
-  - name: None
-    types:
-    - uid: string
   - name: Sas
     types:
     - uid: string
   - name: ServicePrincipal
     types:
     - uid: string
-  - name: SqlAdmin
-    types:
-    - uid: string
 examples:
 - name: List datastores.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores?api-version=2021-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/datastores?api-version=2022-05-01&count=1&isDefault=False&names=string&searchText=string&orderBy=string&orderByAsc=False
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "systemData": {
-              "createdAt": "2021-03-25T21:00:18.462Z",
-              "createdBy": "string",
-              "createdByType": "User",
-              "lastModifiedAt": "2021-03-25T21:00:18.462Z",
-              "lastModifiedBy": "string",
-              "lastModifiedByType": "User"
-            },
-            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/datastores/testDatastore",
-            "name": "testDatastore",
-            "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+            "id": "string",
+            "name": "string",
+            "type": "string",
             "properties": {
-              "contents": {
-                "contentsType": "AzureBlob",
-                "credentials": {
-                  "credentialsType": "AccountKey"
-                },
-                "accountName": "string",
-                "containerName": "string",
-                "endpoint": "core.windows.net",
-                "protocol": "https"
-              },
-              "hasBeenValidated": true,
-              "isDefault": true,
-              "linkedInfo": {
-                "linkedId": "string",
-                "linkedResourceName": "string",
-                "origin": "Synapse"
-              },
-              "properties": {
-                "additionalProp1": "string",
-                "additionalProp2": "string",
-                "additionalProp3": "string"
-              },
               "description": "string",
               "tags": {
-                "additionalProp1": "string",
-                "additionalProp2": "string",
-                "additionalProp3": "string"
-              }
+                "string": "string"
+              },
+              "isDefault": false,
+              "properties": null,
+              "credentials": {
+                "credentialsType": "AccountKey"
+              },
+              "datastoreType": "AzureBlob",
+              "accountName": "string",
+              "containerName": "string",
+              "endpoint": "core.windows.net",
+              "protocol": "https"
+            },
+            "systemData": {
+              "createdAt": "2020-01-01T12:34:56.999Z",
+              "createdBy": "string",
+              "createdByType": "User",
+              "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+              "lastModifiedBy": "string",
+              "lastModifiedByType": "User"
             }
           }
         ],

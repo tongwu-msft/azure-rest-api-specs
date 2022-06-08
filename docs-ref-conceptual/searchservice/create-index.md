@@ -4,7 +4,7 @@ description: Define an index schema for fields and other constructs in an Azure 
 ms.date: 03/05/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

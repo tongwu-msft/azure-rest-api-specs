@@ -4,7 +4,7 @@ description: Learn which REST API calls are used to populate and query an Azure 
 ms.date: 01/18/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: HeidiSteen

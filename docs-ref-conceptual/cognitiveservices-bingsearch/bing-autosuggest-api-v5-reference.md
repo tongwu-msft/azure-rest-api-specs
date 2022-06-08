@@ -1,5 +1,4 @@
 ---
-ms.assetid:
 title: Bing Autosuggest API v5 Reference | Microsoft Docs
 description: Describes the Autosuggest API's function and provides technical details on query parameters and the JSON responses to expect from suggested queries.
 services: cognitive-services

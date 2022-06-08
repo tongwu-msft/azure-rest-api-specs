@@ -1,16 +1,17 @@
 ---
 title: Create File (FileREST API) - Azure Files
-description: The Create File operation creates a new file or replaces a file. Note that calling Create File only initializes the file. To add content to a file, call the Put Range operation. 
+description: The Create File operation creates a new file or replaces a file. Calling Create File only initializes the file. To add content to a file, you call the Put Range operation. 
 author: wmgries
 
-ms.date: 06/05/2021
+ms.date: 03/05/2022
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
 # Create File
-The `Create File` operation creates a new file or replaces a file. Note that calling `Create File` only initializes the file. To add content to a file, call the `Put Range` operation. 
+
+The `Create File` operation creates a new file or replaces a file. When you call `Create File`, you only initialize the file. To add content to a file, you call the `Put Range` operation. 
 
 ## Protocol availability
 
@@ -20,57 +21,62 @@ The `Create File` operation creates a new file or replaces a file. Note that cal
 | NFS | ![No](./media/no-icon.png) |
   
 ## Request
-The `Create File` request may be constructed as follows. HTTPS is recommended.  
+
+You can construct a `Create File` request by doing the following. We recommend that you use HTTPS.  
   
 |Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`PUT`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`|HTTP/1.1|  
   
-Replace the path components shown in the request URI with your own, as follows:  
+Replace the path components that are shown in the request URI with your own, as described in the following table:  
   
 |Path component|Description|  
 |--------------------|-----------------|  
 |`myaccount`|The name of your storage account.|  
 |`myshare`|The name of your file share.|  
-|`mydirectorypath`|Optional. The path to the directory where the file is to be created. If the directory path is omitted, the file will be created within the specified share.<br /><br /> If specified, the directory must already exist within the share before the file can be created.|  
+|`mydirectorypath`|Optional. The path to the directory where the file is to be created. If the directory path is omitted, the file will be created within the specified share.<br /><br /> If the directory is specified, it must already exist within the share before you can create the file.|  
 |`myfile`|The name of the file to create.|  
   
-For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For information about path-naming restrictions, see [Name and reference shares, directories, files, and metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
 ### URI parameters
-The following additional parameters may be specified on the request URI.  
+
+You can specify the following additional parameters on the request URI:  
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
+|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Set timeouts for file service operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request headers
-The following table describes required and optional request headers.  
+
+The required and optional request headers are described in the following table:  
   
 |Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
-|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`Content-Length`|Optional. Must be zero if present.|  
-|`x-ms-content-length: byte value`|Required. This header specifies the maximum size for the file, up to 4 TiB.|  
-|`Content-Type &#124; x-ms-content-type`|Optional. The MIME content type of the file. The default type is `application/octet-stream`.|  
-|`Content-Encoding &#124; x-ms-content-encoding`|Optional. Specifies which content encodings have been applied to the file. This value is returned to the client when the [Get File](Get-File.md) operation is performed on the file resource and can be used to decode file content.|  
-|`Content-Language &#124; x-ms-content-language`|Optional. Specifies the natural languages used by this resource.|  
-|`Cache-Control &#124; x-ms-cache-control`|Optional. The File service stores this value but does not use or modify it.|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
+| `Content-Length` |Optional. Must be zero if present.|  
+| `x-ms-content-length: byte value` | Required. This header specifies the maximum size for the file, up to 4 tibibytes (TiB). |
+| `Content-Type` or `x-ms-content-type` | Optional. The MIME content type of the file. The default type is `application/octet-stream`. |
+| `Content-Encoding` or `x-ms-content-encoding` | Optional. Specifies which content encodings have been applied to the file. This value is returned to the client when the [Get File](Get-File.md) operation is performed on the file resource, and you can use it to decode file content. |
+| `Content-Language` or `x-ms-content-language` | Optional. Specifies the natural languages that are used by this resource. |
+| `Cache-Control` or `x-ms-cache-control` | Optional. Azure Files stores this value but doesn't use or modify it.|
 |`x-ms-content-md5`|Optional. Sets the file's MD5 hash.|  
 |`x-ms-content-disposition`|Optional. Sets the file's `Content-Disposition` header.|  
 |`x-ms-type: file`|Required. Set this header to `file`.|  
-|`x-ms-meta-name:value`|Optional. Name-value pairs associated with the file as metadata. Metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).<br /><br /> Note that file metadata specified via the File service is not accessible from an SMB client.|  
-| `x-ms-file-permission` | Required if `x-ms-file-permission-key` is not specified. Version 2019-02-02 and newer. This permission is the security descriptor for the file specified in the [Security Descriptor Definition Language (SDDL)](/windows/win32/secauthz/security-descriptor-definition-language). This header can be used if the permissions size is over 8 KiB, otherwise the `x-ms-file-permission-key` may be used. If specified, it must have an owner, group, and [discretionary access control list (DACL)](/windows/win32/secauthz/access-control-lists). A value of `inherit` may be passed to inherit from the parent directory.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
-| `x-ms-file-permission-key` | Required if `x-ms-file-permission` is not specified. Version 2019-02-02 and newer. The key of the permission to be set for the file. This can be created using the `Create-Permission` API.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
-| `x-ms-file-attributes` | Required. Version 2019-02-02 and newer. The file system attributes to be set on the file. See the list of [available attributes](#file-system-attributes). |
-| `x-ms-file-creation-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) creation time property for the file. A value of `now` may be used to indicate the time of the request. |
-| `x-ms-file-last-write-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) last write property for the file. A value of `now` may be used to indicate the time of the request. |
-| `x-ms-lease-id:<ID>`| Required if the file has an active lease. Available for versions 2019-02-02 and later.|
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
+|`x-ms-meta-name:value`|Optional. Name-value pairs that are associated with the file as metadata. Metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).<br /><br /> **Note**: File metadata that's specified via Azure Files isn't accessible from a Server Message Block (SMB) client.|  
+| `x-ms-file-permission: { inherit ¦ <SDDL> }` | In version 2019-02-02 through 2021-04-10, this header is required if `x-ms-file-permission-key` isn't specified. As of version 2021-06-08, both headers are optional. This permission is the security descriptor for the file that's specified in the [Security Descriptor Definition Language (SDDL)](/windows/win32/secauthz/security-descriptor-definition-language). You can use this header if the permissions size is over 8 KiB. If it isn't, you can use `x-ms-file-permission-key`. If you specify the header, it must have an owner, group, and [discretionary access control list (DACL)](/windows/win32/secauthz/access-control-lists). You can pass a value of `inherit` to inherit from the parent directory. |
+| `x-ms-file-permission-key: <PermissionKey>` | In version 2019-02-02 through 2021-04-10, this header is required if `x-ms-file-permission` isn't specified. As of version 2021-06-08, both headers are optional. If neither header is specified, the default value of `inherit` is used for the `x-ms-file-permission` header.<br /><br />You can create the key by calling the `Create Permission` API. |
+| `x-ms-file-attributes` | Required: version 2019-02-02 through 2021-04-10. Optional: version 2021-06-08 and later. This header contains the file system attributes to be set on the file. For more information, see the list of [available attributes](#file-system-attributes). The default value is `None`. |
+| `x-ms-file-creation-time: { now ¦ <DateTime> }` | Required: version 2019-02-02 through 2021-04-10. Optional: version 2021-06-08 and later. The Coordinated Universal Time (UTC) creation time property for the file. A value of `now` may be used to indicate the time of the request. The default value is `now`. |
+| `x-ms-file-last-write-time: { now ¦ <DateTime> }` | Required: version 2019-02-02 through 2021-04-10. Optional: version 2021-06-08 and later. The Coordinated Universal Time (UTC) last write property for the file. You can use a value of `now` to indicate the time of the request. The default value is `now`. |
+| `x-ms-lease-id: <ID>`| Required if the file has an active lease. Available for version 2019-02-02 and later.|
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Files](/azure/storage/files/storage-files-monitoring).|
+| `x-ms-file-change-time: { now ¦ <DateTime> }` | Optional. Version 2021-06-08 and later. The Coordinated Universal Time (UTC) change time property for the file, in the ISO 8601 format. You can use a value of `now` to indicate the time of the request. The default value is `now`. |
   
 ### Request body
+
 None.  
   
 ### Sample request  
@@ -89,34 +95,38 @@ Authorization: SharedKey myaccount:YhuFJjN4fAR8/AmBrqBz7MG2uFinQ4rkh4dscbj598g=
 ```  
   
 ## Response
+
 The response includes an HTTP status code and a set of response headers.  
   
 ### Status code
+
 A successful operation returns status code 201 (Created).  
   
-For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and error codes](Status-and-Error-Codes2.md).  
   
 ### Response headers
-The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+
+The response for this operation includes the headers that are described in the following table. The response can also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
-|`ETag`|The ETag contains a value which represents the version of the file, in quotes.|  
-|`Last-Modified`|Returns the date and time the file was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any operation that modifies the directory or its properties updates the last modified time. Operations on files do not affect the last modified time of the directory.|
-|`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md)|  
-|`x-ms-version`|Indicates the version of the File service used to execute the request.|  
-|`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
-|`x-ms-request-server-encrypted: true/false`|Version 2017-04-17 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
+|`ETag`|The ETag contains a value that represents the version of the file. The value is enclosed in quotation marks.|  
+|`Last-Modified`|Returns the date and time when the file was last modified. The date format follows RFC 1123. For more information, see [Represent date/time values in headers](Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any operation that modifies the directory or its properties updates the last modified time. Operations on files don't affect the last modified time of the directory.|
+|`x-ms-request-id`|Uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshoot API operations](Troubleshooting-API-Operations.md)|  
+|`x-ms-version`|Indicates the Azure Files version that's used to execute the request.|  
+|`Date`|A UTC date/time value that's generated by the service, which indicates the time when the response was initiated.|  
+|`x-ms-request-server-encrypted: true/false`|Version 2017-04-17 and later. The value of this header is set to `true` if you've successfully encrypted the contents of the request by using the specified algorithm. If the encryption is unsuccessful, the value is `false`.|  
 | `x-ms-file-permission-key` | The key of the permission of the file. |
-| `x-ms-file-attributes` | The file system attributes on the file. See the list of [available attributes](#file-system-attributes). |
+| `x-ms-file-attributes` | The file system attributes on the file. For more information, see the list of [available attributes](#file-system-attributes). |
 | `x-ms-file-creation-time` | The UTC date/time value that represents the creation time property for the file. |
 | `x-ms-file-last-write-time` | The UTC date/time value that represents the last write time property for the file.  |
 | `x-ms-file-change-time` | The UTC date/time that value that represents the change time property for the file. |
 | `x-ms-file-file-id` | The file ID of the file. |
 | `x-ms-file-parent-id` | The parent file ID of the file. |
-|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
+|`x-ms-client-request-id`|Used to troubleshoot requests and their corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it's present in the request and the value contains no more than 1,024 visible ASCII characters. If the `x-ms-client-request-id` header isn't present in the request, it isn't present in the response.|
   
 ### Response body
+
 None.  
   
 ### Sample response  
@@ -135,35 +145,38 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 ```  
   
 ## Authorization
+
 Only the account owner may call this operation.  
 
 #### File system attributes
 | Attribute | Win32 file attribute | Definition |
 |-----------|----------------------|------------|
-| ReadOnly | FILE_ATTRIBUTE_READONLY | A file that is read-only. Applications can read the file, but cannot write to it or delete it. |
-| Hidden | FILE_ATTRIBUTE_HIDDEN | The file is hidden. It is not included in an ordinary directory listing. |
+| ReadOnly | FILE_ATTRIBUTE_READONLY | A file that's read-only. Applications can read the file, but they can't write to it or delete it. |
+| Hidden | FILE_ATTRIBUTE_HIDDEN | The file is hidden. It isn't included in an ordinary directory listing. |
 | System | FILE_ATTRIBUTE_SYSTEM | A file that the operating system uses a part of, or uses exclusively. |
-| None | FILE_ATTRIBUTE_NORMAL | A file that does not have other attributes set. This attribute is valid only when used alone. |
-| Archive | FILE_ATTRIBUTE_ARCHIVE | A file that is an archive file. Applications typically use this attribute to mark files for backup or removal. |
-| Temporary | FILE_ATTRIBUTE_TEMPORARY | A file that is being used for temporary storage. |
-| Offline | FILE_ATTRIBUTE_OFFLINE | The data of a file is not available immediately. This file system attribute is presented primarily to provide compatibility with Windows - Azure Files does not support with offline storage options. |
-| NotContentIndexed | FILE_ATTRIBUTE_NOT_CONTENT_INDEXED | The file is not to be indexed by the content indexing service. |
-| NoScrubData | FILE_ATTRIBUTE_NO_SCRUB_DATA | The user data stream not to be read by the background data integrity scanner. This file system attribute is presented primarily to provide compatibility with Windows. |
+| None | FILE_ATTRIBUTE_NORMAL | A file that doesn't have other attributes set. This attribute is valid only when used alone. |
+| Archive | FILE_ATTRIBUTE_ARCHIVE | A file that's an archive file. Applications ordinarily use this attribute to mark files for backup or removal. |
+| Temporary | FILE_ATTRIBUTE_TEMPORARY | A file that's being used for temporary storage. |
+| Offline | FILE_ATTRIBUTE_OFFLINE | The data of a file isn't available immediately. This file system attribute is presented primarily to provide compatibility with Windows. Azure Files doesn't support it with offline storage options. |
+| NotContentIndexed | FILE_ATTRIBUTE_NOT_CONTENT_INDEXED | The file isn't to be indexed by the content indexing service. |
+| NoScrubData | FILE_ATTRIBUTE_NO_SCRUB_DATA | The user data stream that's *not* to be read by the background data integrity scanner. This file system attribute is presented primarily to provide compatibility with Windows. |
   
 ## Remarks
-To create a new file, first initialize the file by calling `Create File` and specify its maximum size, up to 4 TiB. When performing this operation, do not include content in the request body. Once the file has been created, call `Put Range` to add content to the file or to modify it.  
+
+To create a new file, first initialize it by calling `Create File` and specifying its maximum size, up to 4 TiB. When you're performing this operation, don't include content in the request body. After you've created the file, call `Put Range` to add content to the file or to modify it.  
   
 You can change the size of the file by calling `Set File Properties`.  
   
-If the share or parent directory does not exist, then the operation fails with status code 412 (Precondition Failed).  
+If the share or parent directory doesn't exist, then the operation fails with status code 412 (Precondition Failed).  
   
-Note that the file properties `cache-control`, `content-type`, `content-md5`, `content-encoding` and `content-language` are discrete from the file system properties available to SMB clients. SMB clients are not able to read, write or modify these property values.  
+> [!NOTE]
+> The file properties `cache-control`, `content-type`, `content-md5`, `content-encoding`, and `content-language` are separate from the file system properties that are available to SMB clients. SMB clients are unable to read, write, or modify these property values.  
 
-If the existing file has an active lease, the client must specify a valid lease ID on the request in order to create the file. If the client does not specify a lease ID, or specifies an invalid lease ID, the File service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the file does not have an active lease, the File service also returns status code 412 (Precondition Failed). If the client specifies a lease ID on a file that does not yet exist, the File service will return status code 412 (Precondition Failed) for requests made against version 2019-02-02 and newer. 
+To create the file, if the existing file has an active lease, the client must specify a valid lease ID on the request. If the client either doesn't specify a lease ID or specifies an invalid lease ID, Azure Files returns status code 412 (Precondition Failed). If the client specifies a lease ID but the file doesn't have an active lease, Azure Files returns status code 412 (Precondition Failed) in this instance also. If the client specifies a lease ID on a file that doesn't yet exist, Azure Files returns status code 412 (Precondition Failed) for requests that are made against version 2019-02-02 and later. 
 
-If an existing file with an active lease is overwritten by a Create File operation, the lease persists on the updated file until it is released. 
+If an existing file with an active lease is overwritten by a `Create File` operation, the lease persists on the updated file until it's released. 
 
-`Create File` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
+`Create File` isn't supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot fails with status code 400 (InvalidQueryParameterValue).
 
 ## See also
-[Operations on Files](Operations-on-Files.md)
+[Operations on Azure Files](Operations-on-Files.md)

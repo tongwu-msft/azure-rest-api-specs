@@ -1,5 +1,6 @@
 ---
 title: "IngestManifestStatistics"
+description: Learn how IngestManifestStatistics is a complex type provided by the **Statistics** property of an IngestManifest.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

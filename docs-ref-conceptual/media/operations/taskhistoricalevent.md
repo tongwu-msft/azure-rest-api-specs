@@ -1,5 +1,6 @@
 ---
 title: "TaskHistoricalEvent"
+description: Learn how a collection of TaskHistoricalEvent objects that describe events associated with task execution.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

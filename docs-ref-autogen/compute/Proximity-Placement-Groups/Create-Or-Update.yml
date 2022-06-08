@@ -3,14 +3,14 @@ uid: management.azure.com.compute.proximityplacementgroups.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Proximity Placement Groups
-apiVersion: 2021-11-01
+apiVersion: 2022-03-01
 summary: Create or update a proximity placement group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}?api-version=2021-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,6 +52,12 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: zones
+    in: body
+    description: Specifies the Availability Zone where virtual machine, virtual machine scale set or availability set associated with the  proximity placement group can be created.
+    types:
+    - uid: string
+      isArray: true
   - name: properties.proximityPlacementGroupType
     in: body
     description: 'Specifies the type of the proximity placement group. <br><br> Possible values are: <br><br> **Standard** : Co-locate resources within an Azure region or Availability Zone. <br><br> **Ultra** : For future use.'
@@ -62,6 +68,11 @@ requestBody:
     description: Describes colocation status of the Proximity Placement Group.
     types:
     - uid: InstanceViewStatus
+  - name: properties.intent
+    in: body
+    description: Specifies the user intent of the proximity placement group.
+    types:
+    - uid: Intent
   - name: location
     in: body
     isRequired: true
@@ -114,10 +125,24 @@ definitions:
     description: The time of the status.
     types:
     - uid: string
+- name: Intent
+  description: Specifies the user intent of the proximity placement group.
+  kind: object
+  properties:
+  - name: vmSizes
+    description: Specifies possible sizes of virtual machines that can be created in the proximity placement group.
+    types:
+    - uid: string
+      isArray: true
 - name: ProximityPlacementGroup
   description: Specifies information about the proximity placement group.
   kind: object
   properties:
+  - name: zones
+    description: Specifies the Availability Zone where virtual machine, virtual machine scale set or availability set associated with the  proximity placement group can be created.
+    types:
+    - uid: string
+      isArray: true
   - name: properties.proximityPlacementGroupType
     description: 'Specifies the type of the proximity placement group. <br><br> Possible values are: <br><br> **Standard** : Co-locate resources within an Azure region or Availability Zone. <br><br> **Ultra** : For future use.'
     types:
@@ -144,6 +169,10 @@ definitions:
     description: Describes colocation status of the Proximity Placement Group.
     types:
     - uid: InstanceViewStatus
+  - name: properties.intent
+    description: Specifies the user intent of the proximity placement group.
+    types:
+    - uid: Intent
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -258,12 +287,21 @@ definitions:
 examples:
 - name: Create or Update a proximity placement group.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/proximityPlacementGroups/myProximityPlacementGroup?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/proximityPlacementGroups/myProximityPlacementGroup?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
+        "zones": [
+          "1"
+        ],
         "properties": {
-          "proximityPlacementGroupType": "Standard"
+          "proximityPlacementGroupType": "Standard",
+          "intent": {
+            "vmSizes": [
+              "Basic_A0",
+              "Basic_A2"
+            ]
+          }
         }
       }
   responses:
@@ -272,9 +310,18 @@ examples:
       {
         "name": "myProximityPlacementGroup",
         "properties": {
-          "proximityPlacementGroupType": "Standard"
+          "proximityPlacementGroupType": "Standard",
+          "intent": {
+            "vmSizes": [
+              "Basic_A0",
+              "Basic_A2"
+            ]
+          }
         },
         "location": "westus",
+        "zones": [
+          "1"
+        ],
         "type": "Microsoft.Compute/proximityPlacementGroups",
         "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/proximityPlacementGroups/myProximityPlacementGroup"
       }
@@ -283,9 +330,18 @@ examples:
       {
         "name": "myProximityPlacementGroup",
         "properties": {
-          "proximityPlacementGroupType": "Standard"
+          "proximityPlacementGroupType": "Standard",
+          "intent": {
+            "vmSizes": [
+              "Basic_A0",
+              "Basic_A2"
+            ]
+          }
         },
         "location": "westus",
+        "zones": [
+          "1"
+        ],
         "type": "Microsoft.Compute/proximityPlacementGroups",
         "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/proximityPlacementGroups/myProximityPlacementGroup"
       }

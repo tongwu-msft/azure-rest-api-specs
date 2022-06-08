@@ -1,5 +1,6 @@
 ---
 title: "Generate SAS token"
+description: Learn how to programmatically generate a SAS token for using Azure Event Hubs and Azure Service Bus REST APIs.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

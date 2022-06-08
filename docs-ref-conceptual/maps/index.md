@@ -1,7 +1,7 @@
 ---
 title: Azure Maps overview | Microsoft Docs
 description: Overview of Azure Maps service
-ms.date: 04/06/2021
+ms.date: 05/09/2022
 ms.service: azure-maps
 ms.topic: reference
 ms.devlang: rest-api
@@ -17,13 +17,13 @@ Microsoft Azure Maps provides developers from all industries with powerful geosp
 - Search
 - Routing
 - Traffic
-- Mobility
 - Weather
 - Time zones
 - Geolocation
+- Elevation
 - Geofencing
-- Map data
-- Creator
+- Indoor maps (Creator)
 - Spatial operations
+- Data management
 
 The Web and Android SDKs make development easy, flexible, and portable across multiple platforms.

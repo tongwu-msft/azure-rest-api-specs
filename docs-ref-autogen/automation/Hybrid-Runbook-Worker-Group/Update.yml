@@ -3,14 +3,14 @@ uid: management.azure.com.automation.hybridrunbookworkergroup.update
 name: Update
 service: Automation
 groupName: Hybrid Runbook Worker Group
-apiVersion: 2015-10-31
+apiVersion: 2021-06-22
 summary: Update a hybrid runbook worker group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}?api-version=2015-10-31
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}?api-version=2021-06-22
 uriParameters:
 - name: subscriptionId
   in: path
@@ -82,10 +82,15 @@ definitions:
     description: Gets or sets the name of the group.
     types:
     - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
   - name: hybridRunbookWorkers
     description: Gets or sets the list of hybrid runbook workers.
     types:
-    - uid: HybridRunbookWorker
+    - uid: HybridRunbookWorkerLegacy
       isArray: true
   - name: credential
     description: Sets the credential of a worker group.
@@ -95,6 +100,11 @@ definitions:
     description: Type of the HybridWorkerGroup.
     types:
     - uid: GroupTypeEnum
+  - name: systemData
+    isReadyOnly: true
+    description: Resource system metadata.
+    types:
+    - uid: systemData
 - name: ErrorResponse
   description: Error response of an operation failure
   kind: object
@@ -107,16 +117,16 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-- name: HybridRunbookWorkerGroupUpdateParameters
-  description: Parameters supplied to the update operation.
+- name: HybridRunbookWorkerGroupCreateOrUpdateParameters
+  description: The parameters supplied to the create or update hybrid runbook worker group operation.
   kind: object
   properties:
   - name: credential
     description: Sets the credential of a worker group.
     types:
     - uid: RunAsCredentialAssociationProperty
-- name: HybridRunbookWorker
-  description: Definition of hybrid runbook worker.
+- name: HybridRunbookWorkerLegacy
+  description: Definition of hybrid runbook worker Legacy.
   kind: object
   properties:
   - name: name
@@ -145,10 +155,54 @@ definitions:
   - name: System
     types:
     - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: Update hybrid worker group
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestHybridGroup?api-version=2015-10-31
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestHybridGroup?api-version=2021-06-22
     body: >-
       {
         "credential": {
@@ -161,15 +215,17 @@ examples:
       {
         "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestHybridGroup",
         "name": "TestHybridGroup",
-        "hybridRunbookWorkers": [
-          {
-            "name": "TestHybridWorker",
-            "ip": "100.1.1.1",
-            "registrationTime": "2017-03-24T12:43:45.0146578-07:00"
-          }
-        ],
         "credential": {
           "name": "myRunAsCredentialName"
+        },
+        "groupType": "User",
+        "systemData": {
+          "createdBy": "foo@contoso.com",
+          "createdByType": "User",
+          "createdAt": "2018-04-24T16:30:55+00:00",
+          "lastModifiedBy": "foo@contoso.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2018-04-24T16:30:55+00:00"
         }
       }
 security:

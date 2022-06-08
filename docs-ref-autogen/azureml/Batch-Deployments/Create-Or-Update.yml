@@ -3,14 +3,14 @@ uid: management.azure.com.azureml.batchdeployments.createorupdate
 name: Create Or Update
 service: Machine Learning
 groupName: Batch Deployments
-apiVersion: 2021-03-01-preview
-summary: Creates/updates a batch inference deployment.
+apiVersion: 2022-05-01
+summary: Creates/updates a batch inference deployment (asynchronous).
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments/{deploymentName}?api-version=2021-03-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments/{deploymentName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -60,6 +60,11 @@ responses:
   types:
   - uid: BatchDeploymentTrackedResource
 - name: 201 Created
+  headers:
+  - name: x-ms-async-operation-timeout
+    value: string
+  - name: Azure-AsyncOperation
+    value: string
   description: Created
   types:
   - uid: BatchDeploymentTrackedResource
@@ -68,9 +73,9 @@ requestBody:
   parameters:
   - name: identity
     in: body
-    description: Service identity associated with a resource.
+    description: Managed service identity (system assigned and/or user assigned identities)
     types:
-    - uid: ResourceIdentity
+    - uid: ManagedServiceIdentity
   - name: kind
     in: body
     description: Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type.
@@ -79,9 +84,14 @@ requestBody:
   - name: properties
     in: body
     isRequired: true
-    description: Additional attributes of the entity.
+    description: '[Required] Additional attributes of the entity.'
     types:
     - uid: BatchDeployment
+  - name: sku
+    in: body
+    description: Sku details required for ARM contract for Autoscaling.
+    types:
+    - uid: Sku
   - name: tags
     in: body
     description: Resource tags.
@@ -99,60 +109,40 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
-- name: ResourceIdentity
-  description: Service identity associated with a resource.
+- name: ManagedServiceIdentity
+  description: Managed service identity (system assigned and/or user assigned identities)
   kind: object
   properties:
   - name: principalId
     isReadyOnly: true
-    description: Client ID that is used when authenticating.
+    description: The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
     types:
     - uid: string
   - name: tenantId
     isReadyOnly: true
-    description: AAD Tenant where this identity lives.
+    description: The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
     types:
     - uid: string
   - name: type
-    description: Defines values for a ResourceIdentity's type.
+    description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
     types:
-    - uid: ResourceIdentityAssignment
+    - uid: ManagedServiceIdentityType
   - name: userAssignedIdentities
-    description: Dictionary of the user assigned identities, key is ARM resource ID of the UAI.
+    description: "User-Assigned Identities  \nThe set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
-      - uid: UserAssignedIdentityMeta
+      - uid: UserAssignedIdentity
 - name: BatchDeployment
   description: Batch inference settings per deployment.
   kind: object
   properties:
-  - name: codeConfiguration
-    description: Code configuration for the endpoint deployment.
-    types:
-    - uid: CodeConfiguration
   - name: compute
-    description: Configuration for compute binding.
-    types:
-    - uid: ComputeConfiguration
-  - name: description
-    description: Description of the endpoint deployment.
+    description: Compute target for batch inference operation.
     types:
     - uid: string
-  - name: environmentId
-    description: ARM resource ID of the environment specification for the endpoint deployment.
-    types:
-    - uid: string
-  - name: environmentVariables
-    description: Environment variables configuration for the deployment.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
   - name: errorThreshold
     description: >-
       Error threshold, if the error count for the entire input goes above this value,
@@ -166,10 +156,17 @@ definitions:
       If set to -1 (the lower bound), all failures during batch inference will be ignored.
     types:
     - uid: integer
+    defaultValue: -1
   - name: loggingLevel
     description: Logging level for batch inference operation.
     types:
     - uid: BatchLoggingLevel
+    defaultValue: Info
+  - name: maxConcurrencyPerInstance
+    description: Indicates maximum number of parallelism per instance.
+    types:
+    - uid: integer
+    defaultValue: 1
   - name: miniBatchSize
     description: >-
       Size of the mini-batch passed to each batch invocation.
@@ -179,6 +176,7 @@ definitions:
       For TabularDataset, this is the size of the records in bytes, per mini-batch.
     types:
     - uid: integer
+    defaultValue: 10
   - name: model
     description: Reference to the model asset for the endpoint deployment.
     types:
@@ -186,15 +184,55 @@ definitions:
     - uid: IdAssetReference
     - uid: OutputPathAssetReference
     typesTitle: AssetReferenceBase
-  - name: outputConfiguration
-    description: Output configuration for the batch inference operation.
+  - name: outputAction
+    description: Indicates how the output will be organized.
     types:
-    - uid: BatchOutputConfiguration
-  - name: partitionKeys
-    description: Partition keys list used for Named partitioning.
+    - uid: BatchOutputAction
+    defaultValue: AppendRow
+  - name: outputFileName
+    description: Customized output file name for append_row output action.
     types:
     - uid: string
-      isArray: true
+    defaultValue: predictions.csv
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state for the endpoint deployment.
+    types:
+    - uid: DeploymentProvisioningState
+  - name: resources
+    description: >-
+      Indicates compute configuration for the job.
+
+      If not provided, will default to the defaults defined in ResourceConfiguration.
+    types:
+    - uid: ResourceConfiguration
+  - name: retrySettings
+    description: >-
+      Retry Settings for the batch inference operation.
+
+      If not provided, will default to the defaults defined in BatchRetrySettings.
+    types:
+    - uid: BatchRetrySettings
+  - name: codeConfiguration
+    description: Code configuration for the endpoint deployment.
+    types:
+    - uid: CodeConfiguration
+  - name: description
+    description: Description of the endpoint deployment.
+    types:
+    - uid: string
+  - name: environmentId
+    description: ARM resource ID or AssetId of the environment specification for the endpoint deployment.
+    types:
+    - uid: string
+  - name: environmentVariables
+    description: Environment variables configuration for the deployment.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: properties
     description: Property dictionary. Properties can be added, but not removed or altered.
     types:
@@ -203,10 +241,30 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: retrySettings
-    description: Retry Settings for the batch inference operation.
+- name: Sku
+  description: The resource model definition representing SKU
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU. Ex - P3. It is typically a letter+number code
     types:
-    - uid: BatchRetrySettings
+    - uid: string
+  - name: tier
+    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    types:
+    - uid: SkuTier
+  - name: size
+    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -247,22 +305,21 @@ definitions:
   kind: object
   properties:
   - name: identity
-    description: Service identity associated with a resource.
+    description: Managed service identity (system assigned and/or user assigned identities)
     types:
-    - uid: ResourceIdentity
+    - uid: ManagedServiceIdentity
   - name: kind
     description: Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type.
     types:
     - uid: string
   - name: properties
-    description: Additional attributes of the entity.
+    description: '[Required] Additional attributes of the entity.'
     types:
     - uid: BatchDeployment
-  - name: systemData
-    isReadyOnly: true
-    description: System data associated with resource provider
+  - name: sku
+    description: Sku details required for ARM contract for Autoscaling.
     types:
-    - uid: systemData
+    - uid: Sku
   - name: tags
     description: Resource tags.
     types:
@@ -290,10 +347,18 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: ResourceIdentityAssignment
-  description: Defines values for a ResourceIdentity's type.
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
   kind: enum
   properties:
+  - name: None
+    types:
+    - uid: string
   - name: SystemAssigned
     types:
     - uid: string
@@ -303,63 +368,18 @@ definitions:
   - name: SystemAssigned,UserAssigned
     types:
     - uid: string
-  - name: None
-    types:
-    - uid: string
-- name: UserAssignedIdentityMeta
-  description: User assigned identities associated with a resource.
+- name: UserAssignedIdentity
+  description: User assigned identity properties
   kind: object
   properties:
-  - name: clientId
-    description: Aka application ID, a unique identifier generated by Azure AD that is tied to an application and service principal during its initial provisioning.
-    types:
-    - uid: string
   - name: principalId
-    description: The object ID of the service principal object for your managed identity that is used to grant role-based access to an Azure resource.
+    isReadyOnly: true
+    description: The principal ID of the assigned identity.
     types:
     - uid: string
-- name: CodeConfiguration
-  description: Configuration for a scoring code asset.
-  kind: object
-  properties:
-  - name: codeId
-    description: ARM resource ID of the code asset.
-    types:
-    - uid: string
-  - name: scoringScript
-    description: The script to execute on startup. eg. "score.py"
-    types:
-    - uid: string
-- name: ComputeConfiguration
-  description: Configuration for compute binding.
-  kind: object
-  properties:
-  - name: instanceCount
-    description: Number of instances or nodes.
-    types:
-    - uid: integer
-  - name: instanceType
-    description: SKU type to run on.
-    types:
-    - uid: string
-  - name: isLocal
-    description: Set to true for jobs running on local compute.
-    types:
-    - uid: boolean
-  - name: location
-    description: Location for virtual cluster run.
-    types:
-    - uid: string
-  - name: properties
-    description: Additional properties.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: target
-    description: ARM resource ID of the compute resource.
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the assigned identity.
     types:
     - uid: string
 - name: BatchLoggingLevel
@@ -380,18 +400,61 @@ definitions:
   - name: Debug
     types:
     - uid: string
-- name: BatchOutputConfiguration
-  description: Batch inference output configuration.
-  kind: object
+- name: BatchOutputAction
+  description: Enum to determine how batch inferencing will handle output
+  kind: enum
   properties:
-  - name: appendRowFileName
-    description: Customized output file name for append_row output action.
+  - name: SummaryOnly
     types:
     - uid: string
-  - name: outputAction
-    description: Indicates how the output will be organized.
+  - name: AppendRow
     types:
-    - uid: BatchOutputAction
+    - uid: string
+- name: DeploymentProvisioningState
+  description: Possible values for DeploymentProvisioningState.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Scaling
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: ResourceConfiguration
+  kind: object
+  properties:
+  - name: instanceCount
+    description: Optional number of instances or nodes used by the compute target.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: instanceType
+    description: Optional type of VM used as supported by the compute target.
+    types:
+    - uid: string
+  - name: properties
+    description: Additional properties bag.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
 - name: BatchRetrySettings
   description: Retry settings for a batch inference operation.
   kind: object
@@ -400,8 +463,38 @@ definitions:
     description: Maximum retry count for a mini-batch
     types:
     - uid: integer
+    defaultValue: 3
   - name: timeout
     description: Invocation timeout for a mini-batch, in ISO 8601 format.
+    types:
+    - uid: string
+    defaultValue: PT30S
+- name: CodeConfiguration
+  description: Configuration for a scoring code asset.
+  kind: object
+  properties:
+  - name: codeId
+    description: ARM resource ID of the code asset.
+    types:
+    - uid: string
+  - name: scoringScript
+    description: '[Required] The script to execute on startup. eg. "score.py"'
+    types:
+    - uid: string
+- name: SkuTier
+  description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
     types:
     - uid: string
 - name: createdByType
@@ -464,7 +557,7 @@ definitions:
     types:
     - uid: string
   - name: referenceType
-    description: Specifies the type of asset reference.
+    description: '[Required] Specifies the type of asset reference.'
     types:
     - uid: DataPath
     typesTitle: string
@@ -473,11 +566,11 @@ definitions:
   kind: object
   properties:
   - name: assetId
-    description: ARM resource ID of the asset.
+    description: '[Required] ARM resource ID of the asset.'
     types:
     - uid: string
   - name: referenceType
-    description: Specifies the type of asset reference.
+    description: '[Required] Specifies the type of asset reference.'
     types:
     - uid: Id
     typesTitle: string
@@ -494,20 +587,10 @@ definitions:
     types:
     - uid: string
   - name: referenceType
-    description: Specifies the type of asset reference.
+    description: '[Required] Specifies the type of asset reference.'
     types:
     - uid: OutputPath
     typesTitle: string
-- name: BatchOutputAction
-  description: Enum to determine how batch inferencing will handle output
-  kind: enum
-  properties:
-  - name: SummaryOnly
-    types:
-    - uid: string
-  - name: AppendRow
-    types:
-    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -538,232 +621,216 @@ definitions:
 examples:
 - name: CreateOrUpdate Batch Deployment.
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/batchEndpoints/testBatchEndpoint/deployments/testBatchDeployment?api-version=2021-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/batchEndpoints/testEndpointName/deployments/testDeploymentName?api-version=2022-05-01
     body: >-
       {
-        "tags": {
-          "additionalProp1": "string",
-          "additionalProp2": "string",
-          "additionalProp3": "string"
+        "properties": {
+          "description": "string",
+          "properties": {
+            "string": "string"
+          },
+          "codeConfiguration": {
+            "codeId": "string",
+            "scoringScript": "string"
+          },
+          "environmentId": "string",
+          "environmentVariables": {
+            "string": "string"
+          },
+          "compute": "string",
+          "errorThreshold": 1,
+          "retrySettings": {
+            "maxRetries": 1,
+            "timeout": "PT5M"
+          },
+          "miniBatchSize": 1,
+          "loggingLevel": "Info",
+          "model": {
+            "referenceType": "Id",
+            "assetId": "string"
+          },
+          "maxConcurrencyPerInstance": 1,
+          "outputAction": "SummaryOnly",
+          "outputFileName": "string",
+          "resources": {
+            "instanceCount": 1,
+            "instanceType": "string",
+            "properties": {
+              "string": {
+                "cd3c37dc-2876-4ca4-8a54-21bd7619724a": null
+              }
+            }
+          }
         },
+        "tags": {},
         "location": "string",
         "kind": "string",
         "identity": {
-          "type": "UserAssigned",
+          "type": "SystemAssigned",
           "userAssignedIdentities": {
-            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myuseridentity": {
-              "principalId": "string",
-              "clientId": "string"
-            }
+            "string": {}
           }
         },
-        "properties": {
-          "compute": {
-            "target": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/computes/testcompute",
-            "instanceCount": 0,
-            "isLocal": false,
-            "location": "string",
-            "instanceType": "string",
-            "properties": {
-              "additionalProp1": "string",
-              "additionalProp2": "string",
-              "additionalProp3": "string"
-            }
-          },
-          "errorThreshold": 0,
-          "retrySettings": {
-            "maxRetries": 0,
-            "timeout": "PT1M"
-          },
-          "partitionKeys": [
-            "string"
-          ],
-          "miniBatchSize": 0,
-          "loggingLevel": "Info",
-          "outputConfiguration": {
-            "outputAction": "SummaryOnly",
-            "appendRowFileName": "string"
-          },
-          "description": "string",
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
-          "model": {
-            "referenceType": "Id",
-            "assetId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/models/testmodel/versions/1"
-          },
-          "codeConfiguration": {
-            "codeId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/codes/testcode/versions/1",
-            "scoringScript": "score.py"
-          },
-          "environmentId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/environments/myenv",
-          "environmentVariables": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
+        "sku": {
+          "name": "string",
+          "tier": "Free",
+          "size": "string",
+          "family": "string",
+          "capacity": 1
         }
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/batchEndpoints/testBatchEndpoint/deployments/testBatchDeployment",
-        "name": "testBatchDeployment",
-        "type": "Microsoft.MachineLearningServices/workspaces/batchEndpoints/deployments",
-        "tags": {
-          "additionalProp1": "string",
-          "additionalProp2": "string",
-          "additionalProp3": "string"
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "properties": {
+          "description": "string",
+          "properties": {
+            "string": "string"
+          },
+          "codeConfiguration": {
+            "codeId": "string",
+            "scoringScript": "string"
+          },
+          "environmentId": "string",
+          "environmentVariables": {
+            "string": "string"
+          },
+          "compute": "string",
+          "errorThreshold": 1,
+          "retrySettings": {
+            "maxRetries": 1,
+            "timeout": "PT5M"
+          },
+          "miniBatchSize": 1,
+          "loggingLevel": "Info",
+          "model": {
+            "referenceType": "Id",
+            "assetId": "string"
+          },
+          "maxConcurrencyPerInstance": 1,
+          "outputAction": "SummaryOnly",
+          "outputFileName": "string",
+          "resources": {
+            "instanceCount": 1,
+            "instanceType": "string",
+            "properties": {
+              "string": {
+                "4939850d-8eae-4343-8566-0826259a2ad1": null
+              }
+            }
+          },
+          "provisioningState": "Creating"
         },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
+        },
+        "tags": {},
         "location": "string",
         "kind": "string",
         "identity": {
-          "type": "UserAssigned",
+          "type": "SystemAssigned",
+          "principalId": "00000000-1111-2222-3333-444444444444",
+          "tenantId": "00000000-1111-2222-3333-444444444444",
           "userAssignedIdentities": {
-            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myuseridentity": {
-              "clientId": "string"
+            "string": {
+              "principalId": "00000000-1111-2222-3333-444444444444",
+              "clientId": "00000000-1111-2222-3333-444444444444"
             }
           }
         },
-        "properties": {
-          "compute": {
-            "target": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/computes/testcompute",
-            "instanceCount": 0,
-            "isLocal": false,
-            "location": "string",
-            "instanceType": "string",
-            "properties": {
-              "additionalProp1": "string",
-              "additionalProp2": "string",
-              "additionalProp3": "string"
-            }
-          },
-          "errorThreshold": 0,
-          "retrySettings": {
-            "maxRetries": 0,
-            "timeout": "PT1M"
-          },
-          "partitionKeys": [
-            "string"
-          ],
-          "miniBatchSize": 0,
-          "loggingLevel": "Info",
-          "outputConfiguration": {
-            "outputAction": "SummaryOnly",
-            "appendRowFileName": "string"
-          },
-          "description": "string",
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
-          "model": {
-            "referenceType": "Id",
-            "assetId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/models/testmodel/versions/1"
-          },
-          "codeConfiguration": {
-            "codeId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/codes/testcode/versions/1",
-            "scoringScript": "score.py"
-          },
-          "environmentId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/environments/myenv",
-          "environmentVariables": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
-        },
-        "systemData": {
-          "createdAt": "2021-03-25T20:46:47.062Z",
-          "createdBy": "string",
-          "createdByType": "User",
-          "lastModifiedAt": "2021-03-25T20:46:47.062Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User"
+        "sku": {
+          "name": "string",
+          "tier": "Free",
+          "size": "string",
+          "family": "string",
+          "capacity": 1
         }
       }
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/batchEndpoints/testBatchEndpoint/deployments/testBatchDeployment",
-        "name": "testBatchDeployment",
-        "type": "Microsoft.MachineLearningServices/workspaces/batchEndpoints/deployments",
-        "tags": {
-          "additionalProp1": "string",
-          "additionalProp2": "string",
-          "additionalProp3": "string"
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "properties": {
+          "description": "string",
+          "properties": {
+            "string": "string"
+          },
+          "codeConfiguration": {
+            "codeId": "string",
+            "scoringScript": "string"
+          },
+          "environmentId": "string",
+          "environmentVariables": {
+            "string": "string"
+          },
+          "compute": "string",
+          "errorThreshold": 1,
+          "retrySettings": {
+            "maxRetries": 1,
+            "timeout": "PT5M"
+          },
+          "miniBatchSize": 1,
+          "loggingLevel": "Info",
+          "model": {
+            "referenceType": "Id",
+            "assetId": "string"
+          },
+          "maxConcurrencyPerInstance": 1,
+          "outputAction": "SummaryOnly",
+          "outputFileName": "string",
+          "resources": {
+            "instanceCount": 1,
+            "instanceType": "string",
+            "properties": {
+              "string": {
+                "b76755e4-16bf-45d4-b625-6634df7444cc": null
+              }
+            }
+          },
+          "provisioningState": "Creating"
         },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
+        },
+        "tags": {},
         "location": "string",
         "kind": "string",
         "identity": {
-          "type": "UserAssigned",
+          "type": "SystemAssigned",
+          "principalId": "00000000-1111-2222-3333-444444444444",
+          "tenantId": "00000000-1111-2222-3333-444444444444",
           "userAssignedIdentities": {
-            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myuseridentity": {
-              "clientId": "string"
+            "string": {
+              "principalId": "00000000-1111-2222-3333-444444444444",
+              "clientId": "00000000-1111-2222-3333-444444444444"
             }
           }
         },
-        "properties": {
-          "compute": {
-            "target": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/computes/testcompute",
-            "instanceCount": 0,
-            "isLocal": false,
-            "location": "string",
-            "instanceType": "string",
-            "properties": {
-              "additionalProp1": "string",
-              "additionalProp2": "string",
-              "additionalProp3": "string"
-            }
-          },
-          "errorThreshold": 0,
-          "retrySettings": {
-            "maxRetries": 0,
-            "timeout": "PT1M"
-          },
-          "partitionKeys": [
-            "string"
-          ],
-          "miniBatchSize": 0,
-          "loggingLevel": "Info",
-          "outputConfiguration": {
-            "outputAction": "SummaryOnly",
-            "appendRowFileName": "string"
-          },
-          "description": "string",
-          "properties": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          },
-          "model": {
-            "referenceType": "Id",
-            "assetId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/models/testmodel/versions/1"
-          },
-          "codeConfiguration": {
-            "codeId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/codes/testcode/versions/1",
-            "scoringScript": "score.py"
-          },
-          "environmentId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/environments/myenv",
-          "environmentVariables": {
-            "additionalProp1": "string",
-            "additionalProp2": "string",
-            "additionalProp3": "string"
-          }
-        },
-        "systemData": {
-          "createdAt": "2021-03-25T20:46:47.062Z",
-          "createdBy": "string",
-          "createdByType": "User",
-          "lastModifiedAt": "2021-03-25T20:46:47.062Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "User"
+        "sku": {
+          "name": "string",
+          "tier": "Free",
+          "size": "string",
+          "family": "string",
+          "capacity": 1
         }
       }
 security: []
 metadata:
-  description: Learn more about Machine Learning service - Creates/updates a batch inference deployment.
+  description: Learn more about Machine Learning service - Creates/updates a batch inference deployment (asynchronous).
 errorCodes: []
