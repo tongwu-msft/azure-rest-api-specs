@@ -1,3 +1,10 @@
+---
+title: "Service Fabric Resource Manager Table of Contents"
+description: "Learn about a the Service Fabric Resource Manager APIs and the articles and reference information that is available."
+ms.date: 05/25/2018
+ms.service: "service-fabric"
+---
+
 # [Service Fabric Resource Manager APIs](https://docs.microsoft.com/rest/api/servicefabric/sfrp-index)
 ## [Cluster](sfrp-index-cluster.md)
 ### [Get](sfrp-api-clusters_get.md)
