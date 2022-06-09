@@ -3,16 +3,15 @@ ms.assetid:
 title: Azure Consumption REST APIs
 description: Learn how the Azure Consumption APIs give you programmatic access to cost and usage data for your Azure resources.
 ms.service: cost-management-billing
-author: ms-premp
-ms.author: prprak
-ms.manager: srsrikum
-service_description: To be added..
+author: bandersmsft
+ms.author: banders
+ms.reviewer: adwise
 ---
 
 
 # Azure Consumption
 
-The Azure Consumption APIs give you programmatic access to cost and usage data for your Azure resources. These APIs currently only support Enterprise Enrollments and Web Direct  Subscriptions (with a few exceptions). The APIs are continually updated to support other types of Azure subscriptions.
+The Azure Consumption APIs give you programmatic access to cost and usage data for your Azure resources. The APIs currently only support Enterprise Enrollments, Web Direct subscriptions (with a few exceptions), and CSP Azure plan subscriptions. The APIs are continually updated to support other types of Azure subscriptions.
 
 Azure Consumption APIs provide access to:
 * Enterprise Customers Only
