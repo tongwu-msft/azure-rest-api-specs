@@ -1,6 +1,6 @@
 ---
 title: Azure App Service JSON examples
-description: Learn how to create or update an app by running the[Create Or Update API with a JSON example.
+description: Learn how to create or update an app by running the Create Or Update API with a JSON example.
 ms.service: azure
 ---
 # App Service JSON examples
