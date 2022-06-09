@@ -5,7 +5,7 @@ ms.date: 05/25/2018
 ms.service: "service-fabric"
 ---
 
-# [Service Fabric Resource Manager APIs](https://docs.microsoft.com/rest/api/servicefabric/sfrp-index)
+# [Service Fabric Resource Manager APIs](/rest/api/servicefabric/sfrp-index)
 ## [Cluster](sfrp-index-cluster.md)
 ### [Get](sfrp-api-clusters_get.md)
 ### [Create](sfrp-api-clusters_create.md)
