@@ -68,6 +68,7 @@ The following table describes required and optional request headers:
 |`x-ms-file-last-write-time`|Optional. Available for version 2019-07-07 and later. This header specifies the property for last write time, in UTC, to set on the destination file. You can use a value of `source` to copy the last write time from the source file to the destination file.|
 |`x-ms-file-copy-set-archive`|Optional. Available for version 2019-07-07 and later. This Boolean value specifies whether the `Archive` attribute should be set, irrespective of the `x-ms-file-attributes` header value.|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-KiB character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Blob Storage](/azure/storage/blobs/monitor-blob-storage).|
+| `x-ms-file-change-time: { <DateTime> ¦ source }` | Optional. Version 2021-06-08 and later. The UTC change time property for the file, formatted in the ISO 8601 format. A value of `source` can be used to copy the change time from the source file to the destination file. The default time stamp is the time of the request. |
 
 ### Request body
 None.
