@@ -1,5 +1,6 @@
 ---
 title: Azure Kubernetes Service (AKS) REST API reference
+description: API reference documentation for the operations available in the Azure Kubernetes Service (AKS) REST API, a RESTful web service for managing Azure Kubernetes Service (AKS) resources in Azure.
 author: mmacy
 ms.author: marsma
 ms.date: 06/11/2018

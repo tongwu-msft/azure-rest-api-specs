@@ -13,37 +13,39 @@ ms.author: pemari
 
 The `Create Queue` operation creates a queue in a storage account.  
   
-## Request  
- The `Create Queue` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
+## Request
+ You can construct the `Create Queue` request as shown here. We recommend that you use HTTPS. Replace *myaccount* with the name of your storage account.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`PUT`|`https://myaccount.queue.core.windows.net/myqueue`|HTTP/1.1|  
   
-### Emulated storage service URI  
- When making a request against the emulated storage service, specify the emulator hostname and Queue service port as `127.0.0.1:10001`, followed by the emulated storage account name:  
+### Emulated storage service request  
+ When you make a request against the emulated storage service, specify the emulator hostname and Azure Queue Storage port as `127.0.0.1:10001`, followed by the emulated storage account name:  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
-|`PUT`|`http://127.0.0.1:10001/devstoreaccount1/myqueue`|HTTP/1.1|  
+|`PUT`|`http://127.0.0.1:10001/devstoreaccount1/myqueue`|HTTP/1.1|
+
+For more information, see [Use the Azurite emulator for local Azure Storage development](/azure/storage/common/storage-use-azurite).
   
 ### URI parameters  
- The following additional parameters may be specified on the request URI.  
+ You can specify additional parameters on the request URI, as shown here.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Queue Service Operations](Setting-Timeouts-for-Queue-Service-Operations.md).|  
+|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Set time-outs for Queue service operations](Setting-Timeouts-for-Queue-Service-Operations.md).|  
   
-### Request Headers  
- The following table describes required and optional request headers.  
+### Request headers  
+ The required and optional request headers are described in the following table:  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
-|`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-meta-name:value`|Optional. A name-value pair to associate with the queue as metadata.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-meta-name:value`|Optional. A name-value pair to associate with the queue as metadata.<br /><br /> **Note**: As of version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Queue Storage](/azure/storage/queues/monitor-queue-storage).|  
   
 ### Request Body  
  None.  
@@ -51,22 +53,22 @@ The `Create Queue` operation creates a queue in a storage account.
 ## Response  
  The response includes an HTTP status code and a set of response headers.  
   
-### Status Code  
+### Status code  
  A successful operation returns status code 201 (Created).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+ For information about status codes, see [Status and error codes](Status-and-Error-Codes2.md).  
   
-### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+### Response headers  
+ The response for this operation includes the headers that are described in the following table. The response might also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
-|`ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
-|`x-ms-version`|Indicates the version of the Queue service used to execute the request. This header is returned for requests made against version 2009-09-19 and later.|  
-|`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
-|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
+|`ms-request-id`|Uniquely identifies the request that was made, and you can use it to troubleshoot the request. For more information, see [Troubleshoot API operations](Troubleshooting-API-Operations.md).|  
+|`x-ms-version`|Indicates the Azure Queue Storage version that's used to execute the request. This header is returned for requests made against version 2009-09-19 and later.|  
+|`Date`|A UTC date/time value that's generated by the service and that indicates the time when the response was initiated.|  
+|`x-ms-client-request-id`|Can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it's present in the request and the value contains no more than 1024 visible ASCII characters. If the `x-ms-client-request-id` header isn't present in the request, it won't be present in the response.|  
   
-### Sample Response  
+### Sample response  
   
 ```  
 Response Status:  
@@ -83,11 +85,11 @@ Server: Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0
  Only the account owner may call this operation.  
   
 ## Remarks  
- You can specify user-defined metadata as name-value pairs on the queue at the time that it is created.  
+ You can specify user-defined metadata as name-value pairs on the queue when you create it.  
   
- When a queue with the specified name already exists, the Queue service checks the metadata associated with the existing queue. If the existing metadata is identical to the metadata specified on the `Create Queue` request, status code 204 (No Content) is returned. If the existing metadata does not match the metadata provided with the `Create Queue` request, the operation fails and status code 409 (Conflict) is returned. Clients can take advantage of this behavior to avoid an additional call to check whether a named queue already exists.  
+ If a queue with the specified name already exists, Azure Queue Storage checks the metadata that's associated with the existing queue. If the existing metadata is identical to the metadata that's specified on the `Create Queue` request, status code 204 (No Content) is returned. If the existing metadata doesn't match the metadata provided with the `Create Queue` request, the operation fails and status code 409 (Conflict) is returned. Clients can take advantage of this behavior to avoid an additional call to check to see whether a named queue already exists.  
   
- For guidance about valid queue names, see [Naming Queues and Metadata](Naming-Queues-and-Metadata.md). If the specified queue name is not a valid name, the `Create Queue` operation returns status code 400 (Bad Request), along with additional error information, as shown in the following example.  
+ For guidance about valid queue names, see [Name queues and metadata](Naming-Queues-and-Metadata.md). If the specified queue name isn't a valid name, the `Create Queue` operation returns status code 400 (Bad Request), along with additional error information, as shown in the following example:  
   
 ```  
 HTTP/1.1 400 One of the request inputs is out of range.  
@@ -110,6 +112,6 @@ x-ms-version: 2011-08-18
 ```  
   
 ## See also  
- [Queue Service Error Codes](Queue-Service-Error-Codes.md)   
+ [Azure Queue error codes](Queue-Service-Error-Codes.md)   
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
- [Status and Error Codes](Status-and-Error-Codes2.md)
+ [Status and error codes](Status-and-Error-Codes2.md)

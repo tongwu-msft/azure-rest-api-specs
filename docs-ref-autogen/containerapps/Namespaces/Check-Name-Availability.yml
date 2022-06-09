@@ -1,0 +1,202 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerapps.namespaces.checknameavailability
+name: Check Name Availability
+service: Azure Container Apps
+groupName: Namespaces
+apiVersion: 2022-03-01
+summary: "Checks the resource name availability.  \nChecks if resource name is available."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/checkNameAvailability?api-version=2022-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: environmentName
+  in: path
+  isRequired: true
+  description: Name of the Managed Environment.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: CheckNameAvailabilityResponse
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: DefaultErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    description: The name of the resource for which availability needs to be checked.
+    types:
+    - uid: string
+  - name: type
+    in: body
+    description: The resource type.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CheckNameAvailabilityResponse
+  description: The check availability result.
+  kind: object
+  properties:
+  - name: nameAvailable
+    description: Indicates if the resource name is available.
+    types:
+    - uid: boolean
+  - name: reason
+    description: The reason why the given name is not available.
+    types:
+    - uid: CheckNameAvailabilityReason
+  - name: message
+    description: Detailed reason why the given name is available.
+    types:
+    - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: CheckNameAvailabilityRequest
+  description: The check availability request body.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource for which availability needs to be checked.
+    types:
+    - uid: string
+  - name: type
+    description: The resource type.
+    types:
+    - uid: string
+- name: CheckNameAvailabilityReason
+  description: The reason why the given name is not available.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AlreadyExists
+    types:
+    - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Details or the error
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  description: Details or the error
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+examples:
+- name: ContainerApps_CheckNameAvailability
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/checkNameAvailability?api-version=2022-03-01
+    body: >-
+      {
+        "name": "testcappname",
+        "type": "Microsoft.App/containerApps"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": true,
+        "reason": "None",
+        "message": ""
+      }
+- name: Certificates_CheckNameAvailability
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/checkNameAvailability?api-version=2022-03-01
+    body: >-
+      {
+        "name": "testcertificatename",
+        "type": "Microsoft.App/managedEnvironments/certificates"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": true,
+        "reason": "None",
+        "message": ""
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: "Learn more about Azure Container Apps service - Checks the resource name availability.  \nChecks if resource name is available."
+errorCodes: []

@@ -1,5 +1,6 @@
 ---
 title: "FilterTrackSelect"
+description: Learn how FilterTrackSelect is used by manifest filters (AssetFilters and global Filters), and how it contains a collection of FilterTrackPropertyConditions. 
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

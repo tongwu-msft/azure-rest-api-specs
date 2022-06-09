@@ -1,6 +1,7 @@
 ---
 ms.assetid: fb2b1bb5-ec2c-44fd-b486-8fc609197c30
 title: Azure Event Hubs REST API reference
+description: Learn how Azure Event Hubs is a scalable data ingress service that ingests millions of events per second so that you can process and analyze massive amounts of data.
 ms.service: event-hubs
 author: spelluru
 ms.author: spelluru

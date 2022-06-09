@@ -1,5 +1,6 @@
 ---
-title: "ApplicationResourceProperties"
+title: "Application Resource Properties"
+description: API reference documentation for the operations available in the ApplicationResourceProperties REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationResourceProperties
+# Application Resource Properties
 
 The application resource properties.
 

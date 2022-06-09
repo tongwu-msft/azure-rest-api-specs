@@ -1,4 +1,10 @@
-# [Azure Service Fabric Mesh Resource Manager APIs](https://docs.microsoft.com/rest/api/servicefabric/sfmeshrp-index)
+---
+title: "Sfmeshrp Table of Contents"
+description: This is the table of contents for sfmeshrp.
+ms.service: "service-fabric-mesh"
+---
+
+# [Azure Service Fabric Mesh Resource Manager APIs](sfmeshrp-index.md)
 ## [Applications](sfmeshrp-index-applications.md)
 ### [Create](sfmeshrp-api-application_create.md)
 ### [Get](sfmeshrp-api-application_get.md)

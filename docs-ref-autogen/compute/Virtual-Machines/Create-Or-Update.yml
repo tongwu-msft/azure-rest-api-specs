@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachines.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Virtual Machines
-apiVersion: 2021-11-01
+apiVersion: 2022-03-01
 summary: The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2021-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -273,6 +273,10 @@ definitions:
     description: The extensions protected settings that are passed by reference, and consumed from key vault
     types:
     - uid: object
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -286,10 +290,6 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Resource type
-    types:
-    - uid: string
-  - name: location
-    description: Resource location
     types:
     - uid: string
   - name: tags
@@ -413,7 +413,7 @@ definitions:
     types:
     - uid: boolean
   - name: requireGuestProvisionSignal
-    description: 'Specifies whether the guest provision signal is required to infer provision success of the virtual machine.  **Note: This property is for private testing only, and all customers must not set the property to false.**'
+    description: Optional property which must either be set to True or omitted.
     types:
     - uid: boolean
 - name: NetworkProfile
@@ -702,7 +702,7 @@ definitions:
     - uid: ApplicationProfile
   - name: properties.timeCreated
     isReadyOnly: true
-    description: 'Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2021-11-01.'
+    description: 'Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2022-03-01.'
     types:
     - uid: string
   - name: id
@@ -1627,7 +1627,7 @@ definitions:
     types:
     - uid: string
 - name: HyperVGenerationType
-  description: Specifies the HyperVGeneration Type
+  description: Specifies the HyperVGeneration Type associated with a resource
   kind: enum
   properties:
   - name: V1
@@ -1805,6 +1805,14 @@ definitions:
     description: Optional, Specifies the uri to an azure blob that will replace the default configuration for the package if provided
     types:
     - uid: string
+  - name: treatFailureAsDeploymentFailure
+    description: Optional, If true, any failure for any operation in the VmApplication will fail the deployment
+    types:
+    - uid: boolean
+  - name: enableAutomaticUpgrade
+    description: If set to true, when a new Gallery Application version is available in PIR/SIG, it will be automatically updated for the VM/VMSS
+    types:
+    - uid: boolean
 - name: VirtualMachinePriorityTypes
   description: 'Specifies the priority for the virtual machine. <br><br>Minimum api-version: 2019-03-01'
   kind: enum
@@ -1854,7 +1862,7 @@ definitions:
     types:
     - uid: string
 - name: OperatingSystemTypes
-  description: The operating system of the osDiskImage.
+  description: 'This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux**'
   kind: enum
   properties:
   - name: Windows
@@ -1888,7 +1896,7 @@ definitions:
     types:
     - uid: string
 - name: CachingTypes
-  description: Gets the caching type.
+  description: 'Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None** for Standard storage. **ReadOnly** for Premium storage.'
   kind: enum
   properties:
   - name: None
@@ -1998,6 +2006,10 @@ definitions:
     description: 'Specifies the mode of VM Guest patch assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine.<br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true. '
     types:
     - uid: WindowsPatchAssessmentMode
+  - name: automaticByPlatformSettings
+    description: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on Windows.
+    types:
+    - uid: WindowsVMGuestPatchAutomaticByPlatformSettings
 - name: WinRMConfiguration
   description: Describes Windows Remote Management configuration of the VM
   kind: object
@@ -2028,6 +2040,10 @@ definitions:
     description: Specifies the mode of VM Guest Patch Assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine. <br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
     types:
     - uid: LinuxPatchAssessmentMode
+  - name: automaticByPlatformSettings
+    description: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on Linux.
+    types:
+    - uid: LinuxVMGuestPatchAutomaticByPlatformSettings
 - name: VaultCertificate
   description: Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
   kind: object
@@ -2041,7 +2057,7 @@ definitions:
     types:
     - uid: string
 - name: DeleteOptions
-  description: Specify what happens to the network interface when the VM is deleted
+  description: Specify what happens to the public IP address when the VM is deleted
   kind: enum
   properties:
   - name: Delete
@@ -2337,6 +2353,9 @@ definitions:
   - name: StandardSSD_ZRS
     types:
     - uid: string
+  - name: PremiumV2_LRS
+    types:
+    - uid: string
 - name: DiskEncryptionSetParameters
   description: 'Describes the parameter of customer managed disk encryption set resource id that can be specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details.'
   kind: object
@@ -2404,6 +2423,14 @@ definitions:
   - name: AutomaticByPlatform
     types:
     - uid: string
+- name: WindowsVMGuestPatchAutomaticByPlatformSettings
+  description: Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Windows patch settings.
+  kind: object
+  properties:
+  - name: rebootSetting
+    description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+    types:
+    - uid: WindowsVMGuestPatchAutomaticByPlatformRebootSetting
 - name: WinRMListener
   description: Describes Protocol and thumbprint of Windows Remote Management listener
   kind: object
@@ -2448,6 +2475,14 @@ definitions:
   - name: AutomaticByPlatform
     types:
     - uid: string
+- name: LinuxVMGuestPatchAutomaticByPlatformSettings
+  description: Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Linux patch settings.
+  kind: object
+  properties:
+  - name: rebootSetting
+    description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+    types:
+    - uid: LinuxVMGuestPatchAutomaticByPlatformRebootSetting
 - name: VirtualMachinePublicIPAddressConfiguration
   description: Describes a virtual machines IP Configuration's PublicIPAddress configuration
   kind: object
@@ -2528,6 +2563,22 @@ definitions:
   - name: DiskWithVMGuestState
     types:
     - uid: string
+- name: WindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: IfRequired
+    types:
+    - uid: string
+  - name: Never
+    types:
+    - uid: string
+  - name: Always
+    types:
+    - uid: string
 - name: ProtocolTypes
   description: 'Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
   kind: enum
@@ -2536,6 +2587,22 @@ definitions:
     types:
     - uid: string
   - name: Https
+    types:
+    - uid: string
+- name: LinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: IfRequired
+    types:
+    - uid: string
+  - name: Never
+    types:
+    - uid: string
+  - name: Always
     types:
     - uid: string
 - name: PublicIPAddressSku
@@ -2603,7 +2670,7 @@ definitions:
 examples:
 - name: Create a vm with password authentication.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -2751,7 +2818,7 @@ examples:
       }
 - name: Create a vm with ssh authentication.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -2923,7 +2990,7 @@ examples:
       }
 - name: Create a vm with premium storage.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -3071,7 +3138,7 @@ examples:
       }
 - name: Create a vm in a Virtual Machine Scale Set with customer assigned platformFaultDomain.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -3231,7 +3298,7 @@ examples:
       }
 - name: Create a vm in an availability set.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -3388,7 +3455,7 @@ examples:
       }
 - name: Create a vm with Scheduled Events Profile
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -3572,7 +3639,7 @@ examples:
       }
 - name: Create a vm with boot diagnostics.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -3738,7 +3805,7 @@ examples:
       }
 - name: Create a vm with managed boot diagnostics.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -3901,7 +3968,7 @@ examples:
       }
 - name: Create a vm with empty data disks.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -4101,7 +4168,7 @@ examples:
       }
 - name: Create a vm with a marketplace image plan.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -4264,7 +4331,7 @@ examples:
       }
 - name: Create a vm from a custom image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -4403,7 +4470,7 @@ examples:
       }
 - name: Create a platform-image vm with unmanaged os and data disks.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -4611,7 +4678,7 @@ examples:
       }
 - name: Create a custom-image vm from an unmanaged generalized os image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -4751,7 +4818,7 @@ examples:
       }
 - name: Create a vm with ephemeral os disk.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -4923,7 +4990,7 @@ examples:
       }
 - name: Create a vm with DiskEncryptionSet resource id in the os disk and data disk.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -5147,7 +5214,7 @@ examples:
       }
 - name: Create a vm with ephemeral os disk provisioning in Resource disk using placement property.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -5322,7 +5389,7 @@ examples:
       }
 - name: Create a vm with ephemeral os disk provisioning in Cache disk using placement property.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -5497,7 +5564,7 @@ examples:
       }
 - name: Create a vm with Host Encryption using encryptionAtHost property.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -5669,7 +5736,7 @@ examples:
       }
 - name: Create a Windows vm with a patch setting patchMode of AutomaticByOS.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -5828,9 +5895,182 @@ examples:
         "name": "myVM",
         "location": "westus"
       }
+- name: Create a Windows vm with a patch setting patchMode of AutomaticByPlatform and AutomaticByPlatformSettings.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    body: >-
+      {
+        "location": "westus",
+        "properties": {
+          "hardwareProfile": {
+            "vmSize": "Standard_D1_v2"
+          },
+          "storageProfile": {
+            "imageReference": {
+              "sku": "2016-Datacenter",
+              "publisher": "MicrosoftWindowsServer",
+              "version": "latest",
+              "offer": "WindowsServer"
+            },
+            "osDisk": {
+              "caching": "ReadWrite",
+              "managedDisk": {
+                "storageAccountType": "Premium_LRS"
+              },
+              "name": "myVMosdisk",
+              "createOption": "FromImage"
+            }
+          },
+          "osProfile": {
+            "adminUsername": "{your-username}",
+            "computerName": "myVM",
+            "adminPassword": "{your-password}",
+            "windowsConfiguration": {
+              "provisionVMAgent": true,
+              "enableAutomaticUpdates": true,
+              "patchSettings": {
+                "patchMode": "AutomaticByPlatform",
+                "assessmentMode": "AutomaticByPlatform",
+                "automaticByPlatformSettings": {
+                  "rebootSetting": "Never"
+                }
+              }
+            }
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+                "properties": {
+                  "primary": true
+                }
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+        "type": "Microsoft.Compute/virtualMachines",
+        "properties": {
+          "osProfile": {
+            "adminUsername": "{your-username}",
+            "secrets": [],
+            "computerName": "myVM",
+            "windowsConfiguration": {
+              "provisionVMAgent": true,
+              "enableAutomaticUpdates": true,
+              "patchSettings": {
+                "patchMode": "AutomaticByPlatform",
+                "assessmentMode": "AutomaticByPlatform",
+                "automaticByPlatformSettings": {
+                  "rebootSetting": "Never"
+                }
+              }
+            }
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/nsgExistingNic",
+                "properties": {
+                  "primary": true
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "imageReference": {
+              "sku": "2016-Datacenter",
+              "publisher": "MicrosoftWindowsServer",
+              "version": "latest",
+              "offer": "WindowsServer"
+            },
+            "osDisk": {
+              "osType": "Windows",
+              "caching": "ReadWrite",
+              "createOption": "FromImage",
+              "name": "myVMosdisk",
+              "managedDisk": {
+                "storageAccountType": "Premium_LRS"
+              }
+            },
+            "dataDisks": []
+          },
+          "vmId": "a149cd25-409f-41af-8088-275f5486bc93",
+          "hardwareProfile": {
+            "vmSize": "Standard_DS1_v2"
+          },
+          "provisioningState": "Creating"
+        },
+        "name": "myVM",
+        "location": "westus"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+        "type": "Microsoft.Compute/virtualMachines",
+        "properties": {
+          "osProfile": {
+            "adminUsername": "{your-username}",
+            "secrets": [],
+            "computerName": "myVM",
+            "windowsConfiguration": {
+              "provisionVMAgent": true,
+              "enableAutomaticUpdates": true,
+              "patchSettings": {
+                "patchMode": "AutomaticByPlatform",
+                "assessmentMode": "AutomaticByPlatform",
+                "automaticByPlatformSettings": {
+                  "rebootSetting": "Never"
+                }
+              }
+            }
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/nsgExistingNic",
+                "properties": {
+                  "primary": true
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "imageReference": {
+              "sku": "2016-Datacenter",
+              "publisher": "MicrosoftWindowsServer",
+              "version": "latest",
+              "offer": "WindowsServer"
+            },
+            "osDisk": {
+              "osType": "Windows",
+              "caching": "ReadWrite",
+              "createOption": "FromImage",
+              "name": "myVMosdisk",
+              "managedDisk": {
+                "storageAccountType": "Premium_LRS"
+              }
+            },
+            "dataDisks": []
+          },
+          "vmId": "a149cd25-409f-41af-8088-275f5486bc93",
+          "hardwareProfile": {
+            "vmSize": "Standard_DS1_v2"
+          },
+          "provisioningState": "Creating"
+        },
+        "name": "myVM",
+        "location": "westus"
+      }
 - name: Create a Windows vm with patch settings patchMode and assessmentMode set to AutomaticByPlatform.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -5994,7 +6234,7 @@ examples:
       }
 - name: Create a Windows vm with a patch setting patchMode of Manual.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -6155,7 +6395,7 @@ examples:
       }
 - name: Create a Windows vm with a patch setting assessmentMode of ImageDefault.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -6316,7 +6556,7 @@ examples:
       }
 - name: Create a Windows vm with a patch setting patchMode of AutomaticByPlatform and enableHotpatching set to true.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -6480,7 +6720,7 @@ examples:
       }
 - name: Create a Linux vm with a patch settings patchMode and assessmentMode set to AutomaticByPlatform.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -6641,7 +6881,7 @@ examples:
       }
 - name: Create a Linux vm with a patch setting patchMode of ImageDefault.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -6797,9 +7037,179 @@ examples:
         "name": "myVM",
         "location": "westus"
       }
+- name: Create a Linux vm with a patch setting patchMode of AutomaticByPlatform and AutomaticByPlatformSettings.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    body: >-
+      {
+        "location": "westus",
+        "properties": {
+          "hardwareProfile": {
+            "vmSize": "Standard_D2s_v3"
+          },
+          "storageProfile": {
+            "imageReference": {
+              "sku": "16.04-LTS",
+              "publisher": "Canonical",
+              "version": "latest",
+              "offer": "UbuntuServer"
+            },
+            "osDisk": {
+              "caching": "ReadWrite",
+              "managedDisk": {
+                "storageAccountType": "Premium_LRS"
+              },
+              "name": "myVMosdisk",
+              "createOption": "FromImage"
+            }
+          },
+          "osProfile": {
+            "adminUsername": "{your-username}",
+            "computerName": "myVM",
+            "adminPassword": "{your-password}",
+            "linuxConfiguration": {
+              "provisionVMAgent": true,
+              "patchSettings": {
+                "patchMode": "AutomaticByPlatform",
+                "assessmentMode": "AutomaticByPlatform",
+                "automaticByPlatformSettings": {
+                  "rebootSetting": "Never"
+                }
+              }
+            }
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+                "properties": {
+                  "primary": true
+                }
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+        "type": "Microsoft.Compute/virtualMachines",
+        "properties": {
+          "osProfile": {
+            "adminUsername": "{your-username}",
+            "secrets": [],
+            "computerName": "myVM",
+            "linuxConfiguration": {
+              "provisionVMAgent": true,
+              "patchSettings": {
+                "patchMode": "AutomaticByPlatform",
+                "assessmentMode": "AutomaticByPlatform",
+                "automaticByPlatformSettings": {
+                  "rebootSetting": "Never"
+                }
+              }
+            }
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/nsgExistingNic",
+                "properties": {
+                  "primary": true
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "imageReference": {
+              "sku": "16.04-LTS",
+              "publisher": "Canonical",
+              "version": "latest",
+              "offer": "UbuntuServer"
+            },
+            "osDisk": {
+              "osType": "Linux",
+              "caching": "ReadWrite",
+              "createOption": "FromImage",
+              "name": "myVMosdisk",
+              "managedDisk": {
+                "storageAccountType": "Premium_LRS"
+              }
+            },
+            "dataDisks": []
+          },
+          "vmId": "a149cd25-409f-41af-8088-275f5486bc93",
+          "hardwareProfile": {
+            "vmSize": "Standard_D2s_v3"
+          },
+          "provisioningState": "Creating"
+        },
+        "name": "myVM",
+        "location": "westus"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+        "type": "Microsoft.Compute/virtualMachines",
+        "properties": {
+          "osProfile": {
+            "adminUsername": "{your-username}",
+            "secrets": [],
+            "computerName": "myVM",
+            "linuxConfiguration": {
+              "provisionVMAgent": true,
+              "patchSettings": {
+                "patchMode": "AutomaticByPlatform",
+                "assessmentMode": "AutomaticByPlatform",
+                "automaticByPlatformSettings": {
+                  "rebootSetting": "Never"
+                }
+              }
+            }
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/nsgExistingNic",
+                "properties": {
+                  "primary": true
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "imageReference": {
+              "sku": "16.04-LTS",
+              "publisher": "Canonical",
+              "version": "latest",
+              "offer": "UbuntuServer"
+            },
+            "osDisk": {
+              "osType": "Linux",
+              "caching": "ReadWrite",
+              "createOption": "FromImage",
+              "name": "myVMosdisk",
+              "managedDisk": {
+                "storageAccountType": "Premium_LRS"
+              }
+            },
+            "dataDisks": []
+          },
+          "vmId": "a149cd25-409f-41af-8088-275f5486bc93",
+          "hardwareProfile": {
+            "vmSize": "Standard_D2s_v3"
+          },
+          "provisioningState": "Creating"
+        },
+        "name": "myVM",
+        "location": "westus"
+      }
 - name: Create a Linux vm with a patch setting assessmentMode of ImageDefault.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -6957,7 +7367,7 @@ examples:
       }
 - name: Create a vm with an extensions time budget.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -7126,7 +7536,7 @@ examples:
       }
 - name: Create a VM with Uefi Settings of secureBoot and vTPM.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -7295,7 +7705,7 @@ examples:
       }
 - name: Create a vm from a generalized shared image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -7434,7 +7844,7 @@ examples:
       }
 - name: Create a vm from a specialized shared image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -7552,7 +7962,7 @@ examples:
       }
 - name: Create a VM with network interface configuration
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -7721,7 +8131,7 @@ examples:
       }
 - name: Create a VM with UserData
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -7888,7 +8298,7 @@ examples:
       }
 - name: Create a vm with Application Profile.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -7918,7 +8328,9 @@ examples:
                 "tags": "myTag1",
                 "order": 1,
                 "packageReferenceId": "/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdb/resourceGroups/myresourceGroupName2/providers/Microsoft.Compute/galleries/myGallery1/applications/MyApplication1/versions/1.0",
-                "configurationReference": "https://mystorageaccount.blob.core.windows.net/configurations/settings.config"
+                "configurationReference": "https://mystorageaccount.blob.core.windows.net/configurations/settings.config",
+                "treatFailureAsDeploymentFailure": false,
+                "enableAutomaticUpgrade": false
               },
               {
                 "packageReferenceId": "/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdg/resourceGroups/myresourceGroupName3/providers/Microsoft.Compute/galleries/myGallery2/applications/MyApplication2/versions/1.1"
@@ -8089,7 +8501,7 @@ examples:
       }
 - name: Create a VM with HibernationEnabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-03-01
     body: >-
       {
         "location": "eastus2euap",
@@ -8264,7 +8676,7 @@ examples:
       }
 - name: Create a VM with VM Size Properties
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -8443,7 +8855,7 @@ examples:
       }
 - name: Create or update a VM with capacity reservation
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -8621,7 +9033,7 @@ examples:
       }
 - name: Create a VM from a shared gallery image
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -8760,7 +9172,7 @@ examples:
       }
 - name: Create a VM from a community gallery image
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -8899,7 +9311,7 @@ examples:
       }
 - name: Create a VM with securityType ConfidentialVM with Platform Managed Keys
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -9075,7 +9487,7 @@ examples:
       }
 - name: Create a VM with securityType ConfidentialVM with Customer Managed Keys
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
