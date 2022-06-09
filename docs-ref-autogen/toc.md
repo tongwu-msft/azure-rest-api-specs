@@ -19743,12 +19743,6 @@
 ##### [Resume](sql/2020-08-01-preview/Databases/Resume.yml)
 ##### [Update](sql/2020-08-01-preview/Databases/Update.yml)
 ##### [Upgrade Data Warehouse](sql/2020-08-01-preview/Databases/Upgrade-Data-Warehouse.yml)
-#### Deleted Servers
-##### [Overview](sql/2020-08-01-preview/Deleted-Servers.yml)
-##### [Get](sql/2020-08-01-preview/Deleted-Servers/Get.yml)
-##### [List](sql/2020-08-01-preview/Deleted-Servers/List.yml)
-##### [List By Location](sql/2020-08-01-preview/Deleted-Servers/List-By-Location.yml)
-##### [Recover](sql/2020-08-01-preview/Deleted-Servers/Recover.yml)
 #### Elastic Pool Operations
 ##### [Overview](sql/2020-08-01-preview/Elastic-Pool-Operations.yml)
 ##### [Cancel](sql/2020-08-01-preview/Elastic-Pool-Operations/Cancel.yml)
@@ -20347,12 +20341,6 @@
 ##### [Resume](sql/2020-11-01-preview/Databases/Resume.yml)
 ##### [Update](sql/2020-11-01-preview/Databases/Update.yml)
 ##### [Upgrade Data Warehouse](sql/2020-11-01-preview/Databases/Upgrade-Data-Warehouse.yml)
-#### Deleted Servers
-##### [Overview](sql/2020-11-01-preview/Deleted-Servers.yml)
-##### [Get](sql/2020-11-01-preview/Deleted-Servers/Get.yml)
-##### [List](sql/2020-11-01-preview/Deleted-Servers/List.yml)
-##### [List By Location](sql/2020-11-01-preview/Deleted-Servers/List-By-Location.yml)
-##### [Recover](sql/2020-11-01-preview/Deleted-Servers/Recover.yml)
 #### Elastic Pool Operations
 ##### [Overview](sql/2020-11-01-preview/Elastic-Pool-Operations.yml)
 ##### [Cancel](sql/2020-11-01-preview/Elastic-Pool-Operations/Cancel.yml)
@@ -20954,12 +20942,6 @@
 ##### [Resume](sql/2021-02-01-preview/Databases/Resume.yml)
 ##### [Update](sql/2021-02-01-preview/Databases/Update.yml)
 ##### [Upgrade Data Warehouse](sql/2021-02-01-preview/Databases/Upgrade-Data-Warehouse.yml)
-#### Deleted Servers
-##### [Overview](sql/2021-02-01-preview/Deleted-Servers.yml)
-##### [Get](sql/2021-02-01-preview/Deleted-Servers/Get.yml)
-##### [List](sql/2021-02-01-preview/Deleted-Servers/List.yml)
-##### [List By Location](sql/2021-02-01-preview/Deleted-Servers/List-By-Location.yml)
-##### [Recover](sql/2021-02-01-preview/Deleted-Servers/Recover.yml)
 #### Elastic Pool Operations
 ##### [Overview](sql/2021-02-01-preview/Elastic-Pool-Operations.yml)
 ##### [Cancel](sql/2021-02-01-preview/Elastic-Pool-Operations/Cancel.yml)
@@ -21578,12 +21560,6 @@
 ##### [Resume](sql/2021-05-01-preview/Databases/Resume.yml)
 ##### [Update](sql/2021-05-01-preview/Databases/Update.yml)
 ##### [Upgrade Data Warehouse](sql/2021-05-01-preview/Databases/Upgrade-Data-Warehouse.yml)
-#### Deleted Servers
-##### [Overview](sql/2021-05-01-preview/Deleted-Servers.yml)
-##### [Get](sql/2021-05-01-preview/Deleted-Servers/Get.yml)
-##### [List](sql/2021-05-01-preview/Deleted-Servers/List.yml)
-##### [List By Location](sql/2021-05-01-preview/Deleted-Servers/List-By-Location.yml)
-##### [Recover](sql/2021-05-01-preview/Deleted-Servers/Recover.yml)
 #### Elastic Pool Operations
 ##### [Overview](sql/2021-05-01-preview/Elastic-Pool-Operations.yml)
 ##### [Cancel](sql/2021-05-01-preview/Elastic-Pool-Operations/Cancel.yml)
@@ -22203,12 +22179,6 @@
 ##### [Resume](sql/2021-08-01-preview/Databases/Resume.yml)
 ##### [Update](sql/2021-08-01-preview/Databases/Update.yml)
 ##### [Upgrade Data Warehouse](sql/2021-08-01-preview/Databases/Upgrade-Data-Warehouse.yml)
-#### Deleted Servers
-##### [Overview](sql/2021-08-01-preview/Deleted-Servers.yml)
-##### [Get](sql/2021-08-01-preview/Deleted-Servers/Get.yml)
-##### [List](sql/2021-08-01-preview/Deleted-Servers/List.yml)
-##### [List By Location](sql/2021-08-01-preview/Deleted-Servers/List-By-Location.yml)
-##### [Recover](sql/2021-08-01-preview/Deleted-Servers/Recover.yml)
 #### Distributed Availability Groups
 ##### [Overview](sql/2021-08-01-preview/Distributed-Availability-Groups.yml)
 ##### [Create Or Update](sql/2021-08-01-preview/Distributed-Availability-Groups/Create-Or-Update.yml)
@@ -22860,12 +22830,6 @@
 ##### [Resume](sql/2021-11-01-preview/Databases/Resume.yml)
 ##### [Update](sql/2021-11-01-preview/Databases/Update.yml)
 ##### [Upgrade Data Warehouse](sql/2021-11-01-preview/Databases/Upgrade-Data-Warehouse.yml)
-#### Deleted Servers
-##### [Overview](sql/2021-11-01-preview/Deleted-Servers.yml)
-##### [Get](sql/2021-11-01-preview/Deleted-Servers/Get.yml)
-##### [List](sql/2021-11-01-preview/Deleted-Servers/List.yml)
-##### [List By Location](sql/2021-11-01-preview/Deleted-Servers/List-By-Location.yml)
-##### [Recover](sql/2021-11-01-preview/Deleted-Servers/Recover.yml)
 #### Distributed Availability Groups
 ##### [Overview](sql/2021-11-01-preview/Distributed-Availability-Groups.yml)
 ##### [Create Or Update](sql/2021-11-01-preview/Distributed-Availability-Groups/Create-Or-Update.yml)
