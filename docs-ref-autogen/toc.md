@@ -6688,9 +6688,11 @@
 ### Community Gallery Image Versions
 #### [Overview](compute/Community-Gallery-Image-Versions.yml)
 #### [Get](compute/Community-Gallery-Image-Versions/Get.yml)
+#### [List](compute/Community-Gallery-Image-Versions/List.yml)
 ### Community Gallery Images
 #### [Overview](compute/Community-Gallery-Images.yml)
 #### [Get](compute/Community-Gallery-Images/Get.yml)
+#### [List](compute/Community-Gallery-Images/List.yml)
 ### Dedicated Host Groups
 #### [Overview](compute/Dedicated-Host-Groups.yml)
 #### [Create Or Update](compute/Dedicated-Host-Groups/Create-Or-Update.yml)

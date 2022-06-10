@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.compute.sharedgalleryimageversions.list
+uid: management.azure.com.compute.communitygalleryimageversions.list
 name: List
 service: Compute
-groupName: Shared Gallery Image Versions
+groupName: Community Gallery Image Versions
 apiVersion: 2022-01-03
-summary: List shared gallery image versions by subscription id or tenant id.
+summary: List community gallery image versions inside an image.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions?api-version=2022-01-03
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions?api-version=2022-01-03&sharedTo=tenant
-  isOptional: true
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}/versions?api-version=2022-01-03
 uriParameters:
 - name: subscriptionId
   in: path
@@ -26,16 +24,16 @@ uriParameters:
   description: Resource location.
   types:
   - uid: string
-- name: galleryUniqueName
+- name: publicGalleryName
   in: path
   isRequired: true
-  description: The unique name of the Shared Gallery.
+  description: The public name of the community gallery.
   types:
   - uid: string
 - name: galleryImageName
   in: path
   isRequired: true
-  description: The name of the Shared Gallery Image Definition from which the Image Versions are to be listed.
+  description: The name of the community gallery image definition.
   types:
   - uid: string
 - name: api-version
@@ -44,40 +42,28 @@ uriParameters:
   description: Client Api Version.
   types:
   - uid: string
-- name: sharedTo
-  in: query
-  description: The query parameter to decide what shared galleries to fetch when doing listing operations.
-  types:
-  - uid: SharedToValues
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SharedGalleryImageVersionList
+  - uid: CommunityGalleryImageVersionList
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: SharedToValues
-  description: The query parameter to decide what shared galleries to fetch when doing listing operations.
-  kind: enum
-  properties:
-  - name: tenant
-    types:
-    - uid: string
-- name: SharedGalleryImageVersionList
-  description: The List Shared Gallery Image versions operation response.
+- name: CommunityGalleryImageVersionList
+  description: The List Community Gallery Image versions operation response.
   kind: object
   properties:
   - name: value
-    description: A list of shared gallery images versions.
+    description: A list of community gallery image versions.
     types:
-    - uid: SharedGalleryImageVersion
+    - uid: CommunityGalleryImageVersion
       isArray: true
   - name: nextLink
-    description: The uri to fetch the next page of shared gallery image versions. Call ListNext() with this to fetch the next page of shared gallery image versions.
+    description: The uri to fetch the next page of community gallery image versions. Call ListNext() with this to fetch the next page of community gallery image versions.
     types:
     - uid: string
 - name: CloudError
@@ -88,7 +74,7 @@ definitions:
     description: Api error.
     types:
     - uid: ApiError
-- name: SharedGalleryImageVersion
+- name: CommunityGalleryImageVersion
   description: Specifies information about the gallery image version that you want to create or update.
   kind: object
   properties:
@@ -108,10 +94,6 @@ definitions:
     description: Describes the storage profile of the image version.
     types:
     - uid: SharedGalleryImageVersionStorageProfile
-  - name: identifier.uniqueId
-    description: The unique id of this shared gallery.
-    types:
-    - uid: string
   - name: name
     isReadyOnly: true
     description: Resource name
@@ -120,6 +102,15 @@ definitions:
   - name: location
     isReadyOnly: true
     description: Resource location
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: identifier.uniqueId
+    description: The unique id of this community gallery.
     types:
     - uid: string
 - name: ApiError
@@ -232,9 +223,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List shared gallery image versions.
+- name: List community gallery image versions.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/myLocation/sharedGalleries/galleryUniqueName/images/myGalleryImageName/versions?api-version=2022-01-03&sharedTo=tenant
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/myLocation/communityGalleries/publicGalleryName/images/myGalleryImageName/versions?api-version=2022-01-03
   responses:
   - statusCode: "200"
     body: >-
@@ -255,11 +246,11 @@ examples:
             "location": "myLocation",
             "name": "myGalleryImageVersionName",
             "identifier": {
-              "uniqueId": "/SharedGalleries/galleryUniqueName/Images/myGalleryImageName/Versions/myGalleryImageVersionName"
+              "uniqueId": "/CommunityGalleries/publicGalleryName/Images/myGalleryImageName/Versions/myGalleryImageVersionName"
             }
           }
         ],
-        "nextLink": "http://svchost:99/subscriptions/{subscription-Id}/providers/Microsoft.Compute/sharedGalleries/galleryUniqueName/images/myGalleryImageName/versions?$skiptoken={token}/Subscriptions/{subscription-Id}/galleries/galleryUniqueName/images/myGalleryImageName/versions/myGalleryImageVersionName"
+        "nextLink": "http://svchost:99/subscriptions/{subscription-Id}/providers/Microsoft.Compute/communityGalleries/publicGalleryName/images/myGalleryImageName/versions?$skiptoken={token}/communityGalleries/publicGalleryName/images/myGalleryImageName/versions/myGalleryImageVersionName"
       }
 security:
 - name: azure_auth
@@ -271,5 +262,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - List shared gallery image versions by subscription id or tenant id.
+  description: Learn more about Compute service - List community gallery image versions inside an image.
 errorCodes: []

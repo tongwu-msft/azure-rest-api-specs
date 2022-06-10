@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.compute.communitygalleryimages.get
-name: Get
+uid: management.azure.com.compute.communitygalleryimages.list
+name: List
 service: Compute
 groupName: Community Gallery Images
 apiVersion: 2022-01-03
-summary: Get a community gallery image.
+summary: List community gallery images inside a gallery.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}?api-version=2022-01-03
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images?api-version=2022-01-03
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,12 +30,6 @@ uriParameters:
   description: The public name of the community gallery.
   types:
   - uid: string
-- name: galleryImageName
-  in: path
-  isRequired: true
-  description: The name of the community gallery image definition.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -46,13 +40,34 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: CommunityGalleryImage
+  - uid: CommunityGalleryImageList
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
+- name: CommunityGalleryImageList
+  description: The List Community Gallery Images operation response.
+  kind: object
+  properties:
+  - name: value
+    description: A list of community gallery images.
+    types:
+    - uid: CommunityGalleryImage
+      isArray: true
+  - name: nextLink
+    description: The uri to fetch the next page of community gallery images. Call ListNext() with this to fetch the next page of community gallery images.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: CommunityGalleryImage
   description: Specifies information about the gallery image definition that you want to create or update.
   kind: object
@@ -125,14 +140,31 @@ definitions:
     description: The unique id of this community gallery.
     types:
     - uid: string
-- name: CloudError
-  description: An error response from the Compute service.
+- name: ApiError
+  description: Api error.
   kind: object
   properties:
-  - name: error
-    description: Api error.
+  - name: details
+    description: The Api error details
     types:
-    - uid: ApiError
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
 - name: OperatingSystemTypes
   description: 'This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux**'
   kind: enum
@@ -238,43 +270,6 @@ definitions:
   - name: Arm64
     types:
     - uid: string
-- name: ApiError
-  description: Api error.
-  kind: object
-  properties:
-  - name: details
-    description: The Api error details
-    types:
-    - uid: ApiErrorBase
-      isArray: true
-  - name: innererror
-    description: The Api inner error
-    types:
-    - uid: InnerError
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-- name: ResourceRange
-  description: Describes the resource range.
-  kind: object
-  properties:
-  - name: min
-    description: The minimum number of the resource.
-    types:
-    - uid: integer
-  - name: max
-    description: The maximum number of the resource.
-    types:
-    - uid: integer
 - name: ApiErrorBase
   description: Api error base.
   kind: object
@@ -303,32 +298,46 @@ definitions:
     description: The internal error message or exception dump.
     types:
     - uid: string
+- name: ResourceRange
+  description: Describes the resource range.
+  kind: object
+  properties:
+  - name: min
+    description: The minimum number of the resource.
+    types:
+    - uid: integer
+  - name: max
+    description: The maximum number of the resource.
+    types:
+    - uid: integer
 examples:
-- name: Get a community gallery image.
+- name: List community gallery images.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/myLocation/communityGalleries/publicGalleryName/images/myGalleryImageName?api-version=2022-01-03
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/myLocation/communityGalleries/publicGalleryName/images?api-version=2022-01-03
   responses:
   - statusCode: "200"
     body: >-
       {
-        "properties": {
-          "osType": "Windows",
-          "osState": "Generalized",
-          "hyperVGeneration": "V1",
-          "identifier": {
-            "publisher": "myPublisherName",
-            "offer": "myOfferName",
-            "sku": "mySkuName"
-          },
-          "privacyStatementUri": "https://www.microsoft.com/en-us/",
-          "eula": "https://www.microsoft.com/en-us/"
-        },
-        "location": "myLocation",
-        "name": "myGalleryImageName",
-        "type": "Microsoft.Compute/Locations/CommunityGalleryImage",
-        "identifier": {
-          "uniqueId": "/CommunityGalleries/publicGalleryName/Images/myGalleryImageName"
-        }
+        "value": [
+          {
+            "properties": {
+              "osType": "Windows",
+              "osState": "Generalized",
+              "hyperVGeneration": "V1",
+              "identifier": {
+                "publisher": "myPublisherName",
+                "offer": "myOfferName",
+                "sku": "mySkuName"
+              }
+            },
+            "location": "myLocation",
+            "name": "myGalleryImageName",
+            "identifier": {
+              "uniqueId": "/CommunityGalleries/publicGalleryName/Images/myGalleryImageName"
+            }
+          }
+        ],
+        "nextLink": "http://svchost:99/subscriptions/{subscription-Id}/providers/Microsoft.Compute/communityGalleries/publicGalleryName/images?$skiptoken={token}/communityGalleries/publicGalleryName/images/myGalleryImageName"
       }
 security:
 - name: azure_auth
@@ -340,5 +349,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - Get a community gallery image.
+  description: Learn more about Compute service - List community gallery images inside a gallery.
 errorCodes: []
