@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.stackhci.clusters.delete
-name: Delete
+uid: management.azure.com.stackhci.arcsettings.createidentity
+name: Create Identity
 service: Azure Stack HCI
-groupName: Clusters
+groupName: Arc Settings
 apiVersion: 2022-05-01
-summary: Delete an HCI cluster.
+summary: Create Aad identity for arc settings.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}?api-version=2022-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/createArcIdentity?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,6 +30,12 @@ uriParameters:
   description: The name of the cluster.
   types:
   - uid: string
+- name: arcSettingName
+  in: path
+  isRequired: true
+  description: The name of the proxy resource holding details of HCI ArcSetting information.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -39,16 +45,36 @@ uriParameters:
 responses:
 - name: 200 OK
   description: OK
+  types:
+  - uid: ArcIdentityResponse
 - name: 202 Accepted
   description: Accepted
-- name: 204 No Content
-  description: No content
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: ArcIdentityResponse
+  description: ArcIdentity details.
+  kind: object
+  properties:
+  - name: properties.arcApplicationClientId
+    description: ''
+    types:
+    - uid: string
+  - name: properties.arcApplicationTenantId
+    description: ''
+    types:
+    - uid: string
+  - name: properties.arcServicePrincipalObjectId
+    description: ''
+    types:
+    - uid: string
+  - name: properties.arcApplicationObjectId
+    description: ''
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -103,13 +129,21 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Delete cluster
+- name: Create Arc Identity
   request:
-    uri: DELETE https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-05-01
+    uri: POST https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster/arcSettings/default/createArcIdentity?api-version=2022-05-01
   responses:
   - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "arcApplicationClientId": "7b93bf67-60ac-4909-a987-ac438e69f9ba",
+          "arcApplicationTenantId": "bdb2c88c-9cfd-4e19-927d-51e875f6912b",
+          "arcApplicationObjectId": "400bd05f-395f-45a6-ba75-72601df80107",
+          "arcServicePrincipalObjectId": "00cc4014-482e-4de9-9932-83415cc75f45"
+        }
+      }
   - statusCode: "202"
-  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2
@@ -120,5 +154,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Stack HCI service - Delete an HCI cluster.
+  description: Learn more about Azure Stack HCI service - Create Aad identity for arc settings.
 errorCodes: []

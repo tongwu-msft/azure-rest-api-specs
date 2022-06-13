@@ -4137,14 +4137,32 @@
 ### [List](azurestack/Volumes/List.yml)
 # Azure Stack HCI
 ## [Overview](../docs-ref-conceptual/stackhci/index.md)
+## Arc Settings
+### [Overview](stackhci/Arc-Settings.yml)
+### [Create](stackhci/Arc-Settings/Create.yml)
+### [Create Identity](stackhci/Arc-Settings/Create-Identity.yml)
+### [Delete](stackhci/Arc-Settings/Delete.yml)
+### [Generate Password](stackhci/Arc-Settings/Generate-Password.yml)
+### [Get](stackhci/Arc-Settings/Get.yml)
+### [List By Cluster](stackhci/Arc-Settings/List-By-Cluster.yml)
+### [Update](stackhci/Arc-Settings/Update.yml)
 ## Clusters
 ### [Overview](stackhci/Clusters.yml)
 ### [Create](stackhci/Clusters/Create.yml)
+### [Create Identity](stackhci/Clusters/Create-Identity.yml)
 ### [Delete](stackhci/Clusters/Delete.yml)
 ### [Get](stackhci/Clusters/Get.yml)
 ### [List By Resource Group](stackhci/Clusters/List-By-Resource-Group.yml)
 ### [List By Subscription](stackhci/Clusters/List-By-Subscription.yml)
 ### [Update](stackhci/Clusters/Update.yml)
+### [Upload Certificate](stackhci/Clusters/Upload-Certificate.yml)
+## Extensions
+### [Overview](stackhci/Extensions.yml)
+### [Create](stackhci/Extensions/Create.yml)
+### [Delete](stackhci/Extensions/Delete.yml)
+### [Get](stackhci/Extensions/Get.yml)
+### [List By Arc Setting](stackhci/Extensions/List-By-Arc-Setting.yml)
+### [Update](stackhci/Extensions/Update.yml)
 ## Operations
 ### [Overview](stackhci/Operations.yml)
 ### [List](stackhci/Operations/List.yml)
