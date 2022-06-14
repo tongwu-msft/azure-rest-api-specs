@@ -22,6 +22,8 @@ GET https://[service name].search.windows.net/indexes/[index name]/docs?[query p
   api-key: [admin or query key]  
 ```  
 
+If you are using POST, add the "search" action as a URI parameter.
+
 ```http
 POST https://[service name].search.windows.net/indexes/[index name]/docs/search?api-version=[api-version]  
   Content-Type: application/json  

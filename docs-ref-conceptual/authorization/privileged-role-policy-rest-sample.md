@@ -65,7 +65,7 @@ To list role management policies, you can use [Role Management Policies - List F
 1. Use the following request:
 
     ```http
-    PATCH https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleManagementPolicies/{roleManagementPolicyId}?api-version=2020-10-01-preview
+    PATCH https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleManagementPolicies/{roleManagementPolicyId}?api-version=2020-10-01
     ```
 
     ```json

@@ -3,14 +3,14 @@ uid: management.azure.com.healthcareapis.operationresults.get
 name: Get
 service: Healthcare Apis
 groupName: Operation Results
-apiVersion: 2019-09-16
+apiVersion: 2021-11-01
 summary: Get the operation result for a long running operation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.HealthcareApis/locations/{locationName}/operationresults/{operationResultId}?api-version=2019-09-16
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.HealthcareApis/locations/{locationName}/operationresults/{operationResultId}?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,12 +41,6 @@ responses:
   description: The body contains all of the properties of the operation result.
   types:
   - uid: OperationResultsDescription
-- name: 202 Accepted
-  description: Accepted - Get request accepted; the operation will complete asynchronously.
-- name: 404 Not Found
-  description: No operation result was found matching operationResultId.
-  types:
-  - uid: ErrorDetails
 - name: Other Status Codes
   description: Default error response
   types:
@@ -77,16 +71,21 @@ definitions:
     description: The time that the operation was started.
     types:
     - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: The time that the operation finished.
+    types:
+    - uid: string
   - name: properties
     description: Additional properties of the operation result.
     types:
-    - {}
+    - uid: object
 - name: ErrorDetails
   description: Error details.
   kind: object
   properties:
   - name: error
-    description: Object containing error details.
+    description: Error details
     types:
     - uid: ErrorDetailsInternal
 - name: OperationResultStatus
@@ -130,7 +129,7 @@ definitions:
 examples:
 - name: Get operation result
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.HealthcareApis/locations/westus/operationresults/exampleid?api-version=2019-09-16
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.HealthcareApis/locations/westus/operationresults/exampleid?api-version=2021-11-01
   responses:
   - statusCode: "200"
     body: >-
@@ -139,16 +138,8 @@ examples:
         "name": "servicename",
         "status": "Requested",
         "startTime": "2019-01-21T06:03:30.2716301Z",
+        "endTime": "2019-01-21T06:04:12.3413202Z",
         "properties": {}
-      }
-  - statusCode: "202"
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "OperationResultNotFound",
-          "message": "The operation result was not found."
-        }
       }
 security:
 - name: azure_auth

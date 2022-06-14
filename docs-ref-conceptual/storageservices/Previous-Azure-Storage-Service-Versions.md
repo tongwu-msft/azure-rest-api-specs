@@ -4,7 +4,7 @@ description: Information about previous versions of the Azure Storage service.
 author: seanmcc-msft
 
 ms.author: seanmcc
-ms.date: 12/16/2021
+ms.date: 05/04/2022
 ms.service: storage
 ms.topic: reference
 ---
@@ -13,9 +13,11 @@ ms.topic: reference
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
 ## Available Versions  
-The current version of the Azure storage services is 2021-04-10, and using that version is recommended where possible. For information about the latest version, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).
+The current version of the Azure storage services is 2021-08-06, and using that version is recommended where possible. For information about the latest version, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).
   
  Additional supported versions include:
+
+-   [Version 2021-06-08](version-2021-06-08.md)
 
 -   [Version 2021-04-10](version-2021-04-10.md)
 

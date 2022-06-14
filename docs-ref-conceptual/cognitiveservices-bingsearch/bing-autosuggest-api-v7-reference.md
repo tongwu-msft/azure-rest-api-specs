@@ -1,16 +1,15 @@
 ---
 title: Bing Autosuggest API v7 Reference | Microsoft Docs
-description: Describes the programming elements of the Bing Autosuggest API.
+description: Describes the v7 iteration of Autosuggest API and provides technical details and additional programming elements for Autosuggest API.
 services: cognitive-services
 author: swhite-msft
 manager: ehansen
-
 ms.assetid: 08E5011C-BF3C-46F7-906F-6930E0026EFC
 ms.service: cognitive-services
 ms.subservice: bing-autosuggest
 ms.topic: reference
 ms.date: 04/15/2017
-ms.author: scottwhi
+ms.author: stefhan
 ---
 
 # Autosuggest API v7 reference
@@ -24,7 +23,7 @@ The Autosuggest API lets you send a partial search query term to Bing and get ba
 
 Typically, you use this API to support a richer search box experience. For example, as the user enters each character of their search term, you'd call this API and populate the search box's drop-down list with the suggested query strings.  
   
-This section provides technical details about the query parameters and headers that the request may include, and the JSON response that contains the suggested queries. For examples that show how to make requests, see [Getting suggested search terms](https://docs.microsoft.com/azure/cognitive-services/bing-autosuggest/get-suggested-search-terms).  
+This section provides technical details about the query parameters and headers that the request may include, and the JSON response that contains the suggested queries. For examples that show how to make requests, see [Getting suggested search terms](/azure/cognitive-services/bing-autosuggest/get-suggested-search-terms).  
   
 For information about the headers that you should include in the request, see [Request Headers](#headers).  
   
@@ -32,7 +31,7 @@ For information about the query parameters that you should include in the reques
   
 For information about the JSON objects that the response may include, see [Response Objects](#response-objects). 
 
-For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-autosuggest/useanddisplayrequirements).
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](/azure/cognitive-services/bing-autosuggest/useanddisplayrequirements).
 
 > [!NOTE]
 > Because URL formats and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters except where noted.
@@ -80,7 +79,7 @@ The following are the query parameters that the request may include. The Require
 |<a name="cc" />cc|A 2-character country code of the country where the results come from. For a list of possible values, see [Market Codes](#market-codes).<br /><br /> If you set this parameter, you must also specify the [Accept-Language](#acceptlanguage) header. Bing uses the first supported language it finds in the specified languages and combines it with the country code to determine the market to return results for. If the languages list does not include a supported language, Bing finds the closest language and market that supports the request. Or, Bing may use an aggregated or default market for the results.<br /><br /> Use this query parameter and the `Accept-Language` header only if you specify multiple languages. Otherwise, you should use the `mkt` and `setLang` query parameters.<br /><br /> This parameter and the [mkt](#mkt) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
 |<a name="mkt" />mkt|The market where the results come from. Typically, `mkt` is the country where the user is making the request from. However, it could be a different country if the user is not located in a country where Bing delivers results. The market must be in the form \<language code\>-\<country code\>. For example, en-US. The string is case insensitive. For a list of possible market values, see [Market Codes](#market-codes).<br /><br /> **NOTE:** If known, you are encouraged to always specify the market. Specifying the market helps Bing route the request and return an appropriate and optimal response. If you specify a market that is not listed in [Market Codes](#market-codes), Bing uses a best fit market code based on an internal mapping that is subject to change.<br /><br /> This parameter and the [cc](#cc) query parameter are mutually exclusive&mdash;do not specify both.|String|No|  
 |<a name="query" />q|The user's search query string.<br /><br /> The query string must not be empty. If empty or not specified, the list of suggestions in the response is empty.<br /><br /> The API does not support the [Bing Advanced Operators](https://help.bing.microsoft.com/#apex/18/en-US/10001/-1). If the query string includes Bing operators, the operators are treated as part of the query string, not as an operator.|String|No|  
-|<a name="setlang" />setLang|The language to use for user interface strings. You may specify the language using either a 2-letter or 4-letter code. Using 4-letter codes is preferred.<br /><br/> For a list of supported language codes, see [Bing supported languages](#bing-supported-languages).<br /><br/> Bing loads the localized strings if `setlang` contains a valid 2-letter neutral culture code (**fr**) or a valid 4-letter specific culture code (**fr-ca**). For example, for **fr-ca**, Bing loads the **fr** neutral culture code strings.<br /><br/> If `setlang` is not valid (for example, **zh**) or Bing doesn't support the language (for example, **af**, **af-na**), Bing defaults to **en** (English).<br /><br/> To specify the 2-letter code, set this parameter to an ISO 639-1 language code.<br /><br/> To specify the 4-letter code, use the form <language>-<country/region> where <language> is an ISO 639-1 language code (neutral culture) and <country/region> is an ISO 3166 country/region (specific culture) code. For example, use **en-US** for United States English.<br /><br/> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br/> This parameter and the Accept-Language header are mutually exclusive—do not specify both.<br /><br/> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
+|<a name="setlang" />setLang|The language to use for user interface strings. You may specify the language using either a 2-letter or 4-letter code. Using 4-letter codes is preferred.<br /><br/> For a list of supported language codes, see [Bing supported languages](#bing-supported-languages).<br /><br/> Bing loads the localized strings if `setlang` contains a valid 2-letter neutral culture code (**fr**) or a valid 4-letter specific culture code (**fr-ca**). For example, for **fr-ca**, Bing loads the **fr** neutral culture code strings.<br /><br/> If `setlang` is not valid (for example, **zh**) or Bing doesn't support the language (for example, **af**, **af-na**), Bing defaults to **en** (English).<br /><br/> To specify the 2-letter code, set this parameter to an ISO 639-1 language code.<br /><br/> To specify the 4-letter code, use the form \<language\>-<country/region> where \<language\> is an ISO 639-1 language code (neutral culture) and <country/region> is an ISO 3166 country/region (specific culture) code. For example, use **en-US** for United States English.<br /><br/> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br/> This parameter and the Accept-Language header are mutually exclusive—do not specify both.<br /><br/> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
   
 ## Response objects  
 

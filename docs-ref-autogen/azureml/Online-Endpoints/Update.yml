@@ -3,14 +3,14 @@ uid: management.azure.com.azureml.onlineendpoints.update
 name: Update
 service: Machine Learning
 groupName: Online Endpoints
-apiVersion: 2022-02-01-preview
+apiVersion: 2022-05-01
 summary: Update Online Endpoint (asynchronous).
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}?api-version=2022-02-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -68,26 +68,6 @@ requestBody:
     description: Managed service identity (system assigned and/or user assigned identities)
     types:
     - uid: PartialManagedServiceIdentity
-  - name: kind
-    in: body
-    description: Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type.
-    types:
-    - uid: string
-  - name: location
-    in: body
-    description: The geo-location where the resource lives.
-    types:
-    - uid: string
-  - name: properties
-    in: body
-    description: Additional attributes of the entity.
-    types:
-    - uid: PartialOnlineEndpoint
-  - name: sku
-    in: body
-    description: Sku details required for ARM contract for Autoscaling.
-    types:
-    - uid: PartialSku
   - name: tags
     in: body
     description: Resource tags.
@@ -111,54 +91,6 @@ definitions:
     description: "The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
     types:
     - {}
-- name: PartialOnlineEndpoint
-  description: Mutable online endpoint configuration
-  kind: object
-  properties:
-  - name: mirrorTraffic
-    description: Percentage of traffic to be mirrored to each deployment without using returned scoring. Traffic values need to sum to utmost 50.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: integer
-  - name: publicNetworkAccess
-    description: Set to "Enabled" for endpoints that should allow public access when Private Link is enabled.
-    types:
-    - uid: PublicNetworkAccessType
-  - name: traffic
-    description: Percentage of traffic from endpoint to divert to each deployment. Traffic values need to sum to 100.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: integer
-- name: PartialSku
-  description: Common SKU definition.
-  kind: object
-  properties:
-  - name: capacity
-    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
-    types:
-    - uid: integer
-  - name: family
-    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
-    types:
-    - uid: string
-  - name: name
-    description: The name of the SKU. Ex - P3. It is typically a letter+number code.
-    types:
-    - uid: string
-  - name: size
-    description: The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code.
-    types:
-    - uid: string
-  - name: tier
-    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
-    types:
-    - uid: SkuTier
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -218,7 +150,7 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-- name: PartialOnlineEndpointPartialTrackedResource
+- name: PartialMinimalTrackedResourceWithIdentity
   description: Strictly used in update requests.
   kind: object
   properties:
@@ -226,22 +158,6 @@ definitions:
     description: Managed service identity (system assigned and/or user assigned identities)
     types:
     - uid: PartialManagedServiceIdentity
-  - name: kind
-    description: Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type.
-    types:
-    - uid: string
-  - name: location
-    description: The geo-location where the resource lives.
-    types:
-    - uid: string
-  - name: properties
-    description: Additional attributes of the entity.
-    types:
-    - uid: PartialOnlineEndpoint
-  - name: sku
-    description: Sku details required for ARM contract for Autoscaling.
-    types:
-    - uid: PartialSku
   - name: tags
     description: Resource tags.
     types:
@@ -264,32 +180,6 @@ definitions:
     types:
     - uid: string
   - name: SystemAssigned,UserAssigned
-    types:
-    - uid: string
-- name: PublicNetworkAccessType
-  description: Enum to determine whether PublicNetworkAccess is Enabled or Disabled.
-  kind: enum
-  properties:
-  - name: Enabled
-    types:
-    - uid: string
-  - name: Disabled
-    types:
-    - uid: string
-- name: SkuTier
-  description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
-  kind: enum
-  properties:
-  - name: Free
-    types:
-    - uid: string
-  - name: Basic
-    types:
-    - uid: string
-  - name: Standard
-    types:
-    - uid: string
-  - name: Premium
     types:
     - uid: string
 - name: ErrorDetail
@@ -360,23 +250,11 @@ definitions:
       optional
     types:
     - uid: string
-  - name: mirrorTraffic
-    description: Percentage of traffic to be mirrored to each deployment without using returned scoring. Traffic values need to sum to utmost 50.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: integer
   - name: provisioningState
     isReadyOnly: true
     description: Provisioning state for the endpoint.
     types:
     - uid: EndpointProvisioningState
-  - name: publicNetworkAccess
-    description: Set to "Enabled" for endpoints that should allow public access when Private Link is enabled.
-    types:
-    - uid: PublicNetworkAccessType
   - name: traffic
     description: Percentage of traffic from endpoint to divert to each deployment. Traffic values need to sum to 100.
     types:
@@ -545,6 +423,22 @@ definitions:
     description: The secondary key.
     types:
     - uid: string
+- name: SkuTier
+  description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -564,29 +458,15 @@ definitions:
 examples:
 - name: Update Online Endpoint.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/onlineEndpoints/testEndpointName?api-version=2022-02-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/onlineEndpoints/testEndpointName?api-version=2022-05-01
     body: >-
       {
-        "properties": {
-          "traffic": {
-            "string": 1
-          }
-        },
         "tags": {},
-        "location": "string",
-        "kind": "string",
         "identity": {
           "type": "SystemAssigned",
           "userAssignedIdentities": {
             "string": {}
           }
-        },
-        "sku": {
-          "name": "string",
-          "tier": "Free",
-          "size": "string",
-          "family": "string",
-          "capacity": 1
         }
       }
   responses:

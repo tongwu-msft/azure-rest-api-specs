@@ -3,15 +3,15 @@ uid: management.azure.com.azureml.datastores.createorupdate
 name: Create Or Update
 service: Machine Learning
 groupName: Datastores
-apiVersion: 2022-02-01-preview
+apiVersion: 2022-05-01
 summary: Create or update datastore.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}?api-version=2022-02-01-preview
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}?api-version=2022-02-01-preview&skipValidation={skipValidation}
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}?api-version=2022-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}?api-version=2022-05-01&skipValidation={skipValidation}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -75,7 +75,6 @@ requestBody:
     - uid: AzureDataLakeGen1Datastore
     - uid: AzureDataLakeGen2Datastore
     - uid: AzureFileDatastore
-    - uid: HdfsDatastore
     typesTitle: Datastore
 requestHeader: []
 definitions:
@@ -126,7 +125,6 @@ definitions:
     - uid: AzureDataLakeGen1Datastore
     - uid: AzureDataLakeGen2Datastore
     - uid: AzureFileDatastore
-    - uid: HdfsDatastore
     typesTitle: Datastore
   - name: id
     isReadyOnly: true
@@ -172,13 +170,12 @@ definitions:
     description: Indicates which identity to use to authenticate service data access to customer's storage.
     types:
     - uid: ServiceDataAccessAuthIdentity
+    defaultValue: None
   - name: credentials
     description: '[Required] Account credentials.'
     types:
     - uid: AccountKeyDatastoreCredentials
     - uid: CertificateDatastoreCredentials
-    - uid: KerberosKeytabCredentials
-    - uid: KerberosPasswordCredentials
     - uid: NoneDatastoreCredentials
     - uid: SasDatastoreCredentials
     - uid: ServicePrincipalDatastoreCredentials
@@ -221,6 +218,7 @@ definitions:
     description: Indicates which identity to use to authenticate service data access to customer's storage.
     types:
     - uid: ServiceDataAccessAuthIdentity
+    defaultValue: None
   - name: storeName
     description: '[Required] Azure Data Lake store name.'
     types:
@@ -230,8 +228,6 @@ definitions:
     types:
     - uid: AccountKeyDatastoreCredentials
     - uid: CertificateDatastoreCredentials
-    - uid: KerberosKeytabCredentials
-    - uid: KerberosPasswordCredentials
     - uid: NoneDatastoreCredentials
     - uid: SasDatastoreCredentials
     - uid: ServicePrincipalDatastoreCredentials
@@ -290,13 +286,12 @@ definitions:
     description: Indicates which identity to use to authenticate service data access to customer's storage.
     types:
     - uid: ServiceDataAccessAuthIdentity
+    defaultValue: None
   - name: credentials
     description: '[Required] Account credentials.'
     types:
     - uid: AccountKeyDatastoreCredentials
     - uid: CertificateDatastoreCredentials
-    - uid: KerberosKeytabCredentials
-    - uid: KerberosPasswordCredentials
     - uid: NoneDatastoreCredentials
     - uid: SasDatastoreCredentials
     - uid: ServicePrincipalDatastoreCredentials
@@ -344,7 +339,7 @@ definitions:
     types:
     - uid: string
   - name: fileShareName
-    description: '[Required] TODO - File share name.'
+    description: '[Required] The name of the Azure file share that the datastore points to.'
     types:
     - uid: string
   - name: protocol
@@ -355,13 +350,12 @@ definitions:
     description: Indicates which identity to use to authenticate service data access to customer's storage.
     types:
     - uid: ServiceDataAccessAuthIdentity
+    defaultValue: None
   - name: credentials
     description: '[Required] Account credentials.'
     types:
     - uid: AccountKeyDatastoreCredentials
     - uid: CertificateDatastoreCredentials
-    - uid: KerberosKeytabCredentials
-    - uid: KerberosPasswordCredentials
     - uid: NoneDatastoreCredentials
     - uid: SasDatastoreCredentials
     - uid: ServicePrincipalDatastoreCredentials
@@ -370,62 +364,6 @@ definitions:
     description: '[Required] Storage type backing the datastore.'
     types:
     - uid: AzureFile
-    typesTitle: string
-  - name: isDefault
-    isReadyOnly: true
-    description: Readonly property to indicate if datastore is the workspace default datastore
-    types:
-    - uid: boolean
-  - name: description
-    description: The asset description text.
-    types:
-    - uid: string
-  - name: properties
-    description: The asset property dictionary.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: tags
-    description: Tag dictionary. Tags can be added, removed, and updated.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: HdfsDatastore
-  kind: object
-  properties:
-  - name: hdfsServerCertificate
-    description: The TLS cert of the HDFS server. Needs to be a base64 encoded string. Required if "Https" protocol is selected.
-    types:
-    - uid: string
-  - name: nameNodeAddress
-    description: '[Required] IP Address or DNS HostName.'
-    types:
-    - uid: string
-  - name: protocol
-    description: Protocol used to communicate with the storage account (Https/Http).
-    types:
-    - uid: string
-  - name: credentials
-    description: '[Required] Account credentials.'
-    types:
-    - uid: AccountKeyDatastoreCredentials
-    - uid: CertificateDatastoreCredentials
-    - uid: KerberosKeytabCredentials
-    - uid: KerberosPasswordCredentials
-    - uid: NoneDatastoreCredentials
-    - uid: SasDatastoreCredentials
-    - uid: ServicePrincipalDatastoreCredentials
-    typesTitle: DatastoreCredentials
-  - name: datastoreType
-    description: '[Required] Storage type backing the datastore.'
-    types:
-    - uid: Hdfs
     typesTitle: string
   - name: isDefault
     isReadyOnly: true
@@ -530,9 +468,6 @@ definitions:
   - name: AzureFile
     types:
     - uid: string
-  - name: Hdfs
-    types:
-    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -592,54 +527,6 @@ definitions:
     description: '[Required] Credential type used to authentication with storage.'
     types:
     - uid: Certificate
-    typesTitle: string
-- name: KerberosKeytabCredentials
-  kind: object
-  properties:
-  - name: secrets
-    description: '[Required] Keytab secrets.'
-    types:
-    - uid: KerberosKeytabSecrets
-  - name: kerberosKdcAddress
-    description: '[Required] IP Address or DNS HostName.'
-    types:
-    - uid: string
-  - name: kerberosPrincipal
-    description: '[Required] Kerberos Username'
-    types:
-    - uid: string
-  - name: kerberosRealm
-    description: '[Required] Domain over which a Kerberos authentication server has the authority to authenticate a user, host or service.'
-    types:
-    - uid: string
-  - name: credentialsType
-    description: '[Required] Credential type used to authentication with storage.'
-    types:
-    - uid: KerberosKeytab
-    typesTitle: string
-- name: KerberosPasswordCredentials
-  kind: object
-  properties:
-  - name: secrets
-    description: '[Required] Kerberos password secrets.'
-    types:
-    - uid: KerberosPasswordSecrets
-  - name: kerberosKdcAddress
-    description: '[Required] IP Address or DNS HostName.'
-    types:
-    - uid: string
-  - name: kerberosPrincipal
-    description: '[Required] Kerberos Username'
-    types:
-    - uid: string
-  - name: kerberosRealm
-    description: '[Required] Domain over which a Kerberos authentication server has the authority to authenticate a user, host or service.'
-    types:
-    - uid: string
-  - name: credentialsType
-    description: '[Required] Credential type used to authentication with storage.'
-    types:
-    - uid: KerberosPassword
     typesTitle: string
 - name: NoneDatastoreCredentials
   description: Empty/none datastore credentials.
@@ -724,12 +611,6 @@ definitions:
   - name: ServicePrincipal
     types:
     - uid: string
-  - name: KerberosKeytab
-    types:
-    - uid: string
-  - name: KerberosPassword
-    types:
-    - uid: string
 - name: CertificateDatastoreSecrets
   description: Datastore certificate secrets.
   kind: object
@@ -742,30 +623,6 @@ definitions:
     description: '[Required] Credential type used to authentication with storage.'
     types:
     - uid: Certificate
-    typesTitle: string
-- name: KerberosKeytabSecrets
-  kind: object
-  properties:
-  - name: kerberosKeytab
-    description: Kerberos keytab secret.
-    types:
-    - uid: string
-  - name: secretsType
-    description: '[Required] Credential type used to authentication with storage.'
-    types:
-    - uid: KerberosKeytab
-    typesTitle: string
-- name: KerberosPasswordSecrets
-  kind: object
-  properties:
-  - name: kerberosPassword
-    description: Kerberos password secret.
-    types:
-    - uid: string
-  - name: secretsType
-    description: '[Required] Credential type used to authentication with storage.'
-    types:
-    - uid: KerberosPassword
     typesTitle: string
 - name: SasDatastoreSecrets
   description: Datastore SAS secrets.
@@ -809,16 +666,10 @@ definitions:
   - name: ServicePrincipal
     types:
     - uid: string
-  - name: KerberosPassword
-    types:
-    - uid: string
-  - name: KerberosKeytab
-    types:
-    - uid: string
 examples:
 - name: CreateOrUpdate datastore (AzureBlob w/ AccountKey).
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/datastores/string?api-version=2022-02-01-preview&skipValidation=False
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/datastores/string?api-version=2022-05-01&skipValidation=False
     body: >-
       {
         "properties": {
@@ -906,7 +757,7 @@ examples:
       }
 - name: CreateOrUpdate datastore (Azure Data Lake Gen1 w/ ServicePrincipal).
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/datastores/string?api-version=2022-02-01-preview&skipValidation=False
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/datastores/string?api-version=2022-05-01&skipValidation=False
     body: >-
       {
         "properties": {
@@ -995,7 +846,7 @@ examples:
       }
 - name: CreateOrUpdate datastore (Azure Data Lake Gen2 w/ Service Principal).
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/datastores/string?api-version=2022-02-01-preview&skipValidation=False
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/datastores/string?api-version=2022-05-01&skipValidation=False
     body: >-
       {
         "properties": {
@@ -1093,7 +944,7 @@ examples:
       }
 - name: CreateOrUpdate datastore (Azure File store w/ AccountKey).
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/datastores/string?api-version=2022-02-01-preview&skipValidation=False
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/datastores/string?api-version=2022-05-01&skipValidation=False
     body: >-
       {
         "properties": {
