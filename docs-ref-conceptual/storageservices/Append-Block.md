@@ -45,14 +45,14 @@ The following table describes required and optional request headers.
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. See [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md) for more information.|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`Content-Length`|Required. The length of the block content in bytes. The block must be less than or equal to 4 MiB in size.<br /><br /> When the length is not provided, the operation will fail with the status code 411 (*Length Required*).|  
-|`Content-MD5`|Optional. An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport. When this header is specified, the storage service compares the hash of the content that has arrived with this header value.<br /><br /> Note that this MD5 hash isn't stored with the blob.<br /><br /> If the two hashes don't match, the operation will fail with error code 400 (*Bad Request*).|  
-|`x-ms-content-crc64`|Optional. A CRC64 hash of the append block content. This hash is used to verify the integrity of the append block during transport. When this header is specified, the storage service compares the hash of the content that has arrived with this header value.<br /><br /> Note that this CRC64 hash isn't stored with the blob.<br /><br /> If the two hashes don't match, the operation will fail with error code 400 (*Bad Request*).<br /><br /> If both `Content-MD5` and `x-ms-content-crc64` headers are present, the request will fail with error code 400.<br /><br />This header is supported in versions 2019-02-02 or later.|  
+|`Content-Length`|Required. The length of the block content in bytes. The block must be less than or equal to 4 MiB in size.<br /><br /> When the length is not provided, the operation will fail with the status code 411 (Length Required).|  
+|`Content-MD5`|Optional. An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport. When this header is specified, the storage service compares the hash of the content that has arrived with this header value.<br /><br /> Note that this MD5 hash isn't stored with the blob.<br /><br /> If the two hashes don't match, the operation will fail with error code 400 (Bad Request).|  
+|`x-ms-content-crc64`|Optional. A CRC64 hash of the append block content. This hash is used to verify the integrity of the append block during transport. When this header is specified, the storage service compares the hash of the content that has arrived with this header value.<br /><br /> Note that this CRC64 hash isn't stored with the blob.<br /><br /> If the two hashes don't match, the operation will fail with error code 400 (Bad Request).<br /><br /> If both `Content-MD5` and `x-ms-content-crc64` headers are present, the request will fail with error code 400.<br /><br />This header is supported in versions 2019-02-02 or later.|  
 |`x-ms-encryption-scope`|Optional. Indicates the encryption scope to use to encrypt the request contents. This header is supported in versions 2019-02-02 or later.|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Blob Storage](/azure/storage/blobs/monitor-blob-storage).|  
-|`x-ms-blob-condition-maxsize`|Optional conditional header. Specifies the maximum length in bytes permitted for the append blob. If the `Append Block` operation causes the blob to exceed that limit, or if the blob size is already greater than the value specified in this header, the request fails with error code 412 (*Precondition Failed*).|  
-|`x-ms-blob-condition-appendpos`|Optional conditional header, used only for the `Append Block` operation. A number indicates the byte offset to compare. `Append Block` succeeds only if the append position is equal to this number. If it isn't, the request fails with error code 412 (*Precondition Failed*).|  
+|`x-ms-blob-condition-maxsize`|Optional conditional header. Specifies the maximum length in bytes permitted for the append blob. If the `Append Block` operation causes the blob to exceed that limit, or if the blob size is already greater than the value specified in this header, the request fails with error code 412 (Precondition Failed).|  
+|`x-ms-blob-condition-appendpos`|Optional conditional header, used only for the `Append Block` operation. A number indicates the byte offset to compare. `Append Block` succeeds only if the append position is equal to this number. If it isn't, the request fails with error code 412 (Precondition Failed).|  
   
  This operation supports the use of additional conditional headers to ensure that the API succeeds only if a specified condition is met. For more information, see [Specifying conditional headers for Azure Blob Storage operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
@@ -93,7 +93,7 @@ The response includes an HTTP status code and a set of response headers.
   
 ### Status code  
 
-A successful operation returns status code 201 (*Created*).  
+A successful operation returns status code 201 (Created).  
   
 For information about status codes, see [Status and error codes](Status-and-Error-Codes2.md).  
   
@@ -147,17 +147,17 @@ Blobs uploaded by using `Append Block` don't expose block IDs. You can't call [G
   
 You can specify the following optional, conditional headers on the request:  
   
-- `x-ms-blob-condition-appendpos`: You can set this header to a byte offset at which the client expects to append the block. The request succeeds only if the current offset matches that specified by the client. Otherwise, the request fails with error code 412.  
+- `x-ms-blob-condition-appendpos`: You can set this header to a byte offset at which the client expects to append the block. The request succeeds only if the current offset matches that specified by the client. Otherwise, the request fails with error code 412 (Precondition Failed).  
   
      Clients that use a single writer can use this header to determine whether an `Append Block` operation succeeded, despite a network failure.  
   
-- `x-ms-blob-condition-maxsize`: Clients can use this header to ensure that append operations don't increase the blob size beyond an expected maximum size in bytes. If the condition fails, the request fails with error code 412.  
+- `x-ms-blob-condition-maxsize`: Clients can use this header to ensure that append operations don't increase the blob size beyond an expected maximum size in bytes. If the condition fails, the request fails with error code 412 (Precondition Failed).  
   
 Each block can be a different size, up to a maximum of 4 MiB. A maximum of 50,000 appends are permitted for each append blob. The maximum size of an append blob is therefore slightly more than 195 GiB (4 MiB X 50,000 blocks).
 
-If you attempt to upload a block that is larger than 4 MiB, the service returns error code 413 (*Request Entity Too Large*). The service also returns additional information about the error in the response, including the maximum block size permitted in bytes. If you attempt to upload more than 50,000 blocks, the service returns error code 409 (*Conflict*).
+If you attempt to upload a block that is larger than 4 MiB, the service returns error code 413 (Request Entity Too Large). The service also returns additional information about the error in the response, including the maximum block size permitted in bytes. If you attempt to upload more than 50,000 blocks, the service returns error code 409 (Conflict).
   
-If the blob has an active lease, the client must specify a valid lease ID on the request in order to write a block to the blob. If the client doesn't specify a lease ID, or specifies an invalid lease ID, Blob Storage returns error code 412 (*Precondition Failed*). If the client specifies a lease ID, but the blob doesn't have an active lease, Blob Storage also returns error code 412.  
+If the blob has an active lease, the client must specify a valid lease ID on the request in order to write a block to the blob. If the client doesn't specify a lease ID, or specifies an invalid lease ID, Blob Storage returns error code 412 (Precondition Failed). If the client specifies a lease ID, but the blob doesn't have an active lease, Blob Storage also returns error code 412.  
   
 If you call `Append Block` on an existing block blob or page blob, the service returns a conflict error. If you call `Append Block` on a non-existent blob, the service also returns an error.  
   
