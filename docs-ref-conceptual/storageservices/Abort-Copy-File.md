@@ -71,7 +71,7 @@ The response includes an HTTP status code and a set of response headers.
   
 ### Status code  
 
-A successful operation returns status code 204 (*no content*). For information about status codes, see [Status and error codes](Status-and-Error-Codes2.md).
+A successful operation returns status code 204 (No Content). For information about status codes, see [Status and error codes](Status-and-Error-Codes2.md).
 
 ### Response headers
 
