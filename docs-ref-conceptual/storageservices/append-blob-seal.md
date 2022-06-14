@@ -46,11 +46,11 @@ The response includes an HTTP status code and a list of response headers.
 
 You might receive any of the following status codes:
 
-- `200 (Success)`: The blob is sealed. The call is idempotent and will succeed if the blob is already sealed.
+- 200 (Success): The blob is sealed. The call is idempotent and will succeed if the blob is already sealed.
 
-- `409 (InvalidBlobType)`: The service returns this status code if the call is on an existing page blob or block blob.
+- 409 (InvalidBlobType): The service returns this status code if the call is on an existing page blob or block blob.
 
-- `404 (BlobNotFound)`: The service returns this status code if the call is on a non-existent blob.
+- 404 (BlobNotFound): The service returns this status code if the call is on a non-existent blob.
 
 ### Remarks
 
@@ -68,9 +68,9 @@ If you call `AppendBlock` on a blob that is already sealed, the service returns 
 
 |**Error code** | **HTTP status code** | **User message** |
 |---------------| ---------------------|------------------|
-| `BlobIsSealed` | `Conflict (409)` | The specified blob is sealed, and its contents can't be modified unless the blob is re-created after a delete. |
+| BlobIsSealed | Conflict (409) | The specified blob is sealed, and its contents can't be modified unless the blob is re-created after a delete. |
 
-If you call `Append Blob Seal` on an append blob that has already been sealed, you simply see a status code of success (`200`).
+If you call `Append Blob Seal` on an append blob that has already been sealed, you simply see a status code of 200 (Success).
 
 ## See also
 
