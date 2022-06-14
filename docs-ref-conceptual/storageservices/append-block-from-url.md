@@ -45,7 +45,7 @@ The following table describes required and optional request headers.
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. See [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md) for more information.|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`Content-Length`|Required. Specifies the number of bytes being transmitted in the request body. The value of this header must be set to zero. When the length is not zero, the operation will fail with the status code 400 (Bad Request).|  
+|`Content-Length`|Required. Specifies the number of bytes being transmitted in the request body. The value of this header must be set to zero. When the length is not zero, the operation will fail with error code 400 (Bad Request).|  
 |`x-ms-copy-source:name`|Required. Specifies the URL of the source blob. The value can be a URL of up to 2 KiB in length that specifies a blob. The value should be URL-encoded, as it would appear in a request URI. The source blob must either be public or must be authorized via a shared access signature. If the source blob is public, no authorization is required to perform the operation. Here are some examples of source object URLs:<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />`https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br />`https://myaccount.blob.core.windows.net/mycontainer/myblob?versionid=<DateTime>`|  
 |`x-ms-copy-source-authorization: <scheme> <signature>`|Optional. Specifies the authorization scheme and signature for copy source. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).<br /> Only scheme bearer is supported for Azure Active Directory.<br />This header is supported in version 2020-10-02 and later.|
 |`x-ms-source-range`|Optional. Uploads only the bytes of the blob in the source URL in the specified range. If this isn't specified, the entire source blob contents are uploaded as a single append block. See [Specifying the range header for Blob Storage operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|  
@@ -151,17 +151,17 @@ Blobs uploaded by using `Append Block From URL` don't expose block IDs, so you c
 
 You can specify the following optional, conditional headers on the request:  
 
-- `x-ms-blob-condition-appendpos`: You can set this header to a byte offset at which the client expects to append the block. The request succeeds only if the current offset matches that specified by the client. Otherwise, the request fails with a 412 (Precondition Failed).
+- `x-ms-blob-condition-appendpos`: You can set this header to a byte offset at which the client expects to append the block. The request succeeds only if the current offset matches that specified by the client. Otherwise, the request fails with error code 412 (Precondition Failed).
 
     Clients that use a single writer can use this header to determine whether when an `Append Block From URL` operation succeeded, despite network failure.  
 
-- `x-ms-blob-condition-maxsize`: Clients can use this header to ensure that append operations don't increase the blob size beyond an expected maximum size in bytes. If the condition fails, the request fails with a 412 (Precondition Failed).  
+- `x-ms-blob-condition-maxsize`: Clients can use this header to ensure that append operations don't increase the blob size beyond an expected maximum size in bytes. If the condition fails, the request fails with error code 412 (Precondition Failed).  
 
 Each block can be a different size, up to a maximum of 4 MiB. A maximum of 50,000 appends are permitted for each append blob. The maximum size of an append blob is therefore slightly more than 195 GiB (4 MiB X 50,000 blocks).
 
-If you attempt to upload a block that is larger than 4 MiB, the service returns HTTP status code 413 (Request Entity Too Large). The service also returns additional information about the error in the response, including the maximum block size permitted in bytes. If you attempt to upload more than 50,000 blocks, the service returns error code 409 (Conflict).  
+If you attempt to upload a block that is larger than 4 MiB, the service returns HTTP error code 413 (Request Entity Too Large). The service also returns additional information about the error in the response, including the maximum block size permitted in bytes. If you attempt to upload more than 50,000 blocks, the service returns error code 409 (Conflict).  
 
-If the blob has an active lease, the client must specify a valid lease ID on the request in order to write a block to the blob. If the client doesn't specify a lease ID, or specifies an invalid lease ID, Blob Storage returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob doesn't have an active lease, the service returns error code 412.  
+If the blob has an active lease, the client must specify a valid lease ID on the request in order to write a block to the blob. If the client doesn't specify a lease ID, or specifies an invalid lease ID, Blob Storage returns error code 412 (Precondition Failed). If the client specifies a lease ID but the blob doesn't have an active lease, the service returns error code 412.  
 
 If you call `Append Block From URL` on an existing block blob or page blob, the service returns error code 409 (Conflict). If you call `Append Block From URL` on a non-existent blob, the service returns error code 404 (Not Found).  
 
