@@ -4406,6 +4406,7 @@
 ### [Update](BatchManagement/Pool/Update.yml)
 ## Private Endpoint Connection
 ### [Overview](BatchManagement/Private-Endpoint-Connection.yml)
+### [Delete](BatchManagement/Private-Endpoint-Connection/Delete.yml)
 ### [Get](BatchManagement/Private-Endpoint-Connection/Get.yml)
 ### [List By Batch Account](BatchManagement/Private-Endpoint-Connection/List-By-Batch-Account.yml)
 ### [Update](BatchManagement/Private-Endpoint-Connection/Update.yml)
