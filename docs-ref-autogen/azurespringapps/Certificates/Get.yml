@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringapps.certificates.get
 name: Get
 service: Azure Spring Apps
 groupName: Certificates
-apiVersion: 2022-03-01-preview
+apiVersion: 2022-05-01-preview
 summary: Get the certificate resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/certificates/{certificateName}?api-version=2022-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/certificates/{certificateName}?api-version=2022-05-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -160,6 +160,7 @@ definitions:
     description: Optional. If set to true, it will not import private key from key vault.
     types:
     - uid: boolean
+    defaultValue: false
   - name: type
     description: The type of the certificate source.
     types:
@@ -201,6 +202,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the Certificate
+    types:
+    - uid: CertificateResourceProvisioningState
 - name: ContentCertificateProperties
   description: Properties of certificate imported from key vault.
   kind: object
@@ -250,6 +256,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the Certificate
+    types:
+    - uid: CertificateResourceProvisioningState
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -282,10 +293,29 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: CertificateResourceProvisioningState
+  description: Provisioning state of the Certificate
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
 examples:
 - name: Certificates_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycertificate?api-version=2022-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycertificate?api-version=2022-05-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -306,7 +336,8 @@ examples:
             "mydomain.com",
             "mydomain.net",
             "mydomain.io"
-          ]
+          ],
+          "provisioningState": "Succeeded"
         },
         "systemData": {
           "createdBy": "sample-user",

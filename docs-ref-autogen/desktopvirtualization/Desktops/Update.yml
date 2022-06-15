@@ -3,14 +3,14 @@ uid: management.azure.com.desktopvirtualization.desktops.update
 name: Update
 service: Desktop Virtualization
 groupName: Desktops
-apiVersion: 2021-07-12
+apiVersion: 2022-02-10-preview
 summary: Update a desktop.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/desktops/{desktopName}?api-version=2021-07-12
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/desktops/{desktopName}?api-version=2022-02-10-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -79,6 +79,11 @@ definitions:
   description: Schema for Desktop properties.
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: properties.objectId
     isReadyOnly: true
     description: ObjectId of Desktop. (internal use)
@@ -118,10 +123,11 @@ definitions:
     types:
     - uid: string
 - name: CloudError
+  description: Cloud error object.
   kind: object
   properties:
   - name: error
-    description: ''
+    description: Cloud error object properties.
     types:
     - uid: CloudErrorProperties
 - name: DesktopPatch
@@ -144,7 +150,36 @@ definitions:
     description: Friendly name of Desktop.
     types:
     - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: CloudErrorProperties
+  description: Cloud error object properties.
   kind: object
   properties:
   - name: code
@@ -155,10 +190,26 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: Desktop_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/applicationGroups/applicationGroup1/desktops/SessionDesktop?api-version=2021-07-12
+    uri: PATCH https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/applicationGroups/applicationGroup1/desktops/SessionDesktop?api-version=2022-02-10-preview
     body: >-
       {
         "properties": {
@@ -173,6 +224,14 @@ examples:
         "name": "applicationGroup1/SessionDesktop",
         "id": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/applicationGroups/applicationGroup1/desktops/SessionDesktop",
         "type": "Microsoft.DesktopVirtualization/applicationGroups/desktops",
+        "systemData": {
+          "createdBy": "user1",
+          "createdByType": "User",
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedBy": "user2",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
+        },
         "properties": {
           "objectId": "7877fb31-4bde-49fd-9df3-c046e0ec5325",
           "description": "des1",

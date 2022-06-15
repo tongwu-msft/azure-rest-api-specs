@@ -1,5 +1,6 @@
 ﻿---
 title: "Delete a registration"
+description: Use this API reference documentation to delete a registration.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

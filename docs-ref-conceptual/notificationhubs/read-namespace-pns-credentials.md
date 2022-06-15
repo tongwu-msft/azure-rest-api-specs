@@ -1,5 +1,6 @@
 ﻿---
 title: "Read namespace Platform Notification Services (PNS) credentials"
+description: Use this API reference documentation to read the unified PNS credentials for a namespace.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

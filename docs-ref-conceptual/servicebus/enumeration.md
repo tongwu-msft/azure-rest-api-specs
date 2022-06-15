@@ -1,5 +1,6 @@
 ---
 title: "Enumeration"
+description: API reference documentation for the operations available in the Enumeration REST API, a RESTful web service for managing Enumeration resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""
@@ -43,7 +44,7 @@ when returning an enumeration and $top how many entries shall be returned.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Specifies a Shared Access Signature (SAS) token with "Manage" rights. See [Service Bus authentication with Shared Access Signatures](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas) for details.|  
+|Authorization|Specifies a Shared Access Signature (SAS) token with "Manage" rights. See [Service Bus authentication with Shared Access Signatures](/azure/service-bus-messaging/service-bus-sas) for details.|  
   
 ### Request Body  
  None.  

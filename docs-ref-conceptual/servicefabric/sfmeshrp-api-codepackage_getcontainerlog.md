@@ -1,8 +1,8 @@
 ---
 title: "Get Container Log"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes the process to get logs for the container through providing request methods, responses, and examples.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

@@ -3,15 +3,15 @@ uid: management.azure.com.compute.galleryimageversions.get
 name: Get
 service: Compute
 groupName: Gallery Image Versions
-apiVersion: 2021-10-01
+apiVersion: 2022-01-03
 summary: Retrieves information about a gallery image version.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2021-10-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?$expand=ReplicationStatus&api-version=2021-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2022-01-03
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?$expand=ReplicationStatus&api-version=2022-01-03
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -83,15 +83,9 @@ definitions:
     - uid: GalleryImageVersionPublishingProfile
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The current state of the gallery image version.  \nThe provisioning state, which only appears in the response."
+    description: "The current state of the gallery or gallery artifact.  \nThe provisioning state, which only appears in the response."
     types:
-    - uid: Creating
-    - uid: Updating
-    - uid: Failed
-    - uid: Succeeded
-    - uid: Deleting
-    - uid: Migrating
-    typesTitle: enum
+    - uid: GalleryProvisioningState
   - name: properties.storageProfile
     description: This is the storage profile of a Gallery Image Version.
     types:
@@ -175,6 +169,28 @@ definitions:
     types:
     - uid: GalleryTargetExtendedLocation
       isArray: true
+- name: GalleryProvisioningState
+  description: The current state of the gallery or gallery artifact.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Migrating
+    types:
+    - uid: string
 - name: GalleryImageVersionStorageProfile
   description: This is the storage profile of a Gallery Image Version.
   kind: object
@@ -532,7 +548,7 @@ definitions:
 examples:
 - name: Get a gallery image version.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?$expand=ReplicationStatus&api-version=2021-10-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?$expand=ReplicationStatus&api-version=2022-01-03
   responses:
   - statusCode: "200"
     body: >-
@@ -593,7 +609,7 @@ examples:
       }
 - name: Get a gallery image version with replication status.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?$expand=ReplicationStatus&api-version=2021-10-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?$expand=ReplicationStatus&api-version=2022-01-03
   responses:
   - statusCode: "200"
     body: >-
@@ -671,7 +687,7 @@ examples:
       }
 - name: Get a gallery image version with snapshots as a source.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?$expand=ReplicationStatus&api-version=2021-10-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?$expand=ReplicationStatus&api-version=2022-01-03
   responses:
   - statusCode: "200"
     body: >-
@@ -707,13 +723,17 @@ examples:
           },
           "storageProfile": {
             "osDiskImage": {
-              "source": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{snapshotName}",
+              "source": {
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{snapshotName}"
+              },
               "sizeInGB": 10,
               "hostCaching": "ReadOnly"
             },
             "dataDiskImages": [
               {
-                "source": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{diskSnapshotName}",
+                "source": {
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{diskSnapshotName}"
+                },
                 "lun": 1,
                 "sizeInGB": 10,
                 "hostCaching": "None"
@@ -727,7 +747,7 @@ examples:
       }
 - name: Get a gallery image version with vhd as a source.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?$expand=ReplicationStatus&api-version=2021-10-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?$expand=ReplicationStatus&api-version=2022-01-03
   responses:
   - statusCode: "200"
     body: >-

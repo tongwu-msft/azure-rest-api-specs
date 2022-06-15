@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleries.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Galleries
-apiVersion: 2021-10-01
+apiVersion: 2022-01-03
 summary: Create or update a Shared Image Gallery.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}?api-version=2021-10-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}?api-version=2022-01-03
 uriParameters:
 - name: subscriptionId
   in: path
@@ -107,7 +107,7 @@ definitions:
   kind: object
   properties:
   - name: permissions
-    description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups**'
+    description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups** <br><br> **Community**'
     types:
     - uid: GallerySharingPermissionTypes
   - name: groups
@@ -157,15 +157,9 @@ definitions:
     - uid: GalleryIdentifier
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The current state of the gallery.  \nThe provisioning state, which only appears in the response."
+    description: "The current state of the gallery or gallery artifact.  \nThe provisioning state, which only appears in the response."
     types:
-    - uid: Creating
-    - uid: Updating
-    - uid: Failed
-    - uid: Succeeded
-    - uid: Deleting
-    - uid: Migrating
-    typesTitle: enum
+    - uid: GalleryProvisioningState
   - name: properties.sharingProfile
     description: Profile for gallery sharing to subscription or tenant
     types:
@@ -215,7 +209,7 @@ definitions:
     types:
     - uid: ApiError
 - name: GallerySharingPermissionTypes
-  description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups**'
+  description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups** <br><br> **Community**'
   kind: enum
   properties:
   - name: Private
@@ -224,12 +218,15 @@ definitions:
   - name: Groups
     types:
     - uid: string
+  - name: Community
+    types:
+    - uid: string
 - name: SharingProfileGroup
   description: Group of the gallery sharing profile
   kind: object
   properties:
   - name: type
-    description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants** <br><br> **Community**'
+    description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
     types:
     - uid: SharingProfileGroupTypes
   - name: ids
@@ -242,19 +239,19 @@ definitions:
   kind: object
   properties:
   - name: publisherUri
-    description: Community gallery publisher uri
+    description: The link to the publisher website. Visible to all users.
     types:
     - uid: string
   - name: publisherContact
-    description: Community gallery publisher contact email
+    description: Community gallery publisher support email. The email address of the publisher. Visible to all users.
     types:
     - uid: string
   - name: eula
-    description: Community gallery publisher eula
+    description: End-user license agreement for community gallery image.
     types:
     - uid: string
   - name: publicNamePrefix
-    description: Community gallery public name prefix
+    description: The prefix of the gallery name that will be displayed publicly. Visible to all users.
     types:
     - uid: string
   - name: communityGalleryEnabled
@@ -301,6 +298,28 @@ definitions:
     description: Details of gallery regional sharing failure.
     types:
     - uid: string
+- name: GalleryProvisioningState
+  description: The current state of the gallery or gallery artifact.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Migrating
+    types:
+    - uid: string
 - name: ApiError
   description: Api error.
   kind: object
@@ -327,16 +346,13 @@ definitions:
     types:
     - uid: string
 - name: SharingProfileGroupTypes
-  description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants** <br><br> **Community**'
+  description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
   kind: enum
   properties:
   - name: Subscriptions
     types:
     - uid: string
   - name: AADTenants
-    types:
-    - uid: string
-  - name: Community
     types:
     - uid: string
 - name: ApiErrorBase
@@ -370,7 +386,7 @@ definitions:
 examples:
 - name: Create or update a simple gallery.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-10-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2022-01-03
     body: >-
       {
         "location": "West US",
@@ -420,7 +436,7 @@ examples:
       }
 - name: Create or update a simple gallery with sharing profile.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-10-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2022-01-03
     body: >-
       {
         "location": "West US",
@@ -482,7 +498,7 @@ examples:
       }
 - name: Create or update a simple gallery with soft deletion enabled.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-10-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2022-01-03
     body: >-
       {
         "location": "West US",
@@ -544,7 +560,7 @@ examples:
       }
 - name: Create a community gallery.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-10-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2022-01-03
     body: >-
       {
         "location": "West US",

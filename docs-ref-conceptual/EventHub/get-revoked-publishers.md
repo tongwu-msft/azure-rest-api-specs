@@ -1,5 +1,6 @@
 ---
 title: "Get revoked publishers"
+description: Learn how the Get Revoked Publishers operation retrieves all revoked publishers within the specified Event Hub.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

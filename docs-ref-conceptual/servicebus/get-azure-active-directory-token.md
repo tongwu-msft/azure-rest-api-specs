@@ -1,5 +1,6 @@
 ---
 title: Use Azure Active Directory authentication to send messages to a Service Bus queue
+description: Learn how to get an Azure AD token that you can use to send messages to a Service Bus namespace.
 ms.date: "07/15/2020"
 ms.service: "service-bus"
 ms.topic: "reference"
@@ -20,13 +21,13 @@ translation.priority.mt:
 ---
 
 # Get an Azure Active Directory (Azure AD) token and use it to send messages to a Service Bus queue
-See [Authenticate from an application](https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application#authenticate-from-an-application) for an overview of getting an Azure Active Directory (Azure AD) token. 
+See [Authenticate from an application](/azure/service-bus-messaging/authenticate-application) for an overview of getting an Azure Active Directory (Azure AD) token. 
 
 This article gives you an example of getting an Azure AD token that you can use to send messages to a Service Bus namespace. It uses the **Postman** tool for testing purposes. 
 
 ## Prerequisites
 
-- Follow instructions from [Quickstart: Use Azure portal to create a Service Bus queue](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal) to create a Service Bus namespace and a queue in the namespace.
+- Follow instructions from [Quickstart: Use Azure portal to create a Service Bus queue](/azure/service-bus-messaging/service-bus-quickstart-portal) to create a Service Bus namespace and a queue in the namespace.
 - Download and install [Postman](https://www.postman.com/) desktop app.
 
 ## Register your app with Azure AD
@@ -114,5 +115,5 @@ In this example, we are only sending messaging to the Service Bus queue, so add 
 ## See Also  
 See the following articles:
 
-- [Authenticate from an application](https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application#authenticate-from-an-application)
-- [Microsoft identity platform and OAuth 2.0 authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow)
+- [Authenticate from an application](/azure/service-bus-messaging/authenticate-application)
+- [Microsoft identity platform and OAuth 2.0 authorization code flow](/azure/active-directory/develop/v2-oauth2-auth-code-flow)

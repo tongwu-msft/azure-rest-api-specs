@@ -1,5 +1,6 @@
 ---
 title: "IngestManifestAsset"
+description: Learn how IngestManifestAssets represent Assets within an IngestManifest that are used with bulk ingesting.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

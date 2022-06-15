@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2022-02-01
+apiVersion: 2022-04-01
 summary: Creates or updates a managed cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2022-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2022-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -70,7 +70,7 @@ requestBody:
     - uid: ManagedClusterIdentity
   - name: properties.kubernetesVersion
     in: body
-    description: "The version of Kubernetes the Managed Cluster is running.  \nWhen you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details."
+    description: "The version of Kubernetes specified by the user.  \nBoth patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details."
     types:
     - uid: string
   - name: properties.dnsPrefix
@@ -193,26 +193,31 @@ requestBody:
     description: Security profile for the managed cluster.
     types:
     - uid: ManagedClusterSecurityProfile
+  - name: properties.storageProfile
+    in: body
+    description: Storage profile for the managed cluster.
+    types:
+    - uid: ManagedClusterStorageProfile
   - name: properties.publicNetworkAccess
     in: body
     description: "PublicNetworkAccess of the managedCluster  \nAllow or deny public network access for AKS"
     types:
     - uid: PublicNetworkAccess
-  - name: location
-    in: body
-    isRequired: true
-    description: Resource location
-    types:
-    - uid: string
   - name: tags
     in: body
-    description: Resource tags
+    description: Resource tags.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: ManagedClusterSKU
@@ -317,6 +322,7 @@ definitions:
     description: The operating system type. The default is Linux.
     types:
     - uid: OSType
+    defaultValue: Linux
   - name: osSKU
     description: Specifies an OS SKU. This value must not be specified if OSType is Windows.
     types:
@@ -346,7 +352,12 @@ definitions:
     types:
     - uid: AgentPoolMode
   - name: orchestratorVersion
-    description: "The version of Kubernetes running on the Agent Pool.  \nAs a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool)."
+    description: "The version of Kubernetes specified by the user.  \nBoth patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool)."
+    types:
+    - uid: string
+  - name: currentOrchestratorVersion
+    isReadyOnly: true
+    description: "The version of Kubernetes the Agent Pool is running.  \nIf orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used."
     types:
     - uid: string
   - name: nodeImageVersion
@@ -384,14 +395,17 @@ definitions:
     description: The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
     types:
     - uid: ScaleSetPriority
+    defaultValue: Regular
   - name: scaleSetEvictionPolicy
     description: "The Virtual Machine Scale Set eviction policy to use.  \nThis cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'."
     types:
     - uid: ScaleSetEvictionPolicy
+    defaultValue: Delete
   - name: spotMaxPrice
     description: "The max price (in US Dollars) you are willing to pay for spot instances. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand.  \nPossible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)"
     types:
     - uid: number
+    defaultValue: -1
   - name: tags
     description: The tags to be persisted on the agent pool virtual machine scale set.
     types:
@@ -544,6 +558,7 @@ definitions:
     description: Network plugin used for building the Kubernetes network.
     types:
     - uid: NetworkPlugin
+    defaultValue: kubenet
   - name: networkPolicy
     description: Network policy used for building the Kubernetes network.
     types:
@@ -556,22 +571,27 @@ definitions:
     description: A CIDR notation IP range from which to assign pod IPs when kubenet is used.
     types:
     - uid: string
+    defaultValue: 10.244.0.0/16
   - name: serviceCidr
     description: A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges.
     types:
     - uid: string
+    defaultValue: 10.0.0.0/16
   - name: dnsServiceIP
     description: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr.
     types:
     - uid: string
+    defaultValue: 10.0.0.10
   - name: dockerBridgeCidr
     description: A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range.
     types:
     - uid: string
+    defaultValue: 172.17.0.1/16
   - name: outboundType
     description: "The outbound (egress) routing method.  \nThis can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype)."
     types:
     - uid: outboundType
+    defaultValue: loadBalancer
   - name: loadBalancerSku
     description: "The load balancer sku for the managed cluster.  \nThe default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs."
     types:
@@ -812,7 +832,23 @@ definitions:
     description: Azure Defender settings for the security profile.
     types:
     - uid: ManagedClusterSecurityProfileAzureDefender
-- name: SystemData
+- name: ManagedClusterStorageProfile
+  description: Storage profile for the container service cluster.
+  kind: object
+  properties:
+  - name: diskCSIDriver
+    description: AzureDisk CSI Driver settings for the storage profile.
+    types:
+    - uid: ManagedClusterStorageProfileDiskCSIDriver
+  - name: fileCSIDriver
+    description: AzureFile CSI Driver settings for the storage profile.
+    types:
+    - uid: ManagedClusterStorageProfileFileCSIDriver
+  - name: snapshotController
+    description: Snapshot Controller settings for the storage profile.
+    types:
+    - uid: ManagedClusterStorageProfileSnapshotController
+- name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
   properties:
@@ -872,7 +908,12 @@ definitions:
     types:
     - uid: integer
   - name: properties.kubernetesVersion
-    description: "The version of Kubernetes the Managed Cluster is running.  \nWhen you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details."
+    description: "The version of Kubernetes specified by the user.  \nBoth patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details."
+    types:
+    - uid: string
+  - name: properties.currentKubernetesVersion
+    isReadyOnly: true
+    description: "The version of Kubernetes the Managed Cluster is running.  \nIf kubernetesVersion was a fully specified version <major.minor.patch>, this field will be exactly equal to it. If kubernetesVersion was <major.minor>, this field will contain the full <major.minor.patch> version being used."
     types:
     - uid: string
   - name: properties.dnsPrefix
@@ -988,10 +1029,26 @@ definitions:
     description: Security profile for the managed cluster.
     types:
     - uid: ManagedClusterSecurityProfile
+  - name: properties.storageProfile
+    description: Storage profile for the managed cluster.
+    types:
+    - uid: ManagedClusterStorageProfile
   - name: properties.publicNetworkAccess
     description: "PublicNetworkAccess of the managedCluster  \nAllow or deny public network access for AKS"
     types:
     - uid: PublicNetworkAccess
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -1011,19 +1068,7 @@ definitions:
     isReadyOnly: true
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
-    - uid: SystemData
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
+    - uid: systemData
 - name: CloudError
   description: An error response from the Container service.
   kind: object
@@ -1354,21 +1399,23 @@ definitions:
     types:
     - uid: string
 - name: Identity
-  description: Information of user assigned identity used by this add-on.
+  description: Identity for the resource.
   kind: object
   properties:
-  - name: resourceId
-    description: The resource ID of the user assigned identity.
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of resource identity.
     types:
     - uid: string
-  - name: clientId
-    description: The client ID of the user assigned identity.
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of resource.
     types:
     - uid: string
-  - name: objectId
-    description: The object ID of the user assigned identity.
+  - name: type
+    description: The identity type.
     types:
-    - uid: string
+    - uid: ResourceIdentityType
 - name: ManagedClusterPodIdentity
   description: Details about the pod identity assigned to the Managed Cluster.
   kind: object
@@ -1512,10 +1559,12 @@ definitions:
     description: The desired number of allocated SNAT ports per VM. Allowed values are in the range of 0 to 64000 (inclusive). The default value is 0 which results in Azure dynamically allocating ports.
     types:
     - uid: integer
+    defaultValue: 0
   - name: idleTimeoutInMinutes
     description: Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 30 minutes.
     types:
     - uid: integer
+    defaultValue: 30
   - name: enableMultipleStandardLoadBalancers
     description: Enable multiple standard load balancers per AKS cluster or not.
     types:
@@ -1537,6 +1586,7 @@ definitions:
     description: Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 4 minutes.
     types:
     - uid: integer
+    defaultValue: 4
 - name: upgradeChannel
   description: The upgrade channel for auto upgrade. The default is 'none'.
   kind: enum
@@ -1593,6 +1643,30 @@ definitions:
     description: Resource ID of the Log Analytics workspace to be associated with Azure Defender.  When Azure Defender is enabled, this field is required and must be a valid workspace resource ID. When Azure Defender is disabled, leave the field empty.
     types:
     - uid: string
+- name: ManagedClusterStorageProfileDiskCSIDriver
+  description: AzureDisk CSI Driver settings for the storage profile.
+  kind: object
+  properties:
+  - name: enabled
+    description: Whether to enable AzureDisk CSI Driver. The default value is true.
+    types:
+    - uid: boolean
+- name: ManagedClusterStorageProfileFileCSIDriver
+  description: AzureFile CSI Driver settings for the storage profile.
+  kind: object
+  properties:
+  - name: enabled
+    description: Whether to enable AzureFile CSI Driver. The default value is true.
+    types:
+    - uid: boolean
+- name: ManagedClusterStorageProfileSnapshotController
+  description: Snapshot Controller settings for the storage profile.
+  kind: object
+  properties:
+  - name: enabled
+    description: Whether to enable Snapshot Controller. The default value is true.
+    types:
+    - uid: boolean
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -1795,10 +1869,12 @@ definitions:
     description: 'The desired number of IPv4 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
     types:
     - uid: integer
+    defaultValue: 1
   - name: countIPv6
     description: 'The desired number of IPv6 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 0 for single-stack and 1 for dual-stack. '
     types:
     - uid: integer
+    defaultValue: 0
 - name: OutboundIPPrefixes
   description: Desired outbound IP Prefix resources for the cluster load balancer.
   kind: object
@@ -1833,6 +1909,7 @@ definitions:
     description: 'The desired number of outbound IPs created/managed by Azure. Allowed values must be in the range of 1 to 16 (inclusive). The default value is 1. '
     types:
     - uid: integer
+    defaultValue: 1
 - name: ManagedClusterPodIdentityProvisioningError
   description: An error response from the pod identity provisioning.
   kind: object
@@ -1865,7 +1942,7 @@ definitions:
 examples:
 - name: Create/Update Managed Cluster
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -1961,6 +2038,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -1971,6 +2049,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "scaleDownMode": "Deallocate",
               "availabilityZones": [
@@ -2072,6 +2151,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -2082,6 +2162,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "scaleDownMode": "Deallocate",
               "availabilityZones": [
@@ -2163,7 +2244,7 @@ examples:
       }
 - name: Create/Update AAD Managed Cluster with EnableAzureRBAC
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -2251,6 +2332,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -2261,6 +2343,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "availabilityZones": [
                 "1",
@@ -2353,6 +2436,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -2363,6 +2447,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "availabilityZones": [
                 "1",
@@ -2440,7 +2525,7 @@ examples:
       }
 - name: Create Managed Cluster with PPG
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -2520,6 +2605,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -2530,6 +2616,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -2612,6 +2699,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -2622,6 +2710,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -2689,7 +2778,7 @@ examples:
       }
 - name: Create Managed Cluster with OSSKU
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -2778,6 +2867,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -2789,6 +2879,7 @@ examples:
               "osSKU": "CBLMariner",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -2879,6 +2970,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -2890,6 +2982,7 @@ examples:
               "osSKU": "CBLMariner",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System"
@@ -2965,7 +3058,7 @@ examples:
       }
 - name: Create Managed Cluster with GPUMIG
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -3054,6 +3147,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -3065,6 +3159,7 @@ examples:
               "gpuInstanceProfile": "MIG3g",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -3155,6 +3250,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -3166,6 +3262,7 @@ examples:
               "gpuInstanceProfile": "MIG3g",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System"
@@ -3241,7 +3338,7 @@ examples:
       }
 - name: Create/Update Managed Cluster with EnableAHUB
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -3332,6 +3429,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -3342,6 +3440,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "availabilityZones": [
                 "1",
@@ -3438,6 +3537,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -3448,6 +3548,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "availabilityZones": [
                 "1",
@@ -3529,7 +3630,7 @@ examples:
       }
 - name: Create Managed Cluster with EncryptionAtHost enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -3609,6 +3710,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -3619,6 +3721,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -3701,6 +3804,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -3711,6 +3815,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -3778,7 +3883,7 @@ examples:
       }
 - name: Create Managed Cluster with UltraSSD enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -3858,6 +3963,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -3868,6 +3974,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -3950,6 +4057,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -3960,6 +4068,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -4027,7 +4136,7 @@ examples:
       }
 - name: Create Managed Cluster with PodIdentity enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -4110,6 +4219,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -4120,6 +4230,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -4205,6 +4316,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -4215,6 +4327,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System"
@@ -4285,7 +4398,7 @@ examples:
       }
 - name: Create Managed Private Cluster with fqdn subdomain specified
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -4368,6 +4481,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "fqdnSubdomain": "domain1",
           "agentPoolProfiles": [
             {
@@ -4378,6 +4492,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -4463,6 +4578,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "fqdnSubdomain": "domain1",
           "agentPoolProfiles": [
             {
@@ -4473,6 +4589,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -4544,7 +4661,7 @@ examples:
       }
 - name: Create Managed Private Cluster with Public FQDN specified
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -4627,6 +4744,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -4637,6 +4755,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -4724,6 +4843,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -4734,6 +4854,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -4807,7 +4928,7 @@ examples:
       }
 - name: Create Managed Cluster with RunCommand disabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -4889,6 +5010,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -4899,6 +5021,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -4984,6 +5107,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -4994,6 +5118,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -5065,7 +5190,7 @@ examples:
       }
 - name: Create Managed Cluster with Node Public IP Prefix
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -5145,6 +5270,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -5155,6 +5281,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -5237,6 +5364,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -5247,6 +5375,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -5314,7 +5443,7 @@ examples:
       }
 - name: Create Managed Cluster with FIPS enabled OS
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -5394,6 +5523,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -5404,6 +5534,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -5486,6 +5617,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -5496,6 +5628,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -5563,7 +5696,7 @@ examples:
       }
 - name: Create Managed Cluster with HTTP proxy configured
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -5651,6 +5784,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -5661,6 +5795,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -5751,6 +5886,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -5761,6 +5897,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System"
@@ -5836,7 +5973,7 @@ examples:
       }
 - name: Create Managed Cluster with Security Profile configured
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -5905,6 +6042,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -5915,6 +6053,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -5998,6 +6137,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -6008,6 +6148,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System"
@@ -6076,7 +6217,7 @@ examples:
       }
 - name: Create Managed Cluster with AKS-managed NAT gateway as outbound type
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -6155,6 +6296,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -6165,6 +6307,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": false,
               "mode": "System",
@@ -6236,6 +6379,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -6246,6 +6390,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": false,
               "mode": "System"
@@ -6302,7 +6447,7 @@ examples:
       }
 - name: Create Managed Cluster with user-assigned NAT gateway as outbound type
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -6376,6 +6521,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -6386,6 +6532,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": false,
               "mode": "System",
@@ -6443,6 +6590,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -6453,6 +6601,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": false,
               "mode": "System"
@@ -6495,7 +6644,7 @@ examples:
       }
 - name: Create Managed Cluster using an agent pool snapshot
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -6578,6 +6727,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -6588,6 +6738,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -6673,6 +6824,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -6683,6 +6835,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "enableNodePublicIP": true,
               "mode": "System",
@@ -6753,7 +6906,7 @@ examples:
       }
 - name: Create/Update Managed Cluster with Windows gMSA enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -6846,6 +6999,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -6856,6 +7010,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "availabilityZones": [
                 "1",
@@ -6954,6 +7109,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.9.6",
+          "currentKubernetesVersion": "1.9.6",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -6964,6 +7120,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.9.6",
+              "currentOrchestratorVersion": "1.9.6",
               "type": "VirtualMachineScaleSets",
               "availabilityZones": [
                 "1",
@@ -7047,7 +7204,7 @@ examples:
       }
 - name: Create/Update Managed Cluster with dual-stack networking
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2022-04-01
     body: >-
       {
         "location": "location1",
@@ -7147,6 +7304,7 @@ examples:
           "provisioningState": "Succeeded",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.22.1",
+          "currentKubernetesVersion": "1.22.1",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -7157,6 +7315,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Succeeded",
               "orchestratorVersion": "1.22.1",
+              "currentOrchestratorVersion": "1.22.1",
               "type": "VirtualMachineScaleSets",
               "scaleDownMode": "Deallocate",
               "availabilityZones": [
@@ -7265,6 +7424,7 @@ examples:
           "provisioningState": "Creating",
           "maxAgentPools": 1,
           "kubernetesVersion": "1.22.1",
+          "currentKubernetesVersion": "1.22.1",
           "dnsPrefix": "dnsprefix1",
           "agentPoolProfiles": [
             {
@@ -7275,6 +7435,7 @@ examples:
               "osType": "Linux",
               "provisioningState": "Creating",
               "orchestratorVersion": "1.22.1",
+              "currentOrchestratorVersion": "1.22.1",
               "type": "VirtualMachineScaleSets",
               "scaleDownMode": "Deallocate",
               "availabilityZones": [

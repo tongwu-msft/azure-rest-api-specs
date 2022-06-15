@@ -3,14 +3,14 @@ uid: management.azure.com.azureml.privateendpointconnections.list
 name: List
 service: Machine Learning
 groupName: Private Endpoint Connections
-apiVersion: 2021-03-01-preview
+apiVersion: 2022-05-01
 summary: List all the private endpoint connections associated with the workspace.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/privateEndpointConnections?api-version=2021-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/privateEndpointConnections?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -71,7 +71,7 @@ definitions:
   - name: identity
     description: The identity of the resource.
     types:
-    - uid: Identity
+    - uid: ManagedServiceIdentity
   - name: location
     description: Specifies the location of the resource.
     types:
@@ -88,11 +88,6 @@ definitions:
     description: The sku of the workspace.
     types:
     - uid: Sku
-  - name: systemData
-    isReadyOnly: true
-    description: Metadata pertaining to creation and last modification of the resource.
-    types:
-    - uid: systemData
   - name: properties.privateEndpoint
     description: The resource of private end point.
     types:
@@ -121,6 +116,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -152,26 +152,26 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: Identity
-  description: Identity for the resource.
+- name: ManagedServiceIdentity
+  description: Managed service identity (system assigned and/or user assigned identities)
   kind: object
   properties:
   - name: principalId
     isReadyOnly: true
-    description: The principal ID of resource identity.
+    description: The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
     types:
     - uid: string
   - name: tenantId
     isReadyOnly: true
-    description: The tenant ID of resource.
+    description: The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
     types:
     - uid: string
   - name: type
-    description: The identity type.
+    description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
     types:
-    - uid: ResourceIdentityType
+    - uid: ManagedServiceIdentityType
   - name: userAssignedIdentities
-    description: The user assigned identities associated with the resource.
+    description: "User-Assigned Identities  \nThe set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
     types:
     - uid: object
       isDictionary: true
@@ -179,45 +179,29 @@ definitions:
       - uid: string
       - uid: UserAssignedIdentity
 - name: Sku
-  description: Sku of the resource
+  description: The resource model definition representing SKU
   kind: object
   properties:
   - name: name
-    description: Name of the sku
+    description: The name of the SKU. Ex - P3. It is typically a letter+number code
     types:
     - uid: string
   - name: tier
-    description: Tier of the sku like Basic or Enterprise
+    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    types:
+    - uid: SkuTier
+  - name: size
+    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
     types:
     - uid: string
-- name: systemData
-  description: Metadata pertaining to creation and last modification of the resource.
-  kind: object
-  properties:
-  - name: createdBy
-    description: The identity that created the resource.
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
     types:
     - uid: string
-  - name: createdByType
-    description: The type of identity that created the resource.
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
     types:
-    - uid: createdByType
-  - name: createdAt
-    description: The timestamp of resource creation (UTC).
-    types:
-    - uid: string
-  - name: lastModifiedBy
-    description: The identity that last modified the resource.
-    types:
-    - uid: string
-  - name: lastModifiedByType
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: createdByType
-  - name: lastModifiedAt
-    description: The timestamp of resource last modification (UTC)
-    types:
-    - uid: string
+    - uid: integer
 - name: PrivateEndpoint
   description: The Private Endpoint resource.
   kind: object
@@ -264,6 +248,34 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -278,55 +290,50 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: ResourceIdentityType
-  description: The identity type.
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
   kind: enum
   properties:
-  - name: SystemAssigned
+  - name: None
     types:
     - uid: string
-  - name: SystemAssigned,UserAssigned
+  - name: SystemAssigned
     types:
     - uid: string
   - name: UserAssigned
     types:
     - uid: string
-  - name: None
+  - name: SystemAssigned,UserAssigned
     types:
     - uid: string
 - name: UserAssignedIdentity
-  description: User Assigned Identity
+  description: User assigned identity properties
   kind: object
   properties:
   - name: principalId
     isReadyOnly: true
-    description: The principal ID of the user assigned identity.
-    types:
-    - uid: string
-  - name: tenantId
-    isReadyOnly: true
-    description: The tenant ID of the user assigned identity.
+    description: The principal ID of the assigned identity.
     types:
     - uid: string
   - name: clientId
     isReadyOnly: true
-    description: The clientId(aka appId) of the user assigned identity.
+    description: The client ID of the assigned identity.
     types:
     - uid: string
-- name: createdByType
-  description: The type of identity that created the resource.
+- name: SkuTier
+  description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
   kind: enum
   properties:
-  - name: User
+  - name: Free
     types:
     - uid: string
-  - name: Application
+  - name: Basic
     types:
     - uid: string
-  - name: ManagedIdentity
+  - name: Standard
     types:
     - uid: string
-  - name: Key
+  - name: Premium
     types:
     - uid: string
 - name: PrivateEndpointServiceConnectionStatus
@@ -348,10 +355,26 @@ definitions:
   - name: Timeout
     types:
     - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: StorageAccountListPrivateEndpointConnections
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/rg-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/privateEndpointConnections?api-version=2021-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/rg-1234/providers/Microsoft.MachineLearningServices/workspaces/testworkspace/privateEndpointConnections?api-version=2022-05-01
   responses:
   - statusCode: "200"
     body: >-

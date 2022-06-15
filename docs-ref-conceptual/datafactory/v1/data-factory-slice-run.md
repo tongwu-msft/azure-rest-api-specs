@@ -1,5 +1,6 @@
 ---
 title: "Slice Run (Azure Data Factory)"
+description: Learn how the Get Run request runs for a data slice of a table in a data factory.
 ---
 # Slice Run version 1 (V1)
 

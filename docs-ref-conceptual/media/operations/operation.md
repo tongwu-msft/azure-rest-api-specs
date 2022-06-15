@@ -1,5 +1,6 @@
 ---
 title: "Operation"
+description: Learn how Operation represents the current state of a long-running operation. Also, see examples of long-running operations include starting, stopping, and deleting an Origin.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

@@ -1,5 +1,6 @@
 ---
 title: "Azure Media Services REST API Reference"
+description: Learn about the entities and functions that are used when creating, processing, managing, and delivering Assets in Media Services v2.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

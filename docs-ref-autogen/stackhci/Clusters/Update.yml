@@ -3,14 +3,14 @@ uid: management.azure.com.stackhci.clusters.update
 name: Update
 service: Azure Stack HCI
 groupName: Clusters
-apiVersion: 2020-10-01
+apiVersion: 2022-05-01
 summary: Update an HCI cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}?api-version=2020-10-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -57,8 +57,40 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: properties.cloudManagementEndpoint
+    in: body
+    description: Endpoint configured for management from the Azure portal
+    types:
+    - uid: string
+  - name: properties.aadClientId
+    in: body
+    description: App id of cluster AAD identity.
+    types:
+    - uid: string
+  - name: properties.aadTenantId
+    in: body
+    description: Tenant id of cluster AAD identity.
+    types:
+    - uid: string
+  - name: properties.desiredProperties
+    in: body
+    description: Desired properties of the cluster.
+    types:
+    - uid: ClusterDesiredProperties
 requestHeader: []
 definitions:
+- name: ClusterDesiredProperties
+  description: Desired properties of the cluster.
+  kind: object
+  properties:
+  - name: windowsServerSubscription
+    description: Desired state of Windows Server Subscription.
+    types:
+    - uid: WindowsServerSubscription
+  - name: diagnosticLevel
+    description: Desired level of diagnostic data emitted by the cluster.
+    types:
+    - uid: DiagnosticLevel
 - name: Cluster
   description: Cluster details.
   kind: object
@@ -102,6 +134,10 @@ definitions:
     description: Unique, immutable resource id.
     types:
     - uid: string
+  - name: properties.cloudManagementEndpoint
+    description: Endpoint configured for management from the Azure portal.
+    types:
+    - uid: string
   - name: properties.aadClientId
     description: App id of cluster AAD identity.
     types:
@@ -110,7 +146,20 @@ definitions:
     description: Tenant id of cluster AAD identity.
     types:
     - uid: string
+  - name: properties.aadApplicationObjectId
+    description: Object id of cluster AAD identity.
+    types:
+    - uid: string
+  - name: properties.aadServicePrincipalObjectId
+    description: Id of cluster identity service principal.
+    types:
+    - uid: string
+  - name: properties.desiredProperties
+    description: Desired properties of the cluster.
+    types:
+    - uid: ClusterDesiredProperties
   - name: properties.reportedProperties
+    isReadyOnly: true
     description: Properties reported by cluster agent.
     types:
     - uid: ClusterReportedProperties
@@ -137,6 +186,11 @@ definitions:
   - name: properties.lastBillingTimestamp
     isReadyOnly: true
     description: Most recent billing meter timestamp.
+    types:
+    - uid: string
+  - name: properties.serviceEndpoint
+    isReadyOnly: true
+    description: Region specific DataPath Endpoint of the cluster.
     types:
     - uid: string
   - name: tags
@@ -174,7 +228,7 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: ClusterUpdate
+- name: ClusterPatch
   description: Cluster details to update.
   kind: object
   properties:
@@ -186,6 +240,45 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: properties.cloudManagementEndpoint
+    description: Endpoint configured for management from the Azure portal
+    types:
+    - uid: string
+  - name: properties.aadClientId
+    description: App id of cluster AAD identity.
+    types:
+    - uid: string
+  - name: properties.aadTenantId
+    description: Tenant id of cluster AAD identity.
+    types:
+    - uid: string
+  - name: properties.desiredProperties
+    description: Desired properties of the cluster.
+    types:
+    - uid: ClusterDesiredProperties
+- name: WindowsServerSubscription
+  description: Desired state of Windows Server Subscription.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+- name: DiagnosticLevel
+  description: Desired level of diagnostic data emitted by the cluster.
+  kind: enum
+  properties:
+  - name: Off
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Enhanced
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -270,6 +363,15 @@ definitions:
     description: Last time the cluster reported the data.
     types:
     - uid: string
+  - name: imdsAttestation
+    isReadyOnly: true
+    description: IMDS attestation status of the cluster.
+    types:
+    - uid: ImdsAttestation
+  - name: diagnosticLevel
+    description: Level of diagnostic data emitted by the cluster.
+    types:
+    - uid: DiagnosticLevel
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -315,6 +417,11 @@ definitions:
     description: Id of the node in the cluster.
     types:
     - uid: number
+  - name: windowsServerSubscription
+    isReadyOnly: true
+    description: State of Windows Server Subscription.
+    types:
+    - uid: WindowsServerSubscription
   - name: manufacturer
     isReadyOnly: true
     description: Manufacturer of the cluster node hardware.
@@ -350,6 +457,16 @@ definitions:
     description: Total available memory on the cluster node (in GiB).
     types:
     - uid: number
+- name: ImdsAttestation
+  description: IMDS attestation status of the cluster.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -367,12 +484,19 @@ definitions:
 examples:
 - name: Update cluster
   request:
-    uri: PATCH https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2020-10-01
+    uri: PATCH https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-05-01
     body: >-
       {
         "tags": {
           "tag1": "value1",
           "tag2": "value2"
+        },
+        "properties": {
+          "cloudManagementEndpoint": "https://98294836-31be-4668-aeae-698667faf99b.waconazure.com",
+          "desiredProperties": {
+            "windowsServerSubscription": "Enabled",
+            "diagnosticLevel": "Basic"
+          }
         }
       }
   responses:
@@ -387,12 +511,25 @@ examples:
           "tag1": "value1",
           "tag2": "value2"
         },
+        "systemData": {
+          "createdBy": "user1",
+          "createdByType": "User",
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedBy": "user2",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
+        },
         "properties": {
           "provisioningState": "Succeeded",
           "status": "ConnectedRecently",
           "cloudId": "91c2b355-4826-4e96-9164-e3f26dcf1cdd",
+          "cloudManagementEndpoint": "https://98294836-31be-4668-aeae-698667faf99b.waconazure.com",
           "aadClientId": "515da1c2-379e-49b4-9975-09e3e40c86be",
           "aadTenantId": "7e589cc1-a8b6-4dff-91bd-5ec0fa18db94",
+          "desiredProperties": {
+            "windowsServerSubscription": "Enabled",
+            "diagnosticLevel": "Basic"
+          },
           "reportedProperties": {
             "clusterName": "cluster1",
             "clusterId": "a76ac23a-1819-4e82-9410-e3e4ec3d1425",
@@ -401,6 +538,7 @@ examples:
               {
                 "name": "Node1",
                 "id": 1,
+                "windowsServerSubscription": "Enabled",
                 "manufacturer": "Dell Inc.",
                 "model": "EMC AX740",
                 "osName": "Azure Stack HCI",
@@ -412,6 +550,7 @@ examples:
               {
                 "name": "Node2",
                 "id": 2,
+                "windowsServerSubscription": "Enabled",
                 "manufacturer": "Dell Inc.",
                 "model": "EMC AX740",
                 "osName": "Azure Stack HCI",
@@ -423,6 +562,7 @@ examples:
               {
                 "name": "Node3",
                 "id": 3,
+                "windowsServerSubscription": "Enabled",
                 "manufacturer": "Dell Inc.",
                 "model": "EMC AX740",
                 "osName": "Azure Stack HCI",
@@ -432,7 +572,9 @@ examples:
                 "memoryInGiB": 256
               }
             ],
-            "lastUpdated": "2020-03-11T19:24:42.1946017Z"
+            "lastUpdated": "2020-03-11T19:24:42.1946017Z",
+            "imdsAttestation": "Disabled",
+            "diagnosticLevel": "Basic"
           },
           "trialDaysRemaining": 30,
           "billingModel": "Trial",

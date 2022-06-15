@@ -1,5 +1,6 @@
 ---
 title: "Send event with publisher ID"
+description: Learn how the Send Event with Publisher operation sends a new event to an Event Hub with a specified publisher ID.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

@@ -1,5 +1,6 @@
 ---
 title: "Delete Topic"
+description: API reference documentation for the operations available in the Delete Topic REST API, a RESTful web service for managing Delete Topic resources in Azure.
 ms.custom: ""
 ms.date: "05/14/2015"
 ms.reviewer: ""
@@ -27,7 +28,7 @@ translation.priority.mt:
 # Delete Topic
 
 > [!IMPORTANT]
-> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+> This API is [**obsolete and retired**](/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
 
 Delete an existing topic. This operation also removes all associated state, including messages in the topic.  
   

@@ -3,13 +3,13 @@ uid: management.azure.com.azureml.datacontainers.list
 name: List
 service: Machine Learning
 groupName: Data Containers
-apiVersion: 2021-03-01-preview
-summary: List containers.
+apiVersion: 2022-05-01
+summary: List data containers.
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data?api-version=2021-03-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data?api-version=2021-03-01-preview&$skip={$skip}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data?api-version=2022-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data?api-version=2022-05-01&$skip={$skip}&listViewType={listViewType}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -41,6 +41,11 @@ uriParameters:
   description: Continuation token for pagination.
   types:
   - uid: string
+- name: listViewType
+  in: query
+  description: View type for including/excluding (for example) archived entities.
+  types:
+  - uid: ListViewType
 responses:
 - name: Other Status Codes
   description: Error
@@ -52,6 +57,18 @@ responses:
   - uid: DataContainerResourceArmPaginatedResult
 requestHeader: []
 definitions:
+- name: ListViewType
+  kind: enum
+  properties:
+  - name: ActiveOnly
+    types:
+    - uid: string
+  - name: ArchivedOnly
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -112,11 +129,6 @@ definitions:
     description: '[Required] Additional attributes of the entity.'
     types:
     - uid: DataContainer
-  - name: systemData
-    isReadyOnly: true
-    description: System data associated with resource provider
-    types:
-    - uid: systemData
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -132,6 +144,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -150,6 +167,25 @@ definitions:
   description: Container for data asset versions.
   kind: object
   properties:
+  - name: dataType
+    description: '[Required] Specifies the type of data.'
+    types:
+    - uid: DataType
+  - name: isArchived
+    description: Is the asset archived?
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: latestVersion
+    isReadyOnly: true
+    description: The latest version inside this container.
+    types:
+    - uid: string
+  - name: nextVersion
+    isReadyOnly: true
+    description: The next auto incremental version
+    types:
+    - uid: string
   - name: description
     description: The asset description text.
     types:
@@ -198,6 +234,19 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
+- name: DataType
+  description: Enum to determine the type of data.
+  kind: enum
+  properties:
+  - name: uri_file
+    types:
+    - uid: string
+  - name: uri_folder
+    types:
+    - uid: string
+  - name: mltable
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -217,7 +266,7 @@ definitions:
 examples:
 - name: List Data Container.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspace123/data?api-version=2021-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspace123/data?api-version=2022-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -228,6 +277,7 @@ examples:
             "name": "datastore123",
             "type": "Microsoft.MachineLearningServices/workspaces/data",
             "properties": {
+              "dataType": "UriFile",
               "description": "string",
               "tags": {
                 "tag1": "value1",
@@ -252,6 +302,7 @@ examples:
             "name": "datastore124",
             "type": "Microsoft.MachineLearningServices/workspaces/data",
             "properties": {
+              "dataType": "UriFile",
               "description": "string",
               "tags": {
                 "tag1": "value1",
@@ -276,5 +327,5 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Machine Learning service - List containers.
+  description: Learn more about Machine Learning service - List data containers.
 errorCodes: []

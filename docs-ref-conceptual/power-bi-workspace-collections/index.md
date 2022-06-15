@@ -1,5 +1,6 @@
 ---
 title: Azure Power BI Workspace Collections REST API reference
+description: API reference documentation for the operations available in the Power BI Workspace Collections REST API, a RESTful web service for managing Power BI Workspace Collections resources in Azure.
 ms.service: power-bi-embedded
 author: steved0x
 ms.author: sdanie
