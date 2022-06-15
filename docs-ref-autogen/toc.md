@@ -864,6 +864,13 @@
 ##### [Get](apimanagement/current-preview/Gateway-Hostname-Configuration/Get.yml)
 ##### [Get Entity Tag](apimanagement/current-preview/Gateway-Hostname-Configuration/Get-Entity-Tag.yml)
 ##### [List By Service](apimanagement/current-preview/Gateway-Hostname-Configuration/List-By-Service.yml)
+#### Global Schema
+##### [Overview](apimanagement/current-preview/Global-Schema.yml)
+##### [Create Or Update](apimanagement/current-preview/Global-Schema/Create-Or-Update.yml)
+##### [Delete](apimanagement/current-preview/Global-Schema/Delete.yml)
+##### [Get](apimanagement/current-preview/Global-Schema/Get.yml)
+##### [Get Entity Tag](apimanagement/current-preview/Global-Schema/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/current-preview/Global-Schema/List-By-Service.yml)
 #### Group
 ##### [Overview](apimanagement/current-preview/Group.yml)
 ##### [Create Or Update](apimanagement/current-preview/Group/Create-Or-Update.yml)
@@ -958,6 +965,21 @@
 #### Policy Description
 ##### [Overview](apimanagement/current-preview/Policy-Description.yml)
 ##### [List By Service](apimanagement/current-preview/Policy-Description/List-By-Service.yml)
+#### Policy Fragment
+##### [Overview](apimanagement/current-preview/Policy-Fragment.yml)
+##### [Create Or Update](apimanagement/current-preview/Policy-Fragment/Create-Or-Update.yml)
+##### [Delete](apimanagement/current-preview/Policy-Fragment/Delete.yml)
+##### [Get](apimanagement/current-preview/Policy-Fragment/Get.yml)
+##### [Get Entity Tag](apimanagement/current-preview/Policy-Fragment/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/current-preview/Policy-Fragment/List-By-Service.yml)
+##### [List References](apimanagement/current-preview/Policy-Fragment/List-References.yml)
+#### Portal Config
+##### [Overview](apimanagement/current-preview/Portal-Config.yml)
+##### [Create Or Update](apimanagement/current-preview/Portal-Config/Create-Or-Update.yml)
+##### [Get](apimanagement/current-preview/Portal-Config/Get.yml)
+##### [Get Entity Tag](apimanagement/current-preview/Portal-Config/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/current-preview/Portal-Config/List-By-Service.yml)
+##### [Update](apimanagement/current-preview/Portal-Config/Update.yml)
 #### Portal Revision
 ##### [Overview](apimanagement/current-preview/Portal-Revision.yml)
 ##### [Create Or Update](apimanagement/current-preview/Portal-Revision/Create-Or-Update.yml)
@@ -1103,6 +1125,10 @@
 ##### [Get Sync State](apimanagement/current-preview/Tenant-Configuration/Get-Sync-State.yml)
 ##### [Save](apimanagement/current-preview/Tenant-Configuration/Save.yml)
 ##### [Validate](apimanagement/current-preview/Tenant-Configuration/Validate.yml)
+#### Tenant Settings
+##### [Overview](apimanagement/current-preview/Tenant-Settings.yml)
+##### [Get](apimanagement/current-preview/Tenant-Settings/Get.yml)
+##### [List By Service](apimanagement/current-preview/Tenant-Settings/List-By-Service.yml)
 #### User
 ##### [Overview](apimanagement/current-preview/User.yml)
 ##### [Create Or Update](apimanagement/current-preview/User/Create-Or-Update.yml)
