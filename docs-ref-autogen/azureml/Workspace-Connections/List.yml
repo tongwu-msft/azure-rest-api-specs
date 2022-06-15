@@ -3,15 +3,14 @@ uid: management.azure.com.azureml.workspaceconnections.list
 name: List
 service: Machine Learning
 groupName: Workspace Connections
-apiVersion: 2022-02-01-preview
-summary: List all connections under a AML workspace.
+apiVersion: 2022-05-01
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections?api-version=2022-02-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections?api-version=2022-02-01-preview&target={target}&category={category}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections?api-version=2022-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections?target={target}&category={category}&api-version=2022-05-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -32,12 +31,6 @@ uriParameters:
   description: Name of Azure Machine Learning workspace.
   types:
   - uid: string
-- name: api-version
-  in: query
-  isRequired: true
-  description: The API version to use for this operation.
-  types:
-  - uid: string
 - name: target
   in: query
   description: Target of the workspace connection.
@@ -48,28 +41,34 @@ uriParameters:
   description: Category of the workspace connection.
   types:
   - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
-  description: The response includes a paginated array of Workspace connections and a URI to the next set of results, if any. For the more information the limits of the number of items in a resource group, see https://azure.microsoft.com/en-us/documentation/articles/azure-subscription-service-limits/.
+  description: The request was successful; the request was well-formed and received properly.
   types:
-  - uid: PaginatedWorkspaceConnectionsList
+  - uid: WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult
 - name: Other Status Codes
-  description: Error response describing why the operation failed
+  description: Error
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: PaginatedWorkspaceConnectionsList
-  description: Paginated list of Workspace connection objects.
+- name: WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult
   kind: object
   properties:
   - name: value
-    description: An array of Workspace connection objects.
+    description: ''
     types:
-    - uid: WorkspaceConnection
+    - uid: WorkspaceConnectionPropertiesV2BasicResource
       isArray: true
   - name: nextLink
-    description: A continuation link (absolute URI) to the next page of results in the list.
+    isReadyOnly: true
+    description: ''
     types:
     - uid: string
 - name: ErrorResponse
@@ -80,30 +79,18 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: WorkspaceConnection
-  description: Workspace connection.
+- name: WorkspaceConnectionPropertiesV2BasicResource
   kind: object
   properties:
-  - name: properties.category
-    description: Category of the workspace connection.
+  - name: properties
+    description: ''
     types:
-    - uid: string
-  - name: properties.target
-    description: Target of the workspace connection.
-    types:
-    - uid: string
-  - name: properties.authType
-    description: Authorization type of the workspace connection.
-    types:
-    - uid: string
-  - name: properties.value
-    description: Value details of the workspace connection.
-    types:
-    - uid: string
-  - name: properties.valueFormat
-    description: format for the workspace connection value
-    types:
-    - uid: ValueFormat
+    - uid: PATAuthTypeWorkspaceConnectionProperties
+    - uid: SASAuthTypeWorkspaceConnectionProperties
+    - uid: UsernamePasswordAuthTypeWorkspaceConnectionProperties
+    - uid: NoneAuthTypeWorkspaceConnectionProperties
+    - uid: ManagedIdentityAuthTypeWorkspaceConnectionProperties
+    typesTitle: WorkspaceConnectionPropertiesV2
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -155,13 +142,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: ValueFormat
-  description: format for the workspace connection value
-  kind: enum
-  properties:
-  - name: JSON
-    types:
-    - uid: string
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -204,6 +184,142 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: PATAuthTypeWorkspaceConnectionProperties
+  kind: object
+  properties:
+  - name: credentials
+    description: ''
+    types:
+    - uid: WorkspaceConnectionPersonalAccessToken
+  - name: authType
+    description: Authentication type of the connection target
+    types:
+    - uid: PAT
+    typesTitle: string
+  - name: category
+    description: Category of the connection
+    types:
+    - uid: ConnectionCategory
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: value
+    description: Value details of the workspace connection.
+    types:
+    - uid: string
+  - name: valueFormat
+    description: format for the workspace connection value
+    types:
+    - uid: ValueFormat
+- name: SASAuthTypeWorkspaceConnectionProperties
+  kind: object
+  properties:
+  - name: credentials
+    description: ''
+    types:
+    - uid: WorkspaceConnectionSharedAccessSignature
+  - name: authType
+    description: Authentication type of the connection target
+    types:
+    - uid: SAS
+    typesTitle: string
+  - name: category
+    description: Category of the connection
+    types:
+    - uid: ConnectionCategory
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: value
+    description: Value details of the workspace connection.
+    types:
+    - uid: string
+  - name: valueFormat
+    description: format for the workspace connection value
+    types:
+    - uid: ValueFormat
+- name: UsernamePasswordAuthTypeWorkspaceConnectionProperties
+  kind: object
+  properties:
+  - name: credentials
+    description: ''
+    types:
+    - uid: WorkspaceConnectionUsernamePassword
+  - name: authType
+    description: Authentication type of the connection target
+    types:
+    - uid: UsernamePassword
+    typesTitle: string
+  - name: category
+    description: Category of the connection
+    types:
+    - uid: ConnectionCategory
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: value
+    description: Value details of the workspace connection.
+    types:
+    - uid: string
+  - name: valueFormat
+    description: format for the workspace connection value
+    types:
+    - uid: ValueFormat
+- name: NoneAuthTypeWorkspaceConnectionProperties
+  kind: object
+  properties:
+  - name: authType
+    description: Authentication type of the connection target
+    types:
+    - uid: None
+    typesTitle: string
+  - name: category
+    description: Category of the connection
+    types:
+    - uid: ConnectionCategory
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: value
+    description: Value details of the workspace connection.
+    types:
+    - uid: string
+  - name: valueFormat
+    description: format for the workspace connection value
+    types:
+    - uid: ValueFormat
+- name: ManagedIdentityAuthTypeWorkspaceConnectionProperties
+  kind: object
+  properties:
+  - name: credentials
+    description: ''
+    types:
+    - uid: WorkspaceConnectionManagedIdentity
+  - name: authType
+    description: Authentication type of the connection target
+    types:
+    - uid: ManagedIdentity
+    typesTitle: string
+  - name: category
+    description: Category of the connection
+    types:
+    - uid: ConnectionCategory
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: value
+    description: Value details of the workspace connection.
+    types:
+    - uid: string
+  - name: valueFormat
+    description: format for the workspace connection value
+    types:
+    - uid: ValueFormat
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -220,10 +336,85 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: WorkspaceConnectionPersonalAccessToken
+  kind: object
+  properties:
+  - name: pat
+    description: ''
+    types:
+    - uid: string
+- name: ConnectionAuthType
+  description: Authentication type of the connection target
+  kind: enum
+  properties:
+  - name: PAT
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: UsernamePassword
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+  - name: SAS
+    types:
+    - uid: string
+- name: ConnectionCategory
+  description: Category of the connection
+  kind: enum
+  properties:
+  - name: PythonFeed
+    types:
+    - uid: string
+  - name: ContainerRegistry
+    types:
+    - uid: string
+  - name: Git
+    types:
+    - uid: string
+- name: ValueFormat
+  description: format for the workspace connection value
+  kind: enum
+  properties:
+  - name: JSON
+    types:
+    - uid: string
+- name: WorkspaceConnectionSharedAccessSignature
+  kind: object
+  properties:
+  - name: sas
+    description: ''
+    types:
+    - uid: string
+- name: WorkspaceConnectionUsernamePassword
+  kind: object
+  properties:
+  - name: username
+    description: ''
+    types:
+    - uid: string
+  - name: password
+    description: ''
+    types:
+    - uid: string
+- name: WorkspaceConnectionManagedIdentity
+  kind: object
+  properties:
+  - name: resourceId
+    description: ''
+    types:
+    - uid: string
+  - name: clientId
+    description: ''
+    types:
+    - uid: string
 examples:
 - name: ListWorkspaceConnections
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1/providers/Microsoft.MachineLearningServices/workspaces/workspace-1/connections?api-version=2022-02-01-preview&target=www.facebook.com&category=ACR
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup-1/providers/Microsoft.MachineLearningServices/workspaces/workspace-1/connections?target=www.facebook.com&category=ContainerRegistry&api-version=2022-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -234,10 +425,9 @@ examples:
             "name": "connection-1",
             "type": "Microsoft.MachineLearningServices/workspaces/connections",
             "properties": {
-              "category": "ACR",
+              "category": "ContainerRegistry",
               "target": "www.facebook.com",
-              "authType": "PAT",
-              "value": "secrets"
+              "authType": "PAT"
             }
           },
           {
@@ -245,10 +435,9 @@ examples:
             "name": "connection-2",
             "type": "Microsoft.MachineLearningServices/workspaces/connections",
             "properties": {
-              "category": "ACR",
+              "category": "ContainerRegistry",
               "target": "www.facebook.com",
-              "authType": "PAT",
-              "value": "secrets"
+              "authType": "PAT"
             }
           }
         ]
@@ -263,5 +452,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Machine Learning service - List all connections under a AML workspace.
+  description: Learn more about Machine Learning service
 errorCodes: []
