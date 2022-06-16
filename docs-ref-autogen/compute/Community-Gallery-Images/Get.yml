@@ -3,14 +3,14 @@ uid: management.azure.com.compute.communitygalleryimages.get
 name: Get
 service: Compute
 groupName: Community Gallery Images
-apiVersion: 2021-07-01
+apiVersion: 2022-01-03
 summary: Get a community gallery image.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}?api-version=2021-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}?api-version=2022-01-03
 uriParameters:
 - name: subscriptionId
   in: path
@@ -94,6 +94,18 @@ definitions:
     description: Describes the gallery image definition purchase plan. This is used by marketplace images.
     types:
     - uid: ImagePurchasePlan
+  - name: properties.architecture
+    description: The architecture of the image. Applicable to OS disks only.
+    types:
+    - uid: Architecture
+  - name: properties.privacyStatementUri
+    description: Privacy statement uri for the current community gallery image.
+    types:
+    - uid: string
+  - name: properties.eula
+    description: End-user license agreement for the current community gallery image.
+    types:
+    - uid: string
   - name: name
     isReadyOnly: true
     description: Resource name
@@ -216,6 +228,16 @@ definitions:
     description: The product ID.
     types:
     - uid: string
+- name: Architecture
+  description: The architecture of the image. Applicable to OS disks only.
+  kind: enum
+  properties:
+  - name: x64
+    types:
+    - uid: string
+  - name: Arm64
+    types:
+    - uid: string
 - name: ApiError
   description: Api error.
   kind: object
@@ -282,9 +304,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get a gallery.
+- name: Get a community gallery image.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/myLocation/communityGalleries/publicGalleryName/images/myGalleryImageName?api-version=2021-07-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/myLocation/communityGalleries/publicGalleryName/images/myGalleryImageName?api-version=2022-01-03
   responses:
   - statusCode: "200"
     body: >-
@@ -297,7 +319,9 @@ examples:
             "publisher": "myPublisherName",
             "offer": "myOfferName",
             "sku": "mySkuName"
-          }
+          },
+          "privacyStatementUri": "https://www.microsoft.com/en-us/",
+          "eula": "https://www.microsoft.com/en-us/"
         },
         "location": "myLocation",
         "name": "myGalleryImageName",
