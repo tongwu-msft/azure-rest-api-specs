@@ -13092,6 +13092,14 @@
 ### [Delete](MariaDB/Virtual-Network-Rules/Delete.yml)
 ### [Get](MariaDB/Virtual-Network-Rules/Get.yml)
 ### [List By Server](MariaDB/Virtual-Network-Rules/List-By-Server.yml)
+# Marketplace Catalog
+## [Overview](../docs-ref-conceptual/marketplacecatalog/index.md)
+## Operations
+### [Overview](marketplacecatalog/Operations.yml)
+### [List](marketplacecatalog/Operations/List.yml)
+## Search
+### [Overview](marketplacecatalog/Search.yml)
+### [Post Arm](marketplacecatalog/Search/Post-Arm.yml)
 # Marketplace Ordering
 ## [Overview](../docs-ref-conceptual/marketplaceordering/index.md)
 ## Marketplace Agreements
