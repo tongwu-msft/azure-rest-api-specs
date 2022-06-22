@@ -52,6 +52,7 @@ This operation takes your index offline for at least a few seconds, causing your
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required. The request URI specifies the name of the index to update.   |
 | api-version | Required. The current stable version is `api-version=2020-06-30`. See [API versions](search-service-api-versions.md) for more versions. |
+| allowIndexDowntime=true | Required for certain updates such adding or modifying an analyzer, tokenizer, token filter, char filter, or similarity property. The index is taken offline for the duration of the update, usually no more than several seconds. |
 
 ## Request Headers
 
