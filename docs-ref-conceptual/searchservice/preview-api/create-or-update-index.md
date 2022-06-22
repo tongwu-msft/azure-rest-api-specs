@@ -46,7 +46,7 @@ HTTPS is required for all service requests. If the index doesn't exist, it is cr
 
 **Creating an index** establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations](../indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents](../addupdate-or-delete-documents.md). The maximum number of indexes that you can create varies by pricing tier. Within each index, there are limits on individual elements. For more information, see [Service limits for Azure Cognitive Search](/azure/search/search-limits-quotas-capacity#index-limits).  
 
-**Updating an existing index** included the original schema definition, plus new fields you are adding, as well as any modified scoring profiles and CORS options, if any. If you are not modifying the scoring profiles and CORS options, you must include the original values from when the index was created. In general, the best pattern to use for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT. 
+**Updating an existing index** must include the full schema definition, including any original definitions that you want to preserve. In general, the best pattern for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT. 
 
 Because an existing index contains content, many index modifications require an [index drop and rebuild](/azure/search/search-howto-reindex). The following schema changes are an exception to this rule:
 
