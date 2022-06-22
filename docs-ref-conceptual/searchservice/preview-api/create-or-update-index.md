@@ -79,7 +79,7 @@ This operation takes your index offline for at least a few seconds, which means 
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. Dashes can't be consecutive.  |
 | api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
-| allowIndexDowntime=true | Required for certain updates such adding or modifying an analyzer, tokenizer, token filter, char filter, or similarity property. The index is taken offline for the duration of the update, usually no more than several seconds. |
+| allowIndexDowntime | Optional. False by default. Set to true for certain updates, such as adding or modifying an analyzer, tokenizer, token filter, char filter, or similarity property. The index is taken offline for the duration of the update, usually no more than several seconds. |
 
 ## Request Headers
 
