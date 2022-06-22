@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleryimageversions.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Gallery Image Versions
-apiVersion: 2021-10-01
+apiVersion: 2022-01-03
 summary: Create or update a gallery image version.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2021-10-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2022-01-03
 uriParameters:
 - name: subscriptionId
   in: path
@@ -177,15 +177,9 @@ definitions:
     - uid: GalleryImageVersionPublishingProfile
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The current state of the gallery image version.  \nThe provisioning state, which only appears in the response."
+    description: "The current state of the gallery or gallery artifact.  \nThe provisioning state, which only appears in the response."
     types:
-    - uid: Creating
-    - uid: Updating
-    - uid: Failed
-    - uid: Succeeded
-    - uid: Deleting
-    - uid: Migrating
-    typesTitle: enum
+    - uid: GalleryProvisioningState
   - name: properties.storageProfile
     description: This is the storage profile of a Gallery Image Version.
     types:
@@ -386,6 +380,28 @@ definitions:
     description: It indicates progress of the replication job.
     types:
     - uid: integer
+- name: GalleryProvisioningState
+  description: The current state of the gallery or gallery artifact.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Migrating
+    types:
+    - uid: string
 - name: ApiError
   description: Api error.
   kind: object
@@ -555,7 +571,7 @@ definitions:
 examples:
 - name: Create or update a simple Gallery Image Version using managed image as source.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-10-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
     body: >-
       {
         "location": "West US",
@@ -829,7 +845,7 @@ examples:
       }
 - name: Create or update a simple Gallery Image Version using snapshots as a source.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-10-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
     body: >-
       {
         "location": "West US",
@@ -1092,7 +1108,7 @@ examples:
       }
 - name: Create or update a simple Gallery Image Version using VM as source.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-10-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
     body: >-
       {
         "location": "West US",
@@ -1101,7 +1117,7 @@ examples:
             "targetRegions": [
               {
                 "name": "West US",
-                "regionalReplicaCount": 1,
+                "regionalReplicaCount": 2,
                 "encryption": {
                   "osDiskImage": {
                     "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
@@ -1156,7 +1172,7 @@ examples:
             "targetRegions": [
               {
                 "name": "West US",
-                "regionalReplicaCount": 1,
+                "regionalReplicaCount": 2,
                 "storageAccountType": "Standard_LRS",
                 "encryption": {
                   "osDiskImage": {
@@ -1228,7 +1244,7 @@ examples:
             "targetRegions": [
               {
                 "name": "West US",
-                "regionalReplicaCount": 1,
+                "regionalReplicaCount": 2,
                 "storageAccountType": "Standard_LRS",
                 "encryption": {
                   "osDiskImage": {
@@ -1300,7 +1316,7 @@ examples:
             "targetRegions": [
               {
                 "name": "West US",
-                "regionalReplicaCount": 1,
+                "regionalReplicaCount": 2,
                 "storageAccountType": "Standard_LRS",
                 "encryption": {
                   "osDiskImage": {
@@ -1366,7 +1382,7 @@ examples:
       }
 - name: Create or update a simple Gallery Image Version using shared image as source.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-10-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
     body: >-
       {
         "location": "West US",
@@ -1640,7 +1656,7 @@ examples:
       }
 - name: Create or update a simple Gallery Image Version using mix of disks and snapshots as a source.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-10-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
     body: >-
       {
         "location": "West US",
@@ -1903,7 +1919,7 @@ examples:
       }
 - name: Create or update a simple Gallery Image Version using vhd as a source.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-10-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
     body: >-
       {
         "location": "West US",
@@ -2124,7 +2140,7 @@ examples:
       }
 - name: Create or update a simple Gallery Image Version using shallow replication mode.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-10-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
     body: >-
       {
         "location": "West US",
@@ -2262,7 +2278,7 @@ examples:
       }
 - name: Create or update a simple gallery image version with target extended locations specified.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-10-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
     body: >-
       {
         "location": "West US",
