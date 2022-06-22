@@ -10,6 +10,8 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{topicName}/eventSubscriptions?api-version=2021-10-15-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{topicName}/eventSubscriptions?api-version=2021-10-15-preview&$filter={$filter}&$top={$top}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +43,17 @@ uriParameters:
   description: Version of the API to be used with the client request.
   types:
   - uid: string
+- name: $filter
+  in: query
+  description: "The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'."
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page.
+  types:
+  - uid: integer
+  format: int32
 responses:
 - name: 200 OK
   description: OK
@@ -126,6 +139,7 @@ definitions:
     description: The event delivery schema for the event subscription.
     types:
     - uid: EventDeliverySchema
+    defaultValue: EventGridSchema
   - name: properties.retryPolicy
     description: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events.
     types:
@@ -268,6 +282,7 @@ definitions:
       should be compared in a case sensitive manner.
     types:
     - uid: boolean
+    defaultValue: false
   - name: enableAdvancedFilteringOnArrays
     description: Allows advanced filters to be evaluated against an array of values instead of expecting a singular value.
     types:
@@ -335,10 +350,12 @@ definitions:
     description: Maximum number of delivery retry attempts for events.
     types:
     - uid: integer
+    defaultValue: 30
   - name: eventTimeToLiveInMinutes
     description: Time To Live (in minutes) for events.
     types:
     - uid: integer
+    defaultValue: 1440
 - name: DeadLetterWithResourceIdentity
   description: Information about the deadletter destination with resource identity.
   kind: object
@@ -388,10 +405,12 @@ definitions:
     description: Maximum number of events per batch.
     types:
     - uid: integer
+    defaultValue: 1
   - name: properties.preferredBatchSizeInKilobytes
     description: Preferred batch size in Kilobytes.
     types:
     - uid: integer
+    defaultValue: 64
   - name: properties.azureActiveDirectoryTenantId
     description: The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests.
     types:
@@ -530,10 +549,12 @@ definitions:
     description: Maximum number of events per batch.
     types:
     - uid: integer
+    defaultValue: 1
   - name: properties.preferredBatchSizeInKilobytes
     description: Preferred batch size in Kilobytes.
     types:
     - uid: integer
+    defaultValue: 64
   - name: properties.deliveryAttributeMappings
     description: Delivery attribute details.
     types:
@@ -937,6 +958,7 @@ definitions:
     description: Boolean flag to tell if the attribute contains sensitive information .
     types:
     - uid: boolean
+    defaultValue: false
   - name: name
     description: Name of the delivery attribute or header.
     types:

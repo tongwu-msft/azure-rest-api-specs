@@ -1,8 +1,8 @@
 ---
 title: "EnvironmentVariable"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes an environment variable for containers and includes names, types, and requirement statuses for the name and value properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

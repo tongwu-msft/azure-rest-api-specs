@@ -1,5 +1,5 @@
 ---
-title: "ServiceReplicaProperties"
+title: Service Replica Properties
 description: "ServiceReplicaProperties"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceReplicaProperties
+# Service Replica Properties
 
 Describes the properties of a service replica.
 

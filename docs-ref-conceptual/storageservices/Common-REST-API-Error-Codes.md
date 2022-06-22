@@ -1,6 +1,6 @@
 ---
 title: Common REST API error codes - Azure Storage
-description: Error codes that are returned by all of the Azure Storage services - Blob, Queue, Table, and File.
+description: Error codes that are returned by all of the Azure Storage services - Blob Storage, Queue Storage, Table Storage, and Azure Files.
 author: pemari-msft
 
 ms.date: 09/23/2019
@@ -11,7 +11,7 @@ ms.author: pemari
 
 # Common REST API error codes
 
-The error codes listed in the following table may be returned by an operation on any of the storage services.  
+An operation on any of the Azure Storage services can return the following error codes:  
   
 |Error code|HTTP status code|User message|  
 |----------------|----------------------|------------------|  
@@ -67,10 +67,10 @@ The error codes listed in the following table may be returned by an operation on
 |UnsupportedHttpVerb|Method Not Allowed (405)|The resource doesn't support the specified HTTP verb.|  
   
 ## See also  
- [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
- [Queue Service Error Codes](Queue-Service-Error-Codes.md)   
- [Table Service Error Codes](Table-Service-Error-Codes.md)   
- [File Service Error Codes](File-Service-Error-Codes.md)   
- [Troubleshooting API Operations](Troubleshooting-API-Operations.md)   
- [HttpStatusCode Enumeration](https://go.microsoft.com/fwlink/?LinkId=152845)   
- [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)
+ [Blob Storage error codes](Blob-Service-Error-Codes.md)   
+ [Queue Storage error codes](Queue-Service-Error-Codes.md)   
+ [Table Storage error codes](Table-Service-Error-Codes.md)   
+ [Azure Files error codes](File-Service-Error-Codes.md)   
+ [Troubleshoot API operations](Troubleshooting-API-Operations.md)   
+ [HttpStatusCode enumeration](https://go.microsoft.com/fwlink/?LinkId=152845)   
+ [Azure Storage REST API reference](Azure-Storage-Services-REST-API-Reference.md)

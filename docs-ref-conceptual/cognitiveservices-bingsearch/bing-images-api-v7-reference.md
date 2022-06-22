@@ -1,6 +1,6 @@
 ---
 title: Bing Images Search API v7 Reference | Microsoft Docs
-description: Describes the programming elements of the Bing Images Search API.
+description: Describes the v7 iteration of the Bing Image Search API and provides technical details about query parameters and headers to implement.
 services: cognitive-services
 author: swhite-msft
 manager: ehansen
@@ -10,7 +10,7 @@ ms.service: cognitive-services
 ms.subservice: bing-image-search
 ms.topic: reference
 ms.date: 04/15/2017
-ms.author: scottwhi
+ms.author: stefhan
 ---
 
 
@@ -21,7 +21,7 @@ ms.author: scottwhi
 > Bing Search APIs provisioned using Cognitive Services will be supported for the next three years or until the end of your Enterprise Agreement, whichever happens first.
 > For migration instructions, see [Bing Search Services](https://aka.ms/cogsvcs/bingmigration).
 
-The Image Search API lets you send a search query to Bing and get back a list of relevant images. This section provides technical details about the query parameters and headers that you use to request images and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/search-the-web).  
+The Image Search API lets you send a search query to Bing and get back a list of relevant images. This section provides technical details about the query parameters and headers that you use to request images and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Images](/azure/cognitive-services/bing-image-search/search-the-web).  
 
 For information about the headers that requests should include, see [Request Headers](#headers).  
   
@@ -29,7 +29,7 @@ For information about the query parameters that requests should include, see [Qu
   
 For information about the JSON response objects that responses may include, see [Response Objects](#response-objects).  
 
-For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/useanddisplayrequirements).
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](/azure/cognitive-services/bing-image-search/useanddisplayrequirements).
 
 > [!NOTE]
 > Because URL formats and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters except where noted.
@@ -42,7 +42,7 @@ To request images, send a GET request to one of the following URLs:
 |--------------|-----------------|  
 |https://api.cognitive.microsoft.com/bing/v7.0/images/search|Returns images that are relevant to the users search query.|  
 |https://api.cognitive.microsoft.com/bing/v7.0/images/details|Returns insights about an image, such as webpages that include the image.|  
-|https://api.cognitive.microsoft.com/bing/v7.0/images/trending|Returns images that are trending based on search requests made by others. The images are broken out into different categories. For example, Popular People Searches.<br /><br /> For a list of markets that support trending images, see [Trending Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/trending-images).|  
+|https://api.cognitive.microsoft.com/bing/v7.0/images/trending|Returns images that are trending based on search requests made by others. The images are broken out into different categories. For example, Popular People Searches.<br /><br /> For a list of markets that support trending images, see [Trending Images](/azure/cognitive-services/bing-image-search/trending-images).|  
 
 For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com. See [Supported Regions](/azure/cognitive-services/authentication#supported-regions).
 
@@ -95,7 +95,7 @@ The following are the query parameters that a request may include. See the Requi
 |<a name="offset" />offset|The zero-based offset that indicates the number of images to skip before returning images. The default is 0. The offset should be less than ([totalEstimatedMatches](#totalestimatedmatches) - `count`).<br /><br /> To page results, use this parameter along with the `count` parameter. For example, if your user interface displays 20 images per page, set `count` to 20 and `offset` to 0 to get the first page of results. For each subsequent page, increment `offset` by 20 (for example, 0, 20, 40).<br /><br /> It is possible for multiple pages to include some overlap in results. To prevent duplicates, see [nextOffset](#nextoffset).<br /><br /> Use this parameter only with the Image API. Do not specify this parameter when calling the Trending Images API or the Web Search API.|Unsigned Short|No|  
 |<a name="query" />q|The user's search query term. The term cannot be empty.<br /><br /> The term may contain [Bing Advanced Operators](https://help.bing.microsoft.com/#apex/18/en-US/10001/-1). For example, to limit images to a specific domain, use the **site:** operator.<br /><br /> To help improve relevance of an insights query (see [insightsToken](#insightstoken)), you should always include the user's query term.<br /><br /> Use this parameter only with the Image Search API. Do not specify this parameter when calling the Trending Images API.|String|Yes|  
 |<a name="safesearch" />safeSearch|Filter images for adult content. The following are the possible filter values.<br /><ul><li>Off&mdash;May return images with adult content. If the request is through the Image Search API, the response includes thumbnail images that are clear (non-fuzzy). However, if the request is through the Web Search API, the response includes thumbnail images that are pixelated (fuzzy).<br /><br /></li><li>Moderate&mdash;If the request is through the Image Search API, the response doesn't include images with adult content. If the request is through the Web Search API, the response may include images with adult content (the thumbnail images are pixelated (fuzzy)).<br /><br /></li><li>Strict&mdash;Do not return images with adult content.</li></ul><br /> The default is Moderate.<br /><br /> **NOTE:** If the request comes from a market that Bing's adult policy requires that `safeSearch` is set to Strict, Bing ignores the `safeSearch` value and uses Strict.<br/><br/>**NOTE:** If you use the `site:` query operator, there is the chance that the response may contain adult content regardless of what the `safeSearch` query parameter is set to. Use `site:` only if you are aware of the content on the site and your scenario supports the possibility of adult content.|String|No|  
-|<a name="setlang" />setLang|The language to use for user interface strings. You may specify the language using either a 2-letter or 4-letter code. Using 4-letter codes is preferred.<br /><br/> For a list of supported language codes, see [Bing supported languages](#bing-supported-languages).<br /><br/> Bing loads the localized strings if `setlang` contains a valid 2-letter neutral culture code (**fr**) or a valid 4-letter specific culture code (**fr-ca**). For example, for **fr-ca**, Bing loads the **fr** neutral culture code strings.<br /><br/> If `setlang` is not valid (for example, **zh**) or Bing doesn't support the language (for example, **af**, **af-na**), Bing defaults to **en** (English).<br /><br/> To specify the 2-letter code, set this parameter to an ISO 639-1 language code.<br /><br/> To specify the 4-letter code, use the form <language>-<country/region> where <language> is an ISO 639-1 language code (neutral culture) and <country/region> is an ISO 3166 country/region (specific culture) code. For example, use **en-US** for United States English.<br /><br/> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br/> This parameter and the Accept-Language header are mutually exclusive—do not specify both.<br /><br/> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
+|<a name="setlang" />setLang|The language to use for user interface strings. You may specify the language using either a 2-letter or 4-letter code. Using 4-letter codes is preferred.<br /><br/> For a list of supported language codes, see [Bing supported languages](#bing-supported-languages).<br /><br/> Bing loads the localized strings if `setlang` contains a valid 2-letter neutral culture code (**fr**) or a valid 4-letter specific culture code (**fr-ca**). For example, for **fr-ca**, Bing loads the **fr** neutral culture code strings.<br /><br/> If `setlang` is not valid (for example, **zh**) or Bing doesn't support the language (for example, **af**, **af-na**), Bing defaults to **en** (English).<br /><br/> To specify the 2-letter code, set this parameter to an ISO 639-1 language code.<br /><br/> To specify the 4-letter code, use the form \<language\>-<country/region> where \<language\> is an ISO 639-1 language code (neutral culture) and <country/region> is an ISO 3166 country/region (specific culture) code. For example, use **en-US** for United States English.<br /><br/> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br/> This parameter and the Accept-Language header are mutually exclusive—do not specify both.<br /><br/> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
 
 
 ## Filter query parameters  
@@ -219,7 +219,7 @@ The top-level object that the response includes when the request fails.
 Defines an image that is relevant to the query.  
   
 > [!NOTE]
-> Because the URL format and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).  
+> Because the URL format and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resize and crop thumbnail images](/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
@@ -231,13 +231,13 @@ Defines an image that is relevant to the query.
 |<a name="image-height" />height|The height of the source image, in pixels.|Unsigned Short|  
 |<a name="image-hostpagedisplayurl" />hostPageDisplayUrl|The display URL of the webpage that hosts the image.<br /><br /> Use this URL in your user interface to identify the host webpage that contains the image. The URL is not a well-formed and should not be used to access the host webpage. To access the host webpage, use the `hostPageUrl` URL.|String|  
 |<a name="image-hostpageurl" />hostPageUrl|The URL of the webpage that includes the image.<br /><br /> This URL and `contentUrl` may be the same URL.|String|  
-|<a name="image-id" />id|An ID that uniquely identifies this image in the list of images.<br /><br /> Only Web Search API responses include this field. For information about how to use this field, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/rank-results) in the Web Search API guide.|String|  
+|<a name="image-id" />id|An ID that uniquely identifies this image in the list of images.<br /><br /> Only Web Search API responses include this field. For information about how to use this field, see [Using Ranking to Display Results](/azure/cognitive-services/bing-web-search/rank-results) in the Web Search API guide.|String|  
 |<a name="image-imageid" />imageId|An ID that uniquely identifies this image. If you want the image to be the first image in the response, set the [id](#id) query parameter to this ID in your request.|String|  
 |<a name="image-imageinsightstoken" />imageInsightsToken|The token that you use in a subsequent call to the Image Search API to get additional information about the image. For information about using this token, see the [insightsToken](#insightstoken) query parameter.|String|  
 |<a name="image-insightsmetadata" />insightsMetadata|A count of the number of websites where you can shop or perform other actions related to the image.<br /><br /> For example, if the image is of an apple pie, this object includes a count of the number of websites where you can buy an apple pie. To indicate the number of offers in your UX, include badging such as a shopping cart icon that contains the count. When the user clicks on the icon, use `imageInisghtsToken` to get the list of websites.|[InsightsMetadata](#insightsmetadata)|  
 |<a name="image-name" />name|A title of the image.|String|  
 |<a name="image-thumbnail" />thumbnail|The width and height of the thumbnail image (see `thumbnailUrl`).|[MediaSize](#mediasize)|  
-|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
+|<a name="image-thumbnailurl" />thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resize and crop thumbnail images](/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
 |webSearchUrl|The URL to the Bing search results for this image.|String|  
 |<a name="image-width" />width|The width of the source image, in pixels.|Unsigned Short|  
   
@@ -297,7 +297,7 @@ The top-level object that the response includes when an image request succeeds.
 |Name|Value|Type|  
 |----------|-----------|----------|  
 |_type|A type hint, which is set to Images.|String|  
-|id|An ID that uniquely identifies the image answer.<br /><br /> The object includes this field only in a Web Search API response. For information about how to use this field, see [Using Ranking to Display Results](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/rank-results) in the Web Search API guide.|String|  
+|id|An ID that uniquely identifies the image answer.<br /><br /> The object includes this field only in a Web Search API response. For information about how to use this field, see [Using Ranking to Display Results](/azure/cognitive-services/bing-web-search/rank-results) in the Web Search API guide.|String|  
 |<a name="isfamilyfriendly" />isFamilyFriendly|A Boolean value that determines whether one or more of the images contain adult content. If none of the images contain adult content, `isFamilyFriendly` is set to **true**. Otherwise, if one or more of the images contain adult content, `isFamilyFriendly` is set to **false**.<br /><br /> If **false**, the thumbnail images are pixelated (fuzzy).<br /><br /> **NOTE:** This field is included only in Web Search API responses, not in Image Search API responses.|Boolean|  
 |<a name="nextoffset" />nextOffset|The offset value that you set the [offset](#offset) query parameter to.<br /><br /> If you set `offset` to 0 and `count` to 30 in your first request, and then set `offset` to 30 in your second request, some of the results in the second response may be duplicates of the first response.<br /><br /> To prevent duplicates, set `offset` to the value of `nextOffset`.|Integer|  
 |<a name="pivotsuggestions" />pivotSuggestions|A list of segments in the original query. For example, if the query was *Red Flowers*, Bing might segment the query into *Red* and *Flowers*.<br /><br /> The Flowers pivot may contain query suggestions such as Red Peonies and Red Daisies, and the Red pivot may contain query suggestions such as Green Flowers and Yellow Flowers.|[Pivot](#pivot)|  

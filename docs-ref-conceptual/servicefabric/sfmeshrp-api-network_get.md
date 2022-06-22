@@ -1,8 +1,8 @@
 ---
-title: "Get"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Get Network Resource"
+description: Describes the request method, parameters, and responses for getting network resources with examples of how to get a network resource.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Get
+# Get Network Resource
 Gets the network resource.
 
 Gets the information about the network resource with a given name. This information includes the network description and other runtime information.

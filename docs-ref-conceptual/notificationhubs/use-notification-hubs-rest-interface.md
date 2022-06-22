@@ -1,5 +1,6 @@
 ﻿---
 title: "How to use the Notification Hubs REST interface"
+description: Use this API reference documentation to use the Azure Notification Hubs REST APIs to send notifications and manage registrations. 
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""
