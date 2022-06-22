@@ -4,7 +4,7 @@ name: List Available Contacts
 service: Orbital
 groupName: Spacecrafts
 apiVersion: 2022-03-01
-summary: Return list of available contacts
+summary: Returns list of available contacts. A contact is available if the spacecraft is visible from the ground station for more than the minimum viable contact duration provided in the contact profile.
 consumes:
 - application/json
 produces:
@@ -27,7 +27,7 @@ uriParameters:
 - name: spacecraftName
   in: path
   isRequired: true
-  description: Spacecraft ID
+  description: Spacecraft ID.
   types:
   - uid: string
 - name: api-version
@@ -68,13 +68,13 @@ requestBody:
   - name: startTime
     in: body
     isRequired: true
-    description: Start time of a contact.
+    description: Start time of a contact (ISO 8601 UTC standard).
     types:
     - uid: string
   - name: endTime
     in: body
     isRequired: true
-    description: End time of a contact.
+    description: End time of a contact (ISO 8601 UTC standard).
     types:
     - uid: string
 requestHeader: []
@@ -134,23 +134,23 @@ definitions:
     types:
     - uid: systemData
   - name: properties.provisioningState
-    description: The current state of the resource's creation, deletion, or modification
+    description: The current state of the resource's creation, deletion, or modification.
     types:
     - uid: ContactProfilesProperties.ProvisioningState
   - name: properties.minimumViableContactDuration
-    description: Minimum viable contact duration in ISO 8601 format.
+    description: Minimum viable contact duration in ISO 8601 format. Used for listing the available contacts with a spacecraft at a given ground station.
     types:
     - uid: string
   - name: properties.minimumElevationDegrees
-    description: Minimum viable elevation for the contact in decimal degrees.
+    description: Minimum viable elevation for the contact in decimal degrees. Used for listing the available contacts with a spacecraft at a given ground station.
     types:
     - uid: number
   - name: properties.autoTrackingConfiguration
-    description: Auto track configuration.
+    description: Auto-tracking configuration.
     types:
     - uid: AutoTrackingConfiguration
   - name: properties.eventHubUri
-    description: The URI of the Event Hub used for telemetry
+    description: ARM resource identifier of the Event Hub used for telemetry. Requires granting Orbital Resource Provider the rights to send telemetry into the hub.
     types:
     - uid: string
   - name: properties.networkConfiguration
@@ -158,7 +158,7 @@ definitions:
     types:
     - uid: NetworkConfiguration
   - name: properties.links
-    description: Links of the Contact Profile
+    description: Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints.
     types:
     - uid: ContactProfileLink
       isArray: true
@@ -175,7 +175,7 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: A list of available contacts
+    description: A list of available contacts.
     types:
     - uid: AvailableContacts
       isArray: true
@@ -205,11 +205,11 @@ definitions:
     types:
     - uid: string
   - name: startTime
-    description: Start time of a contact.
+    description: Start time of a contact (ISO 8601 UTC standard).
     types:
     - uid: string
   - name: endTime
-    description: End time of a contact.
+    description: End time of a contact (ISO 8601 UTC standard).
     types:
     - uid: string
 - name: AvailableContacts
@@ -232,22 +232,22 @@ definitions:
     - uid: number
   - name: properties.txStartTime
     isReadyOnly: true
-    description: Time at which antenna transmit will be enabled.
+    description: Time at which antenna transmit will be enabled (ISO 8601 UTC standard).
     types:
     - uid: string
   - name: properties.txEndTime
     isReadyOnly: true
-    description: Time at which antenna transmit will be disabled.
+    description: Time at which antenna transmit will be disabled (ISO 8601 UTC standard).
     types:
     - uid: string
   - name: properties.rxStartTime
     isReadyOnly: true
-    description: Earliest time to receive a signal.
+    description: Earliest time to receive a signal (ISO 8601 UTC standard).
     types:
     - uid: string
   - name: properties.rxEndTime
     isReadyOnly: true
-    description: Time to lost receiving a signal.
+    description: Time to lost receiving a signal (ISO 8601 UTC standard).
     types:
     - uid: string
   - name: properties.startAzimuthDegrees
@@ -301,7 +301,7 @@ definitions:
     types:
     - uid: string
   - name: properties.provisioningState
-    description: The current state of the resource's creation, deletion, or modification
+    description: The current state of the resource's creation, deletion, or modification.
     types:
     - uid: ProvisioningState
   - name: properties.noradId
@@ -309,19 +309,19 @@ definitions:
     types:
     - uid: string
   - name: properties.titleLine
-    description: Title line of Two Line Element (TLE).
+    description: Title line of the two-line element set (TLE).
     types:
     - uid: string
   - name: properties.tleLine1
-    description: Line 1 of Two Line Element (TLE).
+    description: Line 1 of the two-line element set (TLE).
     types:
     - uid: string
   - name: properties.tleLine2
-    description: Line 2 of Two Line Element (TLE).
+    description: Line 2 of the two-line element set (TLE).
     types:
     - uid: string
   - name: properties.links
-    description: Links of the Spacecraft
+    description: Immutable list of Spacecraft links.
     types:
     - uid: SpacecraftLink
       isArray: true
@@ -386,15 +386,15 @@ definitions:
     types:
     - uid: string
 - name: ProvisioningState
-  description: The current state of the resource's creation, deletion, or modification
+  description: The current state of the resource's creation, deletion, or modification.
   kind: object
   properties: []
 - name: ContactProfilesProperties.ProvisioningState
-  description: The current state of the resource's creation, deletion, or modification
+  description: The current state of the resource's creation, deletion, or modification.
   kind: object
   properties: []
 - name: AutoTrackingConfiguration
-  description: Auto track configuration.
+  description: Auto-tracking configuration.
   kind: enum
   properties:
   - name: disabled
@@ -411,60 +411,60 @@ definitions:
   kind: object
   properties:
   - name: subnetId
-    description: Customer subnet ARM resource identifier.
+    description: ARM resource identifier of the subnet delegated to the Microsoft.Orbital/orbitalGateways. Needs to be at least a class C subnet, and should not have any IP created in it.
     types:
     - uid: string
 - name: ContactProfileLink
-  description: Contact Profile Link
+  description: Contact Profile Link.
   kind: object
   properties:
   - name: name
-    description: Link name
+    description: Link name.
     types:
     - uid: string
   - name: polarization
-    description: polarization. eg (RHCP, LHCP)
+    description: Polarization. e.g. (RHCP, LHCP).
     types:
     - uid: polarization
   - name: direction
-    description: Direction (uplink or downlink)
+    description: Direction (uplink or downlink).
     types:
     - uid: direction
   - name: gainOverTemperature
-    description: Gain To Noise Temperature in db/K.
+    description: Gain To Noise Temperature in db/K. It is the required G/T by the customer. Not used yet.
     types:
     - uid: number
   - name: eirpdBW
-    description: Effective Isotropic Radiated Power (EIRP) in dBW.
+    description: Effective Isotropic Radiated Power (EIRP) in dBW. It is the required EIRP by the customer. Not used yet.
     types:
     - uid: number
   - name: channels
-    description: Contact Profile Link Channel
+    description: Contact Profile Link Channel.
     types:
     - uid: ContactProfileLinkChannel
       isArray: true
 - name: SpacecraftLink
-  description: Authorized Ground Stations for the link
+  description: List of authorized spacecraft links per ground station and the expiration date of the authorization.
   kind: object
   properties:
   - name: name
-    description: Link name
+    description: Link name.
     types:
     - uid: string
   - name: centerFrequencyMHz
-    description: Center Frequency in MHz
+    description: Center Frequency in MHz.
     types:
     - uid: number
   - name: bandwidthMHz
-    description: Bandwidth in MHz
+    description: Bandwidth in MHz.
     types:
     - uid: number
   - name: direction
-    description: Direction (uplink or downlink)
+    description: Direction (uplink or downlink).
     types:
     - uid: direction
   - name: polarization
-    description: polarization. eg (RHCP, LHCP)
+    description: Polarization. e.g. (RHCP, LHCP).
     types:
     - uid: polarization
   - name: authorizations
@@ -490,7 +490,7 @@ definitions:
     types:
     - uid: string
 - name: polarization
-  description: polarization. eg (RHCP, LHCP)
+  description: Polarization. e.g. (RHCP, LHCP).
   kind: enum
   properties:
   - name: RHCP
@@ -506,7 +506,7 @@ definitions:
     types:
     - uid: string
 - name: direction
-  description: Direction (uplink or downlink)
+  description: Direction (uplink or downlink).
   kind: enum
   properties:
   - name: uplink
@@ -516,19 +516,19 @@ definitions:
     types:
     - uid: string
 - name: ContactProfileLinkChannel
-  description: Contact Profile Link Channel
+  description: Contact Profile Link Channel.
   kind: object
   properties:
   - name: name
-    description: Channel name
+    description: Channel name.
     types:
     - uid: string
   - name: centerFrequencyMHz
-    description: Center Frequency in MHz
+    description: Center Frequency in MHz.
     types:
     - uid: number
   - name: bandwidthMHz
-    description: Bandwidth in MHz
+    description: Bandwidth in MHz.
     types:
     - uid: number
   - name: endPoint
@@ -536,31 +536,31 @@ definitions:
     types:
     - uid: EndPoint
   - name: modulationConfiguration
-    description: Configuration for modulation
+    description: Copy of the modem configuration file such as Kratos QRadio. Only valid for uplink directions. If provided, the modem connects to the customer endpoint and accepts commands from the customer instead of a VITA.49 stream.
     types:
     - uid: string
   - name: demodulationConfiguration
-    description: Configuration for demodulation
+    description: Copy of the modem configuration file such as Kratos QRadio or Kratos QuantumRx. Only valid for downlink directions. If provided, the modem connects to the customer endpoint and sends demodulated data instead of a VITA.49 stream.
     types:
     - uid: string
   - name: encodingConfiguration
-    description: Configuration for encoding
+    description: Currently unused.
     types:
     - uid: string
   - name: decodingConfiguration
-    description: Configuration for decoding
+    description: Currently unused.
     types:
     - uid: string
 - name: AuthorizedGroundstation
-  description: Authorized groundstation
+  description: Authorized groundstation.
   kind: object
   properties:
   - name: groundStation
-    description: Groundstation name
+    description: Groundstation name.
     types:
     - uid: string
   - name: expirationDate
-    description: Date of authorization expiration
+    description: Date of authorization expiration.
     types:
     - uid: string
 - name: EndPoint
@@ -596,15 +596,15 @@ definitions:
 examples:
 - name: List of Contact
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.Orbital/spacecrafts/AQUA/listAvailableContacts?api-version=2022-03-01
+    uri: POST https://management.azure.com/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/spacecrafts/CONTOSO_SAT/listAvailableContacts?api-version=2022-03-01
     body: >-
       {
         "contactProfile": {
-          "id": "/subscriptions/subId/resourceGroups/rg/Microsoft.Orbital/contactProfiles/AQUA_DIRECTPLAYBACK_WITH_UPLINK"
+          "id": "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/contactProfiles/CONTOSO-CP"
         },
-        "groundStationName": "westus_gs1",
-        "startTime": "2020-07-16T05:40:21.00Z",
-        "endTime": "2020-07-17T23:49:40.00Z"
+        "groundStationName": "EASTUS2_0",
+        "startTime": "2022-03-01T11:30:00Z",
+        "endTime": "2022-03-02T11:30:00Z"
       }
   responses:
   - statusCode: "202"
@@ -617,42 +617,42 @@ examples:
         "value": [
           {
             "spacecraft": {
-              "id": "/subscriptions/subId/resourceGroups/rg/Microsoft.Orbital/spacecrafts/AQUA"
+              "id": "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/spacecrafts/CONTOSO_SAT"
             },
-            "groundStationName": "westus_gs1",
+            "groundStationName": "EASTUS2_0",
             "properties": {
-              "maximumElevationDegrees": 70.94,
-              "rxStartTime": "2020-07-16T20:40:21.00Z",
-              "rxEndTime": "2020-07-16T20:49:40.00Z",
-              "txStartTime": "2020-07-16T20:40:21.00Z",
-              "txEndTime": "2020-07-16T20:49:40.00Z",
-              "startAzimuthDegrees": 148.237,
-              "endAzimuthDegrees": 353.837,
-              "startElevationDegrees": 10,
-              "endElevationDegrees": 10
+              "maximumElevationDegrees": 26.617297,
+              "txStartTime": "2022-03-01T11:55:01Z",
+              "txEndTime": "2022-03-01T12:05:25Z",
+              "rxStartTime": "2022-03-01T11:55:01Z",
+              "rxEndTime": "2022-03-01T12:05:25Z",
+              "startAzimuthDegrees": 201.340472,
+              "endAzimuthDegrees": 330.489627,
+              "startElevationDegrees": 5,
+              "endElevationDegrees": 5.040625
             }
           },
           {
             "spacecraft": {
-              "id": "/subscriptions/subId/resourceGroups/rg/Microsoft.Orbital/spacecrafts/AQUA"
+              "id": "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/spacecrafts/CONTOSO_SAT"
             },
-            "groundStationName": "westus_gs1",
+            "groundStationName": "EASTUS2_0",
             "properties": {
-              "maximumElevationDegrees": 87.153,
-              "rxStartTime": "2020-07-17T10:13:55.00Z",
-              "rxEndTime": "2020-07-17T10:23:30.00Z",
-              "txStartTime": "2020-07-17T10:13:55.00Z",
-              "txEndTime": "2020-07-17T10:23:30.00Z",
-              "startAzimuthDegrees": 14.392,
-              "endAzimuthDegrees": 194.36,
-              "startElevationDegrees": 10,
-              "endElevationDegrees": 10
+              "maximumElevationDegrees": 85.9796,
+              "txStartTime": "2022-03-02T10:58:30Z",
+              "txEndTime": "2022-03-02T11:10:45Z",
+              "rxStartTime": "2022-03-02T10:58:30Z",
+              "rxEndTime": "2022-03-02T11:10:45Z",
+              "startAzimuthDegrees": 165.758896,
+              "endAzimuthDegrees": 345.848482,
+              "startElevationDegrees": 5,
+              "endElevationDegrees": 5.048656
             }
           }
         ],
-        "nextLink": "string"
+        "nextLink": "https://management.azure.com/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/spacecrafts/CONTOSO_SAT/listAvailableContacts?api-version=2022-03-01&$skiptoken=opaqueString"
       }
 security: []
 metadata:
-  description: Learn more about Orbital service - Return list of available contacts
+  description: Returns list of available contacts. A contact is available if the spacecraft is visible from the ground station for more than the minimum viable contact duratio
 errorCodes: []
