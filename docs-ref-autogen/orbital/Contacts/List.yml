@@ -3,14 +3,16 @@ uid: management.azure.com.orbital.contacts.list
 name: List
 service: Orbital
 groupName: Contacts
-apiVersion: 2021-04-04-preview
+apiVersion: 2022-03-01
 summary: Returns list of contacts by spacecraftName
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts?api-version=2021-04-04-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts?api-version=2022-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts?api-version=2022-03-01&$skiptoken={$skiptoken}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,7 +35,12 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for this operation.
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: apiVersionParameter
+- name: $skiptoken
+  in: query
+  description: An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls.
   types:
   - uid: string
 responses:
@@ -47,6 +54,19 @@ responses:
   - uid: CloudError
 requestHeader: []
 definitions:
+- name: apiVersionParameter
+  description: Version of the API to be used with the client request.
+  kind: enum
+  properties:
+  - name: 2020-09-01-preview
+    types:
+    - uid: string
+  - name: 2021-04-04-preview
+    types:
+    - uid: string
+  - name: 2022-03-01
+    types:
+    - uid: string
 - name: ContactListResult
   description: Response for the ListContacts API service call.
   kind: object
@@ -78,6 +98,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.provisioningState
+    description: The current state of the resource's creation, deletion, or modification
+    types:
+    - uid: ProvisioningState
   - name: properties.status
     isReadyOnly: true
     description: Status of a contact.
@@ -145,10 +169,15 @@ definitions:
     description: Spacecraft elevation above the horizon at contact end.
     types:
     - uid: number
+  - name: properties.antennaConfiguration
+    isReadyOnly: true
+    description: The configuration associated with the allocated antenna.
+    types:
+    - uid: AntennaConfiguration
   - name: properties.contactProfile
     description: The reference to the contact profile resource.
     types:
-    - uid: ResourceReference
+    - uid: ContactProfile
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -190,27 +219,41 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: ProvisioningState
+  description: The current state of the resource's creation, deletion, or modification
+  kind: object
+  properties: []
 - name: Status
-  description: Status of a contact.
+  description: The status of operation.
   kind: enum
   properties:
-  - name: scheduled
+  - name: Succeeded
     types:
     - uid: string
-  - name: cancelled
+  - name: Canceled
     types:
     - uid: string
-  - name: succeeded
+  - name: Failed
     types:
     - uid: string
-  - name: failed
+  - name: Running
     types:
     - uid: string
-  - name: providerCancelled
+- name: AntennaConfiguration
+  description: The configuration associated with the allocated antenna.
+  kind: object
+  properties:
+  - name: destinationIp
+    description: The destination IP a packet can be sent to. This would for example be the TCP endpoint you would send data to.
     types:
     - uid: string
-- name: ResourceReference
-  description: Resource Reference
+  - name: sourceIps
+    description: List of Source IP
+    types:
+    - uid: string
+      isArray: true
+- name: ContactProfile
+  description: The reference to the contact profile resource.
   kind: object
   properties:
   - name: id
@@ -262,9 +305,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List of Contacts
+- name: List of Spacecraft
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA/contacts?api-version=2021-04-04-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA/contacts?api-version=2022-03-01
   responses:
   - statusCode: "200"
     body: >-
@@ -274,6 +317,7 @@ examples:
             "name": "contact1",
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA/contacts/contact1",
             "properties": {
+              "provisioningState": "Succeeded",
               "status": "scheduled",
               "reservationStartTime": "2020-07-16T20:35:00.00Z",
               "reservationEndTime": "2020-07-16T20:55:00.00Z",
@@ -298,6 +342,7 @@ examples:
             "name": "contact2",
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA/contacts/contact2",
             "properties": {
+              "provisioningState": "Succeeded",
               "status": "scheduled",
               "reservationStartTime": "2020-07-23T20:35:00.00Z",
               "reservationEndTime": "2020-07-23T20:55:00.00Z",

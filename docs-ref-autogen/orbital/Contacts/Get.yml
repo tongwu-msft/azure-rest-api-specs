@@ -3,14 +3,14 @@ uid: management.azure.com.orbital.contacts.get
 name: Get
 service: Orbital
 groupName: Contacts
-apiVersion: 2021-04-04-preview
+apiVersion: 2022-03-01
 summary: Gets the specified contact in a specified resource group
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts/{contactName}?api-version=2021-04-04-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts/{contactName}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,9 +39,9 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for this operation.
+  description: Version of the API to be used with the client request.
   types:
-  - uid: string
+  - uid: apiVersionParameter
 responses:
 - name: 200 OK
   description: Request successful. The operation returns the resulting Contact resource.
@@ -53,6 +53,19 @@ responses:
   - uid: CloudError
 requestHeader: []
 definitions:
+- name: apiVersionParameter
+  description: Version of the API to be used with the client request.
+  kind: enum
+  properties:
+  - name: 2020-09-01-preview
+    types:
+    - uid: string
+  - name: 2021-04-04-preview
+    types:
+    - uid: string
+  - name: 2022-03-01
+    types:
+    - uid: string
 - name: Contact
   description: Customer creates a contact resource for a spacecraft resource.
   kind: object
@@ -62,6 +75,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.provisioningState
+    description: The current state of the resource's creation, deletion, or modification
+    types:
+    - uid: ProvisioningState
   - name: properties.status
     isReadyOnly: true
     description: Status of a contact.
@@ -129,10 +146,15 @@ definitions:
     description: Spacecraft elevation above the horizon at contact end.
     types:
     - uid: number
+  - name: properties.antennaConfiguration
+    isReadyOnly: true
+    description: The configuration associated with the allocated antenna.
+    types:
+    - uid: AntennaConfiguration
   - name: properties.contactProfile
     description: The reference to the contact profile resource.
     types:
-    - uid: ResourceReference
+    - uid: ContactProfile
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -161,27 +183,41 @@ definitions:
     description: An error response from the service.
     types:
     - uid: CloudErrorBody
+- name: ProvisioningState
+  description: The current state of the resource's creation, deletion, or modification
+  kind: object
+  properties: []
 - name: Status
-  description: Status of a contact.
+  description: The status of operation.
   kind: enum
   properties:
-  - name: scheduled
+  - name: Succeeded
     types:
     - uid: string
-  - name: cancelled
+  - name: Canceled
     types:
     - uid: string
-  - name: succeeded
+  - name: Failed
     types:
     - uid: string
-  - name: failed
+  - name: Running
     types:
     - uid: string
-  - name: providerCancelled
+- name: AntennaConfiguration
+  description: The configuration associated with the allocated antenna.
+  kind: object
+  properties:
+  - name: destinationIp
+    description: The destination IP a packet can be sent to. This would for example be the TCP endpoint you would send data to.
     types:
     - uid: string
-- name: ResourceReference
-  description: Resource Reference
+  - name: sourceIps
+    description: List of Source IP
+    types:
+    - uid: string
+      isArray: true
+- name: ContactProfile
+  description: The reference to the contact profile resource.
   kind: object
   properties:
   - name: id
@@ -256,7 +292,7 @@ definitions:
 examples:
 - name: Get Contact
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA/contacts/contact1?api-version=2021-04-04-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA/contacts/contact1?api-version=2022-03-01
   responses:
   - statusCode: "200"
     body: >-
@@ -264,6 +300,7 @@ examples:
         "name": "contact1",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA/contacts/contact1",
         "properties": {
+          "provisioningState": "Succeeded",
           "status": "scheduled",
           "reservationStartTime": "2020-07-16T20:35:00.00Z",
           "reservationEndTime": "2020-07-16T20:55:00.00Z",
@@ -280,6 +317,14 @@ examples:
           "groundStationName": "westus_gs1",
           "contactProfile": {
             "id": "/subscriptions/subId/resourceGroups/rg/Microsoft.Orbital/contactProfiles/AQUA_DIRECTPLAYBACK_WITH_UPLINK"
+          },
+          "antennaConfiguration": {
+            "destinationIp": "172.16.0.254",
+            "sourceIps": [
+              "172.16.0.1",
+              "172.16.0.2",
+              "172.16.0.254"
+            ]
           }
         },
         "type": "Microsoft.Orbital/contacts"

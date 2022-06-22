@@ -3,14 +3,14 @@ uid: management.azure.com.orbital.contacts.create
 name: Create
 service: Orbital
 groupName: Contacts
-apiVersion: 2021-04-04-preview
+apiVersion: 2022-03-01
 summary: Creates a contact.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts/{contactName}?api-version=2021-04-04-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts/{contactName}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,15 +39,18 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for this operation.
+  description: Version of the API to be used with the client request.
   types:
-  - uid: string
+  - uid: apiVersionParameter
 responses:
 - name: 200 OK
   description: OK
   types:
   - uid: Contact
 - name: 201 Created
+  headers:
+  - name: Azure-AsyncOperation
+    value: string
   description: Create successful. The operation returns the resulting contact resource.
   types:
   - uid: Contact
@@ -58,6 +61,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: properties.provisioningState
+    in: body
+    description: The current state of the resource's creation, deletion, or modification
+    types:
+    - uid: ProvisioningState
   - name: properties.reservationStartTime
     in: body
     isRequired: true
@@ -81,11 +89,41 @@ requestBody:
     isRequired: true
     description: The reference to the contact profile resource.
     types:
-    - uid: ResourceReference
+    - uid: ContactProfile
 requestHeader: []
 definitions:
-- name: ResourceReference
-  description: Resource Reference
+- name: apiVersionParameter
+  description: Version of the API to be used with the client request.
+  kind: enum
+  properties:
+  - name: 2020-09-01-preview
+    types:
+    - uid: string
+  - name: 2021-04-04-preview
+    types:
+    - uid: string
+  - name: 2022-03-01
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current state of the resource's creation, deletion, or modification
+  kind: object
+  properties: []
+- name: AntennaConfiguration
+  description: The configuration associated with the allocated antenna.
+  kind: object
+  properties:
+  - name: destinationIp
+    description: The destination IP a packet can be sent to. This would for example be the TCP endpoint you would send data to.
+    types:
+    - uid: string
+  - name: sourceIps
+    description: List of Source IP
+    types:
+    - uid: string
+      isArray: true
+- name: ContactProfile
+  description: The reference to the contact profile resource.
   kind: object
   properties:
   - name: id
@@ -129,6 +167,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.provisioningState
+    description: The current state of the resource's creation, deletion, or modification
+    types:
+    - uid: ProvisioningState
   - name: properties.status
     isReadyOnly: true
     description: Status of a contact.
@@ -196,10 +238,15 @@ definitions:
     description: Spacecraft elevation above the horizon at contact end.
     types:
     - uid: number
+  - name: properties.antennaConfiguration
+    isReadyOnly: true
+    description: The configuration associated with the allocated antenna.
+    types:
+    - uid: AntennaConfiguration
   - name: properties.contactProfile
     description: The reference to the contact profile resource.
     types:
-    - uid: ResourceReference
+    - uid: ContactProfile
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -245,22 +292,19 @@ definitions:
     types:
     - uid: string
 - name: Status
-  description: Status of a contact.
+  description: The status of operation.
   kind: enum
   properties:
-  - name: scheduled
+  - name: Succeeded
     types:
     - uid: string
-  - name: cancelled
+  - name: Canceled
     types:
     - uid: string
-  - name: succeeded
+  - name: Failed
     types:
     - uid: string
-  - name: failed
-    types:
-    - uid: string
-  - name: providerCancelled
+  - name: Running
     types:
     - uid: string
 - name: CloudErrorBody
@@ -287,7 +331,7 @@ definitions:
 examples:
 - name: Create a contact
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA/contacts/contact1?api-version=2021-04-04-preview
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA/contacts/contact1?api-version=2022-03-01
     body: >-
       {
         "properties": {
@@ -301,12 +345,16 @@ examples:
       }
   responses:
   - statusCode: "200"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/Microsoft.Orbital/operationResults/4e2ffff7-b331-4fcb-ab11-b5fa49368188?api-version=2022-03-01
     body: >-
       {
         "name": "contact1",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA/contacts/contact1",
         "properties": {
           "status": "scheduled",
+          "provisioningState": "Updating",
           "reservationStartTime": "2020-07-16T20:35:00.00Z",
           "reservationEndTime": "2020-07-16T20:55:00.00Z",
           "rxStartTime": "2020-07-16T20:40:21.00Z",
@@ -327,12 +375,16 @@ examples:
         "type": "Microsoft.Orbital/contacts"
       }
   - statusCode: "201"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/Microsoft.Orbital/operationResults/4e2ffff7-b331-4fcb-ab11-b5fa49368188?api-version=2022-03-01
     body: >-
       {
         "name": "contact1",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA/contacts/contact1",
         "properties": {
           "status": "scheduled",
+          "provisioningState": "Creating",
           "reservationStartTime": "2020-07-16T20:35:00.00Z",
           "reservationEndTime": "2020-07-16T20:55:00.00Z",
           "rxStartTime": "2020-07-16T20:40:21.00Z",

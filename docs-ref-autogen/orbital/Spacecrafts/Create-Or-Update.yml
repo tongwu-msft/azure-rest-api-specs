@@ -3,14 +3,14 @@ uid: management.azure.com.orbital.spacecrafts.createorupdate
 name: Create Or Update
 service: Orbital
 groupName: Spacecrafts
-apiVersion: 2021-04-04-preview
+apiVersion: 2022-03-01
 summary: Creates or updates a spacecraft resource
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}?api-version=2021-04-04-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,15 +33,18 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for this operation.
+  description: Version of the API to be used with the client request.
   types:
-  - uid: string
+  - uid: apiVersionParameter
 responses:
 - name: 200 OK
   description: Update successful. The operation returns the resulting spacecraft resource.
   types:
   - uid: Spacecraft
 - name: 201 Created
+  headers:
+  - name: Azure-AsyncOperation
+    value: string
   description: Create successful. The operation returns the resulting spacecraft resource.
   types:
   - uid: Spacecraft
@@ -52,6 +55,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: properties.provisioningState
+    in: body
+    description: The current state of the resource's creation, deletion, or modification
+    types:
+    - uid: ProvisioningState
   - name: properties.noradId
     in: body
     isRequired: true
@@ -96,10 +104,31 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
+- name: apiVersionParameter
+  description: Version of the API to be used with the client request.
+  kind: enum
+  properties:
+  - name: 2020-09-01-preview
+    types:
+    - uid: string
+  - name: 2021-04-04-preview
+    types:
+    - uid: string
+  - name: 2022-03-01
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current state of the resource's creation, deletion, or modification
+  kind: object
+  properties: []
 - name: SpacecraftLink
-  description: Spacecraft Link
+  description: Authorized Ground Stations for the link
   kind: object
   properties:
+  - name: name
+    description: Link name
+    types:
+    - uid: string
   - name: centerFrequencyMHz
     description: Center Frequency in MHz
     types:
@@ -116,6 +145,12 @@ definitions:
     description: polarization. eg (RHCP, LHCP)
     types:
     - uid: polarization
+  - name: authorizations
+    isReadyOnly: true
+    description: Authorized Ground Stations
+    types:
+    - uid: AuthorizedGroundstation
+      isArray: true
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -153,18 +188,12 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.provisioningState
+    description: The current state of the resource's creation, deletion, or modification
+    types:
+    - uid: ProvisioningState
   - name: properties.noradId
     description: NORAD ID of the spacecraft.
-    types:
-    - uid: string
-  - name: properties.authorizationStatus
-    isReadyOnly: true
-    description: Authorization status of spacecraft.
-    types:
-    - uid: AuthorizationStatus
-  - name: properties.authorizationStatusExtended
-    isReadyOnly: true
-    description: Details of the authorization status.
     types:
     - uid: string
   - name: properties.titleLine
@@ -244,13 +273,22 @@ definitions:
   - name: LHCP
     types:
     - uid: string
-  - name: dualRhcpLhcp
-    types:
-    - uid: string
   - name: linearVertical
     types:
     - uid: string
   - name: linearHorizontal
+    types:
+    - uid: string
+- name: AuthorizedGroundstation
+  description: Authorized groundstation
+  kind: object
+  properties:
+  - name: groundStation
+    description: Groundstation name
+    types:
+    - uid: string
+  - name: expirationDate
+    description: Date of authorization expiration
     types:
     - uid: string
 - name: createdByType
@@ -267,19 +305,6 @@ definitions:
     types:
     - uid: string
   - name: Key
-    types:
-    - uid: string
-- name: AuthorizationStatus
-  description: Authorization status of spacecraft.
-  kind: enum
-  properties:
-  - name: Allowed
-    types:
-    - uid: string
-  - name: Pending
-    types:
-    - uid: string
-  - name: Denied
     types:
     - uid: string
 - name: CloudErrorBody
@@ -306,7 +331,7 @@ definitions:
 examples:
 - name: Create a spacecraft
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA?api-version=2021-04-04-preview
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -317,12 +342,14 @@ examples:
           "tleLine2": "2 27424  98.2098 135.8486 0000176  28.4050 144.5909 14.57108832967671",
           "links": [
             {
+              "name": "S_RHCP_UL",
               "centerFrequencyMHz": 2106.4063,
               "bandwidthMHz": 0.036,
               "direction": "uplink",
               "polarization": "RHCP"
             },
             {
+              "name": "X_RHCP_DL",
               "centerFrequencyMHz": 8125,
               "bandwidthMHz": 150,
               "direction": "downlink",
@@ -333,60 +360,82 @@ examples:
       }
   responses:
   - statusCode: "200"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/Microsoft.Orbital/operationResults/4e2ffff7-b331-4fcb-ab11-b5fa49368188?api-version=2022-03-01
     body: >-
       {
         "name": "AQUA",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA",
         "location": "westus",
         "properties": {
+          "provisioningState": "Updating",
           "noradId": "27424",
-          "authorizationStatus": "Allowed",
-          "authorizationStatusExtended": "string",
           "titleLine": "AQUA",
           "tleLine1": "1 27424U 02022A   20195.59202355  .00000039  00000-0  18634-4 0  9991",
           "tleLine2": "2 27424  98.2098 135.8486 0000176  28.4050 144.5909 14.57108832967671",
           "links": [
             {
+              "name": "S_RHCP_UL",
               "centerFrequencyMHz": 2106.4063,
               "bandwidthMHz": 0.036,
               "direction": "uplink",
-              "polarization": "RHCP"
+              "polarization": "RHCP",
+              "authorizations": [
+                {
+                  "groundStation": "Microsoft_Quincy",
+                  "expirationDate": "2020-07-16"
+                }
+              ]
             },
             {
+              "name": "X_RHCP_DL",
               "centerFrequencyMHz": 8125,
               "bandwidthMHz": 150,
               "direction": "downlink",
-              "polarization": "RHCP"
+              "polarization": "RHCP",
+              "authorizations": [
+                {
+                  "groundStation": "Microsoft_Gavle",
+                  "expirationDate": "2020-07-16"
+                }
+              ]
             }
           ]
         },
         "type": "Microsoft.Orbital/spacecrafts"
       }
   - statusCode: "201"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/Microsoft.Orbital/operationResults/4e2ffff7-b331-4fcb-ab11-b5fa49368188?api-version=2022-03-01
     body: >-
       {
         "name": "AQUA",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Orbital/spacecrafts/AQUA",
         "location": "westus",
         "properties": {
+          "provisioningState": "Creating",
           "noradId": "27424",
-          "authorizationStatus": "Allowed",
-          "authorizationStatusExtended": "string",
           "titleLine": "AQUA",
           "tleLine1": "1 27424U 02022A   20195.59202355  .00000039  00000-0  18634-4 0  9991",
           "tleLine2": "2 27424  98.2098 135.8486 0000176  28.4050 144.5909 14.57108832967671",
           "links": [
             {
+              "name": "S_RHCP_UL",
               "centerFrequencyMHz": 2106.4063,
               "bandwidthMHz": 0.036,
               "direction": "uplink",
-              "polarization": "RHCP"
+              "polarization": "RHCP",
+              "authorizations": []
             },
             {
+              "name": "XRHCP_DL",
               "centerFrequencyMHz": 8125,
               "bandwidthMHz": 150,
               "direction": "downlink",
-              "polarization": "RHCP"
+              "polarization": "RHCP",
+              "authorizations": []
             }
           ]
         },
