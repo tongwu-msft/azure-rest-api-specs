@@ -11150,6 +11150,7 @@
 ### [Get](hybridkubernetes/Connected-Cluster/Get.yml)
 ### [List By Resource Group](hybridkubernetes/Connected-Cluster/List-By-Resource-Group.yml)
 ### [List By Subscription](hybridkubernetes/Connected-Cluster/List-By-Subscription.yml)
+### [List Cluster User Credential](hybridkubernetes/Connected-Cluster/List-Cluster-User-Credential.yml)
 ### [Update](hybridkubernetes/Connected-Cluster/Update.yml)
 ## Operations
 ### [Overview](hybridkubernetes/Operations.yml)
@@ -14196,6 +14197,42 @@
 #### [List Authorization Rules](notificationhubs/Notification-Hubs/List-Authorization-Rules.yml)
 #### [List Keys](notificationhubs/Notification-Hubs/List-Keys.yml)
 #### [Regenerate Keys](notificationhubs/Notification-Hubs/Regenerate-Keys.yml)
+# Orbital
+## [Overview](../docs-ref-conceptual/orbital/index.md)
+## Earth Observation
+### Available Ground Stations
+#### [Overview](orbital/earthobservation/Available-Ground-Stations.yml)
+#### [Get](orbital/earthobservation/Available-Ground-Stations/Get.yml)
+#### [List By Capability](orbital/earthobservation/Available-Ground-Stations/List-By-Capability.yml)
+### Contact Profiles
+#### [Overview](orbital/earthobservation/Contact-Profiles.yml)
+#### [Create Or Update](orbital/earthobservation/Contact-Profiles/Create-Or-Update.yml)
+#### [Delete](orbital/earthobservation/Contact-Profiles/Delete.yml)
+#### [Get](orbital/earthobservation/Contact-Profiles/Get.yml)
+#### [List](orbital/earthobservation/Contact-Profiles/List.yml)
+#### [List By Subscription](orbital/earthobservation/Contact-Profiles/List-By-Subscription.yml)
+#### [Update Tags](orbital/earthobservation/Contact-Profiles/Update-Tags.yml)
+### Contacts
+#### [Overview](orbital/earthobservation/Contacts.yml)
+#### [Create](orbital/earthobservation/Contacts/Create.yml)
+#### [Delete](orbital/earthobservation/Contacts/Delete.yml)
+#### [Get](orbital/earthobservation/Contacts/Get.yml)
+#### [List](orbital/earthobservation/Contacts/List.yml)
+### Operations
+#### [Overview](orbital/earthobservation/Operations.yml)
+#### [List](orbital/earthobservation/Operations/List.yml)
+### Operations Results
+#### [Overview](orbital/earthobservation/Operations-Results.yml)
+#### [Get](orbital/earthobservation/Operations-Results/Get.yml)
+### Spacecrafts
+#### [Overview](orbital/earthobservation/Spacecrafts.yml)
+#### [Create Or Update](orbital/earthobservation/Spacecrafts/Create-Or-Update.yml)
+#### [Delete](orbital/earthobservation/Spacecrafts/Delete.yml)
+#### [Get](orbital/earthobservation/Spacecrafts/Get.yml)
+#### [List](orbital/earthobservation/Spacecrafts/List.yml)
+#### [List Available Contacts](orbital/earthobservation/Spacecrafts/List-Available-Contacts.yml)
+#### [List By Subscription](orbital/earthobservation/Spacecrafts/List-By-Subscription.yml)
+#### [Update Tags](orbital/earthobservation/Spacecrafts/Update-Tags.yml)
 # Peering
 ## [Overview](../docs-ref-conceptual/peering/index.md)
 ## Cdn Peering Prefixes
