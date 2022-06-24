@@ -1,16 +1,15 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.testbase.packages.delete
-name: Delete
+uid: management.azure.com.testbase.billinghubservice.getfreehourbalance
+name: Get Free Hour Balance
 service: Test Base
-groupName: Packages
+groupName: Billing Hub Service
 apiVersion: 2022-04-01-preview
-summary: Deletes a Test Base Package.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/packages/{packageName}?api-version=2022-04-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/getFreeHourBalance?api-version=2022-04-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,12 +29,6 @@ uriParameters:
   description: The resource name of the Test Base Account.
   types:
   - uid: string
-- name: packageName
-  in: path
-  isRequired: true
-  description: The resource name of the Test Base Package.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -44,22 +37,27 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The Test Base Package 'delete' operation was completed successfully.
-- name: 202 Accepted
-  headers:
-  - name: Azure-AsyncOperation
-    value: string
-  - name: Location
-    value: string
-  description: The Test Base Package 'delete' operation was successfully enqueued. Follow the Location header to poll for final outcome.
-- name: 204 No Content
-  description: The Test Base Package 'delete' operation was completed successfully.
+  description: A successful response.
+  types:
+  - uid: BillingHubGetFreeHourBalanceResponse
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: BillingHubGetFreeHourBalanceResponse
+  kind: object
+  properties:
+  - name: totalRemainingFreeHours
+    description: ''
+    types:
+    - uid: number
+  - name: incrementEntries
+    description: ''
+    types:
+    - uid: BillingHubFreeHourIncrementEntry
+      isArray: true
 - name: ErrorResponse
   description: The error response send when an operation fails.
   kind: object
@@ -68,6 +66,25 @@ definitions:
     description: The error details.
     types:
     - uid: ErrorDefinition
+- name: BillingHubFreeHourIncrementEntry
+  kind: object
+  properties:
+  - name: createTimeStamp
+    description: ''
+    types:
+    - uid: string
+  - name: expirationTimeStamp
+    description: ''
+    types:
+    - uid: string
+  - name: incrementalFreeHours
+    description: ''
+    types:
+    - uid: number
+  - name: remainingFreeHours
+    description: ''
+    types:
+    - uid: number
 - name: ErrorDefinition
   description: Error definition.
   kind: object
@@ -94,18 +111,29 @@ definitions:
     - uid: ErrorDefinition
       isArray: true
 examples:
-- name: PackageDelete
+- name: BillingHubGetFreeHourBalance
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subscription-id/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2?api-version=2022-04-01-preview
+    uri: POST https://management.azure.com/subscriptions/subscription-id/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/getFreeHourBalance?api-version=2022-04-01-preview
   responses:
   - statusCode: "200"
-  - statusCode: "202"
-    headers:
-    - name: Azure-AsyncOperation
-      value: https://management.azure.com/subscriptions/subscription-id/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/operationResults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2022-04-01-preview
-    - name: Location
-      value: https://management.azure.com/subscriptions/subscription-id/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/operationResults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2022-04-01-preview
-  - statusCode: "204"
+    body: >-
+      {
+        "totalRemainingFreeHours": 30,
+        "incrementEntries": [
+          {
+            "createTimeStamp": "2022-03-12T12:51:38.709Z",
+            "expirationTimeStamp": "2022-04-12T12:51:38.709Z",
+            "incrementalFreeHours": 10,
+            "remainingFreeHours": 10
+          },
+          {
+            "createTimeStamp": "2022-03-13T12:51:38.709Z",
+            "expirationTimeStamp": "2022-04-13T12:51:38.709Z",
+            "incrementalFreeHours": 20,
+            "remainingFreeHours": 30
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -116,5 +144,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Test Base service - Deletes a Test Base Package.
+  description: Learn more about Test Base service
 errorCodes: []
