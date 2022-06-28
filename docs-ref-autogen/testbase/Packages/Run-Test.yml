@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.testbase.packages.delete
-name: Delete
+uid: management.azure.com.testbase.packages.runtest
+name: Run Test
 service: Test Base
 groupName: Packages
 apiVersion: 2022-04-01-preview
-summary: Deletes a Test Base Package.
+summary: Trigger a test run on the package.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/packages/{packageName}?api-version=2022-04-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/packages/{packageName}/runTest?api-version=2022-04-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,20 +44,50 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The Test Base Package 'delete' operation was completed successfully.
+  description: The test is triggered successfully.
 - name: 202 Accepted
   headers:
   - name: Azure-AsyncOperation
     value: string
   - name: Location
     value: string
-  description: The Test Base Package 'delete' operation was successfully enqueued. Follow the Location header to poll for final outcome.
+  description: The request to trigger a test was accepted. Follow the Location header to poll for final outcome.
 - name: 204 No Content
-  description: The Test Base Package 'delete' operation was completed successfully.
+  description: The test is triggered successfully.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: testType
+    in: body
+    isRequired: true
+    description: The type of the test.
+    types:
+    - uid: testType
+  - name: osUpdateType
+    in: body
+    description: Specifies the OS update type to test against.
+    types:
+    - uid: osUpdateType
+  - name: osName
+    in: body
+    isRequired: true
+    description: The operating system name. e.g. Windows 10 1809.
+    types:
+    - uid: string
+  - name: releaseName
+    in: body
+    description: The name of the tested release (OS update).
+    types:
+    - uid: string
+  - name: flightingRing
+    in: body
+    description: The flighting ring, only for release of feature updates.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: ErrorResponse
@@ -68,6 +98,31 @@ definitions:
     description: The error details.
     types:
     - uid: ErrorDefinition
+- name: PackageRunTestParameters
+  description: The parameters supplied to the Test Base Package to start a Test Run.
+  kind: object
+  properties:
+  - name: testType
+    description: The type of the test.
+    types:
+    - uid: testType
+  - name: osUpdateType
+    description: Specifies the OS update type to test against.
+    types:
+    - uid: osUpdateType
+    defaultValue: SecurityUpdate
+  - name: osName
+    description: The operating system name. e.g. Windows 10 1809.
+    types:
+    - uid: string
+  - name: releaseName
+    description: The name of the tested release (OS update).
+    types:
+    - uid: string
+  - name: flightingRing
+    description: The flighting ring, only for release of feature updates.
+    types:
+    - uid: string
 - name: ErrorDefinition
   description: Error definition.
   kind: object
@@ -93,10 +148,37 @@ definitions:
     types:
     - uid: ErrorDefinition
       isArray: true
+- name: testType
+  description: The type of the test.
+  kind: enum
+  properties:
+  - name: OutOfBoxTest
+    types:
+    - uid: string
+  - name: FunctionalTest
+    types:
+    - uid: string
+- name: osUpdateType
+  description: Specifies the OS update type to test against.
+  kind: enum
+  properties:
+  - name: SecurityUpdate
+    types:
+    - uid: string
+  - name: FeatureUpdate
+    types:
+    - uid: string
 examples:
-- name: PackageDelete
+- name: PackageRunTest
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subscription-id/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2?api-version=2022-04-01-preview
+    uri: POST https://management.azure.com/subscriptions/subscription-id/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/runTest?api-version=2022-04-01-preview
+    body: >-
+      {
+        "testType": "OutOfBoxTest",
+        "osUpdateType": "SecurityUpdate",
+        "osName": "Windows 10 21H1",
+        "releaseName": "2021.05 B"
+      }
   responses:
   - statusCode: "200"
   - statusCode: "202"
@@ -116,5 +198,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Test Base service - Deletes a Test Base Package.
+  description: Learn more about Test Base service - Trigger a test run on the package.
 errorCodes: []

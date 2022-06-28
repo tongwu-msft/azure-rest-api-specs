@@ -24980,6 +24980,10 @@
 ### [Overview](testbase/Available-OS.yml)
 ### [Get](testbase/Available-OS/Get.yml)
 ### [List](testbase/Available-OS/List.yml)
+## Billing Hub Service
+### [Overview](testbase/Billing-Hub-Service.yml)
+### [Get Free Hour Balance](testbase/Billing-Hub-Service/Get-Free-Hour-Balance.yml)
+### [Get Usage](testbase/Billing-Hub-Service/Get-Usage.yml)
 ## Customer Events
 ### [Overview](testbase/Customer-Events.yml)
 ### [Create](testbase/Customer-Events/Create.yml)
@@ -25015,6 +25019,7 @@
 ### [Get Download URL](testbase/Packages/Get-Download-URL.yml)
 ### [Hard Delete](testbase/Packages/Hard-Delete.yml)
 ### [List By Test Base Account](testbase/Packages/List-By-Test-Base-Account.yml)
+### [Run Test](testbase/Packages/Run-Test.yml)
 ### [Update](testbase/Packages/Update.yml)
 ## Skus
 ### [Overview](testbase/Skus.yml)
@@ -25033,6 +25038,7 @@
 ## Test Results
 ### [Overview](testbase/Test-Results.yml)
 ### [Get](testbase/Test-Results/Get.yml)
+### [Get Console Log Download URL](testbase/Test-Results/Get-Console-Log-Download-URL.yml)
 ### [Get Download URL](testbase/Test-Results/Get-Download-URL.yml)
 ### [Get Video Download URL](testbase/Test-Results/Get-Video-Download-URL.yml)
 ### [List](testbase/Test-Results/List.yml)

@@ -22,7 +22,7 @@ Azure Spring Apps REST API provides operations for working with the following re
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Services](../../docs-ref-autogen/support/Services.yml) | Provides operations for managing Azure Spring Apps service instances. |
+| [Services](../../docs-ref-autogen/azurespringapps/Services.yml) | Provides operations for managing Azure Spring Apps service instances. |
 | [Apps](../../docs-ref-autogen/azurespringapps/Apps.yml) | Provides operations for managing apps under service instances. |
 | [Deployments](../../docs-ref-autogen/azurespringapps/Deployments.yml) | Provides operations for managing deployments under apps. |
 | [Bindings](../../docs-ref-autogen/azurespringapps/Bindings.yml) | Provides operations for managing service bindings under apps. |

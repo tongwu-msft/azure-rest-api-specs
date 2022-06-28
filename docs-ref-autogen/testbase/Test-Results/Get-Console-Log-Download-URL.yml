@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.testbase.testresults.getvideodownloadurl
-name: Get Video Download URL
+uid: management.azure.com.testbase.testresults.getconsolelogdownloadurl
+name: Get Console Log Download URL
 service: Test Base
 groupName: Test Results
 apiVersion: 2022-04-01-preview
-summary: Gets the download URL of the test execution screen recording.
+summary: Gets the download URL of the test execution console log file.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/packages/{packageName}/testResults/{testResultName}/getVideoDownloadUrl?api-version=2022-04-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/packages/{packageName}/testResults/{testResultName}/getConsoleLogDownloadUrl?api-version=2022-04-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -57,6 +57,15 @@ responses:
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: logFileName
+    in: body
+    isRequired: true
+    description: The log file name corresponding to the download URL.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: DownloadURLResponse
@@ -81,6 +90,14 @@ definitions:
     description: The error details.
     types:
     - uid: ErrorDefinition
+- name: TestResultConsoleLogDownloadURLParameters
+  description: Parameters body to pass for getting the download URL of the test execution console log file.
+  kind: object
+  properties:
+  - name: logFileName
+    description: The log file name corresponding to the download URL.
+    types:
+    - uid: string
 - name: ErrorDefinition
   description: Error definition.
   kind: object
@@ -107,14 +124,18 @@ definitions:
     - uid: ErrorDefinition
       isArray: true
 examples:
-- name: TestResultGetVideoDownloadURL
+- name: TestResultGetConsoleLogDownloadURL
   request:
-    uri: POST https://management.azure.com/subscriptions/subscription-id/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/testResults/Windows-10-1909-99b1f80d-03a9-4148-997f-806ba5bac8e0/getVideoDownloadUrl?api-version=2022-04-01-preview
+    uri: POST https://management.azure.com/subscriptions/subscription-id/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/testResults/Windows-10-1909-99b1f80d-03a9-4148-997f-806ba5bac8e0/getConsoleLogDownloadUrl?api-version=2022-04-01-preview
+    body: >-
+      {
+        "logFileName": "launch-stderr-1234.log"
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "downloadUrl": "test result video download URL",
+        "downloadUrl": "console log download URL",
         "expirationTime": "2021-01-10T06:00:00Z"
       }
 security:
@@ -127,5 +148,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Test Base service - Gets the download URL of the test execution screen recording.
+  description: Learn more about Test Base service - Gets the download URL of the test execution console log file.
 errorCodes: []
