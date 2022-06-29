@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.media.mediaservices.get
+uid: management.azure.com.media.mediaservicesoperationresults.get
 name: Get
 service: Media Services
-groupName: Mediaservices
+groupName: Media Services Operation Results
 apiVersion: 2021-11-01
-summary: "Get a Media Services account  \nGet the details of a Media Services account"
+summary: "Get operation result.  \nGet media service operation result."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}?api-version=2021-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Media/locations/{locationName}/mediaServicesOperationResults/{operationId}?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -18,16 +18,16 @@ uriParameters:
   description: The unique identifier for a Microsoft Azure subscription.
   types:
   - uid: string
-- name: resourceGroupName
+- name: locationName
   in: path
   isRequired: true
-  description: The name of the resource group within the Azure subscription.
+  description: Location name.
   types:
   - uid: string
-- name: accountName
+- name: operationId
   in: path
   isRequired: true
-  description: The Media Services account name.
+  description: Operation Id.
   types:
   - uid: string
 - name: api-version
@@ -41,6 +41,15 @@ responses:
   description: OK
   types:
   - uid: MediaService
+- name: 202 Accepted
+  headers:
+  - name: Retry-After
+    value: integer
+  - name: Location
+    value: string
+  - name: Azure-AsyncOperation
+    value: string
+  description: Accepted
 - name: Other Status Codes
   description: Detailed error information.
   types:
@@ -504,13 +513,17 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get a Media Services account by name
+- name: Get status of asynchronous operation.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosotv?api-version=2021-11-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Media/locations/westus/mediaServicesOperationResults/6FBA62C4-99B5-4FF8-9826-FC4744A8864F?api-version=2021-11-01
   responses:
+  - statusCode: "202"
   - statusCode: "200"
     body: >-
       {
+        "name": "contosomovies",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomovies",
+        "type": "Microsoft.Media/mediaServices",
         "location": "South Central US",
         "tags": {
           "key1": "value1",
@@ -530,6 +543,7 @@ examples:
           }
         },
         "properties": {
+          "provisioningState": "Succeeded",
           "encryption": {
             "type": "CustomerKey",
             "keyVaultProperties": {
@@ -594,5 +608,5 @@ examples:
       }
 security: []
 metadata:
-  description: "Learn more about Media Services service - Get a Media Services account  \nGet the details of a Media Services account"
+  description: "Learn more about Media Services service - Get operation result.  \nGet media service operation result."
 errorCodes: []

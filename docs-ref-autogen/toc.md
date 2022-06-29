@@ -13215,6 +13215,12 @@
 ### Locations
 #### [Overview](media/Locations.yml)
 #### [Check Name Availability](media/Locations/Check-Name-Availability.yml)
+### Media Services Operation Results
+#### [Overview](media/Media-Services-Operation-Results.yml)
+#### [Get](media/Media-Services-Operation-Results/Get.yml)
+### Media Services Operation Statuses
+#### [Overview](media/Media-Services-Operation-Statuses.yml)
+#### [Get](media/Media-Services-Operation-Statuses/Get.yml)
 ### Mediaservices
 #### [Overview](media/Mediaservices.yml)
 #### [Create Or Update](media/Mediaservices/Create-Or-Update.yml)
