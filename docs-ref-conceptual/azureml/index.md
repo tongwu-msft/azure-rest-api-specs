@@ -26,7 +26,6 @@ Machine Learning REST APIs provide operations for working with the following res
 | Code | Provides operations for managing code assets. | [Code Containers](https://docs.microsoft.com/rest/api/azureml/codecontainers) <br /> [Code Versions](https://docs.microsoft.com/rest/api/azureml/codeversions) |
 | Models | Provides operations for managing models. | [Model Containers](https://docs.microsoft.com/rest/api/azureml/modelcontainers) <br /> [Model Versions](https://docs.microsoft.com/rest/api/azureml/modelversions) |
 | [Jobs](https://docs.microsoft.com/rest/api/azureml/jobs) | Provides operations for managing jobs. |
-| [Labeling Jobs](https://docs.microsoft.com/rest/api/azureml/labelingjobs) | Provides operations for managing labeling jobs. |
 | Online Endpoints | Provides operations for managing online endpoints. | [Online Endpoints](https://docs.microsoft.com/rest/api/azureml/onlineendpoints) <br /> [Online Deployments](https://docs.microsoft.com/rest/api/azureml/onlinedeployments) |
 | Batch Endpoints | Provides operations for managing batch endpoints. | [Batch Endpoints](https://docs.microsoft.com/rest/api/azureml/batchendpoints) <br /> [Batch Deployments](https://docs.microsoft.com/rest/api/azureml/batchdeployments) |
 | [Workspace Connections](https://docs.microsoft.com/rest/api/azureml/workspaceconnections) | Provides operations for managing workspace connections. |
