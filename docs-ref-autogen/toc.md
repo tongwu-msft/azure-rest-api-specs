@@ -2498,7 +2498,7 @@
 #### [Update](application-insights/Workbooks/Update.yml)
 # Authorization
 ## [Overview](../docs-ref-conceptual/authorization/index.md)
-## [Versions](../docs-ref-conceptual/authorization/versions.md)
+## [API versions](../docs-ref-conceptual/authorization/versions.md)
 ## Samples
 ### [Manage roles](../docs-ref-conceptual/authorization/role-assignment-rest-sample.md)
 ### [Manage eligible roles through PIM](../docs-ref-conceptual/authorization/privileged-role-eligibility-rest-sample.md)
