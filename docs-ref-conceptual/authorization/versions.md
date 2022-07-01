@@ -31,7 +31,7 @@ Preview versions are released to test new functionality, gather feedback, and di
 |-------------|---------------|-------------|
 | `2020-10-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-10-01-preview) | Device principal type<br>Add Privileged Identity Management resource types<br/>[Release note](#2020-10-01-preview) |
 | `2020-08-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview) | Role assignment validation<br/>[Release note](#2020-08-01-preview) |
-| `2020-07-01-preview` | Swagger specification) | Search role assignments<br/>Search deny assignments<br/>[Release note](#2020-07-01-preview) |
+| `2020-07-01-preview` | Swagger specification | Search role assignments<br/>Search deny assignments<br/>[Release note](#2020-07-01-preview) |
 | `2020-04-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-04-01-preview) | Role assignment with description<br/>[Release note](#2020-04-01-preview) |
 | `2020-03-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-03-01-preview) | User not found bypass<br/>[Release note](#2020-03-01-preview) |
 | `2019-08-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/preview/2019-08-01-preview) | Role assignment usage metrics<br/>[Release note](#2019-08-01-preview) |
@@ -194,5 +194,5 @@ Strict filter checks
 
 ## See also
 
-- [Assign Azure roles using the REST API](https://docs.microsoft.com/azure/role-based-access-control/role-assignments-rest)
-- [List Azure role assignments using the REST API](https://docs.microsoft.com/azure/role-based-access-control/role-assignments-list-rest)
+- [Assign Azure roles using the REST API](/azure/role-based-access-control/role-assignments-rest)
+- [List Azure role assignments using the REST API](/azure/role-based-access-control/role-assignments-list-rest)
