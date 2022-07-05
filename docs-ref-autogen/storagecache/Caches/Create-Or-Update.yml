@@ -3,14 +3,14 @@ uid: management.azure.com.storagecache.caches.createorupdate
 name: Create Or Update
 service: Storagecache
 groupName: Caches
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Create or update a Cache.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}?api-version=2022-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -89,6 +89,11 @@ requestBody:
     description: Subnet used for the Cache.
     types:
     - uid: string
+  - name: properties.upgradeSettings
+    in: body
+    description: Upgrade settings of the Cache.
+    types:
+    - uid: CacheUpgradeSettings
   - name: properties.networkSettings
     in: body
     description: Specifies network settings of the cache.
@@ -222,6 +227,18 @@ definitions:
     description: When firmwareUpdateAvailable is true, this field holds the version string for the update.
     types:
     - uid: string
+- name: CacheUpgradeSettings
+  description: Cache Upgrade Settings.
+  kind: object
+  properties:
+  - name: upgradeScheduleEnabled
+    description: True if the user chooses to select an installation time between now and firmwareUpdateDeadline. Else the firmware will automatically be installed after firmwareUpdateDeadline if not triggered earlier via the upgrade operation.
+    types:
+    - uid: boolean
+  - name: scheduledTime
+    description: When upgradeScheduleEnabled is true, this field holds the user-chosen upgrade time. At the user-chosen time, the firmware update will automatically be installed on the cache.
+    types:
+    - uid: string
 - name: CacheNetworkSettings
   description: Cache network settings.
   kind: object
@@ -284,6 +301,55 @@ definitions:
     description: Specifies settings for Extended Groups. Extended Groups allows users to be members of more than 16 groups.
     types:
     - uid: CacheUsernameDownloadSettings
+- name: PrimingJob
+  description: A priming job instance.
+  kind: object
+  properties:
+  - name: primingJobName
+    description: The priming job name.
+    types:
+    - uid: string
+  - name: primingManifestUrl
+    description: The URL for the priming manifest file to download. This file must be readable from the HPC Cache. When the file is in Azure blob storage the URL should include a Shared Access Signature (SAS) granting read permissions on the blob.
+    types:
+    - uid: string
+  - name: primingJobId
+    isReadyOnly: true
+    description: The unique identifier of the priming job.
+    types:
+    - uid: string
+  - name: primingJobState
+    isReadyOnly: true
+    description: The state of the priming operation.
+    types:
+    - uid: PrimingJobState
+  - name: primingJobStatus
+    isReadyOnly: true
+    description: The status code of the priming job.
+    types:
+    - uid: string
+  - name: primingJobDetails
+    isReadyOnly: true
+    description: The job details or error information if any.
+    types:
+    - uid: string
+  - name: primingJobPercentComplete
+    isReadyOnly: true
+    description: The current progress of the priming job, as a percentage.
+    types:
+    - uid: number
+- name: StorageTargetSpaceAllocation
+  description: Storage Target space allocation properties.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the storage target.
+    types:
+    - uid: string
+  - name: allocationPercentage
+    description: The percentage of cache space allocated for this storage target
+    types:
+    - uid: integer
 - name: Cache
   description: 'A Cache instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md'
   kind: object
@@ -357,6 +423,10 @@ definitions:
     description: Upgrade status of the Cache.
     types:
     - uid: CacheUpgradeStatus
+  - name: properties.upgradeSettings
+    description: Upgrade settings of the Cache.
+    types:
+    - uid: CacheUpgradeSettings
   - name: properties.networkSettings
     description: Specifies network settings of the cache.
     types:
@@ -377,6 +447,18 @@ definitions:
     description: Availability zones for resources. This field should only contain a single element in the array.
     types:
     - uid: string
+      isArray: true
+  - name: properties.primingJobs
+    isReadyOnly: true
+    description: Specifies the priming jobs defined in the cache.
+    types:
+    - uid: PrimingJob
+      isArray: true
+  - name: properties.spaceAllocation
+    isReadyOnly: true
+    description: Specifies the space allocation percentage for each storage target in the cache.
+    types:
+    - uid: StorageTargetSpaceAllocation
       isArray: true
 - name: CloudError
   description: An error response.
@@ -455,6 +537,15 @@ definitions:
     types:
     - uid: string
   - name: Flushing
+    types:
+    - uid: string
+  - name: WaitingForKey
+    types:
+    - uid: string
+  - name: StartFailed
+    types:
+    - uid: string
+  - name: UpgradeFailed
     types:
     - uid: string
 - name: Condition
@@ -593,6 +684,22 @@ definitions:
     description: When present, these are the credentials for the secure LDAP connection.
     types:
     - uid: Credentials
+- name: PrimingJobState
+  description: The state of the priming operation.
+  kind: enum
+  properties:
+  - name: Queued
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Paused
+    types:
+    - uid: string
+  - name: Complete
+    types:
+    - uid: string
 - name: ProvisioningStateType
   description: ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
   kind: enum
@@ -763,7 +870,7 @@ definitions:
 examples:
 - name: Caches_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-05-01
     body: >-
       {
         "tags": {
@@ -825,6 +932,10 @@ examples:
                 ]
               }
             ]
+          },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
           }
         },
         "sku": {
@@ -901,6 +1012,10 @@ examples:
               }
             ]
           },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
+          },
           "encryptionSettings": {
             "keyEncryptionKey": {
               "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
@@ -932,6 +1047,8 @@ examples:
               "usernameDownloaded": "No"
             }
           },
+          "primingJobs": [],
+          "spaceAllocation": [],
           "zones": [
             "1"
           ]
@@ -1008,6 +1125,10 @@ examples:
               }
             ]
           },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
+          },
           "encryptionSettings": {
             "keyEncryptionKey": {
               "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
@@ -1039,6 +1160,25 @@ examples:
               "usernameDownloaded": "Yes"
             }
           },
+          "primingJobs": [
+            {
+              "primingJobName": "contosoJob1",
+              "primingJobId": "00000000000_0000000000",
+              "primingJobState": "Complete",
+              "primingJobStatus": "success",
+              "primingJobDetails": "Files: Cached=635, Failed=0, Excluded=80, Data=346030 bytes, Directories: Cached=1003, Failed=0, Excluded=0",
+              "primingJobPercentComplete": 100
+            },
+            {
+              "primingJobName": "contosoJob2",
+              "primingJobId": "11111111111_1111111111",
+              "primingJobState": "Queued",
+              "primingJobStatus": "",
+              "primingJobDetails": "",
+              "primingJobPercentComplete": 0
+            }
+          ],
+          "spaceAllocation": [],
           "zones": [
             "1"
           ]
@@ -1049,7 +1189,7 @@ examples:
       }
 - name: Caches_CreateOrUpdate_ldap_only
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-05-01
     body: >-
       {
         "tags": {
@@ -1094,6 +1234,10 @@ examples:
                 ]
               }
             ]
+          },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
           }
         },
         "sku": {
@@ -1170,6 +1314,10 @@ examples:
               }
             ]
           },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
+          },
           "encryptionSettings": {
             "keyEncryptionKey": {
               "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
@@ -1192,7 +1340,12 @@ examples:
               "caCertificateURI": "",
               "usernameDownloaded": "No"
             }
-          }
+          },
+          "primingJobs": [],
+          "spaceAllocation": [],
+          "zones": [
+            "1"
+          ]
         },
         "sku": {
           "name": "Standard_2G"
@@ -1266,6 +1419,10 @@ examples:
               }
             ]
           },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
+          },
           "encryptionSettings": {
             "keyEncryptionKey": {
               "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
@@ -1288,7 +1445,29 @@ examples:
               "caCertificateURI": "",
               "usernameDownloaded": "Yes"
             }
-          }
+          },
+          "primingJobs": [
+            {
+              "primingJobName": "contosoJob1",
+              "primingJobId": "00000000000_0000000000",
+              "primingJobState": "Complete",
+              "primingJobStatus": "success",
+              "primingJobDetails": "Files: Cached=635, Failed=0, Excluded=80, Data=346030 bytes, Directories: Cached=1003, Failed=0, Excluded=0",
+              "primingJobPercentComplete": 100
+            },
+            {
+              "primingJobName": "contosoJob2",
+              "primingJobId": "11111111111_1111111111",
+              "primingJobState": "Queued",
+              "primingJobStatus": "",
+              "primingJobDetails": "",
+              "primingJobPercentComplete": 0
+            }
+          ],
+          "spaceAllocation": [],
+          "zones": [
+            "1"
+          ]
         },
         "sku": {
           "name": "Standard_2G"

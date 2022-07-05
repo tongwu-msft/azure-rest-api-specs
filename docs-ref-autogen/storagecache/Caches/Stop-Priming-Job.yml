@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.storagecache.caches.stop
-name: Stop
+uid: management.azure.com.storagecache.caches.stopprimingjob
+name: Stop Priming Job
 service: Storagecache
 groupName: Caches
 apiVersion: 2022-05-01
-summary: Tells an Active Cache to transition to Stopped state.
+summary: Schedule a priming job for deletion.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/stop?api-version=2022-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/stopPrimingJob?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,16 +38,28 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: Cache is stopped.
 - name: 202 Accepted
-  description: Cache has started the transition to Stopped. Poll the Cache's state field to monitor.
+  headers:
+  - name: Location
+    value: string
+  - name: Azure-AsyncOperation
+    value: string
+  description: Started priming job deletion.
 - name: 204 No Content
-  description: Stopped VMs associated with the cache.
+  description: The priming job is being deleted.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: primingJobId
+    in: body
+    isRequired: true
+    description: The unique identifier of the priming job.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: CloudError
@@ -58,6 +70,14 @@ definitions:
     description: The body of the error.
     types:
     - uid: CloudErrorBody
+- name: PrimingJobIdParameter
+  description: Object containing the priming job ID.
+  kind: object
+  properties:
+  - name: primingJobId
+    description: The unique identifier of the priming job.
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response.
   kind: object
@@ -80,12 +100,20 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Caches_Stop
+- name: StopPrimingJob
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc/stop?api-version=2022-05-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/stopPrimingJob?api-version=2022-05-01
+    body: >-
+      {
+        "primingJobId": "00000000000_0000000000"
+      }
   responses:
-  - statusCode: "200"
   - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.StorageCache/locations/westus/ascOperations/33333333-3333-3333-3333-333333333333?monitor=true&api-version=2022-05-01
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.StorageCache/locations/westus/ascOperations/33333333-3333-3333-3333-333333333333?api-version=2022-05-01
   - statusCode: "204"
 security:
 - name: azure_auth
@@ -97,5 +125,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Storagecache service - Tells an Active Cache to transition to Stopped state.
+  description: Learn more about Storagecache service - Schedule a priming job for deletion.
 errorCodes: []
