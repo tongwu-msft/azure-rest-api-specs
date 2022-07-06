@@ -9228,49 +9228,6 @@
 ### [Create Or Update](datadog/Tag-Rules/Create-Or-Update.yml)
 ### [Get](datadog/Tag-Rules/Get.yml)
 ### [List](datadog/Tag-Rules/List.yml)
-# Deployment Manager
-## [Overview](../docs-ref-conceptual/deploymentmanager/index.md)
-## Artifact Sources
-### [Overview](deploymentmanager/Artifact-Sources.yml)
-### [Create Or Update](deploymentmanager/Artifact-Sources/Create-Or-Update.yml)
-### [Delete](deploymentmanager/Artifact-Sources/Delete.yml)
-### [Get](deploymentmanager/Artifact-Sources/Get.yml)
-### [List](deploymentmanager/Artifact-Sources/List.yml)
-## Operations
-### [Overview](deploymentmanager/Operations.yml)
-### [List](deploymentmanager/Operations/List.yml)
-## Rollouts
-### [Overview](deploymentmanager/Rollouts.yml)
-### [Cancel](deploymentmanager/Rollouts/Cancel.yml)
-### [Create Or Update](deploymentmanager/Rollouts/Create-Or-Update.yml)
-### [Delete](deploymentmanager/Rollouts/Delete.yml)
-### [Get](deploymentmanager/Rollouts/Get.yml)
-### [List](deploymentmanager/Rollouts/List.yml)
-### [Restart](deploymentmanager/Rollouts/Restart.yml)
-## Service Topologies
-### [Overview](deploymentmanager/Service-Topologies.yml)
-### [Create Or Update](deploymentmanager/Service-Topologies/Create-Or-Update.yml)
-### [Delete](deploymentmanager/Service-Topologies/Delete.yml)
-### [Get](deploymentmanager/Service-Topologies/Get.yml)
-### [List](deploymentmanager/Service-Topologies/List.yml)
-## Service Units
-### [Overview](deploymentmanager/Service-Units.yml)
-### [Create Or Update](deploymentmanager/Service-Units/Create-Or-Update.yml)
-### [Delete](deploymentmanager/Service-Units/Delete.yml)
-### [Get](deploymentmanager/Service-Units/Get.yml)
-### [List](deploymentmanager/Service-Units/List.yml)
-## Services
-### [Overview](deploymentmanager/Services.yml)
-### [Create Or Update](deploymentmanager/Services/Create-Or-Update.yml)
-### [Delete](deploymentmanager/Services/Delete.yml)
-### [Get](deploymentmanager/Services/Get.yml)
-### [List](deploymentmanager/Services/List.yml)
-## Steps
-### [Overview](deploymentmanager/Steps.yml)
-### [Create Or Update](deploymentmanager/Steps/Create-Or-Update.yml)
-### [Delete](deploymentmanager/Steps/Delete.yml)
-### [Get](deploymentmanager/Steps/Get.yml)
-### [List](deploymentmanager/Steps/List.yml)
 # Desktop Virtualization
 ## [Overview](../docs-ref-conceptual/desktopvirtualization/index.md)
 ## Application Groups
