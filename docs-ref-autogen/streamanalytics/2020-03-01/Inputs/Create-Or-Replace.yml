@@ -132,6 +132,7 @@ definitions:
     - uid: EventHubStreamInputDataSource
     - uid: EventHubV2StreamInputDataSource
     - uid: IoTHubStreamInputDataSource
+    - uid: GatewayMessageBusStreamInputDataSource
     typesTitle: StreamInputDataSource
   - name: type
     description: Indicates whether the input is a source of reference data or stream data. Required on PUT (CreateOrReplace) requests.
@@ -171,6 +172,7 @@ definitions:
   - name: datasource
     description: Describes an input data source that contains reference data. Required on PUT (CreateOrReplace) requests.
     types:
+    - uid: FileReferenceInputDataSource
     - uid: BlobReferenceInputDataSource
     - uid: AzureSqlReferenceInputDataSource
     typesTitle: ReferenceInputDataSource
@@ -223,6 +225,7 @@ definitions:
     description: Indicates the type of compression that the input uses. Required on PUT (CreateOrReplace) requests.
     types:
     - uid: CompressionType
+    defaultValue: None
 - name: BlobStreamInputDataSource
   description: Describes a blob input data source that contains stream data.
   kind: object
@@ -261,6 +264,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: EventHubStreamInputDataSource
   description: Describes an Event Hub input data source that contains stream data.
   kind: object
@@ -294,6 +298,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: EventHubV2StreamInputDataSource
   description: Describes an Event Hub input data source that contains stream data.
   kind: object
@@ -327,6 +332,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: IoTHubStreamInputDataSource
   description: Describes an IoT Hub input data source that contains stream data.
   kind: object
@@ -356,6 +362,19 @@ definitions:
     types:
     - uid: Microsoft.Devices/IotHubs
     typesTitle: string
+- name: GatewayMessageBusStreamInputDataSource
+  description: Describes a blob input data source that contains stream data.
+  kind: object
+  properties:
+  - name: type
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: GatewayMessageBus
+    typesTitle: string
+  - name: properties.topic
+    description: The name of the Service Bus topic.
+    types:
+    - uid: string
 - name: ParquetSerialization
   description: Describes how data from an input is serialized or how data is serialized when written to an output in Parquet format.
   kind: object
@@ -440,6 +459,19 @@ definitions:
   - name: Deflate
     types:
     - uid: string
+- name: FileReferenceInputDataSource
+  description: Describes a file input data source that contains reference data.
+  kind: object
+  properties:
+  - name: properties.path
+    description: The path of the file.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: File
+    typesTitle: string
 - name: BlobReferenceInputDataSource
   description: Describes a blob input data source that contains reference data.
   kind: object
@@ -474,6 +506,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: AzureSqlReferenceInputDataSource
   description: Describes an Azure SQL database reference input data source.
   kind: object
@@ -948,6 +981,114 @@ examples:
           "serialization": {
             "type": "Avro",
             "properties": {}
+          }
+        }
+      }
+- name: Create a Gateway Message Bus input
+  request:
+    uri: PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg3467/providers/Microsoft.StreamAnalytics/streamingjobs/sj9742/inputs/input7970?api-version=2020-03-01
+    body: >-
+      {
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "GatewayMessageBus",
+            "properties": {
+              "topic": "EdgeTopic1"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: ETag
+      value: bd8009b3-8165-4bd3-aad2-29a2b378dd14
+    body: >-
+      {
+        "id": "/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourceGroups/sjrg3467/providers/Microsoft.StreamAnalytics/streamingjobs/sj9742/inputs/input7970",
+        "name": "input7970",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/inputs",
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "GatewayMessageBus",
+            "properties": {
+              "topic": "EdgeTopic1"
+            }
+          }
+        }
+      }
+  - statusCode: "200"
+    headers:
+    - name: ETag
+      value: bd8009b3-8165-4bd3-aad2-29a2b378dd14
+    body: >-
+      {
+        "id": "/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourceGroups/sjrg3467/providers/Microsoft.StreamAnalytics/streamingjobs/sj9742/inputs/input7970",
+        "name": "input7970",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/inputs",
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "GatewayMessageBus",
+            "properties": {
+              "topic": "EdgeTopic1"
+            }
+          }
+        }
+      }
+- name: Create a reference file input
+  request:
+    uri: PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg8440/providers/Microsoft.StreamAnalytics/streamingjobs/sj9597/inputs/input7225?api-version=2020-03-01
+    body: >-
+      {
+        "properties": {
+          "type": "Reference",
+          "datasource": {
+            "type": "File",
+            "properties": {
+              "path": "my/path"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: ETag
+      value: c987701d-4039-47aa-a115-ad84f67d07c5
+    body: >-
+      {
+        "id": "/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourceGroups/sjrg8440/providers/Microsoft.StreamAnalytics/streamingjobs/sj9597/inputs/input7225",
+        "name": "input7225",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/inputs",
+        "properties": {
+          "type": "Reference",
+          "datasource": {
+            "type": "File",
+            "properties": {
+              "path": "my/path"
+            }
+          }
+        }
+      }
+  - statusCode: "200"
+    headers:
+    - name: ETag
+      value: c987701d-4039-47aa-a115-ad84f67d07c5
+    body: >-
+      {
+        "id": "/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourceGroups/sjrg8440/providers/Microsoft.StreamAnalytics/streamingjobs/sj9597/inputs/input7225",
+        "name": "input7225",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/inputs",
+        "properties": {
+          "type": "Reference",
+          "datasource": {
+            "type": "File",
+            "properties": {
+              "path": "my/path"
+            }
           }
         }
       }
