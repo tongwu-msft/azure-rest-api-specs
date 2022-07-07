@@ -124,7 +124,7 @@ Sometimes Azure Cognitive Search can't return all the requested results in a sin
 The reasons why Azure Cognitive Search might return continuation tokens are implementation-specific and subject to change. Robust clients should always be ready to handle cases where fewer documents than expected are returned and a continuation token is included to continue retrieving documents. Also note that you must use the same HTTP method as the original request in order to continue. For example, if you sent a GET request, any continuation requests you send must also use GET (and likewise for POST).
 
 > [!NOTE]
-> The purpose of @odata.nextLink and @search.nextPageParameters is to protect the service from queries that request too many results, not to provide a general mechanism for paging. If you want to page through results, use $top and $skip together. For example, if you want pages of size 10, your first request should have $top=10 and $skip=0, the second request should have $top=1` and $skip=10, the third request should have $top=10 and $skip=20, and so on.
+> The purpose of @odata.nextLink and @search.nextPageParameters is to protect the service from queries that request too many results, not to provide a general mechanism for paging. If you want to page through results, use $top and $skip together. For example, if you want pages of size 10, your first request should have $top=10 and $skip=0, the second request should have $top=10 and $skip=10, the third request should have $top=10 and $skip=20, and so on.
 
 <a name="query-parameters"></a>
 
