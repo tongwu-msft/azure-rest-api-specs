@@ -16528,6 +16528,12 @@
 ##### [Get](securityinsights/preview/Product-Settings/Get.yml)
 ##### [List](securityinsights/preview/Product-Settings/List.yml)
 ##### [Update](securityinsights/preview/Product-Settings/Update.yml)
+#### Security ML Analytics Settings
+##### [Overview](securityinsights/preview/Security-ML-Analytics-Settings.yml)
+##### [Create Or Update](securityinsights/preview/Security-ML-Analytics-Settings/Create-Or-Update.yml)
+##### [Delete](securityinsights/preview/Security-ML-Analytics-Settings/Delete.yml)
+##### [Get](securityinsights/preview/Security-ML-Analytics-Settings/Get.yml)
+##### [List](securityinsights/preview/Security-ML-Analytics-Settings/List.yml)
 #### Sentinel Onboarding States
 ##### [Overview](securityinsights/preview/Sentinel-Onboarding-States.yml)
 ##### [Create](securityinsights/preview/Sentinel-Onboarding-States/Create.yml)
