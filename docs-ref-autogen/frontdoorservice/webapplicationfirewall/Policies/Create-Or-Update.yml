@@ -763,6 +763,122 @@ examples:
           "name": "Classic_AzureFrontDoor"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/Policy1?api-version=2020-11-01
+
+      {
+        "properties": {
+          "policySettings": {
+            "enabledState": "Enabled",
+            "mode": "Prevention",
+            "redirectUrl": "http://www.bing.com",
+            "customBlockResponseStatusCode": 499,
+            "customBlockResponseBody": "PGh0bWw+CjxoZWFkZXI+PHRpdGxlPkhlbGxvPC90aXRsZT48L2hlYWRlcj4KPGJvZHk+CkhlbGxvIHdvcmxkCjwvYm9keT4KPC9odG1sPg==",
+            "requestBodyCheck": "Disabled"
+          },
+          "customRules": {
+            "rules": [
+              {
+                "name": "Rule1",
+                "priority": 1,
+                "ruleType": "RateLimitRule",
+                "rateLimitThreshold": 1000,
+                "matchConditions": [
+                  {
+                    "matchVariable": "RemoteAddr",
+                    "operator": "IPMatch",
+                    "matchValue": [
+                      "192.168.1.0/24",
+                      "10.0.0.0/24"
+                    ]
+                  }
+                ],
+                "action": "Block"
+              },
+              {
+                "name": "Rule2",
+                "priority": 2,
+                "ruleType": "MatchRule",
+                "matchConditions": [
+                  {
+                    "matchVariable": "RemoteAddr",
+                    "operator": "GeoMatch",
+                    "matchValue": [
+                      "CH"
+                    ]
+                  },
+                  {
+                    "matchVariable": "RequestHeader",
+                    "operator": "Contains",
+                    "selector": "UserAgent",
+                    "matchValue": [
+                      "windows"
+                    ],
+                    "transforms": [
+                      "Lowercase"
+                    ]
+                  }
+                ],
+                "action": "Block"
+              }
+            ]
+          },
+          "managedRules": {
+            "managedRuleSets": [
+              {
+                "ruleSetType": "DefaultRuleSet",
+                "ruleSetVersion": "1.0",
+                "ruleSetAction": "Block",
+                "exclusions": [
+                  {
+                    "matchVariable": "RequestHeaderNames",
+                    "selectorMatchOperator": "Equals",
+                    "selector": "User-Agent"
+                  }
+                ],
+                "ruleGroupOverrides": [
+                  {
+                    "ruleGroupName": "SQLI",
+                    "exclusions": [
+                      {
+                        "matchVariable": "RequestCookieNames",
+                        "selectorMatchOperator": "StartsWith",
+                        "selector": "token"
+                      }
+                    ],
+                    "rules": [
+                      {
+                        "ruleId": "942100",
+                        "enabledState": "Enabled",
+                        "action": "Redirect",
+                        "exclusions": [
+                          {
+                            "matchVariable": "QueryStringArgNames",
+                            "selectorMatchOperator": "Equals",
+                            "selector": "query"
+                          }
+                        ]
+                      },
+                      {
+                        "ruleId": "942110",
+                        "enabledState": "Disabled"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "sku": {
+          "name": "Classic_AzureFrontDoor"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
