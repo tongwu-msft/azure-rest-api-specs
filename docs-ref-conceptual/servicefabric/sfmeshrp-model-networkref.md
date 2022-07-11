@@ -1,8 +1,8 @@
 ---
 title: "NetworkRef"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes a network reference in a service and provides the name, type, and requirement status for the name property.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

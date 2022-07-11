@@ -1,8 +1,8 @@
 ---
 title: "List By Application Name"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describes request method, parameters, responses, and examples of getting a list to include services of a given application.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

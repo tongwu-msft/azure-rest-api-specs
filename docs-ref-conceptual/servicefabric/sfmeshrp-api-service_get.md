@@ -1,8 +1,8 @@
 ---
-title: "Get"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Get API Service"
+description: Provides request method, parameters, responses, and examples for getting properties of a service and properties of the service.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Get
+# Get API Service
 Gets the properties of the service.
 
 The operation returns the properties of the service.
