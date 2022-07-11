@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.dataconnectors.createorupdate
 name: Create Or Update
 service: Sentinel
 groupName: Data Connectors
-apiVersion: 2021-10-01-preview
+apiVersion: 2022-07-01-preview
 summary: Creates or updates the data connector.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}?api-version=2021-10-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -63,6 +63,7 @@ responses:
   - uid: OfficeDataConnector
   - uid: TIDataConnector
   - uid: TiTaxiiDataConnector
+  - uid: IoTDataConnector
   - uid: CodelessUiDataConnector
   - uid: CodelessApiPollingDataConnector
   typesTitle: DataConnector
@@ -86,6 +87,7 @@ responses:
   - uid: OfficeDataConnector
   - uid: TIDataConnector
   - uid: TiTaxiiDataConnector
+  - uid: IoTDataConnector
   - uid: CodelessUiDataConnector
   - uid: CodelessApiPollingDataConnector
   typesTitle: DataConnector
@@ -604,6 +606,31 @@ requestBody:
     description: The tenant id to connect to, and get the data from.
     types:
     - uid: string
+- name: IoTDataConnector
+  description: Represents IoT data connector.
+  parameters:
+  - name: properties.subscriptionId
+    in: body
+    description: The subscription id to connect to, and get the data from.
+    types:
+    - uid: string
+  - name: kind
+    in: body
+    isRequired: true
+    description: The data connector kind
+    types:
+    - uid: IOT
+    typesTitle: string
+  - name: etag
+    in: body
+    description: Etag of the azure resource
+    types:
+    - uid: string
+  - name: properties.dataTypes
+    in: body
+    description: The available data types for the connector.
+    types:
+    - uid: AlertsDataTypeOfDataConnector
 - name: CodelessUiDataConnector
   description: Represents Codeless UI data connector.
   parameters:
@@ -1393,6 +1420,47 @@ definitions:
     description: The tenant id to connect to, and get the data from.
     types:
     - uid: string
+- name: IoTDataConnector
+  description: Represents IoT data connector.
+  kind: object
+  properties:
+  - name: properties.subscriptionId
+    description: The subscription id to connect to, and get the data from.
+    types:
+    - uid: string
+  - name: kind
+    description: The data connector kind
+    types:
+    - uid: IOT
+    typesTitle: string
+  - name: etag
+    description: Etag of the azure resource
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.dataTypes
+    description: The available data types for the connector.
+    types:
+    - uid: AlertsDataTypeOfDataConnector
 - name: CodelessUiDataConnector
   description: Represents Codeless UI data connector.
   kind: object
@@ -1566,6 +1634,9 @@ definitions:
     types:
     - uid: string
   - name: APIPolling
+    types:
+    - uid: string
+  - name: IOT
     types:
     - uid: string
 - name: AlertsDataTypeOfDataConnector
@@ -2311,7 +2382,7 @@ definitions:
 examples:
 - name: Creates or updates an Office365 data connector
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "Office365",
@@ -2334,7 +2405,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
 
       {
         "kind": "Office365",
@@ -2406,7 +2477,7 @@ examples:
       }
 - name: Creates or updates an Office365 Project data connector
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "Office365Project",
@@ -2423,7 +2494,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
 
       {
         "kind": "Office365Project",
@@ -2477,7 +2548,7 @@ examples:
       }
 - name: Creates or updates an Office PowerBI data connector
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "OfficePowerBI",
@@ -2494,7 +2565,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
 
       {
         "kind": "OfficePowerBI",
@@ -2548,7 +2619,7 @@ examples:
       }
 - name: Creates or updates a Threat Intelligence Taxii data connector.
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
     body: >-
       {
         "etag": "d12423f6-a60b-4ca5-88c0-feb1a182d0f0",
@@ -2573,7 +2644,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
 
       {
         "etag": "d12423f6-a60b-4ca5-88c0-feb1a182d0f0",
@@ -2651,7 +2722,7 @@ examples:
       }
 - name: Creates or updates an Threat Intelligence Platform data connector
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "ThreatIntelligence",
@@ -2668,7 +2739,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
 
       {
         "kind": "ThreatIntelligence",
@@ -2724,7 +2795,7 @@ examples:
       }
 - name: Creates or updates a Dynamics365 data connector.
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/c2541efb-c9a6-47fe-9501-87d1017d1512?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/c2541efb-c9a6-47fe-9501-87d1017d1512?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "Dynamics365",
@@ -2741,7 +2812,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/c2541efb-c9a6-47fe-9501-87d1017d1512?api-version=2021-10-01-preview
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/c2541efb-c9a6-47fe-9501-87d1017d1512?api-version=2022-07-01-preview
 
       {
         "kind": "Dynamics365",
@@ -2795,7 +2866,7 @@ examples:
       }
 - name: Creates or updates a GenericUI data connector
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/316ec55e-7138-4d63-ab18-90c8a60fd1c8?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/316ec55e-7138-4d63-ab18-90c8a60fd1c8?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "GenericUI",
@@ -2938,7 +3009,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/316ec55e-7138-4d63-ab18-90c8a60fd1c8?api-version=2021-10-01-preview
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/316ec55e-7138-4d63-ab18-90c8a60fd1c8?api-version=2022-07-01-preview
 
       {
         "kind": "GenericUI",
@@ -3372,7 +3443,7 @@ examples:
       }
 - name: Creates or updates a APIPolling data connector
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/316ec55e-7138-4d63-ab18-90c8a60fd1c8?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/316ec55e-7138-4d63-ab18-90c8a60fd1c8?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "APIPolling",
@@ -3492,7 +3563,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/316ec55e-7138-4d63-ab18-90c8a60fd1c8?api-version=2021-10-01-preview
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/316ec55e-7138-4d63-ab18-90c8a60fd1c8?api-version=2022-07-01-preview
 
       {
         "kind": "APIPolling",
