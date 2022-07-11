@@ -1,5 +1,5 @@
 ### YamlMime:RESTOperation
-uid: <dataplaneurl>.loadtesting.dataplane.test.listloadtestsearch
+uid: loadtesting.dataplane.test.listloadtestsearch
 name: List Load Test Search
 service: Azure Load Testing
 groupName: Test
@@ -8,10 +8,18 @@ summary: Get all load tests by the fully qualified resource Id e.g subscriptions
 produces:
 - application/json
 paths:
-- content: GET https://<dataPlaneURL>/loadtests/sortAndFilter?api-version=2022-06-01-preview
-- content: GET https://<dataPlaneURL>/loadtests/sortAndFilter?orderBy={orderBy}&search={search}&lastUpdatedStartTime={lastUpdatedStartTime}&lastUpdatedEndTime={lastUpdatedEndTime}&continuationToken={continuationToken}&maxPageSize={maxPageSize}&api-version=2022-06-01-preview
+- content: GET https://{Endpoint}/loadtests/sortAndFilter?api-version=2022-06-01-preview
+- content: GET https://{Endpoint}/loadtests/sortAndFilter?orderBy={orderBy}&search={search}&lastUpdatedStartTime={lastUpdatedStartTime}&lastUpdatedEndTime={lastUpdatedEndTime}&continuationToken={continuationToken}&maxPageSize={maxPageSize}&api-version=2022-06-01-preview
   isOptional: true
 uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: URL to perform data plane API operations on the resource.
+  types:
+  - uid: string
+  format: uri
 - name: orderBy
   in: query
   description: 'Sort on one of the field - lastModifiedDateTime, displayName, createdBy in (field asc/desc) format. eg: displayName asc.'
@@ -255,15 +263,19 @@ definitions:
   kind: object
   properties:
   - name: clientmetric
-    description: The client metric on which the criteria should be applied. Allowed values - ‘response_time_ms’ , ‘latency’, ‘error’.
+    description: The client metric on which the criteria should be applied. Allowed values - ‘response_time_ms’ , ‘latency’, ‘error’, ‘requests’, ‘requests_per_sec’.
     types:
     - uid: string
   - name: aggregate
-    description: The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’ - for response_time_ms and latency metric.
+    description: The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric ,‘avg’, ‘p50’, ‘p90’, ‘p95’, ‘p99’, ‘min’, ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec, ‘count’ - for requests.
     types:
     - uid: string
   - name: condition
     description: 'The comparison operator. Supported types ‘>’ '
+    types:
+    - uid: string
+  - name: requestName
+    description: Request name for which the Pass fail criteria has to be applied.
     types:
     - uid: string
   - name: value
@@ -328,7 +340,13 @@ definitions:
 examples:
 - name: ListLoadTestSearch
   request:
-    uri: GET https://<dataPlaneURL>/loadtests/sortAndFilter?orderBy=executedDateTime&search=Performance_LoadTest&lastUpdatedStartTime=2021-12-05T16:43:46.797Z&lastUpdatedEndTime=2021-12-05T16:43:46.797Z&continuationToken=continuation token&maxPageSize=30&api-version=2022-06-01-preview
+    uri: GET https://{Endpoint}/loadtests/sortAndFilter?orderBy=executedDateTime&search=Performance_LoadTest&lastUpdatedStartTime=2021-12-05T16:43:46.797Z&lastUpdatedEndTime=2021-12-05T16:43:46.797Z&continuationToken=continuation token&maxPageSize=30&api-version=2022-06-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://{Endpoint}/loadtests/sortAndFilter?orderBy=executedDateTime&search=Performance_LoadTest&lastUpdatedStartTime=2021-12-05T16:43:46.797Z&lastUpdatedEndTime=2021-12-05T16:43:46.797Z&continuationToken=continuation token&maxPageSize=30&api-version=2022-06-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

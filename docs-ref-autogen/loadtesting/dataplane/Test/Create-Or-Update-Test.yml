@@ -1,5 +1,5 @@
 ### YamlMime:RESTOperation
-uid: <dataplaneurl>.loadtesting.dataplane.test.createorupdatetest
+uid: loadtesting.dataplane.test.createorupdatetest
 name: Create Or Update Test
 service: Azure Load Testing
 groupName: Test
@@ -10,8 +10,16 @@ consumes:
 produces:
 - application/json
 paths:
-- content: PATCH https://<dataPlaneURL>/loadtests/{testId}?api-version=2022-06-01-preview
+- content: PATCH https://{Endpoint}/loadtests/{testId}?api-version=2022-06-01-preview
 uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: URL to perform data plane API operations on the resource.
+  types:
+  - uid: string
+  format: uri
 - name: testId
   in: path
   isRequired: true
@@ -255,15 +263,19 @@ definitions:
   kind: object
   properties:
   - name: clientmetric
-    description: The client metric on which the criteria should be applied. Allowed values - ‘response_time_ms’ , ‘latency’, ‘error’.
+    description: The client metric on which the criteria should be applied. Allowed values - ‘response_time_ms’ , ‘latency’, ‘error’, ‘requests’, ‘requests_per_sec’.
     types:
     - uid: string
   - name: aggregate
-    description: The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’ - for response_time_ms and latency metric.
+    description: The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric ,‘avg’, ‘p50’, ‘p90’, ‘p95’, ‘p99’, ‘min’, ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec, ‘count’ - for requests.
     types:
     - uid: string
   - name: condition
     description: 'The comparison operator. Supported types ‘>’ '
+    types:
+    - uid: string
+  - name: requestName
+    description: Request name for which the Pass fail criteria has to be applied.
     types:
     - uid: string
   - name: value
@@ -349,7 +361,7 @@ definitions:
 examples:
 - name: CreateOrUpdateTest
   request:
-    uri: PATCH https://<dataPlaneURL>/loadtests/12345678-1234-1234-1234-123456789012?api-version=2022-06-01-preview
+    uri: PATCH https://{Endpoint}/loadtests/12345678-1234-1234-1234-123456789012?api-version=2022-06-01-preview
     body: >-
       {
         "description": "sample description",
@@ -382,6 +394,45 @@ examples:
         "keyvaultReferenceIdentityType": "UserAssigned",
         "keyvaultReferenceIdentityId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/sampleprovider/sampleresourcetype/sampleresourcename"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://{Endpoint}/loadtests/12345678-1234-1234-1234-123456789012?api-version=2022-06-01-preview
+
+      {
+        "description": "sample description",
+        "displayName": "Performance_LoadTest",
+        "loadTestConfig": {
+          "engineInstances": 6,
+          "splitAllCSVs": true
+        },
+        "passFailCriteria": {
+          "passFailMetrics": {
+            "fefd759d-7fe8-4f83-8b6d-aeebe0f491fe": {
+              "clientmetric": "response_time_ms",
+              "aggregate": "percentage",
+              "condition": ">",
+              "value": 20,
+              "action": "continue"
+            }
+          }
+        },
+        "secrets": {
+          "secret1": {
+            "value": "https://samplevault.vault.azure.net/secrets/samplesecret/f113f91fd4c44a368049849c164db827",
+            "type": "AKV_SECRET_URI"
+          }
+        },
+        "environmentVariables": {
+          "envvar1": "sampletext"
+        },
+        "subnetId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/Microsoft.Network/virtualNetworks/samplenetworkresource/subnets/AAAAA0A0A0",
+        "keyvaultReferenceIdentityType": "UserAssigned",
+        "keyvaultReferenceIdentityId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/sampleprovider/sampleresourcetype/sampleresourcename"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

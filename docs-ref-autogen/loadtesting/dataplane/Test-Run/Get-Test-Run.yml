@@ -1,5 +1,5 @@
 ### YamlMime:RESTOperation
-uid: <dataplaneurl>.loadtesting.dataplane.testrun.gettestrun
+uid: loadtesting.dataplane.testrun.gettestrun
 name: Get Test Run
 service: Azure Load Testing
 groupName: Test Run
@@ -8,8 +8,16 @@ summary: Get test run details by name.
 produces:
 - application/json
 paths:
-- content: GET https://<dataPlaneURL>/testruns/{testRunId}?api-version=2022-06-01-preview
+- content: GET https://{Endpoint}/testruns/{testRunId}?api-version=2022-06-01-preview
 uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: URL to perform data plane API operations on the resource.
+  types:
+  - uid: string
+  format: uri
 - name: testRunId
   in: path
   isRequired: true
@@ -320,15 +328,19 @@ definitions:
   kind: object
   properties:
   - name: clientmetric
-    description: The client metric on which the criteria should be applied. Allowed values - ‘response_time_ms’ , ‘latency’, ‘error’.
+    description: The client metric on which the criteria should be applied. Allowed values - ‘response_time_ms’ , ‘latency’, ‘error’, ‘requests’, ‘requests_per_sec’.
     types:
     - uid: string
   - name: aggregate
-    description: The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’ - for response_time_ms and latency metric.
+    description: The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric ,‘avg’, ‘p50’, ‘p90’, ‘p95’, ‘p99’, ‘min’, ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec, ‘count’ - for requests.
     types:
     - uid: string
   - name: condition
     description: 'The comparison operator. Supported types ‘>’ '
+    types:
+    - uid: string
+  - name: requestName
+    description: Request name for which the Pass fail criteria has to be applied.
     types:
     - uid: string
   - name: value
@@ -431,7 +443,13 @@ definitions:
 examples:
 - name: GetTestRun
   request:
-    uri: GET https://<dataPlaneURL>/testruns/12316678-1234-1234-1234-122451189012?api-version=2022-06-01-preview
+    uri: GET https://{Endpoint}/testruns/12316678-1234-1234-1234-122451189012?api-version=2022-06-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://{Endpoint}/testruns/12316678-1234-1234-1234-122451189012?api-version=2022-06-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

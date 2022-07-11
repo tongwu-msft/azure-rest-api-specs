@@ -756,6 +756,53 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1?api-version=2021-08-01
+
+      {
+        "location": "eastus",
+        "properties": {
+          "endpoints": [
+            {
+              "name": "source",
+              "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/ct1"
+            },
+            {
+              "name": "destination",
+              "address": "bing.com"
+            }
+          ],
+          "testConfigurations": [
+            {
+              "name": "tcp",
+              "testFrequencySec": 60,
+              "protocol": "Tcp",
+              "tcpConfiguration": {
+                "port": 80
+              }
+            }
+          ],
+          "testGroups": [
+            {
+              "name": "tg",
+              "testConfigurations": [
+                "tcp"
+              ],
+              "sources": [
+                "source"
+              ],
+              "destinations": [
+                "destination"
+              ]
+            }
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -913,6 +960,74 @@ examples:
           "outputs": []
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1?api-version=2021-08-01
+
+      {
+        "properties": {
+          "endpoints": [
+            {
+              "name": "vm1",
+              "resourceId": "/subscriptions/96e68903-0a56-4819-9987-8d08ad6a1f99/resourceGroups/NwRgIrinaCentralUSEUAP/providers/Microsoft.Compute/virtualMachines/vm1"
+            },
+            {
+              "name": "CanaryWorkspaceVamshi",
+              "resourceId": "/subscriptions/96e68903-0a56-4819-9987-8d08ad6a1f99/resourceGroups/vasamudrRG/providers/Microsoft.OperationalInsights/workspaces/vasamudrWorkspace",
+              "filter": {
+                "type": "Include",
+                "items": [
+                  {
+                    "type": "AgentAddress",
+                    "address": "npmuser"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "bing",
+              "address": "bing.com"
+            },
+            {
+              "name": "google",
+              "address": "google.com"
+            }
+          ],
+          "testConfigurations": [
+            {
+              "name": "testConfig1",
+              "testFrequencySec": 60,
+              "protocol": "Tcp",
+              "tcpConfiguration": {
+                "port": 80,
+                "disableTraceRoute": false
+              }
+            }
+          ],
+          "testGroups": [
+            {
+              "name": "test1",
+              "disable": false,
+              "testConfigurations": [
+                "testConfig1"
+              ],
+              "sources": [
+                "vm1",
+                "CanaryWorkspaceVamshi"
+              ],
+              "destinations": [
+                "bing",
+                "google"
+              ]
+            }
+          ],
+          "outputs": []
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

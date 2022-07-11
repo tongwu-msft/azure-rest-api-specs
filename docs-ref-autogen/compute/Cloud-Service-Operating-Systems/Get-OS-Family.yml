@@ -3,14 +3,14 @@ uid: management.azure.com.compute.cloudserviceoperatingsystems.getosfamily
 name: Get OS Family
 service: Compute
 groupName: Cloud Service Operating Systems
-apiVersion: 2021-03-01
+apiVersion: 2022-04-04
 summary: Gets properties of a guest operating system family that can be specified in the XML service configuration (.cscfg) for a cloud service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies/{osFamilyName}?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies/{osFamilyName}?api-version=2022-04-04
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,16 +37,24 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: OK
-  types:
-  - uid: OSFamily
 - name: Other Status Codes
   description: Error
   types:
   - uid: CloudError
+- name: 200 OK
+  description: OK
+  types:
+  - uid: OSFamily
 requestHeader: []
 definitions:
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: OSFamily
   description: Describes a cloud service OS family.
   kind: object
@@ -75,14 +83,31 @@ definitions:
     description: OS family properties.
     types:
     - uid: OSFamilyProperties
-- name: CloudError
-  description: An error response from the Compute service.
+- name: ApiError
+  description: Api error.
   kind: object
   properties:
-  - name: error
-    description: Api error.
+  - name: details
+    description: The Api error details
     types:
-    - uid: ApiError
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
 - name: OSFamilyProperties
   description: OS family properties.
   kind: object
@@ -103,29 +128,32 @@ definitions:
     types:
     - uid: OSVersionPropertiesBase
       isArray: true
-- name: ApiError
-  description: Api error.
+- name: ApiErrorBase
+  description: Api error base.
   kind: object
   properties:
-  - name: details
-    description: The Api error details
-    types:
-    - uid: ApiErrorBase
-      isArray: true
-  - name: innererror
-    description: The Api inner error
-    types:
-    - uid: InnerError
   - name: code
     description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
     types:
     - uid: string
   - name: message
     description: The error message.
     types:
     - uid: string
-  - name: target
-    description: The target of the particular error.
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
     types:
     - uid: string
 - name: OSVersionPropertiesBase
@@ -152,38 +180,16 @@ definitions:
     description: Specifies whether this OS version is active.
     types:
     - uid: boolean
-- name: ApiErrorBase
-  description: Api error base.
-  kind: object
-  properties:
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error.
-    types:
-    - uid: string
-- name: InnerError
-  description: Inner error details.
-  kind: object
-  properties:
-  - name: exceptiontype
-    description: The exception type.
-    types:
-    - uid: string
-  - name: errordetail
-    description: The internal error message or exception dump.
-    types:
-    - uid: string
 examples:
 - name: Get Cloud Service OS Family
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/westus2/cloudServiceOsFamilies/3?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/westus2/cloudServiceOsFamilies/3?api-version=2022-04-04
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/westus2/cloudServiceOsFamilies/3?api-version=2022-04-04
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

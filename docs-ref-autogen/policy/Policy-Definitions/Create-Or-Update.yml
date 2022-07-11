@@ -361,6 +361,51 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming?api-version=2021-06-01
+
+      {
+        "properties": {
+          "mode": "All",
+          "displayName": "Enforce resource naming convention",
+          "description": "Force resource names to begin with given 'prefix' and/or end with given 'suffix'",
+          "metadata": {
+            "category": "Naming"
+          },
+          "policyRule": {
+            "if": {
+              "not": {
+                "field": "name",
+                "like": "[concat(parameters('prefix'), '*', parameters('suffix'))]"
+              }
+            },
+            "then": {
+              "effect": "deny"
+            }
+          },
+          "parameters": {
+            "prefix": {
+              "type": "String",
+              "metadata": {
+                "displayName": "Prefix",
+                "description": "Resource name prefix"
+              }
+            },
+            "suffix": {
+              "type": "String",
+              "metadata": {
+                "displayName": "Suffix",
+                "description": "Resource name suffix"
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -460,6 +505,65 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/EventHubDiagnosticLogs?api-version=2021-06-01
+
+      {
+        "properties": {
+          "mode": "Indexed",
+          "displayName": "Event Hubs should have diagnostic logging enabled",
+          "description": "Audit enabling of logs and retain them up to a year. This enables recreation of activity trails for investigation purposes when a security incident occurs or your network is compromised",
+          "metadata": {
+            "category": "Event Hub"
+          },
+          "policyRule": {
+            "if": {
+              "field": "type",
+              "equals": "Microsoft.EventHub/namespaces"
+            },
+            "then": {
+              "effect": "AuditIfNotExists",
+              "details": {
+                "type": "Microsoft.Insights/diagnosticSettings",
+                "existenceCondition": {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.enabled",
+                      "equals": "true"
+                    },
+                    {
+                      "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.days",
+                      "equals": "[parameters('requiredRetentionDays')]"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "parameters": {
+            "requiredRetentionDays": {
+              "type": "Integer",
+              "defaultValue": 365,
+              "allowedValues": [
+                0,
+                30,
+                90,
+                180,
+                365
+              ],
+              "metadata": {
+                "displayName": "Required retention (days)",
+                "description": "The required diagnostic logs retention in days"
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-

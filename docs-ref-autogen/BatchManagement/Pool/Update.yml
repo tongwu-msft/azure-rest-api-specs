@@ -348,7 +348,7 @@ definitions:
     types:
     - uid: integer
   - name: targetLowPriorityNodes
-    description: The desired number of low-priority compute nodes in the pool.
+    description: The desired number of Spot/low-priority compute nodes in the pool.
     types:
     - uid: integer
   - name: resizeTimeout
@@ -445,7 +445,7 @@ definitions:
     - uid: integer
   - name: properties.currentLowPriorityNodes
     isReadyOnly: true
-    description: The number of low-priority compute nodes currently in the pool.
+    description: The number of Spot/low-priority compute nodes currently in the pool.
     types:
     - uid: integer
   - name: properties.scaleSettings
@@ -637,7 +637,7 @@ definitions:
     types:
     - uid: integer
   - name: targetLowPriorityNodes
-    description: "The desired number of low-priority compute nodes in the pool.  \nAt least one of targetDedicatedNodes, targetLowPriorityNodes must be set."
+    description: "The desired number of Spot/low-priority compute nodes in the pool.  \nAt least one of targetDedicatedNodes, targetLowPriorityNodes must be set."
     types:
     - uid: integer
   - name: nodeDeallocationOption
@@ -703,7 +703,7 @@ definitions:
     types:
     - uid: IPAddressProvisioningType
   - name: ipAddressIds
-    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
+    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 Spot/low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
     types:
     - uid: string
       isArray: true
@@ -1416,6 +1416,26 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2022-06-01
+
+      {
+        "properties": {
+          "scaleSettings": {
+            "fixedScale": {
+              "targetDedicatedNodes": 5,
+              "targetLowPriorityNodes": 0,
+              "resizeTimeout": "PT8M",
+              "nodeDeallocationOption": "TaskCompletion"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     headers:
@@ -1481,6 +1501,23 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2022-06-01
+
+      {
+        "properties": {
+          "scaleSettings": {
+            "autoScale": {
+              "formula": "$TargetDedicatedNodes=34"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     headers:
@@ -1540,6 +1577,19 @@ examples:
           "startTask": {}
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2022-06-01
+
+      {
+        "properties": {
+          "startTask": {}
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     headers:
@@ -1620,6 +1670,40 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2022-06-01
+
+      {
+        "properties": {
+          "metadata": [
+            {
+              "name": "key1",
+              "value": "value1"
+            }
+          ],
+          "applicationPackages": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/applications/app_1234"
+            },
+            {
+              "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/applications/app_5678",
+              "version": "1.0"
+            }
+          ],
+          "certificates": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/certificates/sha1-1234567",
+              "storeLocation": "LocalMachine",
+              "storeName": "MY"
+            }
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     headers:

@@ -439,6 +439,33 @@ examples:
           "enabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/alertscorrelationrg/providers/Microsoft.AlertsManagement/actionRules/AddActionGroupToSubscription?api-version=2021-08-08
+
+      {
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "/subscriptions/subId1"
+          ],
+          "actions": [
+            {
+              "actionType": "AddActionGroups",
+              "actionGroupIds": [
+                "/subscriptions/subId1/resourcegroups/RGId1/providers/microsoft.insights/actiongroups/ActionGroup1"
+              ]
+            }
+          ],
+          "description": "Add ActionGroup1 to all alerts in the subscription",
+          "enabled": true
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -539,6 +566,45 @@ examples:
           "enabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/alertscorrelationrg/providers/Microsoft.AlertsManagement/actionRules/AddActionGroupsBySeverity?api-version=2021-08-08
+
+      {
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "/subscriptions/subId1/resourceGroups/RGId1",
+            "/subscriptions/subId1/resourceGroups/RGId2"
+          ],
+          "conditions": [
+            {
+              "field": "Severity",
+              "operator": "Equals",
+              "values": [
+                "sev0",
+                "sev1"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "actionType": "AddActionGroups",
+              "actionGroupIds": [
+                "/subscriptions/subId1/resourcegroups/RGId1/providers/microsoft.insights/actiongroups/AGId1",
+                "/subscriptions/subId1/resourcegroups/RGId1/providers/microsoft.insights/actiongroups/AGId2"
+              ]
+            }
+          ],
+          "description": "Add AGId1 and AGId2 to all Sev0 and Sev1 alerts in these resourceGroups",
+          "enabled": true
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -653,6 +719,35 @@ examples:
           "enabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/alertscorrelationrg/providers/Microsoft.AlertsManagement/actionRules/RemoveActionGroupsMaintenanceWindow?api-version=2021-08-08
+
+      {
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "/subscriptions/subId1/resourceGroups/RGId1/providers/Microsoft.Compute/virtualMachines/VMName"
+          ],
+          "actions": [
+            {
+              "actionType": "RemoveAllActionGroups"
+            }
+          ],
+          "schedule": {
+            "effectiveFrom": "2021-04-15T18:00:00",
+            "effectiveUntil": "2021-04-15T20:00:00",
+            "timeZone": "Pacific Standard Time"
+          },
+          "description": "Removes all ActionGroups from all Alerts on VMName during the maintenance window",
+          "enabled": true
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -766,6 +861,54 @@ examples:
           "enabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/alertscorrelationrg/providers/Microsoft.AlertsManagement/actionRules/RemoveActionGroupsRecurringMaintenance?api-version=2021-08-08
+
+      {
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "/subscriptions/subId1/resourceGroups/RGId1",
+            "/subscriptions/subId1/resourceGroups/RGId2"
+          ],
+          "conditions": [
+            {
+              "field": "TargetResourceType",
+              "operator": "Equals",
+              "values": [
+                "microsoft.compute/virtualmachines"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "actionType": "RemoveAllActionGroups"
+            }
+          ],
+          "schedule": {
+            "timeZone": "India Standard Time",
+            "recurrences": [
+              {
+                "recurrenceType": "Weekly",
+                "startTime": "22:00:00",
+                "endTime": "04:00:00",
+                "daysOfWeek": [
+                  "Saturday",
+                  "Sunday"
+                ]
+              }
+            ]
+          },
+          "description": "Remove all ActionGroups from all Vitual machine Alerts during the recurring maintenance",
+          "enabled": true
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -910,6 +1053,47 @@ examples:
           "enabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/alertscorrelationrg/providers/Microsoft.AlertsManagement/actionRules/RemoveActionGroupsOutsideBusinessHours?api-version=2021-08-08
+
+      {
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "/subscriptions/subId1"
+          ],
+          "actions": [
+            {
+              "actionType": "RemoveAllActionGroups"
+            }
+          ],
+          "schedule": {
+            "timeZone": "Eastern Standard Time",
+            "recurrences": [
+              {
+                "recurrenceType": "Daily",
+                "startTime": "17:00:00",
+                "endTime": "09:00:00"
+              },
+              {
+                "recurrenceType": "Weekly",
+                "daysOfWeek": [
+                  "Saturday",
+                  "Sunday"
+                ]
+              }
+            ]
+          },
+          "description": "Remove all ActionGroups outside business hours",
+          "enabled": true
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1032,6 +1216,39 @@ examples:
           "enabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/alertscorrelationrg/providers/Microsoft.AlertsManagement/actionRules/RemoveActionGroupsSpecificAlertRule?api-version=2021-08-08
+
+      {
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "/subscriptions/subId1"
+          ],
+          "conditions": [
+            {
+              "field": "AlertRuleId",
+              "operator": "Equals",
+              "values": [
+                "/subscriptions/suubId1/resourceGroups/Rgid2/providers/microsoft.insights/activityLogAlerts/RuleName"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "actionType": "RemoveAllActionGroups"
+            }
+          ],
+          "description": "Removes all ActionGroups from all Alerts that fire on above AlertRule",
+          "enabled": true
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
