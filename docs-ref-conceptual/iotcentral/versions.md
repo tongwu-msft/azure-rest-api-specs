@@ -28,7 +28,7 @@ Preview versions are released to test new functionality, gather feedback, and di
 
 | API version | Specification | API updates |
 |---------|---------------|-----------------|
-| `2022-06-30-preivew` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/2022-06-30-preview) | [Release note](#2022-06-30-preview) |
+| `2022-06-30-preview` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/2022-06-30-preview) | [Release note](#2022-06-30-preview) |
 | `1.2-Preview` (Deprecated) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/1.2-preview) | [Release note](#12-preview-deprecated) |
 | `1.1-Preview` (Deprecated)| [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/1.1-preview) | [Release note](#11-preview-deprecated) |
 
