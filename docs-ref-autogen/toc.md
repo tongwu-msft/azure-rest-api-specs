@@ -15042,6 +15042,56 @@
 #### [Create Trigger](purview/scanningdataplane/Triggers/Create-Trigger.yml)
 #### [Delete Trigger](purview/scanningdataplane/Triggers/Delete-Trigger.yml)
 #### [Get Trigger](purview/scanningdataplane/Triggers/Get-Trigger.yml)
+## Share Data Plane
+### Accepted Sent Shares
+#### [Overview](purview/sharedataplane/Accepted-Sent-Shares.yml)
+#### [Get](purview/sharedataplane/Accepted-Sent-Shares/Get.yml)
+#### [List](purview/sharedataplane/Accepted-Sent-Shares/List.yml)
+#### [Reinstate](purview/sharedataplane/Accepted-Sent-Shares/Reinstate.yml)
+#### [Revoke](purview/sharedataplane/Accepted-Sent-Shares/Revoke.yml)
+#### [Update Expiration](purview/sharedataplane/Accepted-Sent-Shares/Update-Expiration.yml)
+### Asset Mappings
+#### [Overview](purview/sharedataplane/Asset-Mappings.yml)
+#### [Create](purview/sharedataplane/Asset-Mappings/Create.yml)
+#### [Delete](purview/sharedataplane/Asset-Mappings/Delete.yml)
+#### [Get](purview/sharedataplane/Asset-Mappings/Get.yml)
+#### [List](purview/sharedataplane/Asset-Mappings/List.yml)
+### Assets
+#### [Overview](purview/sharedataplane/Assets.yml)
+#### [Create](purview/sharedataplane/Assets/Create.yml)
+#### [Delete](purview/sharedataplane/Assets/Delete.yml)
+#### [Get](purview/sharedataplane/Assets/Get.yml)
+#### [List](purview/sharedataplane/Assets/List.yml)
+### Email Registration
+#### [Overview](purview/sharedataplane/Email-Registration.yml)
+#### [Activate](purview/sharedataplane/Email-Registration/Activate.yml)
+#### [Register](purview/sharedataplane/Email-Registration/Register.yml)
+### Received Assets
+#### [Overview](purview/sharedataplane/Received-Assets.yml)
+#### [List](purview/sharedataplane/Received-Assets/List.yml)
+### Received Invitations
+#### [Overview](purview/sharedataplane/Received-Invitations.yml)
+#### [Get](purview/sharedataplane/Received-Invitations/Get.yml)
+#### [List](purview/sharedataplane/Received-Invitations/List.yml)
+#### [Reject](purview/sharedataplane/Received-Invitations/Reject.yml)
+### Received Shares
+#### [Overview](purview/sharedataplane/Received-Shares.yml)
+#### [Create](purview/sharedataplane/Received-Shares/Create.yml)
+#### [Delete](purview/sharedataplane/Received-Shares/Delete.yml)
+#### [Get](purview/sharedataplane/Received-Shares/Get.yml)
+#### [List](purview/sharedataplane/Received-Shares/List.yml)
+### Sent Share Invitations
+#### [Overview](purview/sharedataplane/Sent-Share-Invitations.yml)
+#### [Create Or Update](purview/sharedataplane/Sent-Share-Invitations/Create-Or-Update.yml)
+#### [Delete](purview/sharedataplane/Sent-Share-Invitations/Delete.yml)
+#### [Get](purview/sharedataplane/Sent-Share-Invitations/Get.yml)
+#### [List](purview/sharedataplane/Sent-Share-Invitations/List.yml)
+### Sent Shares
+#### [Overview](purview/sharedataplane/Sent-Shares.yml)
+#### [Create Or Update](purview/sharedataplane/Sent-Shares/Create-Or-Update.yml)
+#### [Delete](purview/sharedataplane/Sent-Shares/Delete.yml)
+#### [Get](purview/sharedataplane/Sent-Shares/Get.yml)
+#### [List](purview/sharedataplane/Sent-Shares/List.yml)
 # Recovery Services
 ## [Overview](../docs-ref-conceptual/recoveryservices/index.md)
 ## Operations Vaults

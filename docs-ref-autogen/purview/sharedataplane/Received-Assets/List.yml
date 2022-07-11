@@ -1,0 +1,223 @@
+### YamlMime:RESTOperation
+uid: purview.sharedataplane.receivedassets.list
+name: List
+service: Purview
+groupName: Received Assets
+apiVersion: 2021-09-01-preview
+summary: "List source asset of a received share.  \nList received assets for a received share"
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/receivedShares/{receivedShareName}/receivedAssets?api-version=2021-09-01-preview
+- content: GET {endpoint}/receivedShares/{receivedShareName}/receivedAssets?api-version=2021-09-01-preview&skipToken={skipToken}
+  isOptional: true
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The scanning endpoint of your purview account. Example: https://{accountName}.purview.azure.com/share'
+  types:
+  - uid: string
+- name: receivedShareName
+  in: path
+  isRequired: true
+  description: The name of the received share
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version to use.
+  types:
+  - uid: string
+- name: skipToken
+  in: query
+  description: The continuation token to list the next page
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: ReceivedAssetList
+- name: Other Status Codes
+  description: Default error response.
+  types:
+  - uid: PurviewShareError
+requestHeader: []
+definitions:
+- name: ReceivedAssetList
+  description: List of received assets
+  kind: object
+  properties:
+  - name: nextLink
+    description: The Url of next result page.
+    types:
+    - uid: string
+  - name: value
+    description: Collection of items of type DataTransferObjects.
+    types:
+    - uid: AdlsGen2AccountReceivedAsset
+      isArray: true
+    - uid: BlobAccountReceivedAsset
+      isArray: true
+    typesTitle: ReceivedAsset[]
+- name: PurviewShareError
+  description: The purview share error model.
+  kind: object
+  properties:
+  - name: error
+    description: The purview share error body model.
+    types:
+    - uid: PurviewShareErrorInfo
+- name: PurviewShareErrorInfo
+  description: The purview share error body model.
+  kind: object
+  properties:
+  - name: code
+    description: Code of the error
+    types:
+    - uid: string
+  - name: details
+    description: Nested details of the error model
+    types:
+    - uid: PurviewShareErrorInfo
+      isArray: true
+  - name: message
+    description: Message of the error
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error
+    types:
+    - uid: string
+- name: AdlsGen2AccountReceivedAsset
+  description: Adls gen2 storage account received asset
+  kind: object
+  properties:
+  - name: properties.location
+    isReadyOnly: true
+    description: Location of the asset.
+    types:
+    - uid: string
+  - name: properties.receiverAssetName
+    isReadyOnly: true
+    description: Friendly name for the received asset.
+    types:
+    - uid: string
+  - name: properties.receiverPaths
+    isReadyOnly: true
+    description: Paths from adls gen2 account made available for the share.
+    types:
+    - uid: string
+      isArray: true
+  - name: kind
+    description: The types of asset.
+    types:
+    - uid: AdlsGen2Account
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: The resource id of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+- name: BlobAccountReceivedAsset
+  description: Blob storage account received asset.
+  kind: object
+  properties:
+  - name: properties.location
+    isReadyOnly: true
+    description: Location of the asset.
+    types:
+    - uid: string
+  - name: properties.receiverAssetName
+    isReadyOnly: true
+    description: Friendly name for the received asset.
+    types:
+    - uid: string
+  - name: properties.receiverPaths
+    isReadyOnly: true
+    description: Paths from blob account made available for the share.
+    types:
+    - uid: string
+      isArray: true
+  - name: kind
+    description: The types of asset.
+    types:
+    - uid: BlobAccount
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: The resource id of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+- name: AssetType
+  description: The types of asset.
+  kind: enum
+  properties:
+  - name: AdlsGen2Account
+    types:
+    - uid: string
+  - name: BlobAccount
+    types:
+    - uid: string
+examples:
+- name: ReceivedAssets_List
+  request:
+    uri: GET accountName.purview.azure.com/share/receivedShares/receivedShareName1/receivedAssets?api-version=2021-09-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET accountName.purview.azure.com/share/receivedShares/receivedShareName1/receivedAssets?api-version=2021-09-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2017 18:04:32 GMT
+    - name: x-ms-correlation-request-id
+      value: 25c78f97-0b0a-4fe9-ad39-883a482265cd
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "receiverAssetName": "receiverFriendlyName",
+              "receiverPaths": [
+                "folder"
+              ],
+              "location": "eastus2"
+            },
+            "kind": "AdlsGen2Account",
+            "id": "/receivedShares/receivedShareName1/receivedAssets/f1297fbc-38c6-4d03-828e-5232c4c821c8",
+            "name": "f1297fbc-38c6-4d03-828e-5232c4c821c8",
+            "type": "receivedShares/receivedAssets"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: "Learn more about Purview service - List source asset of a received share.  \nList received assets for a received share"
+errorCodes: []
