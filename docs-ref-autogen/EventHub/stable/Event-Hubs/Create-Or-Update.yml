@@ -390,6 +390,168 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventhubs.fluent.models.EventhubInner;
+      import com.azure.resourcemanager.eventhubs.models.CaptureDescription;
+      import com.azure.resourcemanager.eventhubs.models.Destination;
+      import com.azure.resourcemanager.eventhubs.models.EncodingCaptureDescription;
+      import com.azure.resourcemanager.eventhubs.models.EntityStatus;
+
+      /** Samples for EventHubs CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/EventHubs/EHEventHubCreate.json
+           */
+          /**
+           * Sample code: EventHubCreate.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void eventHubCreate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .eventHubs()
+                  .manager()
+                  .serviceClient()
+                  .getEventHubs()
+                  .createOrUpdateWithResponse(
+                      "Default-NotificationHubs-AustraliaEast",
+                      "sdk-Namespace-5357",
+                      "sdk-EventHub-6547",
+                      new EventhubInner()
+                          .withMessageRetentionInDays(4L)
+                          .withPartitionCount(4L)
+                          .withStatus(EntityStatus.ACTIVE)
+                          .withCaptureDescription(
+                              new CaptureDescription()
+                                  .withEnabled(true)
+                                  .withEncoding(EncodingCaptureDescription.AVRO)
+                                  .withIntervalInSeconds(120)
+                                  .withSizeLimitInBytes(10485763)
+                                  .withDestination(
+                                      new Destination()
+                                          .withName("EventHubArchive.AzureBlockBlob")
+                                          .withStorageAccountResourceId(
+                                              "/subscriptions/e2f361f0-3b27-4503-a9cc-21cfba380093/resourceGroups/Default-Storage-SouthCentralUS/providers/Microsoft.ClassicStorage/storageAccounts/arjunteststorage")
+                                          .withBlobContainer("container")
+                                          .withArchiveNameFormat(
+                                              "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventhub_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventhub/armeventhub"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/EventHubs/EHEventHubCreate.json
+      func ExampleEventHubsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armeventhub.NewEventHubsClient("5f750a97-50d9-4e36-8081-c9ee4c0210d4", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"Default-NotificationHubs-AustraliaEast",
+      		"sdk-Namespace-5357",
+      		"sdk-EventHub-6547",
+      		armeventhub.Eventhub{
+      			Properties: &armeventhub.Properties{
+      				CaptureDescription: &armeventhub.CaptureDescription{
+      					Destination: &armeventhub.Destination{
+      						Name: to.Ptr("EventHubArchive.AzureBlockBlob"),
+      						Properties: &armeventhub.DestinationProperties{
+      							ArchiveNameFormat:        to.Ptr("{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}"),
+      							BlobContainer:            to.Ptr("container"),
+      							StorageAccountResourceID: to.Ptr("/subscriptions/e2f361f0-3b27-4503-a9cc-21cfba380093/resourceGroups/Default-Storage-SouthCentralUS/providers/Microsoft.ClassicStorage/storageAccounts/arjunteststorage"),
+      						},
+      					},
+      					Enabled:           to.Ptr(true),
+      					Encoding:          to.Ptr(armeventhub.EncodingCaptureDescriptionAvro),
+      					IntervalInSeconds: to.Ptr[int32](120),
+      					SizeLimitInBytes:  to.Ptr[int32](10485763),
+      				},
+      				MessageRetentionInDays: to.Ptr[int64](4),
+      				PartitionCount:         to.Ptr[int64](4),
+      				Status:                 to.Ptr(armeventhub.EntityStatusActive),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventhub%2Farmeventhub%2Fv1.0.0/sdk/resourcemanager/eventhub/armeventhub/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { EventHubManagementClient } = require("@azure/arm-eventhub");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a new Event Hub as a nested resource within a Namespace.
+       *
+       * @summary Creates or updates a new Event Hub as a nested resource within a Namespace.
+       * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/EventHubs/EHEventHubCreate.json
+       */
+      async function eventHubCreate() {
+        const subscriptionId = "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
+        const resourceGroupName = "Default-NotificationHubs-AustraliaEast";
+        const namespaceName = "sdk-Namespace-5357";
+        const eventHubName = "sdk-EventHub-6547";
+        const parameters = {
+          captureDescription: {
+            destination: {
+              name: "EventHubArchive.AzureBlockBlob",
+              archiveNameFormat:
+                "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}",
+              blobContainer: "container",
+              storageAccountResourceId:
+                "/subscriptions/e2f361f0-3b27-4503-a9cc-21cfba380093/resourceGroups/Default-Storage-SouthCentralUS/providers/Microsoft.ClassicStorage/storageAccounts/arjunteststorage",
+            },
+            enabled: true,
+            encoding: "Avro",
+            intervalInSeconds: 120,
+            sizeLimitInBytes: 10485763,
+          },
+          messageRetentionInDays: 4,
+          partitionCount: 4,
+          status: "Active",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new EventHubManagementClient(credential, subscriptionId);
+        const result = await client.eventHubs.createOrUpdate(
+          resourceGroupName,
+          namespaceName,
+          eventHubName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      eventHubCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-eventhub_5.0.1/sdk/eventhub/arm-eventhub/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

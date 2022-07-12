@@ -194,6 +194,70 @@ examples:
 
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armresources_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/CreateResourceGroup.json
+      func ExampleResourceGroupsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armresources.NewResourceGroupsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"my-resource-group",
+      		armresources.ResourceGroup{
+      			Location: to.Ptr("eastus"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmresources%2Fv1.0.0/sdk/resourcemanager/resources/armresources/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { ResourceManagementClient } = require("@azure/arm-resources");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a resource group.
+       *
+       * @summary Creates or updates a resource group.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/CreateResourceGroup.json
+       */
+      async function createOrUpdateAResourceGroup() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "my-resource-group";
+        const parameters = { location: "eastus" };
+        const credential = new DefaultAzureCredential();
+        const client = new ResourceManagementClient(credential, subscriptionId);
+        const result = await client.resourceGroups.createOrUpdate(resourceGroupName, parameters);
+        console.log(result);
+      }
+
+      createOrUpdateAResourceGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-resources_5.0.1/sdk/resources/arm-resources/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

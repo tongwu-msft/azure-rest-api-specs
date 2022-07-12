@@ -2707,6 +2707,136 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.PrivateEndpointConnectionInner;
+      import com.azure.resourcemanager.network.models.PrivateLinkServiceConnectionState;
+
+      /** Samples for PrivateLinkServices UpdatePrivateEndpointConnection. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/PrivateLinkServiceUpdatePrivateEndpointConnection.json
+           */
+          /**
+           * Sample code: approve or reject private end point connection for a private link service.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void approveOrRejectPrivateEndPointConnectionForAPrivateLinkService(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getPrivateLinkServices()
+                  .updatePrivateEndpointConnectionWithResponse(
+                      "rg1",
+                      "testPls",
+                      "testPlePeConnection",
+                      new PrivateEndpointConnectionInner()
+                          .withName("testPlePeConnection")
+                          .withPrivateLinkServiceConnectionState(
+                              new PrivateLinkServiceConnectionState()
+                                  .withStatus("Approved")
+                                  .withDescription("approved it for some reason.")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/PrivateLinkServiceUpdatePrivateEndpointConnection.json
+      func ExamplePrivateLinkServicesClient_UpdatePrivateEndpointConnection() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewPrivateLinkServicesClient("subId", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.UpdatePrivateEndpointConnection(ctx,
+      		"rg1",
+      		"testPls",
+      		"testPlePeConnection",
+      		armnetwork.PrivateEndpointConnection{
+      			Name: to.Ptr("testPlePeConnection"),
+      			Properties: &armnetwork.PrivateEndpointConnectionProperties{
+      				PrivateEndpoint: &armnetwork.PrivateEndpoint{
+      					ID: to.Ptr("/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe"),
+      				},
+      				PrivateLinkServiceConnectionState: &armnetwork.PrivateLinkServiceConnectionState{
+      					Description: to.Ptr("approved it for some reason."),
+      					Status:      to.Ptr("Approved"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Approve or reject private end point connection for a private link service in a subscription.
+       *
+       * @summary Approve or reject private end point connection for a private link service in a subscription.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/PrivateLinkServiceUpdatePrivateEndpointConnection.json
+       */
+      async function approveOrRejectPrivateEndPointConnectionForAPrivateLinkService() {
+        const subscriptionId = "subId";
+        const resourceGroupName = "rg1";
+        const serviceName = "testPls";
+        const peConnectionName = "testPlePeConnection";
+        const parameters = {
+          name: "testPlePeConnection",
+          privateEndpoint: {
+            id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe",
+          },
+          privateLinkServiceConnectionState: {
+            description: "approved it for some reason.",
+            status: "Approved",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.privateLinkServices.updatePrivateEndpointConnection(
+          resourceGroupName,
+          serviceName,
+          peConnectionName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      approveOrRejectPrivateEndPointConnectionForAPrivateLinkService().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -879,6 +879,264 @@ examples:
 
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armfrontdoor_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/frontdoor/armfrontdoor"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/frontdoor/resource-manager/Microsoft.Network/stable/2020-11-01/examples/WafPolicyCreateOrUpdate.json
+      func ExamplePoliciesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armfrontdoor.NewPoliciesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"rg1",
+      		"Policy1",
+      		armfrontdoor.WebApplicationFirewallPolicy{
+      			Properties: &armfrontdoor.WebApplicationFirewallPolicyProperties{
+      				CustomRules: &armfrontdoor.CustomRuleList{
+      					Rules: []*armfrontdoor.CustomRule{
+      						{
+      							Name:   to.Ptr("Rule1"),
+      							Action: to.Ptr(armfrontdoor.ActionTypeBlock),
+      							MatchConditions: []*armfrontdoor.MatchCondition{
+      								{
+      									MatchValue: []*string{
+      										to.Ptr("192.168.1.0/24"),
+      										to.Ptr("10.0.0.0/24")},
+      									MatchVariable: to.Ptr(armfrontdoor.MatchVariableRemoteAddr),
+      									Operator:      to.Ptr(armfrontdoor.OperatorIPMatch),
+      								}},
+      							Priority:           to.Ptr[int32](1),
+      							RateLimitThreshold: to.Ptr[int32](1000),
+      							RuleType:           to.Ptr(armfrontdoor.RuleTypeRateLimitRule),
+      						},
+      						{
+      							Name:   to.Ptr("Rule2"),
+      							Action: to.Ptr(armfrontdoor.ActionTypeBlock),
+      							MatchConditions: []*armfrontdoor.MatchCondition{
+      								{
+      									MatchValue: []*string{
+      										to.Ptr("CH")},
+      									MatchVariable: to.Ptr(armfrontdoor.MatchVariableRemoteAddr),
+      									Operator:      to.Ptr(armfrontdoor.OperatorGeoMatch),
+      								},
+      								{
+      									MatchValue: []*string{
+      										to.Ptr("windows")},
+      									MatchVariable: to.Ptr(armfrontdoor.MatchVariableRequestHeader),
+      									Operator:      to.Ptr(armfrontdoor.OperatorContains),
+      									Selector:      to.Ptr("UserAgent"),
+      									Transforms: []*armfrontdoor.TransformType{
+      										to.Ptr(armfrontdoor.TransformTypeLowercase)},
+      								}},
+      							Priority: to.Ptr[int32](2),
+      							RuleType: to.Ptr(armfrontdoor.RuleTypeMatchRule),
+      						}},
+      				},
+      				ManagedRules: &armfrontdoor.ManagedRuleSetList{
+      					ManagedRuleSets: []*armfrontdoor.ManagedRuleSet{
+      						{
+      							Exclusions: []*armfrontdoor.ManagedRuleExclusion{
+      								{
+      									MatchVariable:         to.Ptr(armfrontdoor.ManagedRuleExclusionMatchVariableRequestHeaderNames),
+      									Selector:              to.Ptr("User-Agent"),
+      									SelectorMatchOperator: to.Ptr(armfrontdoor.ManagedRuleExclusionSelectorMatchOperatorEquals),
+      								}},
+      							RuleGroupOverrides: []*armfrontdoor.ManagedRuleGroupOverride{
+      								{
+      									Exclusions: []*armfrontdoor.ManagedRuleExclusion{
+      										{
+      											MatchVariable:         to.Ptr(armfrontdoor.ManagedRuleExclusionMatchVariableRequestCookieNames),
+      											Selector:              to.Ptr("token"),
+      											SelectorMatchOperator: to.Ptr(armfrontdoor.ManagedRuleExclusionSelectorMatchOperatorStartsWith),
+      										}},
+      									RuleGroupName: to.Ptr("SQLI"),
+      									Rules: []*armfrontdoor.ManagedRuleOverride{
+      										{
+      											Action:       to.Ptr(armfrontdoor.ActionTypeRedirect),
+      											EnabledState: to.Ptr(armfrontdoor.ManagedRuleEnabledStateEnabled),
+      											Exclusions: []*armfrontdoor.ManagedRuleExclusion{
+      												{
+      													MatchVariable:         to.Ptr(armfrontdoor.ManagedRuleExclusionMatchVariableQueryStringArgNames),
+      													Selector:              to.Ptr("query"),
+      													SelectorMatchOperator: to.Ptr(armfrontdoor.ManagedRuleExclusionSelectorMatchOperatorEquals),
+      												}},
+      											RuleID: to.Ptr("942100"),
+      										},
+      										{
+      											EnabledState: to.Ptr(armfrontdoor.ManagedRuleEnabledStateDisabled),
+      											RuleID:       to.Ptr("942110"),
+      										}},
+      								}},
+      							RuleSetAction:  to.Ptr(armfrontdoor.ManagedRuleSetActionTypeBlock),
+      							RuleSetType:    to.Ptr("DefaultRuleSet"),
+      							RuleSetVersion: to.Ptr("1.0"),
+      						}},
+      				},
+      				PolicySettings: &armfrontdoor.PolicySettings{
+      					CustomBlockResponseBody:       to.Ptr("PGh0bWw+CjxoZWFkZXI+PHRpdGxlPkhlbGxvPC90aXRsZT48L2hlYWRlcj4KPGJvZHk+CkhlbGxvIHdvcmxkCjwvYm9keT4KPC9odG1sPg=="),
+      					CustomBlockResponseStatusCode: to.Ptr[int32](499),
+      					EnabledState:                  to.Ptr(armfrontdoor.PolicyEnabledStateEnabled),
+      					Mode:                          to.Ptr(armfrontdoor.PolicyModePrevention),
+      					RedirectURL:                   to.Ptr("http://www.bing.com"),
+      					RequestBodyCheck:              to.Ptr(armfrontdoor.PolicyRequestBodyCheckDisabled),
+      				},
+      			},
+      			SKU: &armfrontdoor.SKU{
+      				Name: to.Ptr(armfrontdoor.SKUNameClassicAzureFrontDoor),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Ffrontdoor%2Farmfrontdoor%2Fv1.0.0/sdk/resourcemanager/frontdoor/armfrontdoor/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { FrontDoorManagementClient } = require("@azure/arm-frontdoor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update policy with specified rule set name within a resource group.
+       *
+       * @summary Create or update policy with specified rule set name within a resource group.
+       * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2020-11-01/examples/WafPolicyCreateOrUpdate.json
+       */
+      async function createsSpecificPolicy() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const policyName = "Policy1";
+        const parameters = {
+          customRules: {
+            rules: [
+              {
+                name: "Rule1",
+                action: "Block",
+                matchConditions: [
+                  {
+                    matchValue: ["192.168.1.0/24", "10.0.0.0/24"],
+                    matchVariable: "RemoteAddr",
+                    operator: "IPMatch",
+                  },
+                ],
+                priority: 1,
+                rateLimitThreshold: 1000,
+                ruleType: "RateLimitRule",
+              },
+              {
+                name: "Rule2",
+                action: "Block",
+                matchConditions: [
+                  {
+                    matchValue: ["CH"],
+                    matchVariable: "RemoteAddr",
+                    operator: "GeoMatch",
+                  },
+                  {
+                    matchValue: ["windows"],
+                    matchVariable: "RequestHeader",
+                    operator: "Contains",
+                    selector: "UserAgent",
+                    transforms: ["Lowercase"],
+                  },
+                ],
+                priority: 2,
+                ruleType: "MatchRule",
+              },
+            ],
+          },
+          managedRules: {
+            managedRuleSets: [
+              {
+                exclusions: [
+                  {
+                    matchVariable: "RequestHeaderNames",
+                    selector: "User-Agent",
+                    selectorMatchOperator: "Equals",
+                  },
+                ],
+                ruleGroupOverrides: [
+                  {
+                    exclusions: [
+                      {
+                        matchVariable: "RequestCookieNames",
+                        selector: "token",
+                        selectorMatchOperator: "StartsWith",
+                      },
+                    ],
+                    ruleGroupName: "SQLI",
+                    rules: [
+                      {
+                        action: "Redirect",
+                        enabledState: "Enabled",
+                        exclusions: [
+                          {
+                            matchVariable: "QueryStringArgNames",
+                            selector: "query",
+                            selectorMatchOperator: "Equals",
+                          },
+                        ],
+                        ruleId: "942100",
+                      },
+                      { enabledState: "Disabled", ruleId: "942110" },
+                    ],
+                  },
+                ],
+                ruleSetAction: "Block",
+                ruleSetType: "DefaultRuleSet",
+                ruleSetVersion: "1.0",
+              },
+            ],
+          },
+          policySettings: {
+            customBlockResponseBody:
+              "PGh0bWw+CjxoZWFkZXI+PHRpdGxlPkhlbGxvPC90aXRsZT48L2hlYWRlcj4KPGJvZHk+CkhlbGxvIHdvcmxkCjwvYm9keT4KPC9odG1sPg==",
+            customBlockResponseStatusCode: 499,
+            enabledState: "Enabled",
+            mode: "Prevention",
+            redirectUrl: "http://www.bing.com",
+            requestBodyCheck: "Disabled",
+          },
+          sku: { name: "Classic_AzureFrontDoor" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new FrontDoorManagementClient(credential, subscriptionId);
+        const result = await client.policies.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          policyName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createsSpecificPolicy().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-frontdoor_5.0.1/sdk/frontdoor/arm-frontdoor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

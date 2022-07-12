@@ -433,6 +433,40 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.apimanagement.models.ConnectivityCheckRequest;
+      import com.azure.resourcemanager.apimanagement.models.ConnectivityCheckRequestDestination;
+      import com.azure.resourcemanager.apimanagement.models.ConnectivityCheckRequestSource;
+      import com.azure.resourcemanager.apimanagement.models.PreferredIpVersion;
+
+      /** Samples for ResourceProvider PerformConnectivityCheckAsync. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementPerformConnectivityCheck.json
+           */
+          /**
+           * Sample code: TCP Connectivity Check.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void tCPConnectivityCheck(com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .resourceProviders()
+                  .performConnectivityCheckAsync(
+                      "rg1",
+                      "apimService1",
+                      new ConnectivityCheckRequest()
+                          .withSource(new ConnectivityCheckRequestSource().withRegion("northeurope"))
+                          .withDestination(new ConnectivityCheckRequestDestination().withAddress("8.8.8.8").withPort(53L))
+                          .withPreferredIpVersion(PreferredIpVersion.IPV4),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:
@@ -529,6 +563,122 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.apimanagement.models.ConnectivityCheckProtocol;
+      import com.azure.resourcemanager.apimanagement.models.ConnectivityCheckRequest;
+      import com.azure.resourcemanager.apimanagement.models.ConnectivityCheckRequestDestination;
+      import com.azure.resourcemanager.apimanagement.models.ConnectivityCheckRequestProtocolConfiguration;
+      import com.azure.resourcemanager.apimanagement.models.ConnectivityCheckRequestProtocolConfigurationHttpConfiguration;
+      import com.azure.resourcemanager.apimanagement.models.ConnectivityCheckRequestSource;
+      import com.azure.resourcemanager.apimanagement.models.HttpHeader;
+      import com.azure.resourcemanager.apimanagement.models.Method;
+      import java.util.Arrays;
+
+      /** Samples for ResourceProvider PerformConnectivityCheckAsync. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementPerformConnectivityCheckHttpConnect.json
+           */
+          /**
+           * Sample code: HTTP Connectivity Check.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void hTTPConnectivityCheck(com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .resourceProviders()
+                  .performConnectivityCheckAsync(
+                      "rg1",
+                      "apimService1",
+                      new ConnectivityCheckRequest()
+                          .withSource(new ConnectivityCheckRequestSource().withRegion("northeurope"))
+                          .withDestination(
+                              new ConnectivityCheckRequestDestination().withAddress("https://microsoft.com").withPort(3306L))
+                          .withProtocol(ConnectivityCheckProtocol.HTTPS)
+                          .withProtocolConfiguration(
+                              new ConnectivityCheckRequestProtocolConfiguration()
+                                  .withHttpConfiguration(
+                                      new ConnectivityCheckRequestProtocolConfigurationHttpConfiguration()
+                                          .withMethod(Method.GET)
+                                          .withValidStatusCodes(Arrays.asList(200L, 204L))
+                                          .withHeaders(
+                                              Arrays
+                                                  .asList(
+                                                      new HttpHeader()
+                                                          .withName("Authorization")
+                                                          .withValue("Bearer myPreciousToken"))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armapimanagement_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementPerformConnectivityCheckHttpConnect.json
+      func ExampleClient_BeginPerformConnectivityCheckAsync() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armapimanagement.NewClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginPerformConnectivityCheckAsync(ctx,
+      		"rg1",
+      		"apimService1",
+      		armapimanagement.ConnectivityCheckRequest{
+      			Destination: &armapimanagement.ConnectivityCheckRequestDestination{
+      				Address: to.Ptr("https://microsoft.com"),
+      				Port:    to.Ptr[int64](3306),
+      			},
+      			ProtocolConfiguration: &armapimanagement.ConnectivityCheckRequestProtocolConfiguration{
+      				HTTPConfiguration: &armapimanagement.ConnectivityCheckRequestProtocolConfigurationHTTPConfiguration{
+      					Method: to.Ptr(armapimanagement.MethodGET),
+      					Headers: []*armapimanagement.HTTPHeader{
+      						{
+      							Name:  to.Ptr("Authorization"),
+      							Value: to.Ptr("Bearer myPreciousToken"),
+      						}},
+      					ValidStatusCodes: []*int64{
+      						to.Ptr[int64](200),
+      						to.Ptr[int64](204)},
+      				},
+      			},
+      			Source: &armapimanagement.ConnectivityCheckRequestSource{
+      				Region: to.Ptr("northeurope"),
+      			},
+      			Protocol: to.Ptr(armapimanagement.ConnectivityCheckProtocolHTTPS),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fapimanagement%2Farmapimanagement%2Fv1.0.0/sdk/resourcemanager/apimanagement/armapimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:

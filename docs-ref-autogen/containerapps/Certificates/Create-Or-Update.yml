@@ -315,6 +315,122 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.appcontainers.models.CertificateProperties;
+
+      /** Samples for Certificates CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/Certificate_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: Create or Update Certificate.
+           *
+           * @param manager Entry point to ContainerAppsApiManager.
+           */
+          public static void createOrUpdateCertificate(
+              com.azure.resourcemanager.appcontainers.ContainerAppsApiManager manager) {
+              manager
+                  .certificates()
+                  .define("certificate-firendly-name")
+                  .withRegion("East US")
+                  .withExistingManagedEnvironment("examplerg", "testcontainerenv")
+                  .withProperties(
+                      new CertificateProperties()
+                          .withPassword("private key password")
+                          .withValue("PFX-or-PEM-blob".getBytes()))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appcontainers_1.0.0-beta.3/sdk/appcontainers/azure-resourcemanager-appcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappcontainers_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appcontainers/armappcontainers"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/Certificate_CreateOrUpdate.json
+      func ExampleCertificatesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappcontainers.NewCertificatesClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"examplerg",
+      		"testcontainerenv",
+      		"certificate-firendly-name",
+      		&armappcontainers.CertificatesClientCreateOrUpdateOptions{CertificateEnvelope: &armappcontainers.Certificate{
+      			Location: to.Ptr("East US"),
+      			Properties: &armappcontainers.CertificateProperties{
+      				Password: to.Ptr("private key password"),
+      				Value:    []byte("PFX-or-PEM-blob"),
+      			},
+      		},
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappcontainers%2Farmappcontainers%2Fv1.0.0/sdk/resourcemanager/appcontainers/armappcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { ContainerAppsAPIClient } = require("@azure/arm-appcontainers");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or Update a Certificate.
+       *
+       * @summary Create or Update a Certificate.
+       * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/Certificate_CreateOrUpdate.json
+       */
+      async function createOrUpdateCertificate() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "examplerg";
+        const environmentName = "testcontainerenv";
+        const certificateName = "certificate-firendly-name";
+        const certificateEnvelope = {
+          location: "East US",
+          properties: {
+            password: "private key password",
+          },
+        };
+        const options = {
+          certificateEnvelope,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerAppsAPIClient(credential, subscriptionId);
+        const result = await client.certificates.createOrUpdate(
+          resourceGroupName,
+          environmentName,
+          certificateName,
+          options
+        );
+        console.log(result);
+      }
+
+      createOrUpdateCertificate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appcontainers_1.0.0/sdk/appcontainers/arm-appcontainers/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

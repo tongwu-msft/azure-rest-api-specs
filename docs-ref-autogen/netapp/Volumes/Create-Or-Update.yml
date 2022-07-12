@@ -815,6 +815,136 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.netapp.models.ServiceLevel;
+
+      /** Samples for Volumes CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/Volumes_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: Volumes_CreateOrUpdate.
+           *
+           * @param manager Entry point to NetAppFilesManager.
+           */
+          public static void volumesCreateOrUpdate(com.azure.resourcemanager.netapp.NetAppFilesManager manager) {
+              manager
+                  .volumes()
+                  .define("volume1")
+                  .withRegion("eastus")
+                  .withExistingCapacityPool("myRG", "account1", "pool1")
+                  .withCreationToken("my-unique-file-path")
+                  .withUsageThreshold(107374182400L)
+                  .withSubnetId(
+                      "/subscriptions/9760acf5-4638-11e7-9bdb-020073ca7778/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3")
+                  .withServiceLevel(ServiceLevel.PREMIUM)
+                  .withThroughputMibps(128.0f)
+                  .withEncryptionKeySource("Microsoft.KeyVault")
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-netapp_1.0.0-beta.8/sdk/netapp/azure-resourcemanager-netapp/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetapp_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/netapp/armnetapp"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/Volumes_CreateOrUpdate.json
+      func ExampleVolumesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetapp.NewVolumesClient("D633CC2E-722B-4AE1-B636-BBD9E4C60ED9", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"myRG",
+      		"account1",
+      		"pool1",
+      		"volume1",
+      		armnetapp.Volume{
+      			Location: to.Ptr("eastus"),
+      			Properties: &armnetapp.VolumeProperties{
+      				CreationToken:       to.Ptr("my-unique-file-path"),
+      				EncryptionKeySource: to.Ptr("Microsoft.KeyVault"),
+      				ServiceLevel:        to.Ptr(armnetapp.ServiceLevelPremium),
+      				SubnetID:            to.Ptr("/subscriptions/9760acf5-4638-11e7-9bdb-020073ca7778/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3"),
+      				ThroughputMibps:     to.Ptr[float32](128),
+      				UsageThreshold:      to.Ptr[int64](107374182400),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetapp%2Farmnetapp%2Fv1.0.0/sdk/resourcemanager/netapp/armnetapp/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { NetAppManagementClient } = require("@azure/arm-netapp");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update the specified volume within the capacity pool
+       *
+       * @summary Create or update the specified volume within the capacity pool
+       * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/Volumes_CreateOrUpdate.json
+       */
+      async function volumesCreateOrUpdate() {
+        const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+        const resourceGroupName = "myRG";
+        const accountName = "account1";
+        const poolName = "pool1";
+        const volumeName = "volume1";
+        const body = {
+          creationToken: "my-unique-file-path",
+          encryptionKeySource: "Microsoft.KeyVault",
+          location: "eastus",
+          serviceLevel: "Premium",
+          subnetId:
+            "/subscriptions/9760acf5-4638-11e7-9bdb-020073ca7778/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3",
+          throughputMibps: 128,
+          usageThreshold: 107374182400,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetAppManagementClient(credential, subscriptionId);
+        const result = await client.volumes.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          body
+        );
+        console.log(result);
+      }
+
+      volumesCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-netapp_15.1.1/sdk/netapp/arm-netapp/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

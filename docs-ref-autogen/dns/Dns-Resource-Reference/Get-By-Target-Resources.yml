@@ -143,6 +143,116 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.SubResource;
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dns.models.DnsResourceReferenceRequest;
+      import java.util.Arrays;
+
+      /** Samples for DnsResourceReference GetByTargetResources. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetDnsResourceReference.json
+           */
+          /**
+           * Sample code: List zones by resource group.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listZonesByResourceGroup(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .dnsZones()
+                  .manager()
+                  .serviceClient()
+                  .getDnsResourceReferences()
+                  .getByTargetResourcesWithResponse(
+                      new DnsResourceReferenceRequest()
+                          .withTargetResources(
+                              Arrays
+                                  .asList(
+                                      new SubResource()
+                                          .withId(
+                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/trafficManagerProfiles/testpp2"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdns_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetDnsResourceReference.json
+      func ExampleResourceReferenceClient_GetByTargetResources() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdns.NewResourceReferenceClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.GetByTargetResources(ctx,
+      		armdns.ResourceReferenceRequest{
+      			Properties: &armdns.ResourceReferenceRequestProperties{
+      				TargetResources: []*armdns.SubResource{
+      					{
+      						ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/trafficManagerProfiles/testpp2"),
+      					}},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdns%2Farmdns%2Fv1.0.0/sdk/resourcemanager/dns/armdns/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Returns the DNS records specified by the referencing targetResourceIds.
+       *
+       * @summary Returns the DNS records specified by the referencing targetResourceIds.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetDnsResourceReference.json
+       */
+      async function listZonesByResourceGroup() {
+        const subscriptionId = "subid";
+        const parameters = {
+          targetResources: [
+            {
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/trafficManagerProfiles/testpp2",
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const result = await client.dnsResourceReferenceOperations.getByTargetResources(parameters);
+        console.log(result);
+      }
+
+      listZonesByResourceGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -128,6 +128,86 @@ examples:
 
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armrelay_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/relay/armrelay"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/NameSpaces/RelayNameSpaceAuthorizationRuleCreate.json
+      func ExampleNamespacesClient_CreateOrUpdateAuthorizationRule() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armrelay.NewNamespacesClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	res, err := client.CreateOrUpdateAuthorizationRule(ctx,
+      		"<resource-group-name>",
+      		"<namespace-name>",
+      		"<authorization-rule-name>",
+      		armrelay.AuthorizationRule{
+      			Properties: &armrelay.AuthorizationRuleProperties{
+      				Rights: []*armrelay.AccessRights{
+      					to.Ptr(armrelay.AccessRightsListen),
+      					to.Ptr(armrelay.AccessRightsSend)},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Frelay%2Farmrelay%2Fv0.5.0/sdk/resourcemanager/relay/armrelay/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { RelayAPI } = require("@azure/arm-relay");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an authorization rule for a namespace.
+       *
+       * @summary Creates or updates an authorization rule for a namespace.
+       * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/NameSpaces/RelayNameSpaceAuthorizationRuleCreate.json
+       */
+      async function relayNameSpaceAuthorizationRuleCreate() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "resourcegroup";
+        const namespaceName = "example-RelayNamespace-01";
+        const authorizationRuleName = "example-RelayAuthRules-01";
+        const parameters = { rights: ["Listen", "Send"] };
+        const credential = new DefaultAzureCredential();
+        const client = new RelayAPI(credential, subscriptionId);
+        const result = await client.namespaces.createOrUpdateAuthorizationRule(
+          resourceGroupName,
+          namespaceName,
+          authorizationRuleName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      relayNameSpaceAuthorizationRuleCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-relay_3.1.0/sdk/relay/arm-relay/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -261,6 +261,131 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.appcontainers.models.AccessMode;
+      import com.azure.resourcemanager.appcontainers.models.AzureFileProperties;
+      import com.azure.resourcemanager.appcontainers.models.ManagedEnvironmentStorageProperties;
+
+      /** Samples for ManagedEnvironmentsStorages CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: Create or update environments storage.
+           *
+           * @param manager Entry point to ContainerAppsApiManager.
+           */
+          public static void createOrUpdateEnvironmentsStorage(
+              com.azure.resourcemanager.appcontainers.ContainerAppsApiManager manager) {
+              manager
+                  .managedEnvironmentsStorages()
+                  .define("jlaw-demo1")
+                  .withExistingManagedEnvironment("examplerg", "managedEnv")
+                  .withProperties(
+                      new ManagedEnvironmentStorageProperties()
+                          .withAzureFile(
+                              new AzureFileProperties()
+                                  .withAccountName("account1")
+                                  .withAccountKey("key")
+                                  .withAccessMode(AccessMode.READ_ONLY)
+                                  .withShareName("share1")))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appcontainers_1.0.0-beta.3/sdk/appcontainers/azure-resourcemanager-appcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappcontainers_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appcontainers/armappcontainers"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
+      func ExampleManagedEnvironmentsStoragesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappcontainers.NewManagedEnvironmentsStoragesClient("8efdecc5-919e-44eb-b179-915dca89ebf9", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"examplerg",
+      		"managedEnv",
+      		"jlaw-demo1",
+      		armappcontainers.ManagedEnvironmentStorage{
+      			Properties: &armappcontainers.ManagedEnvironmentStorageProperties{
+      				AzureFile: &armappcontainers.AzureFileProperties{
+      					AccessMode:  to.Ptr(armappcontainers.AccessModeReadOnly),
+      					AccountKey:  to.Ptr("key"),
+      					AccountName: to.Ptr("account1"),
+      					ShareName:   to.Ptr("share1"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappcontainers%2Farmappcontainers%2Fv1.0.0/sdk/resourcemanager/appcontainers/armappcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { ContainerAppsAPIClient } = require("@azure/arm-appcontainers");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update storage for a managedEnvironment.
+       *
+       * @summary Create or update storage for a managedEnvironment.
+       * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
+       */
+      async function createOrUpdateEnvironmentsStorage() {
+        const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
+        const resourceGroupName = "examplerg";
+        const environmentName = "managedEnv";
+        const storageName = "jlaw-demo1";
+        const storageEnvelope = {
+          properties: {
+            azureFile: {
+              accessMode: "ReadOnly",
+              accountKey: "key",
+              accountName: "account1",
+              shareName: "share1",
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerAppsAPIClient(credential, subscriptionId);
+        const result = await client.managedEnvironmentsStorages.createOrUpdate(
+          resourceGroupName,
+          environmentName,
+          storageName,
+          storageEnvelope
+        );
+        console.log(result);
+      }
+
+      createOrUpdateEnvironmentsStorage().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appcontainers_1.0.0/sdk/appcontainers/arm-appcontainers/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

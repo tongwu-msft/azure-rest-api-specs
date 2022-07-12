@@ -839,6 +839,160 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.ExpressRouteCircuitInner;
+      import com.azure.resourcemanager.network.models.ExpressRouteCircuitServiceProviderProperties;
+      import com.azure.resourcemanager.network.models.ExpressRouteCircuitSku;
+      import com.azure.resourcemanager.network.models.ExpressRouteCircuitSkuFamily;
+      import com.azure.resourcemanager.network.models.ExpressRouteCircuitSkuTier;
+      import java.util.Arrays;
+
+      /** Samples for ExpressRouteCircuits CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/ExpressRouteCircuitCreate.json
+           */
+          /**
+           * Sample code: Create ExpressRouteCircuit.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createExpressRouteCircuit(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getExpressRouteCircuits()
+                  .createOrUpdate(
+                      "rg1",
+                      "circuitName",
+                      new ExpressRouteCircuitInner()
+                          .withLocation("Brazil South")
+                          .withSku(
+                              new ExpressRouteCircuitSku()
+                                  .withName("Standard_MeteredData")
+                                  .withTier(ExpressRouteCircuitSkuTier.STANDARD)
+                                  .withFamily(ExpressRouteCircuitSkuFamily.METERED_DATA))
+                          .withAllowClassicOperations(false)
+                          .withAuthorizations(Arrays.asList())
+                          .withPeerings(Arrays.asList())
+                          .withServiceProviderProperties(
+                              new ExpressRouteCircuitServiceProviderProperties()
+                                  .withServiceProviderName("Equinix")
+                                  .withPeeringLocation("Silicon Valley")
+                                  .withBandwidthInMbps(200)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/ExpressRouteCircuitCreate.json
+      func ExampleExpressRouteCircuitsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewExpressRouteCircuitsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"rg1",
+      		"circuitName",
+      		armnetwork.ExpressRouteCircuit{
+      			Location: to.Ptr("Brazil South"),
+      			Properties: &armnetwork.ExpressRouteCircuitPropertiesFormat{
+      				AllowClassicOperations: to.Ptr(false),
+      				Authorizations:         []*armnetwork.ExpressRouteCircuitAuthorization{},
+      				Peerings:               []*armnetwork.ExpressRouteCircuitPeering{},
+      				ServiceProviderProperties: &armnetwork.ExpressRouteCircuitServiceProviderProperties{
+      					BandwidthInMbps:     to.Ptr[int32](200),
+      					PeeringLocation:     to.Ptr("Silicon Valley"),
+      					ServiceProviderName: to.Ptr("Equinix"),
+      				},
+      			},
+      			SKU: &armnetwork.ExpressRouteCircuitSKU{
+      				Name:   to.Ptr("Standard_MeteredData"),
+      				Family: to.Ptr(armnetwork.ExpressRouteCircuitSKUFamilyMeteredData),
+      				Tier:   to.Ptr(armnetwork.ExpressRouteCircuitSKUTierStandard),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an express route circuit.
+       *
+       * @summary Creates or updates an express route circuit.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/ExpressRouteCircuitCreate.json
+       */
+      async function createExpressRouteCircuit() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const circuitName = "circuitName";
+        const parameters = {
+          allowClassicOperations: false,
+          authorizations: [],
+          location: "Brazil South",
+          peerings: [],
+          serviceProviderProperties: {
+            bandwidthInMbps: 200,
+            peeringLocation: "Silicon Valley",
+            serviceProviderName: "Equinix",
+          },
+          sku: {
+            name: "Standard_MeteredData",
+            family: "MeteredData",
+            tier: "Standard",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.expressRouteCircuits.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          circuitName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createExpressRouteCircuit().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -938,6 +1092,92 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.SubResource;
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.ExpressRouteCircuitInner;
+      import com.azure.resourcemanager.network.models.ExpressRouteCircuitSku;
+      import com.azure.resourcemanager.network.models.ExpressRouteCircuitSkuFamily;
+      import com.azure.resourcemanager.network.models.ExpressRouteCircuitSkuTier;
+
+      /** Samples for ExpressRouteCircuits CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/ExpressRouteCircuitCreateOnExpressRoutePort.json
+           */
+          /**
+           * Sample code: Create ExpressRouteCircuit on ExpressRoutePort.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createExpressRouteCircuitOnExpressRoutePort(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getExpressRouteCircuits()
+                  .createOrUpdate(
+                      "rg1",
+                      "expressRouteCircuit1",
+                      new ExpressRouteCircuitInner()
+                          .withLocation("westus")
+                          .withSku(
+                              new ExpressRouteCircuitSku()
+                                  .withName("Premium_MeteredData")
+                                  .withTier(ExpressRouteCircuitSkuTier.PREMIUM)
+                                  .withFamily(ExpressRouteCircuitSkuFamily.METERED_DATA))
+                          .withExpressRoutePort(
+                              new SubResource()
+                                  .withId(
+                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRoutePorts/portName"))
+                          .withBandwidthInGbps(10.0f)
+                          .withAuthorizationKey("b0be57f5-1fba-463b-adec-ffe767354cdd"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an express route circuit.
+       *
+       * @summary Creates or updates an express route circuit.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/ExpressRouteCircuitCreateOnExpressRoutePort.json
+       */
+      async function createExpressRouteCircuitOnExpressRoutePort() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const circuitName = "expressRouteCircuit1";
+        const parameters = {
+          authorizationKey: "b0be57f5-1fba-463b-adec-ffe767354cdd",
+          bandwidthInGbps: 10,
+          expressRoutePort: {
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRoutePorts/portName",
+          },
+          location: "westus",
+          sku: { name: "Premium_MeteredData", family: "MeteredData", tier: "Premium" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.expressRouteCircuits.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          circuitName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createExpressRouteCircuitOnExpressRoutePort().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

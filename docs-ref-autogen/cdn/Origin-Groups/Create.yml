@@ -420,6 +420,173 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cdn.fluent.models.OriginGroupInner;
+      import com.azure.resourcemanager.cdn.models.HealthProbeParameters;
+      import com.azure.resourcemanager.cdn.models.HealthProbeRequestType;
+      import com.azure.resourcemanager.cdn.models.ProbeProtocol;
+      import com.azure.resourcemanager.cdn.models.ResourceReference;
+      import com.azure.resourcemanager.cdn.models.ResponseBasedDetectedErrorTypes;
+      import com.azure.resourcemanager.cdn.models.ResponseBasedOriginErrorDetectionParameters;
+      import java.util.Arrays;
+
+      /** Samples for OriginGroups Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/OriginGroups_Create.json
+           */
+          /**
+           * Sample code: OriginGroups_Create.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void originGroupsCreate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getOriginGroups()
+                  .create(
+                      "RG",
+                      "profile1",
+                      "endpoint1",
+                      "origingroup1",
+                      new OriginGroupInner()
+                          .withHealthProbeSettings(
+                              new HealthProbeParameters()
+                                  .withProbePath("/health.aspx")
+                                  .withProbeRequestType(HealthProbeRequestType.GET)
+                                  .withProbeProtocol(ProbeProtocol.HTTP)
+                                  .withProbeIntervalInSeconds(120))
+                          .withOrigins(
+                              Arrays
+                                  .asList(
+                                      new ResourceReference()
+                                          .withId(
+                                              "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin1")))
+                          .withResponseBasedOriginErrorDetectionSettings(
+                              new ResponseBasedOriginErrorDetectionParameters()
+                                  .withResponseBasedDetectedErrorTypes(ResponseBasedDetectedErrorTypes.TCP_ERRORS_ONLY)
+                                  .withResponseBasedFailoverThresholdPercentage(10)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/OriginGroups_Create.json
+      func ExampleOriginGroupsClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewOriginGroupsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"RG",
+      		"profile1",
+      		"endpoint1",
+      		"origingroup1",
+      		armcdn.OriginGroup{
+      			Properties: &armcdn.OriginGroupProperties{
+      				HealthProbeSettings: &armcdn.HealthProbeParameters{
+      					ProbeIntervalInSeconds: to.Ptr[int32](120),
+      					ProbePath:              to.Ptr("/health.aspx"),
+      					ProbeProtocol:          to.Ptr(armcdn.ProbeProtocolHTTP),
+      					ProbeRequestType:       to.Ptr(armcdn.HealthProbeRequestTypeGET),
+      				},
+      				Origins: []*armcdn.ResourceReference{
+      					{
+      						ID: to.Ptr("/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin1"),
+      					}},
+      				ResponseBasedOriginErrorDetectionSettings: &armcdn.ResponseBasedOriginErrorDetectionParameters{
+      					ResponseBasedDetectedErrorTypes:          to.Ptr(armcdn.ResponseBasedDetectedErrorTypesTCPErrorsOnly),
+      					ResponseBasedFailoverThresholdPercentage: to.Ptr[int32](10),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new origin group within the specified endpoint.
+       *
+       * @summary Creates a new origin group within the specified endpoint.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/OriginGroups_Create.json
+       */
+      async function originGroupsCreate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const endpointName = "endpoint1";
+        const originGroupName = "origingroup1";
+        const originGroup = {
+          healthProbeSettings: {
+            probeIntervalInSeconds: 120,
+            probePath: "/health.aspx",
+            probeProtocol: "Http",
+            probeRequestType: "GET",
+          },
+          origins: [
+            {
+              id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin1",
+            },
+          ],
+          responseBasedOriginErrorDetectionSettings: {
+            responseBasedDetectedErrorTypes: "TcpErrorsOnly",
+            responseBasedFailoverThresholdPercentage: 10,
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.originGroups.beginCreateAndWait(
+          resourceGroupName,
+          profileName,
+          endpointName,
+          originGroupName,
+          originGroup
+        );
+        console.log(result);
+      }
+
+      originGroupsCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

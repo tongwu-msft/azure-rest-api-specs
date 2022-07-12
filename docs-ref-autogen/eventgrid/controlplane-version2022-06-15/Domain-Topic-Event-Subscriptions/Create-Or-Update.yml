@@ -1068,6 +1068,148 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.fluent.models.EventSubscriptionInner;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscriptionFilter;
+      import com.azure.resourcemanager.eventgrid.models.WebhookEventSubscriptionDestination;
+
+      /** Samples for DomainTopicEventSubscriptions CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/DomainTopicEventSubscriptions_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: DomainTopicEventSubscriptions_CreateOrUpdate.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void domainTopicEventSubscriptionsCreateOrUpdate(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager
+                  .domainTopicEventSubscriptions()
+                  .createOrUpdate(
+                      "examplerg",
+                      "exampleDomain1",
+                      "exampleDomainTopic1",
+                      "exampleEventSubscriptionName1",
+                      new EventSubscriptionInner()
+                          .withDestination(
+                              new WebhookEventSubscriptionDestination().withEndpointUrl("https://requestb.in/15ksip71"))
+                          .withFilter(
+                              new EventSubscriptionFilter()
+                                  .withSubjectBeginsWith("ExamplePrefix")
+                                  .withSubjectEndsWith("ExampleSuffix")
+                                  .withIsSubjectCaseSensitive(false)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.3/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/DomainTopicEventSubscriptions_CreateOrUpdate.json
+      func ExampleDomainTopicEventSubscriptionsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewDomainTopicEventSubscriptionsClient("5b4b650e-28b9-4790-b3ab-ddbd88d727c4", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"examplerg",
+      		"exampleDomain1",
+      		"exampleDomainTopic1",
+      		"exampleEventSubscriptionName1",
+      		armeventgrid.EventSubscription{
+      			Properties: &armeventgrid.EventSubscriptionProperties{
+      				Destination: &armeventgrid.WebHookEventSubscriptionDestination{
+      					EndpointType: to.Ptr(armeventgrid.EndpointTypeWebHook),
+      					Properties: &armeventgrid.WebHookEventSubscriptionDestinationProperties{
+      						EndpointURL: to.Ptr("https://requestb.in/15ksip71"),
+      					},
+      				},
+      				Filter: &armeventgrid.EventSubscriptionFilter{
+      					IsSubjectCaseSensitive: to.Ptr(false),
+      					SubjectBeginsWith:      to.Ptr("ExamplePrefix"),
+      					SubjectEndsWith:        to.Ptr("ExampleSuffix"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv2.0.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { EventGridManagementClient } = require("@azure/arm-eventgrid");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription.
+       *
+       * @summary Asynchronously creates a new event subscription or updates an existing event subscription.
+       * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/DomainTopicEventSubscriptions_CreateOrUpdate.json
+       */
+      async function domainTopicEventSubscriptionsCreateOrUpdate() {
+        const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+        const resourceGroupName = "examplerg";
+        const domainName = "exampleDomain1";
+        const topicName = "exampleDomainTopic1";
+        const eventSubscriptionName = "exampleEventSubscriptionName1";
+        const eventSubscriptionInfo = {
+          destination: {
+            endpointType: "WebHook",
+            endpointUrl: "https://requestb.in/15ksip71",
+          },
+          filter: {
+            isSubjectCaseSensitive: false,
+            subjectBeginsWith: "ExamplePrefix",
+            subjectEndsWith: "ExampleSuffix",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new EventGridManagementClient(credential, subscriptionId);
+        const result = await client.domainTopicEventSubscriptions.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          domainName,
+          topicName,
+          eventSubscriptionName,
+          eventSubscriptionInfo
+        );
+        console.log(result);
+      }
+
+      domainTopicEventSubscriptionsCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-eventgrid_14.0.0/sdk/eventgrid/arm-eventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

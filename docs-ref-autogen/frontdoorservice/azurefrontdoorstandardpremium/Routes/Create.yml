@@ -551,6 +551,226 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.cdn.fluent.models.RouteInner;
+      import com.azure.resourcemanager.cdn.models.ActivatedResourceReference;
+      import com.azure.resourcemanager.cdn.models.AfdEndpointProtocols;
+      import com.azure.resourcemanager.cdn.models.AfdQueryStringCachingBehavior;
+      import com.azure.resourcemanager.cdn.models.AfdRouteCacheConfiguration;
+      import com.azure.resourcemanager.cdn.models.EnabledState;
+      import com.azure.resourcemanager.cdn.models.ForwardingProtocol;
+      import com.azure.resourcemanager.cdn.models.HttpsRedirect;
+      import com.azure.resourcemanager.cdn.models.LinkToDefaultDomain;
+      import com.azure.resourcemanager.cdn.models.ResourceReference;
+      import java.io.IOException;
+      import java.util.Arrays;
+
+      /** Samples for Routes Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Routes_Create.json
+           */
+          /**
+           * Sample code: Routes_Create.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void routesCreate(com.azure.resourcemanager.AzureResourceManager azure) throws IOException {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getRoutes()
+                  .create(
+                      "RG",
+                      "profile1",
+                      "endpoint1",
+                      "route1",
+                      new RouteInner()
+                          .withCustomDomains(
+                              Arrays
+                                  .asList(
+                                      new ActivatedResourceReference()
+                                          .withId(
+                                              "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/customDomains/domain1")))
+                          .withOriginGroup(
+                              new ResourceReference()
+                                  .withId(
+                                      "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/originGroups/originGroup1"))
+                          .withRuleSets(
+                              Arrays
+                                  .asList(
+                                      new ResourceReference()
+                                          .withId(
+                                              "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/ruleSets/ruleSet1")))
+                          .withSupportedProtocols(Arrays.asList(AfdEndpointProtocols.HTTPS, AfdEndpointProtocols.HTTP))
+                          .withPatternsToMatch(Arrays.asList("/*"))
+                          .withCacheConfiguration(
+                              new AfdRouteCacheConfiguration()
+                                  .withQueryStringCachingBehavior(
+                                      AfdQueryStringCachingBehavior.IGNORE_SPECIFIED_QUERY_STRINGS)
+                                  .withQueryParameters("querystring=test")
+                                  .withCompressionSettings(
+                                      SerializerFactory
+                                          .createDefaultManagementSerializerAdapter()
+                                          .deserialize(
+                                              "{\"contentTypesToCompress\":[\"text/html\",\"application/octet-stream\"],\"isCompressionEnabled\":true}",
+                                              Object.class,
+                                              SerializerEncoding.JSON)))
+                          .withForwardingProtocol(ForwardingProtocol.MATCH_REQUEST)
+                          .withLinkToDefaultDomain(LinkToDefaultDomain.ENABLED)
+                          .withHttpsRedirect(HttpsRedirect.ENABLED)
+                          .withEnabledState(EnabledState.ENABLED),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Routes_Create.json
+      func ExampleRoutesClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewRoutesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"RG",
+      		"profile1",
+      		"endpoint1",
+      		"route1",
+      		armcdn.Route{
+      			Properties: &armcdn.RouteProperties{
+      				CacheConfiguration: &armcdn.AfdRouteCacheConfiguration{
+      					CompressionSettings: &armcdn.CompressionSettings{
+      						ContentTypesToCompress: []*string{
+      							to.Ptr("text/html"),
+      							to.Ptr("application/octet-stream")},
+      						IsCompressionEnabled: to.Ptr(true),
+      					},
+      					QueryParameters:            to.Ptr("querystring=test"),
+      					QueryStringCachingBehavior: to.Ptr(armcdn.AfdQueryStringCachingBehaviorIgnoreSpecifiedQueryStrings),
+      				},
+      				CustomDomains: []*armcdn.ActivatedResourceReference{
+      					{
+      						ID: to.Ptr("/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/customDomains/domain1"),
+      					}},
+      				EnabledState:        to.Ptr(armcdn.EnabledStateEnabled),
+      				ForwardingProtocol:  to.Ptr(armcdn.ForwardingProtocolMatchRequest),
+      				HTTPSRedirect:       to.Ptr(armcdn.HTTPSRedirectEnabled),
+      				LinkToDefaultDomain: to.Ptr(armcdn.LinkToDefaultDomainEnabled),
+      				OriginGroup: &armcdn.ResourceReference{
+      					ID: to.Ptr("/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/originGroups/originGroup1"),
+      				},
+      				PatternsToMatch: []*string{
+      					to.Ptr("/*")},
+      				RuleSets: []*armcdn.ResourceReference{
+      					{
+      						ID: to.Ptr("/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/ruleSets/ruleSet1"),
+      					}},
+      				SupportedProtocols: []*armcdn.AFDEndpointProtocols{
+      					to.Ptr(armcdn.AFDEndpointProtocolsHTTPS),
+      					to.Ptr(armcdn.AFDEndpointProtocolsHTTP)},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
+       *
+       * @summary Creates a new route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Routes_Create.json
+       */
+      async function routesCreate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const endpointName = "endpoint1";
+        const routeName = "route1";
+        const route = {
+          cacheConfiguration: {
+            compressionSettings: {
+              contentTypesToCompress: ["text/html", "application/octet-stream"],
+              isCompressionEnabled: true,
+            },
+            queryParameters: "querystring=test",
+            queryStringCachingBehavior: "IgnoreSpecifiedQueryStrings",
+          },
+          customDomains: [
+            {
+              id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/customDomains/domain1",
+            },
+          ],
+          enabledState: "Enabled",
+          forwardingProtocol: "MatchRequest",
+          httpsRedirect: "Enabled",
+          linkToDefaultDomain: "Enabled",
+          originGroup: {
+            id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/originGroups/originGroup1",
+          },
+          originPath: undefined,
+          patternsToMatch: ["/*"],
+          ruleSets: [
+            {
+              id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/ruleSets/ruleSet1",
+            },
+          ],
+          supportedProtocols: ["Https", "Http"],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.routes.beginCreateAndWait(
+          resourceGroupName,
+          profileName,
+          endpointName,
+          routeName,
+          route
+        );
+        console.log(result);
+      }
+
+      routesCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

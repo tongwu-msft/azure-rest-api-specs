@@ -1208,6 +1208,91 @@ examples:
       GET https://management.azure.com/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/abgoyal-westEurope/providers/Microsoft.Migrate/assessmentProjects/abgoyalWEselfhostb72bproject/groups/Test1/assessments/assessment_5_9_2019_16_22_14/assessedMachines?api-version=2019-10-01
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armmigrate_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/migrate/armmigrate"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/AssessedMachines_ListByAssessment.json
+      func ExampleAssessedMachinesClient_NewListByAssessmentPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmigrate.NewAssessedMachinesClient("6393a73f-8d55-47ef-b6dd-179b3e0c7910", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByAssessmentPager("abgoyal-westEurope",
+      		"abgoyalWEselfhostb72bproject",
+      		"Test1",
+      		"assessment_5_9_2019_16_22_14",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmigrate%2Farmmigrate%2Fv1.0.0/sdk/resourcemanager/migrate/armmigrate/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { AzureMigrateV2 } = require("@azure/arm-migrate");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get list of machines that assessed as part of the specified assessment. Returns a json array of objects of type 'assessedMachine' as specified in the Models section.
+
+      Whenever an assessment is created or updated, it goes under computation. During this phase, the 'status' field of Assessment object reports 'Computing'.
+      During the period when the assessment is under computation, the list of assessed machines is empty and no assessed machines are returned by this call.
+
+       *
+       * @summary Get list of machines that assessed as part of the specified assessment. Returns a json array of objects of type 'assessedMachine' as specified in the Models section.
+
+      Whenever an assessment is created or updated, it goes under computation. During this phase, the 'status' field of Assessment object reports 'Computing'.
+      During the period when the assessment is under computation, the list of assessed machines is empty and no assessed machines are returned by this call.
+
+       * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/AssessedMachines_ListByAssessment.json
+       */
+      async function assessedMachinesListByAssessment() {
+        const subscriptionId = "6393a73f-8d55-47ef-b6dd-179b3e0c7910";
+        const resourceGroupName = "abgoyal-westEurope";
+        const projectName = "abgoyalWEselfhostb72bproject";
+        const groupName = "Test1";
+        const assessmentName = "assessment_5_9_2019_16_22_14";
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMigrateV2(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.assessedMachines.listByAssessment(
+          resourceGroupName,
+          projectName,
+          groupName,
+          assessmentName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      assessedMachinesListByAssessment().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-migrate_2.0.2/sdk/migrate/arm-migrate/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

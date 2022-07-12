@@ -524,6 +524,173 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.kubernetesconfiguration.fluent.models.ExtensionInner;
+      import com.azure.resourcemanager.kubernetesconfiguration.models.Scope;
+      import com.azure.resourcemanager.kubernetesconfiguration.models.ScopeCluster;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Extensions Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-03-01/examples/CreateExtension.json
+           */
+          /**
+           * Sample code: Create Extension.
+           *
+           * @param manager Entry point to SourceControlConfigurationManager.
+           */
+          public static void createExtension(
+              com.azure.resourcemanager.kubernetesconfiguration.SourceControlConfigurationManager manager) {
+              manager
+                  .extensions()
+                  .create(
+                      "rg1",
+                      "Microsoft.Kubernetes",
+                      "connectedClusters",
+                      "clusterName1",
+                      "ClusterMonitor",
+                      new ExtensionInner()
+                          .withExtensionType("azuremonitor-containers")
+                          .withAutoUpgradeMinorVersion(true)
+                          .withReleaseTrain("Preview")
+                          .withScope(new Scope().withCluster(new ScopeCluster().withReleaseNamespace("kube-system")))
+                          .withConfigurationSettings(
+                              mapOf(
+                                  "omsagent.env.clusterName",
+                                  "clusterName1",
+                                  "omsagent.secret.wsid",
+                                  "a38cef99-5a89-52ed-b6db-22095c23664b"))
+                          .withConfigurationProtectedSettings(mapOf("omsagent.secret.key", "secretKeyValue01")),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-kubernetesconfiguration_1.0.0-beta.3/sdk/kubernetesconfiguration/azure-resourcemanager-kubernetesconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armkubernetesconfiguration_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kubernetesconfiguration/armkubernetesconfiguration"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-03-01/examples/CreateExtension.json
+      func ExampleExtensionsClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armkubernetesconfiguration.NewExtensionsClient("subId1", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"rg1",
+      		"Microsoft.Kubernetes",
+      		"connectedClusters",
+      		"clusterName1",
+      		"ClusterMonitor",
+      		armkubernetesconfiguration.Extension{
+      			Properties: &armkubernetesconfiguration.ExtensionProperties{
+      				AutoUpgradeMinorVersion: to.Ptr(true),
+      				ConfigurationProtectedSettings: map[string]*string{
+      					"omsagent.secret.key": to.Ptr("secretKeyValue01"),
+      				},
+      				ConfigurationSettings: map[string]*string{
+      					"omsagent.env.clusterName": to.Ptr("clusterName1"),
+      					"omsagent.secret.wsid":     to.Ptr("a38cef99-5a89-52ed-b6db-22095c23664b"),
+      				},
+      				ExtensionType: to.Ptr("azuremonitor-containers"),
+      				ReleaseTrain:  to.Ptr("Preview"),
+      				Scope: &armkubernetesconfiguration.Scope{
+      					Cluster: &armkubernetesconfiguration.ScopeCluster{
+      						ReleaseNamespace: to.Ptr("kube-system"),
+      					},
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fkubernetesconfiguration%2Farmkubernetesconfiguration%2Fv1.0.0/sdk/resourcemanager/kubernetesconfiguration/armkubernetesconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { SourceControlConfigurationClient } = require("@azure/arm-kubernetesconfiguration");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create a new Kubernetes Cluster Extension.
+       *
+       * @summary Create a new Kubernetes Cluster Extension.
+       * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-03-01/examples/CreateExtension.json
+       */
+      async function createExtension() {
+        const subscriptionId = "subId1";
+        const resourceGroupName = "rg1";
+        const clusterRp = "Microsoft.Kubernetes";
+        const clusterResourceName = "connectedClusters";
+        const clusterName = "clusterName1";
+        const extensionName = "ClusterMonitor";
+        const extension = {
+          autoUpgradeMinorVersion: true,
+          configurationProtectedSettings: { omsagentSecretKey: "secretKeyValue01" },
+          configurationSettings: {
+            omsagentEnvClusterName: "clusterName1",
+            omsagentSecretWsid: "a38cef99-5a89-52ed-b6db-22095c23664b",
+          },
+          extensionType: "azuremonitor-containers",
+          releaseTrain: "Preview",
+          scope: { cluster: { releaseNamespace: "kube-system" } },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SourceControlConfigurationClient(credential, subscriptionId);
+        const result = await client.extensions.beginCreateAndWait(
+          resourceGroupName,
+          clusterRp,
+          clusterResourceName,
+          clusterName,
+          extensionName,
+          extension
+        );
+        console.log(result);
+      }
+
+      createExtension().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-kubernetesconfiguration_5.0.0/sdk/kubernetesconfiguration/arm-kubernetesconfiguration/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:

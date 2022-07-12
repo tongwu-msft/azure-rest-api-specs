@@ -1658,6 +1658,153 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.Encryption;
+      import com.azure.resourcemanager.storage.models.EncryptionService;
+      import com.azure.resourcemanager.storage.models.EncryptionServices;
+      import com.azure.resourcemanager.storage.models.ExpirationAction;
+      import com.azure.resourcemanager.storage.models.ExtendedLocation;
+      import com.azure.resourcemanager.storage.models.ExtendedLocationTypes;
+      import com.azure.resourcemanager.storage.models.KeyPolicy;
+      import com.azure.resourcemanager.storage.models.KeySource;
+      import com.azure.resourcemanager.storage.models.KeyType;
+      import com.azure.resourcemanager.storage.models.Kind;
+      import com.azure.resourcemanager.storage.models.MinimumTlsVersion;
+      import com.azure.resourcemanager.storage.models.RoutingChoice;
+      import com.azure.resourcemanager.storage.models.RoutingPreference;
+      import com.azure.resourcemanager.storage.models.SasPolicy;
+      import com.azure.resourcemanager.storage.models.Sku;
+      import com.azure.resourcemanager.storage.models.SkuName;
+      import com.azure.resourcemanager.storage.models.StorageAccountCreateParameters;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for StorageAccounts Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreate.json
+           */
+          /**
+           * Sample code: StorageAccountCreate.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountCreate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .create(
+                      "res9101",
+                      "sto4445",
+                      new StorageAccountCreateParameters()
+                          .withSku(new Sku().withName(SkuName.STANDARD_GRS))
+                          .withKind(Kind.STORAGE)
+                          .withLocation("eastus")
+                          .withExtendedLocation(
+                              new ExtendedLocation().withName("losangeles001").withType(ExtendedLocationTypes.EDGE_ZONE))
+                          .withTags(mapOf("key1", "value1", "key2", "value2"))
+                          .withSasPolicy(
+                              new SasPolicy()
+                                  .withSasExpirationPeriod("1.15:59:59")
+                                  .withExpirationAction(ExpirationAction.LOG))
+                          .withKeyPolicy(new KeyPolicy().withKeyExpirationPeriodInDays(20))
+                          .withEncryption(
+                              new Encryption()
+                                  .withServices(
+                                      new EncryptionServices()
+                                          .withBlob(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT))
+                                          .withFile(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT)))
+                                  .withKeySource(KeySource.MICROSOFT_STORAGE)
+                                  .withRequireInfrastructureEncryption(false))
+                          .withIsSftpEnabled(true)
+                          .withIsHnsEnabled(true)
+                          .withRoutingPreference(
+                              new RoutingPreference()
+                                  .withRoutingChoice(RoutingChoice.MICROSOFT_ROUTING)
+                                  .withPublishMicrosoftEndpoints(true)
+                                  .withPublishInternetEndpoints(true))
+                          .withAllowBlobPublicAccess(false)
+                          .withMinimumTlsVersion(MinimumTlsVersion.TLS1_2)
+                          .withAllowSharedKeyAccess(true)
+                          .withDefaultToOAuthAuthentication(false),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       *
+       * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreate.json
+       */
+      async function storageAccountCreate() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9101";
+        const accountName = "sto4445";
+        const parameters = {
+          allowBlobPublicAccess: false,
+          allowSharedKeyAccess: true,
+          defaultToOAuthAuthentication: false,
+          encryption: {
+            keySource: "Microsoft.Storage",
+            requireInfrastructureEncryption: false,
+            services: {
+              blob: { enabled: true, keyType: "Account" },
+              file: { enabled: true, keyType: "Account" },
+            },
+          },
+          extendedLocation: { name: "losangeles001", type: "EdgeZone" },
+          isHnsEnabled: true,
+          isSftpEnabled: true,
+          keyPolicy: { keyExpirationPeriodInDays: 20 },
+          kind: "Storage",
+          location: "eastus",
+          minimumTlsVersion: "TLS1_2",
+          routingPreference: {
+            publishInternetEndpoints: true,
+            publishMicrosoftEndpoints: true,
+            routingChoice: "MicrosoftRouting",
+          },
+          sasPolicy: { expirationAction: "Log", sasExpirationPeriod: "1.15:59:59" },
+          sku: { name: "Standard_GRS" },
+          tags: { key1: "value1", key2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.beginCreateAndWait(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      storageAccountCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1805,6 +1952,185 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.Bypass;
+      import com.azure.resourcemanager.storage.models.DefaultAction;
+      import com.azure.resourcemanager.storage.models.Kind;
+      import com.azure.resourcemanager.storage.models.NetworkRuleSet;
+      import com.azure.resourcemanager.storage.models.Sku;
+      import com.azure.resourcemanager.storage.models.SkuName;
+      import com.azure.resourcemanager.storage.models.StorageAccountCreateParameters;
+      import com.azure.resourcemanager.storage.models.VirtualNetworkRule;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for StorageAccounts Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/NfsV3AccountCreate.json
+           */
+          /**
+           * Sample code: NfsV3AccountCreate.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void nfsV3AccountCreate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .create(
+                      "res9101",
+                      "sto4445",
+                      new StorageAccountCreateParameters()
+                          .withSku(new Sku().withName(SkuName.PREMIUM_LRS))
+                          .withKind(Kind.BLOCK_BLOB_STORAGE)
+                          .withLocation("eastus")
+                          .withNetworkRuleSet(
+                              new NetworkRuleSet()
+                                  .withBypass(Bypass.AZURE_SERVICES)
+                                  .withVirtualNetworkRules(
+                                      Arrays
+                                          .asList(
+                                              new VirtualNetworkRule()
+                                                  .withVirtualNetworkResourceId(
+                                                      "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Network/virtualNetworks/net123/subnets/subnet12")))
+                                  .withIpRules(Arrays.asList())
+                                  .withDefaultAction(DefaultAction.ALLOW))
+                          .withEnableHttpsTrafficOnly(false)
+                          .withIsHnsEnabled(true)
+                          .withEnableNfsV3(true),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstorage_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/NfsV3AccountCreate.json
+      func ExampleAccountsClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorage.NewAccountsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"res9101",
+      		"sto4445",
+      		armstorage.AccountCreateParameters{
+      			Kind:     to.Ptr(armstorage.KindBlockBlobStorage),
+      			Location: to.Ptr("eastus"),
+      			Properties: &armstorage.AccountPropertiesCreateParameters{
+      				IsHnsEnabled: to.Ptr(true),
+      				EnableNfsV3:  to.Ptr(true),
+      				NetworkRuleSet: &armstorage.NetworkRuleSet{
+      					Bypass:        to.Ptr(armstorage.BypassAzureServices),
+      					DefaultAction: to.Ptr(armstorage.DefaultActionAllow),
+      					IPRules:       []*armstorage.IPRule{},
+      					VirtualNetworkRules: []*armstorage.VirtualNetworkRule{
+      						{
+      							VirtualNetworkResourceID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Network/virtualNetworks/net123/subnets/subnet12"),
+      						}},
+      				},
+      				EnableHTTPSTrafficOnly: to.Ptr(false),
+      			},
+      			SKU: &armstorage.SKU{
+      				Name: to.Ptr(armstorage.SKUNamePremiumLRS),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorage%2Farmstorage%2Fv1.0.0/sdk/resourcemanager/storage/armstorage/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       *
+       * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/NfsV3AccountCreate.json
+       */
+      async function nfsV3AccountCreate() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9101";
+        const accountName = "sto4445";
+        const parameters = {
+          isHnsEnabled: true,
+          enableNfsV3: true,
+          kind: "BlockBlobStorage",
+          location: "eastus",
+          networkRuleSet: {
+            bypass: "AzureServices",
+            defaultAction: "Allow",
+            ipRules: [],
+            virtualNetworkRules: [
+              {
+                virtualNetworkResourceId:
+                  "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Network/virtualNetworks/net123/subnets/subnet12",
+              },
+            ],
+          },
+          sku: { name: "Premium_LRS" },
+          enableHttpsTrafficOnly: false,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.beginCreateAndWait(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      nfsV3AccountCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1919,6 +2245,147 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.Encryption;
+      import com.azure.resourcemanager.storage.models.EncryptionIdentity;
+      import com.azure.resourcemanager.storage.models.EncryptionService;
+      import com.azure.resourcemanager.storage.models.EncryptionServices;
+      import com.azure.resourcemanager.storage.models.Identity;
+      import com.azure.resourcemanager.storage.models.IdentityType;
+      import com.azure.resourcemanager.storage.models.KeySource;
+      import com.azure.resourcemanager.storage.models.KeyType;
+      import com.azure.resourcemanager.storage.models.KeyVaultProperties;
+      import com.azure.resourcemanager.storage.models.Kind;
+      import com.azure.resourcemanager.storage.models.Sku;
+      import com.azure.resourcemanager.storage.models.SkuName;
+      import com.azure.resourcemanager.storage.models.StorageAccountCreateParameters;
+      import com.azure.resourcemanager.storage.models.UserAssignedIdentity;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for StorageAccounts Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateUserAssignedEncryptionIdentityWithCMK.json
+           */
+          /**
+           * Sample code: StorageAccountCreateUserAssignedEncryptionIdentityWithCMK.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountCreateUserAssignedEncryptionIdentityWithCMK(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .create(
+                      "res9101",
+                      "sto4445",
+                      new StorageAccountCreateParameters()
+                          .withSku(new Sku().withName(SkuName.STANDARD_LRS))
+                          .withKind(Kind.STORAGE)
+                          .withLocation("eastus")
+                          .withIdentity(
+                              new Identity()
+                                  .withType(IdentityType.USER_ASSIGNED)
+                                  .withUserAssignedIdentities(
+                                      mapOf(
+                                          "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managed-identity-name}",
+                                          new UserAssignedIdentity())))
+                          .withEncryption(
+                              new Encryption()
+                                  .withServices(
+                                      new EncryptionServices()
+                                          .withBlob(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT))
+                                          .withFile(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT)))
+                                  .withKeySource(KeySource.MICROSOFT_KEYVAULT)
+                                  .withKeyVaultProperties(
+                                      new KeyVaultProperties()
+                                          .withKeyName("wrappingKey")
+                                          .withKeyVersion("")
+                                          .withKeyVaultUri("https://myvault8569.vault.azure.net"))
+                                  .withEncryptionIdentity(
+                                      new EncryptionIdentity()
+                                          .withEncryptionUserAssignedIdentity(
+                                              "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managed-identity-name}"))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       *
+       * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateUserAssignedEncryptionIdentityWithCMK.json
+       */
+      async function storageAccountCreateUserAssignedEncryptionIdentityWithCmk() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9101";
+        const accountName = "sto4445";
+        const parameters = {
+          encryption: {
+            encryptionIdentity: {
+              encryptionUserAssignedIdentity:
+                "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managed-identity-name}",
+            },
+            keySource: "Microsoft.Keyvault",
+            keyVaultProperties: {
+              keyName: "wrappingKey",
+              keyVaultUri: "https://myvault8569.vault.azure.net",
+              keyVersion: "",
+            },
+            services: {
+              blob: { enabled: true, keyType: "Account" },
+              file: { enabled: true, keyType: "Account" },
+            },
+          },
+          identity: {
+            type: "UserAssigned",
+            userAssignedIdentities: {
+              "/subscriptions/{subscriptionId}/resourceGroups/res9101/providers/MicrosoftManagedIdentity/userAssignedIdentities/{managedIdentityName}":
+                {},
+            },
+          },
+          kind: "Storage",
+          location: "eastus",
+          sku: { name: "Standard_LRS" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.beginCreateAndWait(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      storageAccountCreateUserAssignedEncryptionIdentityWithCmk().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2046,6 +2513,115 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.AccountImmutabilityPolicyProperties;
+      import com.azure.resourcemanager.storage.models.AccountImmutabilityPolicyState;
+      import com.azure.resourcemanager.storage.models.ExtendedLocation;
+      import com.azure.resourcemanager.storage.models.ExtendedLocationTypes;
+      import com.azure.resourcemanager.storage.models.ImmutableStorageAccount;
+      import com.azure.resourcemanager.storage.models.Kind;
+      import com.azure.resourcemanager.storage.models.Sku;
+      import com.azure.resourcemanager.storage.models.SkuName;
+      import com.azure.resourcemanager.storage.models.StorageAccountCreateParameters;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for StorageAccounts Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateWithImmutabilityPolicy.json
+           */
+          /**
+           * Sample code: StorageAccountCreateWithImmutabilityPolicy.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountCreateWithImmutabilityPolicy(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .create(
+                      "res9101",
+                      "sto4445",
+                      new StorageAccountCreateParameters()
+                          .withSku(new Sku().withName(SkuName.STANDARD_GRS))
+                          .withKind(Kind.STORAGE)
+                          .withLocation("eastus")
+                          .withExtendedLocation(
+                              new ExtendedLocation().withName("losangeles001").withType(ExtendedLocationTypes.EDGE_ZONE))
+                          .withImmutableStorageWithVersioning(
+                              new ImmutableStorageAccount()
+                                  .withEnabled(true)
+                                  .withImmutabilityPolicy(
+                                      new AccountImmutabilityPolicyProperties()
+                                          .withImmutabilityPeriodSinceCreationInDays(15)
+                                          .withState(AccountImmutabilityPolicyState.UNLOCKED)
+                                          .withAllowProtectedAppendWrites(true))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       *
+       * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateWithImmutabilityPolicy.json
+       */
+      async function storageAccountCreateWithImmutabilityPolicy() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9101";
+        const accountName = "sto4445";
+        const parameters = {
+          extendedLocation: { name: "losangeles001", type: "EdgeZone" },
+          immutableStorageWithVersioning: {
+            enabled: true,
+            immutabilityPolicy: {
+              allowProtectedAppendWrites: true,
+              immutabilityPeriodSinceCreationInDays: 15,
+              state: "Unlocked",
+            },
+          },
+          kind: "Storage",
+          location: "eastus",
+          sku: { name: "Standard_GRS" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.beginCreateAndWait(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      storageAccountCreateWithImmutabilityPolicy().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2194,6 +2770,153 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.Encryption;
+      import com.azure.resourcemanager.storage.models.EncryptionService;
+      import com.azure.resourcemanager.storage.models.EncryptionServices;
+      import com.azure.resourcemanager.storage.models.ExpirationAction;
+      import com.azure.resourcemanager.storage.models.ExtendedLocation;
+      import com.azure.resourcemanager.storage.models.ExtendedLocationTypes;
+      import com.azure.resourcemanager.storage.models.KeyPolicy;
+      import com.azure.resourcemanager.storage.models.KeySource;
+      import com.azure.resourcemanager.storage.models.KeyType;
+      import com.azure.resourcemanager.storage.models.Kind;
+      import com.azure.resourcemanager.storage.models.MinimumTlsVersion;
+      import com.azure.resourcemanager.storage.models.PublicNetworkAccess;
+      import com.azure.resourcemanager.storage.models.RoutingChoice;
+      import com.azure.resourcemanager.storage.models.RoutingPreference;
+      import com.azure.resourcemanager.storage.models.SasPolicy;
+      import com.azure.resourcemanager.storage.models.Sku;
+      import com.azure.resourcemanager.storage.models.SkuName;
+      import com.azure.resourcemanager.storage.models.StorageAccountCreateParameters;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for StorageAccounts Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateDisallowPublicNetworkAccess.json
+           */
+          /**
+           * Sample code: StorageAccountCreateDisallowPublicNetworkAccess.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountCreateDisallowPublicNetworkAccess(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .create(
+                      "res9101",
+                      "sto4445",
+                      new StorageAccountCreateParameters()
+                          .withSku(new Sku().withName(SkuName.STANDARD_GRS))
+                          .withKind(Kind.STORAGE)
+                          .withLocation("eastus")
+                          .withExtendedLocation(
+                              new ExtendedLocation().withName("losangeles001").withType(ExtendedLocationTypes.EDGE_ZONE))
+                          .withTags(mapOf("key1", "value1", "key2", "value2"))
+                          .withPublicNetworkAccess(PublicNetworkAccess.DISABLED)
+                          .withSasPolicy(
+                              new SasPolicy()
+                                  .withSasExpirationPeriod("1.15:59:59")
+                                  .withExpirationAction(ExpirationAction.LOG))
+                          .withKeyPolicy(new KeyPolicy().withKeyExpirationPeriodInDays(20))
+                          .withEncryption(
+                              new Encryption()
+                                  .withServices(
+                                      new EncryptionServices()
+                                          .withBlob(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT))
+                                          .withFile(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT)))
+                                  .withKeySource(KeySource.MICROSOFT_STORAGE)
+                                  .withRequireInfrastructureEncryption(false))
+                          .withIsHnsEnabled(true)
+                          .withRoutingPreference(
+                              new RoutingPreference()
+                                  .withRoutingChoice(RoutingChoice.MICROSOFT_ROUTING)
+                                  .withPublishMicrosoftEndpoints(true)
+                                  .withPublishInternetEndpoints(true))
+                          .withAllowBlobPublicAccess(false)
+                          .withMinimumTlsVersion(MinimumTlsVersion.TLS1_2)
+                          .withAllowSharedKeyAccess(true),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       *
+       * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateDisallowPublicNetworkAccess.json
+       */
+      async function storageAccountCreateDisallowPublicNetworkAccess() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9101";
+        const accountName = "sto4445";
+        const parameters = {
+          allowBlobPublicAccess: false,
+          allowSharedKeyAccess: true,
+          encryption: {
+            keySource: "Microsoft.Storage",
+            requireInfrastructureEncryption: false,
+            services: {
+              blob: { enabled: true, keyType: "Account" },
+              file: { enabled: true, keyType: "Account" },
+            },
+          },
+          extendedLocation: { name: "losangeles001", type: "EdgeZone" },
+          isHnsEnabled: true,
+          keyPolicy: { keyExpirationPeriodInDays: 20 },
+          kind: "Storage",
+          location: "eastus",
+          minimumTlsVersion: "TLS1_2",
+          publicNetworkAccess: "Disabled",
+          routingPreference: {
+            publishInternetEndpoints: true,
+            publishMicrosoftEndpoints: true,
+            routingChoice: "MicrosoftRouting",
+          },
+          sasPolicy: { expirationAction: "Log", sasExpirationPeriod: "1.15:59:59" },
+          sku: { name: "Standard_GRS" },
+          tags: { key1: "value1", key2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.beginCreateAndWait(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      storageAccountCreateDisallowPublicNetworkAccess().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2393,6 +3116,153 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.Encryption;
+      import com.azure.resourcemanager.storage.models.EncryptionService;
+      import com.azure.resourcemanager.storage.models.EncryptionServices;
+      import com.azure.resourcemanager.storage.models.ExpirationAction;
+      import com.azure.resourcemanager.storage.models.ExtendedLocation;
+      import com.azure.resourcemanager.storage.models.ExtendedLocationTypes;
+      import com.azure.resourcemanager.storage.models.KeyPolicy;
+      import com.azure.resourcemanager.storage.models.KeySource;
+      import com.azure.resourcemanager.storage.models.KeyType;
+      import com.azure.resourcemanager.storage.models.Kind;
+      import com.azure.resourcemanager.storage.models.MinimumTlsVersion;
+      import com.azure.resourcemanager.storage.models.PublicNetworkAccess;
+      import com.azure.resourcemanager.storage.models.RoutingChoice;
+      import com.azure.resourcemanager.storage.models.RoutingPreference;
+      import com.azure.resourcemanager.storage.models.SasPolicy;
+      import com.azure.resourcemanager.storage.models.Sku;
+      import com.azure.resourcemanager.storage.models.SkuName;
+      import com.azure.resourcemanager.storage.models.StorageAccountCreateParameters;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for StorageAccounts Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateEnablePublicNetworkAccess.json
+           */
+          /**
+           * Sample code: StorageAccountCreateEnablePublicNetworkAccess.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountCreateEnablePublicNetworkAccess(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .create(
+                      "res9101",
+                      "sto4445",
+                      new StorageAccountCreateParameters()
+                          .withSku(new Sku().withName(SkuName.STANDARD_GRS))
+                          .withKind(Kind.STORAGE)
+                          .withLocation("eastus")
+                          .withExtendedLocation(
+                              new ExtendedLocation().withName("losangeles001").withType(ExtendedLocationTypes.EDGE_ZONE))
+                          .withTags(mapOf("key1", "value1", "key2", "value2"))
+                          .withPublicNetworkAccess(PublicNetworkAccess.ENABLED)
+                          .withSasPolicy(
+                              new SasPolicy()
+                                  .withSasExpirationPeriod("1.15:59:59")
+                                  .withExpirationAction(ExpirationAction.LOG))
+                          .withKeyPolicy(new KeyPolicy().withKeyExpirationPeriodInDays(20))
+                          .withEncryption(
+                              new Encryption()
+                                  .withServices(
+                                      new EncryptionServices()
+                                          .withBlob(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT))
+                                          .withFile(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT)))
+                                  .withKeySource(KeySource.MICROSOFT_STORAGE)
+                                  .withRequireInfrastructureEncryption(false))
+                          .withIsHnsEnabled(true)
+                          .withRoutingPreference(
+                              new RoutingPreference()
+                                  .withRoutingChoice(RoutingChoice.MICROSOFT_ROUTING)
+                                  .withPublishMicrosoftEndpoints(true)
+                                  .withPublishInternetEndpoints(true))
+                          .withAllowBlobPublicAccess(false)
+                          .withMinimumTlsVersion(MinimumTlsVersion.TLS1_2)
+                          .withAllowSharedKeyAccess(true),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       *
+       * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateEnablePublicNetworkAccess.json
+       */
+      async function storageAccountCreateEnablePublicNetworkAccess() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9101";
+        const accountName = "sto4445";
+        const parameters = {
+          allowBlobPublicAccess: false,
+          allowSharedKeyAccess: true,
+          encryption: {
+            keySource: "Microsoft.Storage",
+            requireInfrastructureEncryption: false,
+            services: {
+              blob: { enabled: true, keyType: "Account" },
+              file: { enabled: true, keyType: "Account" },
+            },
+          },
+          extendedLocation: { name: "losangeles001", type: "EdgeZone" },
+          isHnsEnabled: true,
+          keyPolicy: { keyExpirationPeriodInDays: 20 },
+          kind: "Storage",
+          location: "eastus",
+          minimumTlsVersion: "TLS1_2",
+          publicNetworkAccess: "Enabled",
+          routingPreference: {
+            publishInternetEndpoints: true,
+            publishMicrosoftEndpoints: true,
+            routingChoice: "MicrosoftRouting",
+          },
+          sasPolicy: { expirationAction: "Log", sasExpirationPeriod: "1.15:59:59" },
+          sku: { name: "Standard_GRS" },
+          tags: { key1: "value1", key2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.beginCreateAndWait(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      storageAccountCreateEnablePublicNetworkAccess().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2570,6 +3440,149 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.Encryption;
+      import com.azure.resourcemanager.storage.models.EncryptionIdentity;
+      import com.azure.resourcemanager.storage.models.EncryptionService;
+      import com.azure.resourcemanager.storage.models.EncryptionServices;
+      import com.azure.resourcemanager.storage.models.Identity;
+      import com.azure.resourcemanager.storage.models.IdentityType;
+      import com.azure.resourcemanager.storage.models.KeySource;
+      import com.azure.resourcemanager.storage.models.KeyType;
+      import com.azure.resourcemanager.storage.models.KeyVaultProperties;
+      import com.azure.resourcemanager.storage.models.Kind;
+      import com.azure.resourcemanager.storage.models.Sku;
+      import com.azure.resourcemanager.storage.models.SkuName;
+      import com.azure.resourcemanager.storage.models.StorageAccountCreateParameters;
+      import com.azure.resourcemanager.storage.models.UserAssignedIdentity;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for StorageAccounts Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId.json
+           */
+          /**
+           * Sample code: StorageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .create(
+                      "res131918",
+                      "sto131918",
+                      new StorageAccountCreateParameters()
+                          .withSku(new Sku().withName(SkuName.STANDARD_LRS))
+                          .withKind(Kind.STORAGE)
+                          .withLocation("eastus")
+                          .withIdentity(
+                              new Identity()
+                                  .withType(IdentityType.USER_ASSIGNED)
+                                  .withUserAssignedIdentities(
+                                      mapOf(
+                                          "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managed-identity-name}",
+                                          new UserAssignedIdentity())))
+                          .withEncryption(
+                              new Encryption()
+                                  .withServices(
+                                      new EncryptionServices()
+                                          .withBlob(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT))
+                                          .withFile(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT)))
+                                  .withKeySource(KeySource.MICROSOFT_KEYVAULT)
+                                  .withKeyVaultProperties(
+                                      new KeyVaultProperties()
+                                          .withKeyName("wrappingKey")
+                                          .withKeyVersion("")
+                                          .withKeyVaultUri("https://myvault8569.vault.azure.net"))
+                                  .withEncryptionIdentity(
+                                      new EncryptionIdentity()
+                                          .withEncryptionUserAssignedIdentity(
+                                              "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managed-identity-name}")
+                                          .withEncryptionFederatedIdentityClientId("f83c6b1b-4d34-47e4-bb34-9d83df58b540"))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       *
+       * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId.json
+       */
+      async function storageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res131918";
+        const accountName = "sto131918";
+        const parameters = {
+          encryption: {
+            encryptionIdentity: {
+              encryptionFederatedIdentityClientId: "f83c6b1b-4d34-47e4-bb34-9d83df58b540",
+              encryptionUserAssignedIdentity:
+                "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managed-identity-name}",
+            },
+            keySource: "Microsoft.Keyvault",
+            keyVaultProperties: {
+              keyName: "wrappingKey",
+              keyVaultUri: "https://myvault8569.vault.azure.net",
+              keyVersion: "",
+            },
+            services: {
+              blob: { enabled: true, keyType: "Account" },
+              file: { enabled: true, keyType: "Account" },
+            },
+          },
+          identity: {
+            type: "UserAssigned",
+            userAssignedIdentities: {
+              "/subscriptions/{subscriptionId}/resourceGroups/res9101/providers/MicrosoftManagedIdentity/userAssignedIdentities/{managedIdentityName}":
+                {},
+            },
+          },
+          kind: "Storage",
+          location: "eastus",
+          sku: { name: "Standard_LRS" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.beginCreateAndWait(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      storageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2744,6 +3757,148 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.AllowedCopyScope;
+      import com.azure.resourcemanager.storage.models.Encryption;
+      import com.azure.resourcemanager.storage.models.EncryptionService;
+      import com.azure.resourcemanager.storage.models.EncryptionServices;
+      import com.azure.resourcemanager.storage.models.ExpirationAction;
+      import com.azure.resourcemanager.storage.models.KeyPolicy;
+      import com.azure.resourcemanager.storage.models.KeySource;
+      import com.azure.resourcemanager.storage.models.KeyType;
+      import com.azure.resourcemanager.storage.models.Kind;
+      import com.azure.resourcemanager.storage.models.MinimumTlsVersion;
+      import com.azure.resourcemanager.storage.models.RoutingChoice;
+      import com.azure.resourcemanager.storage.models.RoutingPreference;
+      import com.azure.resourcemanager.storage.models.SasPolicy;
+      import com.azure.resourcemanager.storage.models.Sku;
+      import com.azure.resourcemanager.storage.models.SkuName;
+      import com.azure.resourcemanager.storage.models.StorageAccountCreateParameters;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for StorageAccounts Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateAllowedCopyScopeToPrivateLink.json
+           */
+          /**
+           * Sample code: StorageAccountCreateAllowedCopyScopeToPrivateLink.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountCreateAllowedCopyScopeToPrivateLink(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .create(
+                      "res9101",
+                      "sto4445",
+                      new StorageAccountCreateParameters()
+                          .withSku(new Sku().withName(SkuName.STANDARD_GRS))
+                          .withKind(Kind.STORAGE)
+                          .withLocation("eastus")
+                          .withTags(mapOf("key1", "value1", "key2", "value2"))
+                          .withAllowedCopyScope(AllowedCopyScope.PRIVATE_LINK)
+                          .withSasPolicy(
+                              new SasPolicy()
+                                  .withSasExpirationPeriod("1.15:59:59")
+                                  .withExpirationAction(ExpirationAction.LOG))
+                          .withKeyPolicy(new KeyPolicy().withKeyExpirationPeriodInDays(20))
+                          .withEncryption(
+                              new Encryption()
+                                  .withServices(
+                                      new EncryptionServices()
+                                          .withBlob(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT))
+                                          .withFile(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT)))
+                                  .withKeySource(KeySource.MICROSOFT_STORAGE)
+                                  .withRequireInfrastructureEncryption(false))
+                          .withIsHnsEnabled(true)
+                          .withRoutingPreference(
+                              new RoutingPreference()
+                                  .withRoutingChoice(RoutingChoice.MICROSOFT_ROUTING)
+                                  .withPublishMicrosoftEndpoints(true)
+                                  .withPublishInternetEndpoints(true))
+                          .withAllowBlobPublicAccess(false)
+                          .withMinimumTlsVersion(MinimumTlsVersion.TLS1_2)
+                          .withAllowSharedKeyAccess(true),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       *
+       * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateAllowedCopyScopeToPrivateLink.json
+       */
+      async function storageAccountCreateAllowedCopyScopeToPrivateLink() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9101";
+        const accountName = "sto4445";
+        const parameters = {
+          allowBlobPublicAccess: false,
+          allowSharedKeyAccess: true,
+          allowedCopyScope: "PrivateLink",
+          encryption: {
+            keySource: "Microsoft.Storage",
+            requireInfrastructureEncryption: false,
+            services: {
+              blob: { enabled: true, keyType: "Account" },
+              file: { enabled: true, keyType: "Account" },
+            },
+          },
+          isHnsEnabled: true,
+          keyPolicy: { keyExpirationPeriodInDays: 20 },
+          kind: "Storage",
+          location: "eastus",
+          minimumTlsVersion: "TLS1_2",
+          routingPreference: {
+            publishInternetEndpoints: true,
+            publishMicrosoftEndpoints: true,
+            routingChoice: "MicrosoftRouting",
+          },
+          sasPolicy: { expirationAction: "Log", sasExpirationPeriod: "1.15:59:59" },
+          sku: { name: "Standard_GRS" },
+          tags: { key1: "value1", key2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.beginCreateAndWait(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      storageAccountCreateAllowedCopyScopeToPrivateLink().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2935,6 +4090,147 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.AllowedCopyScope;
+      import com.azure.resourcemanager.storage.models.Encryption;
+      import com.azure.resourcemanager.storage.models.EncryptionService;
+      import com.azure.resourcemanager.storage.models.EncryptionServices;
+      import com.azure.resourcemanager.storage.models.ExpirationAction;
+      import com.azure.resourcemanager.storage.models.KeyPolicy;
+      import com.azure.resourcemanager.storage.models.KeySource;
+      import com.azure.resourcemanager.storage.models.KeyType;
+      import com.azure.resourcemanager.storage.models.Kind;
+      import com.azure.resourcemanager.storage.models.MinimumTlsVersion;
+      import com.azure.resourcemanager.storage.models.RoutingChoice;
+      import com.azure.resourcemanager.storage.models.RoutingPreference;
+      import com.azure.resourcemanager.storage.models.SasPolicy;
+      import com.azure.resourcemanager.storage.models.Sku;
+      import com.azure.resourcemanager.storage.models.SkuName;
+      import com.azure.resourcemanager.storage.models.StorageAccountCreateParameters;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for StorageAccounts Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateAllowedCopyScopeToAAD.json
+           */
+          /**
+           * Sample code: StorageAccountCreateAllowedCopyScopeToAAD.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountCreateAllowedCopyScopeToAAD(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .create(
+                      "res9101",
+                      "sto4445",
+                      new StorageAccountCreateParameters()
+                          .withSku(new Sku().withName(SkuName.STANDARD_GRS))
+                          .withKind(Kind.STORAGE)
+                          .withLocation("eastus")
+                          .withTags(mapOf("key1", "value1", "key2", "value2"))
+                          .withAllowedCopyScope(AllowedCopyScope.AAD)
+                          .withSasPolicy(
+                              new SasPolicy()
+                                  .withSasExpirationPeriod("1.15:59:59")
+                                  .withExpirationAction(ExpirationAction.LOG))
+                          .withKeyPolicy(new KeyPolicy().withKeyExpirationPeriodInDays(20))
+                          .withEncryption(
+                              new Encryption()
+                                  .withServices(
+                                      new EncryptionServices()
+                                          .withBlob(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT))
+                                          .withFile(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT)))
+                                  .withKeySource(KeySource.MICROSOFT_STORAGE)
+                                  .withRequireInfrastructureEncryption(false))
+                          .withIsHnsEnabled(true)
+                          .withRoutingPreference(
+                              new RoutingPreference()
+                                  .withRoutingChoice(RoutingChoice.MICROSOFT_ROUTING)
+                                  .withPublishMicrosoftEndpoints(true)
+                                  .withPublishInternetEndpoints(true))
+                          .withAllowBlobPublicAccess(false)
+                          .withMinimumTlsVersion(MinimumTlsVersion.TLS1_2)
+                          .withAllowSharedKeyAccess(true),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       *
+       * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateAllowedCopyScopeToAAD.json
+       */
+      async function storageAccountCreateAllowedCopyScopeToAad() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9101";
+        const accountName = "sto4445";
+        const parameters = {
+          allowBlobPublicAccess: false,
+          allowSharedKeyAccess: true,
+          allowedCopyScope: "AAD",
+          encryption: {
+            keySource: "Microsoft.Storage",
+            requireInfrastructureEncryption: false,
+            services: {
+              blob: { enabled: true, keyType: "Account" },
+              file: { enabled: true, keyType: "Account" },
+            },
+          },
+          isHnsEnabled: true,
+          keyPolicy: { keyExpirationPeriodInDays: 20 },
+          kind: "Storage",
+          location: "eastus",
+          minimumTlsVersion: "TLS1_2",
+          routingPreference: {
+            publishInternetEndpoints: true,
+            publishMicrosoftEndpoints: true,
+            routingChoice: "MicrosoftRouting",
+          },
+          sasPolicy: { expirationAction: "Log", sasExpirationPeriod: "1.15:59:59" },
+          sku: { name: "Standard_GRS" },
+          tags: { key1: "value1", key2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.beginCreateAndWait(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      storageAccountCreateAllowedCopyScopeToAad().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3096,6 +4392,119 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.Encryption;
+      import com.azure.resourcemanager.storage.models.EncryptionService;
+      import com.azure.resourcemanager.storage.models.EncryptionServices;
+      import com.azure.resourcemanager.storage.models.KeySource;
+      import com.azure.resourcemanager.storage.models.KeyType;
+      import com.azure.resourcemanager.storage.models.Kind;
+      import com.azure.resourcemanager.storage.models.MinimumTlsVersion;
+      import com.azure.resourcemanager.storage.models.Sku;
+      import com.azure.resourcemanager.storage.models.SkuName;
+      import com.azure.resourcemanager.storage.models.StorageAccountCreateParameters;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for StorageAccounts Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreatePremiumBlockBlobStorage.json
+           */
+          /**
+           * Sample code: StorageAccountCreatePremiumBlockBlobStorage.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountCreatePremiumBlockBlobStorage(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .create(
+                      "res9101",
+                      "sto4445",
+                      new StorageAccountCreateParameters()
+                          .withSku(new Sku().withName(SkuName.PREMIUM_LRS))
+                          .withKind(Kind.BLOCK_BLOB_STORAGE)
+                          .withLocation("eastus")
+                          .withTags(mapOf("key1", "value1", "key2", "value2"))
+                          .withEncryption(
+                              new Encryption()
+                                  .withServices(
+                                      new EncryptionServices()
+                                          .withBlob(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT))
+                                          .withFile(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT)))
+                                  .withKeySource(KeySource.MICROSOFT_STORAGE)
+                                  .withRequireInfrastructureEncryption(false))
+                          .withMinimumTlsVersion(MinimumTlsVersion.TLS1_2)
+                          .withAllowSharedKeyAccess(true),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       *
+       * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreatePremiumBlockBlobStorage.json
+       */
+      async function storageAccountCreatePremiumBlockBlobStorage() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9101";
+        const accountName = "sto4445";
+        const parameters = {
+          allowSharedKeyAccess: true,
+          encryption: {
+            keySource: "Microsoft.Storage",
+            requireInfrastructureEncryption: false,
+            services: {
+              blob: { enabled: true, keyType: "Account" },
+              file: { enabled: true, keyType: "Account" },
+            },
+          },
+          kind: "BlockBlobStorage",
+          location: "eastus",
+          minimumTlsVersion: "TLS1_2",
+          sku: { name: "Premium_LRS" },
+          tags: { key1: "value1", key2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.beginCreateAndWait(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      storageAccountCreatePremiumBlockBlobStorage().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3259,6 +4668,157 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.DnsEndpointType;
+      import com.azure.resourcemanager.storage.models.Encryption;
+      import com.azure.resourcemanager.storage.models.EncryptionService;
+      import com.azure.resourcemanager.storage.models.EncryptionServices;
+      import com.azure.resourcemanager.storage.models.ExpirationAction;
+      import com.azure.resourcemanager.storage.models.ExtendedLocation;
+      import com.azure.resourcemanager.storage.models.ExtendedLocationTypes;
+      import com.azure.resourcemanager.storage.models.KeyPolicy;
+      import com.azure.resourcemanager.storage.models.KeySource;
+      import com.azure.resourcemanager.storage.models.KeyType;
+      import com.azure.resourcemanager.storage.models.Kind;
+      import com.azure.resourcemanager.storage.models.MinimumTlsVersion;
+      import com.azure.resourcemanager.storage.models.RoutingChoice;
+      import com.azure.resourcemanager.storage.models.RoutingPreference;
+      import com.azure.resourcemanager.storage.models.SasPolicy;
+      import com.azure.resourcemanager.storage.models.Sku;
+      import com.azure.resourcemanager.storage.models.SkuName;
+      import com.azure.resourcemanager.storage.models.StorageAccountCreateParameters;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for StorageAccounts Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateDnsEndpointTypeToAzureDnsZone.json
+           */
+          /**
+           * Sample code: StorageAccountCreateDnsEndpointTypeToAzureDnsZone.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountCreateDnsEndpointTypeToAzureDnsZone(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .create(
+                      "res9101",
+                      "sto4445",
+                      new StorageAccountCreateParameters()
+                          .withSku(new Sku().withName(SkuName.STANDARD_GRS))
+                          .withKind(Kind.STORAGE)
+                          .withLocation("eastus")
+                          .withExtendedLocation(
+                              new ExtendedLocation().withName("losangeles001").withType(ExtendedLocationTypes.EDGE_ZONE))
+                          .withTags(mapOf("key1", "value1", "key2", "value2"))
+                          .withSasPolicy(
+                              new SasPolicy()
+                                  .withSasExpirationPeriod("1.15:59:59")
+                                  .withExpirationAction(ExpirationAction.LOG))
+                          .withKeyPolicy(new KeyPolicy().withKeyExpirationPeriodInDays(20))
+                          .withEncryption(
+                              new Encryption()
+                                  .withServices(
+                                      new EncryptionServices()
+                                          .withBlob(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT))
+                                          .withFile(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT)))
+                                  .withKeySource(KeySource.MICROSOFT_STORAGE)
+                                  .withRequireInfrastructureEncryption(false))
+                          .withIsSftpEnabled(true)
+                          .withIsHnsEnabled(true)
+                          .withRoutingPreference(
+                              new RoutingPreference()
+                                  .withRoutingChoice(RoutingChoice.MICROSOFT_ROUTING)
+                                  .withPublishMicrosoftEndpoints(true)
+                                  .withPublishInternetEndpoints(true))
+                          .withAllowBlobPublicAccess(false)
+                          .withMinimumTlsVersion(MinimumTlsVersion.TLS1_2)
+                          .withAllowSharedKeyAccess(true)
+                          .withDefaultToOAuthAuthentication(false)
+                          .withDnsEndpointType(DnsEndpointType.AZURE_DNS_ZONE),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       *
+       * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateDnsEndpointTypeToAzureDnsZone.json
+       */
+      async function storageAccountCreateDnsEndpointTypeToAzureDnsZone() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9101";
+        const accountName = "sto4445";
+        const parameters = {
+          allowBlobPublicAccess: false,
+          allowSharedKeyAccess: true,
+          defaultToOAuthAuthentication: false,
+          dnsEndpointType: "AzureDnsZone",
+          encryption: {
+            keySource: "Microsoft.Storage",
+            requireInfrastructureEncryption: false,
+            services: {
+              blob: { enabled: true, keyType: "Account" },
+              file: { enabled: true, keyType: "Account" },
+            },
+          },
+          extendedLocation: { name: "losangeles001", type: "EdgeZone" },
+          isHnsEnabled: true,
+          isSftpEnabled: true,
+          keyPolicy: { keyExpirationPeriodInDays: 20 },
+          kind: "Storage",
+          location: "eastus",
+          minimumTlsVersion: "TLS1_2",
+          routingPreference: {
+            publishInternetEndpoints: true,
+            publishMicrosoftEndpoints: true,
+            routingChoice: "MicrosoftRouting",
+          },
+          sasPolicy: { expirationAction: "Log", sasExpirationPeriod: "1.15:59:59" },
+          sku: { name: "Standard_GRS" },
+          tags: { key1: "value1", key2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.beginCreateAndWait(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      storageAccountCreateDnsEndpointTypeToAzureDnsZone().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3463,6 +5023,157 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.DnsEndpointType;
+      import com.azure.resourcemanager.storage.models.Encryption;
+      import com.azure.resourcemanager.storage.models.EncryptionService;
+      import com.azure.resourcemanager.storage.models.EncryptionServices;
+      import com.azure.resourcemanager.storage.models.ExpirationAction;
+      import com.azure.resourcemanager.storage.models.ExtendedLocation;
+      import com.azure.resourcemanager.storage.models.ExtendedLocationTypes;
+      import com.azure.resourcemanager.storage.models.KeyPolicy;
+      import com.azure.resourcemanager.storage.models.KeySource;
+      import com.azure.resourcemanager.storage.models.KeyType;
+      import com.azure.resourcemanager.storage.models.Kind;
+      import com.azure.resourcemanager.storage.models.MinimumTlsVersion;
+      import com.azure.resourcemanager.storage.models.RoutingChoice;
+      import com.azure.resourcemanager.storage.models.RoutingPreference;
+      import com.azure.resourcemanager.storage.models.SasPolicy;
+      import com.azure.resourcemanager.storage.models.Sku;
+      import com.azure.resourcemanager.storage.models.SkuName;
+      import com.azure.resourcemanager.storage.models.StorageAccountCreateParameters;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for StorageAccounts Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateDnsEndpointTypeToStandard.json
+           */
+          /**
+           * Sample code: StorageAccountCreateDnsEndpointTypeToStandard.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountCreateDnsEndpointTypeToStandard(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .create(
+                      "res9101",
+                      "sto4445",
+                      new StorageAccountCreateParameters()
+                          .withSku(new Sku().withName(SkuName.STANDARD_GRS))
+                          .withKind(Kind.STORAGE)
+                          .withLocation("eastus")
+                          .withExtendedLocation(
+                              new ExtendedLocation().withName("losangeles001").withType(ExtendedLocationTypes.EDGE_ZONE))
+                          .withTags(mapOf("key1", "value1", "key2", "value2"))
+                          .withSasPolicy(
+                              new SasPolicy()
+                                  .withSasExpirationPeriod("1.15:59:59")
+                                  .withExpirationAction(ExpirationAction.LOG))
+                          .withKeyPolicy(new KeyPolicy().withKeyExpirationPeriodInDays(20))
+                          .withEncryption(
+                              new Encryption()
+                                  .withServices(
+                                      new EncryptionServices()
+                                          .withBlob(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT))
+                                          .withFile(new EncryptionService().withEnabled(true).withKeyType(KeyType.ACCOUNT)))
+                                  .withKeySource(KeySource.MICROSOFT_STORAGE)
+                                  .withRequireInfrastructureEncryption(false))
+                          .withIsSftpEnabled(true)
+                          .withIsHnsEnabled(true)
+                          .withRoutingPreference(
+                              new RoutingPreference()
+                                  .withRoutingChoice(RoutingChoice.MICROSOFT_ROUTING)
+                                  .withPublishMicrosoftEndpoints(true)
+                                  .withPublishInternetEndpoints(true))
+                          .withAllowBlobPublicAccess(false)
+                          .withMinimumTlsVersion(MinimumTlsVersion.TLS1_2)
+                          .withAllowSharedKeyAccess(true)
+                          .withDefaultToOAuthAuthentication(false)
+                          .withDnsEndpointType(DnsEndpointType.STANDARD),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       *
+       * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateDnsEndpointTypeToStandard.json
+       */
+      async function storageAccountCreateDnsEndpointTypeToStandard() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9101";
+        const accountName = "sto4445";
+        const parameters = {
+          allowBlobPublicAccess: false,
+          allowSharedKeyAccess: true,
+          defaultToOAuthAuthentication: false,
+          dnsEndpointType: "Standard",
+          encryption: {
+            keySource: "Microsoft.Storage",
+            requireInfrastructureEncryption: false,
+            services: {
+              blob: { enabled: true, keyType: "Account" },
+              file: { enabled: true, keyType: "Account" },
+            },
+          },
+          extendedLocation: { name: "losangeles001", type: "EdgeZone" },
+          isHnsEnabled: true,
+          isSftpEnabled: true,
+          keyPolicy: { keyExpirationPeriodInDays: 20 },
+          kind: "Storage",
+          location: "eastus",
+          minimumTlsVersion: "TLS1_2",
+          routingPreference: {
+            publishInternetEndpoints: true,
+            publishMicrosoftEndpoints: true,
+            routingChoice: "MicrosoftRouting",
+          },
+          sasPolicy: { expirationAction: "Log", sasExpirationPeriod: "1.15:59:59" },
+          sku: { name: "Standard_GRS" },
+          tags: { key1: "value1", key2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.beginCreateAndWait(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      storageAccountCreateDnsEndpointTypeToStandard().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

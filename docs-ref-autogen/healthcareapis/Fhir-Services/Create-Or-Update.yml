@@ -745,6 +745,226 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.healthcareapis.models.FhirServiceAccessPolicyEntry;
+      import com.azure.resourcemanager.healthcareapis.models.FhirServiceAcrConfiguration;
+      import com.azure.resourcemanager.healthcareapis.models.FhirServiceAuthenticationConfiguration;
+      import com.azure.resourcemanager.healthcareapis.models.FhirServiceCorsConfiguration;
+      import com.azure.resourcemanager.healthcareapis.models.FhirServiceExportConfiguration;
+      import com.azure.resourcemanager.healthcareapis.models.FhirServiceKind;
+      import com.azure.resourcemanager.healthcareapis.models.ServiceManagedIdentityIdentity;
+      import com.azure.resourcemanager.healthcareapis.models.ServiceManagedIdentityType;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for FhirServices CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/fhirservices/FhirServices_Create.json
+           */
+          /**
+           * Sample code: Create or update a Fhir Service.
+           *
+           * @param manager Entry point to HealthcareApisManager.
+           */
+          public static void createOrUpdateAFhirService(
+              com.azure.resourcemanager.healthcareapis.HealthcareApisManager manager) {
+              manager
+                  .fhirServices()
+                  .define("fhirservice1")
+                  .withExistingWorkspace("testRG", "workspace1")
+                  .withRegion("westus")
+                  .withTags(mapOf("additionalProp1", "string", "additionalProp2", "string", "additionalProp3", "string"))
+                  .withKind(FhirServiceKind.FHIR_R4)
+                  .withIdentity(new ServiceManagedIdentityIdentity().withType(ServiceManagedIdentityType.SYSTEM_ASSIGNED))
+                  .withAccessPolicies(
+                      Arrays
+                          .asList(
+                              new FhirServiceAccessPolicyEntry().withObjectId("c487e7d1-3210-41a3-8ccc-e9372b78da47"),
+                              new FhirServiceAccessPolicyEntry().withObjectId("5b307da8-43d4-492b-8b66-b0294ade872f")))
+                  .withAcrConfiguration(new FhirServiceAcrConfiguration().withLoginServers(Arrays.asList("test1.azurecr.io")))
+                  .withAuthenticationConfiguration(
+                      new FhirServiceAuthenticationConfiguration()
+                          .withAuthority("https://login.microsoftonline.com/abfde7b2-df0f-47e6-aabf-2462b07508dc")
+                          .withAudience("https://azurehealthcareapis.com")
+                          .withSmartProxyEnabled(true))
+                  .withCorsConfiguration(
+                      new FhirServiceCorsConfiguration()
+                          .withOrigins(Arrays.asList("*"))
+                          .withHeaders(Arrays.asList("*"))
+                          .withMethods(Arrays.asList("DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"))
+                          .withMaxAge(1440)
+                          .withAllowCredentials(false))
+                  .withExportConfiguration(
+                      new FhirServiceExportConfiguration().withStorageAccountName("existingStorageAccount"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-healthcareapis_1.0.0-beta.2/sdk/healthcareapis/azure-resourcemanager-healthcareapis/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhealthcareapis_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/healthcareapis/armhealthcareapis"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/fhirservices/FhirServices_Create.json
+      func ExampleFhirServicesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhealthcareapis.NewFhirServicesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"testRG",
+      		"workspace1",
+      		"fhirservice1",
+      		armhealthcareapis.FhirService{
+      			Identity: &armhealthcareapis.ServiceManagedIdentityIdentity{
+      				Type: to.Ptr(armhealthcareapis.ServiceManagedIdentityTypeSystemAssigned),
+      			},
+      			Location: to.Ptr("westus"),
+      			Tags: map[string]*string{
+      				"additionalProp1": to.Ptr("string"),
+      				"additionalProp2": to.Ptr("string"),
+      				"additionalProp3": to.Ptr("string"),
+      			},
+      			Kind: to.Ptr(armhealthcareapis.FhirServiceKindFhirR4),
+      			Properties: &armhealthcareapis.FhirServiceProperties{
+      				AccessPolicies: []*armhealthcareapis.FhirServiceAccessPolicyEntry{
+      					{
+      						ObjectID: to.Ptr("c487e7d1-3210-41a3-8ccc-e9372b78da47"),
+      					},
+      					{
+      						ObjectID: to.Ptr("5b307da8-43d4-492b-8b66-b0294ade872f"),
+      					}},
+      				AcrConfiguration: &armhealthcareapis.FhirServiceAcrConfiguration{
+      					LoginServers: []*string{
+      						to.Ptr("test1.azurecr.io")},
+      				},
+      				AuthenticationConfiguration: &armhealthcareapis.FhirServiceAuthenticationConfiguration{
+      					Audience:          to.Ptr("https://azurehealthcareapis.com"),
+      					Authority:         to.Ptr("https://login.microsoftonline.com/abfde7b2-df0f-47e6-aabf-2462b07508dc"),
+      					SmartProxyEnabled: to.Ptr(true),
+      				},
+      				CorsConfiguration: &armhealthcareapis.FhirServiceCorsConfiguration{
+      					AllowCredentials: to.Ptr(false),
+      					Headers: []*string{
+      						to.Ptr("*")},
+      					MaxAge: to.Ptr[int32](1440),
+      					Methods: []*string{
+      						to.Ptr("DELETE"),
+      						to.Ptr("GET"),
+      						to.Ptr("OPTIONS"),
+      						to.Ptr("PATCH"),
+      						to.Ptr("POST"),
+      						to.Ptr("PUT")},
+      					Origins: []*string{
+      						to.Ptr("*")},
+      				},
+      				ExportConfiguration: &armhealthcareapis.FhirServiceExportConfiguration{
+      					StorageAccountName: to.Ptr("existingStorageAccount"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhealthcareapis%2Farmhealthcareapis%2Fv1.0.0/sdk/resourcemanager/healthcareapis/armhealthcareapis/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { HealthcareApisManagementClient } = require("@azure/arm-healthcareapis");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a FHIR Service resource with the specified parameters.
+       *
+       * @summary Creates or updates a FHIR Service resource with the specified parameters.
+       * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/fhirservices/FhirServices_Create.json
+       */
+      async function createOrUpdateAFhirService() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "testRG";
+        const workspaceName = "workspace1";
+        const fhirServiceName = "fhirservice1";
+        const fhirservice = {
+          accessPolicies: [
+            { objectId: "c487e7d1-3210-41a3-8ccc-e9372b78da47" },
+            { objectId: "5b307da8-43d4-492b-8b66-b0294ade872f" },
+          ],
+          acrConfiguration: { loginServers: ["test1.azurecr.io"] },
+          authenticationConfiguration: {
+            audience: "https://azurehealthcareapis.com",
+            authority: "https://login.microsoftonline.com/abfde7b2-df0f-47e6-aabf-2462b07508dc",
+            smartProxyEnabled: true,
+          },
+          corsConfiguration: {
+            allowCredentials: false,
+            headers: ["*"],
+            maxAge: 1440,
+            methods: ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"],
+            origins: ["*"],
+          },
+          exportConfiguration: { storageAccountName: "existingStorageAccount" },
+          identity: { type: "SystemAssigned" },
+          kind: "fhir-R4",
+          location: "westus",
+          tags: {
+            additionalProp1: "string",
+            additionalProp2: "string",
+            additionalProp3: "string",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new HealthcareApisManagementClient(credential, subscriptionId);
+        const result = await client.fhirServices.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          workspaceName,
+          fhirServiceName,
+          fhirservice
+        );
+        console.log(result);
+      }
+
+      createOrUpdateAFhirService().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-healthcareapis_2.1.0/sdk/healthcareapis/arm-healthcareapis/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

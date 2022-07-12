@@ -355,6 +355,137 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.eventgrid.models.ChannelType;
+      import com.azure.resourcemanager.eventgrid.models.PartnerTopicInfo;
+      import java.time.OffsetDateTime;
+
+      /** Samples for Channels CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/Channels_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: Channels_CreateOrUpdate.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void channelsCreateOrUpdate(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager
+                  .channels()
+                  .define("exampleChannelName1")
+                  .withExistingPartnerNamespace("examplerg", "examplePartnerNamespaceName1")
+                  .withChannelType(ChannelType.PARTNER_TOPIC)
+                  .withPartnerTopicInfo(
+                      new PartnerTopicInfo()
+                          .withAzureSubscriptionId("5b4b650e-28b9-4790-b3ab-ddbd88d727c4")
+                          .withResourceGroupName("examplerg2")
+                          .withName("examplePartnerTopic1")
+                          .withSource("ContosoCorp.Accounts.User1"))
+                  .withMessageForActivation("Example message to approver")
+                  .withExpirationTimeIfNotActivatedUtc(OffsetDateTime.parse("2021-10-21T22:50:25.410433Z"))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.3/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/Channels_CreateOrUpdate.json
+      func ExampleChannelsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewChannelsClient("5b4b650e-28b9-4790-b3ab-ddbd88d727c4", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"examplerg",
+      		"examplePartnerNamespaceName1",
+      		"exampleChannelName1",
+      		armeventgrid.Channel{
+      			Properties: &armeventgrid.ChannelProperties{
+      				ChannelType:                     to.Ptr(armeventgrid.ChannelTypePartnerTopic),
+      				ExpirationTimeIfNotActivatedUTC: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2021-10-21T22:50:25.410433Z"); return t }()),
+      				MessageForActivation:            to.Ptr("Example message to approver"),
+      				PartnerTopicInfo: &armeventgrid.PartnerTopicInfo{
+      					Name:                to.Ptr("examplePartnerTopic1"),
+      					AzureSubscriptionID: to.Ptr("5b4b650e-28b9-4790-b3ab-ddbd88d727c4"),
+      					ResourceGroupName:   to.Ptr("examplerg2"),
+      					Source:              to.Ptr("ContosoCorp.Accounts.User1"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv2.0.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { EventGridManagementClient } = require("@azure/arm-eventgrid");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Synchronously creates or updates a new channel with the specified parameters.
+       *
+       * @summary Synchronously creates or updates a new channel with the specified parameters.
+       * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/Channels_CreateOrUpdate.json
+       */
+      async function channelsCreateOrUpdate() {
+        const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+        const resourceGroupName = "examplerg";
+        const partnerNamespaceName = "examplePartnerNamespaceName1";
+        const channelName = "exampleChannelName1";
+        const channelInfo = {
+          channelType: "PartnerTopic",
+          expirationTimeIfNotActivatedUtc: new Date("2021-10-21T22:50:25.410433Z"),
+          messageForActivation: "Example message to approver",
+          partnerTopicInfo: {
+            name: "examplePartnerTopic1",
+            azureSubscriptionId: "5b4b650e-28b9-4790-b3ab-ddbd88d727c4",
+            resourceGroupName: "examplerg2",
+            source: "ContosoCorp.Accounts.User1",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new EventGridManagementClient(credential, subscriptionId);
+        const result = await client.channels.createOrUpdate(
+          resourceGroupName,
+          partnerNamespaceName,
+          channelName,
+          channelInfo
+        );
+        console.log(result);
+      }
+
+      channelsCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-eventgrid_14.0.0/sdk/eventgrid/arm-eventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

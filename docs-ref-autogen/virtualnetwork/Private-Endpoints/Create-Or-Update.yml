@@ -2796,6 +2796,183 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.PrivateEndpointInner;
+      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
+      import com.azure.resourcemanager.network.models.PrivateEndpointIpConfiguration;
+      import com.azure.resourcemanager.network.models.PrivateLinkServiceConnection;
+      import java.util.Arrays;
+
+      /** Samples for PrivateEndpoints CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/PrivateEndpointCreate.json
+           */
+          /**
+           * Sample code: Create private endpoint.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createPrivateEndpoint(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getPrivateEndpoints()
+                  .createOrUpdate(
+                      "rg1",
+                      "testPe",
+                      new PrivateEndpointInner()
+                          .withLocation("eastus2euap")
+                          .withSubnet(
+                              new SubnetInner()
+                                  .withId(
+                                      "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"))
+                          .withPrivateLinkServiceConnections(
+                              Arrays
+                                  .asList(
+                                      new PrivateLinkServiceConnection()
+                                          .withPrivateLinkServiceId(
+                                              "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls")
+                                          .withGroupIds(Arrays.asList("groupIdFromResource"))
+                                          .withRequestMessage("Please approve my connection.")))
+                          .withIpConfigurations(
+                              Arrays
+                                  .asList(
+                                      new PrivateEndpointIpConfiguration()
+                                          .withName("pestaticconfig")
+                                          .withGroupId("file")
+                                          .withMemberName("file")
+                                          .withPrivateIpAddress("192.168.0.6")))
+                          .withCustomNetworkInterfaceName("testPeNic"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/PrivateEndpointCreate.json
+      func ExamplePrivateEndpointsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewPrivateEndpointsClient("subId", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"rg1",
+      		"testPe",
+      		armnetwork.PrivateEndpoint{
+      			Location: to.Ptr("eastus2euap"),
+      			Properties: &armnetwork.PrivateEndpointProperties{
+      				CustomNetworkInterfaceName: to.Ptr("testPeNic"),
+      				IPConfigurations: []*armnetwork.PrivateEndpointIPConfiguration{
+      					{
+      						Name: to.Ptr("pestaticconfig"),
+      						Properties: &armnetwork.PrivateEndpointIPConfigurationProperties{
+      							GroupID:          to.Ptr("file"),
+      							MemberName:       to.Ptr("file"),
+      							PrivateIPAddress: to.Ptr("192.168.0.6"),
+      						},
+      					}},
+      				PrivateLinkServiceConnections: []*armnetwork.PrivateLinkServiceConnection{
+      					{
+      						Properties: &armnetwork.PrivateLinkServiceConnectionProperties{
+      							GroupIDs: []*string{
+      								to.Ptr("groupIdFromResource")},
+      							PrivateLinkServiceID: to.Ptr("/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls"),
+      							RequestMessage:       to.Ptr("Please approve my connection."),
+      						},
+      					}},
+      				Subnet: &armnetwork.Subnet{
+      					ID: to.Ptr("/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
+       *
+       * @summary Creates or updates an private endpoint in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/PrivateEndpointCreate.json
+       */
+      async function createPrivateEndpoint() {
+        const subscriptionId = "subId";
+        const resourceGroupName = "rg1";
+        const privateEndpointName = "testPe";
+        const parameters = {
+          customNetworkInterfaceName: "testPeNic",
+          ipConfigurations: [
+            {
+              name: "pestaticconfig",
+              groupId: "file",
+              memberName: "file",
+              privateIPAddress: "192.168.0.6",
+            },
+          ],
+          location: "eastus2euap",
+          privateLinkServiceConnections: [
+            {
+              groupIds: ["groupIdFromResource"],
+              privateLinkServiceId:
+                "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
+              requestMessage: "Please approve my connection.",
+            },
+          ],
+          subnet: {
+            id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.privateEndpoints.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          privateEndpointName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPrivateEndpoint().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2990,6 +3167,116 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.PrivateEndpointInner;
+      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
+      import com.azure.resourcemanager.network.models.PrivateEndpointIpConfiguration;
+      import com.azure.resourcemanager.network.models.PrivateLinkServiceConnection;
+      import java.util.Arrays;
+
+      /** Samples for PrivateEndpoints CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/PrivateEndpointCreateForManualApproval.json
+           */
+          /**
+           * Sample code: Create private endpoint with manual approval connection.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createPrivateEndpointWithManualApprovalConnection(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getPrivateEndpoints()
+                  .createOrUpdate(
+                      "rg1",
+                      "testPe",
+                      new PrivateEndpointInner()
+                          .withLocation("eastus")
+                          .withSubnet(
+                              new SubnetInner()
+                                  .withId(
+                                      "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"))
+                          .withManualPrivateLinkServiceConnections(
+                              Arrays
+                                  .asList(
+                                      new PrivateLinkServiceConnection()
+                                          .withPrivateLinkServiceId(
+                                              "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls")
+                                          .withGroupIds(Arrays.asList("groupIdFromResource"))
+                                          .withRequestMessage("Please manually approve my connection.")))
+                          .withIpConfigurations(
+                              Arrays
+                                  .asList(
+                                      new PrivateEndpointIpConfiguration()
+                                          .withName("pestaticconfig")
+                                          .withGroupId("file")
+                                          .withMemberName("file")
+                                          .withPrivateIpAddress("192.168.0.5")))
+                          .withCustomNetworkInterfaceName("testPeNic"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
+       *
+       * @summary Creates or updates an private endpoint in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/PrivateEndpointCreateForManualApproval.json
+       */
+      async function createPrivateEndpointWithManualApprovalConnection() {
+        const subscriptionId = "subId";
+        const resourceGroupName = "rg1";
+        const privateEndpointName = "testPe";
+        const parameters = {
+          customNetworkInterfaceName: "testPeNic",
+          ipConfigurations: [
+            {
+              name: "pestaticconfig",
+              groupId: "file",
+              memberName: "file",
+              privateIPAddress: "192.168.0.5",
+            },
+          ],
+          location: "eastus",
+          manualPrivateLinkServiceConnections: [
+            {
+              groupIds: ["groupIdFromResource"],
+              privateLinkServiceId:
+                "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
+              requestMessage: "Please manually approve my connection.",
+            },
+          ],
+          subnet: {
+            id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.privateEndpoints.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          privateEndpointName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPrivateEndpointWithManualApprovalConnection().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3172,6 +3459,109 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.ApplicationSecurityGroupInner;
+      import com.azure.resourcemanager.network.fluent.models.PrivateEndpointInner;
+      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
+      import com.azure.resourcemanager.network.models.PrivateLinkServiceConnection;
+      import java.util.Arrays;
+
+      /** Samples for PrivateEndpoints CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/PrivateEndpointCreateWithASG.json
+           */
+          /**
+           * Sample code: Create private endpoint with application security groups.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createPrivateEndpointWithApplicationSecurityGroups(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getPrivateEndpoints()
+                  .createOrUpdate(
+                      "rg1",
+                      "testPe",
+                      new PrivateEndpointInner()
+                          .withLocation("eastus2euap")
+                          .withSubnet(
+                              new SubnetInner()
+                                  .withId(
+                                      "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet"))
+                          .withPrivateLinkServiceConnections(
+                              Arrays
+                                  .asList(
+                                      new PrivateLinkServiceConnection()
+                                          .withPrivateLinkServiceId(
+                                              "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls")
+                                          .withGroupIds(Arrays.asList("groupIdFromResource"))
+                                          .withRequestMessage("Please approve my connection.")))
+                          .withApplicationSecurityGroups(
+                              Arrays
+                                  .asList(
+                                      new ApplicationSecurityGroupInner()
+                                          .withId(
+                                              "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/applicationSecurityGroup/asg1"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
+       *
+       * @summary Creates or updates an private endpoint in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/PrivateEndpointCreateWithASG.json
+       */
+      async function createPrivateEndpointWithApplicationSecurityGroups() {
+        const subscriptionId = "subId";
+        const resourceGroupName = "rg1";
+        const privateEndpointName = "testPe";
+        const parameters = {
+          applicationSecurityGroups: [
+            {
+              id: "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/applicationSecurityGroup/asg1",
+            },
+          ],
+          location: "eastus2euap",
+          privateLinkServiceConnections: [
+            {
+              groupIds: ["groupIdFromResource"],
+              privateLinkServiceId:
+                "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
+              requestMessage: "Please approve my connection.",
+            },
+          ],
+          subnet: {
+            id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.privateEndpoints.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          privateEndpointName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPrivateEndpointWithApplicationSecurityGroups().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -210,6 +210,85 @@ examples:
       GET https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backups?api-version=2017-06-01&$filter=createdTime%20ge%20'2017-06-22T18:30:00Z'%20and%20backupPolicyId%20eq%20'%2Fsubscriptions%2F4385cf00-2d3a-425a-832f-f4285b1c9dce%2FresourceGroups%2FResourceGroupForSDKTest%2Fproviders%2FMicrosoft.StorSimple%2Fmanagers%2FManagerForSDKTest1%2Fdevices%2FDevice05ForSDKTest%2FbackupPolicies%2FBkUpPolicy01ForSDKTest'
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armstorsimple8000series_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storsimple8000series/armstorsimple8000series"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/BackupsListByDevice.json
+      func ExampleBackupsClient_NewListByDevicePager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorsimple8000series.NewBackupsClient("4385cf00-2d3a-425a-832f-f4285b1c9dce", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByDevicePager("Device05ForSDKTest",
+      		"ResourceGroupForSDKTest",
+      		"ManagerForSDKTest1",
+      		&armstorsimple8000series.BackupsClientListByDeviceOptions{Filter: to.Ptr("createdTime%20ge%20'2017-06-22T18:30:00Z'%20and%20backupPolicyId%20eq%20'%2Fsubscriptions%2F4385cf00-2d3a-425a-832f-f4285b1c9dce%2FresourceGroups%2FResourceGroupForSDKTest%2Fproviders%2FMicrosoft.StorSimple%2Fmanagers%2FManagerForSDKTest1%2Fdevices%2FDevice05ForSDKTest%2FbackupPolicies%2FBkUpPolicy01ForSDKTest'")})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorsimple8000series%2Farmstorsimple8000series%2Fv1.0.0/sdk/resourcemanager/storsimple8000series/armstorsimple8000series/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { StorSimple8000SeriesManagementClient } = require("@azure/arm-storsimple8000series");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieves all the backups in a device.
+       *
+       * @summary Retrieves all the backups in a device.
+       * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/BackupsListByDevice.json
+       */
+      async function backupsListByDevice() {
+        const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+        const deviceName = "Device05ForSDKTest";
+        const resourceGroupName = "ResourceGroupForSDKTest";
+        const managerName = "ManagerForSDKTest1";
+        const filter =
+          "createdTime ge '2017-06-22T18:30:00Z' and backupPolicyId eq '/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/devices/Device05ForSDKTest/backupPolicies/BkUpPolicy01ForSDKTest'";
+        const options = { filter };
+        const credential = new DefaultAzureCredential();
+        const client = new StorSimple8000SeriesManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.backups.listByDevice(
+          deviceName,
+          resourceGroupName,
+          managerName,
+          options
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      backupsListByDevice().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storsimple8000series_2.0.1/sdk/storsimple8000series/arm-storsimple8000series/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

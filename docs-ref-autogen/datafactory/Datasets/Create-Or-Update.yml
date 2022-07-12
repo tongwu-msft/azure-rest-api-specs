@@ -5277,6 +5277,191 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.datafactory.models.AzureBlobDataset;
+      import com.azure.resourcemanager.datafactory.models.LinkedServiceReference;
+      import com.azure.resourcemanager.datafactory.models.ParameterSpecification;
+      import com.azure.resourcemanager.datafactory.models.ParameterType;
+      import com.azure.resourcemanager.datafactory.models.TextFormat;
+      import java.io.IOException;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Datasets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Datasets_Create.json
+           */
+          /**
+           * Sample code: Datasets_Create.
+           *
+           * @param manager Entry point to DataFactoryManager.
+           */
+          public static void datasetsCreate(com.azure.resourcemanager.datafactory.DataFactoryManager manager)
+              throws IOException {
+              manager
+                  .datasets()
+                  .define("exampleDataset")
+                  .withExistingFactory("exampleResourceGroup", "exampleFactoryName")
+                  .withProperties(
+                      new AzureBlobDataset()
+                          .withLinkedServiceName(new LinkedServiceReference().withReferenceName("exampleLinkedService"))
+                          .withParameters(
+                              mapOf(
+                                  "MyFileName",
+                                  new ParameterSpecification().withType(ParameterType.STRING),
+                                  "MyFolderPath",
+                                  new ParameterSpecification().withType(ParameterType.STRING)))
+                          .withFolderPath(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize(
+                                      "{\"type\":\"Expression\",\"value\":\"@dataset().MyFolderPath\"}",
+                                      Object.class,
+                                      SerializerEncoding.JSON))
+                          .withFileName(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize(
+                                      "{\"type\":\"Expression\",\"value\":\"@dataset().MyFileName\"}",
+                                      Object.class,
+                                      SerializerEncoding.JSON))
+                          .withFormat(new TextFormat()))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-datafactory_1.0.0-beta.16/sdk/datafactory/azure-resourcemanager-datafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdatafactory_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datafactory/armdatafactory"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Datasets_Create.json
+      func ExampleDatasetsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdatafactory.NewDatasetsClient("12345678-1234-1234-1234-12345678abc", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"exampleResourceGroup",
+      		"exampleFactoryName",
+      		"exampleDataset",
+      		armdatafactory.DatasetResource{
+      			Properties: &armdatafactory.AzureBlobDataset{
+      				Type: to.Ptr("AzureBlob"),
+      				LinkedServiceName: &armdatafactory.LinkedServiceReference{
+      					Type:          to.Ptr(armdatafactory.LinkedServiceReferenceTypeLinkedServiceReference),
+      					ReferenceName: to.Ptr("exampleLinkedService"),
+      				},
+      				Parameters: map[string]*armdatafactory.ParameterSpecification{
+      					"MyFileName": {
+      						Type: to.Ptr(armdatafactory.ParameterTypeString),
+      					},
+      					"MyFolderPath": {
+      						Type: to.Ptr(armdatafactory.ParameterTypeString),
+      					},
+      				},
+      				TypeProperties: &armdatafactory.AzureBlobDatasetTypeProperties{
+      					Format: &armdatafactory.TextFormat{
+      						Type: to.Ptr("TextFormat"),
+      					},
+      					FileName: map[string]interface{}{
+      						"type":  "Expression",
+      						"value": "@dataset().MyFileName",
+      					},
+      					FolderPath: map[string]interface{}{
+      						"type":  "Expression",
+      						"value": "@dataset().MyFolderPath",
+      					},
+      				},
+      			},
+      		},
+      		&armdatafactory.DatasetsClientCreateOrUpdateOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdatafactory%2Farmdatafactory%2Fv1.2.0/sdk/resourcemanager/datafactory/armdatafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a dataset.
+       *
+       * @summary Creates or updates a dataset.
+       * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Datasets_Create.json
+       */
+      async function datasetsCreate() {
+        const subscriptionId = "12345678-1234-1234-1234-12345678abc";
+        const resourceGroupName = "exampleResourceGroup";
+        const factoryName = "exampleFactoryName";
+        const datasetName = "exampleDataset";
+        const dataset = {
+          properties: {
+            type: "AzureBlob",
+            format: { type: "TextFormat" },
+            fileName: { type: "Expression", value: "@dataset().MyFileName" },
+            folderPath: { type: "Expression", value: "@dataset().MyFolderPath" },
+            linkedServiceName: {
+              type: "LinkedServiceReference",
+              referenceName: "exampleLinkedService",
+            },
+            parameters: {
+              myFileName: { type: "String" },
+              myFolderPath: { type: "String" },
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DataFactoryManagementClient(credential, subscriptionId);
+        const result = await client.datasets.createOrUpdate(
+          resourceGroupName,
+          factoryName,
+          datasetName,
+          dataset
+        );
+        console.log(result);
+      }
+
+      datasetsCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datafactory_10.7.0/sdk/datafactory/arm-datafactory/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -5411,6 +5596,130 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.datafactory.models.AzureBlobDataset;
+      import com.azure.resourcemanager.datafactory.models.DatasetResource;
+      import com.azure.resourcemanager.datafactory.models.LinkedServiceReference;
+      import com.azure.resourcemanager.datafactory.models.ParameterSpecification;
+      import com.azure.resourcemanager.datafactory.models.ParameterType;
+      import com.azure.resourcemanager.datafactory.models.TextFormat;
+      import java.io.IOException;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Datasets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Datasets_Update.json
+           */
+          /**
+           * Sample code: Datasets_Update.
+           *
+           * @param manager Entry point to DataFactoryManager.
+           */
+          public static void datasetsUpdate(com.azure.resourcemanager.datafactory.DataFactoryManager manager)
+              throws IOException {
+              DatasetResource resource =
+                  manager
+                      .datasets()
+                      .getWithResponse("exampleResourceGroup", "exampleFactoryName", "exampleDataset", null, Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withProperties(
+                      new AzureBlobDataset()
+                          .withDescription("Example description")
+                          .withLinkedServiceName(new LinkedServiceReference().withReferenceName("exampleLinkedService"))
+                          .withParameters(
+                              mapOf(
+                                  "MyFileName",
+                                  new ParameterSpecification().withType(ParameterType.STRING),
+                                  "MyFolderPath",
+                                  new ParameterSpecification().withType(ParameterType.STRING)))
+                          .withFolderPath(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize(
+                                      "{\"type\":\"Expression\",\"value\":\"@dataset().MyFolderPath\"}",
+                                      Object.class,
+                                      SerializerEncoding.JSON))
+                          .withFileName(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize(
+                                      "{\"type\":\"Expression\",\"value\":\"@dataset().MyFileName\"}",
+                                      Object.class,
+                                      SerializerEncoding.JSON))
+                          .withFormat(new TextFormat()))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-datafactory_1.0.0-beta.16/sdk/datafactory/azure-resourcemanager-datafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a dataset.
+       *
+       * @summary Creates or updates a dataset.
+       * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Datasets_Update.json
+       */
+      async function datasetsUpdate() {
+        const subscriptionId = "12345678-1234-1234-1234-12345678abc";
+        const resourceGroupName = "exampleResourceGroup";
+        const factoryName = "exampleFactoryName";
+        const datasetName = "exampleDataset";
+        const dataset = {
+          properties: {
+            type: "AzureBlob",
+            format: { type: "TextFormat" },
+            description: "Example description",
+            fileName: { type: "Expression", value: "@dataset().MyFileName" },
+            folderPath: { type: "Expression", value: "@dataset().MyFolderPath" },
+            linkedServiceName: {
+              type: "LinkedServiceReference",
+              referenceName: "exampleLinkedService",
+            },
+            parameters: {
+              myFileName: { type: "String" },
+              myFolderPath: { type: "String" },
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DataFactoryManagementClient(credential, subscriptionId);
+        const result = await client.datasets.createOrUpdate(
+          resourceGroupName,
+          factoryName,
+          datasetName,
+          dataset
+        );
+        console.log(result);
+      }
+
+      datasetsUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datafactory_10.7.0/sdk/datafactory/arm-datafactory/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:

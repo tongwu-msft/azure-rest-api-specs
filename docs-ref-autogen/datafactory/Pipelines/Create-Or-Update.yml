@@ -4075,6 +4075,316 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.datafactory.models.BlobSink;
+      import com.azure.resourcemanager.datafactory.models.BlobSource;
+      import com.azure.resourcemanager.datafactory.models.CopyActivity;
+      import com.azure.resourcemanager.datafactory.models.DatasetReference;
+      import com.azure.resourcemanager.datafactory.models.Expression;
+      import com.azure.resourcemanager.datafactory.models.ForEachActivity;
+      import com.azure.resourcemanager.datafactory.models.ParameterSpecification;
+      import com.azure.resourcemanager.datafactory.models.ParameterType;
+      import com.azure.resourcemanager.datafactory.models.PipelineElapsedTimeMetricPolicy;
+      import com.azure.resourcemanager.datafactory.models.PipelinePolicy;
+      import com.azure.resourcemanager.datafactory.models.VariableSpecification;
+      import com.azure.resourcemanager.datafactory.models.VariableType;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Pipelines CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Pipelines_Create.json
+           */
+          /**
+           * Sample code: Pipelines_Create.
+           *
+           * @param manager Entry point to DataFactoryManager.
+           */
+          public static void pipelinesCreate(com.azure.resourcemanager.datafactory.DataFactoryManager manager)
+              throws IOException {
+              manager
+                  .pipelines()
+                  .define("examplePipeline")
+                  .withExistingFactory("exampleResourceGroup", "exampleFactoryName")
+                  .withActivities(
+                      Arrays
+                          .asList(
+                              new ForEachActivity()
+                                  .withName("ExampleForeachActivity")
+                                  .withIsSequential(true)
+                                  .withItems(new Expression().withValue("@pipeline().parameters.OutputBlobNameList"))
+                                  .withActivities(
+                                      Arrays
+                                          .asList(
+                                              new CopyActivity()
+                                                  .withName("ExampleCopyActivity")
+                                                  .withInputs(
+                                                      Arrays
+                                                          .asList(
+                                                              new DatasetReference()
+                                                                  .withReferenceName("exampleDataset")
+                                                                  .withParameters(
+                                                                      mapOf(
+                                                                          "MyFileName",
+                                                                          "examplecontainer.csv",
+                                                                          "MyFolderPath",
+                                                                          "examplecontainer"))))
+                                                  .withOutputs(
+                                                      Arrays
+                                                          .asList(
+                                                              new DatasetReference()
+                                                                  .withReferenceName("exampleDataset")
+                                                                  .withParameters(
+                                                                      mapOf(
+                                                                          "MyFileName",
+                                                                          SerializerFactory
+                                                                              .createDefaultManagementSerializerAdapter()
+                                                                              .deserialize(
+                                                                                  "{\"type\":\"Expression\",\"value\":\"@item()\"}",
+                                                                                  Object.class,
+                                                                                  SerializerEncoding.JSON),
+                                                                          "MyFolderPath",
+                                                                          "examplecontainer"))))
+                                                  .withSource(new BlobSource())
+                                                  .withSink(new BlobSink())
+                                                  .withDataIntegrationUnits(32)))))
+                  .withParameters(
+                      mapOf(
+                          "JobId",
+                          new ParameterSpecification().withType(ParameterType.STRING),
+                          "OutputBlobNameList",
+                          new ParameterSpecification().withType(ParameterType.ARRAY)))
+                  .withVariables(mapOf("TestVariableArray", new VariableSpecification().withType(VariableType.ARRAY)))
+                  .withRunDimensions(
+                      mapOf(
+                          "JobId",
+                          SerializerFactory
+                              .createDefaultManagementSerializerAdapter()
+                              .deserialize(
+                                  "{\"type\":\"Expression\",\"value\":\"@pipeline().parameters.JobId\"}",
+                                  Object.class,
+                                  SerializerEncoding.JSON)))
+                  .withPolicy(
+                      new PipelinePolicy()
+                          .withElapsedTimeMetric(new PipelineElapsedTimeMetricPolicy().withDuration("0.00:10:00")))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-datafactory_1.0.0-beta.16/sdk/datafactory/azure-resourcemanager-datafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdatafactory_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datafactory/armdatafactory"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Pipelines_Create.json
+      func ExamplePipelinesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdatafactory.NewPipelinesClient("12345678-1234-1234-1234-12345678abc", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"exampleResourceGroup",
+      		"exampleFactoryName",
+      		"examplePipeline",
+      		armdatafactory.PipelineResource{
+      			Properties: &armdatafactory.Pipeline{
+      				Activities: []armdatafactory.ActivityClassification{
+      					&armdatafactory.ForEachActivity{
+      						Name: to.Ptr("ExampleForeachActivity"),
+      						Type: to.Ptr("ForEach"),
+      						TypeProperties: &armdatafactory.ForEachActivityTypeProperties{
+      							Activities: []armdatafactory.ActivityClassification{
+      								&armdatafactory.CopyActivity{
+      									Name: to.Ptr("ExampleCopyActivity"),
+      									Type: to.Ptr("Copy"),
+      									Inputs: []*armdatafactory.DatasetReference{
+      										{
+      											Type: to.Ptr(armdatafactory.DatasetReferenceTypeDatasetReference),
+      											Parameters: map[string]interface{}{
+      												"MyFileName":   "examplecontainer.csv",
+      												"MyFolderPath": "examplecontainer",
+      											},
+      											ReferenceName: to.Ptr("exampleDataset"),
+      										}},
+      									Outputs: []*armdatafactory.DatasetReference{
+      										{
+      											Type: to.Ptr(armdatafactory.DatasetReferenceTypeDatasetReference),
+      											Parameters: map[string]interface{}{
+      												"MyFileName": map[string]interface{}{
+      													"type":  "Expression",
+      													"value": "@item()",
+      												},
+      												"MyFolderPath": "examplecontainer",
+      											},
+      											ReferenceName: to.Ptr("exampleDataset"),
+      										}},
+      									TypeProperties: &armdatafactory.CopyActivityTypeProperties{
+      										DataIntegrationUnits: float64(32),
+      										Sink: &armdatafactory.BlobSink{
+      											Type: to.Ptr("BlobSink"),
+      										},
+      										Source: &armdatafactory.BlobSource{
+      											Type: to.Ptr("BlobSource"),
+      										},
+      									},
+      								}},
+      							IsSequential: to.Ptr(true),
+      							Items: &armdatafactory.Expression{
+      								Type:  to.Ptr(armdatafactory.ExpressionTypeExpression),
+      								Value: to.Ptr("@pipeline().parameters.OutputBlobNameList"),
+      							},
+      						},
+      					}},
+      				Parameters: map[string]*armdatafactory.ParameterSpecification{
+      					"JobId": {
+      						Type: to.Ptr(armdatafactory.ParameterTypeString),
+      					},
+      					"OutputBlobNameList": {
+      						Type: to.Ptr(armdatafactory.ParameterTypeArray),
+      					},
+      				},
+      				Policy: &armdatafactory.PipelinePolicy{
+      					ElapsedTimeMetric: &armdatafactory.PipelineElapsedTimeMetricPolicy{
+      						Duration: "0.00:10:00",
+      					},
+      				},
+      				RunDimensions: map[string]interface{}{
+      					"JobId": map[string]interface{}{
+      						"type":  "Expression",
+      						"value": "@pipeline().parameters.JobId",
+      					},
+      				},
+      				Variables: map[string]*armdatafactory.VariableSpecification{
+      					"TestVariableArray": {
+      						Type: to.Ptr(armdatafactory.VariableTypeArray),
+      					},
+      				},
+      			},
+      		},
+      		&armdatafactory.PipelinesClientCreateOrUpdateOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdatafactory%2Farmdatafactory%2Fv1.2.0/sdk/resourcemanager/datafactory/armdatafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a pipeline.
+       *
+       * @summary Creates or updates a pipeline.
+       * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Pipelines_Create.json
+       */
+      async function pipelinesCreate() {
+        const subscriptionId = "12345678-1234-1234-1234-12345678abc";
+        const resourceGroupName = "exampleResourceGroup";
+        const factoryName = "exampleFactoryName";
+        const pipelineName = "examplePipeline";
+        const pipeline = {
+          activities: [
+            {
+              name: "ExampleForeachActivity",
+              type: "ForEach",
+              activities: [
+                {
+                  name: "ExampleCopyActivity",
+                  type: "Copy",
+                  dataIntegrationUnits: 32,
+                  inputs: [
+                    {
+                      type: "DatasetReference",
+                      parameters: {
+                        myFileName: "examplecontainer.csv",
+                        myFolderPath: "examplecontainer",
+                      },
+                      referenceName: "exampleDataset",
+                    },
+                  ],
+                  outputs: [
+                    {
+                      type: "DatasetReference",
+                      parameters: {
+                        myFileName: { type: "Expression", value: "@item()" },
+                        myFolderPath: "examplecontainer",
+                      },
+                      referenceName: "exampleDataset",
+                    },
+                  ],
+                  sink: { type: "BlobSink" },
+                  source: { type: "BlobSource" },
+                },
+              ],
+              isSequential: true,
+              items: {
+                type: "Expression",
+                value: "@pipeline().parameters.OutputBlobNameList",
+              },
+            },
+          ],
+          parameters: {
+            jobId: { type: "String" },
+            outputBlobNameList: { type: "Array" },
+          },
+          policy: { elapsedTimeMetric: { duration: "0.00:10:00" } },
+          runDimensions: {
+            jobId: { type: "Expression", value: "@pipeline().parameters.JobId" },
+          },
+          variables: { testVariableArray: { type: "Array" } },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DataFactoryManagementClient(credential, subscriptionId);
+        const result = await client.pipelines.createOrUpdate(
+          resourceGroupName,
+          factoryName,
+          pipelineName,
+          pipeline
+        );
+        console.log(result);
+      }
+
+      pipelinesCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datafactory_10.7.0/sdk/datafactory/arm-datafactory/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -4311,6 +4621,186 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.datafactory.models.BlobSink;
+      import com.azure.resourcemanager.datafactory.models.BlobSource;
+      import com.azure.resourcemanager.datafactory.models.CopyActivity;
+      import com.azure.resourcemanager.datafactory.models.DatasetReference;
+      import com.azure.resourcemanager.datafactory.models.Expression;
+      import com.azure.resourcemanager.datafactory.models.ForEachActivity;
+      import com.azure.resourcemanager.datafactory.models.ParameterSpecification;
+      import com.azure.resourcemanager.datafactory.models.ParameterType;
+      import com.azure.resourcemanager.datafactory.models.PipelineElapsedTimeMetricPolicy;
+      import com.azure.resourcemanager.datafactory.models.PipelinePolicy;
+      import com.azure.resourcemanager.datafactory.models.PipelineResource;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Pipelines CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Pipelines_Update.json
+           */
+          /**
+           * Sample code: Pipelines_Update.
+           *
+           * @param manager Entry point to DataFactoryManager.
+           */
+          public static void pipelinesUpdate(com.azure.resourcemanager.datafactory.DataFactoryManager manager)
+              throws IOException {
+              PipelineResource resource =
+                  manager
+                      .pipelines()
+                      .getWithResponse("exampleResourceGroup", "exampleFactoryName", "examplePipeline", null, Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withDescription("Example description")
+                  .withActivities(
+                      Arrays
+                          .asList(
+                              new ForEachActivity()
+                                  .withName("ExampleForeachActivity")
+                                  .withIsSequential(true)
+                                  .withItems(new Expression().withValue("@pipeline().parameters.OutputBlobNameList"))
+                                  .withActivities(
+                                      Arrays
+                                          .asList(
+                                              new CopyActivity()
+                                                  .withName("ExampleCopyActivity")
+                                                  .withInputs(
+                                                      Arrays
+                                                          .asList(
+                                                              new DatasetReference()
+                                                                  .withReferenceName("exampleDataset")
+                                                                  .withParameters(
+                                                                      mapOf(
+                                                                          "MyFileName",
+                                                                          "examplecontainer.csv",
+                                                                          "MyFolderPath",
+                                                                          "examplecontainer"))))
+                                                  .withOutputs(
+                                                      Arrays
+                                                          .asList(
+                                                              new DatasetReference()
+                                                                  .withReferenceName("exampleDataset")
+                                                                  .withParameters(
+                                                                      mapOf(
+                                                                          "MyFileName",
+                                                                          SerializerFactory
+                                                                              .createDefaultManagementSerializerAdapter()
+                                                                              .deserialize(
+                                                                                  "{\"type\":\"Expression\",\"value\":\"@item()\"}",
+                                                                                  Object.class,
+                                                                                  SerializerEncoding.JSON),
+                                                                          "MyFolderPath",
+                                                                          "examplecontainer"))))
+                                                  .withSource(new BlobSource())
+                                                  .withSink(new BlobSink())
+                                                  .withDataIntegrationUnits(32)))))
+                  .withParameters(mapOf("OutputBlobNameList", new ParameterSpecification().withType(ParameterType.ARRAY)))
+                  .withPolicy(
+                      new PipelinePolicy()
+                          .withElapsedTimeMetric(new PipelineElapsedTimeMetricPolicy().withDuration("0.00:10:00")))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-datafactory_1.0.0-beta.16/sdk/datafactory/azure-resourcemanager-datafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a pipeline.
+       *
+       * @summary Creates or updates a pipeline.
+       * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Pipelines_Update.json
+       */
+      async function pipelinesUpdate() {
+        const subscriptionId = "12345678-1234-1234-1234-12345678abc";
+        const resourceGroupName = "exampleResourceGroup";
+        const factoryName = "exampleFactoryName";
+        const pipelineName = "examplePipeline";
+        const pipeline = {
+          description: "Example description",
+          activities: [
+            {
+              name: "ExampleForeachActivity",
+              type: "ForEach",
+              activities: [
+                {
+                  name: "ExampleCopyActivity",
+                  type: "Copy",
+                  dataIntegrationUnits: 32,
+                  inputs: [
+                    {
+                      type: "DatasetReference",
+                      parameters: {
+                        myFileName: "examplecontainer.csv",
+                        myFolderPath: "examplecontainer",
+                      },
+                      referenceName: "exampleDataset",
+                    },
+                  ],
+                  outputs: [
+                    {
+                      type: "DatasetReference",
+                      parameters: {
+                        myFileName: { type: "Expression", value: "@item()" },
+                        myFolderPath: "examplecontainer",
+                      },
+                      referenceName: "exampleDataset",
+                    },
+                  ],
+                  sink: { type: "BlobSink" },
+                  source: { type: "BlobSource" },
+                },
+              ],
+              isSequential: true,
+              items: {
+                type: "Expression",
+                value: "@pipeline().parameters.OutputBlobNameList",
+              },
+            },
+          ],
+          parameters: { outputBlobNameList: { type: "Array" } },
+          policy: { elapsedTimeMetric: { duration: "0.00:10:00" } },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DataFactoryManagementClient(credential, subscriptionId);
+        const result = await client.pipelines.createOrUpdate(
+          resourceGroupName,
+          factoryName,
+          pipelineName,
+          pipeline
+        );
+        console.log(result);
+      }
+
+      pipelinesUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datafactory_10.7.0/sdk/datafactory/arm-datafactory/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:

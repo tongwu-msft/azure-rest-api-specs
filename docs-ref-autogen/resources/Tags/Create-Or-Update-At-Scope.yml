@@ -162,6 +162,78 @@ examples:
 
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armresources_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/PutTagsResource.json
+      func ExampleTagsClient_CreateOrUpdateAtScope() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armresources.NewTagsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdateAtScope(ctx,
+      		"subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/my-resource-group/providers/myPRNameSpace/VM/myVm",
+      		armresources.TagsResource{
+      			Properties: &armresources.Tags{
+      				Tags: map[string]*string{
+      					"tagKey1": to.Ptr("tag-value-1"),
+      					"tagKey2": to.Ptr("tag-value-2"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmresources%2Fv1.0.0/sdk/resourcemanager/resources/armresources/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { ResourceManagementClient } = require("@azure/arm-resources");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to This operation allows adding or replacing the entire set of tags on the specified resource or subscription. The specified entity can have a maximum of 50 tags.
+       *
+       * @summary This operation allows adding or replacing the entire set of tags on the specified resource or subscription. The specified entity can have a maximum of 50 tags.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/PutTagsResource.json
+       */
+      async function updateTagsOnAResource() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const scope =
+          "subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/my-resource-group/providers/myPRNameSpace/VM/myVm";
+        const parameters = {
+          properties: { tags: { tagKey1: "tag-value-1", tagKey2: "tag-value-2" } },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ResourceManagementClient(credential, subscriptionId);
+        const result = await client.tagsOperations.createOrUpdateAtScope(scope, parameters);
+        console.log(result);
+      }
+
+      updateTagsOnAResource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-resources_5.0.1/sdk/resources/arm-resources/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -201,6 +273,33 @@ examples:
 
       ```
 
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { ResourceManagementClient } = require("@azure/arm-resources");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to This operation allows adding or replacing the entire set of tags on the specified resource or subscription. The specified entity can have a maximum of 50 tags.
+       *
+       * @summary This operation allows adding or replacing the entire set of tags on the specified resource or subscription. The specified entity can have a maximum of 50 tags.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/PutTagsSubscription.json
+       */
+      async function updateTagsOnASubscription() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
+        const parameters = {
+          properties: { tags: { tagKey1: "tag-value-1", tagKey2: "tag-value-2" } },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ResourceManagementClient(credential, subscriptionId);
+        const result = await client.tagsOperations.createOrUpdateAtScope(scope, parameters);
+        console.log(result);
+      }
+
+      updateTagsOnASubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-resources_5.0.1/sdk/resources/arm-resources/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -701,6 +701,226 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.kubernetesconfiguration.fluent.models.FluxConfigurationInner;
+      import com.azure.resourcemanager.kubernetesconfiguration.models.GitRepositoryDefinition;
+      import com.azure.resourcemanager.kubernetesconfiguration.models.KustomizationDefinition;
+      import com.azure.resourcemanager.kubernetesconfiguration.models.RepositoryRefDefinition;
+      import com.azure.resourcemanager.kubernetesconfiguration.models.ScopeType;
+      import com.azure.resourcemanager.kubernetesconfiguration.models.SourceKindType;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for FluxConfigurations CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-03-01/examples/CreateFluxConfiguration.json
+           */
+          /**
+           * Sample code: Create Flux Configuration.
+           *
+           * @param manager Entry point to SourceControlConfigurationManager.
+           */
+          public static void createFluxConfiguration(
+              com.azure.resourcemanager.kubernetesconfiguration.SourceControlConfigurationManager manager) {
+              manager
+                  .fluxConfigurations()
+                  .createOrUpdate(
+                      "rg1",
+                      "Microsoft.Kubernetes",
+                      "connectedClusters",
+                      "clusterName1",
+                      "srs-fluxconfig",
+                      new FluxConfigurationInner()
+                          .withScope(ScopeType.CLUSTER)
+                          .withNamespace("srs-namespace")
+                          .withSourceKind(SourceKindType.GIT_REPOSITORY)
+                          .withSuspend(false)
+                          .withGitRepository(
+                              new GitRepositoryDefinition()
+                                  .withUrl("https://github.com/Azure/arc-k8s-demo")
+                                  .withTimeoutInSeconds(600L)
+                                  .withSyncIntervalInSeconds(600L)
+                                  .withRepositoryRef(new RepositoryRefDefinition().withBranch("master"))
+                                  .withHttpsCACert("ZXhhbXBsZWNlcnRpZmljYXRl"))
+                          .withKustomizations(
+                              mapOf(
+                                  "srs-kustomization1",
+                                  new KustomizationDefinition()
+                                      .withPath("./test/path")
+                                      .withDependsOn(Arrays.asList())
+                                      .withTimeoutInSeconds(600L)
+                                      .withSyncIntervalInSeconds(600L),
+                                  "srs-kustomization2",
+                                  new KustomizationDefinition()
+                                      .withPath("./other/test/path")
+                                      .withDependsOn(Arrays.asList("srs-kustomization1"))
+                                      .withTimeoutInSeconds(600L)
+                                      .withSyncIntervalInSeconds(600L)
+                                      .withRetryIntervalInSeconds(600L)
+                                      .withPrune(false))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-kubernetesconfiguration_1.0.0-beta.3/sdk/kubernetesconfiguration/azure-resourcemanager-kubernetesconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armkubernetesconfiguration_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kubernetesconfiguration/armkubernetesconfiguration"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-03-01/examples/CreateFluxConfiguration.json
+      func ExampleFluxConfigurationsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armkubernetesconfiguration.NewFluxConfigurationsClient("subId1", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"rg1",
+      		"Microsoft.Kubernetes",
+      		"connectedClusters",
+      		"clusterName1",
+      		"srs-fluxconfig",
+      		armkubernetesconfiguration.FluxConfiguration{
+      			Properties: &armkubernetesconfiguration.FluxConfigurationProperties{
+      				GitRepository: &armkubernetesconfiguration.GitRepositoryDefinition{
+      					HTTPSCACert: to.Ptr("ZXhhbXBsZWNlcnRpZmljYXRl"),
+      					RepositoryRef: &armkubernetesconfiguration.RepositoryRefDefinition{
+      						Branch: to.Ptr("master"),
+      					},
+      					SyncIntervalInSeconds: to.Ptr[int64](600),
+      					TimeoutInSeconds:      to.Ptr[int64](600),
+      					URL:                   to.Ptr("https://github.com/Azure/arc-k8s-demo"),
+      				},
+      				Kustomizations: map[string]*armkubernetesconfiguration.KustomizationDefinition{
+      					"srs-kustomization1": {
+      						Path:                  to.Ptr("./test/path"),
+      						DependsOn:             []*string{},
+      						SyncIntervalInSeconds: to.Ptr[int64](600),
+      						TimeoutInSeconds:      to.Ptr[int64](600),
+      					},
+      					"srs-kustomization2": {
+      						Path: to.Ptr("./other/test/path"),
+      						DependsOn: []*string{
+      							to.Ptr("srs-kustomization1")},
+      						Prune:                  to.Ptr(false),
+      						RetryIntervalInSeconds: to.Ptr[int64](600),
+      						SyncIntervalInSeconds:  to.Ptr[int64](600),
+      						TimeoutInSeconds:       to.Ptr[int64](600),
+      					},
+      				},
+      				Namespace:  to.Ptr("srs-namespace"),
+      				Scope:      to.Ptr(armkubernetesconfiguration.ScopeTypeCluster),
+      				SourceKind: to.Ptr(armkubernetesconfiguration.SourceKindTypeGitRepository),
+      				Suspend:    to.Ptr(false),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fkubernetesconfiguration%2Farmkubernetesconfiguration%2Fv1.0.0/sdk/resourcemanager/kubernetesconfiguration/armkubernetesconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { SourceControlConfigurationClient } = require("@azure/arm-kubernetesconfiguration");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create a new Kubernetes Flux Configuration.
+       *
+       * @summary Create a new Kubernetes Flux Configuration.
+       * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-03-01/examples/CreateFluxConfiguration.json
+       */
+      async function createFluxConfiguration() {
+        const subscriptionId = "subId1";
+        const resourceGroupName = "rg1";
+        const clusterRp = "Microsoft.Kubernetes";
+        const clusterResourceName = "connectedClusters";
+        const clusterName = "clusterName1";
+        const fluxConfigurationName = "srs-fluxconfig";
+        const fluxConfiguration = {
+          gitRepository: {
+            httpsCACert: "ZXhhbXBsZWNlcnRpZmljYXRl",
+            repositoryRef: { branch: "master" },
+            syncIntervalInSeconds: 600,
+            timeoutInSeconds: 600,
+            url: "https://github.com/Azure/arc-k8s-demo",
+          },
+          kustomizations: {
+            srsKustomization1: {
+              path: "./test/path",
+              dependsOn: [],
+              syncIntervalInSeconds: 600,
+              timeoutInSeconds: 600,
+            },
+            srsKustomization2: {
+              path: "./other/test/path",
+              dependsOn: ["srs-kustomization1"],
+              prune: false,
+              retryIntervalInSeconds: 600,
+              syncIntervalInSeconds: 600,
+              timeoutInSeconds: 600,
+            },
+          },
+          namespace: "srs-namespace",
+          scope: "cluster",
+          sourceKind: "GitRepository",
+          suspend: false,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SourceControlConfigurationClient(credential, subscriptionId);
+        const result = await client.fluxConfigurations.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          clusterRp,
+          clusterResourceName,
+          clusterName,
+          fluxConfigurationName,
+          fluxConfiguration
+        );
+        console.log(result);
+      }
+
+      createFluxConfiguration().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-kubernetesconfiguration_5.0.0/sdk/kubernetesconfiguration/arm-kubernetesconfiguration/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -1047,6 +1267,147 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.kubernetesconfiguration.fluent.models.FluxConfigurationInner;
+      import com.azure.resourcemanager.kubernetesconfiguration.models.BucketDefinition;
+      import com.azure.resourcemanager.kubernetesconfiguration.models.KustomizationDefinition;
+      import com.azure.resourcemanager.kubernetesconfiguration.models.ScopeType;
+      import com.azure.resourcemanager.kubernetesconfiguration.models.SourceKindType;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for FluxConfigurations CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-03-01/examples/CreateFluxConfigurationWithBucket.json
+           */
+          /**
+           * Sample code: Create Flux Configuration with Bucket Source Kind.
+           *
+           * @param manager Entry point to SourceControlConfigurationManager.
+           */
+          public static void createFluxConfigurationWithBucketSourceKind(
+              com.azure.resourcemanager.kubernetesconfiguration.SourceControlConfigurationManager manager) {
+              manager
+                  .fluxConfigurations()
+                  .createOrUpdate(
+                      "rg1",
+                      "Microsoft.Kubernetes",
+                      "connectedClusters",
+                      "clusterName1",
+                      "srs-fluxconfig",
+                      new FluxConfigurationInner()
+                          .withScope(ScopeType.CLUSTER)
+                          .withNamespace("srs-namespace")
+                          .withSourceKind(SourceKindType.BUCKET)
+                          .withSuspend(false)
+                          .withBucket(
+                              new BucketDefinition()
+                                  .withUrl("https://fluxminiotest.az.minio.io")
+                                  .withBucketName("flux")
+                                  .withTimeoutInSeconds(1000L)
+                                  .withSyncIntervalInSeconds(1000L)
+                                  .withAccessKey("fluxminiotest"))
+                          .withKustomizations(
+                              mapOf(
+                                  "srs-kustomization1",
+                                  new KustomizationDefinition()
+                                      .withPath("./test/path")
+                                      .withDependsOn(Arrays.asList())
+                                      .withTimeoutInSeconds(600L)
+                                      .withSyncIntervalInSeconds(600L),
+                                  "srs-kustomization2",
+                                  new KustomizationDefinition()
+                                      .withPath("./other/test/path")
+                                      .withDependsOn(Arrays.asList("srs-kustomization1"))
+                                      .withTimeoutInSeconds(600L)
+                                      .withSyncIntervalInSeconds(600L)
+                                      .withRetryIntervalInSeconds(600L)
+                                      .withPrune(false))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-kubernetesconfiguration_1.0.0-beta.3/sdk/kubernetesconfiguration/azure-resourcemanager-kubernetesconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { SourceControlConfigurationClient } = require("@azure/arm-kubernetesconfiguration");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create a new Kubernetes Flux Configuration.
+       *
+       * @summary Create a new Kubernetes Flux Configuration.
+       * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-03-01/examples/CreateFluxConfigurationWithBucket.json
+       */
+      async function createFluxConfigurationWithBucketSourceKind() {
+        const subscriptionId = "subId1";
+        const resourceGroupName = "rg1";
+        const clusterRp = "Microsoft.Kubernetes";
+        const clusterResourceName = "connectedClusters";
+        const clusterName = "clusterName1";
+        const fluxConfigurationName = "srs-fluxconfig";
+        const fluxConfiguration = {
+          bucket: {
+            accessKey: "fluxminiotest",
+            bucketName: "flux",
+            syncIntervalInSeconds: 1000,
+            timeoutInSeconds: 1000,
+            url: "https://fluxminiotest.az.minio.io",
+          },
+          kustomizations: {
+            srsKustomization1: {
+              path: "./test/path",
+              dependsOn: [],
+              syncIntervalInSeconds: 600,
+              timeoutInSeconds: 600,
+            },
+            srsKustomization2: {
+              path: "./other/test/path",
+              dependsOn: ["srs-kustomization1"],
+              prune: false,
+              retryIntervalInSeconds: 600,
+              syncIntervalInSeconds: 600,
+              timeoutInSeconds: 600,
+            },
+          },
+          namespace: "srs-namespace",
+          scope: "cluster",
+          sourceKind: "Bucket",
+          suspend: false,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SourceControlConfigurationClient(credential, subscriptionId);
+        const result = await client.fluxConfigurations.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          clusterRp,
+          clusterResourceName,
+          clusterName,
+          fluxConfigurationName,
+          fluxConfiguration
+        );
+        console.log(result);
+      }
+
+      createFluxConfigurationWithBucketSourceKind().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-kubernetesconfiguration_5.0.0/sdk/kubernetesconfiguration/arm-kubernetesconfiguration/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:

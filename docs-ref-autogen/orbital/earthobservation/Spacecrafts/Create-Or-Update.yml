@@ -391,6 +391,149 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.orbital.models.Direction;
+      import com.azure.resourcemanager.orbital.models.Polarization;
+      import com.azure.resourcemanager.orbital.models.SpacecraftLink;
+      import java.util.Arrays;
+
+      /** Samples for Spacecrafts CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/SpacecraftCreate.json
+           */
+          /**
+           * Sample code: Create a spacecraft.
+           *
+           * @param manager Entry point to OrbitalManager.
+           */
+          public static void createASpacecraft(com.azure.resourcemanager.orbital.OrbitalManager manager) {
+              manager
+                  .spacecrafts()
+                  .define("CONTOSO_SAT")
+                  .withRegion("eastus2")
+                  .withExistingResourceGroup("contoso-Rgp")
+                  .withNoradId("36411")
+                  .withTitleLine("CONTOSO_SAT")
+                  .withTleLine1("1 27424U 02022A   22167.05119303  .00000638  00000+0  15103-3 0  9994")
+                  .withTleLine2("2 27424  98.2477 108.9546 0000928  92.9194 327.0802 14.57300770 69982")
+                  .withLinks(
+                      Arrays
+                          .asList(
+                              new SpacecraftLink()
+                                  .withName("uplink_lhcp1")
+                                  .withCenterFrequencyMHz(2250f)
+                                  .withBandwidthMHz(2f)
+                                  .withDirection(Direction.UPLINK)
+                                  .withPolarization(Polarization.LHCP),
+                              new SpacecraftLink()
+                                  .withName("downlink_rhcp1")
+                                  .withCenterFrequencyMHz(8160f)
+                                  .withBandwidthMHz(15f)
+                                  .withDirection(Direction.DOWNLINK)
+                                  .withPolarization(Polarization.RHCP)))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-orbital_1.0.0-beta.1/sdk/orbital/azure-resourcemanager-orbital/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armorbital_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/orbital/armorbital"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/SpacecraftCreate.json
+      func ExampleSpacecraftsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armorbital.NewSpacecraftsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"rg1",
+      		"AQUA",
+      		armorbital.Spacecraft{
+      			Location: to.Ptr("westus"),
+      			Properties: &armorbital.SpacecraftsProperties{
+      				Links: []*armorbital.SpacecraftLink{
+      					{
+      						Name:               to.Ptr("S_RHCP_UL"),
+      						BandwidthMHz:       to.Ptr[float32](0.036),
+      						CenterFrequencyMHz: to.Ptr[float32](2106.4063),
+      						Direction:          to.Ptr(armorbital.DirectionUplink),
+      						Polarization:       to.Ptr(armorbital.PolarizationRHCP),
+      					},
+      					{
+      						Name:               to.Ptr("X_RHCP_DL"),
+      						BandwidthMHz:       to.Ptr[float32](150),
+      						CenterFrequencyMHz: to.Ptr[float32](8125),
+      						Direction:          to.Ptr(armorbital.DirectionDownlink),
+      						Polarization:       to.Ptr(armorbital.PolarizationRHCP),
+      					}},
+      				NoradID:   to.Ptr("27424"),
+      				TitleLine: to.Ptr("(AQUA)"),
+      				TleLine1:  to.Ptr("1 27424U 02022A   20195.59202355  .00000039  00000-0  18634-4 0  9991"),
+      				TleLine2:  to.Ptr("2 27424  98.2098 135.8486 0000176  28.4050 144.5909 14.57108832967671"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Forbital%2Farmorbital%2Fv1.0.0/sdk/resourcemanager/orbital/armorbital/README.md) on how to add the SDK to your project and authenticate.
+      # [JavsScirpt](#tab/JavsScirpt)
+      ``` js
+      const { AzureOrbital } = require("@azure/arm-orbital");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a spacecraft resource
+       *
+       * @summary Creates or updates a spacecraft resource
+       * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/SpacecraftCreate.json
+       */
+      async function createASpacecraft() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const spacecraftName = "AQUA";
+        const location = "westus";
+        const credential = new DefaultAzureCredential();
+        const client = new AzureOrbital(credential, subscriptionId);
+        const result = await client.spacecrafts.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          spacecraftName,
+          location
+        );
+        console.log(result);
+      }
+
+      createASpacecraft().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-orbital_1.0.0/sdk/orbital/arm-orbital/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
