@@ -1,0 +1,134 @@
+### YamlMime:RESTOperation
+uid: confidentialledger.createorupdateuser.createorupdateuser
+name: Create Or Update User
+service: Azure confidential ledger
+groupName: Create Or Update User
+apiVersion: 2022-05-13
+summary: "Adds a user or updates a user's fields.  \nA JSON merge patch is applied for existing users"
+consumes:
+- application/merge-patch+json
+produces:
+- application/json
+paths:
+- content: PATCH {ledgerUri}/app/users/{userId}?api-version=2022-05-13
+uriParameters:
+- name: ledgerUri
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Confidential Ledger URL, for example https://contoso.confidentialledger.azure.com
+  types:
+  - uid: string
+  format: url
+- name: userId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The user id, either an AAD object ID or certificate fingerprint.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: User created or updated successfully.
+  types:
+  - uid: LedgerUser
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ConfidentialLedgerError
+requestBody:
+- name: default
+  parameters:
+  - name: assignedRole
+    in: body
+    isRequired: true
+    description: Represents an assignable role.
+    types:
+    - uid: ConfidentialLedgerUserRoleName
+requestHeader: []
+definitions:
+- name: LedgerUser
+  description: Details about a Confidential Ledger user.
+  kind: object
+  properties:
+  - name: assignedRole
+    description: Represents an assignable role.
+    types:
+    - uid: ConfidentialLedgerUserRoleName
+  - name: userId
+    isReadyOnly: true
+    description: Identifier for the user. This must either be an AAD object id or a certificate fingerprint.
+    types:
+    - uid: string
+- name: ConfidentialLedgerError
+  description: An error response from Confidential Ledger.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: An error response from Confidential Ledger.
+    types:
+    - uid: ConfidentialLedgerErrorBody
+- name: ConfidentialLedgerUserRoleName
+  description: Represents an assignable role.
+  kind: enum
+  properties:
+  - name: Administrator
+    types:
+    - uid: string
+  - name: Contributor
+    types:
+    - uid: string
+  - name: Reader
+    types:
+    - uid: string
+- name: ConfidentialLedgerErrorBody
+  description: An error response from Confidential Ledger.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+examples:
+- name: CreateOrUpdateUser
+  request:
+    uri: PATCH myledger.eastus.cloudapp.azure.com/app/users/AAD object id?api-version=2022-05-13
+    body: >-
+      {
+        "assignedRole": "Reader"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH myledger.eastus.cloudapp.azure.com/app/users/AAD object id?api-version=2022-05-13
+
+      {
+        "assignedRole": "Reader"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "assignedRole": "Reader",
+        "userId": "AAD object id"
+      }
+security: []
+metadata:
+  description: "Learn more about Azure confidential ledger service - Adds a user or updates a user's fields.  \nA JSON merge patch is applied for existing users"
+errorCodes: []

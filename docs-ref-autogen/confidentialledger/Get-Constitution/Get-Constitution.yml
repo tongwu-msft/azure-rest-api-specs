@@ -1,0 +1,95 @@
+### YamlMime:RESTOperation
+uid: confidentialledger.getconstitution.getconstitution
+name: Get Constitution
+service: Azure confidential ledger
+groupName: Get Constitution
+apiVersion: 2022-05-13
+summary: "Gets the constitution used for governance.  \nThe constitution is a script that assesses and applies proposals from consortium members."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {ledgerUri}/app/governance/constitution?api-version=2022-05-13
+uriParameters:
+- name: ledgerUri
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Confidential Ledger URL, for example https://contoso.confidentialledger.azure.com
+  types:
+  - uid: string
+  format: url
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The constitution.
+  types:
+  - uid: Constitution
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ConfidentialLedgerError
+requestHeader: []
+definitions:
+- name: Constitution
+  description: The governance script for the application.
+  kind: object
+  properties:
+  - name: digest
+    description: SHA256 digest of the constitution script.
+    types:
+    - uid: string
+  - name: script
+    description: Contents of the constitution.
+    types:
+    - uid: string
+- name: ConfidentialLedgerError
+  description: An error response from Confidential Ledger.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: An error response from Confidential Ledger.
+    types:
+    - uid: ConfidentialLedgerErrorBody
+- name: ConfidentialLedgerErrorBody
+  description: An error response from Confidential Ledger.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+examples:
+- name: GetConstitution
+  request:
+    uri: GET myledger.eastus.cloudapp.azure.com/app/governance/constitution?api-version=2022-05-13
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET myledger.eastus.cloudapp.azure.com/app/governance/constitution?api-version=2022-05-13
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "digest": "cd04f484d93a13df44eab4235c14df37e20907b3216c5a37b9e484a363a76c8e",
+        "script": "<constitution script contents>"
+      }
+security: []
+metadata:
+  description: "Gets the constitution used for governance.  \nThe constitution is a script that assesses and applies proposals from consortium members."
+errorCodes: []

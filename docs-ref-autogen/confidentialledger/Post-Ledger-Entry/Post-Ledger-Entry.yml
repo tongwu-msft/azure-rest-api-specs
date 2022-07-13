@@ -1,0 +1,139 @@
+### YamlMime:RESTOperation
+uid: confidentialledger.postledgerentry.postledgerentry
+name: Post Ledger Entry
+service: Azure confidential ledger
+groupName: Post Ledger Entry
+apiVersion: 2022-05-13
+summary: "Writes a ledger entry.  \nA collection id may optionally be specified."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {ledgerUri}/app/transactions?api-version=2022-05-13
+- content: POST {ledgerUri}/app/transactions?api-version=2022-05-13&collectionId={collectionId}
+  isOptional: true
+uriParameters:
+- name: ledgerUri
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Confidential Ledger URL, for example https://contoso.confidentialledger.azure.com
+  types:
+  - uid: string
+  format: url
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+- name: collectionId
+  in: query
+  description: The collection id.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-ccf-transaction-id
+    value: string
+  description: Returns the transaction id at which the write will be durably stored.
+  types:
+  - uid: LedgerWriteResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ConfidentialLedgerError
+requestBody:
+- name: default
+  parameters:
+  - name: contents
+    in: body
+    isRequired: true
+    description: Contents of the ledger entry.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: LedgerWriteResult
+  description: Returned as a result of a write to the Confidential Ledger, the transaction id in the response indicates when the write will become durable.
+  kind: object
+  properties:
+  - name: collectionId
+    description: ''
+    types:
+    - uid: string
+- name: ConfidentialLedgerError
+  description: An error response from Confidential Ledger.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: An error response from Confidential Ledger.
+    types:
+    - uid: ConfidentialLedgerErrorBody
+- name: LedgerEntry
+  description: An entry in the ledger.
+  kind: object
+  properties:
+  - name: contents
+    description: Contents of the ledger entry.
+    types:
+    - uid: string
+  - name: collectionId
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: transactionId
+    isReadyOnly: true
+    description: A unique identifier for the state of the ledger. If returned as part of a LedgerEntry, it indicates the state from which the entry was read.
+    types:
+    - uid: string
+- name: ConfidentialLedgerErrorBody
+  description: An error response from Confidential Ledger.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+examples:
+- name: PostLedgerEntry
+  request:
+    uri: POST myledger.eastus.cloudapp.azure.com/app/transactions?api-version=2022-05-13
+    body: >-
+      {
+        "contents": "New ledger entry contents."
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST myledger.eastus.cloudapp.azure.com/app/transactions?api-version=2022-05-13
+
+      {
+        "contents": "New ledger entry contents."
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: x-ms-ccf-transaction-id
+      value: "19.2"
+    body: >-
+      {
+        "collectionId": "DEFAULT_SUBLEDGER"
+      }
+security: []
+metadata:
+  description: "Learn more about Azure confidential ledger service - Writes a ledger entry.  \nA collection id may optionally be specified."
+errorCodes: []

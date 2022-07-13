@@ -3062,6 +3062,47 @@
 ## Signing Certificates
 ### [Overview](attestation/Signing-Certificates.yml)
 ### [Get](attestation/Signing-Certificates/Get.yml)
+# Azure confidential ledger
+## [Overview](../docs-ref-conceptual/confidentialledger/index.md)
+## Create Or Update User
+### [Overview](confidentialledger/Create-Or-Update-User.yml)
+### [Create Or Update User](confidentialledger/Create-Or-Update-User/Create-Or-Update-User.yml)
+## Delete User
+### [Overview](confidentialledger/Delete-User.yml)
+### [Delete User](confidentialledger/Delete-User/Delete-User.yml)
+## Get Consortium Members
+### [Overview](confidentialledger/Get-Consortium-Members.yml)
+### [Get Consortium Members](confidentialledger/Get-Consortium-Members/Get-Consortium-Members.yml)
+## Get Constitution
+### [Overview](confidentialledger/Get-Constitution.yml)
+### [Get Constitution](confidentialledger/Get-Constitution/Get-Constitution.yml)
+## Get Current Ledger Entry
+### [Overview](confidentialledger/Get-Current-Ledger-Entry.yml)
+### [Get Current Ledger Entry](confidentialledger/Get-Current-Ledger-Entry/Get-Current-Ledger-Entry.yml)
+## Get Enclave Quotes
+### [Overview](confidentialledger/Get-Enclave-Quotes.yml)
+### [Get Enclave Quotes](confidentialledger/Get-Enclave-Quotes/Get-Enclave-Quotes.yml)
+## Get Ledger Entry
+### [Overview](confidentialledger/Get-Ledger-Entry.yml)
+### [Get Ledger Entry](confidentialledger/Get-Ledger-Entry/Get-Ledger-Entry.yml)
+## Get Receipt
+### [Overview](confidentialledger/Get-Receipt.yml)
+### [Get Receipt](confidentialledger/Get-Receipt/Get-Receipt.yml)
+## Get Transaction Status
+### [Overview](confidentialledger/Get-Transaction-Status.yml)
+### [Get Transaction Status](confidentialledger/Get-Transaction-Status/Get-Transaction-Status.yml)
+## Get User
+### [Overview](confidentialledger/Get-User.yml)
+### [Get User](confidentialledger/Get-User/Get-User.yml)
+## List Collections
+### [Overview](confidentialledger/List-Collections.yml)
+### [List Collections](confidentialledger/List-Collections/List-Collections.yml)
+## List Ledger Entries
+### [Overview](confidentialledger/List-Ledger-Entries.yml)
+### [List Ledger Entries](confidentialledger/List-Ledger-Entries/List-Ledger-Entries.yml)
+## Post Ledger Entry
+### [Overview](confidentialledger/Post-Ledger-Entry.yml)
+### [Post Ledger Entry](confidentialledger/Post-Ledger-Entry/Post-Ledger-Entry.yml)
 # Azure Container Apps
 ## [Overview](../docs-ref-conceptual/containerapps/index.md)
 ## Certificates
@@ -7151,6 +7192,9 @@
 ## Operations
 ### [Overview](container-instances/Operations.yml)
 ### [List](container-instances/Operations/List.yml)
+## Subnet Service Association Link
+### [Overview](container-instances/Subnet-Service-Association-Link.yml)
+### [Delete](container-instances/Subnet-Service-Association-Link/Delete.yml)
 # Container Registry
 ## [Overview](../docs-ref-conceptual/containerregistry/index.md)
 ## Access Tokens
@@ -15094,6 +15138,12 @@
 #### [List](purview/sharedataplane/Sent-Shares/List.yml)
 # Recovery Services
 ## [Overview](../docs-ref-conceptual/recoveryservices/index.md)
+## Get Operation Result
+### [Overview](recoveryservices/Get-Operation-Result.yml)
+### [Get Operation Result](recoveryservices/Get-Operation-Result/Get-Operation-Result.yml)
+## Get Operation Status
+### [Overview](recoveryservices/Get-Operation-Status.yml)
+### [Get Operation Status](recoveryservices/Get-Operation-Status/Get-Operation-Status.yml)
 ## Operations Vaults
 ### [Overview](recoveryservices/Operations-Vaults.yml)
 ### [List](recoveryservices/Operations-Vaults/List.yml)
