@@ -7151,6 +7151,9 @@
 ## Operations
 ### [Overview](container-instances/Operations.yml)
 ### [List](container-instances/Operations/List.yml)
+## Subnet Service Association Link
+### [Overview](container-instances/Subnet-Service-Association-Link.yml)
+### [Delete](container-instances/Subnet-Service-Association-Link/Delete.yml)
 # Container Registry
 ## [Overview](../docs-ref-conceptual/containerregistry/index.md)
 ## Access Tokens
@@ -15094,6 +15097,12 @@
 #### [List](purview/sharedataplane/Sent-Shares/List.yml)
 # Recovery Services
 ## [Overview](../docs-ref-conceptual/recoveryservices/index.md)
+## Get Operation Result
+### [Overview](recoveryservices/Get-Operation-Result.yml)
+### [Get Operation Result](recoveryservices/Get-Operation-Result/Get-Operation-Result.yml)
+## Get Operation Status
+### [Overview](recoveryservices/Get-Operation-Status.yml)
+### [Get Operation Status](recoveryservices/Get-Operation-Status/Get-Operation-Status.yml)
 ## Operations Vaults
 ### [Overview](recoveryservices/Operations-Vaults.yml)
 ### [List](recoveryservices/Operations-Vaults/List.yml)

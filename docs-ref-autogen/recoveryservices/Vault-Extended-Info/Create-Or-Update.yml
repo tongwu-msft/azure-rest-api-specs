@@ -3,14 +3,14 @@ uid: management.azure.com.recoveryservices.vaultextendedinfo.createorupdate
 name: Create Or Update
 service: Recovery Services
 groupName: Vault Extended Info
-apiVersion: 2016-06-01
+apiVersion: 2022-04-01
 summary: Create vault extended info.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo?api-version=2016-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo?api-version=2022-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +41,10 @@ responses:
   description: OK
   types:
   - uid: VaultExtendedInfoResource
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -64,7 +68,7 @@ requestBody:
     description: Algorithm for Vault ExtendedInfo
     types:
     - uid: string
-  - name: eTag
+  - name: etag
     in: body
     description: Optional ETag.
     types:
@@ -106,14 +110,67 @@ definitions:
     description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
     types:
     - uid: string
-  - name: eTag
+  - name: etag
     description: Optional ETag.
+    types:
+    - uid: string
+- name: CloudError
+  description: CloudError
+  kind: object
+  properties:
+  - name: error
+    description: The resource management error response.
+    types:
+    - uid: Error
+- name: Error
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: Error
+      isArray: true
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
 examples:
 - name: Put ExtendedInfo of Resource
   request:
-    uri: PUT https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/Default-RecoveryServices-ResourceGroup/providers/Microsoft.RecoveryServices/vaults/swaggerExample/extendedInformation/vaultExtendedInfo?api-version=2016-06-01
+    uri: PUT https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/Default-RecoveryServices-ResourceGroup/providers/Microsoft.RecoveryServices/vaults/swaggerExample/extendedInformation/vaultExtendedInfo?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -124,7 +181,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/Default-RecoveryServices-ResourceGroup/providers/Microsoft.RecoveryServices/vaults/swaggerExample/extendedInformation/vaultExtendedInfo?api-version=2016-06-01
+      PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/Default-RecoveryServices-ResourceGroup/providers/Microsoft.RecoveryServices/vaults/swaggerExample/extendedInformation/vaultExtendedInfo?api-version=2022-04-01
 
       {
         "properties": {
@@ -140,7 +197,7 @@ examples:
     body: >-
       {
         "name": "vaultExtendedInfo",
-        "eTag": "f0d0260b-b92d-4458-ba0a-32c6cdabacb7",
+        "etag": "f0d0260b-b92d-4458-ba0a-32c6cdabacb7",
         "properties": {
           "integrityKey": "J99wzS27fmJ+Wjot7xO5wA==",
           "algorithm": "None"
