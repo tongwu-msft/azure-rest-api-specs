@@ -4848,42 +4848,6 @@
 #### Transactions
 ##### [Overview](billing/2020-05-01/Transactions.yml)
 ##### [List By Invoice](billing/2020-05-01/Transactions/List-By-Invoice.yml)
-# Blockchain
-## [Overview](../docs-ref-conceptual/blockchain/index.md)
-## 2019-06-01-preview
-### Blockchain Member Operation Results
-#### [Overview](blockchain/2019-06-01-preview/Blockchain-Member-Operation-Results.yml)
-#### [Get](blockchain/2019-06-01-preview/Blockchain-Member-Operation-Results/Get.yml)
-### Blockchain Members
-#### [Overview](blockchain/2019-06-01-preview/Blockchain-Members.yml)
-#### [Create](blockchain/2019-06-01-preview/Blockchain-Members/Create.yml)
-#### [Delete](blockchain/2019-06-01-preview/Blockchain-Members/Delete.yml)
-#### [Get](blockchain/2019-06-01-preview/Blockchain-Members/Get.yml)
-#### [List](blockchain/2019-06-01-preview/Blockchain-Members/List.yml)
-#### [List All](blockchain/2019-06-01-preview/Blockchain-Members/List-All.yml)
-#### [List Api Keys](blockchain/2019-06-01-preview/Blockchain-Members/List-Api-Keys.yml)
-#### [List Consortium Members](blockchain/2019-06-01-preview/Blockchain-Members/List-Consortium-Members.yml)
-#### [List Regenerate Api Keys](blockchain/2019-06-01-preview/Blockchain-Members/List-Regenerate-Api-Keys.yml)
-#### [Update](blockchain/2019-06-01-preview/Blockchain-Members/Update.yml)
-### Locations
-#### [Overview](blockchain/2019-06-01-preview/Locations.yml)
-#### [Check Name Availability](blockchain/2019-06-01-preview/Locations/Check-Name-Availability.yml)
-#### [List Consortiums](blockchain/2019-06-01-preview/Locations/List-Consortiums.yml)
-### Operations
-#### [Overview](blockchain/2019-06-01-preview/Operations.yml)
-#### [List](blockchain/2019-06-01-preview/Operations/List.yml)
-### Skus
-#### [Overview](blockchain/2019-06-01-preview/Skus.yml)
-#### [List](blockchain/2019-06-01-preview/Skus/List.yml)
-### Transaction Nodes
-#### [Overview](blockchain/2019-06-01-preview/Transaction-Nodes.yml)
-#### [Create](blockchain/2019-06-01-preview/Transaction-Nodes/Create.yml)
-#### [Delete](blockchain/2019-06-01-preview/Transaction-Nodes/Delete.yml)
-#### [Get](blockchain/2019-06-01-preview/Transaction-Nodes/Get.yml)
-#### [List](blockchain/2019-06-01-preview/Transaction-Nodes/List.yml)
-#### [List Api Keys](blockchain/2019-06-01-preview/Transaction-Nodes/List-Api-Keys.yml)
-#### [List Regenerate Api Keys](blockchain/2019-06-01-preview/Transaction-Nodes/List-Regenerate-Api-Keys.yml)
-#### [Update](blockchain/2019-06-01-preview/Transaction-Nodes/Update.yml)
 # Blueprints
 ## [Overview](../docs-ref-conceptual/blueprints/index.md)
 ## Artifacts
