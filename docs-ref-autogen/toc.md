@@ -14053,6 +14053,9 @@
 ### Check Name Availability
 #### [Overview](mysql/flexibleserver/Check-Name-Availability.yml)
 #### [Execute](mysql/flexibleserver/Check-Name-Availability/Execute.yml)
+### Check Name Availability Without Location
+#### [Overview](mysql/flexibleserver/Check-Name-Availability-Without-Location.yml)
+#### [Execute](mysql/flexibleserver/Check-Name-Availability-Without-Location/Execute.yml)
 ### Check Virtual Network Subnet Usage
 #### [Overview](mysql/flexibleserver/Check-Virtual-Network-Subnet-Usage.yml)
 #### [Execute](mysql/flexibleserver/Check-Virtual-Network-Subnet-Usage/Execute.yml)
