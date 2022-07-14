@@ -8264,6 +8264,10 @@
 #### [Overview](cost-management/Forecast.yml)
 #### [External Cloud Provider Usage](cost-management/Forecast/External-Cloud-Provider-Usage.yml)
 #### [Usage](cost-management/Forecast/Usage.yml)
+### Generate Cost Details Report
+#### [Overview](cost-management/Generate-Cost-Details-Report.yml)
+#### [Create Operation](cost-management/Generate-Cost-Details-Report/Create-Operation.yml)
+#### [Get Operation Results](cost-management/Generate-Cost-Details-Report/Get-Operation-Results.yml)
 ### Generate Reservation Details Report
 #### [Overview](cost-management/Generate-Reservation-Details-Report.yml)
 #### [By Billing Account Id](cost-management/Generate-Reservation-Details-Report/By-Billing-Account-Id.yml)
