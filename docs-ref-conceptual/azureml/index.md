@@ -16,23 +16,27 @@ The [Azure Machine Learning](https://docs.microsoft.com/azure/machine-learning/)
 
 Machine Learning REST APIs provide operations for working with the following resources:
 
+### Latest GA API Version
+
+Uses REST API Version 2022-05-01
+
 | Operation group | Description                                                        | Operation subgroups |
 | --------------- | ------------------------------------------------------------------ | ------------------- |
-| [Workspaces](https://docs.microsoft.com/rest/api/azureml/workspaces) | Provides operations for managing workspaces. |
-| Compute | Provides operations for managing compute. | [Compute](https://docs.microsoft.com/rest/api/azureml/compute) <br /> [Usages](https://docs.microsoft.com/rest/api/azureml/usages) <br /> [Virtual Machine Sizes](https://docs.microsoft.com/rest/api/azureml/virtual-machine-sizes) |
-| [Datastores](https://docs.microsoft.com/rest/api/azureml/datastores) | Provides operations for managing datastores. |
-| Environments | Provides operations for managing environments. | [Environment Containers](https://docs.microsoft.com/rest/api/azureml/environment-containers) <br /> [Environment Versions](https://docs.microsoft.com/rest/api/azureml/environment-versions) |
-| Data | Provides operations for managing data assets. | [Data Containers](https://docs.microsoft.com/rest/api/azureml/data-containers) <br /> [Data Versions](https://docs.microsoft.com/rest/api/azureml/data-versions) |
-| Code | Provides operations for managing code assets. | [Code Containers](https://docs.microsoft.com/rest/api/azureml/code-containers) <br /> [Code Versions](https://docs.microsoft.com/rest/api/azureml/code-versions) |
-| Models | Provides operations for managing models. | [Model Containers](https://docs.microsoft.com/rest/api/azureml/model-containers) <br /> [Model Versions](https://docs.microsoft.com/rest/api/azureml/model-versions) |
-| Components | Provides operations for managing components. | [Component Containers](https://docs.microsoft.com/rest/api/azureml/component-containers) <br /> [Component Versions](https://docs.microsoft.com/rest/api/azureml/component-versions) |
-| [Jobs](https://docs.microsoft.com/rest/api/azureml/jobs) | Provides operations for managing jobs. |
-| Online Endpoints | Provides operations for managing online endpoints. | [Online Endpoints](https://docs.microsoft.com/rest/api/azureml/online-endpoints) <br /> [Online Deployments](https://docs.microsoft.com/rest/api/azureml/online-deployments) |
-| Batch Endpoints | Provides operations for managing batch endpoints. | [Batch Endpoints](https://docs.microsoft.com/rest/api/azureml/batch-endpoints) <br /> [Batch Deployments](https://docs.microsoft.com/rest/api/azureml/batch-deployments) |
-| [Workspace Connections](https://docs.microsoft.com/rest/api/azureml/workspace-connections) | Provides operations for managing workspace connections. |
-| [Quotas](https://docs.microsoft.com/rest/api/azureml/quotas) | Provides operations for managing quotas. |
-| [Private Endpoint Connections](https://docs.microsoft.com/rest/api/azureml/private-endpoint-connections) | Provides operations for managing private endpoint connections to a workspace. |
-| [Private Link Resources](https://docs.microsoft.com/rest/api/azureml/private-link-resources) | Provides operations for managing private link resources for a workspace. |
+| [Workspaces](https://docs.microsoft.com/rest/api/azureml/2022-05-01/workspaces) | Provides operations for managing workspaces. |
+| Compute | Provides operations for managing compute. | [Compute](https://docs.microsoft.com/rest/api/azureml/2022-05-01/compute) <br /> [Usages](https://docs.microsoft.com/rest/api/azureml/2022-05-01/usages) <br /> [Virtual Machine Sizes](https://docs.microsoft.com/rest/api/azureml/2022-05-01/virtual-machine-sizes) |
+| [Datastores](https://docs.microsoft.com/rest/api/azureml/2022-05-01/datastores) | Provides operations for managing datastores. |
+| Environments | Provides operations for managing environments. | [Environment Containers](https://docs.microsoft.com/rest/api/azureml/2022-05-01/environment-containers) <br /> [Environment Versions](https://docs.microsoft.com/rest/api/azureml/2022-05-01/environment-versions) |
+| Data | Provides operations for managing data assets. | [Data Containers](https://docs.microsoft.com/rest/api/azureml/2022-05-01/data-containers) <br /> [Data Versions](https://docs.microsoft.com/rest/api/azureml/2022-05-01/data-versions) |
+| Code | Provides operations for managing code assets. | [Code Containers](https://docs.microsoft.com/rest/api/azureml/2022-05-01/code-containers) <br /> [Code Versions](https://docs.microsoft.com/rest/api/azureml/2022-05-01/code-versions) |
+| Models | Provides operations for managing models. | [Model Containers](https://docs.microsoft.com/rest/api/azureml/2022-05-01/model-containers) <br /> [Model Versions](https://docs.microsoft.com/rest/api/azureml/2022-05-01/model-versions) |
+| Components | Provides operations for managing components. | [Component Containers](https://docs.microsoft.com/rest/api/azureml/2022-05-01/component-containers) <br /> [Component Versions](https://docs.microsoft.com/rest/api/azureml/2022-05-01/component-versions) |
+| [Jobs](https://docs.microsoft.com/rest/api/azureml/2022-05-01/jobs) | Provides operations for managing jobs. |
+| Online Endpoints | Provides operations for managing online endpoints. | [Online Endpoints](https://docs.microsoft.com/rest/api/azureml/2022-05-01/online-endpoints) <br /> [Online Deployments](https://docs.microsoft.com/rest/api/azureml/2022-05-01/online-deployments) |
+| Batch Endpoints | Provides operations for managing batch endpoints. | [Batch Endpoints](https://docs.microsoft.com/rest/api/azureml/2022-05-01/batch-endpoints) <br /> [Batch Deployments](https://docs.microsoft.com/rest/api/azureml/2022-05-01/batch-deployments) |
+| [Workspace Connections](https://docs.microsoft.com/rest/api/azureml/2022-05-01/workspace-connections) | Provides operations for managing workspace connections. |
+| [Quotas](https://docs.microsoft.com/rest/api/azureml/2022-05-01/quotas) | Provides operations for managing quotas. |
+| [Private Endpoint Connections](https://docs.microsoft.com/rest/api/azureml/2022-05-01/private-endpoint-connections) | Provides operations for managing private endpoint connections to a workspace. |
+| [Private Link Resources](https://docs.microsoft.com/rest/api/azureml/2022-05-01/private-link-resources) | Provides operations for managing private link resources for a workspace. |
 
 ## See Also
 
