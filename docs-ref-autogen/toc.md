@@ -16138,27 +16138,6 @@
 ### Unresolved Dependencies
 #### [Overview](resourcemover/stable/Unresolved-Dependencies.yml)
 #### [Get](resourcemover/stable/Unresolved-Dependencies/Get.yml)
-# Scheduler
-## [Overview](../docs-ref-conceptual/scheduler/index.md)
-## Job Collections
-### [Overview](scheduler/Job-Collections.yml)
-### [Create Or Update](scheduler/Job-Collections/Create-Or-Update.yml)
-### [Delete](scheduler/Job-Collections/Delete.yml)
-### [Disable](scheduler/Job-Collections/Disable.yml)
-### [Enable](scheduler/Job-Collections/Enable.yml)
-### [Get](scheduler/Job-Collections/Get.yml)
-### [List By Resource Group](scheduler/Job-Collections/List-By-Resource-Group.yml)
-### [List By Subscription](scheduler/Job-Collections/List-By-Subscription.yml)
-### [Patch](scheduler/Job-Collections/Patch.yml)
-## Jobs
-### [Overview](scheduler/Jobs.yml)
-### [Create Or Update](scheduler/Jobs/Create-Or-Update.yml)
-### [Delete](scheduler/Jobs/Delete.yml)
-### [Get](scheduler/Jobs/Get.yml)
-### [List](scheduler/Jobs/List.yml)
-### [List Job History](scheduler/Jobs/List-Job-History.yml)
-### [Patch](scheduler/Jobs/Patch.yml)
-### [Run](scheduler/Jobs/Run.yml)
 # Search Management
 ## [Overview](../docs-ref-conceptual/searchmanagement/index.md)
 ## [API versions](../docs-ref-conceptual/searchmanagement/management-api-versions.md)
