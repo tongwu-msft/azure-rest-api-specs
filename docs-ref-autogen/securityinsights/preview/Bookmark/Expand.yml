@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.bookmark.expand
 name: Expand
 service: Sentinel
 groupName: Bookmark
-apiVersion: 2021-10-01-preview
+apiVersion: 2022-07-01-preview
 summary: Expand an bookmark
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}/expand?api-version=2021-10-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/bookmarks/{bookmarkId}/expand?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -165,6 +165,8 @@ definitions:
       isArray: true
     - uid: UrlEntity
       isArray: true
+    - uid: NicEntity
+      isArray: true
     typesTitle: Entity[]
   - name: edges
     description: Array of expansion result connected entities
@@ -303,6 +305,10 @@ definitions:
     - uid: string
   - name: SubmissionMail
     description: Entity represents submission mail in the system.
+    types:
+    - uid: string
+  - name: Nic
+    description: Entity represents network interface in the system.
     types:
     - uid: string
 - name: AccountEntity
@@ -966,6 +972,62 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.owners
+    isReadyOnly: true
+    description: A list of owners of the IoTDevice entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.nicEntityIds
+    isReadyOnly: true
+    description: A list of Nic entity ids of the IoTDevice entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.site
+    isReadyOnly: true
+    description: The site of the device
+    types:
+    - uid: string
+  - name: properties.zone
+    isReadyOnly: true
+    description: The zone location of the device within a site
+    types:
+    - uid: string
+  - name: properties.sensor
+    isReadyOnly: true
+    description: The sensor the device is monitored by
+    types:
+    - uid: string
+  - name: properties.deviceSubType
+    isReadyOnly: true
+    description: The subType of the device ('PLC', 'HMI', 'EWS', etc.)
+    types:
+    - uid: string
+  - name: properties.importance
+    description: Device importance, determines if the device classified as 'crown jewel'
+    types:
+    - uid: DeviceImportance
+  - name: properties.purdueLayer
+    isReadyOnly: true
+    description: The Purdue Layer of the device
+    types:
+    - uid: string
+  - name: properties.isAuthorized
+    isReadyOnly: true
+    description: Determines whether the device classified as authorized device
+    types:
+    - uid: boolean
+  - name: properties.isProgramming
+    isReadyOnly: true
+    description: Determines whether the device classified as programming device
+    types:
+    - uid: boolean
+  - name: properties.isScanner
+    isReadyOnly: true
+    description: Is the device classified as a scanner device
+    types:
+    - uid: boolean
   - name: kind
     description: The kind of the entity.
     types:
@@ -2049,6 +2111,65 @@ definitions:
     description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
     types:
     - uid: string
+- name: NicEntity
+  description: Represents an network interface entity.
+  kind: object
+  properties:
+  - name: properties.macAddress
+    isReadyOnly: true
+    description: The MAC address of this network interface
+    types:
+    - uid: string
+  - name: properties.ipAddressEntityId
+    isReadyOnly: true
+    description: The IP entity id of this network interface
+    types:
+    - uid: string
+  - name: properties.vlans
+    isReadyOnly: true
+    description: A list of VLANs of the network interface entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: Nic
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.additionalData
+    isReadyOnly: true
+    description: A bag of custom fields that should be part of the entity and will be presented to the user.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.friendlyName
+    isReadyOnly: true
+    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
+    types:
+    - uid: string
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -2195,6 +2316,26 @@ definitions:
   - name: threatType
     isReadyOnly: true
     description: Threat type (e.g. "Botnet")
+    types:
+    - uid: string
+- name: DeviceImportance
+  description: Device importance, determines if the device classified as 'crown jewel'
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Unknown - Default value
+    types:
+    - uid: string
+  - name: Low
+    description: Low
+    types:
+    - uid: string
+  - name: Normal
+    description: Normal
+    types:
+    - uid: string
+  - name: High
+    description: High
     types:
     - uid: string
 - name: GeoLocation
@@ -2609,13 +2750,26 @@ definitions:
 examples:
 - name: Expand an bookmark
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/bookmarks/73e01a99-5cd7-4139-a149-9f2736ff2ab5/expand?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/bookmarks/73e01a99-5cd7-4139-a149-9f2736ff2ab5/expand?api-version=2022-07-01-preview
     body: >-
       {
         "expansionId": "27f76e63-c41b-480f-bb18-12ad2e011d49",
         "startTime": "2019-12-25T17:21:00.000Z",
         "endTime": "2020-01-24T17:21:00.000Z"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/bookmarks/73e01a99-5cd7-4139-a149-9f2736ff2ab5/expand?api-version=2022-07-01-preview
+
+      {
+        "expansionId": "27f76e63-c41b-480f-bb18-12ad2e011d49",
+        "startTime": "2019-12-25T17:21:00.000Z",
+        "endTime": "2020-01-24T17:21:00.000Z"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

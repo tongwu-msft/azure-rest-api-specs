@@ -424,6 +424,255 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policySetDefinitions/CostManagement?api-version=2021-06-01
+
+      {
+        "properties": {
+          "displayName": "Cost Management",
+          "description": "Policies to enforce low cost storage SKUs",
+          "metadata": {
+            "category": "Cost Management"
+          },
+          "policyDefinitions": [
+            {
+              "policyDefinitionId": "/providers/Microsoft.Management/managementgroups/MyManagementGroup/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
+              "policyDefinitionReferenceId": "Limit_Skus",
+              "parameters": {
+                "listOfAllowedSKUs": {
+                  "value": [
+                    "Standard_GRS",
+                    "Standard_LRS"
+                  ]
+                }
+              }
+            },
+            {
+              "policyDefinitionId": "/providers/Microsoft.Management/managementgroups/MyManagementGroup/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+              "policyDefinitionReferenceId": "Resource_Naming",
+              "parameters": {
+                "prefix": {
+                  "value": "DeptA"
+                },
+                "suffix": {
+                  "value": "-LC"
+                }
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.resources.fluent.models.PolicySetDefinitionInner;
+      import com.azure.resourcemanager.resources.models.ParameterValuesValue;
+      import com.azure.resourcemanager.resources.models.PolicyDefinitionReference;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for PolicySetDefinitions CreateOrUpdateAtManagementGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicySetDefinitionAtManagementGroup.json
+           */
+          /**
+           * Sample code: Create or update a policy set definition at management group level.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateAPolicySetDefinitionAtManagementGroupLevel(
+              com.azure.resourcemanager.AzureResourceManager azure) throws IOException {
+              azure
+                  .genericResources()
+                  .manager()
+                  .policyClient()
+                  .getPolicySetDefinitions()
+                  .createOrUpdateAtManagementGroupWithResponse(
+                      "CostManagement",
+                      "MyManagementGroup",
+                      new PolicySetDefinitionInner()
+                          .withDisplayName("Cost Management")
+                          .withDescription("Policies to enforce low cost storage SKUs")
+                          .withMetadata(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize("{\"category\":\"Cost Management\"}", Object.class, SerializerEncoding.JSON))
+                          .withPolicyDefinitions(
+                              Arrays
+                                  .asList(
+                                      new PolicyDefinitionReference()
+                                          .withPolicyDefinitionId(
+                                              "/providers/Microsoft.Management/managementgroups/MyManagementGroup/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1")
+                                          .withParameters(
+                                              mapOf(
+                                                  "listOfAllowedSKUs",
+                                                  new ParameterValuesValue()
+                                                      .withValue(
+                                                          SerializerFactory
+                                                              .createDefaultManagementSerializerAdapter()
+                                                              .deserialize(
+                                                                  "[\"Standard_GRS\",\"Standard_LRS\"]",
+                                                                  Object.class,
+                                                                  SerializerEncoding.JSON))))
+                                          .withPolicyDefinitionReferenceId("Limit_Skus"),
+                                      new PolicyDefinitionReference()
+                                          .withPolicyDefinitionId(
+                                              "/providers/Microsoft.Management/managementgroups/MyManagementGroup/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming")
+                                          .withParameters(
+                                              mapOf(
+                                                  "prefix",
+                                                  new ParameterValuesValue().withValue("DeptA"),
+                                                  "suffix",
+                                                  new ParameterValuesValue().withValue("-LC")))
+                                          .withPolicyDefinitionReferenceId("Resource_Naming"))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armpolicy_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicySetDefinitionAtManagementGroup.json
+      func ExampleSetDefinitionsClient_CreateOrUpdateAtManagementGroup() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armpolicy.NewSetDefinitionsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdateAtManagementGroup(ctx,
+      		"CostManagement",
+      		"MyManagementGroup",
+      		armpolicy.SetDefinition{
+      			Properties: &armpolicy.SetDefinitionProperties{
+      				Description: to.Ptr("Policies to enforce low cost storage SKUs"),
+      				DisplayName: to.Ptr("Cost Management"),
+      				Metadata: map[string]interface{}{
+      					"category": "Cost Management",
+      				},
+      				PolicyDefinitions: []*armpolicy.DefinitionReference{
+      					{
+      						Parameters: map[string]*armpolicy.ParameterValuesValue{
+      							"listOfAllowedSKUs": {
+      								Value: []interface{}{
+      									"Standard_GRS",
+      									"Standard_LRS",
+      								},
+      							},
+      						},
+      						PolicyDefinitionID:          to.Ptr("/providers/Microsoft.Management/managementgroups/MyManagementGroup/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1"),
+      						PolicyDefinitionReferenceID: to.Ptr("Limit_Skus"),
+      					},
+      					{
+      						Parameters: map[string]*armpolicy.ParameterValuesValue{
+      							"prefix": {
+      								Value: "DeptA",
+      							},
+      							"suffix": {
+      								Value: "-LC",
+      							},
+      						},
+      						PolicyDefinitionID:          to.Ptr("/providers/Microsoft.Management/managementgroups/MyManagementGroup/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming"),
+      						PolicyDefinitionReferenceID: to.Ptr("Resource_Naming"),
+      					}},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmpolicy%2Fv0.6.0/sdk/resourcemanager/resources/armpolicy/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PolicyClient } = require("@azure/arm-policy");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to This operation creates or updates a policy set definition in the given management group with the given name.
+       *
+       * @summary This operation creates or updates a policy set definition in the given management group with the given name.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicySetDefinitionAtManagementGroup.json
+       */
+      async function createOrUpdateAPolicySetDefinitionAtManagementGroupLevel() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const policySetDefinitionName = "CostManagement";
+        const managementGroupId = "MyManagementGroup";
+        const parameters = {
+          description: "Policies to enforce low cost storage SKUs",
+          displayName: "Cost Management",
+          metadata: { category: "Cost Management" },
+          policyDefinitions: [
+            {
+              parameters: {
+                listOfAllowedSKUs: { value: ["Standard_GRS", "Standard_LRS"] },
+              },
+              policyDefinitionId:
+                "/providers/Microsoft.Management/managementgroups/MyManagementGroup/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
+              policyDefinitionReferenceId: "Limit_Skus",
+            },
+            {
+              parameters: { prefix: { value: "DeptA" }, suffix: { value: "-LC" } },
+              policyDefinitionId:
+                "/providers/Microsoft.Management/managementgroups/MyManagementGroup/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+              policyDefinitionReferenceId: "Resource_Naming",
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PolicyClient(credential, subscriptionId);
+        const result = await client.policySetDefinitions.createOrUpdateAtManagementGroup(
+          policySetDefinitionName,
+          managementGroupId,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createOrUpdateAPolicySetDefinitionAtManagementGroupLevel().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -562,6 +811,233 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policySetDefinitions/CostManagement?api-version=2021-06-01
+
+      {
+        "properties": {
+          "displayName": "Cost Management",
+          "description": "Policies to enforce low cost storage SKUs",
+          "metadata": {
+            "category": "Cost Management"
+          },
+          "policyDefinitionGroups": [
+            {
+              "name": "CostSaving",
+              "displayName": "Cost Management Policies",
+              "description": "Policies designed to control spend within a subscription."
+            },
+            {
+              "name": "Organizational",
+              "displayName": "Organizational Policies",
+              "description": "Policies that help enforce resource organization standards within a subscription."
+            }
+          ],
+          "policyDefinitions": [
+            {
+              "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
+              "policyDefinitionReferenceId": "Limit_Skus",
+              "groupNames": [
+                "CostSaving"
+              ],
+              "parameters": {
+                "listOfAllowedSKUs": {
+                  "value": [
+                    "Standard_GRS",
+                    "Standard_LRS"
+                  ]
+                }
+              }
+            },
+            {
+              "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+              "policyDefinitionReferenceId": "Resource_Naming",
+              "groupNames": [
+                "Organizational"
+              ],
+              "parameters": {
+                "prefix": {
+                  "value": "DeptA"
+                },
+                "suffix": {
+                  "value": "-LC"
+                }
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.resources.fluent.models.PolicySetDefinitionInner;
+      import com.azure.resourcemanager.resources.models.ParameterValuesValue;
+      import com.azure.resourcemanager.resources.models.PolicyDefinitionGroup;
+      import com.azure.resourcemanager.resources.models.PolicyDefinitionReference;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for PolicySetDefinitions CreateOrUpdateAtManagementGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicySetDefinitionWithGroupsAtManagementGroup.json
+           */
+          /**
+           * Sample code: Create or update a policy set definition with groups at management group level.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLevel(
+              com.azure.resourcemanager.AzureResourceManager azure) throws IOException {
+              azure
+                  .genericResources()
+                  .manager()
+                  .policyClient()
+                  .getPolicySetDefinitions()
+                  .createOrUpdateAtManagementGroupWithResponse(
+                      "CostManagement",
+                      "MyManagementGroup",
+                      new PolicySetDefinitionInner()
+                          .withDisplayName("Cost Management")
+                          .withDescription("Policies to enforce low cost storage SKUs")
+                          .withMetadata(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize("{\"category\":\"Cost Management\"}", Object.class, SerializerEncoding.JSON))
+                          .withPolicyDefinitions(
+                              Arrays
+                                  .asList(
+                                      new PolicyDefinitionReference()
+                                          .withPolicyDefinitionId(
+                                              "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1")
+                                          .withParameters(
+                                              mapOf(
+                                                  "listOfAllowedSKUs",
+                                                  new ParameterValuesValue()
+                                                      .withValue(
+                                                          SerializerFactory
+                                                              .createDefaultManagementSerializerAdapter()
+                                                              .deserialize(
+                                                                  "[\"Standard_GRS\",\"Standard_LRS\"]",
+                                                                  Object.class,
+                                                                  SerializerEncoding.JSON))))
+                                          .withPolicyDefinitionReferenceId("Limit_Skus")
+                                          .withGroupNames(Arrays.asList("CostSaving")),
+                                      new PolicyDefinitionReference()
+                                          .withPolicyDefinitionId(
+                                              "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming")
+                                          .withParameters(
+                                              mapOf(
+                                                  "prefix",
+                                                  new ParameterValuesValue().withValue("DeptA"),
+                                                  "suffix",
+                                                  new ParameterValuesValue().withValue("-LC")))
+                                          .withPolicyDefinitionReferenceId("Resource_Naming")
+                                          .withGroupNames(Arrays.asList("Organizational"))))
+                          .withPolicyDefinitionGroups(
+                              Arrays
+                                  .asList(
+                                      new PolicyDefinitionGroup()
+                                          .withName("CostSaving")
+                                          .withDisplayName("Cost Management Policies")
+                                          .withDescription("Policies designed to control spend within a subscription."),
+                                      new PolicyDefinitionGroup()
+                                          .withName("Organizational")
+                                          .withDisplayName("Organizational Policies")
+                                          .withDescription(
+                                              "Policies that help enforce resource organization standards within a"
+                                                  + " subscription."))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PolicyClient } = require("@azure/arm-policy");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to This operation creates or updates a policy set definition in the given management group with the given name.
+       *
+       * @summary This operation creates or updates a policy set definition in the given management group with the given name.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicySetDefinitionWithGroupsAtManagementGroup.json
+       */
+      async function createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLevel() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const policySetDefinitionName = "CostManagement";
+        const managementGroupId = "MyManagementGroup";
+        const parameters = {
+          description: "Policies to enforce low cost storage SKUs",
+          displayName: "Cost Management",
+          metadata: { category: "Cost Management" },
+          policyDefinitionGroups: [
+            {
+              name: "CostSaving",
+              description: "Policies designed to control spend within a subscription.",
+              displayName: "Cost Management Policies",
+            },
+            {
+              name: "Organizational",
+              description:
+                "Policies that help enforce resource organization standards within a subscription.",
+              displayName: "Organizational Policies",
+            },
+          ],
+          policyDefinitions: [
+            {
+              groupNames: ["CostSaving"],
+              parameters: {
+                listOfAllowedSKUs: { value: ["Standard_GRS", "Standard_LRS"] },
+              },
+              policyDefinitionId:
+                "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
+              policyDefinitionReferenceId: "Limit_Skus",
+            },
+            {
+              groupNames: ["Organizational"],
+              parameters: { prefix: { value: "DeptA" }, suffix: { value: "-LC" } },
+              policyDefinitionId:
+                "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+              policyDefinitionReferenceId: "Resource_Naming",
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PolicyClient(credential, subscriptionId);
+        const result = await client.policySetDefinitions.createOrUpdateAtManagementGroup(
+          policySetDefinitionName,
+          managementGroupId,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLevel().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

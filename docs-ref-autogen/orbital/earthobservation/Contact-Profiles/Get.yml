@@ -1,0 +1,517 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.orbital.earthobservation.contactprofiles.get
+name: Get
+service: Orbital
+groupName: Contact Profiles
+apiVersion: 2022-03-01
+summary: Gets the specified contact Profile in a specified resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/contactProfiles/{contactProfileName}?api-version=2022-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: contactProfileName
+  in: path
+  isRequired: true
+  description: Contact Profile name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: apiVersionParameter
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns the resulting ContactProfile resource.
+  types:
+  - uid: ContactProfile
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: apiVersionParameter
+  description: Version of the API to be used with the client request.
+  kind: enum
+  properties:
+  - name: 2020-09-01-preview
+    types:
+    - uid: string
+  - name: 2021-04-04-preview
+    types:
+    - uid: string
+  - name: 2022-03-01
+    types:
+    - uid: string
+- name: ContactProfile
+  description: Customer creates a Contact Profile Resource, which will contain all of the configurations required for scheduling a contact.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.provisioningState
+    description: The current state of the resource's creation, deletion, or modification.
+    types:
+    - uid: ProvisioningState
+  - name: properties.minimumViableContactDuration
+    description: Minimum viable contact duration in ISO 8601 format. Used for listing the available contacts with a spacecraft at a given ground station.
+    types:
+    - uid: string
+  - name: properties.minimumElevationDegrees
+    description: Minimum viable elevation for the contact in decimal degrees. Used for listing the available contacts with a spacecraft at a given ground station.
+    types:
+    - uid: number
+  - name: properties.autoTrackingConfiguration
+    description: Auto-tracking configuration.
+    types:
+    - uid: AutoTrackingConfiguration
+  - name: properties.eventHubUri
+    description: ARM resource identifier of the Event Hub used for telemetry. Requires granting Orbital Resource Provider the rights to send telemetry into the hub.
+    types:
+    - uid: string
+  - name: properties.networkConfiguration
+    description: Network configuration of customer virtual network.
+    types:
+    - uid: NetworkConfiguration
+  - name: properties.links
+    description: Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints.
+    types:
+    - uid: ContactProfileLink
+      isArray: true
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the service.
+    types:
+    - uid: CloudErrorBody
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current state of the resource's creation, deletion, or modification.
+  kind: object
+  properties: []
+- name: AutoTrackingConfiguration
+  description: Auto-tracking configuration.
+  kind: enum
+  properties:
+  - name: disabled
+    types:
+    - uid: string
+  - name: xBand
+    types:
+    - uid: string
+  - name: sBand
+    types:
+    - uid: string
+- name: NetworkConfiguration
+  description: Network configuration of customer virtual network.
+  kind: object
+  properties:
+  - name: subnetId
+    description: ARM resource identifier of the subnet delegated to the Microsoft.Orbital/orbitalGateways. Needs to be at least a class C subnet, and should not have any IP created in it.
+    types:
+    - uid: string
+- name: ContactProfileLink
+  description: Contact Profile Link.
+  kind: object
+  properties:
+  - name: name
+    description: Link name.
+    types:
+    - uid: string
+  - name: polarization
+    description: Polarization. e.g. (RHCP, LHCP).
+    types:
+    - uid: polarization
+  - name: direction
+    description: Direction (uplink or downlink).
+    types:
+    - uid: direction
+  - name: gainOverTemperature
+    description: Gain To Noise Temperature in db/K. It is the required G/T by the customer. Not used yet.
+    types:
+    - uid: number
+  - name: eirpdBW
+    description: Effective Isotropic Radiated Power (EIRP) in dBW. It is the required EIRP by the customer. Not used yet.
+    types:
+    - uid: number
+  - name: channels
+    description: Contact Profile Link Channel.
+    types:
+    - uid: ContactProfileLinkChannel
+      isArray: true
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: polarization
+  description: Polarization. e.g. (RHCP, LHCP).
+  kind: enum
+  properties:
+  - name: RHCP
+    types:
+    - uid: string
+  - name: LHCP
+    types:
+    - uid: string
+  - name: linearVertical
+    types:
+    - uid: string
+  - name: linearHorizontal
+    types:
+    - uid: string
+- name: direction
+  description: Direction (uplink or downlink).
+  kind: enum
+  properties:
+  - name: uplink
+    types:
+    - uid: string
+  - name: downlink
+    types:
+    - uid: string
+- name: ContactProfileLinkChannel
+  description: Contact Profile Link Channel.
+  kind: object
+  properties:
+  - name: name
+    description: Channel name.
+    types:
+    - uid: string
+  - name: centerFrequencyMHz
+    description: Center Frequency in MHz.
+    types:
+    - uid: number
+  - name: bandwidthMHz
+    description: Bandwidth in MHz.
+    types:
+    - uid: number
+  - name: endPoint
+    description: Customer End point to store/retrieve data during a contact.
+    types:
+    - uid: EndPoint
+  - name: modulationConfiguration
+    description: Copy of the modem configuration file such as Kratos QRadio. Only valid for uplink directions. If provided, the modem connects to the customer endpoint and accepts commands from the customer instead of a VITA.49 stream.
+    types:
+    - uid: string
+  - name: demodulationConfiguration
+    description: Copy of the modem configuration file such as Kratos QRadio or Kratos QuantumRx. Only valid for downlink directions. If provided, the modem connects to the customer endpoint and sends demodulated data instead of a VITA.49 stream.
+    types:
+    - uid: string
+  - name: encodingConfiguration
+    description: Currently unused.
+    types:
+    - uid: string
+  - name: decodingConfiguration
+    description: Currently unused.
+    types:
+    - uid: string
+- name: EndPoint
+  description: Customer End point to store/retrieve data during a contact.
+  kind: object
+  properties:
+  - name: ipAddress
+    description: IP Address.
+    types:
+    - uid: string
+  - name: endPointName
+    description: Name of an end point.
+    types:
+    - uid: string
+  - name: port
+    description: TCP port to listen on to receive data.
+    types:
+    - uid: string
+  - name: protocol
+    description: Protocol either UDP or TCP.
+    types:
+    - uid: protocol
+- name: protocol
+  description: Protocol either UDP or TCP.
+  kind: enum
+  properties:
+  - name: TCP
+    types:
+    - uid: string
+  - name: UDP
+    types:
+    - uid: string
+examples:
+- name: Get a contact profile
+  request:
+    uri: GET https://management.azure.com/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/contactProfiles/CONTOSO-CP?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/contactProfiles/CONTOSO-CP?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ContactProfiles GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/ContactProfileGet.json
+           */
+          /**
+           * Sample code: Get a contact profile.
+           *
+           * @param manager Entry point to OrbitalManager.
+           */
+          public static void getAContactProfile(com.azure.resourcemanager.orbital.OrbitalManager manager) {
+              manager.contactProfiles().getByResourceGroupWithResponse("contoso-Rgp", "CONTOSO-CP", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-orbital_1.0.0-beta.1/sdk/orbital/azure-resourcemanager-orbital/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armorbital_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/orbital/armorbital"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/ContactProfileGet.json
+      func ExampleContactProfilesClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armorbital.NewContactProfilesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"rg1",
+      		"AQUA_DIRECTPLAYBACK_WITH_UPLINK",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Forbital%2Farmorbital%2Fv1.0.0/sdk/resourcemanager/orbital/armorbital/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureOrbital } = require("@azure/arm-orbital");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the specified contact Profile in a specified resource group
+       *
+       * @summary Gets the specified contact Profile in a specified resource group
+       * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/ContactProfileGet.json
+       */
+      async function getAContactProfile() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const contactProfileName = "AQUA_DIRECTPLAYBACK_WITH_UPLINK";
+        const credential = new DefaultAzureCredential();
+        const client = new AzureOrbital(credential, subscriptionId);
+        const result = await client.contactProfiles.get(resourceGroupName, contactProfileName);
+        console.log(result);
+      }
+
+      getAContactProfile().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-orbital_1.1.0/sdk/orbital/arm-orbital/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "eastus2",
+        "tags": null,
+        "id": "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/contactProfiles/CONTOSO-CP",
+        "name": "CONTOSO-CP",
+        "type": "Microsoft.Orbital/contactProfiles",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "minimumViableContactDuration": "PT1M",
+          "minimumElevationDegrees": 5,
+          "autoTrackingConfiguration": "disabled",
+          "eventHubUri": "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.EventHub/namespaces/contosoHub/eventhubs/contosoHub",
+          "networkConfiguration": {
+            "subnetId": "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Network/virtualNetworks/contoso-vnet/subnets/orbital-delegated-subnet"
+          },
+          "links": [
+            {
+              "name": "contoso-uplink",
+              "polarization": "LHCP",
+              "direction": "uplink",
+              "gainOverTemperature": 0,
+              "eirpdBW": 45,
+              "channels": [
+                {
+                  "name": "contoso-uplink-channel",
+                  "centerFrequencyMHz": 2250,
+                  "bandwidthMHz": 2,
+                  "endPoint": {
+                    "ipAddress": "10.1.0.4",
+                    "endPointName": "ContosoTest_Uplink",
+                    "port": "50000",
+                    "protocol": "TCP"
+                  },
+                  "modulationConfiguration": null,
+                  "demodulationConfiguration": null,
+                  "encodingConfiguration": null,
+                  "decodingConfiguration": null
+                }
+              ]
+            },
+            {
+              "name": "contoso-downlink",
+              "polarization": "RHCP",
+              "direction": "downlink",
+              "gainOverTemperature": 25,
+              "eirpdBW": 0,
+              "channels": [
+                {
+                  "name": "contoso-downlink-channel",
+                  "centerFrequencyMHz": 8160,
+                  "bandwidthMHz": 15,
+                  "endPoint": {
+                    "ipAddress": "10.1.0.5",
+                    "endPointName": "ContosoTest_Downlink",
+                    "port": "51103",
+                    "protocol": "UDP"
+                  },
+                  "modulationConfiguration": null,
+                  "demodulationConfiguration": null,
+                  "encodingConfiguration": null,
+                  "decodingConfiguration": null
+                }
+              ]
+            }
+          ]
+        }
+      }
+security: []
+metadata:
+  description: Learn more about Orbital service - Gets the specified contact Profile in a specified resource group.
+errorCodes: []

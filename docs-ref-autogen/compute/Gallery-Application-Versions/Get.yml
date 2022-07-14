@@ -3,15 +3,15 @@ uid: management.azure.com.compute.galleryapplicationversions.get
 name: Get
 service: Compute
 groupName: Gallery Application Versions
-apiVersion: 2021-10-01
+apiVersion: 2022-01-03
 summary: Retrieves information about a gallery Application Version.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}?api-version=2021-10-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}?$expand=ReplicationStatus&api-version=2021-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}?api-version=2022-01-03
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}?$expand=ReplicationStatus&api-version=2022-01-03
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -83,15 +83,9 @@ definitions:
     - uid: GalleryApplicationVersionPublishingProfile
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The current state of the gallery Application Version.  \nThe provisioning state, which only appears in the response."
+    description: "The current state of the gallery or gallery artifact.  \nThe provisioning state, which only appears in the response."
     types:
-    - uid: Creating
-    - uid: Updating
-    - uid: Failed
-    - uid: Succeeded
-    - uid: Deleting
-    - uid: Migrating
-    typesTitle: enum
+    - uid: GalleryProvisioningState
   - name: properties.replicationStatus
     isReadyOnly: true
     description: This is the replication status of the gallery image version.
@@ -144,6 +138,18 @@ definitions:
     description: ''
     types:
     - uid: UserArtifactManage
+  - name: settings
+    description: Additional settings for the VM app that contains the target package and config file name when it is deployed to target VM or VM scale set.
+    types:
+    - uid: UserArtifactSettings
+  - name: advancedSettings
+    description: Optional. Additional settings to pass to the vm-application-manager extension. For advanced use only.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: enableHealthCheck
     description: Optional. Whether or not this application reports health.
     types:
@@ -183,6 +189,28 @@ definitions:
     types:
     - uid: GalleryTargetExtendedLocation
       isArray: true
+- name: GalleryProvisioningState
+  description: The current state of the gallery or gallery artifact.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Migrating
+    types:
+    - uid: string
 - name: ReplicationStatus
   description: This is the replication status of the gallery image version.
   kind: object
@@ -248,6 +276,18 @@ definitions:
     - uid: string
   - name: update
     description: Optional. The path and arguments to update the gallery application. If not present, then update operation will invoke remove command on the previous version and install command on the current version of the gallery application. This is limited to 4096 characters.
+    types:
+    - uid: string
+- name: UserArtifactSettings
+  description: Additional settings for the VM app that contains the target package and config file name when it is deployed to target VM or VM scale set.
+  kind: object
+  properties:
+  - name: packageFileName
+    description: Optional. The name to assign the downloaded package file on the VM. This is limited to 4096 characters. If not specified, the package file will be named the same as the Gallery Application name.
+    types:
+    - uid: string
+  - name: configFileName
+    description: Optional. The name to assign the downloaded config file on the VM. This is limited to 4096 characters. If not specified, the config file will be named the Gallery Application name appended with "_config".
     types:
     - uid: string
 - name: TargetRegion
@@ -487,7 +527,72 @@ definitions:
 examples:
 - name: Get a gallery Application Version.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/applications/myGalleryApplicationName/versions/1.0.0?$expand=ReplicationStatus&api-version=2021-10-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/applications/myGalleryApplicationName/versions/1.0.0?$expand=ReplicationStatus&api-version=2022-01-03
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/applications/myGalleryApplicationName/versions/1.0.0?$expand=ReplicationStatus&api-version=2022-01-03
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for GalleryApplicationVersions Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryApplicationVersion_Get.json
+           */
+          /**
+           * Sample code: Get a gallery Application Version.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getAGalleryApplicationVersion(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getGalleryApplicationVersions()
+                  .getWithResponse(
+                      "myResourceGroup", "myGalleryName", "myGalleryApplicationName", "1.0.0", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieves information about a gallery Application Version.
+       *
+       * @summary Retrieves information about a gallery Application Version.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryApplicationVersion_Get.json
+       */
+      async function getAGalleryApplicationVersion() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const galleryName = "myGalleryName";
+        const galleryApplicationName = "myGalleryApplicationName";
+        const galleryApplicationVersionName = "1.0.0";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.galleryApplicationVersions.get(
+          resourceGroupName,
+          galleryName,
+          galleryApplicationName,
+          galleryApplicationVersionName
+        );
+        console.log(result);
+      }
+
+      getAGalleryApplicationVersion().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -524,7 +629,121 @@ examples:
       }
 - name: Get a gallery Application Version with replication status.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/applications/myGalleryApplicationName/versions/1.0.0?$expand=ReplicationStatus&api-version=2021-10-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/applications/myGalleryApplicationName/versions/1.0.0?$expand=ReplicationStatus&api-version=2022-01-03
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/applications/myGalleryApplicationName/versions/1.0.0?$expand=ReplicationStatus&api-version=2022-01-03
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.ReplicationStatusTypes;
+
+      /** Samples for GalleryApplicationVersions Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryApplicationVersion_Get_WithReplicationStatus.json
+           */
+          /**
+           * Sample code: Get a gallery Application Version with replication status.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getAGalleryApplicationVersionWithReplicationStatus(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getGalleryApplicationVersions()
+                  .getWithResponse(
+                      "myResourceGroup",
+                      "myGalleryName",
+                      "myGalleryApplicationName",
+                      "1.0.0",
+                      ReplicationStatusTypes.REPLICATION_STATUS,
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryApplicationVersion_Get_WithReplicationStatus.json
+      func ExampleGalleryApplicationVersionsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewGalleryApplicationVersionsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"myResourceGroup",
+      		"myGalleryName",
+      		"myGalleryApplicationName",
+      		"1.0.0",
+      		&armcompute.GalleryApplicationVersionsClientGetOptions{Expand: to.Ptr(armcompute.ReplicationStatusTypesReplicationStatus)})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieves information about a gallery Application Version.
+       *
+       * @summary Retrieves information about a gallery Application Version.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryApplicationVersion_Get_WithReplicationStatus.json
+       */
+      async function getAGalleryApplicationVersionWithReplicationStatus() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const galleryName = "myGalleryName";
+        const galleryApplicationName = "myGalleryApplicationName";
+        const galleryApplicationVersionName = "1.0.0";
+        const expand = "ReplicationStatus";
+        const options = { expand };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.galleryApplicationVersions.get(
+          resourceGroupName,
+          galleryName,
+          galleryApplicationName,
+          galleryApplicationVersionName,
+          options
+        );
+        console.log(result);
+      }
+
+      getAGalleryApplicationVersionWithReplicationStatus().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -539,6 +758,14 @@ examples:
               "remove": "del C:\\package "
             },
             "enableHealthCheck": false,
+            "settings": {
+              "packageFileName": "package.zip",
+              "configFileName": "configuration.cfg"
+            },
+            "advancedSettings": {
+              "timeout": "300",
+              "user": "root"
+            },
             "targetRegions": [
               {
                 "name": "West US",

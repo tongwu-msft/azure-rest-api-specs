@@ -23,7 +23,7 @@ Reference is provided for the following API Management REST API versions.
 
 ### Preview
 
-* [Current (2021-04-01-preview)](xref:management.azure.com.apimanagement.current-preview.api)
+* [Current (2021-12-01-preview)](xref:management.azure.com.apimanagement.current-preview.api)
 
 ## REST operation groups
 

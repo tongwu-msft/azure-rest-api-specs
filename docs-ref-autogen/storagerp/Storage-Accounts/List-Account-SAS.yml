@@ -217,6 +217,152 @@ examples:
         "signedExpiry": "2017-05-24T11:42:03.1567373Z",
         "keyToSign": "key1"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7985/providers/Microsoft.Storage/storageAccounts/sto8588/ListAccountSas?api-version=2021-09-01
+
+      {
+        "signedServices": "b",
+        "signedResourceTypes": "s",
+        "signedPermission": "r",
+        "signedProtocol": "https,http",
+        "signedStart": "2017-05-24T10:42:03.1567373Z",
+        "signedExpiry": "2017-05-24T11:42:03.1567373Z",
+        "keyToSign": "key1"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.AccountSasParameters;
+      import com.azure.resourcemanager.storage.models.HttpProtocol;
+      import com.azure.resourcemanager.storage.models.Permissions;
+      import com.azure.resourcemanager.storage.models.Services;
+      import com.azure.resourcemanager.storage.models.SignedResourceTypes;
+      import java.time.OffsetDateTime;
+
+      /** Samples for StorageAccounts ListAccountSas. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountListAccountSAS.json
+           */
+          /**
+           * Sample code: StorageAccountListAccountSAS.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountListAccountSAS(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .listAccountSasWithResponse(
+                      "res7985",
+                      "sto8588",
+                      new AccountSasParameters()
+                          .withServices(Services.B)
+                          .withResourceTypes(SignedResourceTypes.S)
+                          .withPermissions(Permissions.R)
+                          .withProtocols(HttpProtocol.HTTPS_HTTP)
+                          .withSharedAccessStartTime(OffsetDateTime.parse("2017-05-24T10:42:03.1567373Z"))
+                          .withSharedAccessExpiryTime(OffsetDateTime.parse("2017-05-24T11:42:03.1567373Z"))
+                          .withKeyToSign("key1"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstorage_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountListAccountSAS.json
+      func ExampleAccountsClient_ListAccountSAS() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorage.NewAccountsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.ListAccountSAS(ctx,
+      		"res7985",
+      		"sto8588",
+      		armstorage.AccountSasParameters{
+      			KeyToSign:              to.Ptr("key1"),
+      			SharedAccessExpiryTime: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2017-05-24T11:42:03.1567373Z"); return t }()),
+      			Permissions:            to.Ptr(armstorage.PermissionsR),
+      			Protocols:              to.Ptr(armstorage.HTTPProtocolHTTPSHTTP),
+      			ResourceTypes:          to.Ptr(armstorage.SignedResourceTypesS),
+      			Services:               to.Ptr(armstorage.ServicesB),
+      			SharedAccessStartTime:  to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2017-05-24T10:42:03.1567373Z"); return t }()),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorage%2Farmstorage%2Fv1.0.0/sdk/resourcemanager/storage/armstorage/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to List SAS credentials of a storage account.
+       *
+       * @summary List SAS credentials of a storage account.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountListAccountSAS.json
+       */
+      async function storageAccountListAccountSas() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res7985";
+        const accountName = "sto8588";
+        const parameters = {
+          keyToSign: "key1",
+          sharedAccessExpiryTime: new Date("2017-05-24T11:42:03.1567373Z"),
+          permissions: "r",
+          protocols: "https,http",
+          resourceTypes: "s",
+          services: "b",
+          sharedAccessStartTime: new Date("2017-05-24T10:42:03.1567373Z"),
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.listAccountSAS(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      storageAccountListAccountSas().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

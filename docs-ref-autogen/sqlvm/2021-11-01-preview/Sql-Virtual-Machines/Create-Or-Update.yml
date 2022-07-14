@@ -820,6 +820,20 @@ examples:
           "virtualMachineResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm?api-version=2021-11-01-preview
+
+      {
+        "location": "northeurope",
+        "properties": {
+          "virtualMachineResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -923,6 +937,84 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm?api-version=2021-11-01-preview
+
+      {
+        "location": "northeurope",
+        "properties": {
+          "sqlServerLicenseType": "PAYG",
+          "sqlImageSku": "Enterprise",
+          "sqlManagement": "Full",
+          "virtualMachineResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+          "serverConfigurationsManagementSettings": {
+            "sqlConnectivityUpdateSettings": {
+              "connectivityType": "PRIVATE",
+              "port": 1433,
+              "sqlAuthUpdateUserName": "sqllogin",
+              "sqlAuthUpdatePassword": "<password>"
+            },
+            "sqlStorageUpdateSettings": {
+              "diskCount": 1,
+              "startingDeviceId": 2,
+              "diskConfigurationType": "NEW"
+            },
+            "sqlWorkloadTypeUpdateSettings": {
+              "sqlWorkloadType": "OLTP"
+            },
+            "additionalFeaturesServerConfigurations": {
+              "isRServicesEnabled": false
+            },
+            "sqlInstanceSettings": {
+              "collation": "SQL_Latin1_General_CP1_CI_AS",
+              "maxDop": 8,
+              "isOptimizeForAdHocWorkloadsEnabled": true,
+              "minServerMemoryMB": 0,
+              "maxServerMemoryMB": 128
+            }
+          },
+          "keyVaultCredentialSettings": {
+            "enable": false
+          },
+          "autoPatchingSettings": {
+            "enable": true,
+            "dayOfWeek": "Sunday",
+            "maintenanceWindowStartingHour": 2,
+            "maintenanceWindowDuration": 60
+          },
+          "autoBackupSettings": {
+            "enable": true,
+            "retentionPeriod": 17,
+            "enableEncryption": true,
+            "password": "<Password>",
+            "backupScheduleType": "Manual",
+            "backupSystemDbs": true,
+            "storageAccountUrl": "https://teststorage.blob.core.windows.net/",
+            "storageContainerName": "testcontainer",
+            "storageAccessKey": "<primary storage access key>",
+            "fullBackupFrequency": "Daily",
+            "fullBackupStartTime": 6,
+            "fullBackupWindowHours": 11,
+            "logBackupFrequency": 10
+          },
+          "assessmentSettings": {
+            "enable": true,
+            "runImmediately": true,
+            "schedule": {
+              "enable": true,
+              "weeklyInterval": 1,
+              "monthlyOccurrence": null,
+              "dayOfWeek": "Sunday",
+              "startTime": "23:17"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -970,6 +1062,79 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm?api-version=2021-11-01-preview
+
+      {
+        "location": "northeurope",
+        "properties": {
+          "virtualMachineResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm2",
+          "sqlVirtualMachineGroupResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/testvmgroup",
+          "wsfcDomainCredentials": {
+            "clusterBootstrapAccountPassword": "<Password>",
+            "clusterOperatorAccountPassword": "<Password>",
+            "sqlServiceAccountPassword": "<Password>"
+          }
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsqlvirtualmachine_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sqlvirtualmachine/armsqlvirtualmachine"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2021-11-01-preview/examples/CreateOrUpdateVirtualMachineWithVMGroup.json
+      func ExampleSQLVirtualMachinesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsqlvirtualmachine.NewSQLVirtualMachinesClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"testrg",
+      		"testvm",
+      		armsqlvirtualmachine.SQLVirtualMachine{
+      			Location: to.Ptr("northeurope"),
+      			Properties: &armsqlvirtualmachine.Properties{
+      				SQLVirtualMachineGroupResourceID: to.Ptr("/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/testvmgroup"),
+      				VirtualMachineResourceID:         to.Ptr("/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm2"),
+      				WsfcDomainCredentials: &armsqlvirtualmachine.WsfcDomainCredentials{
+      					ClusterBootstrapAccountPassword: to.Ptr("<Password>"),
+      					ClusterOperatorAccountPassword:  to.Ptr("<Password>"),
+      					SQLServiceAccountPassword:       to.Ptr("<Password>"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsqlvirtualmachine%2Farmsqlvirtualmachine%2Fv0.6.0/sdk/resourcemanager/sqlvirtualmachine/armsqlvirtualmachine/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1036,6 +1201,45 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm?api-version=2021-11-01-preview
+
+      {
+        "location": "northeurope",
+        "properties": {
+          "virtualMachineResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+          "storageConfigurationSettings": {
+            "diskConfigurationType": "NEW",
+            "storageWorkloadType": "OLTP",
+            "sqlDataSettings": {
+              "defaultFilePath": "F:\\folderpath\\",
+              "luns": [
+                0
+              ]
+            },
+            "sqlLogSettings": {
+              "defaultFilePath": "G:\\folderpath\\",
+              "luns": [
+                1
+              ]
+            },
+            "sqlTempDbSettings": {
+              "defaultFilePath": "D:\\TEMP",
+              "dataFileSize": 256,
+              "dataGrowth": 512,
+              "logFileSize": 256,
+              "logGrowth": 512,
+              "dataFileCount": 8
+            },
+            "sqlSystemDbOnDataDisk": true
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1083,6 +1287,28 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm?api-version=2021-11-01-preview
+
+      {
+        "location": "northeurope",
+        "properties": {
+          "virtualMachineResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+          "storageConfigurationSettings": {
+            "diskConfigurationType": "EXTEND",
+            "sqlDataSettings": {
+              "luns": [
+                2
+              ]
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1172,6 +1398,70 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm?api-version=2021-11-01-preview
+
+      {
+        "location": "northeurope",
+        "properties": {
+          "sqlServerLicenseType": "PAYG",
+          "sqlImageSku": "Enterprise",
+          "sqlManagement": "Full",
+          "virtualMachineResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+          "serverConfigurationsManagementSettings": {
+            "sqlConnectivityUpdateSettings": {
+              "connectivityType": "PRIVATE",
+              "port": 1433,
+              "sqlAuthUpdateUserName": "sqllogin",
+              "sqlAuthUpdatePassword": "<password>"
+            },
+            "sqlStorageUpdateSettings": {
+              "diskCount": 1,
+              "startingDeviceId": 2,
+              "diskConfigurationType": "NEW"
+            },
+            "sqlWorkloadTypeUpdateSettings": {
+              "sqlWorkloadType": "OLTP"
+            },
+            "additionalFeaturesServerConfigurations": {
+              "isRServicesEnabled": false
+            }
+          },
+          "keyVaultCredentialSettings": {
+            "enable": false
+          },
+          "autoPatchingSettings": {
+            "enable": true,
+            "dayOfWeek": "Sunday",
+            "maintenanceWindowStartingHour": 2,
+            "maintenanceWindowDuration": 60
+          },
+          "autoBackupSettings": {
+            "enable": true,
+            "retentionPeriod": 17,
+            "enableEncryption": true,
+            "password": "<Password>",
+            "backupScheduleType": "Manual",
+            "backupSystemDbs": true,
+            "storageAccountUrl": "https://teststorage.blob.core.windows.net/",
+            "storageContainerName": "testcontainer",
+            "storageAccessKey": "<primary storage access key>",
+            "fullBackupFrequency": "Weekly",
+            "daysOfWeek": [
+              "Monday",
+              "Friday"
+            ],
+            "fullBackupStartTime": 6,
+            "fullBackupWindowHours": 11,
+            "logBackupFrequency": 10
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

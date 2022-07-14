@@ -186,6 +186,99 @@ examples:
           "viewCharges": "Allowed"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/policies/default?api-version=2020-05-01
+
+      {
+        "properties": {
+          "marketplacePurchases": "OnlyFreeAllowed",
+          "reservationPurchases": "NotAllowed",
+          "viewCharges": "Allowed"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.billing.fluent.models.PolicyInner;
+      import com.azure.resourcemanager.billing.models.MarketplacePurchasesPolicy;
+      import com.azure.resourcemanager.billing.models.ReservationPurchasesPolicy;
+      import com.azure.resourcemanager.billing.models.ViewChargesPolicy;
+
+      /** Samples for Policies Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/UpdatePolicy.json
+           */
+          /**
+           * Sample code: UpdatePolicy.
+           *
+           * @param manager Entry point to BillingManager.
+           */
+          public static void updatePolicy(com.azure.resourcemanager.billing.BillingManager manager) {
+              manager
+                  .policies()
+                  .updateWithResponse(
+                      "{billingAccountName}",
+                      "{billingProfileName}",
+                      new PolicyInner()
+                          .withMarketplacePurchases(MarketplacePurchasesPolicy.ONLY_FREE_ALLOWED)
+                          .withReservationPurchases(ReservationPurchasesPolicy.NOT_ALLOWED)
+                          .withViewCharges(ViewChargesPolicy.ALLOWED),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-billing_1.0.0-beta.2/sdk/billing/azure-resourcemanager-billing/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armbilling_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/billing/armbilling"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/UpdatePolicy.json
+      func ExamplePoliciesClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armbilling.NewPoliciesClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"{billingAccountName}",
+      		"{billingProfileName}",
+      		armbilling.Policy{
+      			Properties: &armbilling.PolicyProperties{
+      				MarketplacePurchases: to.Ptr(armbilling.MarketplacePurchasesPolicyOnlyFreeAllowed),
+      				ReservationPurchases: to.Ptr(armbilling.ReservationPurchasesPolicyNotAllowed),
+      				ViewCharges:          to.Ptr(armbilling.ViewChargesPolicyAllowed),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fbilling%2Farmbilling%2Fv0.5.0/sdk/resourcemanager/billing/armbilling/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

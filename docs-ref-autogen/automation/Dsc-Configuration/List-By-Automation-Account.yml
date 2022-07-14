@@ -266,6 +266,56 @@ examples:
 - name: Get DSC Configuration
   request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations?api-version=2019-06-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations?api-version=2019-06-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armautomation_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/getAllDscConfigurations.json
+      func ExampleDscConfigurationClient_NewListByAutomationAccountPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armautomation.NewDscConfigurationClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByAutomationAccountPager("rg",
+      		"myAutomationAccount33",
+      		&armautomation.DscConfigurationClientListByAutomationAccountOptions{Filter: nil,
+      			Skip:        nil,
+      			Top:         nil,
+      			Inlinecount: nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fautomation%2Farmautomation%2Fv0.6.0/sdk/resourcemanager/automation/armautomation/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -287,6 +337,12 @@ examples:
 - name: List Paged DSC Configurations with no filter
   request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations?api-version=2019-06-01&$skip=0&$top=3&$inlinecount=allpages
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations?api-version=2019-06-01&$skip=0&$top=3&$inlinecount=allpages
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -334,6 +390,12 @@ examples:
 - name: List Paged DSC Configurations with name filter
   request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations?api-version=2019-06-01&$filter=contains(name,'server')&$skip=0&$top=2&$inlinecount=allpages
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/configurations?api-version=2019-06-01&$filter=contains(name,'server')&$skip=0&$top=2&$inlinecount=allpages
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

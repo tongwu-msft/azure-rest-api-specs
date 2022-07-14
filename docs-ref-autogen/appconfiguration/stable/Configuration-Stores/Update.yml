@@ -530,6 +530,146 @@ examples:
           "name": "Standard"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso?api-version=2022-05-01
+
+      {
+        "tags": {
+          "Category": "Marketing"
+        },
+        "sku": {
+          "name": "Standard"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appconfiguration.models.ConfigurationStore;
+      import com.azure.resourcemanager.appconfiguration.models.Sku;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ConfigurationStores Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresUpdate.json
+           */
+          /**
+           * Sample code: ConfigurationStores_Update.
+           *
+           * @param manager Entry point to AppConfigurationManager.
+           */
+          public static void configurationStoresUpdate(
+              com.azure.resourcemanager.appconfiguration.AppConfigurationManager manager) {
+              ConfigurationStore resource =
+                  manager
+                      .configurationStores()
+                      .getByResourceGroupWithResponse("myResourceGroup", "contoso", Context.NONE)
+                      .getValue();
+              resource.update().withTags(mapOf("Category", "Marketing")).withSku(new Sku().withName("Standard")).apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appconfiguration_1.0.0-beta.6/sdk/appconfiguration/azure-resourcemanager-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappconfiguration_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresUpdate.json
+      func ExampleConfigurationStoresClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappconfiguration.NewConfigurationStoresClient("c80fb759-c965-4c6a-9110-9b2b2d038882", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"myResourceGroup",
+      		"contoso",
+      		armappconfiguration.ConfigurationStoreUpdateParameters{
+      			SKU: &armappconfiguration.SKU{
+      				Name: to.Ptr("Standard"),
+      			},
+      			Tags: map[string]*string{
+      				"Category": to.Ptr("Marketing"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappconfiguration%2Farmappconfiguration%2Fv1.0.0/sdk/resourcemanager/appconfiguration/armappconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates a configuration store with the specified parameters.
+       *
+       * @summary Updates a configuration store with the specified parameters.
+       * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresUpdate.json
+       */
+      async function configurationStoresUpdate() {
+        const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+        const resourceGroupName = "myResourceGroup";
+        const configStoreName = "contoso";
+        const configStoreUpdateParameters = {
+          sku: { name: "Standard" },
+          tags: { category: "Marketing" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AppConfigurationManagementClient(credential, subscriptionId);
+        const result = await client.configurationStores.beginUpdateAndWait(
+          resourceGroupName,
+          configStoreName,
+          configStoreUpdateParameters
+        );
+        console.log(result);
+      }
+
+      configurationStoresUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appconfiguration_3.0.0/sdk/appconfiguration/arm-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -621,6 +761,124 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso?api-version=2022-05-01
+
+      {
+        "tags": {
+          "Category": "Marketing"
+        },
+        "sku": {
+          "name": "Standard"
+        },
+        "identity": {
+          "type": "SystemAssigned, UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourcegroups/myResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity2": {}
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appconfiguration.models.ConfigurationStore;
+      import com.azure.resourcemanager.appconfiguration.models.IdentityType;
+      import com.azure.resourcemanager.appconfiguration.models.ResourceIdentity;
+      import com.azure.resourcemanager.appconfiguration.models.Sku;
+      import com.azure.resourcemanager.appconfiguration.models.UserIdentity;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ConfigurationStores Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresUpdateWithIdentity.json
+           */
+          /**
+           * Sample code: ConfigurationStores_Update_With_Identity.
+           *
+           * @param manager Entry point to AppConfigurationManager.
+           */
+          public static void configurationStoresUpdateWithIdentity(
+              com.azure.resourcemanager.appconfiguration.AppConfigurationManager manager) {
+              ConfigurationStore resource =
+                  manager
+                      .configurationStores()
+                      .getByResourceGroupWithResponse("myResourceGroup", "contoso", Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withTags(mapOf("Category", "Marketing"))
+                  .withIdentity(
+                      new ResourceIdentity()
+                          .withType(IdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED)
+                          .withUserAssignedIdentities(
+                              mapOf(
+                                  "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourcegroups/myResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity2",
+                                  new UserIdentity())))
+                  .withSku(new Sku().withName("Standard"))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appconfiguration_1.0.0-beta.6/sdk/appconfiguration/azure-resourcemanager-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates a configuration store with the specified parameters.
+       *
+       * @summary Updates a configuration store with the specified parameters.
+       * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresUpdateWithIdentity.json
+       */
+      async function configurationStoresUpdateWithIdentity() {
+        const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+        const resourceGroupName = "myResourceGroup";
+        const configStoreName = "contoso";
+        const configStoreUpdateParameters = {
+          identity: {
+            type: "SystemAssigned, UserAssigned",
+            userAssignedIdentities: {
+              "/subscriptions/c80fb759C9654c6a91109b2b2d038882/resourcegroups/myResourceGroup1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity2":
+                {},
+            },
+          },
+          sku: { name: "Standard" },
+          tags: { category: "Marketing" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AppConfigurationManagementClient(credential, subscriptionId);
+        const result = await client.configurationStores.beginUpdateAndWait(
+          resourceGroupName,
+          configStoreName,
+          configStoreUpdateParameters
+        );
+        console.log(result);
+      }
+
+      configurationStoresUpdateWithIdentity().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appconfiguration_3.0.0/sdk/appconfiguration/arm-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -728,6 +986,97 @@ examples:
           "disableLocalAuth": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso?api-version=2022-05-01
+
+      {
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "disableLocalAuth": true
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appconfiguration.models.ConfigurationStore;
+      import com.azure.resourcemanager.appconfiguration.models.Sku;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ConfigurationStores Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresUpdateDisableLocalAuth.json
+           */
+          /**
+           * Sample code: ConfigurationStores_Update_Disable_Local_Auth.
+           *
+           * @param manager Entry point to AppConfigurationManager.
+           */
+          public static void configurationStoresUpdateDisableLocalAuth(
+              com.azure.resourcemanager.appconfiguration.AppConfigurationManager manager) {
+              ConfigurationStore resource =
+                  manager
+                      .configurationStores()
+                      .getByResourceGroupWithResponse("myResourceGroup", "contoso", Context.NONE)
+                      .getValue();
+              resource.update().withSku(new Sku().withName("Standard")).withDisableLocalAuth(true).apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appconfiguration_1.0.0-beta.6/sdk/appconfiguration/azure-resourcemanager-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates a configuration store with the specified parameters.
+       *
+       * @summary Updates a configuration store with the specified parameters.
+       * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresUpdateDisableLocalAuth.json
+       */
+      async function configurationStoresUpdateDisableLocalAuth() {
+        const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+        const resourceGroupName = "myResourceGroup";
+        const configStoreName = "contoso";
+        const configStoreUpdateParameters = {
+          disableLocalAuth: true,
+          sku: { name: "Standard" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AppConfigurationManagementClient(credential, subscriptionId);
+        const result = await client.configurationStores.beginUpdateAndWait(
+          resourceGroupName,
+          configStoreName,
+          configStoreUpdateParameters
+        );
+        console.log(result);
+      }
+
+      configurationStoresUpdateDisableLocalAuth().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appconfiguration_3.0.0/sdk/appconfiguration/arm-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

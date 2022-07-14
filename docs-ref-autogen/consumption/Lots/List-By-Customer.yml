@@ -269,6 +269,52 @@ examples:
 - name: LotsListByCustomer
   request:
     uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:5678/customers/1234:5678/providers/Microsoft.Consumption/lots?api-version=2021-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:5678/customers/1234:5678/providers/Microsoft.Consumption/lots?api-version=2021-10-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armconsumption_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/consumption/armconsumption"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/LotsListByCustomer.json
+      func ExampleLotsClient_NewListByCustomerPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armconsumption.NewLotsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByCustomerPager("1234:5678",
+      		"1234:5678",
+      		&armconsumption.LotsClientListByCustomerOptions{Filter: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fconsumption%2Farmconsumption%2Fv1.0.0/sdk/resourcemanager/consumption/armconsumption/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -317,6 +363,12 @@ examples:
 - name: LotsListByCustomerWithFilter
   request:
     uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:5678/customers/1234:5678/providers/Microsoft.Consumption/lots?api-version=2021-10-01&$filter=status eq 'active' AND source eq 'consumptioncommitment'
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:5678/customers/1234:5678/providers/Microsoft.Consumption/lots?api-version=2021-10-01&$filter=status eq 'active' AND source eq 'consumptioncommitment'
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

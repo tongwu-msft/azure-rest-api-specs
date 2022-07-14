@@ -132,6 +132,7 @@ definitions:
     - uid: EventHubStreamInputDataSource
     - uid: EventHubV2StreamInputDataSource
     - uid: IoTHubStreamInputDataSource
+    - uid: GatewayMessageBusStreamInputDataSource
     typesTitle: StreamInputDataSource
   - name: type
     description: Indicates whether the input is a source of reference data or stream data. Required on PUT (CreateOrReplace) requests.
@@ -171,6 +172,7 @@ definitions:
   - name: datasource
     description: Describes an input data source that contains reference data. Required on PUT (CreateOrReplace) requests.
     types:
+    - uid: FileReferenceInputDataSource
     - uid: BlobReferenceInputDataSource
     - uid: AzureSqlReferenceInputDataSource
     typesTitle: ReferenceInputDataSource
@@ -223,6 +225,7 @@ definitions:
     description: Indicates the type of compression that the input uses. Required on PUT (CreateOrReplace) requests.
     types:
     - uid: CompressionType
+    defaultValue: None
 - name: BlobStreamInputDataSource
   description: Describes a blob input data source that contains stream data.
   kind: object
@@ -261,6 +264,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: EventHubStreamInputDataSource
   description: Describes an Event Hub input data source that contains stream data.
   kind: object
@@ -294,6 +298,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: EventHubV2StreamInputDataSource
   description: Describes an Event Hub input data source that contains stream data.
   kind: object
@@ -327,6 +332,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: IoTHubStreamInputDataSource
   description: Describes an IoT Hub input data source that contains stream data.
   kind: object
@@ -356,6 +362,19 @@ definitions:
     types:
     - uid: Microsoft.Devices/IotHubs
     typesTitle: string
+- name: GatewayMessageBusStreamInputDataSource
+  description: Describes a blob input data source that contains stream data.
+  kind: object
+  properties:
+  - name: type
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: GatewayMessageBus
+    typesTitle: string
+  - name: properties.topic
+    description: The name of the Service Bus topic.
+    types:
+    - uid: string
 - name: ParquetSerialization
   description: Describes how data from an input is serialized or how data is serialized when written to an output in Parquet format.
   kind: object
@@ -440,6 +459,19 @@ definitions:
   - name: Deflate
     types:
     - uid: string
+- name: FileReferenceInputDataSource
+  description: Describes a file input data source that contains reference data.
+  kind: object
+  properties:
+  - name: properties.path
+    description: The path of the file.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: File
+    typesTitle: string
 - name: BlobReferenceInputDataSource
   description: Describes a blob input data source that contains reference data.
   kind: object
@@ -474,6 +506,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: AzureSqlReferenceInputDataSource
   description: Describes an Azure SQL database reference input data source.
   kind: object
@@ -622,6 +655,180 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg8440/providers/Microsoft.StreamAnalytics/streamingjobs/sj9597/inputs/input7225?api-version=2020-03-01
+
+      {
+        "properties": {
+          "type": "Reference",
+          "datasource": {
+            "type": "Microsoft.Storage/Blob",
+            "properties": {
+              "storageAccounts": [
+                {
+                  "accountName": "someAccountName",
+                  "accountKey": "someAccountKey=="
+                }
+              ],
+              "container": "state",
+              "pathPattern": "{date}/{time}",
+              "dateFormat": "yyyy/MM/dd",
+              "timeFormat": "HH"
+            }
+          },
+          "serialization": {
+            "type": "Csv",
+            "properties": {
+              "fieldDelimiter": ",",
+              "encoding": "UTF8"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.streamanalytics.models.BlobReferenceInputDataSource;
+      import com.azure.resourcemanager.streamanalytics.models.CsvSerialization;
+      import com.azure.resourcemanager.streamanalytics.models.Encoding;
+      import com.azure.resourcemanager.streamanalytics.models.ReferenceInputProperties;
+
+      /** Samples for Inputs CreateOrReplace. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Create_Reference_Blob_CSV.json
+           */
+          /**
+           * Sample code: Create a reference blob input with CSV serialization.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void createAReferenceBlobInputWithCSVSerialization(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              manager
+                  .inputs()
+                  .define("input7225")
+                  .withExistingStreamingjob("sjrg8440", "sj9597")
+                  .withProperties(
+                      new ReferenceInputProperties()
+                          .withSerialization(new CsvSerialization().withFieldDelimiter(",").withEncoding(Encoding.UTF8))
+                          .withDatasource(new BlobReferenceInputDataSource()))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstreamanalytics_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/streamanalytics/armstreamanalytics"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Create_Reference_Blob_CSV.json
+      func ExampleInputsClient_CreateOrReplace() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstreamanalytics.NewInputsClient("56b5e0a9-b645-407d-99b0-c64f86013e3d", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrReplace(ctx,
+      		"sjrg8440",
+      		"sj9597",
+      		"input7225",
+      		armstreamanalytics.Input{
+      			Properties: &armstreamanalytics.ReferenceInputProperties{
+      				Type: to.Ptr("Reference"),
+      				Serialization: &armstreamanalytics.CSVSerialization{
+      					Type: to.Ptr(armstreamanalytics.EventSerializationTypeCSV),
+      					Properties: &armstreamanalytics.CSVSerializationProperties{
+      						Encoding:       to.Ptr(armstreamanalytics.EncodingUTF8),
+      						FieldDelimiter: to.Ptr(","),
+      					},
+      				},
+      				Datasource: &armstreamanalytics.BlobReferenceInputDataSource{
+      					Type: to.Ptr("Microsoft.Storage/Blob"),
+      					Properties: &armstreamanalytics.BlobReferenceInputDataSourceProperties{
+      						Container:   to.Ptr("state"),
+      						DateFormat:  to.Ptr("yyyy/MM/dd"),
+      						PathPattern: to.Ptr("{date}/{time}"),
+      						StorageAccounts: []*armstreamanalytics.StorageAccount{
+      							{
+      								AccountKey:  to.Ptr("someAccountKey=="),
+      								AccountName: to.Ptr("someAccountName"),
+      							}},
+      						TimeFormat: to.Ptr("HH"),
+      					},
+      				},
+      			},
+      		},
+      		&armstreamanalytics.InputsClientCreateOrReplaceOptions{IfMatch: nil,
+      			IfNoneMatch: nil,
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstreamanalytics%2Farmstreamanalytics%2Fv1.0.0/sdk/resourcemanager/streamanalytics/armstreamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates an input or replaces an already existing input under an existing streaming job.
+       *
+       * @summary Creates an input or replaces an already existing input under an existing streaming job.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Create_Reference_Blob_CSV.json
+       */
+      async function createAReferenceBlobInputWithCsvSerialization() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg8440";
+        const jobName = "sj9597";
+        const inputName = "input7225";
+        const input = {
+          properties: {
+            type: "Reference",
+            datasource: {
+              type: "Microsoft.Storage/Blob",
+              container: "state",
+              dateFormat: "yyyy/MM/dd",
+              pathPattern: "{date}/{time}",
+              storageAccounts: [{ accountKey: "someAccountKey==", accountName: "someAccountName" }],
+              timeFormat: "HH",
+            },
+            serialization: { type: "Csv", encoding: "UTF8", fieldDelimiter: "," },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.inputs.createOrReplace(resourceGroupName, jobName, inputName, input);
+        console.log(result);
+      }
+
+      createAReferenceBlobInputWithCsvSerialization().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:
@@ -723,6 +930,130 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg8161/providers/Microsoft.StreamAnalytics/streamingjobs/sj6695/inputs/input8899?api-version=2020-03-01
+
+      {
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "Microsoft.Storage/Blob",
+            "properties": {
+              "storageAccounts": [
+                {
+                  "accountName": "someAccountName",
+                  "accountKey": "someAccountKey=="
+                }
+              ],
+              "container": "state",
+              "pathPattern": "{date}/{time}",
+              "dateFormat": "yyyy/MM/dd",
+              "timeFormat": "HH",
+              "sourcePartitionCount": 16
+            }
+          },
+          "serialization": {
+            "type": "Csv",
+            "properties": {
+              "fieldDelimiter": ",",
+              "encoding": "UTF8"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.streamanalytics.models.BlobStreamInputDataSource;
+      import com.azure.resourcemanager.streamanalytics.models.CsvSerialization;
+      import com.azure.resourcemanager.streamanalytics.models.Encoding;
+      import com.azure.resourcemanager.streamanalytics.models.StorageAccount;
+      import com.azure.resourcemanager.streamanalytics.models.StreamInputProperties;
+      import java.util.Arrays;
+
+      /** Samples for Inputs CreateOrReplace. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Create_Stream_Blob_CSV.json
+           */
+          /**
+           * Sample code: Create a stream blob input with CSV serialization.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void createAStreamBlobInputWithCSVSerialization(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              manager
+                  .inputs()
+                  .define("input8899")
+                  .withExistingStreamingjob("sjrg8161", "sj6695")
+                  .withProperties(
+                      new StreamInputProperties()
+                          .withSerialization(new CsvSerialization().withFieldDelimiter(",").withEncoding(Encoding.UTF8))
+                          .withDatasource(
+                              new BlobStreamInputDataSource()
+                                  .withSourcePartitionCount(16)
+                                  .withStorageAccounts(
+                                      Arrays
+                                          .asList(
+                                              new StorageAccount()
+                                                  .withAccountName("someAccountName")
+                                                  .withAccountKey("someAccountKey==")))
+                                  .withContainer("state")
+                                  .withPathPattern("{date}/{time}")
+                                  .withDateFormat("yyyy/MM/dd")
+                                  .withTimeFormat("HH")))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates an input or replaces an already existing input under an existing streaming job.
+       *
+       * @summary Creates an input or replaces an already existing input under an existing streaming job.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Create_Stream_Blob_CSV.json
+       */
+      async function createAStreamBlobInputWithCsvSerialization() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg8161";
+        const jobName = "sj6695";
+        const inputName = "input8899";
+        const input = {
+          properties: {
+            type: "Stream",
+            datasource: {
+              type: "Microsoft.Storage/Blob",
+              container: "state",
+              dateFormat: "yyyy/MM/dd",
+              pathPattern: "{date}/{time}",
+              sourcePartitionCount: 16,
+              storageAccounts: [{ accountKey: "someAccountKey==", accountName: "someAccountName" }],
+              timeFormat: "HH",
+            },
+            serialization: { type: "Csv", encoding: "UTF8", fieldDelimiter: "," },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.inputs.createOrReplace(resourceGroupName, jobName, inputName, input);
+        console.log(result);
+      }
+
+      createAStreamBlobInputWithCsvSerialization().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:
@@ -819,6 +1150,114 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg3139/providers/Microsoft.StreamAnalytics/streamingjobs/sj197/inputs/input7425?api-version=2020-03-01
+
+      {
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "Microsoft.ServiceBus/EventHub",
+            "properties": {
+              "serviceBusNamespace": "sdktest",
+              "sharedAccessPolicyName": "RootManageSharedAccessKey",
+              "sharedAccessPolicyKey": "someSharedAccessPolicyKey==",
+              "eventHubName": "sdkeventhub",
+              "consumerGroupName": "sdkconsumergroup"
+            }
+          },
+          "serialization": {
+            "type": "Json",
+            "properties": {
+              "encoding": "UTF8"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.streamanalytics.models.Encoding;
+      import com.azure.resourcemanager.streamanalytics.models.EventHubStreamInputDataSource;
+      import com.azure.resourcemanager.streamanalytics.models.JsonSerialization;
+      import com.azure.resourcemanager.streamanalytics.models.StreamInputProperties;
+
+      /** Samples for Inputs CreateOrReplace. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Create_Stream_EventHub_JSON.json
+           */
+          /**
+           * Sample code: Create a stream Event Hub input with JSON serialization.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void createAStreamEventHubInputWithJSONSerialization(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              manager
+                  .inputs()
+                  .define("input7425")
+                  .withExistingStreamingjob("sjrg3139", "sj197")
+                  .withProperties(
+                      new StreamInputProperties()
+                          .withSerialization(new JsonSerialization().withEncoding(Encoding.UTF8))
+                          .withDatasource(
+                              new EventHubStreamInputDataSource()
+                                  .withConsumerGroupName("sdkconsumergroup")
+                                  .withEventHubName("sdkeventhub")
+                                  .withServiceBusNamespace("sdktest")
+                                  .withSharedAccessPolicyName("RootManageSharedAccessKey")
+                                  .withSharedAccessPolicyKey("someSharedAccessPolicyKey==")))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates an input or replaces an already existing input under an existing streaming job.
+       *
+       * @summary Creates an input or replaces an already existing input under an existing streaming job.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Create_Stream_EventHub_JSON.json
+       */
+      async function createAStreamEventHubInputWithJsonSerialization() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg3139";
+        const jobName = "sj197";
+        const inputName = "input7425";
+        const input = {
+          properties: {
+            type: "Stream",
+            datasource: {
+              type: "Microsoft.ServiceBus/EventHub",
+              consumerGroupName: "sdkconsumergroup",
+              eventHubName: "sdkeventhub",
+              serviceBusNamespace: "sdktest",
+              sharedAccessPolicyKey: "someSharedAccessPolicyKey==",
+              sharedAccessPolicyName: "RootManageSharedAccessKey",
+            },
+            serialization: { type: "Json", encoding: "UTF8" },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.inputs.createOrReplace(resourceGroupName, jobName, inputName, input);
+        console.log(result);
+      }
+
+      createAStreamEventHubInputWithJsonSerialization().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:
@@ -898,6 +1337,110 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg3467/providers/Microsoft.StreamAnalytics/streamingjobs/sj9742/inputs/input7970?api-version=2020-03-01
+
+      {
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "Microsoft.Devices/IotHubs",
+            "properties": {
+              "iotHubNamespace": "iothub",
+              "sharedAccessPolicyName": "owner",
+              "sharedAccessPolicyKey": "sharedAccessPolicyKey=",
+              "consumerGroupName": "sdkconsumergroup",
+              "endpoint": "messages/events"
+            }
+          },
+          "serialization": {
+            "type": "Avro"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.streamanalytics.models.AvroSerialization;
+      import com.azure.resourcemanager.streamanalytics.models.IoTHubStreamInputDataSource;
+      import com.azure.resourcemanager.streamanalytics.models.StreamInputProperties;
+
+      /** Samples for Inputs CreateOrReplace. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Create_Stream_IoTHub_Avro.json
+           */
+          /**
+           * Sample code: Create a stream IoT Hub input with Avro serialization.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void createAStreamIoTHubInputWithAvroSerialization(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              manager
+                  .inputs()
+                  .define("input7970")
+                  .withExistingStreamingjob("sjrg3467", "sj9742")
+                  .withProperties(
+                      new StreamInputProperties()
+                          .withSerialization(new AvroSerialization())
+                          .withDatasource(
+                              new IoTHubStreamInputDataSource()
+                                  .withIotHubNamespace("iothub")
+                                  .withSharedAccessPolicyName("owner")
+                                  .withSharedAccessPolicyKey("sharedAccessPolicyKey=")
+                                  .withConsumerGroupName("sdkconsumergroup")
+                                  .withEndpoint("messages/events")))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates an input or replaces an already existing input under an existing streaming job.
+       *
+       * @summary Creates an input or replaces an already existing input under an existing streaming job.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Create_Stream_IoTHub_Avro.json
+       */
+      async function createAStreamIoTHubInputWithAvroSerialization() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg3467";
+        const jobName = "sj9742";
+        const inputName = "input7970";
+        const input = {
+          properties: {
+            type: "Stream",
+            datasource: {
+              type: "Microsoft.Devices/IotHubs",
+              consumerGroupName: "sdkconsumergroup",
+              endpoint: "messages/events",
+              iotHubNamespace: "iothub",
+              sharedAccessPolicyKey: "sharedAccessPolicyKey=",
+              sharedAccessPolicyName: "owner",
+            },
+            serialization: { type: "Avro" },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.inputs.createOrReplace(resourceGroupName, jobName, inputName, input);
+        console.log(result);
+      }
+
+      createAStreamIoTHubInputWithAvroSerialization().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:
@@ -948,6 +1491,152 @@ examples:
           "serialization": {
             "type": "Avro",
             "properties": {}
+          }
+        }
+      }
+- name: Create a Gateway Message Bus input
+  request:
+    uri: PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg3467/providers/Microsoft.StreamAnalytics/streamingjobs/sj9742/inputs/input7970?api-version=2020-03-01
+    body: >-
+      {
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "GatewayMessageBus",
+            "properties": {
+              "topic": "EdgeTopic1"
+            }
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg3467/providers/Microsoft.StreamAnalytics/streamingjobs/sj9742/inputs/input7970?api-version=2020-03-01
+
+      {
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "GatewayMessageBus",
+            "properties": {
+              "topic": "EdgeTopic1"
+            }
+          }
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: ETag
+      value: bd8009b3-8165-4bd3-aad2-29a2b378dd14
+    body: >-
+      {
+        "id": "/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourceGroups/sjrg3467/providers/Microsoft.StreamAnalytics/streamingjobs/sj9742/inputs/input7970",
+        "name": "input7970",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/inputs",
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "GatewayMessageBus",
+            "properties": {
+              "topic": "EdgeTopic1"
+            }
+          }
+        }
+      }
+  - statusCode: "200"
+    headers:
+    - name: ETag
+      value: bd8009b3-8165-4bd3-aad2-29a2b378dd14
+    body: >-
+      {
+        "id": "/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourceGroups/sjrg3467/providers/Microsoft.StreamAnalytics/streamingjobs/sj9742/inputs/input7970",
+        "name": "input7970",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/inputs",
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "GatewayMessageBus",
+            "properties": {
+              "topic": "EdgeTopic1"
+            }
+          }
+        }
+      }
+- name: Create a reference file input
+  request:
+    uri: PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg8440/providers/Microsoft.StreamAnalytics/streamingjobs/sj9597/inputs/input7225?api-version=2020-03-01
+    body: >-
+      {
+        "properties": {
+          "type": "Reference",
+          "datasource": {
+            "type": "File",
+            "properties": {
+              "path": "my/path"
+            }
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg8440/providers/Microsoft.StreamAnalytics/streamingjobs/sj9597/inputs/input7225?api-version=2020-03-01
+
+      {
+        "properties": {
+          "type": "Reference",
+          "datasource": {
+            "type": "File",
+            "properties": {
+              "path": "my/path"
+            }
+          }
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: ETag
+      value: c987701d-4039-47aa-a115-ad84f67d07c5
+    body: >-
+      {
+        "id": "/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourceGroups/sjrg8440/providers/Microsoft.StreamAnalytics/streamingjobs/sj9597/inputs/input7225",
+        "name": "input7225",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/inputs",
+        "properties": {
+          "type": "Reference",
+          "datasource": {
+            "type": "File",
+            "properties": {
+              "path": "my/path"
+            }
+          }
+        }
+      }
+  - statusCode: "200"
+    headers:
+    - name: ETag
+      value: c987701d-4039-47aa-a115-ad84f67d07c5
+    body: >-
+      {
+        "id": "/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourceGroups/sjrg8440/providers/Microsoft.StreamAnalytics/streamingjobs/sj9597/inputs/input7225",
+        "name": "input7225",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/inputs",
+        "properties": {
+          "type": "Reference",
+          "datasource": {
+            "type": "File",
+            "properties": {
+              "path": "my/path"
+            }
           }
         }
       }

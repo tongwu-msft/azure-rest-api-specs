@@ -568,6 +568,172 @@ examples:
           "effectiveDate": "2019-08-30T15:14:33+02:00"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Dynatrace.Observability/monitors/myMonitor?api-version=2021-09-01-preview
+
+      {
+        "tags": {
+          "Environment": "Dev"
+        },
+        "monitoringStatus": "Enabled",
+        "marketplaceSubscriptionStatus": "Active",
+        "dynatraceEnvironmentProperties": {
+          "accountInfo": {},
+          "environmentInfo": {},
+          "singleSignOnProperties": {}
+        },
+        "userInfo": {
+          "firstName": "Alice",
+          "lastName": "Bobab",
+          "emailAddress": "alice@microsoft.com",
+          "phoneNumber": "123456",
+          "country": "westus2"
+        },
+        "planData": {
+          "usageType": "Committed",
+          "billingCycle": "Monthly",
+          "planDetails": "dynatraceapitestplan",
+          "effectiveDate": "2019-08-30T15:14:33+02:00"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dynatrace.fluent.models.DynatraceSingleSignOnProperties;
+      import com.azure.resourcemanager.dynatrace.models.AccountInfo;
+      import com.azure.resourcemanager.dynatrace.models.DynatraceEnvironmentProperties;
+      import com.azure.resourcemanager.dynatrace.models.EnvironmentInfo;
+      import com.azure.resourcemanager.dynatrace.models.MarketplaceSubscriptionStatus;
+      import com.azure.resourcemanager.dynatrace.models.MonitorResource;
+      import com.azure.resourcemanager.dynatrace.models.MonitoringStatus;
+      import com.azure.resourcemanager.dynatrace.models.PlanData;
+      import com.azure.resourcemanager.dynatrace.models.UserInfo;
+      import java.time.OffsetDateTime;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Monitors Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/preview/2021-09-01-preview/examples/Monitors_Update_MaximumSet_Gen.json
+           */
+          /**
+           * Sample code: Monitors_Update_MaximumSet_Gen.
+           *
+           * @param manager Entry point to DynatraceManager.
+           */
+          public static void monitorsUpdateMaximumSetGen(com.azure.resourcemanager.dynatrace.DynatraceManager manager) {
+              MonitorResource resource =
+                  manager.monitors().getByResourceGroupWithResponse("myResourceGroup", "myMonitor", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withTags(mapOf("Environment", "Dev"))
+                  .withMonitoringStatus(MonitoringStatus.ENABLED)
+                  .withMarketplaceSubscriptionStatus(MarketplaceSubscriptionStatus.ACTIVE)
+                  .withDynatraceEnvironmentProperties(
+                      new DynatraceEnvironmentProperties()
+                          .withAccountInfo(new AccountInfo())
+                          .withEnvironmentInfo(new EnvironmentInfo())
+                          .withSingleSignOnProperties(new DynatraceSingleSignOnProperties()))
+                  .withUserInfo(
+                      new UserInfo()
+                          .withFirstName("Alice")
+                          .withLastName("Bobab")
+                          .withEmailAddress("alice@microsoft.com")
+                          .withPhoneNumber("123456")
+                          .withCountry("westus2"))
+                  .withPlanData(
+                      new PlanData()
+                          .withUsageType("Committed")
+                          .withBillingCycle("Monthly")
+                          .withPlanDetails("dynatraceapitestplan")
+                          .withEffectiveDate(OffsetDateTime.parse("2019-08-30T15:14:33+02:00")))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-dynatrace_1.0.0-beta.1/sdk/dynatrace/azure-resourcemanager-dynatrace/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdynatrace_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dynatrace/armdynatrace"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dynatrace/resource-manager/Dynatrace.Observability/preview/2021-09-01-preview/examples/Monitors_Update_MaximumSet_Gen.json
+      func ExampleMonitorsClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdynatrace.NewMonitorsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"myResourceGroup",
+      		"myMonitor",
+      		armdynatrace.MonitorResourceUpdate{
+      			DynatraceEnvironmentProperties: &armdynatrace.EnvironmentProperties{
+      				AccountInfo:            &armdynatrace.AccountInfo{},
+      				EnvironmentInfo:        &armdynatrace.EnvironmentInfo{},
+      				SingleSignOnProperties: &armdynatrace.SingleSignOnProperties{},
+      			},
+      			MarketplaceSubscriptionStatus: to.Ptr(armdynatrace.MarketplaceSubscriptionStatusActive),
+      			MonitoringStatus:              to.Ptr(armdynatrace.MonitoringStatusEnabled),
+      			PlanData: &armdynatrace.PlanData{
+      				BillingCycle:  to.Ptr("Monthly"),
+      				EffectiveDate: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2019-08-30T15:14:33+02:00"); return t }()),
+      				PlanDetails:   to.Ptr("dynatraceapitestplan"),
+      				UsageType:     to.Ptr("Committed"),
+      			},
+      			Tags: map[string]*string{
+      				"Environment": to.Ptr("Dev"),
+      			},
+      			UserInfo: &armdynatrace.UserInfo{
+      				Country:      to.Ptr("westus2"),
+      				EmailAddress: to.Ptr("alice@microsoft.com"),
+      				FirstName:    to.Ptr("Alice"),
+      				LastName:     to.Ptr("Bobab"),
+      				PhoneNumber:  to.Ptr("123456"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdynatrace%2Farmdynatrace%2Fv0.1.0/sdk/resourcemanager/dynatrace/armdynatrace/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -638,6 +804,52 @@ examples:
   request:
     uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Dynatrace.Observability/monitors/myMonitor?api-version=2021-09-01-preview
     body: '{}'
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Dynatrace.Observability/monitors/myMonitor?api-version=2021-09-01-preview
+
+      {}
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dynatrace.models.MonitorResource;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Monitors Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/preview/2021-09-01-preview/examples/Monitors_Update_MinimumSet_Gen.json
+           */
+          /**
+           * Sample code: Monitors_Update_MinimumSet_Gen.
+           *
+           * @param manager Entry point to DynatraceManager.
+           */
+          public static void monitorsUpdateMinimumSetGen(com.azure.resourcemanager.dynatrace.DynatraceManager manager) {
+              MonitorResource resource =
+                  manager.monitors().getByResourceGroupWithResponse("myResourceGroup", "myMonitor", Context.NONE).getValue();
+              resource.update().apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-dynatrace_1.0.0-beta.1/sdk/dynatrace/azure-resourcemanager-dynatrace/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

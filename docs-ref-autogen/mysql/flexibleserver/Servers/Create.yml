@@ -689,6 +689,173 @@ examples:
           "num": "1"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver?api-version=2021-05-01
+
+      {
+        "sku": {
+          "name": "Standard_D2ds_v4",
+          "tier": "GeneralPurpose"
+        },
+        "properties": {
+          "administratorLogin": "cloudsa",
+          "administratorLoginPassword": "your_password",
+          "availabilityZone": "1",
+          "version": "5.7",
+          "createMode": "Default",
+          "storage": {
+            "storageSizeGB": 100,
+            "iops": 600,
+            "autoGrow": "Disabled"
+          },
+          "backup": {
+            "backupRetentionDays": 7,
+            "geoRedundantBackup": "Disabled"
+          },
+          "highAvailability": {
+            "mode": "ZoneRedundant",
+            "standbyAvailabilityZone": "3"
+          }
+        },
+        "location": "southeastasia",
+        "tags": {
+          "num": "1"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.mysqlflexibleserver.models.Backup;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.CreateMode;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.EnableStatusEnum;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.HighAvailability;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.HighAvailabilityMode;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.ServerVersion;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.Sku;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.SkuTier;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.Storage;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Servers Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerCreate.json
+           */
+          /**
+           * Sample code: Create a new server.
+           *
+           * @param manager Entry point to MySqlManager.
+           */
+          public static void createANewServer(com.azure.resourcemanager.mysqlflexibleserver.MySqlManager manager) {
+              manager
+                  .servers()
+                  .define("mysqltestserver")
+                  .withRegion("southeastasia")
+                  .withExistingResourceGroup("testrg")
+                  .withTags(mapOf("num", "1"))
+                  .withSku(new Sku().withName("Standard_D2ds_v4").withTier(SkuTier.GENERAL_PURPOSE))
+                  .withAdministratorLogin("cloudsa")
+                  .withAdministratorLoginPassword("your_password")
+                  .withVersion(ServerVersion.FIVE_SEVEN)
+                  .withAvailabilityZone("1")
+                  .withCreateMode(CreateMode.DEFAULT)
+                  .withStorage(new Storage().withStorageSizeGB(100).withIops(600).withAutoGrow(EnableStatusEnum.DISABLED))
+                  .withBackup(new Backup().withBackupRetentionDays(7).withGeoRedundantBackup(EnableStatusEnum.DISABLED))
+                  .withHighAvailability(
+                      new HighAvailability().withMode(HighAvailabilityMode.ZONE_REDUNDANT).withStandbyAvailabilityZone("3"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mysqlflexibleserver_1.0.0-beta.2/sdk/mysqlflexibleserver/azure-resourcemanager-mysqlflexibleserver/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armmysqlflexibleservers_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysqlflexibleservers"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerCreate.json
+      func ExampleServersClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmysqlflexibleservers.NewServersClient("ffffffff-ffff-ffff-ffff-ffffffffffff", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"testrg",
+      		"mysqltestserver",
+      		armmysqlflexibleservers.Server{
+      			Location: to.Ptr("southeastasia"),
+      			Tags: map[string]*string{
+      				"num": to.Ptr("1"),
+      			},
+      			Properties: &armmysqlflexibleservers.ServerProperties{
+      				AdministratorLogin:         to.Ptr("cloudsa"),
+      				AdministratorLoginPassword: to.Ptr("your_password"),
+      				AvailabilityZone:           to.Ptr("1"),
+      				Backup: &armmysqlflexibleservers.Backup{
+      					BackupRetentionDays: to.Ptr[int32](7),
+      					GeoRedundantBackup:  to.Ptr(armmysqlflexibleservers.EnableStatusEnumDisabled),
+      				},
+      				CreateMode: to.Ptr(armmysqlflexibleservers.CreateModeDefault),
+      				HighAvailability: &armmysqlflexibleservers.HighAvailability{
+      					Mode:                    to.Ptr(armmysqlflexibleservers.HighAvailabilityModeZoneRedundant),
+      					StandbyAvailabilityZone: to.Ptr("3"),
+      				},
+      				Storage: &armmysqlflexibleservers.Storage{
+      					AutoGrow:      to.Ptr(armmysqlflexibleservers.EnableStatusEnumDisabled),
+      					Iops:          to.Ptr[int32](600),
+      					StorageSizeGB: to.Ptr[int32](100),
+      				},
+      				Version: to.Ptr(armmysqlflexibleservers.ServerVersionFive7),
+      			},
+      			SKU: &armmysqlflexibleservers.SKU{
+      				Name: to.Ptr("Standard_D2ds_v4"),
+      				Tier: to.Ptr(armmysqlflexibleservers.SKUTierGeneralPurpose),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmysql%2Farmmysqlflexibleservers%2Fv1.0.0/sdk/resourcemanager/mysql/armmysqlflexibleservers/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -808,6 +975,78 @@ examples:
           "num": "1"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TargetResourceGroup/providers/Microsoft.DBforMySQL/flexibleServers/targetserver?api-version=2021-05-01
+
+      {
+        "location": "SoutheastAsia",
+        "properties": {
+          "restorePointInTime": "2021-06-24T00:00:37.467Z",
+          "createMode": "PointInTimeRestore",
+          "sourceServerResourceId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/SourceResourceGroup/providers/Microsoft.DBforMySQL/flexibleServers/sourceserver"
+        },
+        "sku": {
+          "name": "Standard_D14_v2",
+          "tier": "GeneralPurpose"
+        },
+        "tags": {
+          "num": "1"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.mysqlflexibleserver.models.CreateMode;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.Sku;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.SkuTier;
+      import java.time.OffsetDateTime;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Servers Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerCreateWithPointInTimeRestore.json
+           */
+          /**
+           * Sample code: Create a server as a point in time restore.
+           *
+           * @param manager Entry point to MySqlManager.
+           */
+          public static void createAServerAsAPointInTimeRestore(
+              com.azure.resourcemanager.mysqlflexibleserver.MySqlManager manager) {
+              manager
+                  .servers()
+                  .define("targetserver")
+                  .withRegion("SoutheastAsia")
+                  .withExistingResourceGroup("TargetResourceGroup")
+                  .withTags(mapOf("num", "1"))
+                  .withSku(new Sku().withName("Standard_D14_v2").withTier(SkuTier.GENERAL_PURPOSE))
+                  .withCreateMode(CreateMode.POINT_IN_TIME_RESTORE)
+                  .withSourceServerResourceId(
+                      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/SourceResourceGroup/providers/Microsoft.DBforMySQL/flexibleServers/sourceserver")
+                  .withRestorePointInTime(OffsetDateTime.parse("2021-06-24T00:00:37.467Z"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mysqlflexibleserver_1.0.0-beta.2/sdk/mysqlflexibleserver/azure-resourcemanager-mysqlflexibleserver/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -917,6 +1156,63 @@ examples:
           "sourceServerResourceId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testgr/providers/Microsoft.DBforMySQL/flexibleServers/source-server"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testgr/providers/Microsoft.DBforMySQL/flexibleServers/replica-server?api-version=2021-05-01
+
+      {
+        "location": "SoutheastAsia",
+        "properties": {
+          "createMode": "Replica",
+          "sourceServerResourceId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testgr/providers/Microsoft.DBforMySQL/flexibleServers/source-server"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.mysqlflexibleserver.models.CreateMode;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Servers Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerCreateReplica.json
+           */
+          /**
+           * Sample code: Create a replica server.
+           *
+           * @param manager Entry point to MySqlManager.
+           */
+          public static void createAReplicaServer(com.azure.resourcemanager.mysqlflexibleserver.MySqlManager manager) {
+              manager
+                  .servers()
+                  .define("replica-server")
+                  .withRegion("SoutheastAsia")
+                  .withExistingResourceGroup("testgr")
+                  .withCreateMode(CreateMode.REPLICA)
+                  .withSourceServerResourceId(
+                      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testgr/providers/Microsoft.DBforMySQL/flexibleServers/source-server")
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mysqlflexibleserver_1.0.0-beta.2/sdk/mysqlflexibleserver/azure-resourcemanager-mysqlflexibleserver/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -1064,6 +1360,141 @@ examples:
           "num": "1"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver?api-version=2021-05-01
+
+      {
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity": {}
+          }
+        },
+        "sku": {
+          "name": "Standard_D2ds_v4",
+          "tier": "GeneralPurpose"
+        },
+        "properties": {
+          "administratorLogin": "cloudsa",
+          "administratorLoginPassword": "your_password",
+          "availabilityZone": "1",
+          "version": "5.7",
+          "createMode": "Default",
+          "storage": {
+            "storageSizeGB": 100,
+            "iops": 600,
+            "autoGrow": "Disabled"
+          },
+          "backup": {
+            "backupRetentionDays": 7,
+            "geoRedundantBackup": "Disabled"
+          },
+          "highAvailability": {
+            "mode": "ZoneRedundant",
+            "standbyAvailabilityZone": "3"
+          },
+          "dataEncryption": {
+            "type": "AzureKeyVault",
+            "primaryUserAssignedIdentityId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity",
+            "primaryKeyUri": "https://test.vault.azure.net/keys/key/c8a92236622244c0a4fdb892666f671a",
+            "geoBackupUserAssignedIdentityId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-geo-identity",
+            "geoBackupKeyUri": "https://test-geo.vault.azure.net/keys/key/c8a92236622244c0a4fdb892666f671a"
+          }
+        },
+        "location": "southeastasia",
+        "tags": {
+          "num": "1"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.Backup;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.CreateMode;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.DataEncryption;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.DataEncryptionType;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.EnableStatusEnum;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.HighAvailability;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.HighAvailabilityMode;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.Identity;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.ManagedServiceIdentityType;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.ServerVersion;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.Sku;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.SkuTier;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.Storage;
+      import java.io.IOException;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Servers Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerCreateWithBYOK.json
+           */
+          /**
+           * Sample code: Create a server with byok.
+           *
+           * @param manager Entry point to MySqlManager.
+           */
+          public static void createAServerWithByok(com.azure.resourcemanager.mysqlflexibleserver.MySqlManager manager)
+              throws IOException {
+              manager
+                  .servers()
+                  .define("mysqltestserver")
+                  .withRegion("southeastasia")
+                  .withExistingResourceGroup("testrg")
+                  .withTags(mapOf("num", "1"))
+                  .withIdentity(
+                      new Identity()
+                          .withType(ManagedServiceIdentityType.USER_ASSIGNED)
+                          .withUserAssignedIdentities(
+                              mapOf(
+                                  "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity",
+                                  SerializerFactory
+                                      .createDefaultManagementSerializerAdapter()
+                                      .deserialize("{}", Object.class, SerializerEncoding.JSON))))
+                  .withSku(new Sku().withName("Standard_D2ds_v4").withTier(SkuTier.GENERAL_PURPOSE))
+                  .withAdministratorLogin("cloudsa")
+                  .withAdministratorLoginPassword("your_password")
+                  .withVersion(ServerVersion.FIVE_SEVEN)
+                  .withAvailabilityZone("1")
+                  .withCreateMode(CreateMode.DEFAULT)
+                  .withDataEncryption(
+                      new DataEncryption()
+                          .withPrimaryUserAssignedIdentityId(
+                              "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity")
+                          .withPrimaryKeyUri("https://test.vault.azure.net/keys/key/c8a92236622244c0a4fdb892666f671a")
+                          .withGeoBackupUserAssignedIdentityId(
+                              "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-geo-identity")
+                          .withGeoBackupKeyUri("https://test-geo.vault.azure.net/keys/key/c8a92236622244c0a4fdb892666f671a")
+                          .withType(DataEncryptionType.AZURE_KEY_VAULT))
+                  .withStorage(new Storage().withStorageSizeGB(100).withIops(600).withAutoGrow(EnableStatusEnum.DISABLED))
+                  .withBackup(new Backup().withBackupRetentionDays(7).withGeoRedundantBackup(EnableStatusEnum.DISABLED))
+                  .withHighAvailability(
+                      new HighAvailability().withMode(HighAvailabilityMode.ZONE_REDUNDANT).withStandbyAvailabilityZone("3"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mysqlflexibleserver_1.0.0-beta.2/sdk/mysqlflexibleserver/azure-resourcemanager-mysqlflexibleserver/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

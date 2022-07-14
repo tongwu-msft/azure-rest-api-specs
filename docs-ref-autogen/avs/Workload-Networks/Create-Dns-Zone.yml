@@ -230,6 +230,105 @@ examples:
           "revision": 1
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsZones/dnsZone1?api-version=2021-12-01
+
+      {
+        "properties": {
+          "displayName": "dnsZone1",
+          "domain": [],
+          "dnsServerIps": [
+            "1.1.1.1"
+          ],
+          "sourceIp": "8.8.8.8",
+          "revision": 1
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import java.util.Arrays;
+
+      /** Samples for WorkloadNetworks CreateDnsZone. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_CreateDnsZones.json
+           */
+          /**
+           * Sample code: WorkloadNetworks_CreateDnsZone.
+           *
+           * @param manager Entry point to AvsManager.
+           */
+          public static void workloadNetworksCreateDnsZone(com.azure.resourcemanager.avs.AvsManager manager) {
+              manager
+                  .workloadNetworks()
+                  .defineDnsZone("dnsZone1")
+                  .withExistingPrivateCloud("group1", "cloud1")
+                  .withDisplayName("dnsZone1")
+                  .withDomain(Arrays.asList())
+                  .withDnsServerIps(Arrays.asList("1.1.1.1"))
+                  .withSourceIp("8.8.8.8")
+                  .withRevision(1L)
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armavs_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/avs/armavs"
+      )
+
+      // x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_CreateDnsZones.json
+      func ExampleWorkloadNetworksClient_BeginCreateDNSZone() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client := armavs.NewWorkloadNetworksClient("<subscription-id>", cred, nil)
+      	poller, err := client.BeginCreateDNSZone(ctx,
+      		"<resource-group-name>",
+      		"<private-cloud-name>",
+      		"<dns-zone-id>",
+      		armavs.WorkloadNetworkDNSZone{
+      			Properties: &armavs.WorkloadNetworkDNSZoneProperties{
+      				DisplayName: to.StringPtr("<display-name>"),
+      				DNSServerIPs: []*string{
+      					to.StringPtr("1.1.1.1")},
+      				Domain:   []*string{},
+      				Revision: to.Int64Ptr(1),
+      				SourceIP: to.StringPtr("<source-ip>"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatal(err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, 30*time.Second)
+      	if err != nil {
+      		log.Fatal(err)
+      	}
+      	log.Printf("WorkloadNetworkDNSZone.ID: %s\n", *res.ID)
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Favs%2Farmavs%2Fv0.1.0/sdk/resourcemanager/avs/armavs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -3,14 +3,14 @@ uid: management.azure.com.recoveryservices.vaults.listbysubscriptionid
 name: List By Subscription Id
 service: Recovery Services
 groupName: Vaults
-apiVersion: 2016-06-01
+apiVersion: 2022-04-01
 summary: Fetches all the resources of the specified type in the subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/vaults?api-version=2016-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/vaults?api-version=2022-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -29,6 +29,10 @@ responses:
   description: OK
   types:
   - uid: VaultList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: VaultList
@@ -45,6 +49,14 @@ definitions:
     description: ''
     types:
     - uid: string
+- name: CloudError
+  description: CloudError
+  kind: object
+  properties:
+  - name: error
+    description: The resource management error response.
+    types:
+    - uid: Error
 - name: Vault
   description: Resource information, as returned by the resource provider.
   kind: object
@@ -61,6 +73,11 @@ definitions:
     description: Identifies the unique system identifier for each Azure resource.
     types:
     - uid: Sku
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: location
     description: Resource location.
     types:
@@ -88,8 +105,39 @@ definitions:
     description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
     types:
     - uid: string
-  - name: eTag
+  - name: etag
     description: Optional ETag.
+    types:
+    - uid: string
+- name: Error
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: Error
+      isArray: true
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
 - name: IdentityData
@@ -107,9 +155,17 @@ definitions:
     types:
     - uid: string
   - name: type
-    description: The identity type.
+    description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identities.
     types:
     - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user-assigned identities associated with the resource. The user-assigned identity dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserIdentity
 - name: VaultProperties
   description: Properties of the vault.
   kind: object
@@ -139,22 +195,126 @@ definitions:
     description: Private endpoint state for site recovery.
     types:
     - uid: VaultPrivateEndpointState
+  - name: encryption
+    description: Customer Managed Key details of the resource.
+    types:
+    - uid: Encryption
+  - name: moveDetails
+    description: The details of the latest move operation performed on the Azure Resource
+    types:
+    - uid: MoveDetails
+  - name: moveState
+    isReadyOnly: true
+    description: The State of the Resource after the move operation
+    types:
+    - uid: ResourceMoveState
+  - name: backupStorageVersion
+    isReadyOnly: true
+    description: Backup storage version
+    types:
+    - uid: BackupStorageVersion
+  - name: monitoringSettings
+    description: Monitoring Settings of the vault
+    types:
+    - uid: MonitoringSettings
+  - name: redundancySettings
+    description: The redundancy Settings of a Vault
+    types:
+    - uid: RedundancySettings
 - name: Sku
   description: Identifies the unique system identifier for each Azure resource.
   kind: object
   properties:
   - name: name
-    description: The Sku name.
+    description: Name of SKU is RS0 (Recovery Services 0th version) and the tier is standard tier. They do not have affect on backend storage redundancy or any other vault settings. To manage storage redundancy, use the backupstorageconfig
     types:
     - uid: SkuName
+  - name: tier
+    description: The Sku tier.
+    types:
+    - uid: string
+  - name: family
+    description: The sku family
+    types:
+    - uid: string
+  - name: size
+    description: The sku size
+    types:
+    - uid: string
+  - name: capacity
+    description: The sku capacity
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
 - name: ResourceIdentityType
-  description: The identity type.
+  description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identities.
   kind: enum
   properties:
   - name: SystemAssigned
     types:
     - uid: string
   - name: None
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+- name: UserIdentity
+  description: A resource identity that is managed by the user of the service.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the user-assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the user-assigned identity.
     types:
     - uid: string
 - name: UpgradeDetails
@@ -220,6 +380,21 @@ definitions:
     description: Private Endpoint Connection Response Properties.
     types:
     - uid: PrivateEndpointConnection
+  - name: name
+    isReadyOnly: true
+    description: The name of the private Endpoint Connection
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type, which will be of the format, Microsoft.RecoveryServices/vaults/privateEndpointConnections
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The location of the private Endpoint connection
+    types:
+    - uid: string
 - name: VaultPrivateEndpointState
   description: Private endpoint state for backup.
   kind: enum
@@ -230,14 +405,148 @@ definitions:
   - name: Enabled
     types:
     - uid: string
+- name: Encryption
+  description: Customer Managed Key details of the resource.
+  kind: object
+  properties:
+  - name: keyVaultProperties
+    description: The properties of the Key Vault which hosts CMK
+    types:
+    - uid: CmkKeyVaultProperties
+  - name: kekIdentity
+    description: The details of the identity used for CMK
+    types:
+    - uid: CmkKekIdentity
+  - name: infrastructureEncryption
+    description: Enabling/Disabling the Double Encryption state
+    types:
+    - uid: InfrastructureEncryptionState
+- name: MoveDetails
+  description: The details of the latest move operation performed on the Azure Resource
+  kind: object
+  properties:
+  - name: operationId
+    isReadyOnly: true
+    description: OperationId of the Resource Move Operation
+    types:
+    - uid: string
+  - name: startTimeUtc
+    isReadyOnly: true
+    description: Start Time of the Resource Move Operation
+    types:
+    - uid: string
+  - name: completionTimeUtc
+    isReadyOnly: true
+    description: End Time of the Resource Move Operation
+    types:
+    - uid: string
+  - name: sourceResourceId
+    isReadyOnly: true
+    description: Source Resource of the Resource Move Operation
+    types:
+    - uid: string
+  - name: targetResourceId
+    isReadyOnly: true
+    description: Target Resource of the Resource Move Operation
+    types:
+    - uid: string
+- name: ResourceMoveState
+  description: The State of the Resource after the move operation
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: PrepareFailed
+    types:
+    - uid: string
+  - name: CommitFailed
+    types:
+    - uid: string
+  - name: PrepareTimedout
+    types:
+    - uid: string
+  - name: CommitTimedout
+    types:
+    - uid: string
+  - name: MoveSucceeded
+    types:
+    - uid: string
+  - name: Failure
+    types:
+    - uid: string
+  - name: CriticalFailure
+    types:
+    - uid: string
+  - name: PartialSuccess
+    types:
+    - uid: string
+- name: BackupStorageVersion
+  description: Backup storage version
+  kind: enum
+  properties:
+  - name: V1
+    types:
+    - uid: string
+  - name: V2
+    types:
+    - uid: string
+  - name: Unassigned
+    types:
+    - uid: string
+- name: MonitoringSettings
+  description: Monitoring Settings of the vault
+  kind: object
+  properties:
+  - name: azureMonitorAlertSettings
+    description: Settings for Azure Monitor based alerts
+    types:
+    - uid: AzureMonitorAlertSettings
+  - name: classicAlertSettings
+    description: Settings for classic alerts
+    types:
+    - uid: ClassicAlertSettings
+- name: RedundancySettings
+  description: The redundancy Settings of a Vault
+  kind: object
+  properties:
+  - name: standardTierStorageRedundancy
+    isReadyOnly: true
+    description: The storage redundancy setting of a vault
+    types:
+    - uid: standardTierStorageRedundancy
+  - name: crossRegionRestore
+    isReadyOnly: true
+    description: Flag to show if Cross Region Restore is enabled on the Vault or not
+    types:
+    - uid: crossRegionRestore
 - name: SkuName
-  description: The Sku name.
+  description: Name of SKU is RS0 (Recovery Services 0th version) and the tier is standard tier. They do not have affect on backend storage redundancy or any other vault settings. To manage storage redundancy, use the backupstorageconfig
   kind: enum
   properties:
   - name: Standard
     types:
     - uid: string
   - name: RS0
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
     types:
     - uid: string
 - name: VaultUpgradeState
@@ -285,6 +594,75 @@ definitions:
     description: Gets or sets private link service connection state.
     types:
     - uid: PrivateLinkServiceConnectionState
+- name: CmkKeyVaultProperties
+  description: The properties of the Key Vault which hosts CMK
+  kind: object
+  properties:
+  - name: keyUri
+    description: The key uri of the Customer Managed Key
+    types:
+    - uid: string
+- name: CmkKekIdentity
+  description: The details of the identity used for CMK
+  kind: object
+  properties:
+  - name: useSystemAssignedIdentity
+    description: Indicate that system assigned identity should be used. Mutually exclusive with 'userAssignedIdentity' field
+    types:
+    - uid: boolean
+  - name: userAssignedIdentity
+    description: The user assigned identity to be used to grant permissions in case the type of identity used is UserAssigned
+    types:
+    - uid: string
+- name: InfrastructureEncryptionState
+  description: Enabling/Disabling the Double Encryption state
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: AzureMonitorAlertSettings
+  description: Settings for Azure Monitor based alerts
+  kind: object
+  properties:
+  - name: alertsForAllJobFailures
+    description: ''
+    types:
+    - uid: AlertsState
+- name: ClassicAlertSettings
+  description: Settings for classic alerts
+  kind: object
+  properties:
+  - name: alertsForCriticalOperations
+    description: ''
+    types:
+    - uid: AlertsState
+- name: standardTierStorageRedundancy
+  description: The storage redundancy setting of a vault
+  kind: enum
+  properties:
+  - name: LocallyRedundant
+    types:
+    - uid: string
+  - name: GeoRedundant
+    types:
+    - uid: string
+  - name: ZoneRedundant
+    types:
+    - uid: string
+- name: crossRegionRestore
+  description: Flag to show if Cross Region Restore is enabled on the Vault or not
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 - name: ProvisioningState
   description: Gets or sets provisioning state of the private endpoint connection.
   kind: enum
@@ -329,6 +707,15 @@ definitions:
     description: Gets or sets actions required.
     types:
     - uid: string
+- name: AlertsState
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 - name: PrivateEndpointConnectionStatus
   description: Gets or sets the status.
   kind: enum
@@ -348,7 +735,13 @@ definitions:
 examples:
 - name: List of Recovery Services Resources in SubscriptionId
   request:
-    uri: GET https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/providers/Microsoft.RecoveryServices/vaults?api-version=2016-06-01
+    uri: GET https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/providers/Microsoft.RecoveryServices/vaults?api-version=2022-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/providers/Microsoft.RecoveryServices/vaults?api-version=2022-04-01
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -357,7 +750,7 @@ examples:
           {
             "location": "westus",
             "name": "patchtest",
-            "eTag": "W/\"datetime'2017-11-22T11%3A05%3A19.907Z'\"",
+            "etag": "W/\"datetime'2017-11-22T11%3A05%3A19.907Z'\"",
             "tags": {
               "Love": "India"
             },
@@ -373,7 +766,7 @@ examples:
           {
             "location": "westus",
             "name": "swaggerExample",
-            "eTag": "W/\"datetime'2017-12-15T12%3A36%3A51.68Z'\"",
+            "etag": "W/\"datetime'2017-12-15T12%3A36%3A51.68Z'\"",
             "tags": {
               "TestUpdatedKey": "TestUpdatedValue"
             },
@@ -389,7 +782,7 @@ examples:
           {
             "location": "westus",
             "name": "today1",
-            "eTag": "W/\"datetime'2017-11-21T10%3A52%3A19.633Z'\"",
+            "etag": "W/\"datetime'2017-11-21T10%3A52%3A19.633Z'\"",
             "tags": {
               "TestUpdatedKey": "TestUpdatedValue"
             },

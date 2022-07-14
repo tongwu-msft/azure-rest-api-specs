@@ -141,6 +141,98 @@ examples:
           "http://fileuris.contoso.com/pathtofile1"
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1/import?api-version=2021-06-01
+
+      {
+        "format": "RDB",
+        "files": [
+          "http://fileuris.contoso.com/pathtofile1"
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.redis.models.ImportRdbParameters;
+      import java.util.Arrays;
+
+      /** Samples for Redis ImportData. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheImport.json
+           */
+          /**
+           * Sample code: RedisCacheImport.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void redisCacheImport(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .redisCaches()
+                  .manager()
+                  .serviceClient()
+                  .getRedis()
+                  .importData(
+                      "rg1",
+                      "cache1",
+                      new ImportRdbParameters()
+                          .withFormat("RDB")
+                          .withFiles(Arrays.asList("http://fileuris.contoso.com/pathtofile1")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armredis_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheImport.json
+      func ExampleClient_BeginImportData() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armredis.NewClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginImportData(ctx,
+      		"rg1",
+      		"cache1",
+      		armredis.ImportRDBParameters{
+      			Format: to.Ptr("RDB"),
+      			Files: []*string{
+      				to.Ptr("http://fileuris.contoso.com/pathtofile1")},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fredis%2Farmredis%2Fv1.0.0/sdk/resourcemanager/redis/armredis/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"

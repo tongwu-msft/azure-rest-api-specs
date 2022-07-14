@@ -28,6 +28,11 @@ Use the latest preview version when you want to take advantage of all the latest
 
 | API version | Specification | API updates |
 |-------------|---------------|-------------|
+| `2022-07-01-preview`  | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview) | |
+| `2022-06-01-preview`  | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-06-01-preview) | |
+| `2022-05-01-preview`  | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-05-01-preview) | |
+| `2022-04-01-preview`  | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-04-01-preview) | |
+| `2022-01-01-preview`  | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-01-01-preview) | |
 | `2021-10-01-preview`  | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2021-10-01-preview) | [Release note](#2021-10-01-preview) |
 | `2021-09-01-preview`  | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2021-09-01-preview) | [Release note](#2021-09-01-preview) |
 | `2021-03-01-preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2021-03-01-preview) |

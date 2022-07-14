@@ -3,14 +3,14 @@ uid: management.azure.com.compute.cloudservicesupdatedomain.listupdatedomains
 name: List Update Domains
 service: Compute
 groupName: Cloud Services Update Domain
-apiVersion: 2021-03-01
+apiVersion: 2022-04-04
 summary: Gets a list of all update domains in a cloud service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains?api-version=2022-04-04
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,28 +37,16 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: OK
-  types:
-  - uid: UpdateDomainListResult
 - name: Other Status Codes
   description: Error
   types:
   - uid: CloudError
+- name: 200 OK
+  description: OK
+  types:
+  - uid: UpdateDomainListResult
 requestHeader: []
 definitions:
-- name: UpdateDomainListResult
-  kind: object
-  properties:
-  - name: value
-    description: Defines an update domain for the cloud service.
-    types:
-    - uid: UpdateDomain
-      isArray: true
-  - name: nextLink
-    description: ''
-    types:
-    - uid: string
 - name: CloudError
   description: An error response from the Compute service.
   kind: object
@@ -67,18 +55,17 @@ definitions:
     description: Api error.
     types:
     - uid: ApiError
-- name: UpdateDomain
-  description: Defines an update domain for the cloud service.
+- name: UpdateDomainListResult
+  description: The list operation result.
   kind: object
   properties:
-  - name: id
-    isReadyOnly: true
-    description: Resource Id
+  - name: value
+    description: The list of resources.
     types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource Name
+    - uid: UpdateDomain
+      isArray: true
+  - name: nextLink
+    description: The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources.
     types:
     - uid: string
 - name: ApiError
@@ -98,12 +85,26 @@ definitions:
     description: The error code.
     types:
     - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
   - name: message
     description: The error message.
     types:
     - uid: string
-  - name: target
-    description: The target of the particular error.
+- name: UpdateDomain
+  description: Defines an update domain for the cloud service.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name
     types:
     - uid: string
 - name: ApiErrorBase
@@ -114,12 +115,12 @@ definitions:
     description: The error code.
     types:
     - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
   - name: target
     description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
     types:
     - uid: string
 - name: InnerError
@@ -137,7 +138,84 @@ definitions:
 examples:
 - name: List Update Domains in Cloud Service
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/updateDomains?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/updateDomains?api-version=2022-04-04
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/updateDomains?api-version=2022-04-04
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudServiceUpdateDomain_List.json
+      func ExampleCloudServicesUpdateDomainClient_NewListUpdateDomainsPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewCloudServicesUpdateDomainClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListUpdateDomainsPager("ConstosoRG",
+      		"{cs-name}",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a list of all update domains in a cloud service.
+       *
+       * @summary Gets a list of all update domains in a cloud service.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudServiceUpdateDomain_List.json
+       */
+      async function listUpdateDomainsInCloudService() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "ConstosoRG";
+        const cloudServiceName = "{cs-name}";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.cloudServicesUpdateDomain.listUpdateDomains(
+          resourceGroupName,
+          cloudServiceName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listUpdateDomainsInCloudService().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

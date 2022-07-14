@@ -380,6 +380,200 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2021-06-01
+
+      {
+        "properties": {
+          "displayName": "Enforce resource naming rules",
+          "description": "Force resource names to begin with given DeptA and end with -LC",
+          "metadata": {
+            "assignedBy": "Special Someone"
+          },
+          "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+          "parameters": {
+            "prefix": {
+              "value": "DeptA"
+            },
+            "suffix": {
+              "value": "-LC"
+            }
+          },
+          "nonComplianceMessages": [
+            {
+              "message": "Resource names must start with 'DeptA' and end with '-LC'."
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.resources.fluent.models.PolicyAssignmentInner;
+      import com.azure.resourcemanager.resources.models.NonComplianceMessage;
+      import com.azure.resourcemanager.resources.models.ParameterValuesValue;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for PolicyAssignments Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignment.json
+           */
+          /**
+           * Sample code: Create or update a policy assignment.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateAPolicyAssignment(com.azure.resourcemanager.AzureResourceManager azure)
+              throws IOException {
+              azure
+                  .genericResources()
+                  .manager()
+                  .policyClient()
+                  .getPolicyAssignments()
+                  .createWithResponse(
+                      "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+                      "EnforceNaming",
+                      new PolicyAssignmentInner()
+                          .withDisplayName("Enforce resource naming rules")
+                          .withPolicyDefinitionId(
+                              "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming")
+                          .withParameters(
+                              mapOf(
+                                  "prefix",
+                                  new ParameterValuesValue().withValue("DeptA"),
+                                  "suffix",
+                                  new ParameterValuesValue().withValue("-LC")))
+                          .withDescription("Force resource names to begin with given DeptA and end with -LC")
+                          .withMetadata(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize("{\"assignedBy\":\"Special Someone\"}", Object.class, SerializerEncoding.JSON))
+                          .withNonComplianceMessages(
+                              Arrays
+                                  .asList(
+                                      new NonComplianceMessage()
+                                          .withMessage("Resource names must start with 'DeptA' and end with '-LC'."))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armpolicy_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignment.json
+      func ExampleAssignmentsClient_Create() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armpolicy.NewAssignmentsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	_, err = client.Create(ctx,
+      		"subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+      		"EnforceNaming",
+      		armpolicy.Assignment{
+      			Properties: &armpolicy.AssignmentProperties{
+      				Description: to.Ptr("Force resource names to begin with given DeptA and end with -LC"),
+      				DisplayName: to.Ptr("Enforce resource naming rules"),
+      				Metadata: map[string]interface{}{
+      					"assignedBy": "Special Someone",
+      				},
+      				NonComplianceMessages: []*armpolicy.NonComplianceMessage{
+      					{
+      						Message: to.Ptr("Resource names must start with 'DeptA' and end with '-LC'."),
+      					}},
+      				Parameters: map[string]*armpolicy.ParameterValuesValue{
+      					"prefix": {
+      						Value: "DeptA",
+      					},
+      					"suffix": {
+      						Value: "-LC",
+      					},
+      				},
+      				PolicyDefinitionID: to.Ptr("/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmpolicy%2Fv0.6.0/sdk/resourcemanager/resources/armpolicy/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PolicyClient } = require("@azure/arm-policy");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
+       *
+       * @summary  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignment.json
+       */
+      async function createOrUpdateAPolicyAssignment() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
+        const policyAssignmentName = "EnforceNaming";
+        const parameters = {
+          description: "Force resource names to begin with given DeptA and end with -LC",
+          displayName: "Enforce resource naming rules",
+          metadata: { assignedBy: "Special Someone" },
+          nonComplianceMessages: [
+            { message: "Resource names must start with 'DeptA' and end with '-LC'." },
+          ],
+          parameters: { prefix: { value: "DeptA" }, suffix: { value: "-LC" } },
+          policyDefinitionId:
+            "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PolicyClient(credential, subscriptionId);
+        const result = await client.policyAssignments.create(scope, policyAssignmentName, parameters);
+        console.log(result);
+      }
+
+      createOrUpdateAPolicyAssignment().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -435,6 +629,140 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/securityInitAssignment?api-version=2021-06-01
+
+      {
+        "properties": {
+          "displayName": "Enforce security policies",
+          "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policySetDefinitions/securityInitiative",
+          "nonComplianceMessages": [
+            {
+              "message": "Resources must comply with all internal security policies. See <internal site URL> for more info."
+            },
+            {
+              "message": "Resource names must start with 'DeptA' and end with '-LC'.",
+              "policyDefinitionReferenceId": "10420126870854049575"
+            },
+            {
+              "message": "Storage accounts must have firewall rules configured.",
+              "policyDefinitionReferenceId": "8572513655450389710"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.resources.fluent.models.PolicyAssignmentInner;
+      import com.azure.resourcemanager.resources.models.NonComplianceMessage;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for PolicyAssignments Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentNonComplianceMessages.json
+           */
+          /**
+           * Sample code: Create or update a policy assignment with multiple non-compliance messages.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateAPolicyAssignmentWithMultipleNonComplianceMessages(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .genericResources()
+                  .manager()
+                  .policyClient()
+                  .getPolicyAssignments()
+                  .createWithResponse(
+                      "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+                      "securityInitAssignment",
+                      new PolicyAssignmentInner()
+                          .withDisplayName("Enforce security policies")
+                          .withPolicyDefinitionId(
+                              "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policySetDefinitions/securityInitiative")
+                          .withNonComplianceMessages(
+                              Arrays
+                                  .asList(
+                                      new NonComplianceMessage()
+                                          .withMessage(
+                                              "Resources must comply with all internal security policies. See <internal site"
+                                                  + " URL> for more info."),
+                                      new NonComplianceMessage()
+                                          .withMessage("Resource names must start with 'DeptA' and end with '-LC'.")
+                                          .withPolicyDefinitionReferenceId("10420126870854049575"),
+                                      new NonComplianceMessage()
+                                          .withMessage("Storage accounts must have firewall rules configured.")
+                                          .withPolicyDefinitionReferenceId("8572513655450389710"))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PolicyClient } = require("@azure/arm-policy");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
+       *
+       * @summary  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentNonComplianceMessages.json
+       */
+      async function createOrUpdateAPolicyAssignmentWithMultipleNonComplianceMessages() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
+        const policyAssignmentName = "securityInitAssignment";
+        const parameters = {
+          displayName: "Enforce security policies",
+          nonComplianceMessages: [
+            {
+              message:
+                "Resources must comply with all internal security policies. See <internal site URL> for more info.",
+            },
+            {
+              message: "Resource names must start with 'DeptA' and end with '-LC'.",
+              policyDefinitionReferenceId: "10420126870854049575",
+            },
+            {
+              message: "Storage accounts must have firewall rules configured.",
+              policyDefinitionReferenceId: "8572513655450389710",
+            },
+          ],
+          policyDefinitionId:
+            "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policySetDefinitions/securityInitiative",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PolicyClient(credential, subscriptionId);
+        const result = await client.policyAssignments.create(scope, policyAssignmentName, parameters);
+        console.log(result);
+      }
+
+      createOrUpdateAPolicyAssignmentWithMultipleNonComplianceMessages().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -493,6 +821,142 @@ examples:
           "enforcementMode": "Default"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2021-06-01
+
+      {
+        "location": "eastus",
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "properties": {
+          "displayName": "Enforce resource naming rules",
+          "description": "Force resource names to begin with given DeptA and end with -LC",
+          "metadata": {
+            "assignedBy": "Foo Bar"
+          },
+          "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+          "parameters": {
+            "prefix": {
+              "value": "DeptA"
+            },
+            "suffix": {
+              "value": "-LC"
+            }
+          },
+          "enforcementMode": "Default"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.resources.fluent.models.PolicyAssignmentInner;
+      import com.azure.resourcemanager.resources.models.EnforcementMode;
+      import com.azure.resourcemanager.resources.models.Identity;
+      import com.azure.resourcemanager.resources.models.ParameterValuesValue;
+      import com.azure.resourcemanager.resources.models.ResourceIdentityType;
+      import java.io.IOException;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for PolicyAssignments Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentWithIdentity.json
+           */
+          /**
+           * Sample code: Create or update a policy assignment with a system assigned identity.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity(
+              com.azure.resourcemanager.AzureResourceManager azure) throws IOException {
+              azure
+                  .genericResources()
+                  .manager()
+                  .policyClient()
+                  .getPolicyAssignments()
+                  .createWithResponse(
+                      "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+                      "EnforceNaming",
+                      new PolicyAssignmentInner()
+                          .withLocation("eastus")
+                          .withIdentity(new Identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED))
+                          .withDisplayName("Enforce resource naming rules")
+                          .withPolicyDefinitionId(
+                              "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming")
+                          .withParameters(
+                              mapOf(
+                                  "prefix",
+                                  new ParameterValuesValue().withValue("DeptA"),
+                                  "suffix",
+                                  new ParameterValuesValue().withValue("-LC")))
+                          .withDescription("Force resource names to begin with given DeptA and end with -LC")
+                          .withMetadata(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize("{\"assignedBy\":\"Foo Bar\"}", Object.class, SerializerEncoding.JSON))
+                          .withEnforcementMode(EnforcementMode.DEFAULT),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PolicyClient } = require("@azure/arm-policy");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
+       *
+       * @summary  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentWithIdentity.json
+       */
+      async function createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
+        const policyAssignmentName = "EnforceNaming";
+        const parameters = {
+          description: "Force resource names to begin with given DeptA and end with -LC",
+          displayName: "Enforce resource naming rules",
+          enforcementMode: "Default",
+          identity: { type: "SystemAssigned" },
+          location: "eastus",
+          metadata: { assignedBy: "Foo Bar" },
+          parameters: { prefix: { value: "DeptA" }, suffix: { value: "-LC" } },
+          policyDefinitionId:
+            "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PolicyClient(credential, subscriptionId);
+        const result = await client.policyAssignments.create(scope, policyAssignmentName, parameters);
+        console.log(result);
+      }
+
+      createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -556,6 +1020,158 @@ examples:
           "enforcementMode": "Default"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2021-06-01
+
+      {
+        "location": "eastus",
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/testResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity": {}
+          }
+        },
+        "properties": {
+          "displayName": "Enforce resource naming rules",
+          "description": "Force resource names to begin with given DeptA and end with -LC",
+          "metadata": {
+            "assignedBy": "Foo Bar"
+          },
+          "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+          "parameters": {
+            "prefix": {
+              "value": "DeptA"
+            },
+            "suffix": {
+              "value": "-LC"
+            }
+          },
+          "enforcementMode": "Default"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.resources.fluent.models.PolicyAssignmentInner;
+      import com.azure.resourcemanager.resources.models.EnforcementMode;
+      import com.azure.resourcemanager.resources.models.Identity;
+      import com.azure.resourcemanager.resources.models.IdentityUserAssignedIdentitiesValue;
+      import com.azure.resourcemanager.resources.models.ParameterValuesValue;
+      import com.azure.resourcemanager.resources.models.ResourceIdentityType;
+      import java.io.IOException;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for PolicyAssignments Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentWithUserAssignedIdentity.json
+           */
+          /**
+           * Sample code: Create or update a policy assignment with a user assigned identity.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity(
+              com.azure.resourcemanager.AzureResourceManager azure) throws IOException {
+              azure
+                  .genericResources()
+                  .manager()
+                  .policyClient()
+                  .getPolicyAssignments()
+                  .createWithResponse(
+                      "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+                      "EnforceNaming",
+                      new PolicyAssignmentInner()
+                          .withLocation("eastus")
+                          .withIdentity(
+                              new Identity()
+                                  .withType(ResourceIdentityType.USER_ASSIGNED)
+                                  .withUserAssignedIdentities(
+                                      mapOf(
+                                          "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/testResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity",
+                                          new IdentityUserAssignedIdentitiesValue())))
+                          .withDisplayName("Enforce resource naming rules")
+                          .withPolicyDefinitionId(
+                              "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming")
+                          .withParameters(
+                              mapOf(
+                                  "prefix",
+                                  new ParameterValuesValue().withValue("DeptA"),
+                                  "suffix",
+                                  new ParameterValuesValue().withValue("-LC")))
+                          .withDescription("Force resource names to begin with given DeptA and end with -LC")
+                          .withMetadata(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize("{\"assignedBy\":\"Foo Bar\"}", Object.class, SerializerEncoding.JSON))
+                          .withEnforcementMode(EnforcementMode.DEFAULT),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PolicyClient } = require("@azure/arm-policy");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
+       *
+       * @summary  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentWithUserAssignedIdentity.json
+       */
+      async function createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
+        const policyAssignmentName = "EnforceNaming";
+        const parameters = {
+          description: "Force resource names to begin with given DeptA and end with -LC",
+          displayName: "Enforce resource naming rules",
+          enforcementMode: "Default",
+          identity: {
+            type: "UserAssigned",
+            userAssignedIdentities: {
+              "/subscriptions/ae640e6bBa3e42569d622993eecfa6f2/resourceGroups/testResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/testIdentity":
+                {},
+            },
+          },
+          location: "eastus",
+          metadata: { assignedBy: "Foo Bar" },
+          parameters: { prefix: { value: "DeptA" }, suffix: { value: "-LC" } },
+          policyDefinitionId:
+            "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PolicyClient(credential, subscriptionId);
+        const result = await client.policyAssignments.create(scope, policyAssignmentName, parameters);
+        console.log(result);
+      }
+
+      createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -616,6 +1232,135 @@ examples:
           "enforcementMode": "DoNotEnforce"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2021-06-01
+
+      {
+        "properties": {
+          "displayName": "Enforce resource naming rules",
+          "description": "Force resource names to begin with given DeptA and end with -LC",
+          "metadata": {
+            "assignedBy": "Special Someone"
+          },
+          "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+          "parameters": {
+            "prefix": {
+              "value": "DeptA"
+            },
+            "suffix": {
+              "value": "-LC"
+            }
+          },
+          "enforcementMode": "DoNotEnforce"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.resources.fluent.models.PolicyAssignmentInner;
+      import com.azure.resourcemanager.resources.models.EnforcementMode;
+      import com.azure.resourcemanager.resources.models.ParameterValuesValue;
+      import java.io.IOException;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for PolicyAssignments Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentWithoutEnforcement.json
+           */
+          /**
+           * Sample code: Create or update a policy assignment without enforcing policy effect during resource creation or
+           * update.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuringResourceCreationOrUpdate(
+              com.azure.resourcemanager.AzureResourceManager azure) throws IOException {
+              azure
+                  .genericResources()
+                  .manager()
+                  .policyClient()
+                  .getPolicyAssignments()
+                  .createWithResponse(
+                      "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+                      "EnforceNaming",
+                      new PolicyAssignmentInner()
+                          .withDisplayName("Enforce resource naming rules")
+                          .withPolicyDefinitionId(
+                              "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming")
+                          .withParameters(
+                              mapOf(
+                                  "prefix",
+                                  new ParameterValuesValue().withValue("DeptA"),
+                                  "suffix",
+                                  new ParameterValuesValue().withValue("-LC")))
+                          .withDescription("Force resource names to begin with given DeptA and end with -LC")
+                          .withMetadata(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize("{\"assignedBy\":\"Special Someone\"}", Object.class, SerializerEncoding.JSON))
+                          .withEnforcementMode(EnforcementMode.DO_NOT_ENFORCE),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PolicyClient } = require("@azure/arm-policy");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
+       *
+       * @summary  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentWithoutEnforcement.json
+       */
+      async function createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuringResourceCreationOrUpdate() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
+        const policyAssignmentName = "EnforceNaming";
+        const parameters = {
+          description: "Force resource names to begin with given DeptA and end with -LC",
+          displayName: "Enforce resource naming rules",
+          enforcementMode: "DoNotEnforce",
+          metadata: { assignedBy: "Special Someone" },
+          parameters: { prefix: { value: "DeptA" }, suffix: { value: "-LC" } },
+          policyDefinitionId:
+            "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PolicyClient(credential, subscriptionId);
+        const result = await client.policyAssignments.create(scope, policyAssignmentName, parameters);
+        console.log(result);
+      }
+
+      createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuringResourceCreationOrUpdate().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

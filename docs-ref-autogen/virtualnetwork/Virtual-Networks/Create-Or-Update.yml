@@ -3005,6 +3005,146 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-08-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "flowTimeoutInMinutes": 10
+        },
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.VirtualNetworkInner;
+      import com.azure.resourcemanager.network.models.AddressSpace;
+      import java.util.Arrays;
+
+      /** Samples for VirtualNetworks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreate.json
+           */
+          /**
+           * Sample code: Create virtual network.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createVirtualNetwork(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualNetworks()
+                  .createOrUpdate(
+                      "rg1",
+                      "test-vnet",
+                      new VirtualNetworkInner()
+                          .withLocation("eastus")
+                          .withAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.0.0.0/16")))
+                          .withFlowTimeoutInMinutes(10),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreate.json
+      func ExampleVirtualNetworksClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVirtualNetworksClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"rg1",
+      		"test-vnet",
+      		armnetwork.VirtualNetwork{
+      			Location: to.Ptr("eastus"),
+      			Properties: &armnetwork.VirtualNetworkPropertiesFormat{
+      				AddressSpace: &armnetwork.AddressSpace{
+      					AddressPrefixes: []*string{
+      						to.Ptr("10.0.0.0/16")},
+      				},
+      				FlowTimeoutInMinutes: to.Ptr[int32](10),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreate.json
+       */
+      async function createVirtualNetwork() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualNetworkName = "test-vnet";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          flowTimeoutInMinutes: 10,
+          location: "eastus",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetwork().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3066,6 +3206,103 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-08-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "test-1",
+              "properties": {
+                "addressPrefix": "10.0.0.0/24"
+              }
+            }
+          ]
+        },
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
+      import com.azure.resourcemanager.network.fluent.models.VirtualNetworkInner;
+      import com.azure.resourcemanager.network.models.AddressSpace;
+      import java.util.Arrays;
+
+      /** Samples for VirtualNetworks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreateSubnet.json
+           */
+          /**
+           * Sample code: Create virtual network with subnet.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createVirtualNetworkWithSubnet(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualNetworks()
+                  .createOrUpdate(
+                      "rg1",
+                      "test-vnet",
+                      new VirtualNetworkInner()
+                          .withLocation("eastus")
+                          .withAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.0.0.0/16")))
+                          .withSubnets(Arrays.asList(new SubnetInner().withName("test-1").withAddressPrefix("10.0.0.0/24"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreateSubnet.json
+       */
+      async function createVirtualNetworkWithSubnet() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualNetworkName = "test-vnet";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          location: "eastus",
+          subnets: [{ name: "test-1", addressPrefix: "10.0.0.0/24" }],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetworkWithSubnet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3146,6 +3383,112 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-08-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "test-2",
+              "properties": {
+                "addressPrefixes": [
+                  "10.0.0.0/28",
+                  "10.0.1.0/28"
+                ]
+              }
+            }
+          ]
+        },
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
+      import com.azure.resourcemanager.network.fluent.models.VirtualNetworkInner;
+      import com.azure.resourcemanager.network.models.AddressSpace;
+      import java.util.Arrays;
+
+      /** Samples for VirtualNetworks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreateSubnetWithAddressPrefixes.json
+           */
+          /**
+           * Sample code: Create virtual network with subnet containing address prefixes.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createVirtualNetworkWithSubnetContainingAddressPrefixes(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualNetworks()
+                  .createOrUpdate(
+                      "rg1",
+                      "test-vnet",
+                      new VirtualNetworkInner()
+                          .withLocation("eastus")
+                          .withAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.0.0.0/16")))
+                          .withSubnets(
+                              Arrays
+                                  .asList(
+                                      new SubnetInner()
+                                          .withName("test-2")
+                                          .withAddressPrefixes(Arrays.asList("10.0.0.0/28", "10.0.1.0/28")))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreateSubnetWithAddressPrefixes.json
+       */
+      async function createVirtualNetworkWithSubnetContainingAddressPrefixes() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualNetworkName = "test-vnet";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          location: "eastus",
+          subnets: [{ name: "test-2", addressPrefixes: ["10.0.0.0/28", "10.0.1.0/28"] }],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetworkWithSubnetContainingAddressPrefixes().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3232,6 +3575,109 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-08-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "test-1",
+              "properties": {
+                "addressPrefix": "10.0.0.0/24"
+              }
+            }
+          ],
+          "bgpCommunities": {
+            "virtualNetworkCommunity": "12076:20000"
+          }
+        },
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
+      import com.azure.resourcemanager.network.fluent.models.VirtualNetworkInner;
+      import com.azure.resourcemanager.network.models.AddressSpace;
+      import com.azure.resourcemanager.network.models.VirtualNetworkBgpCommunities;
+      import java.util.Arrays;
+
+      /** Samples for VirtualNetworks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreateWithBgpCommunities.json
+           */
+          /**
+           * Sample code: Create virtual network with Bgp Communities.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createVirtualNetworkWithBgpCommunities(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualNetworks()
+                  .createOrUpdate(
+                      "rg1",
+                      "test-vnet",
+                      new VirtualNetworkInner()
+                          .withLocation("eastus")
+                          .withAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.0.0.0/16")))
+                          .withSubnets(Arrays.asList(new SubnetInner().withName("test-1").withAddressPrefix("10.0.0.0/24")))
+                          .withBgpCommunities(new VirtualNetworkBgpCommunities().withVirtualNetworkCommunity("12076:20000")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreateWithBgpCommunities.json
+       */
+      async function createVirtualNetworkWithBgpCommunities() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualNetworkName = "test-vnet";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          bgpCommunities: { virtualNetworkCommunity: "12076:20000" },
+          location: "eastus",
+          subnets: [{ name: "test-1", addressPrefix: "10.0.0.0/24" }],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetworkWithBgpCommunities().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3322,6 +3768,125 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2021-08-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "test-1",
+              "properties": {
+                "addressPrefix": "10.0.0.0/16",
+                "serviceEndpoints": [
+                  {
+                    "service": "Microsoft.Storage"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
+      import com.azure.resourcemanager.network.fluent.models.VirtualNetworkInner;
+      import com.azure.resourcemanager.network.models.AddressSpace;
+      import com.azure.resourcemanager.network.models.ServiceEndpointPropertiesFormat;
+      import java.util.Arrays;
+
+      /** Samples for VirtualNetworks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreateServiceEndpoints.json
+           */
+          /**
+           * Sample code: Create virtual network with service endpoints.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createVirtualNetworkWithServiceEndpoints(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualNetworks()
+                  .createOrUpdate(
+                      "vnetTest",
+                      "vnet1",
+                      new VirtualNetworkInner()
+                          .withLocation("eastus")
+                          .withAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.0.0.0/16")))
+                          .withSubnets(
+                              Arrays
+                                  .asList(
+                                      new SubnetInner()
+                                          .withName("test-1")
+                                          .withAddressPrefix("10.0.0.0/16")
+                                          .withServiceEndpoints(
+                                              Arrays
+                                                  .asList(
+                                                      new ServiceEndpointPropertiesFormat()
+                                                          .withService("Microsoft.Storage"))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreateServiceEndpoints.json
+       */
+      async function createVirtualNetworkWithServiceEndpoints() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "vnetTest";
+        const virtualNetworkName = "vnet1";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          location: "eastus",
+          subnets: [
+            {
+              name: "test-1",
+              addressPrefix: "10.0.0.0/16",
+              serviceEndpoints: [{ service: "Microsoft.Storage" }],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetworkWithServiceEndpoints().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3433,6 +3998,142 @@ examples:
         },
         "location": "eastus2euap"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2021-08-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "test-1",
+              "properties": {
+                "addressPrefix": "10.0.0.0/16",
+                "serviceEndpoints": [
+                  {
+                    "service": "Microsoft.Storage"
+                  }
+                ],
+                "serviceEndpointPolicies": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/serviceEndpointPolicies/ServiceEndpointPolicy1"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "location": "eastus2euap"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.ServiceEndpointPolicyInner;
+      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
+      import com.azure.resourcemanager.network.fluent.models.VirtualNetworkInner;
+      import com.azure.resourcemanager.network.models.AddressSpace;
+      import com.azure.resourcemanager.network.models.ServiceEndpointPropertiesFormat;
+      import java.util.Arrays;
+
+      /** Samples for VirtualNetworks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreateServiceEndpointPolicy.json
+           */
+          /**
+           * Sample code: Create virtual network with service endpoints and service endpoint policy.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualNetworks()
+                  .createOrUpdate(
+                      "vnetTest",
+                      "vnet1",
+                      new VirtualNetworkInner()
+                          .withLocation("eastus2euap")
+                          .withAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.0.0.0/16")))
+                          .withSubnets(
+                              Arrays
+                                  .asList(
+                                      new SubnetInner()
+                                          .withName("test-1")
+                                          .withAddressPrefix("10.0.0.0/16")
+                                          .withServiceEndpoints(
+                                              Arrays
+                                                  .asList(
+                                                      new ServiceEndpointPropertiesFormat().withService("Microsoft.Storage")))
+                                          .withServiceEndpointPolicies(
+                                              Arrays
+                                                  .asList(
+                                                      new ServiceEndpointPolicyInner()
+                                                          .withId(
+                                                              "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/serviceEndpointPolicies/ServiceEndpointPolicy1"))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreateServiceEndpointPolicy.json
+       */
+      async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "vnetTest";
+        const virtualNetworkName = "vnet1";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          location: "eastus2euap",
+          subnets: [
+            {
+              name: "test-1",
+              addressPrefix: "10.0.0.0/16",
+              serviceEndpointPolicies: [
+                {
+                  id: "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/serviceEndpointPolicies/ServiceEndpointPolicy1",
+                },
+              ],
+              serviceEndpoints: [{ service: "Microsoft.Storage" }],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3552,6 +4253,134 @@ examples:
         },
         "location": "westcentralus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-08-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "test-1",
+              "properties": {
+                "addressPrefix": "10.0.0.0/24",
+                "delegations": [
+                  {
+                    "name": "myDelegation",
+                    "properties": {
+                      "serviceName": "Microsoft.Sql/managedInstances"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "location": "westcentralus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
+      import com.azure.resourcemanager.network.fluent.models.VirtualNetworkInner;
+      import com.azure.resourcemanager.network.models.AddressSpace;
+      import com.azure.resourcemanager.network.models.Delegation;
+      import java.util.Arrays;
+
+      /** Samples for VirtualNetworks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreateSubnetWithDelegation.json
+           */
+          /**
+           * Sample code: Create virtual network with delegated subnets.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createVirtualNetworkWithDelegatedSubnets(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualNetworks()
+                  .createOrUpdate(
+                      "rg1",
+                      "test-vnet",
+                      new VirtualNetworkInner()
+                          .withLocation("westcentralus")
+                          .withAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.0.0.0/16")))
+                          .withSubnets(
+                              Arrays
+                                  .asList(
+                                      new SubnetInner()
+                                          .withName("test-1")
+                                          .withAddressPrefix("10.0.0.0/24")
+                                          .withDelegations(
+                                              Arrays
+                                                  .asList(
+                                                      new Delegation()
+                                                          .withName("myDelegation")
+                                                          .withServiceName("Microsoft.Sql/managedInstances"))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreateSubnetWithDelegation.json
+       */
+      async function createVirtualNetworkWithDelegatedSubnets() {
+        const subscriptionId = "subId";
+        const resourceGroupName = "rg1";
+        const virtualNetworkName = "test-vnet";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          location: "westcentralus",
+          subnets: [
+            {
+              name: "test-1",
+              addressPrefix: "10.0.0.0/24",
+              delegations: [
+                {
+                  name: "myDelegation",
+                  serviceName: "Microsoft.Sql/managedInstances",
+                },
+              ],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetworkWithDelegatedSubnets().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3657,6 +4486,114 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-08-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "test-1",
+              "properties": {
+                "addressPrefix": "10.0.0.0/24"
+              }
+            }
+          ],
+          "encryption": {
+            "enabled": true,
+            "enforcement": "AllowUnencrypted"
+          }
+        },
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
+      import com.azure.resourcemanager.network.fluent.models.VirtualNetworkInner;
+      import com.azure.resourcemanager.network.models.AddressSpace;
+      import com.azure.resourcemanager.network.models.VirtualNetworkEncryption;
+      import com.azure.resourcemanager.network.models.VirtualNetworkEncryptionEnforcement;
+      import java.util.Arrays;
+
+      /** Samples for VirtualNetworks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreateWithEncryption.json
+           */
+          /**
+           * Sample code: Create virtual network with encryption.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createVirtualNetworkWithEncryption(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualNetworks()
+                  .createOrUpdate(
+                      "rg1",
+                      "test-vnet",
+                      new VirtualNetworkInner()
+                          .withLocation("eastus")
+                          .withAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.0.0.0/16")))
+                          .withSubnets(Arrays.asList(new SubnetInner().withName("test-1").withAddressPrefix("10.0.0.0/24")))
+                          .withEncryption(
+                              new VirtualNetworkEncryption()
+                                  .withEnabled(true)
+                                  .withEnforcement(VirtualNetworkEncryptionEnforcement.ALLOW_UNENCRYPTED)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkCreateWithEncryption.json
+       */
+      async function createVirtualNetworkWithEncryption() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualNetworkName = "test-vnet";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          encryption: { enabled: true, enforcement: "AllowUnencrypted" },
+          location: "eastus",
+          subnets: [{ name: "test-1", addressPrefix: "10.0.0.0/24" }],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetworkWithEncryption().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

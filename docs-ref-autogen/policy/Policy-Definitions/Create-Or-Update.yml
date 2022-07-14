@@ -361,6 +361,254 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming?api-version=2021-06-01
+
+      {
+        "properties": {
+          "mode": "All",
+          "displayName": "Enforce resource naming convention",
+          "description": "Force resource names to begin with given 'prefix' and/or end with given 'suffix'",
+          "metadata": {
+            "category": "Naming"
+          },
+          "policyRule": {
+            "if": {
+              "not": {
+                "field": "name",
+                "like": "[concat(parameters('prefix'), '*', parameters('suffix'))]"
+              }
+            },
+            "then": {
+              "effect": "deny"
+            }
+          },
+          "parameters": {
+            "prefix": {
+              "type": "String",
+              "metadata": {
+                "displayName": "Prefix",
+                "description": "Resource name prefix"
+              }
+            },
+            "suffix": {
+              "type": "String",
+              "metadata": {
+                "displayName": "Suffix",
+                "description": "Resource name suffix"
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.resources.fluent.models.PolicyDefinitionInner;
+      import com.azure.resourcemanager.resources.models.ParameterDefinitionsValue;
+      import com.azure.resourcemanager.resources.models.ParameterDefinitionsValueMetadata;
+      import com.azure.resourcemanager.resources.models.ParameterType;
+      import java.io.IOException;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for PolicyDefinitions CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicyDefinition.json
+           */
+          /**
+           * Sample code: Create or update a policy definition.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateAPolicyDefinition(com.azure.resourcemanager.AzureResourceManager azure)
+              throws IOException {
+              azure
+                  .genericResources()
+                  .manager()
+                  .policyClient()
+                  .getPolicyDefinitions()
+                  .createOrUpdateWithResponse(
+                      "ResourceNaming",
+                      new PolicyDefinitionInner()
+                          .withMode("All")
+                          .withDisplayName("Enforce resource naming convention")
+                          .withDescription("Force resource names to begin with given 'prefix' and/or end with given 'suffix'")
+                          .withPolicyRule(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize(
+                                      "{\"if\":{\"not\":{\"field\":\"name\",\"like\":\"[concat(parameters('prefix'), '*',"
+                                          + " parameters('suffix'))]\"}},\"then\":{\"effect\":\"deny\"}}",
+                                      Object.class,
+                                      SerializerEncoding.JSON))
+                          .withMetadata(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize("{\"category\":\"Naming\"}", Object.class, SerializerEncoding.JSON))
+                          .withParameters(
+                              mapOf(
+                                  "prefix",
+                                  new ParameterDefinitionsValue()
+                                      .withType(ParameterType.STRING)
+                                      .withMetadata(
+                                          new ParameterDefinitionsValueMetadata()
+                                              .withDisplayName("Prefix")
+                                              .withDescription("Resource name prefix")
+                                              .withAdditionalProperties(mapOf())),
+                                  "suffix",
+                                  new ParameterDefinitionsValue()
+                                      .withType(ParameterType.STRING)
+                                      .withMetadata(
+                                          new ParameterDefinitionsValueMetadata()
+                                              .withDisplayName("Suffix")
+                                              .withDescription("Resource name suffix")
+                                              .withAdditionalProperties(mapOf())))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armpolicy_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicyDefinition.json
+      func ExampleDefinitionsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armpolicy.NewDefinitionsClient("ae640e6b-ba3e-4256-9d62-2993eecfa6f2", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	_, err = client.CreateOrUpdate(ctx,
+      		"ResourceNaming",
+      		armpolicy.Definition{
+      			Properties: &armpolicy.DefinitionProperties{
+      				Description: to.Ptr("Force resource names to begin with given 'prefix' and/or end with given 'suffix'"),
+      				DisplayName: to.Ptr("Enforce resource naming convention"),
+      				Metadata: map[string]interface{}{
+      					"category": "Naming",
+      				},
+      				Mode: to.Ptr("All"),
+      				Parameters: map[string]*armpolicy.ParameterDefinitionsValue{
+      					"prefix": {
+      						Type: to.Ptr(armpolicy.ParameterTypeString),
+      						Metadata: &armpolicy.ParameterDefinitionsValueMetadata{
+      							Description: to.Ptr("Resource name prefix"),
+      							DisplayName: to.Ptr("Prefix"),
+      						},
+      					},
+      					"suffix": {
+      						Type: to.Ptr(armpolicy.ParameterTypeString),
+      						Metadata: &armpolicy.ParameterDefinitionsValueMetadata{
+      							Description: to.Ptr("Resource name suffix"),
+      							DisplayName: to.Ptr("Suffix"),
+      						},
+      					},
+      				},
+      				PolicyRule: map[string]interface{}{
+      					"if": map[string]interface{}{
+      						"not": map[string]interface{}{
+      							"field": "name",
+      							"like":  "[concat(parameters('prefix'), '*', parameters('suffix'))]",
+      						},
+      					},
+      					"then": map[string]interface{}{
+      						"effect": "deny",
+      					},
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmpolicy%2Fv0.6.0/sdk/resourcemanager/resources/armpolicy/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PolicyClient } = require("@azure/arm-policy");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to This operation creates or updates a policy definition in the given subscription with the given name.
+       *
+       * @summary This operation creates or updates a policy definition in the given subscription with the given name.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicyDefinition.json
+       */
+      async function createOrUpdateAPolicyDefinition() {
+        const subscriptionId = "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
+        const policyDefinitionName = "ResourceNaming";
+        const parameters = {
+          description: "Force resource names to begin with given 'prefix' and/or end with given 'suffix'",
+          displayName: "Enforce resource naming convention",
+          metadata: { category: "Naming" },
+          mode: "All",
+          parameters: {
+            prefix: {
+              type: "String",
+              metadata: { description: "Resource name prefix", displayName: "Prefix" },
+            },
+            suffix: {
+              type: "String",
+              metadata: { description: "Resource name suffix", displayName: "Suffix" },
+            },
+          },
+          policyRule: {
+            if: {
+              not: {
+                field: "name",
+                like: "[concat(parameters('prefix'), '*', parameters('suffix'))]",
+              },
+            },
+            then: { effect: "deny" },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PolicyClient(credential, subscriptionId);
+        const result = await client.policyDefinitions.createOrUpdate(policyDefinitionName, parameters);
+        console.log(result);
+      }
+
+      createOrUpdateAPolicyDefinition().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -460,6 +708,208 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/EventHubDiagnosticLogs?api-version=2021-06-01
+
+      {
+        "properties": {
+          "mode": "Indexed",
+          "displayName": "Event Hubs should have diagnostic logging enabled",
+          "description": "Audit enabling of logs and retain them up to a year. This enables recreation of activity trails for investigation purposes when a security incident occurs or your network is compromised",
+          "metadata": {
+            "category": "Event Hub"
+          },
+          "policyRule": {
+            "if": {
+              "field": "type",
+              "equals": "Microsoft.EventHub/namespaces"
+            },
+            "then": {
+              "effect": "AuditIfNotExists",
+              "details": {
+                "type": "Microsoft.Insights/diagnosticSettings",
+                "existenceCondition": {
+                  "allOf": [
+                    {
+                      "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.enabled",
+                      "equals": "true"
+                    },
+                    {
+                      "field": "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.days",
+                      "equals": "[parameters('requiredRetentionDays')]"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "parameters": {
+            "requiredRetentionDays": {
+              "type": "Integer",
+              "defaultValue": 365,
+              "allowedValues": [
+                0,
+                30,
+                90,
+                180,
+                365
+              ],
+              "metadata": {
+                "displayName": "Required retention (days)",
+                "description": "The required diagnostic logs retention in days"
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.resources.fluent.models.PolicyDefinitionInner;
+      import com.azure.resourcemanager.resources.models.ParameterDefinitionsValue;
+      import com.azure.resourcemanager.resources.models.ParameterDefinitionsValueMetadata;
+      import com.azure.resourcemanager.resources.models.ParameterType;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for PolicyDefinitions CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicyDefinitionAdvancedParams.json
+           */
+          /**
+           * Sample code: Create or update a policy definition with advanced parameters.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateAPolicyDefinitionWithAdvancedParameters(
+              com.azure.resourcemanager.AzureResourceManager azure) throws IOException {
+              azure
+                  .genericResources()
+                  .manager()
+                  .policyClient()
+                  .getPolicyDefinitions()
+                  .createOrUpdateWithResponse(
+                      "EventHubDiagnosticLogs",
+                      new PolicyDefinitionInner()
+                          .withMode("Indexed")
+                          .withDisplayName("Event Hubs should have diagnostic logging enabled")
+                          .withDescription(
+                              "Audit enabling of logs and retain them up to a year. This enables recreation of activity"
+                                  + " trails for investigation purposes when a security incident occurs or your network is"
+                                  + " compromised")
+                          .withPolicyRule(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize(
+                                      "{\"if\":{\"equals\":\"Microsoft.EventHub/namespaces\",\"field\":\"type\"},\"then\":{\"effect\":\"AuditIfNotExists\",\"details\":{\"type\":\"Microsoft.Insights/diagnosticSettings\",\"existenceCondition\":{\"allOf\":[{\"equals\":\"true\",\"field\":\"Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.enabled\"},{\"equals\":\"[parameters('requiredRetentionDays')]\",\"field\":\"Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.days\"}]}}}}",
+                                      Object.class,
+                                      SerializerEncoding.JSON))
+                          .withMetadata(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize("{\"category\":\"Event Hub\"}", Object.class, SerializerEncoding.JSON))
+                          .withParameters(
+                              mapOf(
+                                  "requiredRetentionDays",
+                                  new ParameterDefinitionsValue()
+                                      .withType(ParameterType.INTEGER)
+                                      .withAllowedValues(Arrays.asList(0, 30, 90, 180, 365))
+                                      .withDefaultValue(365)
+                                      .withMetadata(
+                                          new ParameterDefinitionsValueMetadata()
+                                              .withDisplayName("Required retention (days)")
+                                              .withDescription("The required diagnostic logs retention in days")
+                                              .withAdditionalProperties(mapOf())))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PolicyClient } = require("@azure/arm-policy");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to This operation creates or updates a policy definition in the given subscription with the given name.
+       *
+       * @summary This operation creates or updates a policy definition in the given subscription with the given name.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createOrUpdatePolicyDefinitionAdvancedParams.json
+       */
+      async function createOrUpdateAPolicyDefinitionWithAdvancedParameters() {
+        const subscriptionId = "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
+        const policyDefinitionName = "EventHubDiagnosticLogs";
+        const parameters = {
+          description:
+            "Audit enabling of logs and retain them up to a year. This enables recreation of activity trails for investigation purposes when a security incident occurs or your network is compromised",
+          displayName: "Event Hubs should have diagnostic logging enabled",
+          metadata: { category: "Event Hub" },
+          mode: "Indexed",
+          parameters: {
+            requiredRetentionDays: {
+              type: "Integer",
+              allowedValues: [0, 30, 90, 180, 365],
+              defaultValue: 365,
+              metadata: {
+                description: "The required diagnostic logs retention in days",
+                displayName: "Required retention (days)",
+              },
+            },
+          },
+          policyRule: {
+            if: { equals: "Microsoft.EventHub/namespaces", field: "type" },
+            then: {
+              effect: "AuditIfNotExists",
+              details: {
+                type: "Microsoft.Insights/diagnosticSettings",
+                existenceCondition: {
+                  allOf: [
+                    {
+                      equals: "true",
+                      field: "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.enabled",
+                    },
+                    {
+                      equals: "[parameters('requiredRetentionDays')]",
+                      field: "Microsoft.Insights/diagnosticSettings/logs[*].retentionPolicy.days",
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PolicyClient(credential, subscriptionId);
+        const result = await client.policyDefinitions.createOrUpdate(policyDefinitionName, parameters);
+        console.log(result);
+      }
+
+      createOrUpdateAPolicyDefinitionWithAdvancedParameters().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

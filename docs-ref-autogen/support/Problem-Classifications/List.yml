@@ -119,6 +119,80 @@ examples:
 - name: Gets list of problemClassifications for a service for which a support ticket can be created
   request:
     uri: GET https://management.azure.com/providers/Microsoft.Support/services/service_guid/problemClassifications?api-version=2020-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.Support/services/service_guid/problemClassifications?api-version=2020-04-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsupport_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/support/armsupport"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/ListProblemClassifications.json
+      func ExampleProblemClassificationsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsupport.NewProblemClassificationsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("service_guid",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsupport%2Farmsupport%2Fv1.0.0/sdk/resourcemanager/support/armsupport/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MicrosoftSupport } = require("@azure/arm-support");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all the problem classifications (categories) available for a specific Azure service. Always use the service and problem classifications obtained programmatically. This practice ensures that you always have the most recent set of service and problem classification Ids.
+       *
+       * @summary Lists all the problem classifications (categories) available for a specific Azure service. Always use the service and problem classifications obtained programmatically. This practice ensures that you always have the most recent set of service and problem classification Ids.
+       * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/ListProblemClassifications.json
+       */
+      async function getsListOfProblemClassificationsForAServiceForWhichASupportTicketCanBeCreated() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const serviceName = "service_guid";
+        const credential = new DefaultAzureCredential();
+        const client = new MicrosoftSupport(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.problemClassifications.list(serviceName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      getsListOfProblemClassificationsForAServiceForWhichASupportTicketCanBeCreated().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-support_2.0.2/sdk/support/arm-support/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

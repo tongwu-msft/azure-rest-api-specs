@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleries.update
 name: Update
 service: Compute
 groupName: Galleries
-apiVersion: 2021-10-01
+apiVersion: 2022-01-03
 summary: Update a Shared Image Gallery.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}?api-version=2021-10-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}?api-version=2022-01-03
 uriParameters:
 - name: subscriptionId
   in: path
@@ -93,7 +93,7 @@ definitions:
   kind: object
   properties:
   - name: permissions
-    description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups**'
+    description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups** <br><br> **Community**'
     types:
     - uid: GallerySharingPermissionTypes
   - name: groups
@@ -106,7 +106,6 @@ definitions:
     description: Information of community gallery if current gallery is shared to community.
     types:
     - uid: CommunityGalleryInfo
-      isArray: true
 - name: SoftDeletePolicy
   description: Contains information about the soft deletion policy of the gallery.
   kind: object
@@ -143,15 +142,9 @@ definitions:
     - uid: GalleryIdentifier
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The current state of the gallery.  \nThe provisioning state, which only appears in the response."
+    description: "The current state of the gallery or gallery artifact.  \nThe provisioning state, which only appears in the response."
     types:
-    - uid: Creating
-    - uid: Updating
-    - uid: Failed
-    - uid: Succeeded
-    - uid: Deleting
-    - uid: Migrating
-    typesTitle: enum
+    - uid: GalleryProvisioningState
   - name: properties.sharingProfile
     description: Profile for gallery sharing to subscription or tenant
     types:
@@ -214,15 +207,9 @@ definitions:
     - uid: GalleryIdentifier
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The current state of the gallery.  \nThe provisioning state, which only appears in the response."
+    description: "The current state of the gallery or gallery artifact.  \nThe provisioning state, which only appears in the response."
     types:
-    - uid: Creating
-    - uid: Updating
-    - uid: Failed
-    - uid: Succeeded
-    - uid: Deleting
-    - uid: Migrating
-    typesTitle: enum
+    - uid: GalleryProvisioningState
   - name: properties.sharingProfile
     description: Profile for gallery sharing to subscription or tenant
     types:
@@ -260,7 +247,7 @@ definitions:
       - uid: string
       - uid: string
 - name: GallerySharingPermissionTypes
-  description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups**'
+  description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups** <br><br> **Community**'
   kind: enum
   properties:
   - name: Private
@@ -269,12 +256,15 @@ definitions:
   - name: Groups
     types:
     - uid: string
+  - name: Community
+    types:
+    - uid: string
 - name: SharingProfileGroup
   description: Group of the gallery sharing profile
   kind: object
   properties:
   - name: type
-    description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants** <br><br> **Community**'
+    description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
     types:
     - uid: SharingProfileGroupTypes
   - name: ids
@@ -287,19 +277,19 @@ definitions:
   kind: object
   properties:
   - name: publisherUri
-    description: Community gallery publisher uri
+    description: The link to the publisher website. Visible to all users.
     types:
     - uid: string
   - name: publisherContact
-    description: Community gallery publisher contact email
+    description: Community gallery publisher support email. The email address of the publisher. Visible to all users.
     types:
     - uid: string
   - name: eula
-    description: Community gallery publisher eula
+    description: End-user license agreement for community gallery image.
     types:
     - uid: string
   - name: publicNamePrefix
-    description: Community gallery public name prefix
+    description: The prefix of the gallery name that will be displayed publicly. Visible to all users.
     types:
     - uid: string
   - name: communityGalleryEnabled
@@ -346,6 +336,28 @@ definitions:
     description: Details of gallery regional sharing failure.
     types:
     - uid: string
+- name: GalleryProvisioningState
+  description: The current state of the gallery or gallery artifact.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Migrating
+    types:
+    - uid: string
 - name: ApiError
   description: Api error.
   kind: object
@@ -372,16 +384,13 @@ definitions:
     types:
     - uid: string
 - name: SharingProfileGroupTypes
-  description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants** <br><br> **Community**'
+  description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
   kind: enum
   properties:
   - name: Subscriptions
     types:
     - uid: string
   - name: AADTenants
-    types:
-    - uid: string
-  - name: Community
     types:
     - uid: string
 - name: ApiErrorBase
@@ -415,13 +424,131 @@ definitions:
 examples:
 - name: Update a simple gallery.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-10-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2022-01-03
     body: >-
       {
         "properties": {
           "description": "This is the gallery description."
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2022-01-03
+
+      {
+        "properties": {
+          "description": "This is the gallery description."
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.GalleryUpdate;
+
+      /** Samples for Galleries Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/Gallery_Update.json
+           */
+          /**
+           * Sample code: Update a simple gallery.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateASimpleGallery(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getGalleries()
+                  .update(
+                      "myResourceGroup",
+                      "myGalleryName",
+                      new GalleryUpdate().withDescription("This is the gallery description."),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/Gallery_Update.json
+      func ExampleGalleriesClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewGalleriesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"myResourceGroup",
+      		"myGalleryName",
+      		armcompute.GalleryUpdate{
+      			Properties: &armcompute.GalleryProperties{
+      				Description: to.Ptr("This is the gallery description."),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update a Shared Image Gallery.
+       *
+       * @summary Update a Shared Image Gallery.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/Gallery_Update.json
+       */
+      async function updateASimpleGallery() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const galleryName = "myGalleryName";
+        const gallery = {
+          description: "This is the gallery description.",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.galleries.beginUpdateAndWait(resourceGroupName, galleryName, gallery);
+        console.log(result);
+      }
+
+      updateASimpleGallery().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

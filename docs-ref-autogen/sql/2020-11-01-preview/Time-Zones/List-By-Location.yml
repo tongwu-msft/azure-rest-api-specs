@@ -247,6 +247,78 @@ examples:
 - name: List managed instance time zones by location
   request:
     uri: GET https://management.azure.com/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/canadaeast/timeZones?api-version=2020-11-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/canadaeast/timeZones?api-version=2020-11-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceTimeZoneListByLocation.json
+      func ExampleTimeZonesClient_NewListByLocationPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsql.NewTimeZonesClient("37d5e605-6142-4d79-b564-28b6dbfeec0f", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByLocationPager("canadaeast",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsql%2Farmsql%2Fv1.0.0/sdk/resourcemanager/sql/armsql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlManagementClient } = require("@azure/arm-sql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a list of managed instance time zones by location.
+       *
+       * @summary Gets a list of managed instance time zones by location.
+       * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceTimeZoneListByLocation.json
+       */
+      async function listManagedInstanceTimeZonesByLocation() {
+        const subscriptionId = "37d5e605-6142-4d79-b564-28b6dbfeec0f";
+        const locationName = "canadaeast";
+        const credential = new DefaultAzureCredential();
+        const client = new SqlManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.timeZones.listByLocation(locationName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listManagedInstanceTimeZonesByLocation().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sql_9.0.1/sdk/sql/arm-sql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -471,7 +543,7 @@ examples:
           {
             "properties": {
               "timeZoneId": "Central Asia Standard Time",
-              "displayName": "(UTC+06:00) Astana"
+              "displayName": "(UTC+06:00) Nur-Sultan"
             },
             "id": "/subscriptions/37d5e605-6142-4d79-b564-28b6dbfeec0f/providers/Microsoft.Sql/locations/onebox/timeZones/Central Asia Standard Time",
             "name": "Central Asia Standard Time",

@@ -434,6 +434,142 @@ examples:
           "encapsulation": "QinQ"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ExpressRoutePorts/portName?api-version=2021-08-01
+
+      {
+        "location": "westus",
+        "properties": {
+          "peeringLocation": "peeringLocationName",
+          "bandwidthInGbps": 100,
+          "encapsulation": "QinQ"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.ExpressRoutePortInner;
+      import com.azure.resourcemanager.network.models.ExpressRoutePortsEncapsulation;
+
+      /** Samples for ExpressRoutePorts CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/ExpressRoutePortCreate.json
+           */
+          /**
+           * Sample code: ExpressRoutePortCreate.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void expressRoutePortCreate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getExpressRoutePorts()
+                  .createOrUpdate(
+                      "rg1",
+                      "portName",
+                      new ExpressRoutePortInner()
+                          .withLocation("westus")
+                          .withPeeringLocation("peeringLocationName")
+                          .withBandwidthInGbps(100)
+                          .withEncapsulation(ExpressRoutePortsEncapsulation.QINQ),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/ExpressRoutePortCreate.json
+      func ExampleExpressRoutePortsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewExpressRoutePortsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"rg1",
+      		"portName",
+      		armnetwork.ExpressRoutePort{
+      			Location: to.Ptr("westus"),
+      			Properties: &armnetwork.ExpressRoutePortPropertiesFormat{
+      				BandwidthInGbps: to.Ptr[int32](100),
+      				Encapsulation:   to.Ptr(armnetwork.ExpressRoutePortsEncapsulationQinQ),
+      				PeeringLocation: to.Ptr("peeringLocationName"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates the specified ExpressRoutePort resource.
+       *
+       * @summary Creates or updates the specified ExpressRoutePort resource.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/ExpressRoutePortCreate.json
+       */
+      async function expressRoutePortCreate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const expressRoutePortName = "portName";
+        const parameters = {
+          bandwidthInGbps: 100,
+          encapsulation: "QinQ",
+          location: "westus",
+          peeringLocation: "peeringLocationName",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.expressRoutePorts.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          expressRoutePortName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      expressRoutePortCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -549,6 +685,111 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ExpressRoutePorts/portName?api-version=2021-08-01
+
+      {
+        "location": "westus",
+        "properties": {
+          "peeringLocation": "peeringLocationName",
+          "bandwidthInGbps": 100,
+          "encapsulation": "QinQ",
+          "links": [
+            {
+              "name": "link1",
+              "properties": {
+                "adminState": "Enabled"
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.ExpressRouteLinkInner;
+      import com.azure.resourcemanager.network.fluent.models.ExpressRoutePortInner;
+      import com.azure.resourcemanager.network.models.ExpressRouteLinkAdminState;
+      import com.azure.resourcemanager.network.models.ExpressRoutePortsEncapsulation;
+      import java.util.Arrays;
+
+      /** Samples for ExpressRoutePorts CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/ExpressRoutePortUpdateLink.json
+           */
+          /**
+           * Sample code: ExpressRoutePortUpdateLink.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void expressRoutePortUpdateLink(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getExpressRoutePorts()
+                  .createOrUpdate(
+                      "rg1",
+                      "portName",
+                      new ExpressRoutePortInner()
+                          .withLocation("westus")
+                          .withPeeringLocation("peeringLocationName")
+                          .withBandwidthInGbps(100)
+                          .withEncapsulation(ExpressRoutePortsEncapsulation.QINQ)
+                          .withLinks(
+                              Arrays
+                                  .asList(
+                                      new ExpressRouteLinkInner()
+                                          .withName("link1")
+                                          .withAdminState(ExpressRouteLinkAdminState.ENABLED))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates the specified ExpressRoutePort resource.
+       *
+       * @summary Creates or updates the specified ExpressRoutePort resource.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/ExpressRoutePortUpdateLink.json
+       */
+      async function expressRoutePortUpdateLink() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const expressRoutePortName = "portName";
+        const parameters = {
+          bandwidthInGbps: 100,
+          encapsulation: "QinQ",
+          links: [{ name: "link1", adminState: "Enabled" }],
+          location: "westus",
+          peeringLocation: "peeringLocationName",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.expressRoutePorts.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          expressRoutePortName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      expressRoutePortUpdateLink().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

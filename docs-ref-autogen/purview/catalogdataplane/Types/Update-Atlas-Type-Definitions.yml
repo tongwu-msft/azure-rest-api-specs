@@ -1213,6 +1213,127 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT {Endpoint}/catalog/api/atlas/v2/types/typedefs
+
+      {
+        "enumDefs": [],
+        "structDefs": [],
+        "classificationDefs": [],
+        "entityDefs": [
+          {
+            "name": "azure_sql_server",
+            "superTypes": [
+              "azure_resource"
+            ],
+            "typeVersion": "1.0",
+            "attributeDefs": [
+              {
+                "name": "databases",
+                "typeName": "array<azure_sql_db>",
+                "cardinality": "SET",
+                "isIndexable": false,
+                "isOptional": true,
+                "isUnique": false
+              }
+            ]
+          },
+          {
+            "name": "azure_sql_db",
+            "superTypes": [
+              "azure_resource"
+            ],
+            "typeVersion": "1.0",
+            "attributeDefs": [
+              {
+                "name": "server",
+                "typeName": "azure_sql_server",
+                "cardinality": "SINGLE",
+                "constraints": [
+                  {
+                    "type": "inverseRef",
+                    "params": {
+                      "attribute": "databases"
+                    }
+                  }
+                ],
+                "isIndexable": false,
+                "isOptional": false,
+                "isUnique": false
+              },
+              {
+                "name": "schemas",
+                "typeName": "array<azure_sql_schema>",
+                "cardinality": "SET",
+                "isIndexable": false,
+                "isOptional": true,
+                "isUnique": false
+              },
+              {
+                "name": "collation",
+                "typeName": "string",
+                "cardinality": "SINGLE",
+                "isIndexable": false,
+                "isOptional": true,
+                "isUnique": false
+              },
+              {
+                "name": "compatibilityLevel",
+                "typeName": "int",
+                "cardinality": "SINGLE",
+                "isIndexable": false,
+                "isOptional": true,
+                "isUnique": false
+              }
+            ]
+          }
+        ],
+        "relationshipDefs": [
+          {
+            "name": "azure_sql_server_databases",
+            "typeVersion": "1.0",
+            "relationshipCategory": "COMPOSITION",
+            "endDef1": {
+              "type": "azure_sql_server",
+              "name": "databases",
+              "isContainer": true,
+              "cardinality": "SET",
+              "isLegacyAttribute": true
+            },
+            "endDef2": {
+              "type": "azure_sql_db",
+              "name": "server",
+              "isContainer": false,
+              "cardinality": "SINGLE",
+              "isLegacyAttribute": true
+            }
+          },
+          {
+            "name": "azure_sql_db_schemas",
+            "typeVersion": "1.0",
+            "relationshipCategory": "COMPOSITION",
+            "endDef1": {
+              "type": "azure_sql_db",
+              "name": "schemas",
+              "isContainer": true,
+              "cardinality": "SET",
+              "isLegacyAttribute": true
+            },
+            "endDef2": {
+              "type": "azure_sql_schema",
+              "name": "db",
+              "isContainer": false,
+              "cardinality": "SINGLE",
+              "isLegacyAttribute": true
+            }
+          }
+        ]
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

@@ -1129,6 +1129,435 @@ examples:
         },
         "location": "centralus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw?api-version=2021-08-01
+
+      {
+        "properties": {
+          "ipConfigurations": [
+            {
+              "properties": {
+                "privateIPAllocationMethod": "Dynamic",
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet"
+                },
+                "publicIPAddress": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip"
+                }
+              },
+              "name": "gwipconfig1"
+            }
+          ],
+          "gatewayType": "Vpn",
+          "vpnType": "RouteBased",
+          "enableBgp": false,
+          "activeActive": false,
+          "disableIPSecReplayProtection": false,
+          "enableDnsForwarding": true,
+          "natRules": [
+            {
+              "name": "natRule1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1",
+              "properties": {
+                "type": "Static",
+                "mode": "EgressSnat",
+                "ipConfigurationId": "",
+                "internalMappings": [
+                  {
+                    "addressSpace": "10.10.0.0/24"
+                  }
+                ],
+                "externalMappings": [
+                  {
+                    "addressSpace": "50.0.0.0/24"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "natRule2",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2",
+              "properties": {
+                "type": "Static",
+                "mode": "IngressSnat",
+                "ipConfigurationId": "",
+                "internalMappings": [
+                  {
+                    "addressSpace": "20.10.0.0/24"
+                  }
+                ],
+                "externalMappings": [
+                  {
+                    "addressSpace": "30.0.0.0/24"
+                  }
+                ]
+              }
+            }
+          ],
+          "enableBgpRouteTranslationForNat": false,
+          "sku": {
+            "name": "VpnGw1",
+            "tier": "VpnGw1"
+          },
+          "vpnClientConfiguration": {
+            "vpnClientProtocols": [
+              "OpenVPN"
+            ],
+            "vpnClientRootCertificates": [],
+            "vpnClientRevokedCertificates": [],
+            "radiusServers": [
+              {
+                "radiusServerAddress": "10.2.0.0",
+                "radiusServerScore": 20,
+                "radiusServerSecret": "radiusServerSecret"
+              }
+            ]
+          },
+          "bgpSettings": {
+            "asn": 65515,
+            "bgpPeeringAddress": "10.0.1.30",
+            "peerWeight": 0
+          },
+          "customRoutes": {
+            "addressPrefixes": [
+              "101.168.0.6/32"
+            ]
+          }
+        },
+        "location": "centralus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.SubResource;
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.VirtualNetworkGatewayInner;
+      import com.azure.resourcemanager.network.fluent.models.VirtualNetworkGatewayIpConfigurationInner;
+      import com.azure.resourcemanager.network.fluent.models.VirtualNetworkGatewayNatRuleInner;
+      import com.azure.resourcemanager.network.models.AddressSpace;
+      import com.azure.resourcemanager.network.models.BgpSettings;
+      import com.azure.resourcemanager.network.models.IpAllocationMethod;
+      import com.azure.resourcemanager.network.models.RadiusServer;
+      import com.azure.resourcemanager.network.models.VirtualNetworkGatewaySku;
+      import com.azure.resourcemanager.network.models.VirtualNetworkGatewaySkuName;
+      import com.azure.resourcemanager.network.models.VirtualNetworkGatewaySkuTier;
+      import com.azure.resourcemanager.network.models.VirtualNetworkGatewayType;
+      import com.azure.resourcemanager.network.models.VpnClientConfiguration;
+      import com.azure.resourcemanager.network.models.VpnClientProtocol;
+      import com.azure.resourcemanager.network.models.VpnNatRuleMapping;
+      import com.azure.resourcemanager.network.models.VpnNatRuleMode;
+      import com.azure.resourcemanager.network.models.VpnNatRuleType;
+      import com.azure.resourcemanager.network.models.VpnType;
+      import java.util.Arrays;
+
+      /** Samples for VirtualNetworkGateways CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkGatewayUpdate.json
+           */
+          /**
+           * Sample code: UpdateVirtualNetworkGateway.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateVirtualNetworkGateway(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualNetworkGateways()
+                  .createOrUpdate(
+                      "rg1",
+                      "vpngw",
+                      new VirtualNetworkGatewayInner()
+                          .withLocation("centralus")
+                          .withIpConfigurations(
+                              Arrays
+                                  .asList(
+                                      new VirtualNetworkGatewayIpConfigurationInner()
+                                          .withName("gwipconfig1")
+                                          .withPrivateIpAllocationMethod(IpAllocationMethod.DYNAMIC)
+                                          .withSubnet(
+                                              new SubResource()
+                                                  .withId(
+                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet"))
+                                          .withPublicIpAddress(
+                                              new SubResource()
+                                                  .withId(
+                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip"))))
+                          .withGatewayType(VirtualNetworkGatewayType.VPN)
+                          .withVpnType(VpnType.ROUTE_BASED)
+                          .withEnableBgp(false)
+                          .withActive(false)
+                          .withDisableIpSecReplayProtection(false)
+                          .withSku(
+                              new VirtualNetworkGatewaySku()
+                                  .withName(VirtualNetworkGatewaySkuName.VPN_GW1)
+                                  .withTier(VirtualNetworkGatewaySkuTier.VPN_GW1))
+                          .withVpnClientConfiguration(
+                              new VpnClientConfiguration()
+                                  .withVpnClientRootCertificates(Arrays.asList())
+                                  .withVpnClientRevokedCertificates(Arrays.asList())
+                                  .withVpnClientProtocols(Arrays.asList(VpnClientProtocol.OPEN_VPN))
+                                  .withRadiusServers(
+                                      Arrays
+                                          .asList(
+                                              new RadiusServer()
+                                                  .withRadiusServerAddress("10.2.0.0")
+                                                  .withRadiusServerScore(20L)
+                                                  .withRadiusServerSecret("radiusServerSecret"))))
+                          .withBgpSettings(
+                              new BgpSettings().withAsn(65515L).withBgpPeeringAddress("10.0.1.30").withPeerWeight(0))
+                          .withCustomRoutes(new AddressSpace().withAddressPrefixes(Arrays.asList("101.168.0.6/32")))
+                          .withEnableDnsForwarding(true)
+                          .withNatRules(
+                              Arrays
+                                  .asList(
+                                      new VirtualNetworkGatewayNatRuleInner()
+                                          .withId(
+                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1")
+                                          .withName("natRule1")
+                                          .withTypePropertiesType(VpnNatRuleType.STATIC)
+                                          .withMode(VpnNatRuleMode.EGRESS_SNAT)
+                                          .withInternalMappings(
+                                              Arrays.asList(new VpnNatRuleMapping().withAddressSpace("10.10.0.0/24")))
+                                          .withExternalMappings(
+                                              Arrays.asList(new VpnNatRuleMapping().withAddressSpace("50.0.0.0/24")))
+                                          .withIpConfigurationId(""),
+                                      new VirtualNetworkGatewayNatRuleInner()
+                                          .withId(
+                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2")
+                                          .withName("natRule2")
+                                          .withTypePropertiesType(VpnNatRuleType.STATIC)
+                                          .withMode(VpnNatRuleMode.INGRESS_SNAT)
+                                          .withInternalMappings(
+                                              Arrays.asList(new VpnNatRuleMapping().withAddressSpace("20.10.0.0/24")))
+                                          .withExternalMappings(
+                                              Arrays.asList(new VpnNatRuleMapping().withAddressSpace("30.0.0.0/24")))
+                                          .withIpConfigurationId("")))
+                          .withEnableBgpRouteTranslationForNat(false),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkGatewayUpdate.json
+      func ExampleVirtualNetworkGatewaysClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVirtualNetworkGatewaysClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"rg1",
+      		"vpngw",
+      		armnetwork.VirtualNetworkGateway{
+      			Location: to.Ptr("centralus"),
+      			Properties: &armnetwork.VirtualNetworkGatewayPropertiesFormat{
+      				Active: to.Ptr(false),
+      				BgpSettings: &armnetwork.BgpSettings{
+      					Asn:               to.Ptr[int64](65515),
+      					BgpPeeringAddress: to.Ptr("10.0.1.30"),
+      					PeerWeight:        to.Ptr[int32](0),
+      				},
+      				CustomRoutes: &armnetwork.AddressSpace{
+      					AddressPrefixes: []*string{
+      						to.Ptr("101.168.0.6/32")},
+      				},
+      				DisableIPSecReplayProtection:    to.Ptr(false),
+      				EnableBgp:                       to.Ptr(false),
+      				EnableBgpRouteTranslationForNat: to.Ptr(false),
+      				EnableDNSForwarding:             to.Ptr(true),
+      				GatewayType:                     to.Ptr(armnetwork.VirtualNetworkGatewayTypeVPN),
+      				IPConfigurations: []*armnetwork.VirtualNetworkGatewayIPConfiguration{
+      					{
+      						Name: to.Ptr("gwipconfig1"),
+      						Properties: &armnetwork.VirtualNetworkGatewayIPConfigurationPropertiesFormat{
+      							PrivateIPAllocationMethod: to.Ptr(armnetwork.IPAllocationMethodDynamic),
+      							PublicIPAddress: &armnetwork.SubResource{
+      								ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip"),
+      							},
+      							Subnet: &armnetwork.SubResource{
+      								ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet"),
+      							},
+      						},
+      					}},
+      				NatRules: []*armnetwork.VirtualNetworkGatewayNatRule{
+      					{
+      						ID:   to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1"),
+      						Name: to.Ptr("natRule1"),
+      						Properties: &armnetwork.VirtualNetworkGatewayNatRuleProperties{
+      							Type: to.Ptr(armnetwork.VPNNatRuleTypeStatic),
+      							ExternalMappings: []*armnetwork.VPNNatRuleMapping{
+      								{
+      									AddressSpace: to.Ptr("50.0.0.0/24"),
+      								}},
+      							InternalMappings: []*armnetwork.VPNNatRuleMapping{
+      								{
+      									AddressSpace: to.Ptr("10.10.0.0/24"),
+      								}},
+      							IPConfigurationID: to.Ptr(""),
+      							Mode:              to.Ptr(armnetwork.VPNNatRuleModeEgressSnat),
+      						},
+      					},
+      					{
+      						ID:   to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2"),
+      						Name: to.Ptr("natRule2"),
+      						Properties: &armnetwork.VirtualNetworkGatewayNatRuleProperties{
+      							Type: to.Ptr(armnetwork.VPNNatRuleTypeStatic),
+      							ExternalMappings: []*armnetwork.VPNNatRuleMapping{
+      								{
+      									AddressSpace: to.Ptr("30.0.0.0/24"),
+      								}},
+      							InternalMappings: []*armnetwork.VPNNatRuleMapping{
+      								{
+      									AddressSpace: to.Ptr("20.10.0.0/24"),
+      								}},
+      							IPConfigurationID: to.Ptr(""),
+      							Mode:              to.Ptr(armnetwork.VPNNatRuleModeIngressSnat),
+      						},
+      					}},
+      				SKU: &armnetwork.VirtualNetworkGatewaySKU{
+      					Name: to.Ptr(armnetwork.VirtualNetworkGatewaySKUNameVPNGw1),
+      					Tier: to.Ptr(armnetwork.VirtualNetworkGatewaySKUTierVPNGw1),
+      				},
+      				VPNClientConfiguration: &armnetwork.VPNClientConfiguration{
+      					RadiusServers: []*armnetwork.RadiusServer{
+      						{
+      							RadiusServerAddress: to.Ptr("10.2.0.0"),
+      							RadiusServerScore:   to.Ptr[int64](20),
+      							RadiusServerSecret:  to.Ptr("radiusServerSecret"),
+      						}},
+      					VPNClientProtocols: []*armnetwork.VPNClientProtocol{
+      						to.Ptr(armnetwork.VPNClientProtocolOpenVPN)},
+      					VPNClientRevokedCertificates: []*armnetwork.VPNClientRevokedCertificate{},
+      					VPNClientRootCertificates:    []*armnetwork.VPNClientRootCertificate{},
+      				},
+      				VPNType: to.Ptr(armnetwork.VPNTypeRouteBased),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network gateway in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network gateway in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualNetworkGatewayUpdate.json
+       */
+      async function updateVirtualNetworkGateway() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualNetworkGatewayName = "vpngw";
+        const parameters = {
+          active: false,
+          bgpSettings: { asn: 65515, bgpPeeringAddress: "10.0.1.30", peerWeight: 0 },
+          customRoutes: { addressPrefixes: ["101.168.0.6/32"] },
+          disableIPSecReplayProtection: false,
+          enableBgp: false,
+          enableBgpRouteTranslationForNat: false,
+          enableDnsForwarding: true,
+          gatewayType: "Vpn",
+          ipConfigurations: [
+            {
+              name: "gwipconfig1",
+              privateIPAllocationMethod: "Dynamic",
+              publicIPAddress: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip",
+              },
+              subnet: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet",
+              },
+            },
+          ],
+          location: "centralus",
+          natRules: [
+            {
+              name: "natRule1",
+              typePropertiesType: "Static",
+              externalMappings: [{ addressSpace: "50.0.0.0/24" }],
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1",
+              internalMappings: [{ addressSpace: "10.10.0.0/24" }],
+              ipConfigurationId: "",
+              mode: "EgressSnat",
+            },
+            {
+              name: "natRule2",
+              typePropertiesType: "Static",
+              externalMappings: [{ addressSpace: "30.0.0.0/24" }],
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2",
+              internalMappings: [{ addressSpace: "20.10.0.0/24" }],
+              ipConfigurationId: "",
+              mode: "IngressSnat",
+            },
+          ],
+          sku: { name: "VpnGw1", tier: "VpnGw1" },
+          vpnClientConfiguration: {
+            radiusServers: [
+              {
+                radiusServerAddress: "10.2.0.0",
+                radiusServerScore: 20,
+                radiusServerSecret: "radiusServerSecret",
+              },
+            ],
+            vpnClientProtocols: ["OpenVPN"],
+            vpnClientRevokedCertificates: [],
+            vpnClientRootCertificates: [],
+          },
+          vpnType: "RouteBased",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworkGateways.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkGatewayName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      updateVirtualNetworkGateway().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.entities.get
 name: Get
 service: Sentinel
 groupName: Entities
-apiVersion: 2021-10-01-preview
+apiVersion: 2022-07-01-preview
 summary: Gets an entity.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}?api-version=2021-10-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -67,6 +67,7 @@ responses:
   - uid: SecurityGroupEntity
   - uid: SubmissionMailEntity
   - uid: UrlEntity
+  - uid: NicEntity
   typesTitle: Entity
 - name: Other Status Codes
   description: Error response describing why the operation failed.
@@ -743,6 +744,62 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.owners
+    isReadyOnly: true
+    description: A list of owners of the IoTDevice entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.nicEntityIds
+    isReadyOnly: true
+    description: A list of Nic entity ids of the IoTDevice entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.site
+    isReadyOnly: true
+    description: The site of the device
+    types:
+    - uid: string
+  - name: properties.zone
+    isReadyOnly: true
+    description: The zone location of the device within a site
+    types:
+    - uid: string
+  - name: properties.sensor
+    isReadyOnly: true
+    description: The sensor the device is monitored by
+    types:
+    - uid: string
+  - name: properties.deviceSubType
+    isReadyOnly: true
+    description: The subType of the device ('PLC', 'HMI', 'EWS', etc.)
+    types:
+    - uid: string
+  - name: properties.importance
+    description: Device importance, determines if the device classified as 'crown jewel'
+    types:
+    - uid: DeviceImportance
+  - name: properties.purdueLayer
+    isReadyOnly: true
+    description: The Purdue Layer of the device
+    types:
+    - uid: string
+  - name: properties.isAuthorized
+    isReadyOnly: true
+    description: Determines whether the device classified as authorized device
+    types:
+    - uid: boolean
+  - name: properties.isProgramming
+    isReadyOnly: true
+    description: Determines whether the device classified as programming device
+    types:
+    - uid: boolean
+  - name: properties.isScanner
+    isReadyOnly: true
+    description: Is the device classified as a scanner device
+    types:
+    - uid: boolean
   - name: kind
     description: The kind of the entity.
     types:
@@ -1826,6 +1883,65 @@ definitions:
     description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
     types:
     - uid: string
+- name: NicEntity
+  description: Represents an network interface entity.
+  kind: object
+  properties:
+  - name: properties.macAddress
+    isReadyOnly: true
+    description: The MAC address of this network interface
+    types:
+    - uid: string
+  - name: properties.ipAddressEntityId
+    isReadyOnly: true
+    description: The IP entity id of this network interface
+    types:
+    - uid: string
+  - name: properties.vlans
+    isReadyOnly: true
+    description: A list of VLANs of the network interface entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: kind
+    description: The kind of the entity.
+    types:
+    - uid: Nic
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.additionalData
+    isReadyOnly: true
+    description: A bag of custom fields that should be part of the entity and will be presented to the user.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.friendlyName
+    isReadyOnly: true
+    description: The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: Error details.
   kind: object
@@ -1926,6 +2042,10 @@ definitions:
     - uid: string
   - name: SubmissionMail
     description: Entity represents submission mail in the system.
+    types:
+    - uid: string
+  - name: Nic
+    description: Entity represents network interface in the system.
     types:
     - uid: string
 - name: systemData
@@ -2074,6 +2194,26 @@ definitions:
   - name: threatType
     isReadyOnly: true
     description: Threat type (e.g. "Botnet")
+    types:
+    - uid: string
+- name: DeviceImportance
+  description: Device importance, determines if the device classified as 'crown jewel'
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Unknown - Default value
+    types:
+    - uid: string
+  - name: Low
+    description: Low
+    types:
+    - uid: string
+  - name: Normal
+    description: Normal
+    types:
+    - uid: string
+  - name: High
+    description: High
     types:
     - uid: string
 - name: GeoLocation
@@ -2488,7 +2628,13 @@ definitions:
 examples:
 - name: Get an account entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2513,7 +2659,13 @@ examples:
       }
 - name: Get a host entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2537,7 +2689,13 @@ examples:
       }
 - name: Get a file entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/af378b21-b4aa-4fe7-bc70-13f8621a322f?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/af378b21-b4aa-4fe7-bc70-13f8621a322f?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/af378b21-b4aa-4fe7-bc70-13f8621a322f?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2554,7 +2712,13 @@ examples:
       }
 - name: Get a security alert entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/4aa486e0-6f85-41af-99ea-7acdce7be6c8?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/4aa486e0-6f85-41af-99ea-7acdce7be6c8?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/4aa486e0-6f85-41af-99ea-7acdce7be6c8?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2598,7 +2762,13 @@ examples:
       }
 - name: Get a file hash entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/ea359fa6-c1e5-f878-e105-6344f3e399a1?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/ea359fa6-c1e5-f878-e105-6344f3e399a1?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/ea359fa6-c1e5-f878-e105-6344f3e399a1?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2615,7 +2785,13 @@ examples:
       }
 - name: Get a malware entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/af378b21-b4aa-4fe7-bc70-13f8621a322f?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/af378b21-b4aa-4fe7-bc70-13f8621a322f?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/af378b21-b4aa-4fe7-bc70-13f8621a322f?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2632,7 +2808,13 @@ examples:
       }
 - name: Get a security group entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2650,7 +2832,13 @@ examples:
       }
 - name: Get an azure resource entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2667,7 +2855,13 @@ examples:
       }
 - name: Get a cloud application entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2685,7 +2879,13 @@ examples:
       }
 - name: Get a process entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/7264685c-038c-42c6-948c-38e14ef1fb98?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/7264685c-038c-42c6-948c-38e14ef1fb98?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/7264685c-038c-42c6-948c-38e14ef1fb98?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2703,7 +2903,13 @@ examples:
       }
 - name: Get a dns entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/f4e74920-f2c0-4412-a45f-66d94fdf01f8?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/f4e74920-f2c0-4412-a45f-66d94fdf01f8?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/f4e74920-f2c0-4412-a45f-66d94fdf01f8?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2722,7 +2928,13 @@ examples:
       }
 - name: Get an ip entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2738,7 +2950,13 @@ examples:
       }
 - name: Get a registry key entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2755,7 +2973,13 @@ examples:
       }
 - name: Get a registry value entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/dc44bd11-b348-4d76-ad29-37bf7aa41356?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/dc44bd11-b348-4d76-ad29-37bf7aa41356?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/dc44bd11-b348-4d76-ad29-37bf7aa41356?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2774,7 +2998,13 @@ examples:
       }
 - name: Get a url entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2790,7 +3020,13 @@ examples:
       }
 - name: Get an IoT device entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2802,12 +3038,39 @@ examples:
         "properties": {
           "friendlyName": "device1",
           "deviceId": "device1",
-          "iotHubEntityId": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/8b2d9401-f953-e89d-2583-be9b4975870c"
+          "deviceName": "device1",
+          "iotHubEntityId": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/8b2d9401-f953-e89d-2583-be9b4975870c",
+          "nicEntityIds": [
+            "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/6ee379bd-ace8-44cf-ab10-ee669a1b71e2"
+          ],
+          "deviceType": "Industrial",
+          "firmwareVersion": "20.11",
+          "importance": "Normal",
+          "isAuthorized": true,
+          "isProgramming": false,
+          "isScanner": false,
+          "model": "demo-model",
+          "protocols": [
+            "CIP",
+            "EtherNet/IP"
+          ],
+          "operatingSystem": "Windows",
+          "purdueLayer": "ProcessControl",
+          "sensor": "demo-sensor",
+          "site": "demo-site",
+          "vendor": "demo-vendor",
+          "zone": "zone"
         }
       }
 - name: Get a mailCluster entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2844,7 +3107,13 @@ examples:
       }
 - name: Get a mailbox entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2863,7 +3132,13 @@ examples:
       }
 - name: Get a mailMessage entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2904,7 +3179,13 @@ examples:
       }
 - name: Get a submissionMail entity.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.sourcecontrols.get
 name: Get
 service: Sentinel
 groupName: Source Controls
-apiVersion: 2021-10-01-preview
+apiVersion: 2022-07-01-preview
 summary: Gets a source control byt its identifier.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/sourcecontrols/{sourceControlId}?api-version=2021-10-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/sourcecontrols/{sourceControlId}?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -61,6 +61,10 @@ definitions:
     description: The id (a Guid) of the source control
     types:
     - uid: string
+  - name: properties.version
+    description: The version number associated with the source control
+    types:
+    - uid: Version
   - name: properties.displayName
     description: The display name of the source control
     types:
@@ -82,6 +86,14 @@ definitions:
     description: Repository metadata.
     types:
     - uid: Repository
+  - name: properties.repositoryResourceInfo
+    description: Information regarding the resources created in user's repository.
+    types:
+    - uid: RepositoryResourceInfo
+  - name: properties.lastDeploymentInfo
+    description: Information regarding the latest deployment for the source control.
+    types:
+    - uid: DeploymentInfo
   - name: etag
     description: Etag of the azure resource
     types:
@@ -114,6 +126,16 @@ definitions:
     description: Error data
     types:
     - uid: CloudErrorBody
+- name: Version
+  description: The version of the source control.
+  kind: enum
+  properties:
+  - name: V1
+    types:
+    - uid: string
+  - name: V2
+    types:
+    - uid: string
 - name: RepoType
   description: The type of repository.
   kind: enum
@@ -149,6 +171,38 @@ definitions:
     types:
     - uid: ContentPathMap
       isArray: true
+- name: RepositoryResourceInfo
+  description: Resources created in user's repository for the source-control.
+  kind: object
+  properties:
+  - name: webhook
+    description: The webhook object created for the source-control.
+    types:
+    - uid: Webhook
+  - name: gitHubResourceInfo
+    description: Resources created in GitHub for this source-control.
+    types:
+    - uid: GitHubResourceInfo
+  - name: azureDevOpsResourceInfo
+    description: Resources created in Azure DevOps for this source-control.
+    types:
+    - uid: AzureDevOpsResourceInfo
+- name: DeploymentInfo
+  description: Information regarding a deployment.
+  kind: object
+  properties:
+  - name: deploymentFetchStatus
+    description: Status while fetching the last deployment.
+    types:
+    - uid: DeploymentFetchStatus
+  - name: deployment
+    description: Deployment information.
+    types:
+    - uid: Deployment
+  - name: message
+    description: Additional details about the deployment that can be shown to the user.
+    types:
+    - uid: string
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -203,6 +257,83 @@ definitions:
     description: The path to the content.
     types:
     - uid: string
+- name: Webhook
+  description: Detail about the webhook object.
+  kind: object
+  properties:
+  - name: webhookId
+    description: Unique identifier for the webhook.
+    types:
+    - uid: string
+  - name: webhookUrl
+    description: URL that gets invoked by the webhook.
+    types:
+    - uid: string
+  - name: webhookSecretUpdateTime
+    description: Time when the webhook secret was updated.
+    types:
+    - uid: string
+  - name: rotateWebhookSecret
+    description: A flag to instruct the backend service to rotate webhook secret.
+    types:
+    - uid: boolean
+- name: GitHubResourceInfo
+  description: Resources created in GitHub repository.
+  kind: object
+  properties:
+  - name: appInstallationId
+    description: GitHub application installation id.
+    types:
+    - uid: string
+- name: AzureDevOpsResourceInfo
+  description: Resources created in Azure DevOps repository.
+  kind: object
+  properties:
+  - name: pipelineId
+    description: Id of the pipeline created for the source-control.
+    types:
+    - uid: string
+  - name: serviceConnectionId
+    description: Id of the service-connection created for the source-control.
+    types:
+    - uid: string
+- name: DeploymentFetchStatus
+  description: Status while trying to fetch the deployment information.
+  kind: enum
+  properties:
+  - name: Success
+    types:
+    - uid: string
+  - name: Unauthorized
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+- name: Deployment
+  description: Description about a deployment.
+  kind: object
+  properties:
+  - name: deploymentId
+    description: Deployment identifier.
+    types:
+    - uid: string
+  - name: deploymentState
+    description: Current status of the deployment.
+    types:
+    - uid: DeploymentState
+  - name: deploymentResult
+    description: The outcome of the deployment.
+    types:
+    - uid: DeploymentResult
+  - name: deploymentTime
+    description: The time when the deployment finished.
+    types:
+    - uid: string
+  - name: deploymentLogsUrl
+    description: Url to access repository action logs.
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -229,15 +360,51 @@ definitions:
   - name: Workbook
     types:
     - uid: string
+- name: DeploymentState
+  description: The current state of the deployment.
+  kind: enum
+  properties:
+  - name: In_Progress
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+  - name: Queued
+    types:
+    - uid: string
+  - name: Canceling
+    types:
+    - uid: string
+- name: DeploymentResult
+  description: Status while trying to fetch the deployment information.
+  kind: enum
+  properties:
+  - name: Success
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
 examples:
 - name: Get a source control.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/sourcecontrols/789e0c1f-4a3d-43ad-809c-e713b677b04a?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/sourcecontrols/789e0c1f-4a3d-43ad-809c-e713b677b04a?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/sourcecontrols/789e0c1f-4a3d-43ad-809c-e713b677b04a?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
       {
         "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalIinsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/sourcecontrols/789e0c1f-4a3d-43ad-809c-e713b677b04a",
+        "version": "V2",
         "name": "789e0c1f-4a3d-43ad-809c-e713b677b04a",
         "type": "Microsoft.SecurityInsights/SourceControls",
         "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
@@ -265,6 +432,28 @@ examples:
                 "path": "path/to/workbooks"
               }
             ]
+          },
+          "repositoryResourceInfo": {
+            "webhook": {
+              "webhookId": "342768323",
+              "webhookUrl": "https://cac.sentinel.azure.com/workspaces/b7c525e9-1bfa-4435-88c0-817e13abb088/webhooks/ado/sourceControl/789e0c1f-4a3d-43ad-809c-e713b677b04a",
+              "webhookSecretUpdateTime": "2021-01-01T17:18:19.1234567Z"
+            },
+            "gitHubResourceInfo": {
+              "appInstallationId": "123"
+            },
+            "azureDevOpsResourceInfo": null
+          },
+          "lastDeploymentInfo": {
+            "deploymentFetchStatus": "Success",
+            "deployment": {
+              "deploymentId": "4985046420",
+              "deploymentState": "Completed",
+              "deploymentResult": "Success",
+              "deploymentTime": "2021-01-01T17:18:19.1234567Z",
+              "deploymentLogsUrl": "https://github.com/user/repo/actions"
+            },
+            "message": "Successful deployment"
           }
         },
         "systemData": {

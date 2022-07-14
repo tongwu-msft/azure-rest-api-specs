@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.productsettings.update
 name: Update
 service: Sentinel
 groupName: Product Settings
-apiVersion: 2021-10-01-preview
+apiVersion: 2022-07-01-preview
 summary: Updates setting.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/settings/{settingsName}?api-version=2021-10-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/settings/{settingsName}?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -89,6 +89,12 @@ requestBody:
 - name: EntityAnalytics
   description: Settings with single toggle.
   parameters:
+  - name: properties.entityProviders
+    in: body
+    description: The relevant entity providers that are synced
+    types:
+    - uid: string
+      isArray: true
   - name: kind
     in: body
     isRequired: true
@@ -204,11 +210,11 @@ definitions:
   description: Settings with single toggle.
   kind: object
   properties:
-  - name: properties.isEnabled
-    isReadyOnly: true
-    description: Determines whether the setting is enable or disabled.
+  - name: properties.entityProviders
+    description: The relevant entity providers that are synced
     types:
-    - uid: boolean
+    - uid: string
+      isArray: true
   - name: kind
     description: The kind of the setting
     types:
@@ -345,13 +351,26 @@ definitions:
 examples:
 - name: Update EyesOn settings.
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/settings/EyesOn?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/settings/EyesOn?api-version=2022-07-01-preview
     body: >-
       {
         "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
         "kind": "EyesOn",
         "properties": {}
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/settings/EyesOn?api-version=2022-07-01-preview
+
+      {
+        "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
+        "kind": "EyesOn",
+        "properties": {}
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

@@ -3,14 +3,14 @@ uid: management.azure.com.compute.communitygalleryimages.get
 name: Get
 service: Compute
 groupName: Community Gallery Images
-apiVersion: 2021-07-01
+apiVersion: 2022-01-03
 summary: Get a community gallery image.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}?api-version=2021-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}?api-version=2022-01-03
 uriParameters:
 - name: subscriptionId
   in: path
@@ -94,6 +94,18 @@ definitions:
     description: Describes the gallery image definition purchase plan. This is used by marketplace images.
     types:
     - uid: ImagePurchasePlan
+  - name: properties.architecture
+    description: The architecture of the image. Applicable to OS disks only.
+    types:
+    - uid: Architecture
+  - name: properties.privacyStatementUri
+    description: Privacy statement uri for the current community gallery image.
+    types:
+    - uid: string
+  - name: properties.eula
+    description: End-user license agreement for the current community gallery image.
+    types:
+    - uid: string
   - name: name
     isReadyOnly: true
     description: Resource name
@@ -216,6 +228,16 @@ definitions:
     description: The product ID.
     types:
     - uid: string
+- name: Architecture
+  description: The architecture of the image. Applicable to OS disks only.
+  kind: enum
+  properties:
+  - name: x64
+    types:
+    - uid: string
+  - name: Arm64
+    types:
+    - uid: string
 - name: ApiError
   description: Api error.
   kind: object
@@ -282,9 +304,108 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get a gallery.
+- name: Get a community gallery image.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/myLocation/communityGalleries/publicGalleryName/images/myGalleryImageName?api-version=2021-07-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/myLocation/communityGalleries/publicGalleryName/images/myGalleryImageName?api-version=2022-01-03
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/myLocation/communityGalleries/publicGalleryName/images/myGalleryImageName?api-version=2022-01-03
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for CommunityGalleryImages Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/communityGalleryExamples/CommunityGalleryImage_Get.json
+           */
+          /**
+           * Sample code: Get a community gallery image.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getACommunityGalleryImage(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getCommunityGalleryImages()
+                  .getWithResponse("myLocation", "publicGalleryName", "myGalleryImageName", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/communityGalleryExamples/CommunityGalleryImage_Get.json
+      func ExampleCommunityGalleryImagesClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewCommunityGalleryImagesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"myLocation",
+      		"publicGalleryName",
+      		"myGalleryImageName",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get a community gallery image.
+       *
+       * @summary Get a community gallery image.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/communityGalleryExamples/CommunityGalleryImage_Get.json
+       */
+      async function getACommunityGalleryImage() {
+        const subscriptionId = "{subscription-id}";
+        const location = "myLocation";
+        const publicGalleryName = "publicGalleryName";
+        const galleryImageName = "myGalleryImageName";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.communityGalleryImages.get(
+          location,
+          publicGalleryName,
+          galleryImageName
+        );
+        console.log(result);
+      }
+
+      getACommunityGalleryImage().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -297,7 +418,9 @@ examples:
             "publisher": "myPublisherName",
             "offer": "myOfferName",
             "sku": "mySkuName"
-          }
+          },
+          "privacyStatementUri": "https://www.microsoft.com/en-us/",
+          "eula": "https://www.microsoft.com/en-us/"
         },
         "location": "myLocation",
         "name": "myGalleryImageName",

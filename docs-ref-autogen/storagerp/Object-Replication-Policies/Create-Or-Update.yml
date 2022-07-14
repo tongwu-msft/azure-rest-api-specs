@@ -193,6 +193,175 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/dst112/objectReplicationPolicies/default?api-version=2021-09-01
+
+      {
+        "properties": {
+          "sourceAccount": "src1122",
+          "destinationAccount": "dst112",
+          "rules": [
+            {
+              "sourceContainer": "scont139",
+              "destinationContainer": "dcont139",
+              "filters": {
+                "prefixMatch": [
+                  "blobA",
+                  "blobB"
+                ]
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.fluent.models.ObjectReplicationPolicyInner;
+      import com.azure.resourcemanager.storage.models.ObjectReplicationPolicyFilter;
+      import com.azure.resourcemanager.storage.models.ObjectReplicationPolicyRule;
+      import java.util.Arrays;
+
+      /** Samples for ObjectReplicationPoliciesOperation CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateObjectReplicationPolicyOnDestination.json
+           */
+          /**
+           * Sample code: StorageAccountCreateObjectReplicationPolicyOnDestination.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountCreateObjectReplicationPolicyOnDestination(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getObjectReplicationPoliciesOperations()
+                  .createOrUpdateWithResponse(
+                      "res7687",
+                      "dst112",
+                      "default",
+                      new ObjectReplicationPolicyInner()
+                          .withSourceAccount("src1122")
+                          .withDestinationAccount("dst112")
+                          .withRules(
+                              Arrays
+                                  .asList(
+                                      new ObjectReplicationPolicyRule()
+                                          .withSourceContainer("scont139")
+                                          .withDestinationContainer("dcont139")
+                                          .withFilters(
+                                              new ObjectReplicationPolicyFilter()
+                                                  .withPrefixMatch(Arrays.asList("blobA", "blobB"))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstorage_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateObjectReplicationPolicyOnDestination.json
+      func ExampleObjectReplicationPoliciesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorage.NewObjectReplicationPoliciesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"res7687",
+      		"dst112",
+      		"default",
+      		armstorage.ObjectReplicationPolicy{
+      			Properties: &armstorage.ObjectReplicationPolicyProperties{
+      				DestinationAccount: to.Ptr("dst112"),
+      				Rules: []*armstorage.ObjectReplicationPolicyRule{
+      					{
+      						DestinationContainer: to.Ptr("dcont139"),
+      						Filters: &armstorage.ObjectReplicationPolicyFilter{
+      							PrefixMatch: []*string{
+      								to.Ptr("blobA"),
+      								to.Ptr("blobB")},
+      						},
+      						SourceContainer: to.Ptr("scont139"),
+      					}},
+      				SourceAccount: to.Ptr("src1122"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorage%2Farmstorage%2Fv1.0.0/sdk/resourcemanager/storage/armstorage/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update the object replication policy of the storage account.
+       *
+       * @summary Create or update the object replication policy of the storage account.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateObjectReplicationPolicyOnDestination.json
+       */
+      async function storageAccountCreateObjectReplicationPolicyOnDestination() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res7687";
+        const accountName = "dst112";
+        const objectReplicationPolicyId = "default";
+        const properties = {
+          destinationAccount: "dst112",
+          rules: [
+            {
+              destinationContainer: "dcont139",
+              filters: { prefixMatch: ["blobA", "blobB"] },
+              sourceContainer: "scont139",
+            },
+          ],
+          sourceAccount: "src1122",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.objectReplicationPoliciesOperations.createOrUpdate(
+          resourceGroupName,
+          accountName,
+          objectReplicationPolicyId,
+          properties
+        );
+        console.log(result);
+      }
+
+      storageAccountCreateObjectReplicationPolicyOnDestination().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -243,6 +412,129 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/src1122/objectReplicationPolicies/2a20bb73-5717-4635-985a-5d4cf777438f?api-version=2021-09-01
+
+      {
+        "properties": {
+          "sourceAccount": "src1122",
+          "destinationAccount": "dst112",
+          "rules": [
+            {
+              "ruleId": "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+              "sourceContainer": "scont139",
+              "destinationContainer": "dcont139",
+              "filters": {
+                "prefixMatch": [
+                  "blobA",
+                  "blobB"
+                ],
+                "minCreationTime": "2020-02-19T16:05:00Z"
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.fluent.models.ObjectReplicationPolicyInner;
+      import com.azure.resourcemanager.storage.models.ObjectReplicationPolicyFilter;
+      import com.azure.resourcemanager.storage.models.ObjectReplicationPolicyRule;
+      import java.util.Arrays;
+
+      /** Samples for ObjectReplicationPoliciesOperation CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateObjectReplicationPolicyOnSource.json
+           */
+          /**
+           * Sample code: StorageAccountCreateObjectReplicationPolicyOnSource.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountCreateObjectReplicationPolicyOnSource(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getObjectReplicationPoliciesOperations()
+                  .createOrUpdateWithResponse(
+                      "res7687",
+                      "src1122",
+                      "2a20bb73-5717-4635-985a-5d4cf777438f",
+                      new ObjectReplicationPolicyInner()
+                          .withSourceAccount("src1122")
+                          .withDestinationAccount("dst112")
+                          .withRules(
+                              Arrays
+                                  .asList(
+                                      new ObjectReplicationPolicyRule()
+                                          .withRuleId("d5d18a48-8801-4554-aeaa-74faf65f5ef9")
+                                          .withSourceContainer("scont139")
+                                          .withDestinationContainer("dcont139")
+                                          .withFilters(
+                                              new ObjectReplicationPolicyFilter()
+                                                  .withPrefixMatch(Arrays.asList("blobA", "blobB"))
+                                                  .withMinCreationTime("2020-02-19T16:05:00Z")))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update the object replication policy of the storage account.
+       *
+       * @summary Create or update the object replication policy of the storage account.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountCreateObjectReplicationPolicyOnSource.json
+       */
+      async function storageAccountCreateObjectReplicationPolicyOnSource() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res7687";
+        const accountName = "src1122";
+        const objectReplicationPolicyId = "2a20bb73-5717-4635-985a-5d4cf777438f";
+        const properties = {
+          destinationAccount: "dst112",
+          rules: [
+            {
+              destinationContainer: "dcont139",
+              filters: {
+                minCreationTime: "2020-02-19T16:05:00Z",
+                prefixMatch: ["blobA", "blobB"],
+              },
+              ruleId: "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+              sourceContainer: "scont139",
+            },
+          ],
+          sourceAccount: "src1122",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.objectReplicationPoliciesOperations.createOrUpdate(
+          resourceGroupName,
+          accountName,
+          objectReplicationPolicyId,
+          properties
+        );
+        console.log(result);
+      }
+
+      storageAccountCreateObjectReplicationPolicyOnSource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -298,6 +590,132 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/dst112/objectReplicationPolicies/2a20bb73-5717-4635-985a-5d4cf777438f?api-version=2021-09-01
+
+      {
+        "properties": {
+          "sourceAccount": "src1122",
+          "destinationAccount": "dst112",
+          "rules": [
+            {
+              "ruleId": "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+              "sourceContainer": "scont139",
+              "destinationContainer": "dcont139",
+              "filters": {
+                "prefixMatch": [
+                  "blobA",
+                  "blobB"
+                ]
+              }
+            },
+            {
+              "sourceContainer": "scont179",
+              "destinationContainer": "dcont179"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.fluent.models.ObjectReplicationPolicyInner;
+      import com.azure.resourcemanager.storage.models.ObjectReplicationPolicyFilter;
+      import com.azure.resourcemanager.storage.models.ObjectReplicationPolicyRule;
+      import java.util.Arrays;
+
+      /** Samples for ObjectReplicationPoliciesOperation CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountUpdateObjectReplicationPolicyOnDestination.json
+           */
+          /**
+           * Sample code: StorageAccountUpdateObjectReplicationPolicyOnDestination.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountUpdateObjectReplicationPolicyOnDestination(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getObjectReplicationPoliciesOperations()
+                  .createOrUpdateWithResponse(
+                      "res7687",
+                      "dst112",
+                      "2a20bb73-5717-4635-985a-5d4cf777438f",
+                      new ObjectReplicationPolicyInner()
+                          .withSourceAccount("src1122")
+                          .withDestinationAccount("dst112")
+                          .withRules(
+                              Arrays
+                                  .asList(
+                                      new ObjectReplicationPolicyRule()
+                                          .withRuleId("d5d18a48-8801-4554-aeaa-74faf65f5ef9")
+                                          .withSourceContainer("scont139")
+                                          .withDestinationContainer("dcont139")
+                                          .withFilters(
+                                              new ObjectReplicationPolicyFilter()
+                                                  .withPrefixMatch(Arrays.asList("blobA", "blobB"))),
+                                      new ObjectReplicationPolicyRule()
+                                          .withSourceContainer("scont179")
+                                          .withDestinationContainer("dcont179"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update the object replication policy of the storage account.
+       *
+       * @summary Create or update the object replication policy of the storage account.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountUpdateObjectReplicationPolicyOnDestination.json
+       */
+      async function storageAccountUpdateObjectReplicationPolicyOnDestination() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res7687";
+        const accountName = "dst112";
+        const objectReplicationPolicyId = "2a20bb73-5717-4635-985a-5d4cf777438f";
+        const properties = {
+          destinationAccount: "dst112",
+          rules: [
+            {
+              destinationContainer: "dcont139",
+              filters: { prefixMatch: ["blobA", "blobB"] },
+              ruleId: "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+              sourceContainer: "scont139",
+            },
+            { destinationContainer: "dcont179", sourceContainer: "scont179" },
+          ],
+          sourceAccount: "src1122",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.objectReplicationPoliciesOperations.createOrUpdate(
+          resourceGroupName,
+          accountName,
+          objectReplicationPolicyId,
+          properties
+        );
+        console.log(result);
+      }
+
+      storageAccountUpdateObjectReplicationPolicyOnDestination().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -357,6 +775,138 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/src1122/objectReplicationPolicies/2a20bb73-5717-4635-985a-5d4cf777438f?api-version=2021-09-01
+
+      {
+        "properties": {
+          "sourceAccount": "src1122",
+          "destinationAccount": "dst112",
+          "rules": [
+            {
+              "ruleId": "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+              "sourceContainer": "scont139",
+              "destinationContainer": "dcont139",
+              "filters": {
+                "prefixMatch": [
+                  "blobA",
+                  "blobB"
+                ]
+              }
+            },
+            {
+              "ruleId": "cfbb4bc2-8b60-429f-b05a-d1e0942b33b2",
+              "sourceContainer": "scont179",
+              "destinationContainer": "dcont179"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.fluent.models.ObjectReplicationPolicyInner;
+      import com.azure.resourcemanager.storage.models.ObjectReplicationPolicyFilter;
+      import com.azure.resourcemanager.storage.models.ObjectReplicationPolicyRule;
+      import java.util.Arrays;
+
+      /** Samples for ObjectReplicationPoliciesOperation CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountUpdateObjectReplicationPolicyOnSource.json
+           */
+          /**
+           * Sample code: StorageAccountUpdateObjectReplicationPolicyOnSource.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountUpdateObjectReplicationPolicyOnSource(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getObjectReplicationPoliciesOperations()
+                  .createOrUpdateWithResponse(
+                      "res7687",
+                      "src1122",
+                      "2a20bb73-5717-4635-985a-5d4cf777438f",
+                      new ObjectReplicationPolicyInner()
+                          .withSourceAccount("src1122")
+                          .withDestinationAccount("dst112")
+                          .withRules(
+                              Arrays
+                                  .asList(
+                                      new ObjectReplicationPolicyRule()
+                                          .withRuleId("d5d18a48-8801-4554-aeaa-74faf65f5ef9")
+                                          .withSourceContainer("scont139")
+                                          .withDestinationContainer("dcont139")
+                                          .withFilters(
+                                              new ObjectReplicationPolicyFilter()
+                                                  .withPrefixMatch(Arrays.asList("blobA", "blobB"))),
+                                      new ObjectReplicationPolicyRule()
+                                          .withRuleId("cfbb4bc2-8b60-429f-b05a-d1e0942b33b2")
+                                          .withSourceContainer("scont179")
+                                          .withDestinationContainer("dcont179"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update the object replication policy of the storage account.
+       *
+       * @summary Create or update the object replication policy of the storage account.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountUpdateObjectReplicationPolicyOnSource.json
+       */
+      async function storageAccountUpdateObjectReplicationPolicyOnSource() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res7687";
+        const accountName = "src1122";
+        const objectReplicationPolicyId = "2a20bb73-5717-4635-985a-5d4cf777438f";
+        const properties = {
+          destinationAccount: "dst112",
+          rules: [
+            {
+              destinationContainer: "dcont139",
+              filters: { prefixMatch: ["blobA", "blobB"] },
+              ruleId: "d5d18a48-8801-4554-aeaa-74faf65f5ef9",
+              sourceContainer: "scont139",
+            },
+            {
+              destinationContainer: "dcont179",
+              ruleId: "cfbb4bc2-8b60-429f-b05a-d1e0942b33b2",
+              sourceContainer: "scont179",
+            },
+          ],
+          sourceAccount: "src1122",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.objectReplicationPoliciesOperations.createOrUpdate(
+          resourceGroupName,
+          accountName,
+          objectReplicationPolicyId,
+          properties
+        );
+        console.log(result);
+      }
+
+      storageAccountUpdateObjectReplicationPolicyOnSource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

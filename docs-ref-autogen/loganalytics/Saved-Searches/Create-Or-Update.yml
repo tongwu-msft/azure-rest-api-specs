@@ -182,6 +182,156 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/TestRG/providers/Microsoft.OperationalInsights/workspaces/TestWS/savedSearches/00000000-0000-0000-0000-00000000000?api-version=2020-08-01
+
+      {
+        "properties": {
+          "category": "Saved Search Test Category",
+          "displayName": "Create or Update Saved Search Test",
+          "version": 2,
+          "functionAlias": "heartbeat_func",
+          "functionParameters": "a:int=1",
+          "query": "Heartbeat | summarize Count() by Computer | take a",
+          "tags": [
+            {
+              "name": "Group",
+              "value": "Computer"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.loganalytics.models.Tag;
+      import java.util.Arrays;
+
+      /** Samples for SavedSearches CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/WorkspacesSavedSearchesCreateOrUpdate.json
+           */
+          /**
+           * Sample code: SavedSearchCreateOrUpdate.
+           *
+           * @param manager Entry point to LogAnalyticsManager.
+           */
+          public static void savedSearchCreateOrUpdate(com.azure.resourcemanager.loganalytics.LogAnalyticsManager manager) {
+              manager
+                  .savedSearches()
+                  .define("00000000-0000-0000-0000-00000000000")
+                  .withExistingWorkspace("TestRG", "TestWS")
+                  .withCategory("Saved Search Test Category")
+                  .withDisplayName("Create or Update Saved Search Test")
+                  .withQuery("Heartbeat | summarize Count() by Computer | take a")
+                  .withTags(Arrays.asList(new Tag().withName("Group").withValue("Computer")))
+                  .withFunctionAlias("heartbeat_func")
+                  .withFunctionParameters("a:int=1")
+                  .withVersion(2L)
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-loganalytics_1.0.0-beta.3/sdk/loganalytics/azure-resourcemanager-loganalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armoperationalinsights_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/WorkspacesSavedSearchesCreateOrUpdate.json
+      func ExampleSavedSearchesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armoperationalinsights.NewSavedSearchesClient("00000000-0000-0000-0000-00000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"TestRG",
+      		"TestWS",
+      		"00000000-0000-0000-0000-00000000000",
+      		armoperationalinsights.SavedSearch{
+      			Properties: &armoperationalinsights.SavedSearchProperties{
+      				Category:           to.Ptr("Saved Search Test Category"),
+      				DisplayName:        to.Ptr("Create or Update Saved Search Test"),
+      				FunctionAlias:      to.Ptr("heartbeat_func"),
+      				FunctionParameters: to.Ptr("a:int=1"),
+      				Query:              to.Ptr("Heartbeat | summarize Count() by Computer | take a"),
+      				Tags: []*armoperationalinsights.Tag{
+      					{
+      						Name:  to.Ptr("Group"),
+      						Value: to.Ptr("Computer"),
+      					}},
+      				Version: to.Ptr[int64](2),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Foperationalinsights%2Farmoperationalinsights%2Fv2.0.0-beta.2/sdk/resourcemanager/operationalinsights/armoperationalinsights/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { OperationalInsightsManagementClient } = require("@azure/arm-operationalinsights");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a saved search for a given workspace.
+       *
+       * @summary Creates or updates a saved search for a given workspace.
+       * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/WorkspacesSavedSearchesCreateOrUpdate.json
+       */
+      async function savedSearchCreateOrUpdate() {
+        const subscriptionId = "00000000-0000-0000-0000-00000000000";
+        const resourceGroupName = "TestRG";
+        const workspaceName = "TestWS";
+        const savedSearchId = "00000000-0000-0000-0000-00000000000";
+        const parameters = {
+          category: "Saved Search Test Category",
+          displayName: "Create or Update Saved Search Test",
+          functionAlias: "heartbeat_func",
+          functionParameters: "a:int=1",
+          query: "Heartbeat | summarize Count() by Computer | take a",
+          tags: [{ name: "Group", value: "Computer" }],
+          version: 2,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new OperationalInsightsManagementClient(credential, subscriptionId);
+        const result = await client.savedSearches.createOrUpdate(
+          resourceGroupName,
+          workspaceName,
+          savedSearchId,
+          parameters
+        );
+        console.log(result);
+      }
+
+      savedSearchCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-operationalinsights_8.0.1/sdk/operationalinsights/arm-operationalinsights/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -466,6 +466,109 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan?api-version=2021-11-15-preview
+
+      {
+        "properties": {
+          "defaultConnectionProfile": {
+            "webSshAccess": "None",
+            "webRdpAccess": "None",
+            "clientSshAccess": "Public",
+            "clientRdpAccess": "Public"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.labservices.models.ConnectionProfile;
+      import com.azure.resourcemanager.labservices.models.ConnectionType;
+      import com.azure.resourcemanager.labservices.models.LabPlan;
+
+      /** Samples for LabPlans Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/preview/2021-11-15-preview/examples/LabPlans/patchLabPlan.json
+           */
+          /**
+           * Sample code: patchLabPlan.
+           *
+           * @param manager Entry point to LabServicesManager.
+           */
+          public static void patchLabPlan(com.azure.resourcemanager.labservices.LabServicesManager manager) {
+              LabPlan resource =
+                  manager.labPlans().getByResourceGroupWithResponse("testrg123", "testlabplan", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withDefaultConnectionProfile(
+                      new ConnectionProfile()
+                          .withWebSshAccess(ConnectionType.NONE)
+                          .withWebRdpAccess(ConnectionType.NONE)
+                          .withClientSshAccess(ConnectionType.PUBLIC)
+                          .withClientRdpAccess(ConnectionType.PUBLIC))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-labservices_1.0.0-beta.2/sdk/labservices/azure-resourcemanager-labservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armlabservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/labservices/armlabservices"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/labservices/resource-manager/Microsoft.LabServices/preview/2021-11-15-preview/examples/LabPlans/patchLabPlan.json
+      func ExampleLabPlansClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armlabservices.NewLabPlansClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"testrg123",
+      		"testlabplan",
+      		armlabservices.LabPlanUpdate{
+      			Properties: &armlabservices.LabPlanUpdateProperties{
+      				DefaultConnectionProfile: &armlabservices.ConnectionProfile{
+      					ClientRdpAccess: to.Ptr(armlabservices.ConnectionTypePublic),
+      					ClientSSHAccess: to.Ptr(armlabservices.ConnectionTypePublic),
+      					WebRdpAccess:    to.Ptr(armlabservices.ConnectionTypeNone),
+      					WebSSHAccess:    to.Ptr(armlabservices.ConnectionTypeNone),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Flabservices%2Farmlabservices%2Fv0.5.0/sdk/resourcemanager/labservices/armlabservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

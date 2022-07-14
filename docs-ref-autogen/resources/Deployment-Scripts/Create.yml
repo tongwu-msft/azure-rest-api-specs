@@ -746,6 +746,98 @@ examples:
           "cleanupPreference": "Always"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/script-rg/providers/Microsoft.Resources/deploymentScripts/MyDeploymentScript?api-version=2020-10-01
+
+      {
+        "kind": "AzurePowerShell",
+        "location": "westus",
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scriptRG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uai": {}
+          }
+        },
+        "properties": {
+          "azPowerShellVersion": "1.7.0",
+          "scriptContent": "Param([string]$Location,[string]$Name) $deploymentScriptOutputs['test'] = 'value' Get-AzResourceGroup -Location $Location -Name $Name",
+          "arguments": "-Location 'westus' -Name \"*rg2\"",
+          "supportingScriptUris": [
+            "https://uri1.to.supporting.script",
+            "https://uri2.to.supporting.script"
+          ],
+          "retentionInterval": "PT7D",
+          "timeout": "PT1H",
+          "cleanupPreference": "Always"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdeploymentscripts_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armdeploymentscripts"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Resources/stable/2020-10-01/examples/DeploymentScripts_Create.json
+      func ExampleClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdeploymentscripts.NewClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"script-rg",
+      		"MyDeploymentScript",
+      		&armdeploymentscripts.AzurePowerShellScript{
+      			Identity: &armdeploymentscripts.ManagedServiceIdentity{
+      				Type: to.Ptr(armdeploymentscripts.ManagedServiceIdentityTypeUserAssigned),
+      				UserAssignedIdentities: map[string]*armdeploymentscripts.UserAssignedIdentity{
+      					"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scriptRG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uai": {},
+      				},
+      			},
+      			Kind:     to.Ptr(armdeploymentscripts.ScriptTypeAzurePowerShell),
+      			Location: to.Ptr("westus"),
+      			Properties: &armdeploymentscripts.AzurePowerShellScriptProperties{
+      				CleanupPreference: to.Ptr(armdeploymentscripts.CleanupOptionsAlways),
+      				Arguments:         to.Ptr("-Location 'westus' -Name \"*rg2\""),
+      				RetentionInterval: to.Ptr("PT7D"),
+      				ScriptContent:     to.Ptr("Param([string]$Location,[string]$Name) $deploymentScriptOutputs['test'] = 'value' Get-AzResourceGroup -Location $Location -Name $Name"),
+      				SupportingScriptUris: []*string{
+      					to.Ptr("https://uri1.to.supporting.script"),
+      					to.Ptr("https://uri2.to.supporting.script")},
+      				Timeout:             to.Ptr("PT1H"),
+      				AzPowerShellVersion: to.Ptr("1.7.0"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmdeploymentscripts%2Fv1.0.0/sdk/resourcemanager/resources/armdeploymentscripts/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -842,6 +934,30 @@ examples:
           "cleanupPreference": "Always"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/script-rg/providers/Microsoft.Resources/deploymentScripts/MyDeploymentScript?api-version=2020-10-01
+
+      {
+        "kind": "AzurePowerShell",
+        "location": "westus",
+        "properties": {
+          "azPowerShellVersion": "1.7.0",
+          "scriptContent": "Param([string]$Location,[string]$Name) $deploymentScriptOutputs['test'] = 'value' Get-AzResourceGroup -Location $Location -Name $Name",
+          "arguments": "-Location 'westus' -Name \"*rg2\"",
+          "supportingScriptUris": [
+            "https://uri1.to.supporting.script",
+            "https://uri2.to.supporting.script"
+          ],
+          "retentionInterval": "PT7D",
+          "timeout": "PT1H",
+          "cleanupPreference": "Always"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -926,6 +1042,30 @@ examples:
           "retentionInterval": "P7D"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/script-rg/providers/Microsoft.Resources/deploymentScripts/MyDeploymentScript?api-version=2020-10-01
+
+      {
+        "kind": "AzurePowerShell",
+        "location": "westus",
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scriptRG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uai": {}
+          }
+        },
+        "properties": {
+          "azPowerShellVersion": "1.7.0",
+          "scriptContent": "Param([string]$Location,[string]$Name) $deploymentScriptOutputs['test'] = 'value' Get-AzResourceGroup -Location $Location -Name $Name",
+          "arguments": "-Location 'westus' -Name \"*rg2\"",
+          "retentionInterval": "P7D"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -1023,6 +1163,39 @@ examples:
           "cleanupPreference": "Always"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/script-rg/providers/Microsoft.Resources/deploymentScripts/MyDeploymentScript?api-version=2020-10-01
+
+      {
+        "kind": "AzurePowerShell",
+        "location": "westus",
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scriptRG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uai": {}
+          }
+        },
+        "properties": {
+          "azPowerShellVersion": "1.7.0",
+          "scriptContent": "Param([string]$Location,[string]$Name) $deploymentScriptOutputs['test'] = 'value' Get-AzResourceGroup -Location $Location -Name $Name",
+          "containerSettings": {
+            "containerGroupName": "contoso-aci"
+          },
+          "arguments": "-Location 'westus' -Name \"*rg2\"",
+          "supportingScriptUris": [
+            "https://uri1.to.supporting.script",
+            "https://uri2.to.supporting.script"
+          ],
+          "retentionInterval": "PT7D",
+          "timeout": "PT1H",
+          "cleanupPreference": "Always"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -1135,6 +1308,40 @@ examples:
           "cleanupPreference": "Always"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/script-rg/providers/Microsoft.Resources/deploymentScripts/MyDeploymentScript?api-version=2020-10-01
+
+      {
+        "kind": "AzurePowerShell",
+        "location": "westus",
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scriptRG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uai": {}
+          }
+        },
+        "properties": {
+          "azPowerShellVersion": "1.7.0",
+          "scriptContent": "Param([string]$Location,[string]$Name) $deploymentScriptOutputs['test'] = 'value' Get-AzResourceGroup -Location $Location -Name $Name",
+          "storageAccountSettings": {
+            "storageAccountName": "contosostorage",
+            "storageAccountKey": "contosostoragekey"
+          },
+          "arguments": "-Location 'westus' -Name \"*rg2\"",
+          "supportingScriptUris": [
+            "https://uri1.to.supporting.script",
+            "https://uri2.to.supporting.script"
+          ],
+          "retentionInterval": "PT7D",
+          "timeout": "PT1H",
+          "cleanupPreference": "Always"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-

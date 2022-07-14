@@ -458,6 +458,265 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1?api-version=2021-08-01
+
+      {
+        "tags": {
+          "key1": "value1"
+        },
+        "location": "West US",
+        "properties": {
+          "virtualWan": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan1"
+          },
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "isSecuritySite": false,
+          "vpnSiteLinks": [
+            {
+              "name": "vpnSiteLink1",
+              "properties": {
+                "ipAddress": "50.50.50.56",
+                "fqdn": "link1.vpnsite1.contoso.com",
+                "linkProperties": {
+                  "linkProviderName": "vendor1",
+                  "linkSpeedInMbps": 0
+                },
+                "bgpProperties": {
+                  "bgpPeeringAddress": "192.168.0.0",
+                  "asn": 1234
+                }
+              }
+            }
+          ],
+          "o365Policy": {
+            "breakOutCategories": {
+              "allow": true,
+              "optimize": true,
+              "default": false
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.SubResource;
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.VpnSiteInner;
+      import com.azure.resourcemanager.network.fluent.models.VpnSiteLinkInner;
+      import com.azure.resourcemanager.network.models.AddressSpace;
+      import com.azure.resourcemanager.network.models.O365BreakOutCategoryPolicies;
+      import com.azure.resourcemanager.network.models.O365PolicyProperties;
+      import com.azure.resourcemanager.network.models.VpnLinkBgpSettings;
+      import com.azure.resourcemanager.network.models.VpnLinkProviderProperties;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for VpnSites CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VpnSitePut.json
+           */
+          /**
+           * Sample code: VpnSiteCreate.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void vpnSiteCreate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getVpnSites()
+                  .createOrUpdate(
+                      "rg1",
+                      "vpnSite1",
+                      new VpnSiteInner()
+                          .withLocation("West US")
+                          .withTags(mapOf("key1", "value1"))
+                          .withVirtualWan(
+                              new SubResource()
+                                  .withId(
+                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan1"))
+                          .withAddressSpace(new AddressSpace().withAddressPrefixes(Arrays.asList("10.0.0.0/16")))
+                          .withIsSecuritySite(false)
+                          .withVpnSiteLinks(
+                              Arrays
+                                  .asList(
+                                      new VpnSiteLinkInner()
+                                          .withName("vpnSiteLink1")
+                                          .withLinkProperties(
+                                              new VpnLinkProviderProperties()
+                                                  .withLinkProviderName("vendor1")
+                                                  .withLinkSpeedInMbps(0))
+                                          .withIpAddress("50.50.50.56")
+                                          .withFqdn("link1.vpnsite1.contoso.com")
+                                          .withBgpProperties(
+                                              new VpnLinkBgpSettings().withAsn(1234L).withBgpPeeringAddress("192.168.0.0"))))
+                          .withO365Policy(
+                              new O365PolicyProperties()
+                                  .withBreakOutCategories(
+                                      new O365BreakOutCategoryPolicies()
+                                          .withAllow(true)
+                                          .withOptimize(true)
+                                          .withDefaultProperty(false))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VpnSitePut.json
+      func ExampleVPNSitesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVPNSitesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"rg1",
+      		"vpnSite1",
+      		armnetwork.VPNSite{
+      			Location: to.Ptr("West US"),
+      			Tags: map[string]*string{
+      				"key1": to.Ptr("value1"),
+      			},
+      			Properties: &armnetwork.VPNSiteProperties{
+      				AddressSpace: &armnetwork.AddressSpace{
+      					AddressPrefixes: []*string{
+      						to.Ptr("10.0.0.0/16")},
+      				},
+      				IsSecuritySite: to.Ptr(false),
+      				O365Policy: &armnetwork.O365PolicyProperties{
+      					BreakOutCategories: &armnetwork.O365BreakOutCategoryPolicies{
+      						Default:  to.Ptr(false),
+      						Allow:    to.Ptr(true),
+      						Optimize: to.Ptr(true),
+      					},
+      				},
+      				VirtualWan: &armnetwork.SubResource{
+      					ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan1"),
+      				},
+      				VPNSiteLinks: []*armnetwork.VPNSiteLink{
+      					{
+      						Name: to.Ptr("vpnSiteLink1"),
+      						Properties: &armnetwork.VPNSiteLinkProperties{
+      							BgpProperties: &armnetwork.VPNLinkBgpSettings{
+      								Asn:               to.Ptr[int64](1234),
+      								BgpPeeringAddress: to.Ptr("192.168.0.0"),
+      							},
+      							Fqdn:      to.Ptr("link1.vpnsite1.contoso.com"),
+      							IPAddress: to.Ptr("50.50.50.56"),
+      							LinkProperties: &armnetwork.VPNLinkProviderProperties{
+      								LinkProviderName: to.Ptr("vendor1"),
+      								LinkSpeedInMbps:  to.Ptr[int32](0),
+      							},
+      						},
+      					}},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a VpnSite resource if it doesn't exist else updates the existing VpnSite.
+       *
+       * @summary Creates a VpnSite resource if it doesn't exist else updates the existing VpnSite.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VpnSitePut.json
+       */
+      async function vpnSiteCreate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const vpnSiteName = "vpnSite1";
+        const vpnSiteParameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          isSecuritySite: false,
+          location: "West US",
+          o365Policy: {
+            breakOutCategories: { default: false, allow: true, optimize: true },
+          },
+          tags: { key1: "value1" },
+          virtualWan: {
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan1",
+          },
+          vpnSiteLinks: [
+            {
+              name: "vpnSiteLink1",
+              bgpProperties: { asn: 1234, bgpPeeringAddress: "192.168.0.0" },
+              fqdn: "link1.vpnsite1.contoso.com",
+              ipAddress: "50.50.50.56",
+              linkProperties: { linkProviderName: "vendor1", linkSpeedInMbps: 0 },
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.vpnSites.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          vpnSiteName,
+          vpnSiteParameters
+        );
+        console.log(result);
+      }
+
+      vpnSiteCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

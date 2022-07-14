@@ -1,0 +1,284 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.orbital.earthobservation.operationsresults.get
+name: Get
+service: Orbital
+groupName: Operations Results
+apiVersion: 2022-03-01
+summary: Returns operation results.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/locations/{location}/operationResults/{operationId}?api-version=2022-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The name of Azure region.
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: The ID of an ongoing async operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: apiVersionParameter
+responses:
+- name: 200 OK
+  description: Successfully retrieved the operation result.
+  types:
+  - uid: OperationResult
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  description: The operation is still in progress.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: apiVersionParameter
+  description: Version of the API to be used with the client request.
+  kind: enum
+  properties:
+  - name: 2020-09-01-preview
+    types:
+    - uid: string
+  - name: 2021-04-04-preview
+    types:
+    - uid: string
+  - name: 2022-03-01
+    types:
+    - uid: string
+- name: OperationResult
+  description: Operation Result Entity.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: ID of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: The status of operation.
+    types:
+    - uid: Status
+  - name: startTime
+    isReadyOnly: true
+    description: The operation start time (ISO 8601 UTC standard).
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: The operation end time (ISO 8601 UTC standard).
+    types:
+    - uid: string
+  - name: percentComplete
+    isReadyOnly: true
+    description: Percentage completed.
+    types:
+    - uid: number
+  - name: error
+    description: Operation result error properties.
+    types:
+    - uid: OperationResultErrorProperties
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the service.
+    types:
+    - uid: CloudErrorBody
+- name: Status
+  description: The status of operation.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+- name: OperationResultErrorProperties
+  description: Operation result error properties.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The code of the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: KustoOperationResultsGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/providers/Microsoft.Orbital/locations/eastus2/operationResults/30972f1b-b61d-4fd8-bd34-3dcfa24670f3?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/providers/Microsoft.Orbital/locations/eastus2/operationResults/30972f1b-b61d-4fd8-bd34-3dcfa24670f3?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for OperationsResults Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/OperationResultsGet.json
+           */
+          /**
+           * Sample code: KustoOperationResultsGet.
+           *
+           * @param manager Entry point to OrbitalManager.
+           */
+          public static void kustoOperationResultsGet(com.azure.resourcemanager.orbital.OrbitalManager manager) {
+              manager.operationsResults().get("eastus2", "30972f1b-b61d-4fd8-bd34-3dcfa24670f3", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-orbital_1.0.0-beta.1/sdk/orbital/azure-resourcemanager-orbital/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armorbital_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/orbital/armorbital"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/OperationResultsGet.json
+      func ExampleOperationsResultsClient_BeginGet() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armorbital.NewOperationsResultsClient("12345678-1234-1234-1234-123456789098", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginGet(ctx,
+      		"westus",
+      		"30972f1b-b61d-4fd8-bd34-3dcfa24670f3",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Forbital%2Farmorbital%2Fv1.0.0/sdk/resourcemanager/orbital/armorbital/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureOrbital } = require("@azure/arm-orbital");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Returns operation results.
+       *
+       * @summary Returns operation results.
+       * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/OperationResultsGet.json
+       */
+      async function kustoOperationResultsGet() {
+        const subscriptionId = "12345678-1234-1234-1234-123456789098";
+        const location = "westus";
+        const operationId = "30972f1b-b61d-4fd8-bd34-3dcfa24670f3";
+        const credential = new DefaultAzureCredential();
+        const client = new AzureOrbital(credential, subscriptionId);
+        const result = await client.operationsResults.beginGetAndWait(location, operationId);
+        console.log(result);
+      }
+
+      kustoOperationResultsGet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-orbital_1.1.0/sdk/orbital/arm-orbital/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "https://management.azure.com/Microsoft.Orbital/operationResults/4e2ffff7-b331-4fcb-ab11-b5fa49368188?api-version=2022-03-01",
+        "name": "30972f1b-b61d-4fd8-bd34-3dcfa24670f3",
+        "status": "Failed",
+        "startTime": "2022-06-10T13:54:53.6554616Z",
+        "endTime": "2022-06-10T13:54:55.7025301Z",
+        "percentComplete": 1,
+        "properties": {},
+        "error": {
+          "code": "ReadOnlyPropertyError",
+          "message": "Cannot write to property, AuthorizationStatus, as it is read-only."
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/Microsoft.Orbital/operationResults/4e2ffff7-b331-4fcb-ab11-b5fa49368188?api-version=2022-03-01
+security: []
+metadata:
+  description: Learn more about Orbital service - Returns operation results.
+errorCodes: []

@@ -1,0 +1,639 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.stackhci.extensions.update
+name: Update
+service: Azure Stack HCI
+groupName: Extensions
+apiVersion: 2022-05-01
+summary: Update Extension for HCI cluster.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}?api-version=2022-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: The name of the cluster.
+  types:
+  - uid: string
+- name: arcSettingName
+  in: path
+  isRequired: true
+  description: The name of the proxy resource holding details of HCI ArcSetting information.
+  types:
+  - uid: string
+- name: extensionName
+  in: path
+  isRequired: true
+  description: The name of the machine extension.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Extension
+- name: 202 Accepted
+  description: Accepted
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: systemData.createdBy
+    in: body
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: systemData.createdByType
+    in: body
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: systemData.createdAt
+    in: body
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: systemData.lastModifiedBy
+    in: body
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: systemData.lastModifiedByType
+    in: body
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: systemData.lastModifiedAt
+    in: body
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+  - name: properties.extensionParameters.forceUpdateTag
+    in: body
+    description: How the extension handler should be forced to update even if the extension configuration has not changed.
+    types:
+    - uid: string
+  - name: properties.extensionParameters.publisher
+    in: body
+    description: The name of the extension handler publisher.
+    types:
+    - uid: string
+  - name: properties.extensionParameters.type
+    in: body
+    description: Specifies the type of the extension; an example is "CustomScriptExtension".
+    types:
+    - uid: string
+  - name: properties.extensionParameters.typeHandlerVersion
+    in: body
+    description: Specifies the version of the script handler.
+    types:
+    - uid: string
+  - name: properties.extensionParameters.autoUpgradeMinorVersion
+    in: body
+    description: Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.
+    types:
+    - uid: boolean
+  - name: properties.extensionParameters.settings
+    in: body
+    description: Json formatted public settings for the extension.
+    types:
+    - uid: object
+  - name: properties.extensionParameters.protectedSettings
+    in: body
+    description: Protected settings (may contain secrets).
+    types:
+    - uid: object
+requestHeader: []
+definitions:
+- name: PerNodeExtensionState
+  description: Status of Arc Extension for a particular node in HCI Cluster.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the node in HCI Cluster.
+    types:
+    - uid: string
+  - name: extension
+    isReadyOnly: true
+    description: Fully qualified resource ID for the particular Arc Extension on this node.
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: State of Arc Extension in this node.
+    types:
+    - uid: NodeExtensionState
+- name: Extension
+  description: Details of a particular extension in HCI Cluster.
+  kind: object
+  properties:
+  - name: systemData.createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: systemData.createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: systemData.createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: systemData.lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: systemData.lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: systemData.lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the Extension proxy resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.aggregateState
+    isReadyOnly: true
+    description: Aggregate state of Arc Extensions across the nodes in this HCI cluster.
+    types:
+    - uid: ExtensionAggregateState
+  - name: properties.perNodeExtensionDetails
+    isReadyOnly: true
+    description: State of Arc Extension in each of the nodes.
+    types:
+    - uid: PerNodeExtensionState
+      isArray: true
+  - name: properties.extensionParameters.forceUpdateTag
+    description: How the extension handler should be forced to update even if the extension configuration has not changed.
+    types:
+    - uid: string
+  - name: properties.extensionParameters.publisher
+    description: The name of the extension handler publisher.
+    types:
+    - uid: string
+  - name: properties.extensionParameters.type
+    description: Specifies the type of the extension; an example is "CustomScriptExtension".
+    types:
+    - uid: string
+  - name: properties.extensionParameters.typeHandlerVersion
+    description: Specifies the version of the script handler.
+    types:
+    - uid: string
+  - name: properties.extensionParameters.autoUpgradeMinorVersion
+    description: Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.
+    types:
+    - uid: boolean
+  - name: properties.extensionParameters.settings
+    description: Json formatted public settings for the extension.
+    types:
+    - uid: object
+  - name: properties.extensionParameters.protectedSettings
+    description: Protected settings (may contain secrets).
+    types:
+    - uid: object
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: NodeExtensionState
+  description: State of Arc Extension in this node.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Connected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Moving
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Provisioning state of the Extension proxy resource.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Provisioning
+    types:
+    - uid: string
+- name: ExtensionAggregateState
+  description: Aggregate state of Arc Extensions across the nodes in this HCI cluster.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Connected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Moving
+    types:
+    - uid: string
+  - name: PartiallySucceeded
+    types:
+    - uid: string
+  - name: PartiallyConnected
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Update Arc Extension
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster/arcSettings/default/extensions/MicrosoftMonitoringAgent?api-version=2022-05-01
+    body: >-
+      {
+        "properties": {
+          "extensionParameters": {
+            "publisher": "Microsoft.Compute",
+            "typeHandlerVersion": "1.10",
+            "type": "MicrosoftMonitoringAgent",
+            "settings": {
+              "workspaceId": "xx"
+            }
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster/arcSettings/default/extensions/MicrosoftMonitoringAgent?api-version=2022-05-01
+
+      {
+        "properties": {
+          "extensionParameters": {
+            "publisher": "Microsoft.Compute",
+            "typeHandlerVersion": "1.10",
+            "type": "MicrosoftMonitoringAgent",
+            "settings": {
+              "workspaceId": "xx"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.azurestackhci.models.Extension;
+      import java.io.IOException;
+
+      /** Samples for Extensions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/PatchExtension.json
+           */
+          /**
+           * Sample code: Update Arc Extension.
+           *
+           * @param manager Entry point to AzureStackHciManager.
+           */
+          public static void updateArcExtension(com.azure.resourcemanager.azurestackhci.AzureStackHciManager manager)
+              throws IOException {
+              Extension resource =
+                  manager
+                      .extensions()
+                      .getWithResponse("test-rg", "myCluster", "default", "MicrosoftMonitoringAgent", Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withPublisher("Microsoft.Compute")
+                  .withTypePropertiesType("MicrosoftMonitoringAgent")
+                  .withTypeHandlerVersion("1.10")
+                  .withSettings(
+                      SerializerFactory
+                          .createDefaultManagementSerializerAdapter()
+                          .deserialize("{\"workspaceId\":\"xx\"}", Object.class, SerializerEncoding.JSON))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-azurestackhci_1.0.0-beta.3/sdk/azurestackhci/azure-resourcemanager-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armazurestackhci_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/azurestackhci/armazurestackhci"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/PatchExtension.json
+      func ExampleExtensionsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armazurestackhci.NewExtensionsClient("fd3c3665-1729-4b7b-9a38-238e83b0f98b", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"test-rg",
+      		"myCluster",
+      		"default",
+      		"MicrosoftMonitoringAgent",
+      		armazurestackhci.Extension{
+      			Properties: &armazurestackhci.ExtensionProperties{
+      				ExtensionParameters: &armazurestackhci.ExtensionParameters{
+      					Type:      to.Ptr("MicrosoftMonitoringAgent"),
+      					Publisher: to.Ptr("Microsoft.Compute"),
+      					Settings: map[string]interface{}{
+      						"workspaceId": "xx",
+      					},
+      					TypeHandlerVersion: to.Ptr("1.10"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fazurestackhci%2Farmazurestackhci%2Fv1.0.0/sdk/resourcemanager/azurestackhci/armazurestackhci/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureStackHCIClient } = require("@azure/arm-azurestackhci");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update Extension for HCI cluster.
+       *
+       * @summary Update Extension for HCI cluster.
+       * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/PatchExtension.json
+       */
+      async function updateArcExtension() {
+        const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+        const resourceGroupName = "test-rg";
+        const clusterName = "myCluster";
+        const arcSettingName = "default";
+        const extensionName = "MicrosoftMonitoringAgent";
+        const extension = {
+          typePropertiesExtensionParametersType: "MicrosoftMonitoringAgent",
+          publisher: "Microsoft.Compute",
+          settings: { workspaceId: "xx" },
+          typeHandlerVersion: "1.10",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureStackHCIClient(credential, subscriptionId);
+        const result = await client.extensions.beginUpdateAndWait(
+          resourceGroupName,
+          clusterName,
+          arcSettingName,
+          extensionName,
+          extension
+        );
+        console.log(result);
+      }
+
+      updateArcExtension().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-azurestackhci_3.0.0/sdk/azurestackhci/arm-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster/arcSettings/default/extensions/MicrosoftMonitoringAgent",
+        "name": "MicrosoftMonitoringAgent",
+        "type": "Microsoft.AzureStackHCI/clusters/arcSettings/extensions",
+        "systemData": {
+          "createdBy": "user1",
+          "createdByType": "User",
+          "createdAt": "2021-01-01T17:18:19.1234567Z",
+          "lastModifiedBy": "user2",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-01-02T17:18:19.1234567Z"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "extensionParameters": {
+            "publisher": "Microsoft.Compute",
+            "type": "string",
+            "typeHandlerVersion": "1.10.3",
+            "autoUpgradeMinorVersion": false,
+            "settings": {
+              "workspaceId": "xx"
+            }
+          },
+          "aggregateState": "PartiallyConnected",
+          "perNodeExtensionDetails": [
+            {
+              "name": "Node-1",
+              "extension": "/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/ArcInstance-rg/providers/Microsoft.HybridCompute/machines/Node-1/Extensions/MicrosoftMonitoringAgent",
+              "state": "Connected"
+            },
+            {
+              "name": "Node-2",
+              "extension": "/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/ArcInstance-rg/providers/Microsoft.HybridCompute/machines/Node-2/Extensions/MicrosoftMonitoringAgent",
+              "state": "Disconnected"
+            }
+          ]
+        }
+      }
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Azure Stack HCI service - Update Extension for HCI cluster.
+errorCodes: []
