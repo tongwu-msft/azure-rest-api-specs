@@ -12,7 +12,7 @@ ms.date: 07/15/2022
 
 Microsoft Azure confidential ledger (ACL) uses the Azure Confidential Computing platform and the Confidential Consortium Framework to provide a highly secure service for managing sensitive data records. 
 
-## Key Vault operations
+## Azure confidential ledger operations
 
 | Operation | Description |
 |--|--|
