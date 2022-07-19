@@ -3062,6 +3062,47 @@
 ## Signing Certificates
 ### [Overview](attestation/Signing-Certificates.yml)
 ### [Get](attestation/Signing-Certificates/Get.yml)
+# Azure confidential ledger
+## [Overview](../docs-ref-conceptual/confidentialledger/index.md)
+## Create Ledger Entry
+### [Overview](confidentialledger/Create-Ledger-Entry.yml)
+### [Create Ledger Entry](confidentialledger/Create-Ledger-Entry/Create-Ledger-Entry.yml)
+## Create Or Update User
+### [Overview](confidentialledger/Create-Or-Update-User.yml)
+### [Create Or Update User](confidentialledger/Create-Or-Update-User/Create-Or-Update-User.yml)
+## Delete User
+### [Overview](confidentialledger/Delete-User.yml)
+### [Delete User](confidentialledger/Delete-User/Delete-User.yml)
+## Get Constitution
+### [Overview](confidentialledger/Get-Constitution.yml)
+### [Get Constitution](confidentialledger/Get-Constitution/Get-Constitution.yml)
+## Get Current Ledger Entry
+### [Overview](confidentialledger/Get-Current-Ledger-Entry.yml)
+### [Get Current Ledger Entry](confidentialledger/Get-Current-Ledger-Entry/Get-Current-Ledger-Entry.yml)
+## Get Enclave Quotes
+### [Overview](confidentialledger/Get-Enclave-Quotes.yml)
+### [Get Enclave Quotes](confidentialledger/Get-Enclave-Quotes/Get-Enclave-Quotes.yml)
+## Get Ledger Entry
+### [Overview](confidentialledger/Get-Ledger-Entry.yml)
+### [Get Ledger Entry](confidentialledger/Get-Ledger-Entry/Get-Ledger-Entry.yml)
+## Get Receipt
+### [Overview](confidentialledger/Get-Receipt.yml)
+### [Get Receipt](confidentialledger/Get-Receipt/Get-Receipt.yml)
+## Get Transaction Status
+### [Overview](confidentialledger/Get-Transaction-Status.yml)
+### [Get Transaction Status](confidentialledger/Get-Transaction-Status/Get-Transaction-Status.yml)
+## Get User
+### [Overview](confidentialledger/Get-User.yml)
+### [Get User](confidentialledger/Get-User/Get-User.yml)
+## List Collections
+### [Overview](confidentialledger/List-Collections.yml)
+### [List Collections](confidentialledger/List-Collections/List-Collections.yml)
+## List Consortium Members
+### [Overview](confidentialledger/List-Consortium-Members.yml)
+### [List Consortium Members](confidentialledger/List-Consortium-Members/List-Consortium-Members.yml)
+## List Ledger Entries
+### [Overview](confidentialledger/List-Ledger-Entries.yml)
+### [List Ledger Entries](confidentialledger/List-Ledger-Entries/List-Ledger-Entries.yml)
 # Azure Container Apps
 ## [Overview](../docs-ref-conceptual/containerapps/index.md)
 ## Certificates
