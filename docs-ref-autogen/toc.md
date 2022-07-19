@@ -3064,15 +3064,15 @@
 ### [Get](attestation/Signing-Certificates/Get.yml)
 # Azure confidential ledger
 ## [Overview](../docs-ref-conceptual/confidentialledger/index.md)
+## Create Ledger Entry
+### [Overview](confidentialledger/Create-Ledger-Entry.yml)
+### [Create Ledger Entry](confidentialledger/Create-Ledger-Entry/Create-Ledger-Entry.yml)
 ## Create Or Update User
 ### [Overview](confidentialledger/Create-Or-Update-User.yml)
 ### [Create Or Update User](confidentialledger/Create-Or-Update-User/Create-Or-Update-User.yml)
 ## Delete User
 ### [Overview](confidentialledger/Delete-User.yml)
 ### [Delete User](confidentialledger/Delete-User/Delete-User.yml)
-## Get Consortium Members
-### [Overview](confidentialledger/Get-Consortium-Members.yml)
-### [Get Consortium Members](confidentialledger/Get-Consortium-Members/Get-Consortium-Members.yml)
 ## Get Constitution
 ### [Overview](confidentialledger/Get-Constitution.yml)
 ### [Get Constitution](confidentialledger/Get-Constitution/Get-Constitution.yml)
@@ -3097,12 +3097,12 @@
 ## List Collections
 ### [Overview](confidentialledger/List-Collections.yml)
 ### [List Collections](confidentialledger/List-Collections/List-Collections.yml)
+## List Consortium Members
+### [Overview](confidentialledger/List-Consortium-Members.yml)
+### [List Consortium Members](confidentialledger/List-Consortium-Members/List-Consortium-Members.yml)
 ## List Ledger Entries
 ### [Overview](confidentialledger/List-Ledger-Entries.yml)
 ### [List Ledger Entries](confidentialledger/List-Ledger-Entries/List-Ledger-Entries.yml)
-## Post Ledger Entry
-### [Overview](confidentialledger/Post-Ledger-Entry.yml)
-### [Post Ledger Entry](confidentialledger/Post-Ledger-Entry/Post-Ledger-Entry.yml)
 # Azure Container Apps
 ## [Overview](../docs-ref-conceptual/containerapps/index.md)
 ## Certificates
