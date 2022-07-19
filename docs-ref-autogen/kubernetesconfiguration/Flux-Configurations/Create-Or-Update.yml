@@ -3,14 +3,14 @@ uid: management.azure.com.kubernetesconfiguration.fluxconfigurations.createorupd
 name: Create Or Update
 service: Kubernetes Configuration
 groupName: Flux Configurations
-apiVersion: 2022-03-01
+apiVersion: 2022-07-01
 summary: Create a new Kubernetes Flux Configuration.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}?api-version=2022-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}?api-version=2022-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -100,6 +100,11 @@ requestBody:
     description: Parameters to reconcile to the Bucket source kind type.
     types:
     - uid: BucketDefinition
+  - name: properties.azureBlob
+    in: body
+    description: Parameters to reconcile to the AzureBlob source kind type.
+    types:
+    - uid: AzureBlobDefinition
   - name: properties.kustomizations
     in: body
     description: Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster.
@@ -187,7 +192,7 @@ definitions:
     types:
     - uid: string
 - name: BucketDefinition
-  description: Parameters to reconcile to the GitRepository source kind type.
+  description: Parameters to reconcile to the Bucket source kind type.
   kind: object
   properties:
   - name: url
@@ -204,12 +209,12 @@ definitions:
     - uid: boolean
     defaultValue: true
   - name: timeoutInSeconds
-    description: The maximum time to attempt to reconcile the cluster git repository source with the remote.
+    description: The maximum time to attempt to reconcile the cluster bucket source with the remote.
     types:
     - uid: integer
     defaultValue: 600
   - name: syncIntervalInSeconds
-    description: The interval at which to re-reconcile the cluster git repository source with the remote.
+    description: The interval at which to re-reconcile the cluster bucket source with the remote.
     types:
     - uid: integer
     defaultValue: 600
@@ -217,6 +222,48 @@ definitions:
     description: Plaintext access key used to securely access the S3 bucket
     types:
     - uid: string
+  - name: localAuthRef
+    description: Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets.
+    types:
+    - uid: string
+- name: AzureBlobDefinition
+  description: Parameters to reconcile to the AzureBlob source kind type.
+  kind: object
+  properties:
+  - name: url
+    description: The URL to sync for the flux configuration Azure Blob storage account.
+    types:
+    - uid: string
+  - name: containerName
+    description: The Azure Blob container name to sync from the url endpoint for the flux configuration.
+    types:
+    - uid: string
+  - name: timeoutInSeconds
+    description: The maximum time to attempt to reconcile the cluster Azure Blob source with the remote.
+    types:
+    - uid: integer
+    defaultValue: 600
+  - name: syncIntervalInSeconds
+    description: The interval at which to re-reconcile the cluster Azure Blob source with the remote.
+    types:
+    - uid: integer
+    defaultValue: 600
+  - name: servicePrincipal
+    description: Parameters to authenticate using Service Principal.
+    types:
+    - uid: ServicePrincipalDefinition
+  - name: accountKey
+    description: The account key (shared key) to access the storage account
+    types:
+    - uid: string
+  - name: sasToken
+    description: The Shared Access token to access the storage container
+    types:
+    - uid: string
+  - name: managedIdentity
+    description: Parameters to authenticate using a Managed Identity.
+    types:
+    - uid: ManagedIdentityDefinition
   - name: localAuthRef
     description: Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets.
     types:
@@ -335,6 +382,10 @@ definitions:
     description: Parameters to reconcile to the Bucket source kind type.
     types:
     - uid: BucketDefinition
+  - name: properties.azureBlob
+    description: Parameters to reconcile to the AzureBlob source kind type.
+    types:
+    - uid: AzureBlobDefinition
   - name: properties.kustomizations
     description: Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster.
     types:
@@ -452,6 +503,43 @@ definitions:
     description: The commit SHA to checkout. This value must be combined with the branch name to be valid. This takes precedence over semver.
     types:
     - uid: string
+- name: ServicePrincipalDefinition
+  description: Parameters to authenticate using Service Principal.
+  kind: object
+  properties:
+  - name: clientId
+    description: The client Id for authenticating a Service Principal.
+    types:
+    - uid: string
+  - name: tenantId
+    description: The tenant Id for authenticating a Service Principal
+    types:
+    - uid: string
+  - name: clientSecret
+    description: The client secret for authenticating a Service Principal
+    types:
+    - uid: string
+  - name: clientCertificate
+    description: 'Base64-encoded certificate used to authenticate a Service Principal '
+    types:
+    - uid: string
+  - name: clientCertificatePassword
+    description: 'The password for the certificate used to authenticate a Service Principal '
+    types:
+    - uid: string
+  - name: clientCertificateSendChain
+    description: Specifies whether to include x5c header in client claims when acquiring a token to enable subject name / issuer based authentication for the Client Certificate
+    types:
+    - uid: boolean
+    defaultValue: false
+- name: ManagedIdentityDefinition
+  description: Parameters to authenticate using a Managed Identity.
+  kind: object
+  properties:
+  - name: clientId
+    description: The client Id for authenticating a Managed Identity.
+    types:
+    - uid: string
 - name: FluxComplianceState
   description: Compliance state of the applied object showing whether the applied object has come into a ready state on the cluster.
   kind: enum
@@ -551,6 +639,9 @@ definitions:
   - name: Bucket
     types:
     - uid: string
+  - name: AzureBlob
+    types:
+    - uid: string
 - name: ProvisioningState
   description: Status of the creation of the fluxConfiguration.
   kind: enum
@@ -621,7 +712,7 @@ definitions:
 examples:
 - name: Create Flux Configuration
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig?api-version=2022-07-01
     body: >-
       {
         "properties": {
@@ -661,7 +752,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig?api-version=2022-07-01
 
       {
         "properties": {
@@ -701,226 +792,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.kubernetesconfiguration.fluent.models.FluxConfigurationInner;
-      import com.azure.resourcemanager.kubernetesconfiguration.models.GitRepositoryDefinition;
-      import com.azure.resourcemanager.kubernetesconfiguration.models.KustomizationDefinition;
-      import com.azure.resourcemanager.kubernetesconfiguration.models.RepositoryRefDefinition;
-      import com.azure.resourcemanager.kubernetesconfiguration.models.ScopeType;
-      import com.azure.resourcemanager.kubernetesconfiguration.models.SourceKindType;
-      import java.util.Arrays;
-      import java.util.HashMap;
-      import java.util.Map;
-
-      /** Samples for FluxConfigurations CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-03-01/examples/CreateFluxConfiguration.json
-           */
-          /**
-           * Sample code: Create Flux Configuration.
-           *
-           * @param manager Entry point to SourceControlConfigurationManager.
-           */
-          public static void createFluxConfiguration(
-              com.azure.resourcemanager.kubernetesconfiguration.SourceControlConfigurationManager manager) {
-              manager
-                  .fluxConfigurations()
-                  .createOrUpdate(
-                      "rg1",
-                      "Microsoft.Kubernetes",
-                      "connectedClusters",
-                      "clusterName1",
-                      "srs-fluxconfig",
-                      new FluxConfigurationInner()
-                          .withScope(ScopeType.CLUSTER)
-                          .withNamespace("srs-namespace")
-                          .withSourceKind(SourceKindType.GIT_REPOSITORY)
-                          .withSuspend(false)
-                          .withGitRepository(
-                              new GitRepositoryDefinition()
-                                  .withUrl("https://github.com/Azure/arc-k8s-demo")
-                                  .withTimeoutInSeconds(600L)
-                                  .withSyncIntervalInSeconds(600L)
-                                  .withRepositoryRef(new RepositoryRefDefinition().withBranch("master"))
-                                  .withHttpsCACert("ZXhhbXBsZWNlcnRpZmljYXRl"))
-                          .withKustomizations(
-                              mapOf(
-                                  "srs-kustomization1",
-                                  new KustomizationDefinition()
-                                      .withPath("./test/path")
-                                      .withDependsOn(Arrays.asList())
-                                      .withTimeoutInSeconds(600L)
-                                      .withSyncIntervalInSeconds(600L),
-                                  "srs-kustomization2",
-                                  new KustomizationDefinition()
-                                      .withPath("./other/test/path")
-                                      .withDependsOn(Arrays.asList("srs-kustomization1"))
-                                      .withTimeoutInSeconds(600L)
-                                      .withSyncIntervalInSeconds(600L)
-                                      .withRetryIntervalInSeconds(600L)
-                                      .withPrune(false))),
-                      Context.NONE);
-          }
-
-          @SuppressWarnings("unchecked")
-          private static <T> Map<String, T> mapOf(Object... inputs) {
-              Map<String, T> map = new HashMap<>();
-              for (int i = 0; i < inputs.length; i += 2) {
-                  String key = (String) inputs[i];
-                  T value = (T) inputs[i + 1];
-                  map.put(key, value);
-              }
-              return map;
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-kubernetesconfiguration_1.0.0-beta.3/sdk/kubernetesconfiguration/azure-resourcemanager-kubernetesconfiguration/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armkubernetesconfiguration_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kubernetesconfiguration/armkubernetesconfiguration"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-03-01/examples/CreateFluxConfiguration.json
-      func ExampleFluxConfigurationsClient_BeginCreateOrUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armkubernetesconfiguration.NewFluxConfigurationsClient("subId1", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreateOrUpdate(ctx,
-      		"rg1",
-      		"Microsoft.Kubernetes",
-      		"connectedClusters",
-      		"clusterName1",
-      		"srs-fluxconfig",
-      		armkubernetesconfiguration.FluxConfiguration{
-      			Properties: &armkubernetesconfiguration.FluxConfigurationProperties{
-      				GitRepository: &armkubernetesconfiguration.GitRepositoryDefinition{
-      					HTTPSCACert: to.Ptr("ZXhhbXBsZWNlcnRpZmljYXRl"),
-      					RepositoryRef: &armkubernetesconfiguration.RepositoryRefDefinition{
-      						Branch: to.Ptr("master"),
-      					},
-      					SyncIntervalInSeconds: to.Ptr[int64](600),
-      					TimeoutInSeconds:      to.Ptr[int64](600),
-      					URL:                   to.Ptr("https://github.com/Azure/arc-k8s-demo"),
-      				},
-      				Kustomizations: map[string]*armkubernetesconfiguration.KustomizationDefinition{
-      					"srs-kustomization1": {
-      						Path:                  to.Ptr("./test/path"),
-      						DependsOn:             []*string{},
-      						SyncIntervalInSeconds: to.Ptr[int64](600),
-      						TimeoutInSeconds:      to.Ptr[int64](600),
-      					},
-      					"srs-kustomization2": {
-      						Path: to.Ptr("./other/test/path"),
-      						DependsOn: []*string{
-      							to.Ptr("srs-kustomization1")},
-      						Prune:                  to.Ptr(false),
-      						RetryIntervalInSeconds: to.Ptr[int64](600),
-      						SyncIntervalInSeconds:  to.Ptr[int64](600),
-      						TimeoutInSeconds:       to.Ptr[int64](600),
-      					},
-      				},
-      				Namespace:  to.Ptr("srs-namespace"),
-      				Scope:      to.Ptr(armkubernetesconfiguration.ScopeTypeCluster),
-      				SourceKind: to.Ptr(armkubernetesconfiguration.SourceKindTypeGitRepository),
-      				Suspend:    to.Ptr(false),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fkubernetesconfiguration%2Farmkubernetesconfiguration%2Fv1.0.0/sdk/resourcemanager/kubernetesconfiguration/armkubernetesconfiguration/README.md) on how to add the SDK to your project and authenticate.
-      # [JavsScirpt](#tab/JavsScirpt)
-      ``` js
-      const { SourceControlConfigurationClient } = require("@azure/arm-kubernetesconfiguration");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create a new Kubernetes Flux Configuration.
-       *
-       * @summary Create a new Kubernetes Flux Configuration.
-       * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-03-01/examples/CreateFluxConfiguration.json
-       */
-      async function createFluxConfiguration() {
-        const subscriptionId = "subId1";
-        const resourceGroupName = "rg1";
-        const clusterRp = "Microsoft.Kubernetes";
-        const clusterResourceName = "connectedClusters";
-        const clusterName = "clusterName1";
-        const fluxConfigurationName = "srs-fluxconfig";
-        const fluxConfiguration = {
-          gitRepository: {
-            httpsCACert: "ZXhhbXBsZWNlcnRpZmljYXRl",
-            repositoryRef: { branch: "master" },
-            syncIntervalInSeconds: 600,
-            timeoutInSeconds: 600,
-            url: "https://github.com/Azure/arc-k8s-demo",
-          },
-          kustomizations: {
-            srsKustomization1: {
-              path: "./test/path",
-              dependsOn: [],
-              syncIntervalInSeconds: 600,
-              timeoutInSeconds: 600,
-            },
-            srsKustomization2: {
-              path: "./other/test/path",
-              dependsOn: ["srs-kustomization1"],
-              prune: false,
-              retryIntervalInSeconds: 600,
-              syncIntervalInSeconds: 600,
-              timeoutInSeconds: 600,
-            },
-          },
-          namespace: "srs-namespace",
-          scope: "cluster",
-          sourceKind: "GitRepository",
-          suspend: false,
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new SourceControlConfigurationClient(credential, subscriptionId);
-        const result = await client.fluxConfigurations.beginCreateOrUpdateAndWait(
-          resourceGroupName,
-          clusterRp,
-          clusterResourceName,
-          clusterName,
-          fluxConfigurationName,
-          fluxConfiguration
-        );
-        console.log(result);
-      }
-
-      createFluxConfiguration().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-kubernetesconfiguration_5.0.0/sdk/kubernetesconfiguration/arm-kubernetesconfiguration/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -1062,7 +933,7 @@ examples:
     - name: x-ms-async-operation-timeout
       value: PT48H
     - name: Azure-AsyncOperation
-      value: http://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Kubernetes/ConnectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig/operations/operationId?api-version=2022-03-01
+      value: http://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Kubernetes/ConnectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig/operations/operationId?api-version=2022-07-01
     body: >-
       {
         "id": "/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig",
@@ -1191,7 +1062,7 @@ examples:
       }
 - name: Create Flux Configuration with Bucket Source Kind
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig?api-version=2022-07-01
     body: >-
       {
         "properties": {
@@ -1229,7 +1100,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig?api-version=2022-07-01
 
       {
         "properties": {
@@ -1267,147 +1138,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.kubernetesconfiguration.fluent.models.FluxConfigurationInner;
-      import com.azure.resourcemanager.kubernetesconfiguration.models.BucketDefinition;
-      import com.azure.resourcemanager.kubernetesconfiguration.models.KustomizationDefinition;
-      import com.azure.resourcemanager.kubernetesconfiguration.models.ScopeType;
-      import com.azure.resourcemanager.kubernetesconfiguration.models.SourceKindType;
-      import java.util.Arrays;
-      import java.util.HashMap;
-      import java.util.Map;
-
-      /** Samples for FluxConfigurations CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-03-01/examples/CreateFluxConfigurationWithBucket.json
-           */
-          /**
-           * Sample code: Create Flux Configuration with Bucket Source Kind.
-           *
-           * @param manager Entry point to SourceControlConfigurationManager.
-           */
-          public static void createFluxConfigurationWithBucketSourceKind(
-              com.azure.resourcemanager.kubernetesconfiguration.SourceControlConfigurationManager manager) {
-              manager
-                  .fluxConfigurations()
-                  .createOrUpdate(
-                      "rg1",
-                      "Microsoft.Kubernetes",
-                      "connectedClusters",
-                      "clusterName1",
-                      "srs-fluxconfig",
-                      new FluxConfigurationInner()
-                          .withScope(ScopeType.CLUSTER)
-                          .withNamespace("srs-namespace")
-                          .withSourceKind(SourceKindType.BUCKET)
-                          .withSuspend(false)
-                          .withBucket(
-                              new BucketDefinition()
-                                  .withUrl("https://fluxminiotest.az.minio.io")
-                                  .withBucketName("flux")
-                                  .withTimeoutInSeconds(1000L)
-                                  .withSyncIntervalInSeconds(1000L)
-                                  .withAccessKey("fluxminiotest"))
-                          .withKustomizations(
-                              mapOf(
-                                  "srs-kustomization1",
-                                  new KustomizationDefinition()
-                                      .withPath("./test/path")
-                                      .withDependsOn(Arrays.asList())
-                                      .withTimeoutInSeconds(600L)
-                                      .withSyncIntervalInSeconds(600L),
-                                  "srs-kustomization2",
-                                  new KustomizationDefinition()
-                                      .withPath("./other/test/path")
-                                      .withDependsOn(Arrays.asList("srs-kustomization1"))
-                                      .withTimeoutInSeconds(600L)
-                                      .withSyncIntervalInSeconds(600L)
-                                      .withRetryIntervalInSeconds(600L)
-                                      .withPrune(false))),
-                      Context.NONE);
-          }
-
-          @SuppressWarnings("unchecked")
-          private static <T> Map<String, T> mapOf(Object... inputs) {
-              Map<String, T> map = new HashMap<>();
-              for (int i = 0; i < inputs.length; i += 2) {
-                  String key = (String) inputs[i];
-                  T value = (T) inputs[i + 1];
-                  map.put(key, value);
-              }
-              return map;
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-kubernetesconfiguration_1.0.0-beta.3/sdk/kubernetesconfiguration/azure-resourcemanager-kubernetesconfiguration/README.md) on how to add the SDK to your project and authenticate.
-      # [JavsScirpt](#tab/JavsScirpt)
-      ``` js
-      const { SourceControlConfigurationClient } = require("@azure/arm-kubernetesconfiguration");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create a new Kubernetes Flux Configuration.
-       *
-       * @summary Create a new Kubernetes Flux Configuration.
-       * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-03-01/examples/CreateFluxConfigurationWithBucket.json
-       */
-      async function createFluxConfigurationWithBucketSourceKind() {
-        const subscriptionId = "subId1";
-        const resourceGroupName = "rg1";
-        const clusterRp = "Microsoft.Kubernetes";
-        const clusterResourceName = "connectedClusters";
-        const clusterName = "clusterName1";
-        const fluxConfigurationName = "srs-fluxconfig";
-        const fluxConfiguration = {
-          bucket: {
-            accessKey: "fluxminiotest",
-            bucketName: "flux",
-            syncIntervalInSeconds: 1000,
-            timeoutInSeconds: 1000,
-            url: "https://fluxminiotest.az.minio.io",
-          },
-          kustomizations: {
-            srsKustomization1: {
-              path: "./test/path",
-              dependsOn: [],
-              syncIntervalInSeconds: 600,
-              timeoutInSeconds: 600,
-            },
-            srsKustomization2: {
-              path: "./other/test/path",
-              dependsOn: ["srs-kustomization1"],
-              prune: false,
-              retryIntervalInSeconds: 600,
-              syncIntervalInSeconds: 600,
-              timeoutInSeconds: 600,
-            },
-          },
-          namespace: "srs-namespace",
-          scope: "cluster",
-          sourceKind: "Bucket",
-          suspend: false,
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new SourceControlConfigurationClient(credential, subscriptionId);
-        const result = await client.fluxConfigurations.beginCreateOrUpdateAndWait(
-          resourceGroupName,
-          clusterRp,
-          clusterResourceName,
-          clusterName,
-          fluxConfigurationName,
-          fluxConfiguration
-        );
-        console.log(result);
-      }
-
-      createFluxConfigurationWithBucketSourceKind().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-kubernetesconfiguration_5.0.0/sdk/kubernetesconfiguration/arm-kubernetesconfiguration/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -1464,15 +1194,15 @@ examples:
           "statuses": [
             {
               "name": "srs-fluxconfig",
-              "kind": "GitRepository",
+              "kind": "Bucket",
               "complianceState": "Compliant",
               "appliedBy": null,
               "helmReleaseProperties": null,
               "statusConditions": [
                 {
-                  "lastTransitionTime": "2021-05-19T18:12:40Z",
-                  "message": "'Fetched revision: master/0ba6f0d30760d567de0bac86c8c4eec13ce1a590'",
-                  "reason": "GitOperationSucceed",
+                  "lastTransitionTime": "2022-05-04T07:17:30+00:00",
+                  "message": "stored artifact for revision '55396be14f18fa2b977c1f22becef26a94d1d9a7ccb1e19d12f9cac52d757a84'",
+                  "reason": "Succeeded",
                   "status": "True",
                   "type": "Ready"
                 }
@@ -1496,7 +1226,7 @@ examples:
               "statusConditions": [
                 {
                   "lastTransitionTime": "2021-05-19T18:12:40Z",
-                  "message": "'Applied revision: master/0ba6f0d30760d567de0bac86c8c4eec13ce1a590'",
+                  "message": "'Applied revision: 0ba6f0d30760d567de0bac86c8c4eec13ce1a590'",
                   "reason": "ReconciliationSucceeded",
                   "status": "True",
                   "type": "Ready"
@@ -1521,7 +1251,7 @@ examples:
               "statusConditions": [
                 {
                   "lastTransitionTime": "2021-05-19T18:12:40Z",
-                  "message": "'Applied revision: master/0ba6f0d30760d567de0bac86c8c4eec13ce1a590'",
+                  "message": "'Applied revision: 0ba6f0d30760d567de0bac86c8c4eec13ce1a590'",
                   "reason": "ReconciliationSucceeded",
                   "status": "True",
                   "type": "Ready"
@@ -1529,8 +1259,8 @@ examples:
               ]
             }
           ],
-          "repositoryPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDiNkrANrhtRy+02Xc7b5bwvgOKvQMbqUQaXeB6FCDkbLaavw/zO/vIhIBEQu+vbBt6IlI/Pui0rMFr5JjA8Vwwd85oabzU07TPzbFvKSU9eCXqWRKWf0DHNQj/kxPJNtyPYFv3lGoiZZ6QzejOxlW/lPPokUePN0oI10daWwqznm2q0Cmh1EgPUYveq3J5KCWncZXCdwY36zWYulCWFaqazoaGy4kxcqlVy+mPjE/UJthaoLm3mq+23uhlmmfCc1j7W6+H6fcOwTyOtcbimxz2Ug8HlTzSTXBPtEe7qyllMyk62EPNUUq4bVoVsex9sKBK6/hW0Cn2P5i5jslUPCQF",
-          "sourceSyncedCommitId": "master/0ba6f0d30760d567de0bac86c8c4eec13ce1a590",
+          "repositoryPublicKey": "",
+          "sourceSyncedCommitId": "0ba6f0d30760d567de0bac86c8c4eec13ce1a590",
           "sourceUpdatedAt": "2021-05-19T18:17:12Z",
           "statusUpdatedAt": "2021-05-19T18:17:12Z",
           "complianceState": "Compliant",
@@ -1560,7 +1290,7 @@ examples:
         "properties": {
           "scope": "cluster",
           "namespace": "srs-namespace",
-          "sourceKind": "GitRepository",
+          "sourceKind": "Bucket",
           "suspend": false,
           "gitRepository": null,
           "bucket": {
@@ -1593,14 +1323,14 @@ examples:
           "statuses": [
             {
               "name": "srs-fluxconfig",
-              "kind": "GitRepository",
+              "kind": "Bucket",
               "complianceState": "Compliant",
               "appliedBy": null,
               "statusConditions": [
                 {
-                  "lastTransitionTime": "2021-05-19T18:12:40Z",
-                  "message": "'Fetched revision: master/0ba6f0d30760d567de0bac86c8c4eec13ce1a590'",
-                  "reason": "GitOperationSucceed",
+                  "lastTransitionTime": "2022-05-04T07:17:30+00:00",
+                  "message": "stored artifact for revision '55396be14f18fa2b977c1f22becef26a94d1d9a7ccb1e19d12f9cac52d757a84'",
+                  "reason": "Succeeded",
                   "status": "True",
                   "type": "Ready"
                 }
@@ -1624,7 +1354,7 @@ examples:
               "statusConditions": [
                 {
                   "lastTransitionTime": "2021-05-19T18:12:40Z",
-                  "message": "'Applied revision: master/0ba6f0d30760d567de0bac86c8c4eec13ce1a590'",
+                  "message": "'Applied revision: 0ba6f0d30760d567de0bac86c8c4eec13ce1a590'",
                   "reason": "ReconciliationSucceeded",
                   "status": "True",
                   "type": "Ready"
@@ -1649,7 +1379,7 @@ examples:
               "statusConditions": [
                 {
                   "lastTransitionTime": "2021-05-19T18:12:40Z",
-                  "message": "'Applied revision: master/0ba6f0d30760d567de0bac86c8c4eec13ce1a590'",
+                  "message": "'Applied revision: 0ba6f0d30760d567de0bac86c8c4eec13ce1a590'",
                   "reason": "ReconciliationSucceeded",
                   "status": "True",
                   "type": "Ready"
@@ -1657,8 +1387,8 @@ examples:
               ]
             }
           ],
-          "repositoryPublicKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDiNkrANrhtRy+02Xc7b5bwvgOKvQMbqUQaXeB6FCDkbLaavw/zO/vIhIBEQu+vbBt6IlI/Pui0rMFr5JjA8Vwwd85oabzU07TPzbFvKSU9eCXqWRKWf0DHNQj/kxPJNtyPYFv3lGoiZZ6QzejOxlW/lPPokUePN0oI10daWwqznm2q0Cmh1EgPUYveq3J5KCWncZXCdwY36zWYulCWFaqazoaGy4kxcqlVy+mPjE/UJthaoLm3mq+23uhlmmfCc1j7W6+H6fcOwTyOtcbimxz2Ug8HlTzSTXBPtEe7qyllMyk62EPNUUq4bVoVsex9sKBK6/hW0Cn2P5i5jslUPCQF",
-          "sourceSyncedCommitId": "master/0ba6f0d30760d567de0bac86c8c4eec13ce1a590",
+          "repositoryPublicKey": "",
+          "sourceSyncedCommitId": "0ba6f0d30760d567de0bac86c8c4eec13ce1a590",
           "sourceUpdatedAt": "2021-05-19T18:17:12Z",
           "statusUpdatedAt": "2021-05-19T18:17:12Z",
           "complianceState": "Compliant",
