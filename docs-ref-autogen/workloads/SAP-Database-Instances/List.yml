@@ -1,0 +1,438 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.workloads.sapdatabaseinstances.list
+name: List
+service: Workloads
+groupName: SAP Database Instances
+apiVersion: 2021-12-01-preview
+summary: Lists the SAP Database Instances in an SVI.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances?api-version=2021-12-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: sapVirtualInstanceName
+  in: path
+  isRequired: true
+  description: The name of the Virtual Instances for SAP.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Describes the SAP Database Instance.
+  types:
+  - uid: SAPDatabaseInstanceList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: SAPDatabaseInstanceList
+  description: Defines the collection of SAP Database Instances.
+  kind: object
+  properties:
+  - name: value
+    description: Gets the list of SAP Database instances.
+    types:
+    - uid: SAPDatabaseInstance
+      isArray: true
+  - name: nextLink
+    description: Gets the value of next link.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: SAPDatabaseInstance
+  description: Define the SAP Database Instance.
+  kind: object
+  properties:
+  - name: properties.subnet
+    isReadyOnly: true
+    description: The database subnet.
+    types:
+    - uid: string
+  - name: properties.databaseSid
+    isReadyOnly: true
+    description: The database SID.
+    types:
+    - uid: string
+  - name: properties.databaseType
+    isReadyOnly: true
+    description: The SAP database type.
+    types:
+    - uid: string
+  - name: properties.ipAddress
+    isReadyOnly: true
+    description: The database IP Address.
+    types:
+    - uid: string
+  - name: properties.vmDetails
+    isReadyOnly: true
+    description: The list of virtual machines.
+    types:
+    - uid: DatabaseVmDetails
+      isArray: true
+  - name: properties.status
+    isReadyOnly: true
+    description: Defines the SAP Instance status.
+    types:
+    - uid: SAPVirtualInstanceStatus
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Defines the provisioning states.
+    types:
+    - uid: SapVirtualInstanceProvisioningState
+  - name: properties.errors
+    isReadyOnly: true
+    description: Defines the Database Instance errors.
+    types:
+    - uid: SAPVirtualInstanceError
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: DatabaseVmDetails
+  description: The Database VM Details.
+  kind: object
+  properties:
+  - name: virtualMachineId
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Defines the SAP Instance status.
+    types:
+    - uid: SAPVirtualInstanceStatus
+- name: SAPVirtualInstanceStatus
+  description: Defines the SAP Instance status.
+  kind: enum
+  properties:
+  - name: Starting
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Stopping
+    types:
+    - uid: string
+  - name: Offline
+    types:
+    - uid: string
+  - name: PartiallyRunning
+    types:
+    - uid: string
+  - name: Unavailable
+    types:
+    - uid: string
+- name: SapVirtualInstanceProvisioningState
+  description: Defines the provisioning states.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+- name: SAPVirtualInstanceError
+  description: An error response from the Virtual Instance for SAP Workload service.
+  kind: object
+  properties:
+  - name: properties
+    description: The Virtual Instance for SAP error body.
+    types:
+    - uid: ErrorDefinition
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Internal error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: SAPDatabaseInstances_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/6d875e77-e412-4d7d-9af4-8895278b4443/resourceGroups/test-rg/providers/Microsoft.Workloads/sapVirtualInstances/X00/databaseInstances?api-version=2021-12-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/6d875e77-e412-4d7d-9af4-8895278b4443/resourceGroups/test-rg/providers/Microsoft.Workloads/sapVirtualInstances/X00/databaseInstances?api-version=2021-12-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for SapDatabaseInstances List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPDatabaseInstances_List.json
+           */
+          /**
+           * Sample code: SAPDatabaseInstances_List.
+           *
+           * @param manager Entry point to WorkloadsManager.
+           */
+          public static void sAPDatabaseInstancesList(com.azure.resourcemanager.workloads.WorkloadsManager manager) {
+              manager.sapDatabaseInstances().list("test-rg", "X00", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-workloads_1.0.0-beta.1/sdk/workloads/azure-resourcemanager-workloads/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armworkloads_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/workloads/armworkloads"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPDatabaseInstances_List.json
+      func ExampleSAPDatabaseInstancesClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armworkloads.NewSAPDatabaseInstancesClient("6d875e77-e412-4d7d-9af4-8895278b4443", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("test-rg",
+      		"X00",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fworkloads%2Farmworkloads%2Fv0.2.0/sdk/resourcemanager/workloads/armworkloads/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/6d875e77-e412-4d7d-9af4-8895278b4443/resourceGroups/test-rg/providers/Microsoft.Workloads/sapVirtualInstances/X00/databaseInstances/databaseServer",
+            "name": "databaseServer",
+            "type": "Microsoft.Workloads/sapVirtualInstances/databaseInstances",
+            "tags": {},
+            "location": "westcentralus",
+            "systemData": {
+              "createdBy": "user@xyz.com",
+              "createdByType": "User",
+              "createdAt": "2021-08-19T15:10:46.196Z",
+              "lastModifiedBy": "user@xyz.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-08-19T15:10:46.196Z"
+            },
+            "properties": {
+              "databaseSid": "X00",
+              "databaseType": "hdb",
+              "ipAddress": "10.0.0.5",
+              "subnet": "/subscriptions/6d875e77-e412-4d7d-9af4-8895278b4443/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
+              "vmDetails": [
+                {
+                  "virtualMachineId": "/subscriptions/6d875e77-e412-4d7d-9af4-8895278b4443/resourceGroups/test-rg/providers/Microsoft.Compute/virtualMachines/db-vm"
+                }
+              ],
+              "status": "Running",
+              "errors": null,
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Workloads service - Lists the SAP Database Instances in an SVI.
+errorCodes: []
