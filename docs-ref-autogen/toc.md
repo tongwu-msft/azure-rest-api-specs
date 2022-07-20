@@ -13780,6 +13780,10 @@
 ## Operations
 ### [Overview](mobilenetwork/Operations.yml)
 ### [List](mobilenetwork/Operations/List.yml)
+## Packet Core Control Plane Versions
+### [Overview](mobilenetwork/Packet-Core-Control-Plane-Versions.yml)
+### [Get](mobilenetwork/Packet-Core-Control-Plane-Versions/Get.yml)
+### [List By Resource Group](mobilenetwork/Packet-Core-Control-Plane-Versions/List-By-Resource-Group.yml)
 ## Packet Core Control Planes
 ### [Overview](mobilenetwork/Packet-Core-Control-Planes.yml)
 ### [Create Or Update](mobilenetwork/Packet-Core-Control-Planes/Create-Or-Update.yml)
@@ -13802,6 +13806,14 @@
 ### [Get](mobilenetwork/Services/Get.yml)
 ### [List By Mobile Network](mobilenetwork/Services/List-By-Mobile-Network.yml)
 ### [Update Tags](mobilenetwork/Services/Update-Tags.yml)
+## Sim Groups
+### [Overview](mobilenetwork/Sim-Groups.yml)
+### [Create Or Update](mobilenetwork/Sim-Groups/Create-Or-Update.yml)
+### [Delete](mobilenetwork/Sim-Groups/Delete.yml)
+### [Get](mobilenetwork/Sim-Groups/Get.yml)
+### [List By Resource Group](mobilenetwork/Sim-Groups/List-By-Resource-Group.yml)
+### [List By Subscription](mobilenetwork/Sim-Groups/List-By-Subscription.yml)
+### [Update Tags](mobilenetwork/Sim-Groups/Update-Tags.yml)
 ## Sim Policies
 ### [Overview](mobilenetwork/Sim-Policies.yml)
 ### [Create Or Update](mobilenetwork/Sim-Policies/Create-Or-Update.yml)
@@ -13814,9 +13826,7 @@
 ### [Create Or Update](mobilenetwork/Sims/Create-Or-Update.yml)
 ### [Delete](mobilenetwork/Sims/Delete.yml)
 ### [Get](mobilenetwork/Sims/Get.yml)
-### [List By Resource Group](mobilenetwork/Sims/List-By-Resource-Group.yml)
-### [List By Subscription](mobilenetwork/Sims/List-By-Subscription.yml)
-### [Update Tags](mobilenetwork/Sims/Update-Tags.yml)
+### [List By Sim Group](mobilenetwork/Sims/List-By-Sim-Group.yml)
 ## Sites
 ### [Overview](mobilenetwork/Sites.yml)
 ### [Create Or Update](mobilenetwork/Sites/Create-Or-Update.yml)

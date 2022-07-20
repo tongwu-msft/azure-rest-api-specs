@@ -3,14 +3,14 @@ uid: management.azure.com.mobilenetwork.packetcorecontrolplanes.listbyresourcegr
 name: List By Resource Group
 service: Mobile Network
 groupName: Packet Core Control Planes
-apiVersion: 2022-03-01-preview
-summary: Lists all the packetCoreControlPlanes in a resource group.
+apiVersion: 2022-04-01-preview
+summary: Lists all the packet core control planes in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes?api-version=2022-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes?api-version=2022-04-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -67,21 +67,25 @@ definitions:
   description: Packet core control plane resource.
   kind: object
   properties:
+  - name: identity
+    description: The identity used to retrieve the ingress certificate from Azure key vault.
+    types:
+    - uid: ManagedServiceIdentity
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the packet core control plane resource.
     types:
     - uid: ProvisioningState
   - name: properties.mobileNetwork
-    description: Mobile network that this packet core control plane belongs to
+    description: Mobile network in which this packet core control plane is deployed.
     types:
     - uid: MobileNetworkResourceId
-  - name: properties.customLocation
-    description: Azure ARC custom location where the packet core is deployed.
+  - name: properties.platform
+    description: The platform where the packet core is deployed.
     types:
-    - uid: CustomLocationResourceId
+    - uid: PlatformConfiguration
   - name: properties.coreNetworkTechnology
-    description: The core network technology generation.
+    description: The core network technology generation (5G core or EPC / 4G core).
     types:
     - uid: CoreNetworkType
   - name: properties.version
@@ -89,9 +93,21 @@ definitions:
     types:
     - uid: string
   - name: properties.controlPlaneAccessInterface
-    description: The control plane interface on the access network. In 5G networks this is called as N2 interface whereas in 4G networks this is called as S1-MME interface.
+    description: The control plane interface on the access network. For 5G networks, this is the N2 interface. For 4G networks, this is the S1-MME interface.
     types:
     - uid: InterfaceProperties
+  - name: properties.sku
+    description: The SKU defining the throughput and SIM allowances for this packet core control plane deployment.
+    types:
+    - uid: BillingSku
+  - name: properties.localDiagnosticsAccess
+    description: The kubernetes ingress configuration to control access to packet core diagnostics over local APIs.
+    types:
+    - uid: LocalDiagnosticsAccessConfiguration
+  - name: properties.interopSettings
+    description: Settings to allow interoperability with third party components e.g. RANs and UEs.
+    types:
+    - uid: object
   - name: systemData.createdBy
     description: The identity that created the resource.
     types:
@@ -179,6 +195,32 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: ManagedServiceIdentity
+  description: Managed service identity (system assigned and/or user assigned identities)
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: userAssignedIdentities
+    description: "User-Assigned Identities  \nThe set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -205,23 +247,35 @@ definitions:
     types:
     - uid: string
 - name: MobileNetworkResourceId
-  description: Reference to a Mobile Network resource.
+  description: Reference to a mobile network resource.
   kind: object
   properties:
   - name: id
-    description: Mobile Network resource ID.
+    description: Mobile network resource ID.
     types:
     - uid: string
-- name: CustomLocationResourceId
-  description: Reference to an Azure ARC custom location resource.
+- name: PlatformConfiguration
+  description: The platform where the packet core is deployed.
   kind: object
   properties:
-  - name: id
-    description: Azure ARC custom location resource ID.
+  - name: type
+    description: The platform type where packet core is deployed.
     types:
-    - uid: string
+    - uid: PlatformType
+  - name: azureStackEdgeDevice
+    description: The Azure Stack Edge device where where the packet core is deployed. If the device is part of a fault tolerant pair, either device in the pair can be specified.
+    types:
+    - uid: AzureStackEdgeDeviceResourceId
+  - name: connectedCluster
+    description: Azure Arc connected cluster where the packet core is deployed.
+    types:
+    - uid: ConnectedClusterResourceId
+  - name: customLocation
+    description: Azure Arc custom location where the packet core is deployed.
+    types:
+    - uid: CustomLocationResourceId
 - name: CoreNetworkType
-  description: Core network type.
+  description: The core network technology generation (5G core or EPC / 4G core).
   kind: enum
   properties:
   - name: 5GC
@@ -237,7 +291,7 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: The logical name for this interface. This should match one of the interfaces configured on your Azure Stack Edge machine.
+    description: The logical name for this interface. This should match one of the interfaces configured on your Azure Stack Edge device.
     types:
     - uid: string
   - name: ipv4Address
@@ -252,6 +306,46 @@ definitions:
     description: The default IPv4 gateway (router).
     types:
     - uid: string
+- name: BillingSku
+  description: The SKU of the packet core control plane resource. The SKU list may change over time when a new SKU gets added or an exiting SKU gets removed.
+  kind: enum
+  properties:
+  - name: EvaluationPackage
+    description: Evaluation package plan
+    types:
+    - uid: string
+  - name: FlagshipStarterPackage
+    description: Flagship starter package plan
+    types:
+    - uid: string
+  - name: EdgeSite2GBPS
+    description: Edge site 2Gbps plan
+    types:
+    - uid: string
+  - name: EdgeSite3GBPS
+    description: Edge site 3Gbps plan
+    types:
+    - uid: string
+  - name: EdgeSite4GBPS
+    description: Edge site 4Gbps plan
+    types:
+    - uid: string
+  - name: MediumPackage
+    description: Medium package plan
+    types:
+    - uid: string
+  - name: LargePackage
+    description: Large package plan
+    types:
+    - uid: string
+- name: LocalDiagnosticsAccessConfiguration
+  description: The kubernetes ingress configuration to control access to packet core diagnostics over local APIs.
+  kind: object
+  properties:
+  - name: httpsServerCertificate
+    description: The HTTPS server TLS certificate used to secure local access to diagnostics.
+    types:
+    - uid: KeyVaultCertificate
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -310,14 +404,88 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentity
+  description: User assigned identity properties
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the assigned identity.
+    types:
+    - uid: string
+- name: PlatformType
+  description: The platform type where packet core is deployed. The contents of this enum can change.
+  kind: enum
+  properties:
+  - name: AKS-HCI
+    description: If this option is chosen, you must set one of "azureStackEdgeDevice", "connectedCluster" or "customLocation". If multiple are set then "customLocation" will take precedence over "connectedCluster" which takes precedence over "azureStackEdgeDevice".
+    types:
+    - uid: string
+  - name: BaseVM
+    description: If this option is chosen, you must set one of "connectedCluster" or "customLocation". If multiple are set then "customLocation" will take precedence over "connectedCluster".
+    types:
+    - uid: string
+- name: AzureStackEdgeDeviceResourceId
+  description: Reference to an Azure Arc custom location resource.
+  kind: object
+  properties:
+  - name: id
+    description: Azure Stack Edge device resource ID.
+    types:
+    - uid: string
+- name: ConnectedClusterResourceId
+  description: Reference to an Azure Arc custom location resource.
+  kind: object
+  properties:
+  - name: id
+    description: Azure Arc connected cluster resource ID.
+    types:
+    - uid: string
+- name: CustomLocationResourceId
+  description: Reference to an Azure Arc custom location resource.
+  kind: object
+  properties:
+  - name: id
+    description: Azure Arc custom location resource ID.
+    types:
+    - uid: string
+- name: KeyVaultCertificate
+  description: An Azure key vault certificate.
+  kind: object
+  properties:
+  - name: certificateUrl
+    description: 'The certificate URL, unversioned. For example: https://contosovault.vault.azure.net/certificates/ingress.'
+    types:
+    - uid: string
 examples:
 - name: List packet core control planes in resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/packetCoreControlPlanes?api-version=2022-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/packetCoreControlPlanes?api-version=2022-04-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/packetCoreControlPlanes?api-version=2022-03-01-preview
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/packetCoreControlPlanes?api-version=2022-04-01-preview
       ```
 
   responses:
@@ -344,13 +512,28 @@ examples:
               "mobileNetwork": {
                 "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork"
               },
-              "customLocation": {
-                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ExtendedLocation/customLocations/TestCustomLocation"
+              "platform": {
+                "type": "AKS-HCI",
+                "azureStackEdgeDevice": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/TestAzureStackEdgeDevice"
+                },
+                "connectedCluster": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/TestConnectedCluster"
+                },
+                "customLocation": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ExtendedLocation/customLocations/TestCustomLocation"
+                }
               },
               "coreNetworkTechnology": "5GC",
               "version": "0.2.0",
               "controlPlaneAccessInterface": {
                 "name": "N2"
+              },
+              "sku": "testSku",
+              "localDiagnosticsAccess": {
+                "httpsServerCertificate": {
+                  "certificateUrl": "https://contosovault.vault.azure.net/certificates/ingress"
+                }
               }
             }
           }
@@ -367,5 +550,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Mobile Network service - Lists all the packetCoreControlPlanes in a resource group.
+  description: Learn more about Mobile Network service - Lists all the packet core control planes in a resource group.
 errorCodes: []

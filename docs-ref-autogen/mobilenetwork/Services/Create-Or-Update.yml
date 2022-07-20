@@ -3,14 +3,14 @@ uid: management.azure.com.mobilenetwork.services.createorupdate
 name: Create Or Update
 service: Mobile Network
 groupName: Services
-apiVersion: 2022-03-01-preview
-summary: Creates or updates a Service.
+apiVersion: 2022-04-01-preview
+summary: Creates or updates a service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/services/{serviceName}?api-version=2022-03-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/services/{serviceName}?api-version=2022-04-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -63,18 +63,18 @@ requestBody:
   - name: properties.servicePrecedence
     in: body
     isRequired: true
-    description: A precedence value that is used to decide between services when identifying the QoS values to use for a particular Sim. A lower value means a higher priority. This value should be unique among all services configured in the Mobile Network.
+    description: A precedence value that is used to decide between services when identifying the QoS values to use for a particular SIM. A lower value means a higher priority. This value should be unique among all services configured in the mobile network.
     types:
     - uid: integer
   - name: properties.serviceQosPolicy
     in: body
-    description: The QoS policy to use for packets matching this service. This can be overridden for particular flows using the ruleQosPolicy field in a PccRuleConfiguration. If this field is null then the UE's simPolicy will define the QoS settings.
+    description: The QoS policy to use for packets matching this service. This can be overridden for particular flows using the ruleQosPolicy field in a PccRuleConfiguration. If this field is null then the UE's SIM policy will define the QoS settings.
     types:
     - uid: QosPolicy
   - name: properties.pccRules
     in: body
     isRequired: true
-    description: The set of PCC Rules that make up this service.
+    description: The set of data flow policy rules that make up this service.
     types:
     - uid: PccRuleConfiguration
       isArray: true
@@ -130,7 +130,7 @@ definitions:
   kind: object
   properties:
   - name: 5qi
-    description: 'QoS Flow 5G QoS Indicator value.  The 5QI identifies a specific QoS forwarding treatment to be provided to a flow. This must not be a standardized 5QI value selecting a GBR (Guaranteed Bit Rate) QoS.  The illegal GBR 5QI values are: 1, 2, 3, 4, 65, 66, 67, 71, 72, 73, 74, 75, 76, 82, 83, 84, and 85. See 3GPP TS23.501 section 5.7.2.1 for a full description of the 5Qi parameter, and table 5.7.4-1 for the definition of which are the GBR 5QI values.'
+    description: 'QoS Flow 5G QoS Indicator value. The 5QI identifies a specific QoS forwarding treatment to be provided to a flow. This must not be a standardized 5QI value corresponding to a GBR (guaranteed bit rate) QoS Flow. The illegal GBR 5QI values are: 1, 2, 3, 4, 65, 66, 67, 71, 72, 73, 74, 75, 76, 82, 83, 84, and 85. See 3GPP TS23.501 section 5.7.2.1 for a full description of the 5QI parameter, and table 5.7.4-1 for the definition of which are the GBR 5QI values.'
     types:
     - uid: integer
     defaultValue: 9
@@ -140,42 +140,42 @@ definitions:
     - uid: integer
     defaultValue: 9
   - name: preemptionCapability
-    description: QoS Flow preemption capability.  The Preemption Capability of a QoS Flow controls whether it can preempt another QoS Flow with a lower priority level. See 3GPP TS23.501 section 5.7.2.2 for a full description of the ARP parameters.
+    description: QoS Flow preemption capability. The preemption capability of a QoS Flow controls whether it can preempt another QoS Flow with a lower priority level. See 3GPP TS23.501 section 5.7.2.2 for a full description of the ARP parameters.
     types:
     - uid: PreemptionCapability
     defaultValue: NotPreempt
   - name: preemptionVulnerability
-    description: QoS Flow preemption vulnerability.  The Preemption Vulnerability of a QoS Flow controls whether it can be preempted by QoS Flow with a higher priority level. See 3GPP TS23.501 section 5.7.2.2 for a full description of the ARP parameters.
+    description: QoS Flow preemption vulnerability. The preemption vulnerability of a QoS Flow controls whether it can be preempted by a QoS Flow with a higher priority level. See 3GPP TS23.501 section 5.7.2.2 for a full description of the ARP parameters.
     types:
     - uid: PreemptionVulnerability
     defaultValue: Preemptable
   - name: maximumBitRate
-    description: The Maximum Bit Rate (MBR) for all service data flows that use this PCC Rule or Service.
+    description: The maximum bit rate (MBR) for all service data flows that use this data flow policy rule or service.
     types:
     - uid: Ambr
 - name: PccRuleConfiguration
-  description: PCC rule configuration
+  description: Data flow policy rule configuration
   kind: object
   properties:
   - name: ruleName
-    description: The name of the rule. This must be unique within the parent Service. You must not use any of the following reserved strings - `default`, `requested` or `service`.
+    description: The name of the rule. This must be unique within the parent service. You must not use any of the following reserved strings - `default`, `requested` or `service`.
     types:
     - uid: string
   - name: rulePrecedence
-    description: A precedence value that is used to decide between PCC Rules when identifying the QoS values to use for a particular Sim. A lower value means a higher priority. This value should be unique among all PCC Rules configured in the Mobile Network.
+    description: A precedence value that is used to decide between data flow policy rules when identifying the QoS values to use for a particular SIM. A lower value means a higher priority. This value should be unique among all data flow policy rules configured in the mobile network.
     types:
     - uid: integer
   - name: ruleQosPolicy
-    description: The QoS policy to use for packets matching this rule. If this field is null then the Service will define the QoS settings.
+    description: The QoS policy to use for packets matching this rule. If this field is null then the parent service will define the QoS settings.
     types:
     - uid: PccRuleQosPolicy
   - name: trafficControl
-    description: Determines whether flows that match this PCC Rule are permitted.
+    description: Determines whether flows that match this data flow policy rule are permitted.
     types:
     - uid: TrafficControlPermission
     defaultValue: Enabled
   - name: serviceDataFlowTemplates
-    description: The set of service data flow templates to use for this PCC Rule.
+    description: The set of data flow templates to use for this data flow policy rule.
     types:
     - uid: ServiceDataFlowTemplate
       isArray: true
@@ -217,15 +217,15 @@ definitions:
     types:
     - uid: ProvisioningState
   - name: properties.servicePrecedence
-    description: A precedence value that is used to decide between services when identifying the QoS values to use for a particular Sim. A lower value means a higher priority. This value should be unique among all services configured in the Mobile Network.
+    description: A precedence value that is used to decide between services when identifying the QoS values to use for a particular SIM. A lower value means a higher priority. This value should be unique among all services configured in the mobile network.
     types:
     - uid: integer
   - name: properties.serviceQosPolicy
-    description: The QoS policy to use for packets matching this service. This can be overridden for particular flows using the ruleQosPolicy field in a PccRuleConfiguration. If this field is null then the UE's simPolicy will define the QoS settings.
+    description: The QoS policy to use for packets matching this service. This can be overridden for particular flows using the ruleQosPolicy field in a PccRuleConfiguration. If this field is null then the UE's SIM policy will define the QoS settings.
     types:
     - uid: QosPolicy
   - name: properties.pccRules
-    description: The set of PCC Rules that make up this service.
+    description: The set of data flow policy rules that make up this service.
     types:
     - uid: PccRuleConfiguration
       isArray: true
@@ -318,7 +318,7 @@ definitions:
     types:
     - uid: string
 - name: Ambr
-  description: Aggregate Maximum Bit Rate.
+  description: Aggregate maximum bit rate.
   kind: object
   properties:
   - name: uplink
@@ -330,15 +330,15 @@ definitions:
     types:
     - uid: string
 - name: PccRuleQosPolicy
-  description: PCC rule QoS policy
+  description: Data flow policy rule QoS policy
   kind: object
   properties:
   - name: guaranteedBitRate
-    description: The Guaranteed Bit Rate (GBR) for all service data flows that use this PCC Rule. This is an optional setting. If you do not provide a value, there will be no GBR set for the PCC Rule that uses this QoS definition.
+    description: The guaranteed bit rate (GBR) for all service data flows that use this data flow policy rule. This is an optional setting. If you do not provide a value, there will be no GBR set for the data flow policy rule that uses this QoS definition.
     types:
     - uid: Ambr
   - name: 5qi
-    description: 'QoS Flow 5G QoS Indicator value.  The 5QI identifies a specific QoS forwarding treatment to be provided to a flow. This must not be a standardized 5QI value selecting a GBR (Guaranteed Bit Rate) QoS.  The illegal GBR 5QI values are: 1, 2, 3, 4, 65, 66, 67, 71, 72, 73, 74, 75, 76, 82, 83, 84, and 85. See 3GPP TS23.501 section 5.7.2.1 for a full description of the 5Qi parameter, and table 5.7.4-1 for the definition of which are the GBR 5QI values.'
+    description: 'QoS Flow 5G QoS Indicator value. The 5QI identifies a specific QoS forwarding treatment to be provided to a flow. This must not be a standardized 5QI value corresponding to a GBR (guaranteed bit rate) QoS Flow. The illegal GBR 5QI values are: 1, 2, 3, 4, 65, 66, 67, 71, 72, 73, 74, 75, 76, 82, 83, 84, and 85. See 3GPP TS23.501 section 5.7.2.1 for a full description of the 5QI parameter, and table 5.7.4-1 for the definition of which are the GBR 5QI values.'
     types:
     - uid: integer
     defaultValue: 9
@@ -348,17 +348,17 @@ definitions:
     - uid: integer
     defaultValue: 9
   - name: preemptionCapability
-    description: QoS Flow preemption capability.  The Preemption Capability of a QoS Flow controls whether it can preempt another QoS Flow with a lower priority level. See 3GPP TS23.501 section 5.7.2.2 for a full description of the ARP parameters.
+    description: QoS Flow preemption capability. The preemption capability of a QoS Flow controls whether it can preempt another QoS Flow with a lower priority level. See 3GPP TS23.501 section 5.7.2.2 for a full description of the ARP parameters.
     types:
     - uid: PreemptionCapability
     defaultValue: NotPreempt
   - name: preemptionVulnerability
-    description: QoS Flow preemption vulnerability.  The Preemption Vulnerability of a QoS Flow controls whether it can be preempted by QoS Flow with a higher priority level. See 3GPP TS23.501 section 5.7.2.2 for a full description of the ARP parameters.
+    description: QoS Flow preemption vulnerability. The preemption vulnerability of a QoS Flow controls whether it can be preempted by a QoS Flow with a higher priority level. See 3GPP TS23.501 section 5.7.2.2 for a full description of the ARP parameters.
     types:
     - uid: PreemptionVulnerability
     defaultValue: Preemptable
   - name: maximumBitRate
-    description: The Maximum Bit Rate (MBR) for all service data flows that use this PCC Rule or Service.
+    description: The maximum bit rate (MBR) for all service data flows that use this data flow policy rule or service.
     types:
     - uid: Ambr
 - name: TrafficControlPermission
@@ -374,11 +374,11 @@ definitions:
     types:
     - uid: string
 - name: ServiceDataFlowTemplate
-  description: Service data flow (SDF) template
+  description: Data flow template
   kind: object
   properties:
   - name: templateName
-    description: The name of the SDF template. This must be unique within the parent PccRuleConfiguration. You must not use any of the following reserved strings - `default`, `requested` or `service`.
+    description: The name of the data flow template. This must be unique within the parent data flow policy rule. You must not use any of the following reserved strings - `default`, `requested` or `service`.
     types:
     - uid: string
   - name: direction
@@ -391,7 +391,7 @@ definitions:
     - uid: string
       isArray: true
   - name: remoteIpList
-    description: The remote IP address(es) to which UEs will connect for this flow. If you want to allow connections on any IP address, use the value `any`. Otherwise, you must provide each of the remote IP addresses to which Fusion Core will connect for this flow. You must provide each IP address in CIDR notation, including the netmask (for example, 192.0.2.54/24).
+    description: The remote IP address(es) to which UEs will connect for this flow. If you want to allow connections on any IP address, use the value `any`. Otherwise, you must provide each of the remote IP addresses to which the packet core instance will connect for this flow. You must provide each IP address in CIDR notation, including the netmask (for example, 192.0.2.54/24).
     types:
     - uid: string
       isArray: true
@@ -505,7 +505,7 @@ definitions:
 examples:
 - name: Create service
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/services/TestService?api-version=2022-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/services/TestService?api-version=2022-04-01-preview
     body: >-
       {
         "location": "eastus",
@@ -556,7 +556,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/services/TestService?api-version=2022-03-01-preview
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/services/TestService?api-version=2022-04-01-preview
 
       {
         "location": "eastus",
@@ -740,5 +740,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Mobile Network service - Creates or updates a Service.
+  description: Learn more about Mobile Network service - Creates or updates a service.
 errorCodes: []

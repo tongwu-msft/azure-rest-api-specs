@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.mobilenetwork.sims.updatetags
+uid: management.azure.com.mobilenetwork.simgroups.updatetags
 name: Update Tags
 service: Mobile Network
-groupName: Sims
-apiVersion: 2022-03-01-preview
-summary: Updates a sim update tags.
+groupName: Sim Groups
+apiVersion: 2022-04-01-preview
+summary: Updates SIM group tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/sims/{simName}?api-version=2022-03-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}?api-version=2022-04-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,10 +24,10 @@ uriParameters:
   description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
-- name: simName
+- name: simGroupName
   in: path
   isRequired: true
-  description: The name of the SIM.
+  description: The name of the SIM Group.
   types:
   - uid: string
   pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$
@@ -39,9 +39,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Update successful. The operation returns the resulting sim resource.
+  description: Update successful. The operation returns the resulting SIM group resource.
   types:
-  - uid: Sim
+  - uid: SimGroup
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -60,53 +60,27 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: Sim
-  description: Sim resource.
+- name: SimGroup
+  description: SIM group resource.
   kind: object
   properties:
+  - name: identity
+    description: The identity used to retrieve the encryption key from Azure key vault.
+    types:
+    - uid: ManagedServiceIdentity
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The provisioning state of the sim resource.
+    description: The provisioning state of the SIM group resource.
     types:
     - uid: ProvisioningState
-  - name: properties.simState
-    isReadyOnly: true
-    description: The state of the sim resource.
+  - name: properties.encryptionKey
+    description: A key to encrypt the SIM data that belongs to this SIM group.
     types:
-    - uid: SimState
-  - name: properties.internationalMobileSubscriberIdentity
-    description: The International Mobile Subscriber Identity (IMSI) for the sim.
-    types:
-    - uid: string
-  - name: properties.integratedCircuitCardIdentifier
-    description: The Integrated Circuit Card ID (ICC Id) for the sim.
-    types:
-    - uid: string
-  - name: properties.authenticationKey
-    description: The ki value for the sim.
-    types:
-    - uid: string
-  - name: properties.operatorKeyCode
-    description: The Opc value for the sim.
-    types:
-    - uid: string
+    - uid: KeyVaultKey
   - name: properties.mobileNetwork
-    description: Mobile network that this sim belongs to
+    description: Mobile network that this SIM belongs to
     types:
     - uid: MobileNetworkResourceId
-  - name: properties.deviceType
-    description: An optional free-form text field that can be used to record the device type this sim is associated with, for example 'Video camera'. The Azure portal allows Sims to be grouped and filtered based on this value.
-    types:
-    - uid: string
-  - name: properties.simPolicy
-    description: The simPolicy used by this sim.
-    types:
-    - uid: SimPolicyResourceId
-  - name: properties.staticIpConfiguration
-    description: A list of static IP addresses assigned to this sim. Each address is assigned at a defined network scope, made up of {attached data network, slice}.
-    types:
-    - uid: SimStaticIpProperties
-      isArray: true
   - name: systemData.createdBy
     description: The identity that created the resource.
     types:
@@ -183,6 +157,32 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ManagedServiceIdentity
+  description: Managed service identity (system assigned and/or user assigned identities)
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: userAssignedIdentities
+    description: "User-Assigned Identities  \nThe set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -208,54 +208,22 @@ definitions:
   - name: Deleted
     types:
     - uid: string
-- name: SimState
-  description: The state of the sim resource.
-  kind: enum
+- name: KeyVaultKey
+  description: An Azure key vault key.
+  kind: object
   properties:
-  - name: Disabled
-    description: The sim is disabled because not all configuration required for enabling is present.
-    types:
-    - uid: string
-  - name: Enabled
-    description: The sim is enabled.
-    types:
-    - uid: string
-  - name: Invalid
-    description: The sim cannot be enabled because some of the associated configuration is invalid.
+  - name: keyUrl
+    description: 'The key URL, unversioned. For example: https://contosovault.vault.azure.net/keys/azureKey.'
     types:
     - uid: string
 - name: MobileNetworkResourceId
-  description: Reference to a Mobile Network resource.
+  description: Reference to a mobile network resource.
   kind: object
   properties:
   - name: id
-    description: Mobile Network resource ID.
+    description: Mobile network resource ID.
     types:
     - uid: string
-- name: SimPolicyResourceId
-  description: Reference to a SIM Policy resource.
-  kind: object
-  properties:
-  - name: id
-    description: SIM Policy resource ID.
-    types:
-    - uid: string
-- name: SimStaticIpProperties
-  description: Static IP configuration for a sim, scoped to a particular attached data network and slice.
-  kind: object
-  properties:
-  - name: attachedDataNetwork
-    description: The attached data network on which the static IP address will be used. The combination of attachedDataNetwork and slice defines the network scope of the IP address.
-    types:
-    - uid: AttachedDataNetworkResourceId
-  - name: slice
-    description: The network slice on which the static IP address will be used. The combination of attachedDataNetwork and slice defines the network scope of the IP address.
-    types:
-    - uid: SliceResourceId
-  - name: staticIp
-    description: The static IP configuration for the sim to use at the defined network scope.
-    types:
-    - uid: StaticIp
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -331,28 +299,34 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: AttachedDataNetworkResourceId
-  description: Reference to an Attached Data Network resource.
-  kind: object
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+  kind: enum
   properties:
-  - name: id
-    description: Attached Data Network resource ID.
+  - name: None
     types:
     - uid: string
-- name: SliceResourceId
-  description: Reference to a Slice resource.
-  kind: object
-  properties:
-  - name: id
-    description: Slice resource ID.
+  - name: SystemAssigned
     types:
     - uid: string
-- name: StaticIp
-  description: The static IP configuration for the sim to use at the defined network scope.
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentity
+  description: User assigned identity properties
   kind: object
   properties:
-  - name: ipv4Address
-    description: The IPv4 address assigned to the sim at this network scope. This address must be in the userEquipmentStaticAddressPoolPrefix defined in the attachedDataNetwork.
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the assigned identity.
     types:
     - uid: string
 - name: ErrorAdditionalInfo
@@ -370,9 +344,9 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Update sim tags
+- name: Update SIM group tags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/sims/testSim?api-version=2022-03-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/simGroups/testSimGroup?api-version=2022-04-01-preview
     body: >-
       {
         "tags": {
@@ -383,7 +357,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/sims/testSim?api-version=2022-03-01-preview
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/simGroups/testSimGroup?api-version=2022-04-01-preview
 
       {
         "tags": {
@@ -398,9 +372,9 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "name": "testSim",
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/sim/testSim",
-        "type": "Microsoft.MobileNetwork/sims",
+        "name": "testSimGroup",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/simGroups/testSimGroup",
+        "type": "Microsoft.MobileNetwork/simGroups",
         "systemData": {
           "createdBy": "user1",
           "createdByType": "User",
@@ -409,36 +383,19 @@ examples:
           "lastModifiedByType": "User",
           "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
         },
-        "location": "testLocation",
+        "location": "eastus",
         "tags": {
           "tag1": "value1",
           "tag2": "value2"
         },
         "properties": {
           "provisioningState": "Succeeded",
-          "simState": "Enabled",
-          "integratedCircuitCardIdentifier": "8900000000000000000",
-          "internationalMobileSubscriberIdentity": "00000",
+          "encryptionKey": {
+            "keyUrl": "https://contosovault.vault.azure.net/keys/azureKey"
+          },
           "mobileNetwork": {
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork"
-          },
-          "deviceType": "Video camera",
-          "simPolicy": {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/simPolicies/MySimPolicy"
-          },
-          "staticIpConfiguration": [
-            {
-              "attachedDataNetwork": {
-                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/TestPacketCoreCP/packetCoreDataPlanes/TestPacketCoreDP/attachedDataNetworks/TestAttachedDataNetwork"
-              },
-              "slice": {
-                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/slices/testSlice"
-              },
-              "staticIp": {
-                "ipv4Address": "2.4.0.1"
-              }
-            }
-          ]
+          }
         }
       }
 security:
@@ -451,5 +408,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Mobile Network service - Updates a sim update tags.
+  description: Learn more about Mobile Network service - Updates SIM group tags.
 errorCodes: []
