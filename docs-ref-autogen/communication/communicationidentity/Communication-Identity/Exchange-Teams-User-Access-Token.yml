@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: communication.communicationidentity-preview.communicationidentity.exchangeteamsuseraccesstoken
+uid: communication.communicationidentity.communicationidentity.exchangeteamsuseraccesstoken
 name: Exchange Teams User Access Token
 service: Communication
 groupName: Communication Identity
-apiVersion: 2021-10-31-preview
-summary: Exchange an AAD access token of a Teams user for a new Communication Identity access token with a matching expiration time.
+apiVersion: 2022-06-01
+summary: Exchange an Azure Active Directory (Azure AD) access token of a Teams user for a new Communication Identity access token with a matching expiration time.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {endpoint}/teamsUser/:exchangeAccessToken?api-version=2021-10-31-preview
+- content: POST {endpoint}/teamsUser/:exchangeAccessToken?api-version=2022-06-01
 uriParameters:
 - name: endpoint
   in: path
@@ -40,7 +40,19 @@ requestBody:
   - name: token
     in: body
     isRequired: true
-    description: AAD access token of a Teams User to acquire a new Communication Identity access token.
+    description: Azure AD access token of a Teams User to acquire a new Communication Identity access token.
+    types:
+    - uid: string
+  - name: appId
+    in: body
+    isRequired: true
+    description: Client ID of an Azure AD application to be verified against the appid claim in the Azure AD access token.
+    types:
+    - uid: string
+  - name: userId
+    in: body
+    isRequired: true
+    description: Object ID of an Azure AD user (Teams User) to be verified against the oid claim in the Azure AD access token.
     types:
     - uid: string
 requestHeader: []
@@ -65,11 +77,19 @@ definitions:
     description: The expiry time of the token.
     types:
     - uid: string
-- name: TeamsUserAccessTokenRequest
+- name: TeamsUserExchangeTokenRequest
   kind: object
   properties:
   - name: token
-    description: AAD access token of a Teams User to acquire a new Communication Identity access token.
+    description: Azure AD access token of a Teams User to acquire a new Communication Identity access token.
+    types:
+    - uid: string
+  - name: appId
+    description: Client ID of an Azure AD application to be verified against the appid claim in the Azure AD access token.
+    types:
+    - uid: string
+  - name: userId
+    description: Object ID of an Azure AD user (Teams User) to be verified against the oid claim in the Azure AD access token.
     types:
     - uid: string
 - name: CommunicationError
@@ -103,18 +123,22 @@ definitions:
 examples:
 - name: Exchange a Teams user access token
   request:
-    uri: POST https://my-resource.communication.azure.com/teamsUser/:exchangeAccessToken?api-version=2021-10-31-preview
+    uri: POST https://my-resource.communication.azure.com/teamsUser/:exchangeAccessToken?api-version=2022-06-01
     body: >-
       {
-        "token": "AadAccessTokenOfATeamsUser"
+        "token": "AzureActiveDirectoryAccessTokenOfATeamsUser",
+        "appId": "2c3e1e83-8fd7-4615-ad2b-b8c1229845ac",
+        "userId": "32c0a5db-05ec-78ea-51ab-3f06b329397e"
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://my-resource.communication.azure.com/teamsUser/:exchangeAccessToken?api-version=2021-10-31-preview
+      POST https://my-resource.communication.azure.com/teamsUser/:exchangeAccessToken?api-version=2022-06-01
 
       {
-        "token": "AadAccessTokenOfATeamsUser"
+        "token": "AzureActiveDirectoryAccessTokenOfATeamsUser",
+        "appId": "2c3e1e83-8fd7-4615-ad2b-b8c1229845ac",
+        "userId": "32c0a5db-05ec-78ea-51ab-3f06b329397e"
       }
 
       ```
@@ -128,5 +152,5 @@ examples:
       }
 security: []
 metadata:
-  description: Exchange an AAD access token of a Teams user for a new Communication Identity access token with a matching expiration time.
+  description: Exchange an Azure Active Directory (Azure AD) access token of a Teams user for a new Communication Identity access token with a matching expiration time.
 errorCodes: []
