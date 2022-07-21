@@ -26253,3 +26253,62 @@
 ### [Disconnect Session](virtual-desktop/User/Disconnect-Session.yml)
 ### [Logoff Session](virtual-desktop/User/Logoff-Session.yml)
 ### [Send Message](virtual-desktop/User/Send-Message.yml)
+# Workloads
+## [Overview](../docs-ref-conceptual/workloads/index.md)
+## Provider Instances
+### [Overview](workloads/Provider-Instances.yml)
+### [Create](workloads/Provider-Instances/Create.yml)
+### [Delete](workloads/Provider-Instances/Delete.yml)
+### [Get](workloads/Provider-Instances/Get.yml)
+### [List](workloads/Provider-Instances/List.yml)
+## SAP Application Server Instances
+### [Overview](workloads/SAP-Application-Server-Instances.yml)
+### [Create](workloads/SAP-Application-Server-Instances/Create.yml)
+### [Delete](workloads/SAP-Application-Server-Instances/Delete.yml)
+### [Get](workloads/SAP-Application-Server-Instances/Get.yml)
+### [List](workloads/SAP-Application-Server-Instances/List.yml)
+### [Update](workloads/SAP-Application-Server-Instances/Update.yml)
+## SAP Availability Zone Details
+### [Overview](workloads/SAP-Availability-Zone-Details.yml)
+### [SAP Availability Zone Details](workloads/SAP-Availability-Zone-Details/SAP-Availability-Zone-Details.yml)
+## SAP Central Instances
+### [Overview](workloads/SAP-Central-Instances.yml)
+### [Create](workloads/SAP-Central-Instances/Create.yml)
+### [Delete](workloads/SAP-Central-Instances/Delete.yml)
+### [Get](workloads/SAP-Central-Instances/Get.yml)
+### [List](workloads/SAP-Central-Instances/List.yml)
+### [Update](workloads/SAP-Central-Instances/Update.yml)
+## SAP Database Instances
+### [Overview](workloads/SAP-Database-Instances.yml)
+### [Create](workloads/SAP-Database-Instances/Create.yml)
+### [Delete](workloads/SAP-Database-Instances/Delete.yml)
+### [Get](workloads/SAP-Database-Instances/Get.yml)
+### [List](workloads/SAP-Database-Instances/List.yml)
+### [Update](workloads/SAP-Database-Instances/Update.yml)
+## SAP Disk Configurations
+### [Overview](workloads/SAP-Disk-Configurations.yml)
+### [SAP Disk Configurations](workloads/SAP-Disk-Configurations/SAP-Disk-Configurations.yml)
+## SAP Monitor
+### [Overview](workloads/SAP-Monitor.yml)
+### [Create](workloads/SAP-Monitor/Create.yml)
+### [Delete](workloads/SAP-Monitor/Delete.yml)
+### [Get](workloads/SAP-Monitor/Get.yml)
+### [List](workloads/SAP-Monitor/List.yml)
+### [List By Resource Group](workloads/SAP-Monitor/List-By-Resource-Group.yml)
+### [Update](workloads/SAP-Monitor/Update.yml)
+## SAP Sizing Recommendations
+### [Overview](workloads/SAP-Sizing-Recommendations.yml)
+### [SAP Sizing Recommendations](workloads/SAP-Sizing-Recommendations/SAP-Sizing-Recommendations.yml)
+## SAP Supported Sku
+### [Overview](workloads/SAP-Supported-Sku.yml)
+### [SAP Supported Sku](workloads/SAP-Supported-Sku/SAP-Supported-Sku.yml)
+## SAP Virtual Instances
+### [Overview](workloads/SAP-Virtual-Instances.yml)
+### [Create](workloads/SAP-Virtual-Instances/Create.yml)
+### [Delete](workloads/SAP-Virtual-Instances/Delete.yml)
+### [Get](workloads/SAP-Virtual-Instances/Get.yml)
+### [List By Resource Group](workloads/SAP-Virtual-Instances/List-By-Resource-Group.yml)
+### [List By Subscription](workloads/SAP-Virtual-Instances/List-By-Subscription.yml)
+### [Start](workloads/SAP-Virtual-Instances/Start.yml)
+### [Stop](workloads/SAP-Virtual-Instances/Stop.yml)
+### [Update](workloads/SAP-Virtual-Instances/Update.yml)
