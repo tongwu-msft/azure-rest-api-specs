@@ -93,7 +93,7 @@ definitions:
     isReadyOnly: true
     description: The custom domains under the endpoint.
     types:
-    - uid: CustomDomain
+    - uid: DeepCreatedCustomDomain
       isArray: true
   - name: properties.resourceState
     isReadyOnly: true
@@ -309,64 +309,22 @@ definitions:
     description: The JSON object that contains the properties to determine origin health using real requests/responses.This property is currently not supported.
     types:
     - uid: ResponseBasedOriginErrorDetectionParameters
-- name: CustomDomain
-  description: Friendly domain name mapping to the endpoint hostname that the customer provides for branding purposes, e.g. www.contoso.com.
+- name: DeepCreatedCustomDomain
+  description: Custom domains created on the CDN endpoint.
   kind: object
   properties:
+  - name: name
+    description: Custom domain name.
+    types:
+    - uid: string
   - name: properties.hostName
     description: The host name of the custom domain. Must be a domain name.
     types:
     - uid: string
-  - name: properties.resourceState
-    isReadyOnly: true
-    description: Resource status of the custom domain.
-    types:
-    - uid: CustomDomainResourceState
-  - name: properties.customHttpsProvisioningState
-    isReadyOnly: true
-    description: Provisioning status of the custom domain.
-    types:
-    - uid: CustomHttpsProvisioningState
-  - name: properties.customHttpsProvisioningSubstate
-    isReadyOnly: true
-    description: Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
-    types:
-    - uid: CustomHttpsProvisioningSubstate
-  - name: properties.customHttpsParameters
-    description: Certificate parameters for securing custom HTTPS
-    types:
-    - uid: CdnManagedHttpsParameters
-    - uid: UserManagedHttpsParameters
-    typesTitle: CustomDomainHttpsParameters
   - name: properties.validationData
     description: Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
     types:
     - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: Provisioning status of Custom Https of the custom domain.
-    types:
-    - uid: CustomHttpsProvisioningState
-  - name: id
-    isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-  - name: systemData
-    isReadyOnly: true
-    description: Read only system data
-    types:
-    - uid: SystemData
 - name: EndpointResourceState
   description: Resource status of the endpoint.
   kind: enum
@@ -599,72 +557,6 @@ definitions:
     types:
     - uid: HttpErrorRangeParameters
       isArray: true
-- name: CustomDomainResourceState
-  description: Resource status of the custom domain.
-  kind: enum
-  properties:
-  - name: Creating
-    types:
-    - uid: string
-  - name: Active
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-- name: CustomHttpsProvisioningState
-  description: Provisioning status of the custom domain.
-  kind: enum
-  properties:
-  - name: Enabling
-    types:
-    - uid: string
-  - name: Enabled
-    types:
-    - uid: string
-  - name: Disabling
-    types:
-    - uid: string
-  - name: Disabled
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-- name: CustomHttpsProvisioningSubstate
-  description: Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
-  kind: enum
-  properties:
-  - name: SubmittingDomainControlValidationRequest
-    types:
-    - uid: string
-  - name: PendingDomainControlValidationREquestApproval
-    types:
-    - uid: string
-  - name: DomainControlValidationRequestApproved
-    types:
-    - uid: string
-  - name: DomainControlValidationRequestRejected
-    types:
-    - uid: string
-  - name: DomainControlValidationRequestTimedOut
-    types:
-    - uid: string
-  - name: IssuingCertificate
-    types:
-    - uid: string
-  - name: DeployingCertificate
-    types:
-    - uid: string
-  - name: CertificateDeployed
-    types:
-    - uid: string
-  - name: DeletingCertificate
-    types:
-    - uid: string
-  - name: CertificateDeleted
-    types:
-    - uid: string
 - name: IdentityType
   description: The type of identity that creates/modifies resources
   kind: enum
@@ -847,121 +739,6 @@ definitions:
     description: The inclusive end of the http status code range.
     types:
     - uid: integer
-- name: CdnManagedHttpsParameters
-  description: Defines the certificate source parameters using CDN managed certificate for enabling SSL.
-  kind: object
-  properties:
-  - name: certificateSourceParameters
-    description: Defines the certificate source parameters using CDN managed certificate for enabling SSL.
-    types:
-    - uid: CdnCertificateSourceParameters
-  - name: certificateSource
-    description: Defines the source of the SSL certificate.
-    types:
-    - uid: Cdn
-    typesTitle: string
-  - name: protocolType
-    description: Defines the TLS extension protocol that is used for secure delivery.
-    types:
-    - uid: ProtocolType
-  - name: minimumTlsVersion
-    description: TLS protocol version that will be used for Https
-    types:
-    - uid: MinimumTlsVersion
-- name: UserManagedHttpsParameters
-  description: Defines the certificate source parameters using user's keyvault certificate for enabling SSL.
-  kind: object
-  properties:
-  - name: certificateSourceParameters
-    description: Defines the certificate source parameters using user's keyvault certificate for enabling SSL.
-    types:
-    - uid: KeyVaultCertificateSourceParameters
-  - name: certificateSource
-    description: Defines the source of the SSL certificate.
-    types:
-    - uid: AzureKeyVault
-    typesTitle: string
-  - name: protocolType
-    description: Defines the TLS extension protocol that is used for secure delivery.
-    types:
-    - uid: ProtocolType
-  - name: minimumTlsVersion
-    description: TLS protocol version that will be used for Https
-    types:
-    - uid: MinimumTlsVersion
-- name: CdnCertificateSourceParameters
-  description: Defines the parameters for using CDN managed certificate for securing custom domain.
-  kind: object
-  properties:
-  - name: typeName
-    description: ''
-    types:
-    - uid: CdnCertificateSourceParameters
-    typesTitle: enum
-  - name: certificateType
-    description: Type of certificate used
-    types:
-    - uid: CertificateType
-- name: ProtocolType
-  description: Defines the TLS extension protocol that is used for secure delivery.
-  kind: enum
-  properties:
-  - name: ServerNameIndication
-    types:
-    - uid: string
-  - name: IPBased
-    types:
-    - uid: string
-- name: MinimumTlsVersion
-  description: TLS protocol version that will be used for Https
-  kind: enum
-  properties:
-  - name: None
-    types:
-    - uid: string
-  - name: TLS10
-    types:
-    - uid: string
-  - name: TLS12
-    types:
-    - uid: string
-- name: KeyVaultCertificateSourceParameters
-  description: Describes the parameters for using a user's KeyVault certificate for securing custom domain.
-  kind: object
-  properties:
-  - name: typeName
-    description: ''
-    types:
-    - uid: KeyVaultCertificateSourceParameters
-    typesTitle: enum
-  - name: subscriptionId
-    description: Subscription Id of the user's Key Vault containing the SSL certificate
-    types:
-    - uid: string
-  - name: resourceGroupName
-    description: Resource group of the user's Key Vault containing the SSL certificate
-    types:
-    - uid: string
-  - name: vaultName
-    description: The name of the user's Key Vault containing the SSL certificate
-    types:
-    - uid: string
-  - name: secretName
-    description: The name of Key Vault Secret (representing the full certificate PFX) in Key Vault.
-    types:
-    - uid: string
-  - name: secretVersion
-    description: The version(GUID) of Key Vault Secret in Key Vault.
-    types:
-    - uid: string
-  - name: updateRule
-    description: Describes the action that shall be taken when the certificate is updated in Key Vault.
-    types:
-    - uid: UpdateRule
-  - name: deleteRule
-    description: Describes the action that shall be taken when the certificate is removed from Key Vault.
-    types:
-    - uid: DeleteRule
 - name: DeliveryRuleRemoteAddressCondition
   description: Defines the RemoteAddress condition for the delivery rule.
   kind: object
@@ -1326,30 +1103,6 @@ definitions:
     types:
     - uid: RouteConfigurationOverride
     typesTitle: string
-- name: CertificateType
-  description: Type of certificate used
-  kind: enum
-  properties:
-  - name: Shared
-    types:
-    - uid: string
-  - name: Dedicated
-    types:
-    - uid: string
-- name: UpdateRule
-  description: Describes the action that shall be taken when the certificate is updated in Key Vault.
-  kind: enum
-  properties:
-  - name: NoAction
-    types:
-    - uid: string
-- name: DeleteRule
-  description: Describes the action that shall be taken when the certificate is removed from Key Vault.
-  kind: enum
-  properties:
-  - name: NoAction
-    types:
-    - uid: string
 - name: RemoteAddressMatchConditionParameters
   description: Defines the parameters for RemoteAddress match conditions
   kind: object
