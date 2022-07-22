@@ -5,7 +5,7 @@ services: azure-quantum
 ms.service: azure-quantum
 ms.topic: reference
 author: xinyi-joffre
-ms.author: xinyi-joffre
+ms.author: xiou
 ms.date: 09/30/2021
 ---
 

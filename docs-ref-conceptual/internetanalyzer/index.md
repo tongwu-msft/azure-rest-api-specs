@@ -6,7 +6,7 @@ ms.service: internet-analyzer
 ms.subservice: core
 ms.topic: reference
 author: megan-beatty
-ms.author: mebeatty
+ms.author: jasonh
 ms.date: 10/24/2019
 ---
 

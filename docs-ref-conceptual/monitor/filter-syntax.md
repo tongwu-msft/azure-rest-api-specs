@@ -4,7 +4,7 @@ title: Azure Monitor REST API Filter Syntax
 description: Learn how to use {filter-expression} to filter or constrain the set of data that is collected. 
 ms.service: azure-monitor
 author: erickson-doug
-ms.author: douge
+ms.author: jasonh
 ms.manager: douge
 ---
 

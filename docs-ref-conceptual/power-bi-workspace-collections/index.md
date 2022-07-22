@@ -21,9 +21,9 @@ The Azure Power BI Workspace Collections REST API provides the following operati
 
 | Operation groups                                                                  | Description                                                                       |
 |-----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| [Workspace Collections](~/docs-ref-autogen/power-bi-workspace-collections/Workspace-Collections.yml)      | Provides operations for managing workspace collections.                           |
-| [Workspaces](~/docs-ref-autogen/power-bi-workspace-collections/Workspaces.yml)                           | Retrieves all existing Power BI Workspaces in the specified Workspace Collection. |
-| [get Available Operations](~/docs-ref-autogen/power-bi-workspace-collections/get-Available-Operations.yml) | Indicates which operations can be performed by the Power BI Resource Provider.    |
+| [Workspace Collections](/docs-ref-autogen/power-bi-workspace-collections/Workspace-Collections.yml)      | Provides operations for managing workspace collections.                           |
+| [Workspaces](/docs-ref-autogen/power-bi-workspace-collections/Workspaces.yml)                           | Retrieves all existing Power BI Workspaces in the specified Workspace Collection. |
+| [get Available Operations](/docs-ref-autogen/power-bi-workspace-collections/get-Available-Operations.yml) | Indicates which operations can be performed by the Power BI Resource Provider.    |
 
 
 ## See also

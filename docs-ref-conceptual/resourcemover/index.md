@@ -2,7 +2,7 @@
 title: Azure Resource Mover REST API
 description: Describes the Resource Mover REST API
 author: ajaygit158
-ms.author: Ajay
+ms.author: ajgupt
 ms.manager: Mukesh
 ms.date: 08/21/2020
 ms.topic: reference

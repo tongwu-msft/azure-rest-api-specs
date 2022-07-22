@@ -111,7 +111,7 @@ Expect: 100-continue
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|GET https://<accountname>.restv2.<location>.media.azure.net/api/Locators|HTTP/1.1|  
+|GET|GET https://\<accountname\>.restv2.\<location\>.media.azure.net/api/Locators|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  

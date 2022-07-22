@@ -82,7 +82,7 @@ If you've closed the App registration already, here's how to find it:
 
    > [!Note]
    > The service principal format is `<clientid>@<tenantid>`.
-   > To locate the values to insert for the <placeholders>, use the [Azure portal](https://portal.azure.com) and open the Azure Active Directory.
+   > To locate the values to insert for the \<placeholders\>, use the [Azure portal](https://portal.azure.com) and open the Azure Active Directory.
    >
    > - The **Clientid** value is listed on the Azure Active Directory **App registrations (Legacy)** page in the Application ID column.
    > - The **TenantID** value is listed on the Azure Active Directory **Properties** page as the **Directory ID** property.

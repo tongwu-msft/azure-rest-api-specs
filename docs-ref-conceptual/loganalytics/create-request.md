@@ -16,7 +16,7 @@ To specify your Log analytics workspace, replace *{CustomerID}* with your Worksp
 
 | Method | Request URI |
 |:--|:--|
-| Post | https://*{CustomerID}*.ods.opinsights.azure.com/<Resource>?api-version=2016-04-01 |
+| Post | https://*{CustomerID}*.ods.opinsights.azure.com/\<Resource\>?api-version=2016-04-01 |
 
 | Request | URI Parameters |
 |:--|:--|

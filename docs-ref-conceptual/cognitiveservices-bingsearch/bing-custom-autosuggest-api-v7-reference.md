@@ -10,7 +10,7 @@ ms.service: cognitive-services
 ms.subservice: bing-custom-autosuggest
 ms.topic: reference
 ms.date: 04/15/2017
-ms.author: scottwhi
+ms.author: routlaw
 ---
 
 # Custom Autosuggest API v7 reference

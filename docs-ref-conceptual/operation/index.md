@@ -6,7 +6,7 @@ ms.service: api-management
 ms.topic: reference
 ms.devlang: rest
 author: EvgenyAgafonchikov
-ms.author: v-evagaf
+ms.author: jasonh
 ms.manager: franksie
 ---
 

@@ -10,6 +10,9 @@ ms.manager: douge
 service_description: Bing Search APIs provide a variety of APIs with trained models for your use.
 ---
 
+
+# Azure Cognitive Services - Bing Search REST API reference
+
 >[!WARNING]
 > Bing Search APIs are moving from Cognitive Services to
 [Bing Search Services](https://aka.ms/cogsvcs/bingmove). Bing Search APIs provisioned using Cognitive Services will be supported
@@ -17,8 +20,6 @@ for the next three years or until the end of your Enterprise Agreement,
 whichever happens first.
 >
 > For migration instructions, see [Bing Search Services](https://aka.ms/cogsvcs/bingmigration). 
-
-# Azure Cognitive Services - Bing Search REST API reference
 
 Bing Search APIs provide a variety of APIs with trained models for your use.
 
