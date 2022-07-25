@@ -1,16 +1,15 @@
 ---
-title: "List By Resource Group"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand the Service Fabric Mesh resource manager API's List By Resource Group request"
+description: Learn how to use the List By Resource Group request in Service Fabric Mesh API to get all of the volume resources.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
-ms.service: "service-fabric-mesh"
 ms.topic: reference
 ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# List By Resource Group
+# Explore the List By Resource Group request in the Service Fabric Mesh API
 Gets all the volume resources in a given resource group.
 
 Gets the information about all volume resources in a given resource group. The information includes the volume description and other runtime information.

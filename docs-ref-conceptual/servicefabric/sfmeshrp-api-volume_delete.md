@@ -1,8 +1,8 @@
 ---
-title: "Delete"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand the Service Fabric Mesh resource manager API's Delete request"
+description: Learn how to use the Delete request to delete a volume resource in Service Fabric Mesh API resource manager.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Delete
+# Explore the Delete request in the Service Fabric Mesh API
 Deletes the volume resource.
 
 Deletes the volume identified by the name.

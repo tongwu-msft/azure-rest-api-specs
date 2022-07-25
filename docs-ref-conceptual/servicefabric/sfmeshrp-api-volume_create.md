@@ -1,8 +1,8 @@
 ---
-title: "Create"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand the Service Fabric Mesh resource manager API's Create request"
+description: Learn how to use Create to update or create a volume resource in the Service Fabric Mesh API resource manager.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Create
+# Explore the Create request in the Service Fabric Mesh API
 Creates or updates a volume resource.
 
 Creates a volume resource with the specified name and description. If a volume with the same name already exists, then its description is updated to the one indicated in this request.

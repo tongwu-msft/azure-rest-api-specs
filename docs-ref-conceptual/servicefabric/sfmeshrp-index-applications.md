@@ -1,8 +1,8 @@
 ---
 title: "Applications"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Learn how to use the Applications API in Service Fabric Mesh Resource Provider to deploy and manage microservices applications.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
