@@ -4,6 +4,7 @@ description: Learn how to use the List By Resource Group request in Service Fabr
 services: service-fabric-mesh
 author: vipul-modi
 ms.date: 07/17/2018
+ms.service: "service-fabric-mesh"
 ms.topic: reference
 ms.devlang: rest-api
 ms.author: vipulm
