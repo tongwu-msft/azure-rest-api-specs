@@ -6,7 +6,6 @@ author: steved0x
 ms.author: sdanie
 ms.data: 05/21/2019
 description: Bing Search APIs provide a variety of APIs with trained models for your use.
-ms.manager: douge
 service_description: Bing Search APIs provide a variety of APIs with trained models for your use.
 ---
 
@@ -51,13 +50,13 @@ This custom APIs allow you to bring your data to the existing algorithm to enhan
 Conceptual documentation for Bing Search 
 
 <h3>Search API</h3>
-<p><a href="https://docs.microsoft.com/azure/cognitive-services/bing-news-search/">Bing News Search</a></p>
-<p><a href="https://docs.microsoft.com/azure/cognitive-services/Bing-Video-Search/">Bing Video Search</a></p>
-<p><a href="https://docs.microsoft.com/azure/cognitive-services/bing-web-search/">Bing Web Search</a></p>
-<p><a href="https://docs.microsoft.com/azure/cognitive-services/Bing-Autosuggest">Bing Autosuggest</a></p>
-<p><a href="https://docs.microsoft.com/azure/cognitive-services/bing-custom-search">Bing Custom Search</a></p>
-<p><a href="https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/">Bing Entity Search</a></p>
-<p><a href="https://docs.microsoft.com/azure/cognitive-services/bing-image-search">Bing Image Search</a></p>
-<p><a href="https://docs.microsoft.com/azure/cognitive-services/bing-visual-search">Bing Visual Search</a></p>
-<p><a href="https://docs.microsoft.com/azure/cognitive-services/bing-spell-check/">Bing Spell Check</a></p>
+<p><a href="/azure/cognitive-services/bing-news-search/">Bing News Search</a></p>
+<p><a href="/azure/cognitive-services/Bing-Video-Search/">Bing Video Search</a></p>
+<p><a href="/azure/cognitive-services/bing-web-search/">Bing Web Search</a></p>
+<p><a href="/azure/cognitive-services/Bing-Autosuggest">Bing Autosuggest</a></p>
+<p><a href="/azure/cognitive-services/bing-custom-search">Bing Custom Search</a></p>
+<p><a href="/azure/cognitive-services/bing-entities-search/">Bing Entity Search</a></p>
+<p><a href="/azure/cognitive-services/bing-image-search">Bing Image Search</a></p>
+<p><a href="/azure/cognitive-services/bing-visual-search">Bing Visual Search</a></p>
+<p><a href="/azure/cognitive-services/bing-spell-check/">Bing Spell Check</a></p>
 

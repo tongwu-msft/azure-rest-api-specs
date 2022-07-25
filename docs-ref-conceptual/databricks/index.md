@@ -3,9 +3,8 @@ ms.assetid:
 title: Azure Databricks REST APIs
 description: Learn how Azure Databricks is an interactive workspace that integrates effortlessly with a wide variety of data stores and services.
 ms.service: azure-databricks
-author: jeffpang
-ms.author: jasonh
-ms.manager: ygupta
+author: mssaperla
+ms.author: saperla
 ---
 
 

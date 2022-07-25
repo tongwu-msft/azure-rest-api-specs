@@ -5,7 +5,6 @@ description: Learn how the Azure Log Analytics HTTP Data Collector API allows yo
 ms.service: azure
 author: bwren
 ms.author: bwren
-ms.manager: carmon
 ---
 
 # Send log data to Log Analytics with the HTTP Data Collector API

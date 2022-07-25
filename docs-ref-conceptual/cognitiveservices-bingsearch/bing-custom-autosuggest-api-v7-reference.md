@@ -22,7 +22,7 @@ ms.author: routlaw
 
 The Custom Autosuggest API lets you send a partial search query string to Bing and get back a list of suggested queries. Typically, you use this API to support a richer search experience. For example, as the user enters each character of their search term, you'd call this API and populate the search box's drop-down list with the suggested query strings.  
   
-For information about configuring custom suggestions, see [Configure your Custom Autosuggest experience](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/define-custom-suggestions).
+For information about configuring custom suggestions, see [Configure your Custom Autosuggest experience](/azure/cognitive-services/bing-custom-search/define-custom-suggestions).
   
 For information about the headers that you should include in the request, see [Request Headers](#headers).  
   
@@ -30,7 +30,7 @@ For information about the query parameters that you should include in the reques
   
 For information about the JSON objects that the response may include, see [Response Objects](#response-objects). 
 
-For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/use-and-display-requirements).
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](/azure/cognitive-services/bing-custom-search/use-and-display-requirements).
 
 > [!NOTE]
 > Because URL formats and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters except where noted.

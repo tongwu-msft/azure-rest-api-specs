@@ -4,7 +4,6 @@ description: API reference documentation for the operations available in the Pow
 ms.service: power-bi-embedded
 author: steved0x
 ms.author: sdanie
-ms.manager: douge
 service_description: To be added
 ---
 

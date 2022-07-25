@@ -3,9 +3,8 @@ ms.assetid: e70aa09a-0893-4d6b-842b-ecedb7891f93
 title: Azure Monitor REST API Filter Syntax
 description: Learn how to use {filter-expression} to filter or constrain the set of data that is collected. 
 ms.service: azure-monitor
-author: erickson-doug
-ms.author: jasonh
-ms.manager: douge
+author: bwren
+ms.author: bwren
 ---
 
 # Azure Monitor REST API Filter Syntax

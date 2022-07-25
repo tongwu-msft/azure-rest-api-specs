@@ -56,7 +56,7 @@ translation.priority.mt:
 -   [Delete a Locator](../operations/locator.md#delete_a_locator)  
   
 > [!IMPORTANT]
-> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
 
 ##  <a name="locator_entity_properties"></a> Locator Entity Properties  
   
