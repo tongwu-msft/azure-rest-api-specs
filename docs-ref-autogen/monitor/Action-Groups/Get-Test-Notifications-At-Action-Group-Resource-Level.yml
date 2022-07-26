@@ -1,6 +1,6 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.monitor.actiongroups.gettestnotifications
-name: Get Test Notifications
+uid: management.azure.com.monitor.actiongroups.gettestnotificationsatactiongroupresourcelevel
+name: Get Test Notifications At Action Group Resource Level
 service: Monitor
 groupName: Action Groups
 apiVersion: 2021-09-01
@@ -10,12 +10,24 @@ consumes:
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Insights/notificationStatus/{notificationId}?api-version=2021-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}/notificationStatus/{notificationId}?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: actionGroupName
+  in: path
+  isRequired: true
+  description: The name of the action group.
   types:
   - uid: string
 - name: notificationId
@@ -119,53 +131,15 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get notification details at subscription level
+- name: Get notification details at resource group level
   request:
-    uri: GET https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/providers/Microsoft.Insights/notificationStatus/11000222191287?api-version=2021-09-01
+    uri: GET https://management.azure.com/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/TestRgName/providers/Microsoft.Insights/actionGroups/TestAgName/notificationStatus/11000222191287?api-version=2021-09-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/providers/Microsoft.Insights/notificationStatus/11000222191287?api-version=2021-09-01
+      GET https://management.azure.com/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/TestRgName/providers/Microsoft.Insights/actionGroups/TestAgName/notificationStatus/11000222191287?api-version=2021-09-01
       ```
 
-      # [Go](#tab/Go)
-      ``` go
-      package armmonitor_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/stable/2021-09-01/examples/getTestNotifications.json
-      func ExampleActionGroupsClient_GetTestNotifications() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      		return
-      	}
-      	ctx := context.Background()
-      	client, err := armmonitor.NewActionGroupsClient("<subscription-id>", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      		return
-      	}
-      	res, err := client.GetTestNotifications(ctx,
-      		"<notification-id>",
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      		return
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.6.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -204,7 +178,7 @@ examples:
           },
           {
             "MechanismType": "LogicApp",
-            "Name": "LogicApp-Name",
+            "Name": "LogicApp-name",
             "Status": "Completed",
             "SubState": "Default",
             "SendTime": "2021-09-21T04:52:42.2473419+00:00",

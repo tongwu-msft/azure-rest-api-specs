@@ -1,6 +1,6 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.monitor.actiongroups.posttestnotifications
-name: Post Test Notifications
+uid: management.azure.com.monitor.actiongroups.createnotificationsatresourcegrouplevel
+name: Create Notifications At Resource Group Level
 service: Monitor
 groupName: Action Groups
 apiVersion: 2021-09-01
@@ -10,12 +10,18 @@ consumes:
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Insights/createNotifications?api-version=2021-09-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/createNotifications?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
 - name: api-version
@@ -523,9 +529,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Create notifications at subscription level
+- name: Create notifications at resource group level
   request:
-    uri: POST https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/providers/Microsoft.Insights/createNotifications?api-version=2021-09-01
+    uri: POST https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-TestNotifications/providers/Microsoft.Insights/createNotifications?api-version=2021-09-01
     body: >-
       {
         "alertType": "budget",
@@ -644,7 +650,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/providers/Microsoft.Insights/createNotifications?api-version=2021-09-01
+      POST https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-TestNotifications/providers/Microsoft.Insights/createNotifications?api-version=2021-09-01
 
       {
         "alertType": "budget",
@@ -763,146 +769,11 @@ examples:
 
       ```
 
-      # [Go](#tab/Go)
-      ``` go
-      package armmonitor_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"time"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/stable/2021-09-01/examples/postTestNotifications.json
-      func ExampleActionGroupsClient_BeginPostTestNotifications() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      		return
-      	}
-      	ctx := context.Background()
-      	client, err := armmonitor.NewActionGroupsClient("<subscription-id>", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      		return
-      	}
-      	poller, err := client.BeginPostTestNotifications(ctx,
-      		armmonitor.NotificationRequestBody{
-      			AlertType: to.Ptr("<alert-type>"),
-      			AutomationRunbookReceivers: []*armmonitor.AutomationRunbookReceiver{
-      				{
-      					Name:                 to.Ptr("<name>"),
-      					AutomationAccountID:  to.Ptr("<automation-account-id>"),
-      					IsGlobalRunbook:      to.Ptr(false),
-      					RunbookName:          to.Ptr("<runbook-name>"),
-      					ServiceURI:           to.Ptr("<service-uri>"),
-      					UseCommonAlertSchema: to.Ptr(true),
-      					WebhookResourceID:    to.Ptr("<webhook-resource-id>"),
-      				}},
-      			AzureAppPushReceivers: []*armmonitor.AzureAppPushReceiver{
-      				{
-      					Name:         to.Ptr("<name>"),
-      					EmailAddress: to.Ptr("<email-address>"),
-      				}},
-      			AzureFunctionReceivers: []*armmonitor.AzureFunctionReceiver{
-      				{
-      					Name:                  to.Ptr("<name>"),
-      					FunctionAppResourceID: to.Ptr("<function-app-resource-id>"),
-      					FunctionName:          to.Ptr("<function-name>"),
-      					HTTPTriggerURL:        to.Ptr("<httptrigger-url>"),
-      					UseCommonAlertSchema:  to.Ptr(true),
-      				}},
-      			EmailReceivers: []*armmonitor.EmailReceiver{
-      				{
-      					Name:                 to.Ptr("<name>"),
-      					EmailAddress:         to.Ptr("<email-address>"),
-      					UseCommonAlertSchema: to.Ptr(false),
-      				},
-      				{
-      					Name:                 to.Ptr("<name>"),
-      					EmailAddress:         to.Ptr("<email-address>"),
-      					UseCommonAlertSchema: to.Ptr(true),
-      				}},
-      			EventHubReceivers: []*armmonitor.EventHubReceiver{
-      				{
-      					Name:              to.Ptr("<name>"),
-      					EventHubName:      to.Ptr("<event-hub-name>"),
-      					EventHubNameSpace: to.Ptr("<event-hub-name-space>"),
-      					SubscriptionID:    to.Ptr("<subscription-id>"),
-      					TenantID:          to.Ptr("<tenant-id>"),
-      				}},
-      			ItsmReceivers: []*armmonitor.ItsmReceiver{
-      				{
-      					Name:                to.Ptr("<name>"),
-      					ConnectionID:        to.Ptr("<connection-id>"),
-      					Region:              to.Ptr("<region>"),
-      					TicketConfiguration: to.Ptr("<ticket-configuration>"),
-      					WorkspaceID:         to.Ptr("<workspace-id>"),
-      				}},
-      			LogicAppReceivers: []*armmonitor.LogicAppReceiver{
-      				{
-      					Name:                 to.Ptr("<name>"),
-      					CallbackURL:          to.Ptr("<callback-url>"),
-      					ResourceID:           to.Ptr("<resource-id>"),
-      					UseCommonAlertSchema: to.Ptr(false),
-      				}},
-      			SmsReceivers: []*armmonitor.SmsReceiver{
-      				{
-      					Name:        to.Ptr("<name>"),
-      					CountryCode: to.Ptr("<country-code>"),
-      					PhoneNumber: to.Ptr("<phone-number>"),
-      				},
-      				{
-      					Name:        to.Ptr("<name>"),
-      					CountryCode: to.Ptr("<country-code>"),
-      					PhoneNumber: to.Ptr("<phone-number>"),
-      				}},
-      			VoiceReceivers: []*armmonitor.VoiceReceiver{
-      				{
-      					Name:        to.Ptr("<name>"),
-      					CountryCode: to.Ptr("<country-code>"),
-      					PhoneNumber: to.Ptr("<phone-number>"),
-      				}},
-      			WebhookReceivers: []*armmonitor.WebhookReceiver{
-      				{
-      					Name:                 to.Ptr("<name>"),
-      					ServiceURI:           to.Ptr("<service-uri>"),
-      					UseCommonAlertSchema: to.Ptr(true),
-      				},
-      				{
-      					Name:                 to.Ptr("<name>"),
-      					IdentifierURI:        to.Ptr("<identifier-uri>"),
-      					ObjectID:             to.Ptr("<object-id>"),
-      					ServiceURI:           to.Ptr("<service-uri>"),
-      					TenantID:             to.Ptr("<tenant-id>"),
-      					UseAADAuth:           to.Ptr(true),
-      					UseCommonAlertSchema: to.Ptr(true),
-      				}},
-      		},
-      		&armmonitor.ActionGroupsClientBeginPostTestNotificationsOptions{ResumeToken: ""})
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      		return
-      	}
-      	_, err = poller.PollUntilDone(ctx, 30*time.Second)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      		return
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.6.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:
     - name: location
-      value: https://management.azure.com/subscriptions/11111111-1111-1111-1111-111111111111/providers/microsoft.insights/notificationStatus/11111111111111?api-version=2022-06-01
+      value: https://management.azure.com/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/Test-Rg/providers/microsoft.insights/notificationStatus/11111111111111?api-version=2022-06-01
   - statusCode: "200"
     body: >-
       {
