@@ -1,8 +1,8 @@
 ---
-title: "ApplicationProperties"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand how to use application properties"
+description: Learn about application properties, which create or modify the services of an application in Service Fabric Mesh API resource manager.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# ApplicationProperties
+# Explore Application Properties and its properties
 
 This type describes properties of an application resource.
 

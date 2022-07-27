@@ -1,8 +1,8 @@
 ---
 title: "Replicas"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Learn about the Replicas API to get a specific replica of a given service in Service Fabric Mesh API resource manager.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

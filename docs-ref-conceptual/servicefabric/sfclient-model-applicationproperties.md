@@ -1,5 +1,5 @@
 ---
-title: "Application properties"
+title: "ApplicationProperties"
 description: "ApplicationProperties"
 ms.date: "04/25/2022"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Application Properties
+# ApplicationProperties
 
 Describes properties of a application resource.
 

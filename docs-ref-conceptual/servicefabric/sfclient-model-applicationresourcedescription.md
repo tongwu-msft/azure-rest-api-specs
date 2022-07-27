@@ -1,5 +1,5 @@
 ---
-title: "Application Resource Description"
+title: "ApplicationResourceDescription"
 description: "ApplicationResourceDescription"
 ms.date: "04/25/2022"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Application Resource Description
+# ApplicationResourceDescription
 
 This type describes a application resource.
 
