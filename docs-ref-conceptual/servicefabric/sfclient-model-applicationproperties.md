@@ -1,5 +1,5 @@
 ---
-title: "Application Properties"
+title: "Application properties"
 description: "ApplicationProperties"
 ms.date: "04/25/2022"
 ms.service: "service-fabric"
