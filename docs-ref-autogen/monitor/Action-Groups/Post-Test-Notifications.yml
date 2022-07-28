@@ -26,9 +26,14 @@ uriParameters:
   - uid: string
 responses:
 - name: 202 Accepted
+  headers:
+  - name: location
+    value: string
+  description: The notification request accepted
+- name: 200 OK
   description: The notification succeeded
   types:
-  - uid: TestNotificationResponse
+  - uid: TestNotificationDetailsResponse
 - name: Other Status Codes
   description: An error occurred while sending the test notifications
   types:
@@ -364,22 +369,31 @@ definitions:
     description: The Id for the subscription containing this event hub
     types:
     - uid: string
-- name: TestNotificationResponse
-  description: The response when test notification succeeded
+- name: TestNotificationDetailsResponse
+  description: The details of the test notification results.
   kind: object
   properties:
-  - name: notificationId
-    description: The notification id
+  - name: context
+    description: The context info
+    types:
+    - uid: Context
+  - name: state
+    description: The overall state
     types:
     - uid: string
-  - name: correlationId
-    description: The correlation id
+  - name: completedTime
+    description: The completed time
     types:
     - uid: string
   - name: createdTime
     description: The created time
     types:
     - uid: string
+  - name: actionDetails
+    description: The list of action detail
+    types:
+    - uid: ActionDetail
+      isArray: true
 - name: ErrorResponse
   description: Describes the format of Error response.
   kind: object
@@ -468,8 +482,48 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: Context
+  description: The context info
+  kind: object
+  properties:
+  - name: notificationSource
+    description: The source of the notification request
+    types:
+    - uid: string
+  - name: contextType
+    description: The context id type
+    types:
+    - uid: string
+- name: ActionDetail
+  description: The action detail
+  kind: object
+  properties:
+  - name: MechanismType
+    description: The mechanism type
+    types:
+    - uid: string
+  - name: Name
+    description: The name of the action
+    types:
+    - uid: string
+  - name: Status
+    description: The status of the action
+    types:
+    - uid: string
+  - name: SubState
+    description: The substatus of the action
+    types:
+    - uid: string
+  - name: SendTime
+    description: The send time
+    types:
+    - uid: string
+  - name: Detail
+    description: The detail of the friendly error message
+    types:
+    - uid: string
 examples:
-- name: List action groups
+- name: Create notifications at subscription level
   request:
     uri: POST https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/providers/Microsoft.Insights/createNotifications?api-version=2021-09-01
     body: >-
@@ -572,6 +626,18 @@ examples:
             "eventHubName": "testEventHub",
             "subscriptionId": "187f412d-1758-44d9-b052-169e2564721d",
             "tenantId": "68a4459a-ccb8-493c-b9da-dd30457d1b84"
+          }
+        ],
+        "armRoleReceivers": [
+          {
+            "name": "ArmRole-Common",
+            "roleId": "11111111-1111-1111-1111-111111111111",
+            "useCommonAlertSchema": true
+          },
+          {
+            "name": "ArmRole-nonCommon",
+            "roleId": "11111111-1111-1111-1111-111111111111",
+            "useCommonAlertSchema": false
           }
         ]
       }
@@ -679,6 +745,18 @@ examples:
             "eventHubName": "testEventHub",
             "subscriptionId": "187f412d-1758-44d9-b052-169e2564721d",
             "tenantId": "68a4459a-ccb8-493c-b9da-dd30457d1b84"
+          }
+        ],
+        "armRoleReceivers": [
+          {
+            "name": "ArmRole-Common",
+            "roleId": "11111111-1111-1111-1111-111111111111",
+            "useCommonAlertSchema": true
+          },
+          {
+            "name": "ArmRole-nonCommon",
+            "roleId": "11111111-1111-1111-1111-111111111111",
+            "useCommonAlertSchema": false
           }
         ]
       }
@@ -822,11 +900,109 @@ examples:
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.6.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/11111111-1111-1111-1111-111111111111/providers/microsoft.insights/notificationStatus/11111111111111?api-version=2022-06-01
+  - statusCode: "200"
     body: >-
       {
-        "notificationId": "11000222191287",
-        "correlationId": "5000094c-7f6b-49f2-a0ad-c620c65d34b5",
-        "createdTime": "2021-09-21T03:05:17+00:00"
+        "context": {
+          "notificationSource": "Microsoft.Insights/TestNotification",
+          "contextType": "Microsoft.Insights/Budget"
+        },
+        "state": "Completed",
+        "completedTime": "0001-01-01T00:00:00+00:00",
+        "createdTime": "2021-09-21T04:52:29.5091168+00:00",
+        "actionDetails": [
+          {
+            "MechanismType": "AzureAppPush",
+            "Name": "AzureAppPush-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.8620629+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "AzureFunction",
+            "Name": "AzureFunction-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0623319+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Email",
+            "Name": "Email-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:40.7480368+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "LogicApp",
+            "Name": "LogicApp-Name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.2473419+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Webhook",
+            "Name": "Webhook-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "SecureWebhook",
+            "Name": "SecureWebhook-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Sms",
+            "Name": "Sms-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:41.353015+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Voice",
+            "Name": "Voice-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:41.6330734+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "EventHub",
+            "Name": "EventHub-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "AutomationRunbook",
+            "Name": "AutomationRunbook-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Itsm",
+            "Name": "Itsm-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          }
+        ]
       }
 security:
 - name: azure_auth

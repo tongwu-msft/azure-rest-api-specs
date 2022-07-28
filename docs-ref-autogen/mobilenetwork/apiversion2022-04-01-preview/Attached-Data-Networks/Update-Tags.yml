@@ -1,0 +1,515 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.mobilenetwork.apiversion2022-04-01-preview.attacheddatanetworks.updatetags
+name: Update Tags
+service: Mobile Network
+groupName: Attached Data Networks
+apiVersion: 2022-04-01-preview
+summary: Updates an attached data network tags.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}?api-version=2022-04-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: packetCoreControlPlaneName
+  in: path
+  isRequired: true
+  description: The name of the packet core control plane.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$
+- name: packetCoreDataPlaneName
+  in: path
+  isRequired: true
+  description: The name of the packet core data plane.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$
+- name: attachedDataNetworkName
+  in: path
+  isRequired: true
+  description: The name of the attached data network.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])*(\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])*)*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Update successful. The operation returns the resulting attached data network resource.
+  types:
+  - uid: AttachedDataNetwork
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: AttachedDataNetwork
+  description: Attached data network resource.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the attached data network resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.userPlaneDataInterface
+    description: The user plane interface on the data network. For 5G networks, this is the N6 interface. For 4G networks, this is the SGi interface.
+    types:
+    - uid: InterfaceProperties
+  - name: properties.dnsAddresses
+    description: The DNS servers to signal to UEs to use for this attached data network.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.naptConfiguration
+    description: >-
+      The network address and port translation (NAPT) configuration.
+
+      If this is not specified, the attached data network will use a default NAPT configuration with NAPT enabled.
+    types:
+    - uid: NaptConfiguration
+  - name: properties.userEquipmentAddressPoolPrefix
+    description: >-
+      The user equipment (UE) address pool prefixes for the attached data network from which the packet core instance will dynamically assign IP addresses to UEs.
+
+      The packet core instance assigns an IP address to a UE when the UE sets up a PDU session.
+       You must define at least one of userEquipmentAddressPoolPrefix and userEquipmentStaticAddressPoolPrefix. If you define both, they must be of the same size.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.userEquipmentStaticAddressPoolPrefix
+    description: >-
+      The user equipment (UE) address pool prefixes for the attached data network from which the packet core instance will assign static IP addresses to UEs.
+
+      The packet core instance assigns an IP address to a UE when the UE sets up a PDU session. The static IP address for a specific UE is set in StaticIPConfiguration on the corresponding SIM resource.
+
+      At least one of userEquipmentAddressPoolPrefix and userEquipmentStaticAddressPoolPrefix must be defined. If both are defined, they must be of the same size.
+    types:
+    - uid: string
+      isArray: true
+  - name: systemData.createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: systemData.createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: systemData.createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: systemData.lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: systemData.lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: systemData.lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: TagsObject
+  description: Tags object for patch operations.
+  kind: object
+  properties:
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+- name: InterfaceProperties
+  description: Interface properties
+  kind: object
+  properties:
+  - name: name
+    description: The logical name for this interface. This should match one of the interfaces configured on your Azure Stack Edge device.
+    types:
+    - uid: string
+  - name: ipv4Address
+    description: The IPv4 address.
+    types:
+    - uid: string
+  - name: ipv4Subnet
+    description: The IPv4 subnet.
+    types:
+    - uid: string
+  - name: ipv4Gateway
+    description: The default IPv4 gateway (router).
+    types:
+    - uid: string
+- name: NaptConfiguration
+  description: The network address and port translation settings to use for the attached data network.
+  kind: object
+  properties:
+  - name: enabled
+    description: Whether NAPT is enabled for connections to this attached data network.
+    types:
+    - uid: NaptEnabled
+    defaultValue: Enabled
+  - name: portRange
+    description: >-
+      Range of port numbers to use as translated ports on each translated address.
+
+      If not specified and NAPT is enabled, this range defaults to 1,024 - 49,999.
+
+      (Ports under 1,024 should not be used because these are special purpose ports reserved by IANA. Ports 50,000 and above are reserved for non-NAPT use.)
+    types:
+    - uid: PortRange
+  - name: portReuseHoldTime
+    description: The minimum time (in seconds) that will pass before a port that was used by a closed pinhole can be recycled for use by another pinhole. All hold times must be minimum 1 second.
+    types:
+    - uid: PortReuseHoldTimes
+  - name: pinholeLimits
+    description: Maximum number of UDP and TCP pinholes that can be open simultaneously on the core interface. For 5G networks, this is the N6 interface. For 4G networks, this is the SGi interface.
+    types:
+    - uid: integer
+    defaultValue: 65536
+  - name: pinholeTimeouts
+    description: Expiry times of inactive NAPT pinholes, in seconds. All timers must be at least 1 second.
+    types:
+    - uid: PinholeTimeouts
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: NaptEnabled
+  description: Whether network address and port translation is enabled.
+  kind: enum
+  properties:
+  - name: Enabled
+    description: NAPT is enabled
+    types:
+    - uid: string
+  - name: Disabled
+    description: NAPT is disabled
+    types:
+    - uid: string
+- name: PortRange
+  description: >-
+    Range of port numbers to use as translated ports on each translated address.
+
+    If not specified and NAPT is enabled, this range defaults to 1,024 - 49,999.
+
+    (Ports under 1,024 should not be used because these are special purpose ports reserved by IANA. Ports 50,000 and above are reserved for non-NAPT use.)
+  kind: object
+  properties:
+  - name: minPort
+    description: The minimum port number
+    types:
+    - uid: integer
+    defaultValue: 1024
+  - name: maxPort
+    description: The maximum port number
+    types:
+    - uid: integer
+    defaultValue: 49999
+- name: PortReuseHoldTimes
+  description: The minimum time (in seconds) that will pass before a port that was used by a closed pinhole can be recycled for use by another pinhole. All hold times must be minimum 1 second.
+  kind: object
+  properties:
+  - name: tcp
+    description: Minimum time in seconds that will pass before a TCP port that was used by a closed pinhole can be reused. Default for TCP is 2 minutes.
+    types:
+    - uid: integer
+    defaultValue: 120
+  - name: udp
+    description: Minimum time in seconds that will pass before a UDP port that was used by a closed pinhole can be reused. Default for UDP is 1 minute.
+    types:
+    - uid: integer
+    defaultValue: 60
+- name: PinholeTimeouts
+  description: Expiry times of inactive NAPT pinholes, in seconds. All timers must be at least 1 second.
+  kind: object
+  properties:
+  - name: tcp
+    description: Pinhole timeout for TCP pinholes in seconds. Default for TCP is 2 hours 4 minutes, as per RFC 5382 section 5.
+    types:
+    - uid: integer
+    defaultValue: 180
+  - name: udp
+    description: Pinhole timeout for UDP pinholes in seconds. Default for UDP is 5 minutes, as per RFC 4787 section 4.3.
+    types:
+    - uid: integer
+    defaultValue: 30
+  - name: icmp
+    description: Pinhole timeout for ICMP pinholes in seconds. Default for ICMP Echo is 60 seconds, as per RFC 5508 section 3.2.
+    types:
+    - uid: integer
+    defaultValue: 30
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Update attached data network tags
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/TestPacketCoreCP/packetCoreDataPlanes/TestPacketCoreDP/attachedDataNetworks/TestAttachedDataNetwork?api-version=2022-04-01-preview
+    body: >-
+      {
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/TestPacketCoreCP/packetCoreDataPlanes/TestPacketCoreDP/attachedDataNetworks/TestAttachedDataNetwork?api-version=2022-04-01-preview
+
+      {
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "TestAccessPoint",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/TestPacketCoreCP/packetCoreDataPlanes/TestPacketCoreDP/attachedDataNetworks/TestAttachedDataNetwork",
+        "type": "Microsoft.MobileNetwork/attachedDataNetwork",
+        "systemData": {
+          "createdBy": "user1",
+          "createdByType": "User",
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedBy": "user2",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
+        },
+        "location": "eastus",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "userPlaneDataInterface": {
+            "name": "N6"
+          },
+          "dnsAddresses": [
+            "1.1.1.1"
+          ],
+          "naptConfiguration": {
+            "enabled": "Enabled",
+            "portRange": {
+              "minPort": 1024,
+              "maxPort": 49999
+            },
+            "portReuseHoldTime": {
+              "tcp": 120,
+              "udp": 60
+            },
+            "pinholeLimits": 65536,
+            "pinholeTimeouts": {
+              "tcp": 180,
+              "udp": 30,
+              "icmp": 30
+            }
+          },
+          "userEquipmentAddressPoolPrefix": [
+            "2.2.0.0/16"
+          ],
+          "userEquipmentStaticAddressPoolPrefix": [
+            "2.4.0.0/16"
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Mobile Network service - Updates an attached data network tags.
+errorCodes: []
