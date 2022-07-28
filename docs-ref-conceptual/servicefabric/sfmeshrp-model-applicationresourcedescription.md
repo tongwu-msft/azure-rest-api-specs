@@ -1,5 +1,5 @@
 ---
-title: "Application Resource Description"
+title: "Understand how to use Application Resource Description and its properties"
 description: Learn about application resource descriptions, which is a type that describes an application resource in Service Fabric Mesh API resource manager.
 services: service-fabric-mesh
 author: vipul-modi
