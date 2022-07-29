@@ -1,0 +1,156 @@
+### YamlMime:RESTOperation
+uid: communication.communicationidentity.exchangeteamsuseraccesstoken
+name: Exchange Teams User Access Token
+service: Communication
+groupName: Communication Identity
+apiVersion: 2022-06-01
+summary: Exchange an Azure Active Directory (Azure AD) access token of a Teams user for a new Communication Identity access token with a matching expiration time.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/teamsUser/:exchangeAccessToken?api-version=2022-06-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The communication resource, for example https://my-resource.communication.azure.com
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: CommunicationErrorResponse
+- name: 200 OK
+  description: Success
+  types:
+  - uid: CommunicationIdentityAccessToken
+requestBody:
+- name: default
+  parameters:
+  - name: token
+    in: body
+    isRequired: true
+    description: Azure AD access token of a Teams User to acquire a new Communication Identity access token.
+    types:
+    - uid: string
+  - name: appId
+    in: body
+    isRequired: true
+    description: Client ID of an Azure AD application to be verified against the appid claim in the Azure AD access token.
+    types:
+    - uid: string
+  - name: userId
+    in: body
+    isRequired: true
+    description: Object ID of an Azure AD user (Teams User) to be verified against the oid claim in the Azure AD access token.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CommunicationErrorResponse
+  description: The Communication Services error.
+  kind: object
+  properties:
+  - name: error
+    description: The Communication Services error.
+    types:
+    - uid: CommunicationError
+- name: CommunicationIdentityAccessToken
+  description: An access token.
+  kind: object
+  properties:
+  - name: token
+    description: The access token issued for the identity.
+    types:
+    - uid: string
+  - name: expiresOn
+    description: The expiry time of the token.
+    types:
+    - uid: string
+- name: TeamsUserExchangeTokenRequest
+  kind: object
+  properties:
+  - name: token
+    description: Azure AD access token of a Teams User to acquire a new Communication Identity access token.
+    types:
+    - uid: string
+  - name: appId
+    description: Client ID of an Azure AD application to be verified against the appid claim in the Azure AD access token.
+    types:
+    - uid: string
+  - name: userId
+    description: Object ID of an Azure AD user (Teams User) to be verified against the oid claim in the Azure AD access token.
+    types:
+    - uid: string
+- name: CommunicationError
+  description: The Communication Services error.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Further details about specific errors that led to this error.
+    types:
+    - uid: CommunicationError
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: The inner error if any.
+    types:
+    - uid: CommunicationError
+examples:
+- name: Exchange a Teams user access token
+  request:
+    uri: POST https://my-resource.communication.azure.com/teamsUser/:exchangeAccessToken?api-version=2022-06-01
+    body: >-
+      {
+        "token": "AzureActiveDirectoryAccessTokenOfATeamsUser",
+        "appId": "2c3e1e83-8fd7-4615-ad2b-b8c1229845ac",
+        "userId": "32c0a5db-05ec-78ea-51ab-3f06b329397e"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://my-resource.communication.azure.com/teamsUser/:exchangeAccessToken?api-version=2022-06-01
+
+      {
+        "token": "AzureActiveDirectoryAccessTokenOfATeamsUser",
+        "appId": "2c3e1e83-8fd7-4615-ad2b-b8c1229845ac",
+        "userId": "32c0a5db-05ec-78ea-51ab-3f06b329397e"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "token": "CommunicationIdentityAccessToken",
+        "expiresOn": "2021-09-10T21:39:39.3244584+00:00"
+      }
+security: []
+metadata:
+  description: Exchange an Azure Active Directory (Azure AD) access token of a Teams user for a new Communication Identity access token with a matching expiration time.
+errorCodes: []

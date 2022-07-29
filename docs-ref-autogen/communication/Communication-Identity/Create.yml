@@ -1,28 +1,22 @@
 ### YamlMime:RESTOperation
-uid: communication.communicationidentity.communicationidentity.issueaccesstoken
-name: Issue Access Token
+uid: communication.communicationidentity.create
+name: Create
 service: Communication
 groupName: Communication Identity
 apiVersion: 2022-06-01
-summary: Issue a new token for an identity.
+summary: Create a new identity, and optionally, an access token.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {endpoint}/identities/{id}/:issueAccessToken?api-version=2022-06-01
+- content: POST {endpoint}/identities?api-version=2022-06-01
 uriParameters:
 - name: endpoint
   in: path
   isRequired: true
   skipUrlEncoding: true
   description: The communication resource, for example https://my-resource.communication.azure.com
-  types:
-  - uid: string
-- name: id
-  in: path
-  isRequired: true
-  description: Identifier of the identity to issue token for.
   types:
   - uid: string
 - name: api-version
@@ -36,17 +30,16 @@ responses:
   description: Error
   types:
   - uid: CommunicationErrorResponse
-- name: 200 OK
-  description: Success
+- name: 201 Created
+  description: Created - Returns the created identity.
   types:
-  - uid: CommunicationIdentityAccessToken
+  - uid: CommunicationIdentityAccessTokenResult
 requestBody:
 - name: default
   parameters:
-  - name: scopes
+  - name: createTokenWithScopes
     in: body
-    isRequired: true
-    description: List of scopes attached to the token.
+    description: Also create access token for the created identity.
     types:
     - uid: string
       isArray: true
@@ -60,23 +53,23 @@ definitions:
     description: The Communication Services error.
     types:
     - uid: CommunicationError
-- name: CommunicationIdentityAccessToken
-  description: An access token.
+- name: CommunicationIdentityAccessTokenResult
+  description: A communication identity with access token.
   kind: object
   properties:
-  - name: token
-    description: The access token issued for the identity.
+  - name: identity
+    description: A communication identity.
     types:
-    - uid: string
-  - name: expiresOn
-    description: The expiry time of the token.
+    - uid: CommunicationIdentity
+  - name: accessToken
+    description: An access token.
     types:
-    - uid: string
-- name: CommunicationIdentityAccessTokenRequest
+    - uid: CommunicationIdentityAccessToken
+- name: CommunicationIdentityCreateRequest
   kind: object
   properties:
-  - name: scopes
-    description: List of scopes attached to the token.
+  - name: createTokenWithScopes
+    description: Also create access token for the created identity.
     types:
     - uid: string
       isArray: true
@@ -108,23 +101,43 @@ definitions:
     description: The inner error if any.
     types:
     - uid: CommunicationError
+- name: CommunicationIdentity
+  description: A communication identity.
+  kind: object
+  properties:
+  - name: id
+    description: Identifier of the identity.
+    types:
+    - uid: string
+- name: CommunicationIdentityAccessToken
+  description: An access token.
+  kind: object
+  properties:
+  - name: token
+    description: The access token issued for the identity.
+    types:
+    - uid: string
+  - name: expiresOn
+    description: The expiry time of the token.
+    types:
+    - uid: string
 examples:
-- name: Issue an access token
+- name: Create an Identity
   request:
-    uri: POST https://my-resource.communication.azure.com/identities/8:acs:2dee53b4-368b-45b4-ab52-8493fb117652_00000005-14a2-493b-8a72-5a3a0d000081/:issueAccessToken?api-version=2022-06-01
+    uri: POST https://my-resource.communication.azure.com/identities?api-version=2022-06-01
     body: >-
       {
-        "scopes": [
+        "createTokenWithScopes": [
           "chat"
         ]
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://my-resource.communication.azure.com/identities/8:acs:2dee53b4-368b-45b4-ab52-8493fb117652_00000005-14a2-493b-8a72-5a3a0d000081/:issueAccessToken?api-version=2022-06-01
+      POST https://my-resource.communication.azure.com/identities?api-version=2022-06-01
 
       {
-        "scopes": [
+        "createTokenWithScopes": [
           "chat"
         ]
       }
@@ -132,13 +145,18 @@ examples:
       ```
 
   responses:
-  - statusCode: "200"
+  - statusCode: "201"
     body: >-
       {
-        "token": "token",
-        "expiresOn": "2020-09-10T21:39:39.3244584+00:00"
+        "identity": {
+          "id": "8:acs:2dee53b4-368b-45b4-ab52-8493fb117652_00000005-14a2-493b-8a72-5a3a0d000081"
+        },
+        "accessToken": {
+          "token": "token",
+          "expiresOn": "2020-09-10T21:39:39.3244584+00:00"
+        }
       }
 security: []
 metadata:
-  description: Learn more about Communication service - Issue a new token for an identity.
+  description: Learn more about Communication service - Create a new identity, and optionally, an access token.
 errorCodes: []

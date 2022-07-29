@@ -6544,6 +6544,13 @@
 ## [Common Headers](../docs-ref-conceptual/communication/headers.md)
 ## [Error Codes](../docs-ref-conceptual/communication/errorcodes.md)
 ## Reference
+### Communication Identity
+#### [Overview](communication/Communication-Identity.yml)
+#### [Create](communication/Communication-Identity/Create.yml)
+#### [Delete](communication/Communication-Identity/Delete.yml)
+#### [Exchange Teams User Access Token](communication/Communication-Identity/Exchange-Teams-User-Access-Token.yml)
+#### [Issue Access Token](communication/Communication-Identity/Issue-Access-Token.yml)
+#### [Revoke Access Tokens](communication/Communication-Identity/Revoke-Access-Tokens.yml)
 ### Communication Network Traversal
 #### [Overview](communication/Communication-Network-Traversal.yml)
 #### [Issue Relay Configuration](communication/Communication-Network-Traversal/Issue-Relay-Configuration.yml)
@@ -6621,14 +6628,6 @@
 ##### [Send Typing Notification](communication/chat/Chat-Thread/Send-Typing-Notification.yml)
 ##### [Update Chat Message](communication/chat/Chat-Thread/Update-Chat-Message.yml)
 ##### [Update Chat Thread Properties](communication/chat/Chat-Thread/Update-Chat-Thread-Properties.yml)
-### Communication Identity
-#### Communication Identity
-##### [Overview](communication/communicationidentity/Communication-Identity.yml)
-##### [Create](communication/communicationidentity/Communication-Identity/Create.yml)
-##### [Delete](communication/communicationidentity/Communication-Identity/Delete.yml)
-##### [Exchange Teams User Access Token](communication/communicationidentity/Communication-Identity/Exchange-Teams-User-Access-Token.yml)
-##### [Issue Access Token](communication/communicationidentity/Communication-Identity/Issue-Access-Token.yml)
-##### [Revoke Access Tokens](communication/communicationidentity/Communication-Identity/Revoke-Access-Tokens.yml)
 # Compute
 ## [Overview](../docs-ref-conceptual/compute/index.md)
 ## Cloud Services (classic)
