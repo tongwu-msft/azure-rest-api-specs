@@ -1,8 +1,9 @@
 ---
-title: "ContainerInstanceView"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand how to use a container instance view"
+description: Learn how to leverage a container instance view in Service Fabric Mesh Resource Manager and explore its runtime properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+services: service-fabric-mesh
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +11,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# ContainerInstanceView
+# Explore the Container Instance View
 
 Runtime information of a container instance.
 

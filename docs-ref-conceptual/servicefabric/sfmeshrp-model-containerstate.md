@@ -1,8 +1,8 @@
 ---
-title: "ContainerState"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand how to use Container state"
+description: Learn how to leverage container state in Service Fabric Mesh Resource Manager and explore its runtime properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# ContainerState
+# Explore the container state and its properties
 
 The container state.
 
