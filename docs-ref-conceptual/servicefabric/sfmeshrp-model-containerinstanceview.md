@@ -2,7 +2,6 @@
 title: "Understand how to use a container instance view"
 description: Learn how to leverage a container instance view in Service Fabric Mesh Resource Manager and explore its runtime properties.
 services: service-fabric-mesh
-services: service-fabric-mesh
 author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"

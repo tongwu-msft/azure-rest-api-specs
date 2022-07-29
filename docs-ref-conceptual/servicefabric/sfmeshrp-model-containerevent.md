@@ -2,7 +2,6 @@
 title: "Understand how to use a Container Event"
 description: Learn how to leverage a Container Event in Service Fabric Mesh Resource Manager and explore its runtime properties.
 services: service-fabric-mesh
-services: service-fabric-mesh
 author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
