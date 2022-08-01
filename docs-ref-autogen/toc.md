@@ -11224,6 +11224,38 @@
 ## Operations
 ### [Overview](hybridnetwork/Operations.yml)
 ### [List](hybridnetwork/Operations/List.yml)
+# Intelligent Recommendations
+## [Overview](../docs-ref-conceptual/recommendationsservice/index.md)
+## Accounts
+### [Overview](recommendationsservice/Accounts.yml)
+### [Check Name Availability](recommendationsservice/Accounts/Check-Name-Availability.yml)
+### [Create Or Update](recommendationsservice/Accounts/Create-Or-Update.yml)
+### [Delete](recommendationsservice/Accounts/Delete.yml)
+### [Get](recommendationsservice/Accounts/Get.yml)
+### [Get Status](recommendationsservice/Accounts/Get-Status.yml)
+### [List By Resource Group](recommendationsservice/Accounts/List-By-Resource-Group.yml)
+### [List By Subscription](recommendationsservice/Accounts/List-By-Subscription.yml)
+### [Update](recommendationsservice/Accounts/Update.yml)
+## Modeling
+### [Overview](recommendationsservice/Modeling.yml)
+### [Create Or Update](recommendationsservice/Modeling/Create-Or-Update.yml)
+### [Delete](recommendationsservice/Modeling/Delete.yml)
+### [Get](recommendationsservice/Modeling/Get.yml)
+### [List By Account Resource](recommendationsservice/Modeling/List-By-Account-Resource.yml)
+### [Update](recommendationsservice/Modeling/Update.yml)
+## Operation Statuses
+### [Overview](recommendationsservice/Operation-Statuses.yml)
+### [Get](recommendationsservice/Operation-Statuses/Get.yml)
+## Operations
+### [Overview](recommendationsservice/Operations.yml)
+### [List](recommendationsservice/Operations/List.yml)
+## Service Endpoints
+### [Overview](recommendationsservice/Service-Endpoints.yml)
+### [Create Or Update](recommendationsservice/Service-Endpoints/Create-Or-Update.yml)
+### [Delete](recommendationsservice/Service-Endpoints/Delete.yml)
+### [Get](recommendationsservice/Service-Endpoints/Get.yml)
+### [List By Account Resource](recommendationsservice/Service-Endpoints/List-By-Account-Resource.yml)
+### [Update](recommendationsservice/Service-Endpoints/Update.yml)
 # Internet Analyzer
 ## [Overview](../docs-ref-conceptual/internetanalyzer/index.md)
 ## Experiments
