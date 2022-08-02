@@ -26,9 +26,14 @@ uriParameters:
   - uid: string
 responses:
 - name: 202 Accepted
+  headers:
+  - name: location
+    value: string
+  description: The notification request accepted
+- name: 200 OK
   description: The notification succeeded
   types:
-  - uid: TestNotificationResponse
+  - uid: TestNotificationDetailsResponse
 - name: Other Status Codes
   description: An error occurred while sending the test notifications
   types:
@@ -364,22 +369,31 @@ definitions:
     description: The Id for the subscription containing this event hub
     types:
     - uid: string
-- name: TestNotificationResponse
-  description: The response when test notification succeeded
+- name: TestNotificationDetailsResponse
+  description: The details of the test notification results.
   kind: object
   properties:
-  - name: notificationId
-    description: The notification id
+  - name: context
+    description: The context info
+    types:
+    - uid: Context
+  - name: state
+    description: The overall state
     types:
     - uid: string
-  - name: correlationId
-    description: The correlation id
+  - name: completedTime
+    description: The completed time
     types:
     - uid: string
   - name: createdTime
     description: The created time
     types:
     - uid: string
+  - name: actionDetails
+    description: The list of action detail
+    types:
+    - uid: ActionDetail
+      isArray: true
 - name: ErrorResponse
   description: Describes the format of Error response.
   kind: object
@@ -468,8 +482,48 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: Context
+  description: The context info
+  kind: object
+  properties:
+  - name: notificationSource
+    description: The source of the notification request
+    types:
+    - uid: string
+  - name: contextType
+    description: The context id type
+    types:
+    - uid: string
+- name: ActionDetail
+  description: The action detail
+  kind: object
+  properties:
+  - name: MechanismType
+    description: The mechanism type
+    types:
+    - uid: string
+  - name: Name
+    description: The name of the action
+    types:
+    - uid: string
+  - name: Status
+    description: The status of the action
+    types:
+    - uid: string
+  - name: SubState
+    description: The substatus of the action
+    types:
+    - uid: string
+  - name: SendTime
+    description: The send time
+    types:
+    - uid: string
+  - name: Detail
+    description: The detail of the friendly error message
+    types:
+    - uid: string
 examples:
-- name: List action groups
+- name: Create notifications at subscription level
   request:
     uri: POST https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/providers/Microsoft.Insights/createNotifications?api-version=2021-09-01
     body: >-
@@ -573,15 +627,382 @@ examples:
             "subscriptionId": "187f412d-1758-44d9-b052-169e2564721d",
             "tenantId": "68a4459a-ccb8-493c-b9da-dd30457d1b84"
           }
+        ],
+        "armRoleReceivers": [
+          {
+            "name": "ArmRole-Common",
+            "roleId": "11111111-1111-1111-1111-111111111111",
+            "useCommonAlertSchema": true
+          },
+          {
+            "name": "ArmRole-nonCommon",
+            "roleId": "11111111-1111-1111-1111-111111111111",
+            "useCommonAlertSchema": false
+          }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/providers/Microsoft.Insights/createNotifications?api-version=2021-09-01
+
+      {
+        "alertType": "budget",
+        "emailReceivers": [
+          {
+            "name": "John Doe's email",
+            "emailAddress": "johndoe@email.com",
+            "useCommonAlertSchema": false
+          },
+          {
+            "name": "Jane Smith's email",
+            "emailAddress": "janesmith@email.com",
+            "useCommonAlertSchema": true
+          }
+        ],
+        "smsReceivers": [
+          {
+            "name": "John Doe's mobile",
+            "countryCode": "1",
+            "phoneNumber": "1234567890"
+          },
+          {
+            "name": "Jane Smith's mobile",
+            "countryCode": "1",
+            "phoneNumber": "0987654321"
+          }
+        ],
+        "webhookReceivers": [
+          {
+            "name": "Sample webhook 1",
+            "serviceUri": "http://www.example.com/webhook1",
+            "useCommonAlertSchema": true
+          },
+          {
+            "name": "Sample webhook 2",
+            "serviceUri": "http://www.example.com/webhook2",
+            "useCommonAlertSchema": true,
+            "useAadAuth": true,
+            "objectId": "d3bb868c-fe44-452c-aa26-769a6538c808",
+            "identifierUri": "http://someidentifier/d7811ba3-7996-4a93-99b6-6b2f3f355f8a",
+            "tenantId": "68a4459a-ccb8-493c-b9da-dd30457d1b84"
+          }
+        ],
+        "itsmReceivers": [
+          {
+            "name": "Sample itsm",
+            "workspaceId": "5def922a-3ed4-49c1-b9fd-05ec533819a3|55dfd1f8-7e59-4f89-bf56-4c82f5ace23c",
+            "connectionId": "a3b9076c-ce8e-434e-85b4-aff10cb3c8f1",
+            "ticketConfiguration": "{\"PayloadRevision\":0,\"WorkItemType\":\"Incident\",\"UseTemplate\":false,\"WorkItemData\":\"{}\",\"CreateOneWIPerCI\":false}",
+            "region": "westcentralus"
+          }
+        ],
+        "azureAppPushReceivers": [
+          {
+            "name": "Sample azureAppPush",
+            "emailAddress": "johndoe@email.com"
+          }
+        ],
+        "automationRunbookReceivers": [
+          {
+            "automationAccountId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/runbookTest/providers/Microsoft.Automation/automationAccounts/runbooktest",
+            "runbookName": "Sample runbook",
+            "webhookResourceId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/runbookTest/providers/Microsoft.Automation/automationAccounts/runbooktest/webhooks/Alert1510184037084",
+            "isGlobalRunbook": false,
+            "name": "testRunbook",
+            "serviceUri": "http://test.me",
+            "useCommonAlertSchema": true
+          }
+        ],
+        "voiceReceivers": [
+          {
+            "name": "Sample voice",
+            "countryCode": "1",
+            "phoneNumber": "1234567890"
+          }
+        ],
+        "logicAppReceivers": [
+          {
+            "name": "Sample logicApp",
+            "resourceId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/LogicApp/providers/Microsoft.Logic/workflows/testLogicApp",
+            "callbackUrl": "https://prod-27.northcentralus.logic.azure.com/workflows/68e572e818e5457ba898763b7db90877/triggers/manual/paths/invoke/azns/test?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Abpsb72UYJxPPvmDo937uzofupO5r_vIeWEx7KVHo7w",
+            "useCommonAlertSchema": false
+          }
+        ],
+        "azureFunctionReceivers": [
+          {
+            "name": "Sample azureFunction",
+            "functionAppResourceId": "/subscriptions/5def922a-3ed4-49c1-b9fd-05ec533819a3/resourceGroups/aznsTest/providers/Microsoft.Web/sites/testFunctionApp",
+            "functionName": "HttpTriggerCSharp1",
+            "httpTriggerUrl": "http://test.me",
+            "useCommonAlertSchema": true
+          }
+        ],
+        "eventHubReceivers": [
+          {
+            "name": "Sample eventHub",
+            "eventHubNameSpace": "testEventHubNameSpace",
+            "eventHubName": "testEventHub",
+            "subscriptionId": "187f412d-1758-44d9-b052-169e2564721d",
+            "tenantId": "68a4459a-ccb8-493c-b9da-dd30457d1b84"
+          }
+        ],
+        "armRoleReceivers": [
+          {
+            "name": "ArmRole-Common",
+            "roleId": "11111111-1111-1111-1111-111111111111",
+            "useCommonAlertSchema": true
+          },
+          {
+            "name": "ArmRole-nonCommon",
+            "roleId": "11111111-1111-1111-1111-111111111111",
+            "useCommonAlertSchema": false
+          }
+        ]
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmonitor_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/stable/2021-09-01/examples/postTestNotifications.json
+      func ExampleActionGroupsClient_BeginPostTestNotifications() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armmonitor.NewActionGroupsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	poller, err := client.BeginPostTestNotifications(ctx,
+      		armmonitor.NotificationRequestBody{
+      			AlertType: to.Ptr("<alert-type>"),
+      			AutomationRunbookReceivers: []*armmonitor.AutomationRunbookReceiver{
+      				{
+      					Name:                 to.Ptr("<name>"),
+      					AutomationAccountID:  to.Ptr("<automation-account-id>"),
+      					IsGlobalRunbook:      to.Ptr(false),
+      					RunbookName:          to.Ptr("<runbook-name>"),
+      					ServiceURI:           to.Ptr("<service-uri>"),
+      					UseCommonAlertSchema: to.Ptr(true),
+      					WebhookResourceID:    to.Ptr("<webhook-resource-id>"),
+      				}},
+      			AzureAppPushReceivers: []*armmonitor.AzureAppPushReceiver{
+      				{
+      					Name:         to.Ptr("<name>"),
+      					EmailAddress: to.Ptr("<email-address>"),
+      				}},
+      			AzureFunctionReceivers: []*armmonitor.AzureFunctionReceiver{
+      				{
+      					Name:                  to.Ptr("<name>"),
+      					FunctionAppResourceID: to.Ptr("<function-app-resource-id>"),
+      					FunctionName:          to.Ptr("<function-name>"),
+      					HTTPTriggerURL:        to.Ptr("<httptrigger-url>"),
+      					UseCommonAlertSchema:  to.Ptr(true),
+      				}},
+      			EmailReceivers: []*armmonitor.EmailReceiver{
+      				{
+      					Name:                 to.Ptr("<name>"),
+      					EmailAddress:         to.Ptr("<email-address>"),
+      					UseCommonAlertSchema: to.Ptr(false),
+      				},
+      				{
+      					Name:                 to.Ptr("<name>"),
+      					EmailAddress:         to.Ptr("<email-address>"),
+      					UseCommonAlertSchema: to.Ptr(true),
+      				}},
+      			EventHubReceivers: []*armmonitor.EventHubReceiver{
+      				{
+      					Name:              to.Ptr("<name>"),
+      					EventHubName:      to.Ptr("<event-hub-name>"),
+      					EventHubNameSpace: to.Ptr("<event-hub-name-space>"),
+      					SubscriptionID:    to.Ptr("<subscription-id>"),
+      					TenantID:          to.Ptr("<tenant-id>"),
+      				}},
+      			ItsmReceivers: []*armmonitor.ItsmReceiver{
+      				{
+      					Name:                to.Ptr("<name>"),
+      					ConnectionID:        to.Ptr("<connection-id>"),
+      					Region:              to.Ptr("<region>"),
+      					TicketConfiguration: to.Ptr("<ticket-configuration>"),
+      					WorkspaceID:         to.Ptr("<workspace-id>"),
+      				}},
+      			LogicAppReceivers: []*armmonitor.LogicAppReceiver{
+      				{
+      					Name:                 to.Ptr("<name>"),
+      					CallbackURL:          to.Ptr("<callback-url>"),
+      					ResourceID:           to.Ptr("<resource-id>"),
+      					UseCommonAlertSchema: to.Ptr(false),
+      				}},
+      			SmsReceivers: []*armmonitor.SmsReceiver{
+      				{
+      					Name:        to.Ptr("<name>"),
+      					CountryCode: to.Ptr("<country-code>"),
+      					PhoneNumber: to.Ptr("<phone-number>"),
+      				},
+      				{
+      					Name:        to.Ptr("<name>"),
+      					CountryCode: to.Ptr("<country-code>"),
+      					PhoneNumber: to.Ptr("<phone-number>"),
+      				}},
+      			VoiceReceivers: []*armmonitor.VoiceReceiver{
+      				{
+      					Name:        to.Ptr("<name>"),
+      					CountryCode: to.Ptr("<country-code>"),
+      					PhoneNumber: to.Ptr("<phone-number>"),
+      				}},
+      			WebhookReceivers: []*armmonitor.WebhookReceiver{
+      				{
+      					Name:                 to.Ptr("<name>"),
+      					ServiceURI:           to.Ptr("<service-uri>"),
+      					UseCommonAlertSchema: to.Ptr(true),
+      				},
+      				{
+      					Name:                 to.Ptr("<name>"),
+      					IdentifierURI:        to.Ptr("<identifier-uri>"),
+      					ObjectID:             to.Ptr("<object-id>"),
+      					ServiceURI:           to.Ptr("<service-uri>"),
+      					TenantID:             to.Ptr("<tenant-id>"),
+      					UseAADAuth:           to.Ptr(true),
+      					UseCommonAlertSchema: to.Ptr(true),
+      				}},
+      		},
+      		&armmonitor.ActionGroupsClientBeginPostTestNotificationsOptions{ResumeToken: ""})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      	_, err = poller.PollUntilDone(ctx, 30*time.Second)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      		return
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.6.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/11111111-1111-1111-1111-111111111111/providers/microsoft.insights/notificationStatus/11111111111111?api-version=2022-06-01
+  - statusCode: "200"
     body: >-
       {
-        "notificationId": "11000222191287",
-        "correlationId": "5000094c-7f6b-49f2-a0ad-c620c65d34b5",
-        "createdTime": "2021-09-21T03:05:17+00:00"
+        "context": {
+          "notificationSource": "Microsoft.Insights/TestNotification",
+          "contextType": "Microsoft.Insights/Budget"
+        },
+        "state": "Completed",
+        "completedTime": "0001-01-01T00:00:00+00:00",
+        "createdTime": "2021-09-21T04:52:29.5091168+00:00",
+        "actionDetails": [
+          {
+            "MechanismType": "AzureAppPush",
+            "Name": "AzureAppPush-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.8620629+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "AzureFunction",
+            "Name": "AzureFunction-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0623319+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Email",
+            "Name": "Email-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:40.7480368+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "LogicApp",
+            "Name": "LogicApp-Name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.2473419+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Webhook",
+            "Name": "Webhook-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "SecureWebhook",
+            "Name": "SecureWebhook-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Sms",
+            "Name": "Sms-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:41.353015+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Voice",
+            "Name": "Voice-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:41.6330734+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "EventHub",
+            "Name": "EventHub-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "AutomationRunbook",
+            "Name": "AutomationRunbook-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Itsm",
+            "Name": "Itsm-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          }
+        ]
       }
 security:
 - name: azure_auth

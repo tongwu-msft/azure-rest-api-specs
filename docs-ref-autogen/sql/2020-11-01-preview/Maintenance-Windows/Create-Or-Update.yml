@@ -148,6 +148,108 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdwdb/maintenanceWindows/current?maintenanceWindowName=current&api-version=2020-11-01-preview
+
+      {
+        "properties": {
+          "timeRanges": [
+            {
+              "dayOfWeek": "Saturday",
+              "startTime": "00:00:00",
+              "duration": "PT60M"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateMaintenanceWindows.json
+      func ExampleMaintenanceWindowsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsql.NewMaintenanceWindowsClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	_, err = client.CreateOrUpdate(ctx,
+      		"Default-SQL-SouthEastAsia",
+      		"testsvr",
+      		"testdwdb",
+      		"current",
+      		armsql.MaintenanceWindows{
+      			Properties: &armsql.MaintenanceWindowsProperties{
+      				TimeRanges: []*armsql.MaintenanceWindowTimeRange{
+      					{
+      						DayOfWeek: to.Ptr(armsql.DayOfWeekSaturday),
+      						Duration:  to.Ptr("PT60M"),
+      						StartTime: to.Ptr("00:00:00"),
+      					}},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsql%2Farmsql%2Fv1.0.0/sdk/resourcemanager/sql/armsql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlManagementClient } = require("@azure/arm-sql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Sets maintenance windows settings for a database.
+       *
+       * @summary Sets maintenance windows settings for a database.
+       * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateMaintenanceWindows.json
+       */
+      async function setsMaintenanceWindowSettingsForASelectedDatabase() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "Default-SQL-SouthEastAsia";
+        const serverName = "testsvr";
+        const databaseName = "testdwdb";
+        const maintenanceWindowName = "current";
+        const parameters = {
+          timeRanges: [{ dayOfWeek: "Saturday", duration: "PT60M", startTime: "00:00:00" }],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlManagementClient(credential, subscriptionId);
+        const result = await client.maintenanceWindowsOperations.createOrUpdate(
+          resourceGroupName,
+          serverName,
+          databaseName,
+          maintenanceWindowName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      setsMaintenanceWindowSettingsForASelectedDatabase().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sql_9.0.1/sdk/sql/arm-sql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
 security: []

@@ -74,6 +74,7 @@ requestBody:
     - uid: ServiceBusTopicOutputDataSource
     - uid: PowerBIOutputDataSource
     - uid: AzureDataLakeStoreOutputDataSource
+    - uid: GatewayMessageBusOutputDataSource
     typesTitle: OutputDataSource
   - name: properties.timeWindow
     in: body
@@ -135,6 +136,7 @@ definitions:
     - uid: ServiceBusTopicOutputDataSource
     - uid: PowerBIOutputDataSource
     - uid: AzureDataLakeStoreOutputDataSource
+    - uid: GatewayMessageBusOutputDataSource
     typesTitle: OutputDataSource
   - name: properties.timeWindow
     description: The time frame for filtering Stream Analytics job outputs.
@@ -188,6 +190,10 @@ definitions:
   description: Describes a blob output data source.
   kind: object
   properties:
+  - name: properties.blobPathPrefix
+    description: Blob path prefix.
+    types:
+    - uid: string
   - name: type
     description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
@@ -218,6 +224,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: AzureTableOutputDataSource
   description: Describes an Azure Table output data source.
   kind: object
@@ -294,6 +301,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: EventHubV2OutputDataSource
   description: Describes an Event Hub output data source.
   kind: object
@@ -332,6 +340,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: AzureSqlDatabaseOutputDataSource
   description: Describes an Azure SQL database output data source.
   kind: object
@@ -373,6 +382,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: AzureSynapseOutputDataSource
   description: Describes an Azure Synapse output data source.
   kind: object
@@ -502,6 +512,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: ServiceBusTopicOutputDataSource
   description: Describes a Service Bus Topic output data source.
   kind: object
@@ -544,6 +555,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: PowerBIOutputDataSource
   description: Describes a Power BI output data source.
   kind: object
@@ -568,6 +580,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
   - name: type
     description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
@@ -613,6 +626,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
   - name: type
     description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
@@ -628,6 +642,19 @@ definitions:
     - uid: string
   - name: properties.tokenUserDisplayName
     description: The user display name of the user that was used to obtain the refresh token. Use this property to help remember which user was used to obtain the refresh token.
+    types:
+    - uid: string
+- name: GatewayMessageBusOutputDataSource
+  description: Describes a Gateway Message Bus output data source.
+  kind: object
+  properties:
+  - name: type
+    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: GatewayMessageBus
+    typesTitle: string
+  - name: properties.topic
+    description: The name of the Service Bus topic.
     types:
     - uid: string
 - name: ParquetSerialization
@@ -774,6 +801,82 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg2157/providers/Microsoft.StreamAnalytics/streamingjobs/sj6458/outputs/output1755?api-version=2020-03-01
+
+      {
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.Sql/Server/Database",
+            "properties": {
+              "table": "differentTable"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.streamanalytics.models.AzureSqlDatabaseOutputDataSource;
+      import com.azure.resourcemanager.streamanalytics.models.Output;
+
+      /** Samples for Outputs Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_AzureSQL.json
+           */
+          /**
+           * Sample code: Update an Azure SQL database output.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void updateAnAzureSQLDatabaseOutput(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              Output resource =
+                  manager.outputs().getWithResponse("sjrg2157", "sj6458", "output1755", Context.NONE).getValue();
+              resource.update().withDatasource(new AzureSqlDatabaseOutputDataSource()).apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       *
+       * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_AzureSQL.json
+       */
+      async function updateAnAzureSqlDatabaseOutput() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg2157";
+        const jobName = "sj6458";
+        const outputName = "output1755";
+        const output = {
+          datasource: {
+            type: "Microsoft.Sql/Server/Database",
+            table: "differentTable",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.outputs.update(resourceGroupName, jobName, outputName, output);
+        console.log(result);
+      }
+
+      updateAnAzureSqlDatabaseOutput().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -810,6 +913,84 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg5176/providers/Microsoft.StreamAnalytics/streamingjobs/sj2790/outputs/output958?api-version=2020-03-01
+
+      {
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.Storage/Table",
+            "properties": {
+              "partitionKey": "differentPartitionKey"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.streamanalytics.models.AzureTableOutputDataSource;
+      import com.azure.resourcemanager.streamanalytics.models.Output;
+
+      /** Samples for Outputs Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_AzureTable.json
+           */
+          /**
+           * Sample code: Update an Azure Table output.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void updateAnAzureTableOutput(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              Output resource = manager.outputs().getWithResponse("sjrg5176", "sj2790", "output958", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withDatasource(new AzureTableOutputDataSource().withPartitionKey("differentPartitionKey"))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       *
+       * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_AzureTable.json
+       */
+      async function updateAnAzureTableOutput() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg5176";
+        const jobName = "sj2790";
+        const outputName = "output958";
+        const output = {
+          datasource: {
+            type: "Microsoft.Storage/Table",
+            partitionKey: "differentPartitionKey",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.outputs.update(resourceGroupName, jobName, outputName, output);
+        console.log(result);
+      }
+
+      updateAnAzureTableOutput().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -858,6 +1039,95 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg5023/providers/Microsoft.StreamAnalytics/streamingjobs/sj900/outputs/output1623?api-version=2020-03-01
+
+      {
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.Storage/Blob",
+            "properties": {
+              "container": "differentContainer"
+            }
+          },
+          "serialization": {
+            "type": "Csv",
+            "properties": {
+              "fieldDelimiter": "|",
+              "encoding": "UTF8"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.streamanalytics.models.BlobOutputDataSource;
+      import com.azure.resourcemanager.streamanalytics.models.CsvSerialization;
+      import com.azure.resourcemanager.streamanalytics.models.Encoding;
+      import com.azure.resourcemanager.streamanalytics.models.Output;
+
+      /** Samples for Outputs Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_Blob.json
+           */
+          /**
+           * Sample code: Update a blob output with CSV serialization.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void updateABlobOutputWithCSVSerialization(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              Output resource = manager.outputs().getWithResponse("sjrg5023", "sj900", "output1623", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withDatasource(new BlobOutputDataSource().withContainer("differentContainer"))
+                  .withSerialization(new CsvSerialization().withFieldDelimiter("|").withEncoding(Encoding.UTF8))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       *
+       * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_Blob.json
+       */
+      async function updateABlobOutputWithCsvSerialization() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg5023";
+        const jobName = "sj900";
+        const outputName = "output1623";
+        const output = {
+          datasource: {
+            type: "Microsoft.Storage/Blob",
+            container: "differentContainer",
+          },
+          serialization: { type: "Csv", encoding: "UTF8", fieldDelimiter: "|" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.outputs.update(resourceGroupName, jobName, outputName, output);
+        console.log(result);
+      }
+
+      updateABlobOutputWithCsvSerialization().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -906,6 +1176,133 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg7983/providers/Microsoft.StreamAnalytics/streamingjobs/sj2331/outputs/output3022?api-version=2020-03-01
+
+      {
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.Storage/DocumentDB",
+            "properties": {
+              "partitionKey": "differentPartitionKey"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.streamanalytics.models.DocumentDbOutputDataSource;
+      import com.azure.resourcemanager.streamanalytics.models.Output;
+
+      /** Samples for Outputs Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_DocumentDB.json
+           */
+          /**
+           * Sample code: Update a DocumentDB output.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void updateADocumentDBOutput(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              Output resource =
+                  manager.outputs().getWithResponse("sjrg7983", "sj2331", "output3022", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withDatasource(new DocumentDbOutputDataSource().withPartitionKey("differentPartitionKey"))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstreamanalytics_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/streamanalytics/armstreamanalytics"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_DocumentDB.json
+      func ExampleOutputsClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstreamanalytics.NewOutputsClient("56b5e0a9-b645-407d-99b0-c64f86013e3d", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"sjrg7983",
+      		"sj2331",
+      		"output3022",
+      		armstreamanalytics.Output{
+      			Properties: &armstreamanalytics.OutputProperties{
+      				Datasource: &armstreamanalytics.DocumentDbOutputDataSource{
+      					Type: to.Ptr("Microsoft.Storage/DocumentDB"),
+      					Properties: &armstreamanalytics.DocumentDbOutputDataSourceProperties{
+      						PartitionKey: to.Ptr("differentPartitionKey"),
+      					},
+      				},
+      			},
+      		},
+      		&armstreamanalytics.OutputsClientUpdateOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstreamanalytics%2Farmstreamanalytics%2Fv1.0.0/sdk/resourcemanager/streamanalytics/armstreamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       *
+       * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_DocumentDB.json
+       */
+      async function updateADocumentDbOutput() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg7983";
+        const jobName = "sj2331";
+        const outputName = "output3022";
+        const output = {
+          datasource: {
+            type: "Microsoft.Storage/DocumentDB",
+            partitionKey: "differentPartitionKey",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.outputs.update(resourceGroupName, jobName, outputName, output);
+        console.log(result);
+      }
+
+      updateADocumentDbOutput().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -943,6 +1340,24 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/outputs/dwOutput?api-version=2020-03-01
+
+      {
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.Sql/Server/Database",
+            "properties": {
+              "table": "differentTable"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     headers:
@@ -979,6 +1394,24 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/outputs/azureFunction1?api-version=2020-03-01
+
+      {
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.AzureFunction",
+            "properties": {
+              "functionName": "differentFunctionName"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     headers:
@@ -1023,6 +1456,100 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg6912/providers/Microsoft.StreamAnalytics/streamingjobs/sj3310/outputs/output5195?api-version=2020-03-01
+
+      {
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.ServiceBus/EventHub",
+            "properties": {
+              "partitionKey": "differentPartitionKey"
+            }
+          },
+          "serialization": {
+            "type": "Json",
+            "properties": {
+              "encoding": "UTF8",
+              "format": "LineSeparated"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.streamanalytics.models.Encoding;
+      import com.azure.resourcemanager.streamanalytics.models.EventHubOutputDataSource;
+      import com.azure.resourcemanager.streamanalytics.models.JsonOutputSerializationFormat;
+      import com.azure.resourcemanager.streamanalytics.models.JsonSerialization;
+      import com.azure.resourcemanager.streamanalytics.models.Output;
+
+      /** Samples for Outputs Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_EventHub.json
+           */
+          /**
+           * Sample code: Update an Event Hub output with JSON serialization.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void updateAnEventHubOutputWithJSONSerialization(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              Output resource =
+                  manager.outputs().getWithResponse("sjrg6912", "sj3310", "output5195", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withDatasource(new EventHubOutputDataSource().withPartitionKey("differentPartitionKey"))
+                  .withSerialization(
+                      new JsonSerialization()
+                          .withEncoding(Encoding.UTF8)
+                          .withFormat(JsonOutputSerializationFormat.LINE_SEPARATED))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       *
+       * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_EventHub.json
+       */
+      async function updateAnEventHubOutputWithJsonSerialization() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg6912";
+        const jobName = "sj3310";
+        const outputName = "output5195";
+        const output = {
+          datasource: {
+            type: "Microsoft.ServiceBus/EventHub",
+            partitionKey: "differentPartitionKey",
+          },
+          serialization: { type: "Json", format: "LineSeparated", encoding: "UTF8" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.outputs.update(resourceGroupName, jobName, outputName, output);
+        console.log(result);
+      }
+
+      updateAnEventHubOutputWithJsonSerialization().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -1073,6 +1600,100 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg3410/providers/Microsoft.StreamAnalytics/streamingjobs/sj5095/outputs/output3456?api-version=2020-03-01
+
+      {
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.ServiceBus/Queue",
+            "properties": {
+              "queueName": "differentQueueName"
+            }
+          },
+          "serialization": {
+            "type": "Json",
+            "properties": {
+              "encoding": "UTF8",
+              "format": "LineSeparated"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.streamanalytics.models.Encoding;
+      import com.azure.resourcemanager.streamanalytics.models.JsonOutputSerializationFormat;
+      import com.azure.resourcemanager.streamanalytics.models.JsonSerialization;
+      import com.azure.resourcemanager.streamanalytics.models.Output;
+      import com.azure.resourcemanager.streamanalytics.models.ServiceBusQueueOutputDataSource;
+
+      /** Samples for Outputs Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_ServiceBusQueue.json
+           */
+          /**
+           * Sample code: Update a Service Bus Queue output with Avro serialization.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void updateAServiceBusQueueOutputWithAvroSerialization(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              Output resource =
+                  manager.outputs().getWithResponse("sjrg3410", "sj5095", "output3456", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withDatasource(new ServiceBusQueueOutputDataSource().withQueueName("differentQueueName"))
+                  .withSerialization(
+                      new JsonSerialization()
+                          .withEncoding(Encoding.UTF8)
+                          .withFormat(JsonOutputSerializationFormat.LINE_SEPARATED))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       *
+       * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_ServiceBusQueue.json
+       */
+      async function updateAServiceBusQueueOutputWithAvroSerialization() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg3410";
+        const jobName = "sj5095";
+        const outputName = "output3456";
+        const output = {
+          datasource: {
+            type: "Microsoft.ServiceBus/Queue",
+            queueName: "differentQueueName",
+          },
+          serialization: { type: "Json", format: "LineSeparated", encoding: "UTF8" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.outputs.update(resourceGroupName, jobName, outputName, output);
+        console.log(result);
+      }
+
+      updateAServiceBusQueueOutputWithAvroSerialization().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -1126,6 +1747,96 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg6450/providers/Microsoft.StreamAnalytics/streamingjobs/sj7094/outputs/output7886?api-version=2020-03-01
+
+      {
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.ServiceBus/Topic",
+            "properties": {
+              "topicName": "differentTopicName"
+            }
+          },
+          "serialization": {
+            "type": "Csv",
+            "properties": {
+              "fieldDelimiter": "|",
+              "encoding": "UTF8"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.streamanalytics.models.CsvSerialization;
+      import com.azure.resourcemanager.streamanalytics.models.Encoding;
+      import com.azure.resourcemanager.streamanalytics.models.Output;
+      import com.azure.resourcemanager.streamanalytics.models.ServiceBusTopicOutputDataSource;
+
+      /** Samples for Outputs Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_ServiceBusTopic.json
+           */
+          /**
+           * Sample code: Update a Service Bus Topic output with CSV serialization.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void updateAServiceBusTopicOutputWithCSVSerialization(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              Output resource =
+                  manager.outputs().getWithResponse("sjrg6450", "sj7094", "output7886", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withDatasource(new ServiceBusTopicOutputDataSource().withTopicName("differentTopicName"))
+                  .withSerialization(new CsvSerialization().withFieldDelimiter("|").withEncoding(Encoding.UTF8))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       *
+       * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_ServiceBusTopic.json
+       */
+      async function updateAServiceBusTopicOutputWithCsvSerialization() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg6450";
+        const jobName = "sj7094";
+        const outputName = "output7886";
+        const output = {
+          datasource: {
+            type: "Microsoft.ServiceBus/Topic",
+            topicName: "differentTopicName",
+          },
+          serialization: { type: "Csv", encoding: "UTF8", fieldDelimiter: "|" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.outputs.update(resourceGroupName, jobName, outputName, output);
+        console.log(result);
+      }
+
+      updateAServiceBusTopicOutputWithCsvSerialization().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -1172,6 +1883,78 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg7983/providers/Microsoft.StreamAnalytics/streamingjobs/sj2331/outputs/output3022?api-version=2020-03-01
+
+      {
+        "properties": {
+          "datasource": {
+            "type": "PowerBI",
+            "properties": {
+              "dataset": "differentDataset"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.streamanalytics.models.Output;
+      import com.azure.resourcemanager.streamanalytics.models.PowerBIOutputDataSource;
+
+      /** Samples for Outputs Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_PowerBI.json
+           */
+          /**
+           * Sample code: Update a Power BI output.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void updateAPowerBIOutput(com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              Output resource =
+                  manager.outputs().getWithResponse("sjrg7983", "sj2331", "output3022", Context.NONE).getValue();
+              resource.update().withDatasource(new PowerBIOutputDataSource().withDataset("differentDataset")).apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       *
+       * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_PowerBI.json
+       */
+      async function updateAPowerBiOutput() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg7983";
+        const jobName = "sj2331";
+        const outputName = "output3022";
+        const output = {
+          datasource: { type: "PowerBI", dataset: "differentDataset" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.outputs.update(resourceGroupName, jobName, outputName, output);
+        console.log(result);
+      }
+
+      updateAPowerBiOutput().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -1217,6 +2000,100 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg6912/providers/Microsoft.StreamAnalytics/streamingjobs/sj3310/outputs/output5195?api-version=2020-03-01
+
+      {
+        "properties": {
+          "datasource": {
+            "type": "Microsoft.DataLake/Accounts",
+            "properties": {
+              "accountName": "differentaccount"
+            }
+          },
+          "serialization": {
+            "type": "Json",
+            "properties": {
+              "encoding": "UTF8",
+              "format": "LineSeparated"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.streamanalytics.models.AzureDataLakeStoreOutputDataSource;
+      import com.azure.resourcemanager.streamanalytics.models.Encoding;
+      import com.azure.resourcemanager.streamanalytics.models.JsonOutputSerializationFormat;
+      import com.azure.resourcemanager.streamanalytics.models.JsonSerialization;
+      import com.azure.resourcemanager.streamanalytics.models.Output;
+
+      /** Samples for Outputs Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_AzureDataLakeStore.json
+           */
+          /**
+           * Sample code: Update an Azure Data Lake Store output with JSON serialization.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void updateAnAzureDataLakeStoreOutputWithJSONSerialization(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              Output resource =
+                  manager.outputs().getWithResponse("sjrg6912", "sj3310", "output5195", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withDatasource(new AzureDataLakeStoreOutputDataSource().withAccountName("differentaccount"))
+                  .withSerialization(
+                      new JsonSerialization()
+                          .withEncoding(Encoding.UTF8)
+                          .withFormat(JsonOutputSerializationFormat.LINE_SEPARATED))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       *
+       * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Update_AzureDataLakeStore.json
+       */
+      async function updateAnAzureDataLakeStoreOutputWithJsonSerialization() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg6912";
+        const jobName = "sj3310";
+        const outputName = "output5195";
+        const output = {
+          datasource: {
+            type: "Microsoft.DataLake/Accounts",
+            accountName: "differentaccount",
+          },
+          serialization: { type: "Json", format: "LineSeparated", encoding: "UTF8" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.outputs.update(resourceGroupName, jobName, outputName, output);
+        console.log(result);
+      }
+
+      updateAnAzureDataLakeStoreOutputWithJsonSerialization().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:

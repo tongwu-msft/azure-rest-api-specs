@@ -43,7 +43,7 @@ Azure Consumption APIs provide access to:
 | Operation Group | Description |
 |-----------------|-------------|
 | [Budgets](xref:management.azure.com.consumption.budgets) | Provides operations to set, update, and delete budgets at a Subscription or resource group scope. Supports cost and usage budgets.
-  [Price Sheet](xref:management.azure.com.consumption.pricesheet) | Provides operations to get price sheet for Enterprise Subscriptions and Billing accounts.
+  [Price Sheet](xref:management.azure.com.consumption.pricesheet) | Provides operations to get price sheet for Enterprise Subscriptions.
   [Marketplace Charges](xref:management.azure.com.consumption.marketplaces) | Provides operations to get usage information for marketplace resources on subscription or Enterprise Billing accounts.
   [Usage Details](xref:management.azure.com.consumption.usagedetails) | Provides operations to get usage information on subscription or Enterprise Billing accounts. |
   [Reservation Details](xref:management.azure.com.consumption.reservationsdetails) | Provides operations to get reservation detailed usage for Pay as you go and Enterprise Subscriptions. |

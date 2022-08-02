@@ -271,6 +271,93 @@ examples:
 - name: ServiceFabricSchedules_List
   request:
     uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/users/@me/servicefabrics/{serviceFrabicName}/schedules?api-version=2018-09-15
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/users/@me/servicefabrics/{serviceFrabicName}/schedules?api-version=2018-09-15
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdevtestlabs_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devtestlabs/armdevtestlabs"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/ServiceFabricSchedules_List.json
+      func ExampleServiceFabricSchedulesClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdevtestlabs.NewServiceFabricSchedulesClient("{subscriptionId}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("resourceGroupName",
+      		"{labName}",
+      		"@me",
+      		"{serviceFrabicName}",
+      		&armdevtestlabs.ServiceFabricSchedulesClientListOptions{Expand: nil,
+      			Filter:  nil,
+      			Top:     nil,
+      			Orderby: nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdevtestlabs%2Farmdevtestlabs%2Fv1.0.0/sdk/resourcemanager/devtestlabs/armdevtestlabs/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DevTestLabsClient } = require("@azure/arm-devtestlabs");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to List schedules in a given service fabric.
+       *
+       * @summary List schedules in a given service fabric.
+       * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/ServiceFabricSchedules_List.json
+       */
+      async function serviceFabricSchedulesList() {
+        const subscriptionId = "{subscriptionId}";
+        const resourceGroupName = "resourceGroupName";
+        const labName = "{labName}";
+        const userName = "@me";
+        const serviceFabricName = "{serviceFrabicName}";
+        const credential = new DefaultAzureCredential();
+        const client = new DevTestLabsClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.serviceFabricSchedules.list(
+          resourceGroupName,
+          labName,
+          userName,
+          serviceFabricName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      serviceFabricSchedulesList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-devtestlabs_4.0.1/sdk/devtestlabs/arm-devtestlabs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

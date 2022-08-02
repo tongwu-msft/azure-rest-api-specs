@@ -444,6 +444,44 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint?api-version=2018-11-01-preview
+
+      {
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "location": "eastus",
+        "properties": {
+          "description": "enforce pre-defined simpleBlueprint to this XXXXXXXX subscription.",
+          "blueprintId": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+          "parameters": {
+            "storageAccountType": {
+              "value": "Standard_LRS"
+            },
+            "costCenter": {
+              "value": "Contoso/Online/Shopping/Production"
+            },
+            "owners": {
+              "value": [
+                "johnDoe@contoso.com",
+                "johnsteam@contoso.com"
+              ]
+            }
+          },
+          "resourceGroups": {
+            "storageRG": {
+              "name": "defaultRG",
+              "location": "eastus"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -520,6 +558,47 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint?api-version=2018-11-01-preview
+
+      {
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-resource-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-identity": {}
+          }
+        },
+        "location": "eastus",
+        "properties": {
+          "description": "enforce pre-defined simpleBlueprint to this XXXXXXXX subscription.",
+          "blueprintId": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+          "parameters": {
+            "storageAccountType": {
+              "value": "Standard_LRS"
+            },
+            "costCenter": {
+              "value": "Contoso/Online/Shopping/Production"
+            },
+            "owners": {
+              "value": [
+                "johnDoe@contoso.com",
+                "johnsteam@contoso.com"
+              ]
+            }
+          },
+          "resourceGroups": {
+            "storageRG": {
+              "name": "defaultRG",
+              "location": "eastus"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -599,6 +678,111 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint?api-version=2018-11-01-preview
+
+      {
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "location": "eastus",
+        "properties": {
+          "description": "enforce pre-defined simpleBlueprint to this XXXXXXXX subscription.",
+          "blueprintId": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+          "scope": "subscriptions/00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "storageAccountType": {
+              "value": "Standard_LRS"
+            },
+            "costCenter": {
+              "value": "Contoso/Online/Shopping/Production"
+            },
+            "owners": {
+              "value": [
+                "johnDoe@contoso.com",
+                "johnsteam@contoso.com"
+              ]
+            }
+          },
+          "resourceGroups": {
+            "storageRG": {
+              "name": "defaultRG",
+              "location": "eastus"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armblueprint_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/blueprint/armblueprint"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/blueprint/resource-manager/Microsoft.Blueprint/preview/2018-11-01-preview/examples/managementGroupBPAssignment/BlueprintAssignment_Create_SystemAssignedMSI.json
+      func ExampleAssignmentsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armblueprint.NewAssignmentsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	_, err = client.CreateOrUpdate(ctx,
+      		"managementGroups/ContosoOnlineGroup",
+      		"assignSimpleBlueprint",
+      		armblueprint.Assignment{
+      			Location: to.Ptr("eastus"),
+      			Identity: &armblueprint.ManagedServiceIdentity{
+      				Type: to.Ptr(armblueprint.ManagedServiceIdentityTypeSystemAssigned),
+      			},
+      			Properties: &armblueprint.AssignmentProperties{
+      				Description: to.Ptr("enforce pre-defined simpleBlueprint to this XXXXXXXX subscription."),
+      				BlueprintID: to.Ptr("/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint"),
+      				Parameters: map[string]*armblueprint.ParameterValue{
+      					"costCenter": {
+      						Value: "Contoso/Online/Shopping/Production",
+      					},
+      					"owners": {
+      						Value: []interface{}{
+      							"johnDoe@contoso.com",
+      							"johnsteam@contoso.com",
+      						},
+      					},
+      					"storageAccountType": {
+      						Value: "Standard_LRS",
+      					},
+      				},
+      				ResourceGroups: map[string]*armblueprint.ResourceGroupValue{
+      					"storageRG": {
+      						Name:     to.Ptr("defaultRG"),
+      						Location: to.Ptr("eastus"),
+      					},
+      				},
+      				Scope: to.Ptr("subscriptions/00000000-0000-0000-0000-000000000000"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fblueprint%2Farmblueprint%2Fv0.5.0/sdk/resourcemanager/blueprint/armblueprint/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -677,6 +861,48 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint?api-version=2018-11-01-preview
+
+      {
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-resource-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-identity": {}
+          }
+        },
+        "location": "eastus",
+        "properties": {
+          "description": "enforce pre-defined simpleBlueprint to this XXXXXXXX subscription.",
+          "blueprintId": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+          "scope": "subscriptions/00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "storageAccountType": {
+              "value": "Standard_LRS"
+            },
+            "costCenter": {
+              "value": "Contoso/Online/Shopping/Production"
+            },
+            "owners": {
+              "value": [
+                "johnDoe@contoso.com",
+                "johnsteam@contoso.com"
+              ]
+            }
+          },
+          "resourceGroups": {
+            "storageRG": {
+              "name": "defaultRG",
+              "location": "eastus"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-

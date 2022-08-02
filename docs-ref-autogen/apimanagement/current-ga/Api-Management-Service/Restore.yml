@@ -838,6 +838,104 @@ examples:
         "accessType": "AccessKey",
         "accessKey": "**************************************************"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/restore?api-version=2021-08-01
+
+      {
+        "storageAccount": "teststorageaccount",
+        "containerName": "backupContainer",
+        "backupName": "apimService1backup_2017_03_19",
+        "accessType": "AccessKey",
+        "accessKey": "**************************************************"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.apimanagement.models.AccessType;
+      import com.azure.resourcemanager.apimanagement.models.ApiManagementServiceBackupRestoreParameters;
+
+      /** Samples for ApiManagementService Restore. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementRestoreWithAccessKey.json
+           */
+          /**
+           * Sample code: ApiManagementRestoreService.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementRestoreService(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .apiManagementServices()
+                  .restore(
+                      "rg1",
+                      "apimService1",
+                      new ApiManagementServiceBackupRestoreParameters()
+                          .withStorageAccount("teststorageaccount")
+                          .withContainerName("backupContainer")
+                          .withBackupName("apimService1backup_2017_03_19")
+                          .withAccessType(AccessType.ACCESS_KEY)
+                          .withAccessKey("**************************************************"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armapimanagement_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementRestoreWithAccessKey.json
+      func ExampleServiceClient_BeginRestore() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armapimanagement.NewServiceClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginRestore(ctx,
+      		"rg1",
+      		"apimService1",
+      		armapimanagement.ServiceBackupRestoreParameters{
+      			AccessKey:      to.Ptr("**************************************************"),
+      			AccessType:     to.Ptr(armapimanagement.AccessTypeAccessKey),
+      			BackupName:     to.Ptr("apimService1backup_2017_03_19"),
+      			ContainerName:  to.Ptr("backupContainer"),
+      			StorageAccount: to.Ptr("teststorageaccount"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fapimanagement%2Farmapimanagement%2Fv1.0.0/sdk/resourcemanager/apimanagement/armapimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:

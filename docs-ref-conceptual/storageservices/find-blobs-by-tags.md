@@ -96,7 +96,7 @@ The `Find Blobs by Tags` operation finds all blobs in the storage account whose 
  The response body is a well-formed UTF-8 XML document.
   
 ## Authorization  
- This operation can be called by the account owner and by anyone with a Shared Access Signature that has permission to find blobs by tags (the `f` SAS permission).  
+ This operation can be called by the account owner and by anyone with a Shared Access Signature that has permission to find blobs by tags (the `f` SAS permission). Note that an [account SAS](create-account-sas.md) is required for authorization.
   
  In addition, RBAC users with the `Microsoft.Storage/storageAccounts/blobServices/containers/blobs/filter/action` permission can perform this operation.  
   

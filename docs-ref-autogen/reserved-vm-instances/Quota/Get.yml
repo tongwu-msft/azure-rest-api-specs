@@ -189,6 +189,76 @@ examples:
 - name: Quotas_Request_ForCompute
   request:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimits/standardNDSFamily?api-version=2020-10-25
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimits/standardNDSFamily?api-version=2020-10-25
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armreservations_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/reservations/armreservations"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/getComputeOneSkuUsages.json
+      func ExampleQuotaClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armreservations.NewQuotaClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"00000000-0000-0000-0000-000000000000",
+      		"Microsoft.Compute",
+      		"eastus",
+      		"standardNDSFamily",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Freservations%2Farmreservations%2Fv1.0.0/sdk/resourcemanager/reservations/armreservations/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureReservationAPI } = require("@azure/arm-reservations");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get the current quota (service limit) and usage of a resource. You can use the response from the GET operation to submit quota update request.
+       *
+       * @summary Get the current quota (service limit) and usage of a resource. You can use the response from the GET operation to submit quota update request.
+       * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/getComputeOneSkuUsages.json
+       */
+      async function quotasRequestForCompute() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const providerId = "Microsoft.Compute";
+        const location = "eastus";
+        const resourceName = "standardNDSFamily";
+        const credential = new DefaultAzureCredential();
+        const client = new AzureReservationAPI(credential);
+        const result = await client.quota.get(subscriptionId, providerId, location, resourceName);
+        console.log(result);
+      }
+
+      quotasRequestForCompute().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-reservations_7.1.0/sdk/reservations/arm-reservations/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

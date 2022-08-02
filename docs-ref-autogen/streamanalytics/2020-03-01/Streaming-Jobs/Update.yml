@@ -171,10 +171,12 @@ definitions:
   kind: object
   properties:
   - name: tenantId
+    isReadyOnly: true
     description: The identity tenantId
     types:
     - uid: string
   - name: principalId
+    isReadyOnly: true
     description: The identity principal ID
     types:
     - uid: string
@@ -222,6 +224,7 @@ definitions:
     description: Specifies the number of streaming units that the streaming job uses.
     types:
     - uid: integer
+    defaultValue: 3
   - name: properties.validStreamingUnits
     description: Specifies the valid streaming units a streaming job can scale to.
     types:
@@ -269,6 +272,7 @@ definitions:
     - uid: ServiceBusTopicOutputDataSource
     - uid: PowerBIOutputDataSource
     - uid: AzureDataLakeStoreOutputDataSource
+    - uid: GatewayMessageBusOutputDataSource
     typesTitle: OutputDataSource
   - name: properties.timeWindow
     description: The time frame for filtering Stream Analytics job outputs.
@@ -342,6 +346,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
   - name: accountName
     description: The name of the Azure Storage account. Required on PUT (CreateOrReplace) requests.
     types:
@@ -606,6 +611,7 @@ definitions:
     - uid: EventHubStreamInputDataSource
     - uid: EventHubV2StreamInputDataSource
     - uid: IoTHubStreamInputDataSource
+    - uid: GatewayMessageBusStreamInputDataSource
     typesTitle: StreamInputDataSource
   - name: type
     description: Indicates whether the input is a source of reference data or stream data. Required on PUT (CreateOrReplace) requests.
@@ -645,6 +651,7 @@ definitions:
   - name: datasource
     description: Describes an input data source that contains reference data. Required on PUT (CreateOrReplace) requests.
     types:
+    - uid: FileReferenceInputDataSource
     - uid: BlobReferenceInputDataSource
     - uid: AzureSqlReferenceInputDataSource
     typesTitle: ReferenceInputDataSource
@@ -683,6 +690,10 @@ definitions:
   description: Describes a blob output data source.
   kind: object
   properties:
+  - name: properties.blobPathPrefix
+    description: Blob path prefix.
+    types:
+    - uid: string
   - name: type
     description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
@@ -713,6 +724,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: AzureTableOutputDataSource
   description: Describes an Azure Table output data source.
   kind: object
@@ -789,6 +801,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: EventHubV2OutputDataSource
   description: Describes an Event Hub output data source.
   kind: object
@@ -827,6 +840,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: AzureSqlDatabaseOutputDataSource
   description: Describes an Azure SQL database output data source.
   kind: object
@@ -868,6 +882,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: AzureSynapseOutputDataSource
   description: Describes an Azure Synapse output data source.
   kind: object
@@ -997,6 +1012,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: ServiceBusTopicOutputDataSource
   description: Describes a Service Bus Topic output data source.
   kind: object
@@ -1039,6 +1055,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: PowerBIOutputDataSource
   description: Describes a Power BI output data source.
   kind: object
@@ -1063,6 +1080,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
   - name: type
     description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
@@ -1108,6 +1126,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
   - name: type
     description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
@@ -1123,6 +1142,19 @@ definitions:
     - uid: string
   - name: properties.tokenUserDisplayName
     description: The user display name of the user that was used to obtain the refresh token. Use this property to help remember which user was used to obtain the refresh token.
+    types:
+    - uid: string
+- name: GatewayMessageBusOutputDataSource
+  description: Describes a Gateway Message Bus output data source.
+  kind: object
+  properties:
+  - name: type
+    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: GatewayMessageBus
+    typesTitle: string
+  - name: properties.topic
+    description: The name of the Service Bus topic.
     types:
     - uid: string
 - name: ParquetSerialization
@@ -1262,6 +1294,7 @@ definitions:
     description: Indicates the type of compression that the input uses. Required on PUT (CreateOrReplace) requests.
     types:
     - uid: CompressionType
+    defaultValue: None
 - name: StorageAccount
   description: The properties that are associated with an Azure Storage account
   kind: object
@@ -1365,6 +1398,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: EventHubStreamInputDataSource
   description: Describes an Event Hub input data source that contains stream data.
   kind: object
@@ -1398,6 +1432,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: EventHubV2StreamInputDataSource
   description: Describes an Event Hub input data source that contains stream data.
   kind: object
@@ -1431,6 +1466,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: IoTHubStreamInputDataSource
   description: Describes an IoT Hub input data source that contains stream data.
   kind: object
@@ -1460,6 +1496,19 @@ definitions:
     types:
     - uid: Microsoft.Devices/IotHubs
     typesTitle: string
+- name: GatewayMessageBusStreamInputDataSource
+  description: Describes a blob input data source that contains stream data.
+  kind: object
+  properties:
+  - name: type
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: GatewayMessageBus
+    typesTitle: string
+  - name: properties.topic
+    description: The name of the Service Bus topic.
+    types:
+    - uid: string
 - name: CompressionType
   description: Indicates the type of compression that the input uses. Required on PUT (CreateOrReplace) requests.
   kind: enum
@@ -1473,6 +1522,19 @@ definitions:
   - name: Deflate
     types:
     - uid: string
+- name: FileReferenceInputDataSource
+  description: Describes a file input data source that contains reference data.
+  kind: object
+  properties:
+  - name: properties.path
+    description: The path of the file.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: File
+    typesTitle: string
 - name: BlobReferenceInputDataSource
   description: Describes a blob input data source that contains reference data.
   kind: object
@@ -1507,6 +1569,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: AzureSqlReferenceInputDataSource
   description: Describes an Azure SQL database reference input data source.
   kind: object
@@ -1660,6 +1723,116 @@ examples:
           "eventsLateArrivalMaxDelayInSeconds": 13
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg6936/providers/Microsoft.StreamAnalytics/streamingjobs/sj59?api-version=2020-03-01
+
+      {
+        "properties": {
+          "eventsOutOfOrderMaxDelayInSeconds": 21,
+          "eventsLateArrivalMaxDelayInSeconds": 13
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.streamanalytics.models.StreamingJob;
+
+      /** Samples for StreamingJobs Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/StreamingJob_Update.json
+           */
+          /**
+           * Sample code: Update a streaming job.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void updateAStreamingJob(com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              StreamingJob resource =
+                  manager.streamingJobs().getByResourceGroupWithResponse("sjrg6936", "sj59", null, Context.NONE).getValue();
+              resource.update().withEventsOutOfOrderMaxDelayInSeconds(21).withEventsLateArrivalMaxDelayInSeconds(13).apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstreamanalytics_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/streamanalytics/armstreamanalytics"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/StreamingJob_Update.json
+      func ExampleStreamingJobsClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstreamanalytics.NewStreamingJobsClient("56b5e0a9-b645-407d-99b0-c64f86013e3d", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"sjrg6936",
+      		"sj59",
+      		armstreamanalytics.StreamingJob{
+      			Properties: &armstreamanalytics.StreamingJobProperties{
+      				EventsLateArrivalMaxDelayInSeconds: to.Ptr[int32](13),
+      				EventsOutOfOrderMaxDelayInSeconds:  to.Ptr[int32](21),
+      			},
+      		},
+      		&armstreamanalytics.StreamingJobsClientUpdateOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstreamanalytics%2Farmstreamanalytics%2Fv1.0.0/sdk/resourcemanager/streamanalytics/armstreamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing streaming job. This can be used to partially update (ie. update one or two properties) a streaming job without affecting the rest the job definition.
+       *
+       * @summary Updates an existing streaming job. This can be used to partially update (ie. update one or two properties) a streaming job without affecting the rest the job definition.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/StreamingJob_Update.json
+       */
+      async function updateAStreamingJob() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg6936";
+        const jobName = "sj59";
+        const streamingJob = {
+          eventsLateArrivalMaxDelayInSeconds: 13,
+          eventsOutOfOrderMaxDelayInSeconds: 21,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.streamingJobs.update(resourceGroupName, jobName, streamingJob);
+        console.log(result);
+      }
+
+      updateAStreamingJob().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:

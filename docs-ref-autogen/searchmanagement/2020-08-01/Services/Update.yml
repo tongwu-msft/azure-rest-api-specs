@@ -623,6 +623,146 @@ examples:
           "replicaCount": 2
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-08-01
+
+      {
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "properties": {
+          "replicaCount": 2
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.search.models.SearchServiceUpdate;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Services Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchUpdateService.json
+           */
+          /**
+           * Sample code: SearchUpdateService.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void searchUpdateService(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .searchServices()
+                  .manager()
+                  .serviceClient()
+                  .getServices()
+                  .updateWithResponse(
+                      "rg1",
+                      "mysearchservice",
+                      new SearchServiceUpdate()
+                          .withTags(mapOf("app-name", "My e-commerce app", "new-tag", "Adding a new tag"))
+                          .withReplicaCount(2),
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armsearch_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchUpdateService.json
+      func ExampleServicesClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsearch.NewServicesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"rg1",
+      		"mysearchservice",
+      		armsearch.ServiceUpdate{
+      			Properties: &armsearch.ServiceProperties{
+      				ReplicaCount: to.Ptr[int32](2),
+      			},
+      			Tags: map[string]*string{
+      				"app-name": to.Ptr("My e-commerce app"),
+      				"new-tag":  to.Ptr("Adding a new tag"),
+      			},
+      		},
+      		&armsearch.SearchManagementRequestOptions{ClientRequestID: nil},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsearch%2Farmsearch%2Fv1.0.0/sdk/resourcemanager/search/armsearch/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SearchManagementClient } = require("@azure/arm-search");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing search service in the given resource group.
+       *
+       * @summary Updates an existing search service in the given resource group.
+       * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchUpdateService.json
+       */
+      async function searchUpdateService() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const searchServiceName = "mysearchservice";
+        const service = {
+          replicaCount: 2,
+          tags: { appName: "My e-commerce app", newTag: "Adding a new tag" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SearchManagementClient(credential, subscriptionId);
+        const result = await client.services.update(resourceGroupName, searchServiceName, service);
+        console.log(result);
+      }
+
+      searchUpdateService().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-search_3.0.1/sdk/search/arm-search/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -664,6 +804,102 @@ examples:
           "type": "None"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-08-01
+
+      {
+        "sku": {
+          "name": "standard"
+        },
+        "identity": {
+          "type": "None"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.search.models.Identity;
+      import com.azure.resourcemanager.search.models.IdentityType;
+      import com.azure.resourcemanager.search.models.SearchServiceUpdate;
+      import com.azure.resourcemanager.search.models.Sku;
+      import com.azure.resourcemanager.search.models.SkuName;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Services Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchUpdateServiceToRemoveIdentity.json
+           */
+          /**
+           * Sample code: SearchUpdateServiceToRemoveIdentity.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void searchUpdateServiceToRemoveIdentity(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .searchServices()
+                  .manager()
+                  .serviceClient()
+                  .getServices()
+                  .updateWithResponse(
+                      "rg1",
+                      "mysearchservice",
+                      new SearchServiceUpdate()
+                          .withSku(new Sku().withName(SkuName.STANDARD))
+                          .withIdentity(new Identity().withType(IdentityType.NONE)),
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SearchManagementClient } = require("@azure/arm-search");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing search service in the given resource group.
+       *
+       * @summary Updates an existing search service in the given resource group.
+       * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchUpdateServiceToRemoveIdentity.json
+       */
+      async function searchUpdateServiceToRemoveIdentity() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const searchServiceName = "mysearchservice";
+        const service = {
+          identity: { type: "None" },
+          sku: { name: "standard" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SearchManagementClient(credential, subscriptionId);
+        const result = await client.services.update(resourceGroupName, searchServiceName, service);
+        console.log(result);
+      }
+
+      searchUpdateServiceToRemoveIdentity().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-search_3.0.1/sdk/search/arm-search/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -714,6 +950,123 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-08-01
+
+      {
+        "properties": {
+          "replicaCount": 3,
+          "partitionCount": 1,
+          "publicNetworkAccess": "enabled",
+          "networkRuleSet": {
+            "ipRules": [
+              {
+                "value": "123.4.5.6"
+              },
+              {
+                "value": "123.4.6.0/18"
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.search.models.IpRule;
+      import com.azure.resourcemanager.search.models.NetworkRuleSet;
+      import com.azure.resourcemanager.search.models.PublicNetworkAccess;
+      import com.azure.resourcemanager.search.models.SearchServiceUpdate;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Services Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchUpdateServiceToAllowAccessFromPublicCustomIPs.json
+           */
+          /**
+           * Sample code: searchUpdateServiceToAllowAccessFromPublicCustomIPs.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void searchUpdateServiceToAllowAccessFromPublicCustomIPs(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .searchServices()
+                  .manager()
+                  .serviceClient()
+                  .getServices()
+                  .updateWithResponse(
+                      "rg1",
+                      "mysearchservice",
+                      new SearchServiceUpdate()
+                          .withReplicaCount(3)
+                          .withPartitionCount(1)
+                          .withPublicNetworkAccess(PublicNetworkAccess.ENABLED)
+                          .withNetworkRuleSet(
+                              new NetworkRuleSet()
+                                  .withIpRules(
+                                      Arrays
+                                          .asList(
+                                              new IpRule().withValue("123.4.5.6"), new IpRule().withValue("123.4.6.0/18")))),
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SearchManagementClient } = require("@azure/arm-search");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing search service in the given resource group.
+       *
+       * @summary Updates an existing search service in the given resource group.
+       * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchUpdateServiceToAllowAccessFromPublicCustomIPs.json
+       */
+      async function searchUpdateServiceToAllowAccessFromPublicCustomIPs() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const searchServiceName = "mysearchservice";
+        const service = {
+          networkRuleSet: {
+            ipRules: [{ value: "123.4.5.6" }, { value: "123.4.6.0/18" }],
+          },
+          partitionCount: 1,
+          publicNetworkAccess: "enabled",
+          replicaCount: 3,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SearchManagementClient(credential, subscriptionId);
+        const result = await client.services.update(resourceGroupName, searchServiceName, service);
+        console.log(result);
+      }
+
+      searchUpdateServiceToAllowAccessFromPublicCustomIPs().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-search_3.0.1/sdk/search/arm-search/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -758,6 +1111,101 @@ examples:
           "publicNetworkAccess": "disabled"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-08-01
+
+      {
+        "properties": {
+          "replicaCount": 1,
+          "partitionCount": 1,
+          "publicNetworkAccess": "disabled"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.search.models.PublicNetworkAccess;
+      import com.azure.resourcemanager.search.models.SearchServiceUpdate;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Services Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchUpdateServiceToAllowAccessFromPrivateEndpoints.json
+           */
+          /**
+           * Sample code: searchUpdateServiceToAllowAccessFromPrivateEndpoints.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void searchUpdateServiceToAllowAccessFromPrivateEndpoints(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .searchServices()
+                  .manager()
+                  .serviceClient()
+                  .getServices()
+                  .updateWithResponse(
+                      "rg1",
+                      "mysearchservice",
+                      new SearchServiceUpdate()
+                          .withReplicaCount(1)
+                          .withPartitionCount(1)
+                          .withPublicNetworkAccess(PublicNetworkAccess.DISABLED),
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SearchManagementClient } = require("@azure/arm-search");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing search service in the given resource group.
+       *
+       * @summary Updates an existing search service in the given resource group.
+       * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchUpdateServiceToAllowAccessFromPrivateEndpoints.json
+       */
+      async function searchUpdateServiceToAllowAccessFromPrivateEndpoints() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const searchServiceName = "mysearchservice";
+        const service = {
+          partitionCount: 1,
+          publicNetworkAccess: "disabled",
+          replicaCount: 1,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SearchManagementClient(credential, subscriptionId);
+        const result = await client.services.update(resourceGroupName, searchServiceName, service);
+        console.log(result);
+      }
+
+      searchUpdateServiceToAllowAccessFromPrivateEndpoints().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-search_3.0.1/sdk/search/arm-search/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

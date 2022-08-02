@@ -446,6 +446,155 @@ examples:
           "tag1": "val1"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/clusters/oiautorest6685?api-version=2021-06-01
+
+      {
+        "sku": {
+          "name": "CapacityReservation",
+          "capacity": 1000
+        },
+        "location": "australiasoutheast",
+        "tags": {
+          "tag1": "val1"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.loganalytics.models.Capacity;
+      import com.azure.resourcemanager.loganalytics.models.ClusterSku;
+      import com.azure.resourcemanager.loganalytics.models.ClusterSkuNameEnum;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/examples/ClustersCreate.json
+           */
+          /**
+           * Sample code: ClustersCreate.
+           *
+           * @param manager Entry point to LogAnalyticsManager.
+           */
+          public static void clustersCreate(com.azure.resourcemanager.loganalytics.LogAnalyticsManager manager) {
+              manager
+                  .clusters()
+                  .define("oiautorest6685")
+                  .withRegion("australiasoutheast")
+                  .withExistingResourceGroup("oiautorest6685")
+                  .withTags(mapOf("tag1", "val1"))
+                  .withSku(
+                      new ClusterSku()
+                          .withCapacity(Capacity.ONE_ZERO_ZERO_ZERO)
+                          .withName(ClusterSkuNameEnum.CAPACITY_RESERVATION))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-loganalytics_1.0.0-beta.3/sdk/loganalytics/azure-resourcemanager-loganalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armoperationalinsights_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/examples/ClustersCreate.json
+      func ExampleClustersClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armoperationalinsights.NewClustersClient("00000000-0000-0000-0000-00000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"oiautorest6685",
+      		"oiautorest6685",
+      		armoperationalinsights.Cluster{
+      			Location: to.Ptr("australiasoutheast"),
+      			Tags: map[string]*string{
+      				"tag1": to.Ptr("val1"),
+      			},
+      			SKU: &armoperationalinsights.ClusterSKU{
+      				Name:     to.Ptr(armoperationalinsights.ClusterSKUNameEnumCapacityReservation),
+      				Capacity: to.Ptr(armoperationalinsights.CapacityTenHundred),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Foperationalinsights%2Farmoperationalinsights%2Fv2.0.0-beta.2/sdk/resourcemanager/operationalinsights/armoperationalinsights/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { OperationalInsightsManagementClient } = require("@azure/arm-operationalinsights");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a Log Analytics cluster.
+       *
+       * @summary Create or update a Log Analytics cluster.
+       * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/examples/ClustersCreate.json
+       */
+      async function clustersCreate() {
+        const subscriptionId = "00000000-0000-0000-0000-00000000000";
+        const resourceGroupName = "oiautorest6685";
+        const clusterName = "oiautorest6685";
+        const parameters = {
+          location: "australiasoutheast",
+          sku: { name: "CapacityReservation", capacity: 1000 },
+          tags: { tag1: "val1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new OperationalInsightsManagementClient(credential, subscriptionId);
+        const result = await client.clusters.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          clusterName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      clustersCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-operationalinsights_9.0.0-beta.1/sdk/operationalinsights/arm-operationalinsights/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
   - statusCode: "200"

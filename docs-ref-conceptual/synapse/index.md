@@ -1,5 +1,6 @@
 ---
 title: Azure Synapse Analytics REST API Reference
+description: Reference for using the Azure Synapse Analytics REST API to create and manage Azure Synapse resources through Azure Resource Manager and Azure Synapse endpoints.
 ms.service: synapse-analytics
 author: matt1883
 ms.author: mahi

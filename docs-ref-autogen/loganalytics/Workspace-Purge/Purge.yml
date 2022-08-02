@@ -9,6 +9,8 @@ summary: >-
 
 
   In order to manage system resources, purge requests are throttled at 50 requests per hour. You should batch the execution of purge requests by sending a single command whose predicate includes all user identities that require purging. Use the in operator to specify multiple identities. You should run the query prior to using for a purge request to verify that the results are expected.
+
+  Log Analytics only supports purge operations required for compliance with GDPR. The Log Analytics product team reserves the right to reject requests for purge operations that are not for the purpose of GDPR compliance. In the event of a dispute, please create a support ticket
 consumes:
 - application/json
 produces:
@@ -123,6 +125,219 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourceGroups/OIAutoRest5123/providers/Microsoft.OperationalInsights/workspaces/aztest5048/purge?api-version=2020-08-01
+
+      {
+        "table": "Heartbeat",
+        "filters": [
+          {
+            "column": "TimeGenerated",
+            "operator": ">",
+            "value": "2017-09-01T00:00:00"
+          }
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.loganalytics.models.WorkspacePurgeBody;
+      import com.azure.resourcemanager.loganalytics.models.WorkspacePurgeBodyFilters;
+      import java.util.Arrays;
+
+      /** Samples for WorkspacePurge Purge. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/WorkspacesPurge.json
+           */
+          /**
+           * Sample code: WorkspacePurge.
+           *
+           * @param manager Entry point to LogAnalyticsManager.
+           */
+          public static void workspacePurge(com.azure.resourcemanager.loganalytics.LogAnalyticsManager manager) {
+              manager
+                  .workspacePurges()
+                  .purgeWithResponse(
+                      "OIAutoRest5123",
+                      "aztest5048",
+                      new WorkspacePurgeBody()
+                          .withTable("Heartbeat")
+                          .withFilters(
+                              Arrays
+                                  .asList(
+                                      new WorkspacePurgeBodyFilters()
+                                          .withColumn("TimeGenerated")
+                                          .withOperator(">")
+                                          .withValue("2017-09-01T00:00:00"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-loganalytics_1.0.0-beta.3/sdk/loganalytics/azure-resourcemanager-loganalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armoperationalinsights_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/WorkspacesPurge.json
+      func ExampleWorkspacePurgeClient_Purge() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armoperationalinsights.NewWorkspacePurgeClient("00000000-0000-0000-0000-00000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	_, err = client.Purge(ctx,
+      		"OIAutoRest5123",
+      		"aztest5048",
+      		armoperationalinsights.WorkspacePurgeBody{
+      			Filters: []*armoperationalinsights.WorkspacePurgeBodyFilters{
+      				{
+      					Column:   to.Ptr("TimeGenerated"),
+      					Operator: to.Ptr(">"),
+      					Value:    "2017-09-01T00:00:00",
+      				}},
+      			Table: to.Ptr("Heartbeat"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Foperationalinsights%2Farmoperationalinsights%2Fv2.0.0-beta.2/sdk/resourcemanager/operationalinsights/armoperationalinsights/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { OperationalInsightsManagementClient } = require("@azure/arm-operationalinsights");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Purges data in an Log Analytics workspace by a set of user-defined filters.
+
+      In order to manage system resources, purge requests are throttled at 50 requests per hour. You should batch the execution of purge requests by sending a single command whose predicate includes all user identities that require purging. Use the in operator to specify multiple identities. You should run the query prior to using for a purge request to verify that the results are expected.
+       *
+       * @summary Purges data in an Log Analytics workspace by a set of user-defined filters.
+
+      In order to manage system resources, purge requests are throttled at 50 requests per hour. You should batch the execution of purge requests by sending a single command whose predicate includes all user identities that require purging. Use the in operator to specify multiple identities. You should run the query prior to using for a purge request to verify that the results are expected.
+       * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/WorkspacesPurge.json
+       */
+      async function workspacePurge() {
+        const subscriptionId = "00000000-0000-0000-0000-00000000000";
+        const resourceGroupName = "OIAutoRest5123";
+        const workspaceName = "aztest5048";
+        const body = {
+          filters: [{ column: "TimeGenerated", operator: ">", value: "2017-09-01T00:00:00" }],
+          table: "Heartbeat",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new OperationalInsightsManagementClient(credential, subscriptionId);
+        const result = await client.workspacePurge.purge(resourceGroupName, workspaceName, body);
+        console.log(result);
+      }
+
+      workspacePurge().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-operationalinsights_9.0.0-beta.1/sdk/operationalinsights/arm-operationalinsights/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: x-ms-status-location
+      value: https://management.azure.com/subscriptions/b96161de-b34a-480f-7343-59b099299283/resourceGroups/example/providers/microsoft.operationalinsights/workspaces/test/operations/purge-970318e7-b859-4edb-8903-83b1b54d0b74?api-version=2020-08-01
+    body: >-
+      {
+        "operationId": "7d7cf277-9113-4ab3-8359-d0364b74d01d"
+      }
+- name: WorkspacePurgeResourceId
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourceGroups/OIAutoRest5123/providers/Microsoft.OperationalInsights/workspaces/aztest5048/purge?api-version=2020-08-01
+    body: >-
+      {
+        "table": "Heartbeat",
+        "filters": [
+          {
+            "column": "_ResourceId",
+            "operator": "==",
+            "value": "/subscriptions/12341234-1234-1234-1234-123412341234/resourceGroups/SomeResourceGroup/providers/microsoft.insights/components/AppInsightResource"
+          }
+        ]
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourceGroups/OIAutoRest5123/providers/Microsoft.OperationalInsights/workspaces/aztest5048/purge?api-version=2020-08-01
+
+      {
+        "table": "Heartbeat",
+        "filters": [
+          {
+            "column": "_ResourceId",
+            "operator": "==",
+            "value": "/subscriptions/12341234-1234-1234-1234-123412341234/resourceGroups/SomeResourceGroup/providers/microsoft.insights/components/AppInsightResource"
+          }
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.loganalytics.models.WorkspacePurgeBody;
+      import com.azure.resourcemanager.loganalytics.models.WorkspacePurgeBodyFilters;
+      import java.util.Arrays;
+
+      /** Samples for WorkspacePurge Purge. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/WorkspacesPurgeResourceId.json
+           */
+          /**
+           * Sample code: WorkspacePurgeResourceId.
+           *
+           * @param manager Entry point to LogAnalyticsManager.
+           */
+          public static void workspacePurgeResourceId(com.azure.resourcemanager.loganalytics.LogAnalyticsManager manager) {
+              manager
+                  .workspacePurges()
+                  .purgeWithResponse(
+                      "OIAutoRest5123",
+                      "aztest5048",
+                      new WorkspacePurgeBody()
+                          .withTable("Heartbeat")
+                          .withFilters(
+                              Arrays
+                                  .asList(
+                                      new WorkspacePurgeBodyFilters()
+                                          .withColumn("_ResourceId")
+                                          .withOperator("==")
+                                          .withValue(
+                                              "/subscriptions/12341234-1234-1234-1234-123412341234/resourceGroups/SomeResourceGroup/providers/microsoft.insights/components/AppInsightResource"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-loganalytics_1.0.0-beta.3/sdk/loganalytics/azure-resourcemanager-loganalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:

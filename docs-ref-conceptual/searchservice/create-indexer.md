@@ -1,7 +1,7 @@
 ---
 title: Create Indexer (Azure Cognitive Search REST API-version=2020-06-30)
 description: Indexers are resources that automate many aspects of data ingestion into an Azure Cognitive Search indexes. You must use a supported Azure data source to use this API.
-ms.date: 03/15/2022
+ms.date: 07/25/2022
 
 ms.service: cognitive-search
 ms.topic: reference
@@ -137,6 +137,8 @@ The following parameters are specific to Azure SQL Database.
 | Parameter | Type and allowed values	| Usage       |
 |-----------|---------------------------|-------------|
 |`"queryTimeout"` | String<br/>"hh:mm:ss"<br/>"00:05:00"   | For [Azure SQL Database](/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers), set this parameter to increase the timeout beyond the 5-minute default.|
+|`"convertHighWaterMarkToRowVersion"` | Boolean  | Set this parameter to "true"  to use the rowversion data type for the high water mark column. When this property is set to true, the indexer subtracts one from the rowversion value before the indexer runs. It does this because views with one-to-many joins may have rows with duplicate rowversion values. Subtracting one ensures the indexer query doesn't miss these rows. |
+|`"disableOrderByHighWaterMarkColumn"` | Boolean | Set this parameter to "true" if you want to [disable the ORDER BY behavior](/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers#disableorderbyhighwatermarkcolumn) in the query used for change detection. If you're using the high water mark change detection policy, the indexer uses WHERE and ORDER BY clauses to track which rows need indexing (`WHERE [High Water Mark Column] > [Current High Water Mark Value] ORDER BY [High Water Mark Column]`). This parameter disables the ORDER BY behavior. Indexing will finish faster, but the trade off is that if the indexer is interrupted for any reason, the entire indexer job must be repeated in full.|
 
 ## Response
 

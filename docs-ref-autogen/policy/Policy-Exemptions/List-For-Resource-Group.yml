@@ -229,6 +229,110 @@ examples:
 - name: List policy exemptions that apply to a resource group
   request:
     uri: GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup/providers/Microsoft.Authorization/policyExemptions?$filter=atScope()&api-version=2020-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup/providers/Microsoft.Authorization/policyExemptions?$filter=atScope()&api-version=2020-07-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for PolicyExemptions ListByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/preview/2020-07-01-preview/examples/listPolicyExemptionsForResourceGroup.json
+           */
+          /**
+           * Sample code: List policy exemptions that apply to a resource group.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listPolicyExemptionsThatApplyToAResourceGroup(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .genericResources()
+                  .manager()
+                  .policyClient()
+                  .getPolicyExemptions()
+                  .listByResourceGroup("TestResourceGroup", "atScope()", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armpolicy_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Authorization/preview/2020-07-01-preview/examples/listPolicyExemptionsForResourceGroup.json
+      func ExampleExemptionsClient_NewListForResourceGroupPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armpolicy.NewExemptionsClient("ae640e6b-ba3e-4256-9d62-2993eecfa6f2", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListForResourceGroupPager("TestResourceGroup",
+      		&armpolicy.ExemptionsClientListForResourceGroupOptions{Filter: to.Ptr("atScope()")})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmpolicy%2Fv0.6.0/sdk/resourcemanager/resources/armpolicy/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PolicyClient } = require("@azure/arm-policy");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to This operation retrieves the list of all policy exemptions associated with the given resource group in the given subscription that match the optional given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not provided, the unfiltered list includes all policy exemptions associated with the resource group, including those that apply directly or apply from containing scopes, as well as any applied to resources contained within the resource group.
+       *
+       * @summary This operation retrieves the list of all policy exemptions associated with the given resource group in the given subscription that match the optional given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter is not provided, the unfiltered list includes all policy exemptions associated with the resource group, including those that apply directly or apply from containing scopes, as well as any applied to resources contained within the resource group.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/preview/2020-07-01-preview/examples/listPolicyExemptionsForResourceGroup.json
+       */
+      async function listPolicyExemptionsThatApplyToAResourceGroup() {
+        const subscriptionId = "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
+        const resourceGroupName = "TestResourceGroup";
+        const filter = "atScope()";
+        const options = {
+          filter,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PolicyClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.policyExemptions.listForResourceGroup(resourceGroupName, options)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listPolicyExemptionsThatApplyToAResourceGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-policy_5.0.2/sdk/policy/arm-policy/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -530,6 +530,153 @@ examples:
           "enablePurge": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Synapse/workspaces/synapseWorkspaceName/kustoPools/kustoclusterrptest4?api-version=2021-06-01-preview
+
+      {
+        "sku": {
+          "name": "Storage optimized",
+          "size": "Medium",
+          "capacity": 2
+        },
+        "properties": {
+          "workspaceUID": "11111111-2222-3333-444444444444",
+          "enableStreamingIngest": true,
+          "enablePurge": true
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.synapse.models.AzureSku;
+      import com.azure.resourcemanager.synapse.models.KustoPool;
+      import com.azure.resourcemanager.synapse.models.SkuName;
+      import com.azure.resourcemanager.synapse.models.SkuSize;
+
+      /** Samples for KustoPools Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolsUpdate.json
+           */
+          /**
+           * Sample code: kustoPoolsUpdate.
+           *
+           * @param manager Entry point to SynapseManager.
+           */
+          public static void kustoPoolsUpdate(com.azure.resourcemanager.synapse.SynapseManager manager) {
+              KustoPool resource =
+                  manager
+                      .kustoPools()
+                      .getWithResponse("synapseWorkspaceName", "kustoclusterrptest4", "kustorptest", Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withSku(new AzureSku().withName(SkuName.STORAGE_OPTIMIZED).withCapacity(2).withSize(SkuSize.MEDIUM))
+                  .withEnableStreamingIngest(true)
+                  .withEnablePurge(true)
+                  .withWorkspaceUid("11111111-2222-3333-444444444444")
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-synapse_1.0.0-beta.6/sdk/synapse/azure-resourcemanager-synapse/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armsynapse_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/synapse/armsynapse"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolsUpdate.json
+      func ExampleKustoPoolsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsynapse.NewKustoPoolsClient("12345678-1234-1234-1234-123456789098", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"synapseWorkspaceName",
+      		"kustorptest",
+      		"kustoclusterrptest4",
+      		armsynapse.KustoPoolUpdate{
+      			Properties: &armsynapse.KustoPoolProperties{
+      				EnablePurge:           to.Ptr(true),
+      				EnableStreamingIngest: to.Ptr(true),
+      				WorkspaceUID:          to.Ptr("11111111-2222-3333-444444444444"),
+      			},
+      			SKU: &armsynapse.AzureSKU{
+      				Name:     to.Ptr(armsynapse.SKUNameStorageOptimized),
+      				Capacity: to.Ptr[int32](2),
+      				Size:     to.Ptr(armsynapse.SKUSizeMedium),
+      			},
+      		},
+      		&armsynapse.KustoPoolsClientBeginUpdateOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsynapse%2Farmsynapse%2Fv0.5.0/sdk/resourcemanager/synapse/armsynapse/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SynapseManagementClient } = require("@azure/arm-synapse");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update a Kusto Kusto Pool.
+       *
+       * @summary Update a Kusto Kusto Pool.
+       * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolsUpdate.json
+       */
+      async function kustoPoolsUpdate() {
+        const subscriptionId = "12345678-1234-1234-1234-123456789098";
+        const workspaceName = "synapseWorkspaceName";
+        const resourceGroupName = "kustorptest";
+        const kustoPoolName = "kustoclusterrptest4";
+        const parameters = {
+          enablePurge: true,
+          enableStreamingIngest: true,
+          sku: { name: "Storage optimized", capacity: 2, size: "Medium" },
+          workspaceUID: "11111111-2222-3333-444444444444",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SynapseManagementClient(credential, subscriptionId);
+        const result = await client.kustoPools.beginUpdateAndWait(
+          workspaceName,
+          resourceGroupName,
+          kustoPoolName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      kustoPoolsUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-synapse_8.1.0-beta.1/sdk/synapse/arm-synapse/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

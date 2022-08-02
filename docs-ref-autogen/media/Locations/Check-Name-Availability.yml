@@ -3,14 +3,14 @@ uid: management.azure.com.media.locations.checknameavailability
 name: Check Name Availability
 service: Media Services
 groupName: Locations
-apiVersion: 2021-06-01
+apiVersion: 2021-11-01
 summary: "Check Name Availability  \nChecks whether the Media Service resource name is available."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Media/locations/{locationName}/checkNameAvailability?api-version=2021-06-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Media/locations/{locationName}/checkNameAvailability?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,7 +21,7 @@ uriParameters:
 - name: locationName
   in: path
   isRequired: true
-  description: The name of the location
+  description: Location name.
   types:
   - uid: string
 - name: api-version
@@ -138,12 +138,91 @@ definitions:
 examples:
 - name: Check Name Availability
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Media/locations/japanwest/checkNameAvailability?api-version=2021-06-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Media/locations/japanwest/checkNameAvailability?api-version=2021-11-01
     body: >-
       {
         "name": "contosotv",
         "type": "videoAnalyzers"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Media/locations/japanwest/checkNameAvailability?api-version=2021-11-01
+
+      {
+        "name": "contosotv",
+        "type": "videoAnalyzers"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.mediaservices.models.CheckNameAvailabilityInput;
+
+      /** Samples for Locations CheckNameAvailability. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/accounts-check-name-availability.json
+           */
+          /**
+           * Sample code: Check Name Availability.
+           *
+           * @param manager Entry point to MediaServicesManager.
+           */
+          public static void checkNameAvailability(com.azure.resourcemanager.mediaservices.MediaServicesManager manager) {
+              manager
+                  .locations()
+                  .checkNameAvailabilityWithResponse(
+                      "japanwest",
+                      new CheckNameAvailabilityInput().withName("contosotv").withType("videoAnalyzers"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mediaservices_2.1.0/sdk/mediaservices/azure-resourcemanager-mediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armmediaservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/accounts-check-name-availability.json
+      func ExampleLocationsClient_CheckNameAvailability() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmediaservices.NewLocationsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CheckNameAvailability(ctx,
+      		"japanwest",
+      		armmediaservices.CheckNameAvailabilityInput{
+      			Name: to.Ptr("contosotv"),
+      			Type: to.Ptr("videoAnalyzers"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.0.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

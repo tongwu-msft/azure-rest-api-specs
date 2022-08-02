@@ -543,6 +543,175 @@ examples:
           "hostingMode": "default"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-08-01
+
+      {
+        "location": "westus",
+        "tags": {
+          "app-name": "My e-commerce app"
+        },
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 3,
+          "partitionCount": 1,
+          "hostingMode": "default"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.search.fluent.models.SearchServiceInner;
+      import com.azure.resourcemanager.search.models.HostingMode;
+      import com.azure.resourcemanager.search.models.Sku;
+      import com.azure.resourcemanager.search.models.SkuName;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Services CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchCreateOrUpdateService.json
+           */
+          /**
+           * Sample code: SearchCreateOrUpdateService.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void searchCreateOrUpdateService(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .searchServices()
+                  .manager()
+                  .serviceClient()
+                  .getServices()
+                  .createOrUpdate(
+                      "rg1",
+                      "mysearchservice",
+                      new SearchServiceInner()
+                          .withLocation("westus")
+                          .withTags(mapOf("app-name", "My e-commerce app"))
+                          .withSku(new Sku().withName(SkuName.STANDARD))
+                          .withReplicaCount(3)
+                          .withPartitionCount(1)
+                          .withHostingMode(HostingMode.DEFAULT),
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armsearch_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchCreateOrUpdateService.json
+      func ExampleServicesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsearch.NewServicesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"rg1",
+      		"mysearchservice",
+      		armsearch.Service{
+      			Location: to.Ptr("westus"),
+      			Tags: map[string]*string{
+      				"app-name": to.Ptr("My e-commerce app"),
+      			},
+      			Properties: &armsearch.ServiceProperties{
+      				HostingMode:    to.Ptr(armsearch.HostingModeDefault),
+      				PartitionCount: to.Ptr[int32](1),
+      				ReplicaCount:   to.Ptr[int32](3),
+      			},
+      			SKU: &armsearch.SKU{
+      				Name: to.Ptr(armsearch.SKUNameStandard),
+      			},
+      		},
+      		&armsearch.SearchManagementRequestOptions{ClientRequestID: nil},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsearch%2Farmsearch%2Fv1.0.0/sdk/resourcemanager/search/armsearch/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SearchManagementClient } = require("@azure/arm-search");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
+       *
+       * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
+       * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchCreateOrUpdateService.json
+       */
+      async function searchCreateOrUpdateService() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const searchServiceName = "mysearchservice";
+        const service = {
+          hostingMode: "default",
+          location: "westus",
+          partitionCount: 1,
+          replicaCount: 3,
+          sku: { name: "standard" },
+          tags: { appName: "My e-commerce app" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SearchManagementClient(credential, subscriptionId);
+        const result = await client.services.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          searchServiceName,
+          service
+        );
+        console.log(result);
+      }
+
+      searchCreateOrUpdateService().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-search_3.0.1/sdk/search/arm-search/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -626,6 +795,142 @@ examples:
           "hostingMode": "default"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-08-01
+
+      {
+        "location": "westus",
+        "tags": {
+          "app-name": "My e-commerce app"
+        },
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 1,
+          "partitionCount": 1,
+          "networkRuleSet": {
+            "ipRules": [
+              {
+                "value": "123.4.5.6"
+              },
+              {
+                "value": "123.4.6.0/18"
+              }
+            ]
+          },
+          "hostingMode": "default"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.search.fluent.models.SearchServiceInner;
+      import com.azure.resourcemanager.search.models.HostingMode;
+      import com.azure.resourcemanager.search.models.IpRule;
+      import com.azure.resourcemanager.search.models.NetworkRuleSet;
+      import com.azure.resourcemanager.search.models.Sku;
+      import com.azure.resourcemanager.search.models.SkuName;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Services CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs.json
+           */
+          /**
+           * Sample code: SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .searchServices()
+                  .manager()
+                  .serviceClient()
+                  .getServices()
+                  .createOrUpdate(
+                      "rg1",
+                      "mysearchservice",
+                      new SearchServiceInner()
+                          .withLocation("westus")
+                          .withTags(mapOf("app-name", "My e-commerce app"))
+                          .withSku(new Sku().withName(SkuName.STANDARD))
+                          .withReplicaCount(1)
+                          .withPartitionCount(1)
+                          .withHostingMode(HostingMode.DEFAULT)
+                          .withNetworkRuleSet(
+                              new NetworkRuleSet()
+                                  .withIpRules(
+                                      Arrays
+                                          .asList(
+                                              new IpRule().withValue("123.4.5.6"), new IpRule().withValue("123.4.6.0/18")))),
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SearchManagementClient } = require("@azure/arm-search");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
+       *
+       * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
+       * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs.json
+       */
+      async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const searchServiceName = "mysearchservice";
+        const service = {
+          hostingMode: "default",
+          location: "westus",
+          networkRuleSet: {
+            ipRules: [{ value: "123.4.5.6" }, { value: "123.4.6.0/18" }],
+          },
+          partitionCount: 1,
+          replicaCount: 1,
+          sku: { name: "standard" },
+          tags: { appName: "My e-commerce app" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SearchManagementClient(credential, subscriptionId);
+        const result = await client.services.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          searchServiceName,
+          service
+        );
+        console.log(result);
+      }
+
+      searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-search_3.0.1/sdk/search/arm-search/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -714,6 +1019,124 @@ examples:
           "hostingMode": "default"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-08-01
+
+      {
+        "location": "westus",
+        "tags": {
+          "app-name": "My e-commerce app"
+        },
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 3,
+          "partitionCount": 1,
+          "publicNetworkAccess": "disabled",
+          "hostingMode": "default"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.search.fluent.models.SearchServiceInner;
+      import com.azure.resourcemanager.search.models.HostingMode;
+      import com.azure.resourcemanager.search.models.PublicNetworkAccess;
+      import com.azure.resourcemanager.search.models.Sku;
+      import com.azure.resourcemanager.search.models.SkuName;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Services CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints.json
+           */
+          /**
+           * Sample code: SearchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .searchServices()
+                  .manager()
+                  .serviceClient()
+                  .getServices()
+                  .createOrUpdate(
+                      "rg1",
+                      "mysearchservice",
+                      new SearchServiceInner()
+                          .withLocation("westus")
+                          .withTags(mapOf("app-name", "My e-commerce app"))
+                          .withSku(new Sku().withName(SkuName.STANDARD))
+                          .withReplicaCount(3)
+                          .withPartitionCount(1)
+                          .withHostingMode(HostingMode.DEFAULT)
+                          .withPublicNetworkAccess(PublicNetworkAccess.DISABLED),
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SearchManagementClient } = require("@azure/arm-search");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
+       *
+       * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
+       * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints.json
+       */
+      async function searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const searchServiceName = "mysearchservice";
+        const service = {
+          hostingMode: "default",
+          location: "westus",
+          partitionCount: 1,
+          publicNetworkAccess: "disabled",
+          replicaCount: 3,
+          sku: { name: "standard" },
+          tags: { appName: "My e-commerce app" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SearchManagementClient(credential, subscriptionId);
+        const result = await client.services.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          searchServiceName,
+          service
+        );
+        console.log(result);
+      }
+
+      searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-search_3.0.1/sdk/search/arm-search/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -790,6 +1213,126 @@ examples:
           "type": "SystemAssigned"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-08-01
+
+      {
+        "location": "westus",
+        "tags": {
+          "app-name": "My e-commerce app"
+        },
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 3,
+          "partitionCount": 1,
+          "hostingMode": "default"
+        },
+        "identity": {
+          "type": "SystemAssigned"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.search.fluent.models.SearchServiceInner;
+      import com.azure.resourcemanager.search.models.HostingMode;
+      import com.azure.resourcemanager.search.models.Identity;
+      import com.azure.resourcemanager.search.models.IdentityType;
+      import com.azure.resourcemanager.search.models.Sku;
+      import com.azure.resourcemanager.search.models.SkuName;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Services CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchCreateOrUpdateServiceWithIdentity.json
+           */
+          /**
+           * Sample code: SearchCreateOrUpdateServiceWithIdentity.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void searchCreateOrUpdateServiceWithIdentity(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .searchServices()
+                  .manager()
+                  .serviceClient()
+                  .getServices()
+                  .createOrUpdate(
+                      "rg1",
+                      "mysearchservice",
+                      new SearchServiceInner()
+                          .withLocation("westus")
+                          .withTags(mapOf("app-name", "My e-commerce app"))
+                          .withSku(new Sku().withName(SkuName.STANDARD))
+                          .withIdentity(new Identity().withType(IdentityType.SYSTEM_ASSIGNED))
+                          .withReplicaCount(3)
+                          .withPartitionCount(1)
+                          .withHostingMode(HostingMode.DEFAULT),
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SearchManagementClient } = require("@azure/arm-search");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
+       *
+       * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
+       * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchCreateOrUpdateServiceWithIdentity.json
+       */
+      async function searchCreateOrUpdateServiceWithIdentity() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const searchServiceName = "mysearchservice";
+        const service = {
+          hostingMode: "default",
+          identity: { type: "SystemAssigned" },
+          location: "westus",
+          partitionCount: 1,
+          replicaCount: 3,
+          sku: { name: "standard" },
+          tags: { appName: "My e-commerce app" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SearchManagementClient(credential, subscriptionId);
+        const result = await client.services.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          searchServiceName,
+          service
+        );
+        console.log(result);
+      }
+
+      searchCreateOrUpdateServiceWithIdentity().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-search_3.0.1/sdk/search/arm-search/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

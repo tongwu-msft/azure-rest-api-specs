@@ -187,6 +187,128 @@ examples:
           "endIpAddress": "10.0.0.254"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/01234567-89ab-4def-0123-456789abcdef/resourceGroups/ExampleResourceGroup/providers/Microsoft.Synapse/workspaces/ExampleWorkspace/firewallRules/ExampleIpFirewallRule?api-version=2021-06-01
+
+      {
+        "properties": {
+          "startIpAddress": "10.0.0.0",
+          "endIpAddress": "10.0.0.254"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      /** Samples for IpFirewallRules CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateIpFirewallRule.json
+           */
+          /**
+           * Sample code: Create an IP firewall rule.
+           *
+           * @param manager Entry point to SynapseManager.
+           */
+          public static void createAnIPFirewallRule(com.azure.resourcemanager.synapse.SynapseManager manager) {
+              manager
+                  .ipFirewallRules()
+                  .define("ExampleIpFirewallRule")
+                  .withExistingWorkspace("ExampleResourceGroup", "ExampleWorkspace")
+                  .withEndIpAddress("10.0.0.254")
+                  .withStartIpAddress("10.0.0.0")
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-synapse_1.0.0-beta.6/sdk/synapse/azure-resourcemanager-synapse/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armsynapse_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/synapse/armsynapse"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateIpFirewallRule.json
+      func ExampleIPFirewallRulesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsynapse.NewIPFirewallRulesClient("01234567-89ab-4def-0123-456789abcdef", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"ExampleResourceGroup",
+      		"ExampleWorkspace",
+      		"ExampleIpFirewallRule",
+      		armsynapse.IPFirewallRuleInfo{
+      			Properties: &armsynapse.IPFirewallRuleProperties{
+      				EndIPAddress:   to.Ptr("10.0.0.254"),
+      				StartIPAddress: to.Ptr("10.0.0.0"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsynapse%2Farmsynapse%2Fv0.5.0/sdk/resourcemanager/synapse/armsynapse/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SynapseManagementClient } = require("@azure/arm-synapse");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a firewall rule
+       *
+       * @summary Creates or updates a firewall rule
+       * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateIpFirewallRule.json
+       */
+      async function createAnIPFirewallRule() {
+        const subscriptionId = "01234567-89ab-4def-0123-456789abcdef";
+        const resourceGroupName = "ExampleResourceGroup";
+        const workspaceName = "ExampleWorkspace";
+        const ruleName = "ExampleIpFirewallRule";
+        const ipFirewallRuleInfo = {
+          endIpAddress: "10.0.0.254",
+          startIpAddress: "10.0.0.0",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SynapseManagementClient(credential, subscriptionId);
+        const result = await client.ipFirewallRules.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          workspaceName,
+          ruleName,
+          ipFirewallRuleInfo
+        );
+        console.log(result);
+      }
+
+      createAnIPFirewallRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-synapse_8.1.0-beta.1/sdk/synapse/arm-synapse/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

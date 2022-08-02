@@ -191,6 +191,158 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/serviceEndpointPolicies/testPolicy/serviceEndpointPolicyDefinitions/testDefinition?api-version=2021-08-01
+
+      {
+        "properties": {
+          "description": "Storage Service EndpointPolicy Definition",
+          "service": "Microsoft.Storage",
+          "serviceResources": [
+            "/subscriptions/subid1",
+            "/subscriptions/subid1/resourceGroups/storageRg",
+            "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount"
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.ServiceEndpointPolicyDefinitionInner;
+      import java.util.Arrays;
+
+      /** Samples for ServiceEndpointPolicyDefinitions CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/ServiceEndpointPolicyDefinitionCreate.json
+           */
+          /**
+           * Sample code: Create service endpoint policy definition.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createServiceEndpointPolicyDefinition(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getServiceEndpointPolicyDefinitions()
+                  .createOrUpdate(
+                      "rg1",
+                      "testPolicy",
+                      "testDefinition",
+                      new ServiceEndpointPolicyDefinitionInner()
+                          .withDescription("Storage Service EndpointPolicy Definition")
+                          .withService("Microsoft.Storage")
+                          .withServiceResources(
+                              Arrays
+                                  .asList(
+                                      "/subscriptions/subid1",
+                                      "/subscriptions/subid1/resourceGroups/storageRg",
+                                      "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/ServiceEndpointPolicyDefinitionCreate.json
+      func ExampleServiceEndpointPolicyDefinitionsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewServiceEndpointPolicyDefinitionsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"rg1",
+      		"testPolicy",
+      		"testDefinition",
+      		armnetwork.ServiceEndpointPolicyDefinition{
+      			Properties: &armnetwork.ServiceEndpointPolicyDefinitionPropertiesFormat{
+      				Description: to.Ptr("Storage Service EndpointPolicy Definition"),
+      				Service:     to.Ptr("Microsoft.Storage"),
+      				ServiceResources: []*string{
+      					to.Ptr("/subscriptions/subid1"),
+      					to.Ptr("/subscriptions/subid1/resourceGroups/storageRg"),
+      					to.Ptr("/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount")},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a service endpoint policy definition in the specified service endpoint policy.
+       *
+       * @summary Creates or updates a service endpoint policy definition in the specified service endpoint policy.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/ServiceEndpointPolicyDefinitionCreate.json
+       */
+      async function createServiceEndpointPolicyDefinition() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const serviceEndpointPolicyName = "testPolicy";
+        const serviceEndpointPolicyDefinitionName = "testDefinition";
+        const serviceEndpointPolicyDefinitions = {
+          description: "Storage Service EndpointPolicy Definition",
+          service: "Microsoft.Storage",
+          serviceResources: [
+            "/subscriptions/subid1",
+            "/subscriptions/subid1/resourceGroups/storageRg",
+            "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount",
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.serviceEndpointPolicyDefinitions.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          serviceEndpointPolicyName,
+          serviceEndpointPolicyDefinitionName,
+          serviceEndpointPolicyDefinitions
+        );
+        console.log(result);
+      }
+
+      createServiceEndpointPolicyDefinition().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

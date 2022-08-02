@@ -321,6 +321,171 @@ examples:
           "authenticationMethod": "None"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cassandra-prod-rg/providers/Microsoft.DocumentDB/cassandraClusters/cassandra-prod?api-version=2021-10-15
+
+      {
+        "tags": {
+          "owner": "mike"
+        },
+        "properties": {
+          "externalSeedNodes": [
+            {
+              "ipAddress": "10.52.221.2"
+            },
+            {
+              "ipAddress": "10.52.221.3"
+            },
+            {
+              "ipAddress": "10.52.221.4"
+            }
+          ],
+          "externalGossipCertificates": [
+            {
+              "pem": "-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----"
+            }
+          ],
+          "hoursBetweenBackups": 12,
+          "authenticationMethod": "None"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cosmos.fluent.models.ClusterResourceInner;
+      import com.azure.resourcemanager.cosmos.models.AuthenticationMethod;
+      import com.azure.resourcemanager.cosmos.models.Certificate;
+      import com.azure.resourcemanager.cosmos.models.ClusterResourceProperties;
+      import com.azure.resourcemanager.cosmos.models.SeedNode;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for CassandraClusters Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-10-15/examples/CosmosDBManagedCassandraClusterPatch.json
+           */
+          /**
+           * Sample code: CosmosDBManagedCassandraClusterPatch.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void cosmosDBManagedCassandraClusterPatch(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cosmosDBAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getCassandraClusters()
+                  .update(
+                      "cassandra-prod-rg",
+                      "cassandra-prod",
+                      new ClusterResourceInner()
+                          .withTags(mapOf("owner", "mike"))
+                          .withProperties(
+                              new ClusterResourceProperties()
+                                  .withAuthenticationMethod(AuthenticationMethod.NONE)
+                                  .withExternalGossipCertificates(
+                                      Arrays
+                                          .asList(
+                                              new Certificate()
+                                                  .withPem(
+                                                      "-----BEGIN CERTIFICATE-----\n"
+                                                          + "...Base64 encoded certificate...\n"
+                                                          + "-----END CERTIFICATE-----")))
+                                  .withExternalSeedNodes(
+                                      Arrays
+                                          .asList(
+                                              new SeedNode().withIpAddress("10.52.221.2"),
+                                              new SeedNode().withIpAddress("10.52.221.3"),
+                                              new SeedNode().withIpAddress("10.52.221.4")))
+                                  .withHoursBetweenBackups(12)),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcosmos_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-10-15/examples/CosmosDBManagedCassandraClusterPatch.json
+      func ExampleCassandraClustersClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcosmos.NewCassandraClustersClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"cassandra-prod-rg",
+      		"cassandra-prod",
+      		armcosmos.ClusterResource{
+      			Tags: map[string]*string{
+      				"owner": to.Ptr("mike"),
+      			},
+      			Properties: &armcosmos.ClusterResourceProperties{
+      				AuthenticationMethod: to.Ptr(armcosmos.AuthenticationMethodNone),
+      				ExternalGossipCertificates: []*armcosmos.Certificate{
+      					{
+      						Pem: to.Ptr("-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----"),
+      					}},
+      				ExternalSeedNodes: []*armcosmos.SeedNode{
+      					{
+      						IPAddress: to.Ptr("10.52.221.2"),
+      					},
+      					{
+      						IPAddress: to.Ptr("10.52.221.3"),
+      					},
+      					{
+      						IPAddress: to.Ptr("10.52.221.4"),
+      					}},
+      				HoursBetweenBackups: to.Ptr[int32](12),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcosmos%2Farmcosmos%2Fv1.0.0/sdk/resourcemanager/cosmos/armcosmos/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-

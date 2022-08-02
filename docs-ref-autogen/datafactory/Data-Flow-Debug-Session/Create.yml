@@ -596,6 +596,201 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/createDataFlowDebugSession?api-version=2018-06-01
+
+      {
+        "timeToLive": 60,
+        "integrationRuntime": {
+          "name": "ir1",
+          "properties": {
+            "type": "Managed",
+            "typeProperties": {
+              "computeProperties": {
+                "location": "AutoResolve",
+                "dataFlowProperties": {
+                  "computeType": "General",
+                  "coreCount": 48,
+                  "timeToLive": 10
+                }
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.datafactory.models.CreateDataFlowDebugSessionRequest;
+      import com.azure.resourcemanager.datafactory.models.DataFlowComputeType;
+      import com.azure.resourcemanager.datafactory.models.IntegrationRuntimeComputeProperties;
+      import com.azure.resourcemanager.datafactory.models.IntegrationRuntimeDataFlowProperties;
+      import com.azure.resourcemanager.datafactory.models.IntegrationRuntimeDebugResource;
+      import com.azure.resourcemanager.datafactory.models.ManagedIntegrationRuntime;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for DataFlowDebugSession Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DataFlowDebugSession_Create.json
+           */
+          /**
+           * Sample code: DataFlowDebugSession_Create.
+           *
+           * @param manager Entry point to DataFactoryManager.
+           */
+          public static void dataFlowDebugSessionCreate(com.azure.resourcemanager.datafactory.DataFactoryManager manager) {
+              manager
+                  .dataFlowDebugSessions()
+                  .create(
+                      "exampleResourceGroup",
+                      "exampleFactoryName",
+                      new CreateDataFlowDebugSessionRequest()
+                          .withTimeToLive(60)
+                          .withIntegrationRuntime(
+                              new IntegrationRuntimeDebugResource()
+                                  .withName("ir1")
+                                  .withProperties(
+                                      new ManagedIntegrationRuntime()
+                                          .withComputeProperties(
+                                              new IntegrationRuntimeComputeProperties()
+                                                  .withLocation("AutoResolve")
+                                                  .withDataFlowProperties(
+                                                      new IntegrationRuntimeDataFlowProperties()
+                                                          .withComputeType(DataFlowComputeType.GENERAL)
+                                                          .withCoreCount(48)
+                                                          .withTimeToLive(10)
+                                                          .withAdditionalProperties(mapOf()))
+                                                  .withAdditionalProperties(mapOf())))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-datafactory_1.0.0-beta.16/sdk/datafactory/azure-resourcemanager-datafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdatafactory_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datafactory/armdatafactory"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DataFlowDebugSession_Create.json
+      func ExampleDataFlowDebugSessionClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdatafactory.NewDataFlowDebugSessionClient("12345678-1234-1234-1234-12345678abc", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"exampleResourceGroup",
+      		"exampleFactoryName",
+      		armdatafactory.CreateDataFlowDebugSessionRequest{
+      			IntegrationRuntime: &armdatafactory.IntegrationRuntimeDebugResource{
+      				Name: to.Ptr("ir1"),
+      				Properties: &armdatafactory.ManagedIntegrationRuntime{
+      					Type: to.Ptr(armdatafactory.IntegrationRuntimeTypeManaged),
+      					TypeProperties: &armdatafactory.ManagedIntegrationRuntimeTypeProperties{
+      						ComputeProperties: &armdatafactory.IntegrationRuntimeComputeProperties{
+      							DataFlowProperties: &armdatafactory.IntegrationRuntimeDataFlowProperties{
+      								ComputeType: to.Ptr(armdatafactory.DataFlowComputeTypeGeneral),
+      								CoreCount:   to.Ptr[int32](48),
+      								TimeToLive:  to.Ptr[int32](10),
+      							},
+      							Location: to.Ptr("AutoResolve"),
+      						},
+      					},
+      				},
+      			},
+      			TimeToLive: to.Ptr[int32](60),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdatafactory%2Farmdatafactory%2Fv1.2.0/sdk/resourcemanager/datafactory/armdatafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a data flow debug session.
+       *
+       * @summary Creates a data flow debug session.
+       * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DataFlowDebugSession_Create.json
+       */
+      async function dataFlowDebugSessionCreate() {
+        const subscriptionId = "12345678-1234-1234-1234-12345678abc";
+        const resourceGroupName = "exampleResourceGroup";
+        const factoryName = "exampleFactoryName";
+        const request = {
+          integrationRuntime: {
+            name: "ir1",
+            properties: {
+              type: "Managed",
+              computeProperties: {
+                dataFlowProperties: {
+                  computeType: "General",
+                  coreCount: 48,
+                  timeToLive: 10,
+                },
+                location: "AutoResolve",
+              },
+            },
+          },
+          timeToLive: 60,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DataFactoryManagementClient(credential, subscriptionId);
+        const result = await client.dataFlowDebugSession.beginCreateAndWait(
+          resourceGroupName,
+          factoryName,
+          request
+        );
+        console.log(result);
+      }
+
+      dataFlowDebugSessionCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datafactory_10.7.0/sdk/datafactory/arm-datafactory/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:

@@ -1,0 +1,895 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.monitor.actiongroups.createnotificationsatactiongroupresourcelevel
+name: Create Notifications At Action Group Resource Level
+service: Monitor
+groupName: Action Groups
+apiVersion: 2021-09-01
+summary: Send test notifications to a set of provided receivers
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}/createNotifications?api-version=2021-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: actionGroupName
+  in: path
+  isRequired: true
+  description: The name of the action group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  headers:
+  - name: location
+    value: string
+  description: The notification request accepted
+- name: 200 OK
+  description: The notification succeeded
+  types:
+  - uid: TestNotificationDetailsResponse
+- name: Other Status Codes
+  description: An error occurred while sending the test notifications
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: alertType
+    in: body
+    isRequired: true
+    description: The name of the supported alert type.
+    types:
+    - uid: string
+  - name: emailReceivers
+    in: body
+    description: The list of email receivers that are part of this action group.
+    types:
+    - uid: EmailReceiver
+      isArray: true
+  - name: smsReceivers
+    in: body
+    description: The list of SMS receivers that are part of this action group.
+    types:
+    - uid: SmsReceiver
+      isArray: true
+  - name: webhookReceivers
+    in: body
+    description: The list of webhook receivers that are part of this action group.
+    types:
+    - uid: WebhookReceiver
+      isArray: true
+  - name: itsmReceivers
+    in: body
+    description: The list of ITSM receivers that are part of this action group.
+    types:
+    - uid: ItsmReceiver
+      isArray: true
+  - name: azureAppPushReceivers
+    in: body
+    description: The list of AzureAppPush receivers that are part of this action group.
+    types:
+    - uid: AzureAppPushReceiver
+      isArray: true
+  - name: automationRunbookReceivers
+    in: body
+    description: The list of AutomationRunbook receivers that are part of this action group.
+    types:
+    - uid: AutomationRunbookReceiver
+      isArray: true
+  - name: voiceReceivers
+    in: body
+    description: The list of voice receivers that are part of this action group.
+    types:
+    - uid: VoiceReceiver
+      isArray: true
+  - name: logicAppReceivers
+    in: body
+    description: The list of logic app receivers that are part of this action group.
+    types:
+    - uid: LogicAppReceiver
+      isArray: true
+  - name: azureFunctionReceivers
+    in: body
+    description: The list of azure function receivers that are part of this action group.
+    types:
+    - uid: AzureFunctionReceiver
+      isArray: true
+  - name: armRoleReceivers
+    in: body
+    description: The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported.
+    types:
+    - uid: ArmRoleReceiver
+      isArray: true
+  - name: eventHubReceivers
+    in: body
+    description: The list of event hub receivers that are part of this action group.
+    types:
+    - uid: EventHubReceiver
+      isArray: true
+requestHeader: []
+definitions:
+- name: EmailReceiver
+  description: An email receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the email receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: emailAddress
+    description: The email address of this receiver.
+    types:
+    - uid: string
+  - name: useCommonAlertSchema
+    description: Indicates whether to use common alert schema.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: status
+    isReadyOnly: true
+    description: The receiver status of the e-mail.
+    types:
+    - uid: ReceiverStatus
+- name: SmsReceiver
+  description: An SMS receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SMS receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: countryCode
+    description: The country code of the SMS receiver.
+    types:
+    - uid: string
+  - name: phoneNumber
+    description: The phone number of the SMS receiver.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: The status of the receiver.
+    types:
+    - uid: ReceiverStatus
+- name: WebhookReceiver
+  description: A webhook receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the webhook receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: serviceUri
+    description: The URI where webhooks should be sent.
+    types:
+    - uid: string
+  - name: useCommonAlertSchema
+    description: Indicates whether to use common alert schema.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: useAadAuth
+    description: Indicates whether or not use AAD authentication.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: objectId
+    description: Indicates the webhook app object Id for aad auth.
+    types:
+    - uid: string
+  - name: identifierUri
+    description: Indicates the identifier uri for aad auth.
+    types:
+    - uid: string
+  - name: tenantId
+    description: Indicates the tenant id for aad auth.
+    types:
+    - uid: string
+- name: ItsmReceiver
+  description: An Itsm receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the Itsm receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: workspaceId
+    description: OMS LA instance identifier.
+    types:
+    - uid: string
+  - name: connectionId
+    description: Unique identification of ITSM connection among multiple defined in above workspace.
+    types:
+    - uid: string
+  - name: ticketConfiguration
+    description: JSON blob for the configurations of the ITSM action. CreateMultipleWorkItems option will be part of this blob as well.
+    types:
+    - uid: string
+  - name: region
+    description: Region in which workspace resides. Supported values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'
+    types:
+    - uid: string
+- name: AzureAppPushReceiver
+  description: The Azure mobile App push notification receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the Azure mobile app push receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: emailAddress
+    description: The email address registered for the Azure mobile app.
+    types:
+    - uid: string
+- name: AutomationRunbookReceiver
+  description: The Azure Automation Runbook notification receiver.
+  kind: object
+  properties:
+  - name: automationAccountId
+    description: The Azure automation account Id which holds this runbook and authenticate to Azure resource.
+    types:
+    - uid: string
+  - name: runbookName
+    description: The name for this runbook.
+    types:
+    - uid: string
+  - name: webhookResourceId
+    description: The resource id for webhook linked to this runbook.
+    types:
+    - uid: string
+  - name: isGlobalRunbook
+    description: Indicates whether this instance is global runbook.
+    types:
+    - uid: boolean
+  - name: name
+    description: Indicates name of the webhook.
+    types:
+    - uid: string
+  - name: serviceUri
+    description: The URI where webhooks should be sent.
+    types:
+    - uid: string
+  - name: useCommonAlertSchema
+    description: Indicates whether to use common alert schema.
+    types:
+    - uid: boolean
+    defaultValue: false
+- name: VoiceReceiver
+  description: A voice receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the voice receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: countryCode
+    description: The country code of the voice receiver.
+    types:
+    - uid: string
+  - name: phoneNumber
+    description: The phone number of the voice receiver.
+    types:
+    - uid: string
+- name: LogicAppReceiver
+  description: A logic app receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the logic app receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: resourceId
+    description: The azure resource id of the logic app receiver.
+    types:
+    - uid: string
+  - name: callbackUrl
+    description: The callback url where http request sent to.
+    types:
+    - uid: string
+  - name: useCommonAlertSchema
+    description: Indicates whether to use common alert schema.
+    types:
+    - uid: boolean
+    defaultValue: false
+- name: AzureFunctionReceiver
+  description: An azure function receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the azure function receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: functionAppResourceId
+    description: The azure resource id of the function app.
+    types:
+    - uid: string
+  - name: functionName
+    description: The function name in the function app.
+    types:
+    - uid: string
+  - name: httpTriggerUrl
+    description: The http trigger url where http request sent to.
+    types:
+    - uid: string
+  - name: useCommonAlertSchema
+    description: Indicates whether to use common alert schema.
+    types:
+    - uid: boolean
+    defaultValue: false
+- name: ArmRoleReceiver
+  description: An arm role receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the arm role receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: roleId
+    description: The arm role id.
+    types:
+    - uid: string
+  - name: useCommonAlertSchema
+    description: Indicates whether to use common alert schema.
+    types:
+    - uid: boolean
+    defaultValue: false
+- name: EventHubReceiver
+  description: An Event hub receiver.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the Event hub receiver. Names must be unique across all receivers within an action group.
+    types:
+    - uid: string
+  - name: eventHubNameSpace
+    description: The Event Hub namespace
+    types:
+    - uid: string
+  - name: eventHubName
+    description: The name of the specific Event Hub queue
+    types:
+    - uid: string
+  - name: useCommonAlertSchema
+    description: Indicates whether to use common alert schema.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: tenantId
+    description: The tenant Id for the subscription containing this event hub
+    types:
+    - uid: string
+  - name: subscriptionId
+    description: The Id for the subscription containing this event hub
+    types:
+    - uid: string
+- name: TestNotificationDetailsResponse
+  description: The details of the test notification results.
+  kind: object
+  properties:
+  - name: context
+    description: The context info
+    types:
+    - uid: Context
+  - name: state
+    description: The overall state
+    types:
+    - uid: string
+  - name: completedTime
+    description: The completed time
+    types:
+    - uid: string
+  - name: createdTime
+    description: The created time
+    types:
+    - uid: string
+  - name: actionDetails
+    description: The list of action detail
+    types:
+    - uid: ActionDetail
+      isArray: true
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: NotificationRequestBody
+  description: The request body which contain contact detail metadata
+  kind: object
+  properties:
+  - name: alertType
+    description: The name of the supported alert type.
+    types:
+    - uid: string
+  - name: emailReceivers
+    description: The list of email receivers that are part of this action group.
+    types:
+    - uid: EmailReceiver
+      isArray: true
+  - name: smsReceivers
+    description: The list of SMS receivers that are part of this action group.
+    types:
+    - uid: SmsReceiver
+      isArray: true
+  - name: webhookReceivers
+    description: The list of webhook receivers that are part of this action group.
+    types:
+    - uid: WebhookReceiver
+      isArray: true
+  - name: itsmReceivers
+    description: The list of ITSM receivers that are part of this action group.
+    types:
+    - uid: ItsmReceiver
+      isArray: true
+  - name: azureAppPushReceivers
+    description: The list of AzureAppPush receivers that are part of this action group.
+    types:
+    - uid: AzureAppPushReceiver
+      isArray: true
+  - name: automationRunbookReceivers
+    description: The list of AutomationRunbook receivers that are part of this action group.
+    types:
+    - uid: AutomationRunbookReceiver
+      isArray: true
+  - name: voiceReceivers
+    description: The list of voice receivers that are part of this action group.
+    types:
+    - uid: VoiceReceiver
+      isArray: true
+  - name: logicAppReceivers
+    description: The list of logic app receivers that are part of this action group.
+    types:
+    - uid: LogicAppReceiver
+      isArray: true
+  - name: azureFunctionReceivers
+    description: The list of azure function receivers that are part of this action group.
+    types:
+    - uid: AzureFunctionReceiver
+      isArray: true
+  - name: armRoleReceivers
+    description: The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported.
+    types:
+    - uid: ArmRoleReceiver
+      isArray: true
+  - name: eventHubReceivers
+    description: The list of event hub receivers that are part of this action group.
+    types:
+    - uid: EventHubReceiver
+      isArray: true
+- name: ReceiverStatus
+  description: Indicates the status of the receiver. Receivers that are not Enabled will not receive any communications.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: Context
+  description: The context info
+  kind: object
+  properties:
+  - name: notificationSource
+    description: The source of the notification request
+    types:
+    - uid: string
+  - name: contextType
+    description: The context id type
+    types:
+    - uid: string
+- name: ActionDetail
+  description: The action detail
+  kind: object
+  properties:
+  - name: MechanismType
+    description: The mechanism type
+    types:
+    - uid: string
+  - name: Name
+    description: The name of the action
+    types:
+    - uid: string
+  - name: Status
+    description: The status of the action
+    types:
+    - uid: string
+  - name: SubState
+    description: The substatus of the action
+    types:
+    - uid: string
+  - name: SendTime
+    description: The send time
+    types:
+    - uid: string
+  - name: Detail
+    description: The detail of the friendly error message
+    types:
+    - uid: string
+examples:
+- name: Create notifications at resource group level
+  request:
+    uri: POST https://management.azure.com/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/TestRgName/providers/Microsoft.Insights/actionGroups/TestAgName/createNotifications?api-version=2021-09-01
+    body: >-
+      {
+        "alertType": "budget",
+        "emailReceivers": [
+          {
+            "name": "John Doe's email",
+            "emailAddress": "johndoe@email.com",
+            "useCommonAlertSchema": false
+          },
+          {
+            "name": "Jane Smith's email",
+            "emailAddress": "janesmith@email.com",
+            "useCommonAlertSchema": true
+          }
+        ],
+        "smsReceivers": [
+          {
+            "name": "John Doe's mobile",
+            "countryCode": "1",
+            "phoneNumber": "1234567890"
+          },
+          {
+            "name": "Jane Smith's mobile",
+            "countryCode": "1",
+            "phoneNumber": "0987654321"
+          }
+        ],
+        "webhookReceivers": [
+          {
+            "name": "Sample webhook 1",
+            "serviceUri": "http://www.example.com/webhook1",
+            "useCommonAlertSchema": true
+          },
+          {
+            "name": "Sample webhook 2",
+            "serviceUri": "http://www.example.com/webhook2",
+            "useCommonAlertSchema": true,
+            "useAadAuth": true,
+            "objectId": "d3bb868c-fe44-452c-aa26-769a6538c808",
+            "identifierUri": "http://someidentifier/d7811ba3-7996-4a93-99b6-6b2f3f355f8a",
+            "tenantId": "68a4459a-ccb8-493c-b9da-dd30457d1b84"
+          }
+        ],
+        "itsmReceivers": [
+          {
+            "name": "Sample itsm",
+            "workspaceId": "5def922a-3ed4-49c1-b9fd-05ec533819a3|55dfd1f8-7e59-4f89-bf56-4c82f5ace23c",
+            "connectionId": "a3b9076c-ce8e-434e-85b4-aff10cb3c8f1",
+            "ticketConfiguration": "{\"PayloadRevision\":0,\"WorkItemType\":\"Incident\",\"UseTemplate\":false,\"WorkItemData\":\"{}\",\"CreateOneWIPerCI\":false}",
+            "region": "westcentralus"
+          }
+        ],
+        "azureAppPushReceivers": [
+          {
+            "name": "Sample azureAppPush",
+            "emailAddress": "johndoe@email.com"
+          }
+        ],
+        "automationRunbookReceivers": [
+          {
+            "automationAccountId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/runbookTest/providers/Microsoft.Automation/automationAccounts/runbooktest",
+            "runbookName": "Sample runbook",
+            "webhookResourceId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/runbookTest/providers/Microsoft.Automation/automationAccounts/runbooktest/webhooks/Alert1510184037084",
+            "isGlobalRunbook": false,
+            "name": "testRunbook",
+            "serviceUri": "http://test.me",
+            "useCommonAlertSchema": true
+          }
+        ],
+        "voiceReceivers": [
+          {
+            "name": "Sample voice",
+            "countryCode": "1",
+            "phoneNumber": "1234567890"
+          }
+        ],
+        "logicAppReceivers": [
+          {
+            "name": "Sample logicApp",
+            "resourceId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/LogicApp/providers/Microsoft.Logic/workflows/testLogicApp",
+            "callbackUrl": "https://prod-27.northcentralus.logic.azure.com/workflows/68e572e818e5457ba898763b7db90877/triggers/manual/paths/invoke/azns/test?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Abpsb72UYJxPPvmDo937uzofupO5r_vIeWEx7KVHo7w",
+            "useCommonAlertSchema": false
+          }
+        ],
+        "azureFunctionReceivers": [
+          {
+            "name": "Sample azureFunction",
+            "functionAppResourceId": "/subscriptions/5def922a-3ed4-49c1-b9fd-05ec533819a3/resourceGroups/aznsTest/providers/Microsoft.Web/sites/testFunctionApp",
+            "functionName": "HttpTriggerCSharp1",
+            "httpTriggerUrl": "http://test.me",
+            "useCommonAlertSchema": true
+          }
+        ],
+        "eventHubReceivers": [
+          {
+            "name": "Sample eventHub",
+            "eventHubNameSpace": "testEventHubNameSpace",
+            "eventHubName": "testEventHub",
+            "subscriptionId": "187f412d-1758-44d9-b052-169e2564721d",
+            "tenantId": "68a4459a-ccb8-493c-b9da-dd30457d1b84"
+          }
+        ],
+        "armRoleReceivers": [
+          {
+            "name": "ArmRole-Common",
+            "roleId": "11111111-1111-1111-1111-111111111111",
+            "useCommonAlertSchema": true
+          },
+          {
+            "name": "ArmRole-nonCommon",
+            "roleId": "11111111-1111-1111-1111-111111111111",
+            "useCommonAlertSchema": false
+          }
+        ]
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/TestRgName/providers/Microsoft.Insights/actionGroups/TestAgName/createNotifications?api-version=2021-09-01
+
+      {
+        "alertType": "budget",
+        "emailReceivers": [
+          {
+            "name": "John Doe's email",
+            "emailAddress": "johndoe@email.com",
+            "useCommonAlertSchema": false
+          },
+          {
+            "name": "Jane Smith's email",
+            "emailAddress": "janesmith@email.com",
+            "useCommonAlertSchema": true
+          }
+        ],
+        "smsReceivers": [
+          {
+            "name": "John Doe's mobile",
+            "countryCode": "1",
+            "phoneNumber": "1234567890"
+          },
+          {
+            "name": "Jane Smith's mobile",
+            "countryCode": "1",
+            "phoneNumber": "0987654321"
+          }
+        ],
+        "webhookReceivers": [
+          {
+            "name": "Sample webhook 1",
+            "serviceUri": "http://www.example.com/webhook1",
+            "useCommonAlertSchema": true
+          },
+          {
+            "name": "Sample webhook 2",
+            "serviceUri": "http://www.example.com/webhook2",
+            "useCommonAlertSchema": true,
+            "useAadAuth": true,
+            "objectId": "d3bb868c-fe44-452c-aa26-769a6538c808",
+            "identifierUri": "http://someidentifier/d7811ba3-7996-4a93-99b6-6b2f3f355f8a",
+            "tenantId": "68a4459a-ccb8-493c-b9da-dd30457d1b84"
+          }
+        ],
+        "itsmReceivers": [
+          {
+            "name": "Sample itsm",
+            "workspaceId": "5def922a-3ed4-49c1-b9fd-05ec533819a3|55dfd1f8-7e59-4f89-bf56-4c82f5ace23c",
+            "connectionId": "a3b9076c-ce8e-434e-85b4-aff10cb3c8f1",
+            "ticketConfiguration": "{\"PayloadRevision\":0,\"WorkItemType\":\"Incident\",\"UseTemplate\":false,\"WorkItemData\":\"{}\",\"CreateOneWIPerCI\":false}",
+            "region": "westcentralus"
+          }
+        ],
+        "azureAppPushReceivers": [
+          {
+            "name": "Sample azureAppPush",
+            "emailAddress": "johndoe@email.com"
+          }
+        ],
+        "automationRunbookReceivers": [
+          {
+            "automationAccountId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/runbookTest/providers/Microsoft.Automation/automationAccounts/runbooktest",
+            "runbookName": "Sample runbook",
+            "webhookResourceId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/runbookTest/providers/Microsoft.Automation/automationAccounts/runbooktest/webhooks/Alert1510184037084",
+            "isGlobalRunbook": false,
+            "name": "testRunbook",
+            "serviceUri": "http://test.me",
+            "useCommonAlertSchema": true
+          }
+        ],
+        "voiceReceivers": [
+          {
+            "name": "Sample voice",
+            "countryCode": "1",
+            "phoneNumber": "1234567890"
+          }
+        ],
+        "logicAppReceivers": [
+          {
+            "name": "Sample logicApp",
+            "resourceId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/LogicApp/providers/Microsoft.Logic/workflows/testLogicApp",
+            "callbackUrl": "https://prod-27.northcentralus.logic.azure.com/workflows/68e572e818e5457ba898763b7db90877/triggers/manual/paths/invoke/azns/test?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Abpsb72UYJxPPvmDo937uzofupO5r_vIeWEx7KVHo7w",
+            "useCommonAlertSchema": false
+          }
+        ],
+        "azureFunctionReceivers": [
+          {
+            "name": "Sample azureFunction",
+            "functionAppResourceId": "/subscriptions/5def922a-3ed4-49c1-b9fd-05ec533819a3/resourceGroups/aznsTest/providers/Microsoft.Web/sites/testFunctionApp",
+            "functionName": "HttpTriggerCSharp1",
+            "httpTriggerUrl": "http://test.me",
+            "useCommonAlertSchema": true
+          }
+        ],
+        "eventHubReceivers": [
+          {
+            "name": "Sample eventHub",
+            "eventHubNameSpace": "testEventHubNameSpace",
+            "eventHubName": "testEventHub",
+            "subscriptionId": "187f412d-1758-44d9-b052-169e2564721d",
+            "tenantId": "68a4459a-ccb8-493c-b9da-dd30457d1b84"
+          }
+        ],
+        "armRoleReceivers": [
+          {
+            "name": "ArmRole-Common",
+            "roleId": "11111111-1111-1111-1111-111111111111",
+            "useCommonAlertSchema": true
+          },
+          {
+            "name": "ArmRole-nonCommon",
+            "roleId": "11111111-1111-1111-1111-111111111111",
+            "useCommonAlertSchema": false
+          }
+        ]
+      }
+
+      ```
+
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/TestRgName/providers/microsoft.insights/actionGroups/TestAgName/notificationStatus/11111111111111?api-version=2022-06-01
+  - statusCode: "200"
+    body: >-
+      {
+        "context": {
+          "notificationSource": "Microsoft.Insights/TestNotification",
+          "contextType": "Microsoft.Insights/Budget"
+        },
+        "state": "Completed",
+        "completedTime": "0001-01-01T00:00:00+00:00",
+        "createdTime": "2021-09-21T04:52:29.5091168+00:00",
+        "actionDetails": [
+          {
+            "MechanismType": "AzureAppPush",
+            "Name": "AzureAppPush-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.8620629+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "AzureFunction",
+            "Name": "AzureFunction-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0623319+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Email",
+            "Name": "Email-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:40.7480368+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "LogicApp",
+            "Name": "LogicApp-Name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.2473419+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Webhook",
+            "Name": "Webhook-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "SecureWebhook",
+            "Name": "SecureWebhook-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Sms",
+            "Name": "Sms-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:41.353015+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Voice",
+            "Name": "Voice-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:41.6330734+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "EventHub",
+            "Name": "EventHub-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "AutomationRunbook",
+            "Name": "AutomationRunbook-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Itsm",
+            "Name": "Itsm-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Monitor service - Send test notifications to a set of provided receivers
+errorCodes: []

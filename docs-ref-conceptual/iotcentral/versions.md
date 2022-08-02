@@ -19,8 +19,8 @@ This is the stable release versions that can be used to develop production solut
 
 | API version | Specification | API updates |
 |---------|---------------|-----------------|
-| `2022-05-31` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/2022-05-31) | [Release note](#2022-05-31)
-| `1.0` (Deprecated) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/1.0) |  [Release note](#10) |
+| `2022-05-31` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/2022-05-31) | [Release note](#2022-05-31)
+| `1.0` (Deprecated) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/1.0) |  [Release note](#10) |
 
 ## Preview versions
 
@@ -28,21 +28,34 @@ Preview versions are released to test new functionality, gather feedback, and di
 
 | API version | Specification | API updates |
 |---------|---------------|-----------------|
-| `1.2-Preview` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/1.2-preview) | [Release note](#12-preview) |
-| `1.1-Preview` (Deprecated)| [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/1.1-preview) | [Release note](#11-preview-deprecated) |
+| `2022-06-30-preview` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/2022-06-30-preview) | [Release note](#2022-06-30-preview) |
+| `1.2-Preview` (Deprecated) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/1.2-preview) | [Release note](#12-preview-deprecated) |
+| `1.1-Preview` (Deprecated)| [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/1.1-preview) | [Release note](#11-preview-deprecated) |
 
 ## Release notes
 
+### 2022-06-30-preview
+
+The preview release of Azure IoT Central REST Data Plane API on June 30th, 2022 delivers a series of improvements to existing endpoints and adds support for the following key capabilities:
+
++ Support for creating and managing `Enrollment Groups` for device onboarding
++ Ability to create and configure `Scheduled Jobs`
++ Support for programmatically creating `Application Dashboard` via REST API
++ Support for umodeled properties and commands for `Device`
++ Ability to list devices within a `Device Group`
++ Support progress summary from job
++ Removed name field from `Device Relationship`
+
 ### 2022-05-31
 
-Our latest GA release on May 31st, 2022 improves the previously existing `1.0` release and is fully backwards compatible. As of today, the `1.0` release is now marked for `deprecation` and we will look to end support for it by May 2025. Here are set of updates captured in this release::
+Our latest GA release on May 31st, 2022 improves the previously existing `1.0` release and is fully backwards compatible. As of today, the `1.0` release is now marked for `deprecation` and we will look to end support for it by May 2025. Here are set of updates captured in this release:
 
 + File Upload Storage Configuration Support
 + Device Group CRUD Support
 + Organization CRUD Support
 + Organization Support on Devices, Roles, Users, and API Tokens
  
-### 1.2-Preview
+### 1.2-Preview (Deprecated)
 
 The `1.2-preview` release continuously improves our API endpoints from previous preview releases and adds support for the following:
 

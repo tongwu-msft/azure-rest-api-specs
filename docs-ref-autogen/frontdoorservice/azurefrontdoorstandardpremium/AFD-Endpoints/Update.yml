@@ -328,6 +328,149 @@ examples:
           "enabledState": "Enabled"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/afdEndpoints/endpoint1?api-version=2021-06-01
+
+      {
+        "tags": {},
+        "properties": {
+          "enabledState": "Enabled"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cdn.models.AfdEndpointUpdateParameters;
+      import com.azure.resourcemanager.cdn.models.EnabledState;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for AfdEndpoints Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDEndpoints_Update.json
+           */
+          /**
+           * Sample code: AFDEndpoints_Update.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void aFDEndpointsUpdate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getAfdEndpoints()
+                  .update(
+                      "RG",
+                      "profile1",
+                      "endpoint1",
+                      new AfdEndpointUpdateParameters().withTags(mapOf()).withEnabledState(EnabledState.ENABLED),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDEndpoints_Update.json
+      func ExampleAFDEndpointsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewAFDEndpointsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"RG",
+      		"profile1",
+      		"endpoint1",
+      		armcdn.AFDEndpointUpdateParameters{
+      			Properties: &armcdn.AFDEndpointPropertiesUpdateParameters{
+      				EnabledState: to.Ptr(armcdn.EnabledStateEnabled),
+      			},
+      			Tags: map[string]*string{},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing AzureFrontDoor endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin group operation. To update domains, use the Update Custom Domain operation.
+       *
+       * @summary Updates an existing AzureFrontDoor endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin group operation. To update domains, use the Update Custom Domain operation.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDEndpoints_Update.json
+       */
+      async function afdEndpointsUpdate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const endpointName = "endpoint1";
+        const endpointUpdateProperties = {
+          enabledState: "Enabled",
+          tags: {},
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.afdEndpoints.beginUpdateAndWait(
+          resourceGroupName,
+          profileName,
+          endpointName,
+          endpointUpdateProperties
+        );
+        console.log(result);
+      }
+
+      afdEndpointsUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

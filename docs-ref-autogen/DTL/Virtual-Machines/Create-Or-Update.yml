@@ -977,6 +977,153 @@ examples:
           "tagName1": "tagValue1"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{vmName}?api-version=2018-09-15
+
+      {
+        "properties": {
+          "size": "Standard_A2_v2",
+          "userName": "{userName}",
+          "password": "{userPassword}",
+          "labSubnetName": "{virtualNetworkName}Subnet",
+          "labVirtualNetworkId": "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}/virtualnetworks/{virtualNetworkName}",
+          "disallowPublicIpAddress": true,
+          "galleryImageReference": {
+            "offer": "UbuntuServer",
+            "publisher": "Canonical",
+            "sku": "16.04-LTS",
+            "osType": "Linux",
+            "version": "Latest"
+          },
+          "allowClaim": true,
+          "storageType": "Standard"
+        },
+        "location": "{location}",
+        "tags": {
+          "tagName1": "tagValue1"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdevtestlabs_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devtestlabs/armdevtestlabs"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/VirtualMachines_CreateOrUpdate.json
+      func ExampleVirtualMachinesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdevtestlabs.NewVirtualMachinesClient("{subscriptionId}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"resourceGroupName",
+      		"{labName}",
+      		"{vmName}",
+      		armdevtestlabs.LabVirtualMachine{
+      			Location: to.Ptr("{location}"),
+      			Tags: map[string]*string{
+      				"tagName1": to.Ptr("tagValue1"),
+      			},
+      			Properties: &armdevtestlabs.LabVirtualMachineProperties{
+      				AllowClaim:              to.Ptr(true),
+      				DisallowPublicIPAddress: to.Ptr(true),
+      				GalleryImageReference: &armdevtestlabs.GalleryImageReference{
+      					Offer:     to.Ptr("UbuntuServer"),
+      					OSType:    to.Ptr("Linux"),
+      					Publisher: to.Ptr("Canonical"),
+      					SKU:       to.Ptr("16.04-LTS"),
+      					Version:   to.Ptr("Latest"),
+      				},
+      				LabSubnetName:       to.Ptr("{virtualNetworkName}Subnet"),
+      				LabVirtualNetworkID: to.Ptr("/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}/virtualnetworks/{virtualNetworkName}"),
+      				Password:            to.Ptr("{userPassword}"),
+      				Size:                to.Ptr("Standard_A2_v2"),
+      				StorageType:         to.Ptr("Standard"),
+      				UserName:            to.Ptr("{userName}"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdevtestlabs%2Farmdevtestlabs%2Fv1.0.0/sdk/resourcemanager/devtestlabs/armdevtestlabs/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DevTestLabsClient } = require("@azure/arm-devtestlabs");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or replace an existing virtual machine. This operation can take a while to complete.
+       *
+       * @summary Create or replace an existing virtual machine. This operation can take a while to complete.
+       * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/VirtualMachines_CreateOrUpdate.json
+       */
+      async function virtualMachinesCreateOrUpdate() {
+        const subscriptionId = "{subscriptionId}";
+        const resourceGroupName = "resourceGroupName";
+        const labName = "{labName}";
+        const name = "{vmName}";
+        const labVirtualMachine = {
+          allowClaim: true,
+          disallowPublicIpAddress: true,
+          galleryImageReference: {
+            offer: "UbuntuServer",
+            osType: "Linux",
+            publisher: "Canonical",
+            sku: "16.04-LTS",
+            version: "Latest",
+          },
+          labSubnetName: "{virtualNetworkName}Subnet",
+          labVirtualNetworkId:
+            "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}/virtualnetworks/{virtualNetworkName}",
+          location: "{location}",
+          password: "{userPassword}",
+          size: "Standard_A2_v2",
+          storageType: "Standard",
+          tags: { tagName1: "tagValue1" },
+          userName: "{userName}",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DevTestLabsClient(credential, subscriptionId);
+        const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          labName,
+          name,
+          labVirtualMachine
+        );
+        console.log(result);
+      }
+
+      virtualMachinesCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-devtestlabs_4.0.1/sdk/devtestlabs/arm-devtestlabs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

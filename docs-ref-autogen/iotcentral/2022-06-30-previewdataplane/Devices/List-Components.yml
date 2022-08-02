@@ -1,0 +1,137 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-06-30-previewdataplane.devices.listcomponents
+name: List Components
+service: IoT Central
+groupName: Devices
+apiVersion: 2022-06-30-preview
+summary: List the components present in a device
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{subdomain}.{baseDomain}/api/devices/{deviceId}/components?api-version=2022-06-30-preview
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: deviceId
+  in: path
+  isRequired: true
+  description: Unique ID of the device.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: Collection
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: Collection
+  description: The collection of entities.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of entities.
+    types:
+    - uid: object
+      isArray: true
+  - name: nextLink
+    description: URL to get the next page of entities.
+    types:
+    - uid: string
+- name: Error
+  description: The response error definition.
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+examples:
+- name: List components
+  request:
+    uri: GET https://appsubdomain.azureiotcentral.com/api/devices/device1/components?api-version=2022-06-30-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://appsubdomain.azureiotcentral.com/api/devices/device1/components?api-version=2022-06-30-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "@id": "<id>",
+            "@type": [
+              "Component"
+            ],
+            "name": "LocationTracking"
+          },
+          {
+            "@id": "<id>",
+            "@type": [
+              "Component"
+            ],
+            "name": "EnvironmentSensing"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about IoT Central service - List the components present in a device
+errorCodes: []

@@ -606,6 +606,159 @@ examples:
         "startTime": "2022-03-01T11:30:00Z",
         "endTime": "2022-03-02T11:30:00Z"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/spacecrafts/CONTOSO_SAT/listAvailableContacts?api-version=2022-03-01
+
+      {
+        "contactProfile": {
+          "id": "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/contactProfiles/CONTOSO-CP"
+        },
+        "groundStationName": "EASTUS2_0",
+        "startTime": "2022-03-01T11:30:00Z",
+        "endTime": "2022-03-02T11:30:00Z"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.orbital.models.ContactParameters;
+      import com.azure.resourcemanager.orbital.models.ContactParametersContactProfile;
+      import java.time.OffsetDateTime;
+
+      /** Samples for Spacecrafts ListAvailableContacts. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/AvailableContactsList.json
+           */
+          /**
+           * Sample code: List of Contact.
+           *
+           * @param manager Entry point to OrbitalManager.
+           */
+          public static void listOfContact(com.azure.resourcemanager.orbital.OrbitalManager manager) {
+              manager
+                  .spacecrafts()
+                  .listAvailableContacts(
+                      "contoso-Rgp",
+                      "CONTOSO_SAT",
+                      new ContactParameters()
+                          .withContactProfile(
+                              new ContactParametersContactProfile()
+                                  .withId(
+                                      "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/contactProfiles/CONTOSO-CP"))
+                          .withGroundStationName("EASTUS2_0")
+                          .withStartTime(OffsetDateTime.parse("2022-03-01T11:30:00Z"))
+                          .withEndTime(OffsetDateTime.parse("2022-03-02T11:30:00Z")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-orbital_1.0.0-beta.1/sdk/orbital/azure-resourcemanager-orbital/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armorbital_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/orbital/armorbital"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/AvailableContactsList.json
+      func ExampleSpacecraftsClient_BeginListAvailableContacts() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armorbital.NewSpacecraftsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginListAvailableContacts(ctx,
+      		"rgName",
+      		"AQUA",
+      		armorbital.ContactParameters{
+      			ContactProfile: &armorbital.ContactParametersContactProfile{
+      				ID: to.Ptr("/subscriptions/subId/resourceGroups/rg/Microsoft.Orbital/contactProfiles/AQUA_DIRECTPLAYBACK_WITH_UPLINK"),
+      			},
+      			EndTime:           to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2020-07-17T23:49:40.00Z"); return t }()),
+      			GroundStationName: to.Ptr("westus_gs1"),
+      			StartTime:         to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2020-07-16T05:40:21.00Z"); return t }()),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	for res.More() {
+      		nextResult, err := res.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Forbital%2Farmorbital%2Fv1.0.0/sdk/resourcemanager/orbital/armorbital/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureOrbital } = require("@azure/arm-orbital");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Return list of available contacts
+       *
+       * @summary Return list of available contacts
+       * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/AvailableContactsList.json
+       */
+      async function listOfContact() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rgName";
+        const spacecraftName = "AQUA";
+        const contactProfile = {
+          id: "/subscriptions/subId/resourceGroups/rg/Microsoft.Orbital/contactProfiles/AQUA_DIRECTPLAYBACK_WITH_UPLINK",
+        };
+        const groundStationName = "westus_gs1";
+        const startTime = new Date("2020-07-16T05:40:21.00Z");
+        const endTime = new Date("2020-07-17T23:49:40.00Z");
+        const credential = new DefaultAzureCredential();
+        const client = new AzureOrbital(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.spacecrafts.beginListAvailableContactsAndWait(
+          resourceGroupName,
+          spacecraftName,
+          contactProfile,
+          groundStationName,
+          startTime,
+          endTime
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listOfContact().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-orbital_1.1.0/sdk/orbital/arm-orbital/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:
