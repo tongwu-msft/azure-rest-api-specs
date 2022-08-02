@@ -15,17 +15,17 @@ This article lists the current and past versions of the REST APIs for Azure IoT 
 
 ## Stable versions
 
-This is the stable release versions that can be used to develop production solutions with Azure IoT Central.
+These versions are the stable releases that can be used to develop production solutions with Azure IoT Central.
 
 | API version | Specification | API updates |
 |---------|---------------|-----------------|
-| `2022-07-31` (Latest) | [Swagger specicication](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/2022-07-31) | [Release note](#2022-07-31)
+| `2022-07-31` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/2022-07-31) | [Release note](#2022-07-31)
 | `2022-05-31` (Deprecated) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/2022-05-31) | [Release note](#2022-05-31)
 | `1.0` (Deprecated) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/1.0) |  [Release note](#10) |
 
 ## Preview versions
 
-Preview versions are released to test new functionality, gather feedback, and discover and fix issues. Preview APIs are available under [Supplemental Terms of Use](https://azure.microsoft.com/support/legal/preview-supplemental-terms/), and are not recommended for production workloads.
+Preview versions are released to test new functionality, gather feedback, and discover and fix issues. Preview APIs are available under [Supplemental Terms of Use](https://azure.microsoft.com/support/legal/preview-supplemental-terms/), and aren't recommended for production workloads.
 
 | API version | Specification | API updates |
 |---------|---------------|-----------------|
@@ -37,7 +37,7 @@ Preview versions are released to test new functionality, gather feedback, and di
 
 ### 2022-07-31
 
-Our latest GA release on July 31st, 2022 improves the previously existing `2022-05-31` release and is fully backwards compatible. As of today, the `2022-05-31` release is now marked for `deprecation` and we will look to end support for it by July 2025. Here are set of updates captured in this release:
+Our latest GA release on July 31, 2022 improves the previously existing `2022-05-31` release and is fully backwards compatible. As of today, the `2022-05-31` release is now marked for `deprecation` and we'll look to end support for it by July 2025. Here are set of updates captured in this release:
 
 + Jobs with progress status support 
 + Scheduled Jobs support
@@ -48,19 +48,19 @@ Our latest GA release on July 31st, 2022 improves the previously existing `2022-
 
 ### 2022-06-30-preview
 
-The preview release of Azure IoT Central REST Data Plane API on June 30th, 2022 delivers a series of improvements to existing endpoints and adds support for the following key capabilities:
+The preview release of Azure IoT Central REST Data Plane API on June 30, 2022 delivers a series of improvements to existing endpoints and adds support for the following key capabilities:
 
 + Support for creating and managing `Enrollment Groups` for device onboarding
 + Ability to create and configure `Scheduled Jobs`
 + Support for programmatically creating `Application Dashboard` via REST API
-+ Support for umodeled properties and commands for `Device`
++ Support for unmodeled properties and commands for `Device`
 + Ability to list devices within a `Device Group`
 + Support progress summary from job
 + Removed name field from `Device Relationship`
 
 ### 2022-05-31
 
-Our latest GA release on May 31st, 2022 improves the previously existing `1.0` release and is fully backwards compatible. As of today, the `1.0` release is now marked for `deprecation` and we will look to end support for it by May 2025. Here are set of updates captured in this release:
+Our latest GA release on May 31, 2022 improves the previously existing `1.0` release and is fully backwards compatible. As of today, the `1.0` release is now marked for `deprecation` and we'll look to end support for it by May 2025. Here are set of updates captured in this release:
 
 + File Upload Storage Configuration Support
 + Device Group CRUD Support
@@ -69,7 +69,7 @@ Our latest GA release on May 31st, 2022 improves the previously existing `1.0` r
  
 ### 1.2-Preview (Deprecated)
 
-The `1.2-preview` release continuously improves our API endpoints from previous preview releases and adds support for the following:
+The `1.2-preview` release continuously improves our API endpoints from previous preview releases and adds support for the following features:
 
 + Device Group CRUD support
 + New job type to support device template migration
@@ -92,12 +92,12 @@ This release enable support for DTDL v2 within the REST API surface for Azure Io
 + Device Relationship support.
 + FileUpload configuration support.
 + Organization support.
-+ Telemetry Query support.
++ Device Telemetry Query support.
 + Jobs support.
 + Removed legacy Continuous Data Export Support.
 + Add Data Export V2 Export/Destination support.
 + Removed api/devices/{deviceId}/cloudProperties, using api/devices/{deviceId}/properties.
-+ Properties and telemetries under inherited interface will not be treated as root property and root telemetry.
++ Device properties and telemetries under inherited interface won't be treated as root property and root telemetry.
 + Device Template patching support.
 + Edge manifest support from device template.
 
