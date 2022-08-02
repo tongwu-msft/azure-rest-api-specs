@@ -520,6 +520,137 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.azurestackhci.models.Cluster;
+      import com.azure.resourcemanager.azurestackhci.models.ClusterDesiredProperties;
+      import com.azure.resourcemanager.azurestackhci.models.DiagnosticLevel;
+      import com.azure.resourcemanager.azurestackhci.models.WindowsServerSubscription;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/UpdateCluster.json
+           */
+          /**
+           * Sample code: Update cluster.
+           *
+           * @param manager Entry point to AzureStackHciManager.
+           */
+          public static void updateCluster(com.azure.resourcemanager.azurestackhci.AzureStackHciManager manager) {
+              Cluster resource =
+                  manager.clusters().getByResourceGroupWithResponse("test-rg", "myCluster", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withTags(mapOf("tag1", "value1", "tag2", "value2"))
+                  .withCloudManagementEndpoint("https://98294836-31be-4668-aeae-698667faf99b.waconazure.com")
+                  .withDesiredProperties(
+                      new ClusterDesiredProperties()
+                          .withWindowsServerSubscription(WindowsServerSubscription.ENABLED)
+                          .withDiagnosticLevel(DiagnosticLevel.BASIC))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-azurestackhci_1.0.0-beta.3/sdk/azurestackhci/azure-resourcemanager-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armazurestackhci_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/azurestackhci/armazurestackhci"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/UpdateCluster.json
+      func ExampleClustersClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armazurestackhci.NewClustersClient("fd3c3665-1729-4b7b-9a38-238e83b0f98b", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"test-rg",
+      		"myCluster",
+      		armazurestackhci.ClusterPatch{
+      			Properties: &armazurestackhci.ClusterPatchProperties{
+      				CloudManagementEndpoint: to.Ptr("https://98294836-31be-4668-aeae-698667faf99b.waconazure.com"),
+      				DesiredProperties: &armazurestackhci.ClusterDesiredProperties{
+      					DiagnosticLevel:           to.Ptr(armazurestackhci.DiagnosticLevelBasic),
+      					WindowsServerSubscription: to.Ptr(armazurestackhci.WindowsServerSubscriptionEnabled),
+      				},
+      			},
+      			Tags: map[string]*string{
+      				"tag1": to.Ptr("value1"),
+      				"tag2": to.Ptr("value2"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fazurestackhci%2Farmazurestackhci%2Fv1.0.0/sdk/resourcemanager/azurestackhci/armazurestackhci/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureStackHCIClient } = require("@azure/arm-azurestackhci");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update an HCI cluster.
+       *
+       * @summary Update an HCI cluster.
+       * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/UpdateCluster.json
+       */
+      async function updateCluster() {
+        const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+        const resourceGroupName = "test-rg";
+        const clusterName = "myCluster";
+        const cluster = {
+          cloudManagementEndpoint: "https://98294836-31be-4668-aeae-698667faf99b.waconazure.com",
+          desiredProperties: {
+            diagnosticLevel: "Basic",
+            windowsServerSubscription: "Enabled",
+          },
+          tags: { tag1: "value1", tag2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureStackHCIClient(credential, subscriptionId);
+        const result = await client.clusters.update(resourceGroupName, clusterName, cluster);
+        console.log(result);
+      }
+
+      updateCluster().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-azurestackhci_3.0.0/sdk/azurestackhci/arm-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

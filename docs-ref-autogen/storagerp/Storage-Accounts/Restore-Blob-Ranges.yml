@@ -165,6 +165,139 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.BlobRestoreParameters;
+      import com.azure.resourcemanager.storage.models.BlobRestoreRange;
+      import java.time.OffsetDateTime;
+      import java.util.Arrays;
+
+      /** Samples for StorageAccounts RestoreBlobRanges. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/BlobRangesRestore.json
+           */
+          /**
+           * Sample code: BlobRangesRestore.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void blobRangesRestore(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .restoreBlobRanges(
+                      "res9101",
+                      "sto4445",
+                      new BlobRestoreParameters()
+                          .withTimeToRestore(OffsetDateTime.parse("2019-04-20T15:30:00.0000000Z"))
+                          .withBlobRanges(
+                              Arrays
+                                  .asList(
+                                      new BlobRestoreRange()
+                                          .withStartRange("container/blobpath1")
+                                          .withEndRange("container/blobpath2"),
+                                      new BlobRestoreRange().withStartRange("container2/blobpath3").withEndRange(""))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstorage_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/BlobRangesRestore.json
+      func ExampleAccountsClient_BeginRestoreBlobRanges() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorage.NewAccountsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginRestoreBlobRanges(ctx,
+      		"res9101",
+      		"sto4445",
+      		armstorage.BlobRestoreParameters{
+      			BlobRanges: []*armstorage.BlobRestoreRange{
+      				{
+      					EndRange:   to.Ptr("container/blobpath2"),
+      					StartRange: to.Ptr("container/blobpath1"),
+      				},
+      				{
+      					EndRange:   to.Ptr(""),
+      					StartRange: to.Ptr("container2/blobpath3"),
+      				}},
+      			TimeToRestore: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2019-04-20T15:30:00.0000000Z"); return t }()),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorage%2Farmstorage%2Fv1.0.0/sdk/resourcemanager/storage/armstorage/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Restore blobs in the specified blob ranges
+       *
+       * @summary Restore blobs in the specified blob ranges
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/BlobRangesRestore.json
+       */
+      async function blobRangesRestore() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9101";
+        const accountName = "sto4445";
+        const parameters = {
+          blobRanges: [
+            { endRange: "container/blobpath2", startRange: "container/blobpath1" },
+            { endRange: "", startRange: "container2/blobpath3" },
+          ],
+          timeToRestore: new Date("2019-04-20T15:30:00.0000000Z"),
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.beginRestoreBlobRangesAndWait(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      blobRangesRestore().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

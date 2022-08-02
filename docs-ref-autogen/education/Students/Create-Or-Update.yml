@@ -321,6 +321,139 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.education.fluent.models.Amount;
+      import com.azure.resourcemanager.education.fluent.models.StudentDetailsInner;
+      import com.azure.resourcemanager.education.models.StudentRole;
+      import java.time.OffsetDateTime;
+
+      /** Samples for Students CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/CreateStudent.json
+           */
+          /**
+           * Sample code: Student.
+           *
+           * @param manager Entry point to EducationManager.
+           */
+          public static void student(com.azure.resourcemanager.education.EducationManager manager) {
+              manager
+                  .students()
+                  .createOrUpdateWithResponse(
+                      "{billingAccountName}",
+                      "{billingProfileName}",
+                      "{invoiceSectionName}",
+                      "{studentAlias}",
+                      new StudentDetailsInner()
+                          .withFirstName("test")
+                          .withLastName("user")
+                          .withEmail("test@contoso.com")
+                          .withRole(StudentRole.STUDENT)
+                          .withBudget(new Amount().withCurrency("USD").withValue(100.0f))
+                          .withExpirationDate(OffsetDateTime.parse("2021-11-09T22:13:21.795Z")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-education_1.0.0-beta.2/sdk/education/azure-resourcemanager-education/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeducation_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/education/armeducation"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/CreateStudent.json
+      func ExampleStudentsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armeducation.NewStudentsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"{billingAccountName}",
+      		"{billingProfileName}",
+      		"{invoiceSectionName}",
+      		"{studentAlias}",
+      		armeducation.StudentDetails{
+      			Properties: &armeducation.StudentProperties{
+      				Budget: &armeducation.Amount{
+      					Currency: to.Ptr("USD"),
+      					Value:    to.Ptr[float32](100),
+      				},
+      				Email:          to.Ptr("test@contoso.com"),
+      				ExpirationDate: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2021-11-09T22:13:21.795Z"); return t }()),
+      				FirstName:      to.Ptr("test"),
+      				LastName:       to.Ptr("user"),
+      				Role:           to.Ptr(armeducation.StudentRoleStudent),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feducation%2Farmeducation%2Fv0.2.0/sdk/resourcemanager/education/armeducation/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { EducationManagementClient } = require("@azure/arm-education");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create and add a new student to the specified lab or update the details of an existing student in a lab. Note the student must have a valid tenant to accept the lab after they have been added to lab.
+       *
+       * @summary Create and add a new student to the specified lab or update the details of an existing student in a lab. Note the student must have a valid tenant to accept the lab after they have been added to lab.
+       * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/CreateStudent.json
+       */
+      async function student() {
+        const billingAccountName = "{billingAccountName}";
+        const billingProfileName = "{billingProfileName}";
+        const invoiceSectionName = "{invoiceSectionName}";
+        const studentAlias = "{studentAlias}";
+        const parameters = {
+          budget: { currency: "USD", value: 100 },
+          email: "test@contoso.com",
+          expirationDate: new Date("2021-11-09T22:13:21.795Z"),
+          firstName: "test",
+          lastName: "user",
+          role: "Student",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new EducationManagementClient(credential);
+        const result = await client.students.createOrUpdate(
+          billingAccountName,
+          billingProfileName,
+          invoiceSectionName,
+          studentAlias,
+          parameters
+        );
+        console.log(result);
+      }
+
+      student().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-education_1.0.0-beta.2/sdk/education/arm-education/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

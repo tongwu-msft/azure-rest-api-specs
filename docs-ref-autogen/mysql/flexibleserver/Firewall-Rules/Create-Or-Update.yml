@@ -228,6 +228,114 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      /** Samples for FirewallRules CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/FirewallRuleCreate.json
+           */
+          /**
+           * Sample code: Create a firewall rule.
+           *
+           * @param manager Entry point to MySqlManager.
+           */
+          public static void createAFirewallRule(com.azure.resourcemanager.mysqlflexibleserver.MySqlManager manager) {
+              manager
+                  .firewallRules()
+                  .define("rule1")
+                  .withExistingFlexibleServer("TestGroup", "testserver")
+                  .withStartIpAddress("0.0.0.0")
+                  .withEndIpAddress("255.255.255.255")
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mysqlflexibleserver_1.0.0-beta.2/sdk/mysqlflexibleserver/azure-resourcemanager-mysqlflexibleserver/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armmysqlflexibleservers_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysqlflexibleservers"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/FirewallRuleCreate.json
+      func ExampleFirewallRulesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmysqlflexibleservers.NewFirewallRulesClient("ffffffff-ffff-ffff-ffff-ffffffffffff", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"TestGroup",
+      		"testserver",
+      		"rule1",
+      		armmysqlflexibleservers.FirewallRule{
+      			Properties: &armmysqlflexibleservers.FirewallRuleProperties{
+      				EndIPAddress:   to.Ptr("255.255.255.255"),
+      				StartIPAddress: to.Ptr("0.0.0.0"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmysql%2Farmmysqlflexibleservers%2Fv1.0.0/sdk/resourcemanager/mysql/armmysqlflexibleservers/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MySQLManagementFlexibleServerClient } = require("@azure/arm-mysql-flexible");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new firewall rule or updates an existing firewall rule.
+       *
+       * @summary Creates a new firewall rule or updates an existing firewall rule.
+       * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/FirewallRuleCreate.json
+       */
+      async function createAFirewallRule() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "TestGroup";
+        const serverName = "testserver";
+        const firewallRuleName = "rule1";
+        const parameters = {
+          endIpAddress: "255.255.255.255",
+          startIpAddress: "0.0.0.0",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+        const result = await client.firewallRules.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          serverName,
+          firewallRuleName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createAFirewallRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mysql-flexible_3.0.0/sdk/mysql/arm-mysql-flexible/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

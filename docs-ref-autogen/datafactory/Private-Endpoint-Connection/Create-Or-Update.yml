@@ -244,6 +244,138 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.datafactory.models.PrivateEndpoint;
+      import com.azure.resourcemanager.datafactory.models.PrivateLinkConnectionApprovalRequest;
+      import com.azure.resourcemanager.datafactory.models.PrivateLinkConnectionState;
+
+      /** Samples for PrivateEndpointConnectionOperation CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ApproveRejectPrivateEndpointConnection.json
+           */
+          /**
+           * Sample code: Approves or rejects a private endpoint connection for a factory.
+           *
+           * @param manager Entry point to DataFactoryManager.
+           */
+          public static void approvesOrRejectsAPrivateEndpointConnectionForAFactory(
+              com.azure.resourcemanager.datafactory.DataFactoryManager manager) {
+              manager
+                  .privateEndpointConnectionOperations()
+                  .define("connection")
+                  .withExistingFactory("exampleResourceGroup", "exampleFactoryName")
+                  .withProperties(
+                      new PrivateLinkConnectionApprovalRequest()
+                          .withPrivateLinkServiceConnectionState(
+                              new PrivateLinkConnectionState()
+                                  .withStatus("Approved")
+                                  .withDescription("Approved by admin.")
+                                  .withActionsRequired(""))
+                          .withPrivateEndpoint(
+                              new PrivateEndpoint()
+                                  .withId(
+                                      "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/privateEndpoints/myPrivateEndpoint")))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-datafactory_1.0.0-beta.16/sdk/datafactory/azure-resourcemanager-datafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdatafactory_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datafactory/armdatafactory"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ApproveRejectPrivateEndpointConnection.json
+      func ExamplePrivateEndpointConnectionClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdatafactory.NewPrivateEndpointConnectionClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"exampleResourceGroup",
+      		"exampleFactoryName",
+      		"connection",
+      		armdatafactory.PrivateLinkConnectionApprovalRequestResource{
+      			Properties: &armdatafactory.PrivateLinkConnectionApprovalRequest{
+      				PrivateEndpoint: &armdatafactory.PrivateEndpoint{
+      					ID: to.Ptr("/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/privateEndpoints/myPrivateEndpoint"),
+      				},
+      				PrivateLinkServiceConnectionState: &armdatafactory.PrivateLinkConnectionState{
+      					Description:     to.Ptr("Approved by admin."),
+      					ActionsRequired: to.Ptr(""),
+      					Status:          to.Ptr("Approved"),
+      				},
+      			},
+      		},
+      		&armdatafactory.PrivateEndpointConnectionClientCreateOrUpdateOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdatafactory%2Farmdatafactory%2Fv1.2.0/sdk/resourcemanager/datafactory/armdatafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Approves or rejects a private endpoint connection
+       *
+       * @summary Approves or rejects a private endpoint connection
+       * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ApproveRejectPrivateEndpointConnection.json
+       */
+      async function approvesOrRejectsAPrivateEndpointConnectionForAFactory() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "exampleResourceGroup";
+        const factoryName = "exampleFactoryName";
+        const privateEndpointConnectionName = "connection";
+        const privateEndpointWrapper = {
+          properties: {
+            privateEndpoint: {
+              id: "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/privateEndpoints/myPrivateEndpoint",
+            },
+            privateLinkServiceConnectionState: {
+              description: "Approved by admin.",
+              actionsRequired: "",
+              status: "Approved",
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DataFactoryManagementClient(credential, subscriptionId);
+        const result = await client.privateEndpointConnection.createOrUpdate(
+          resourceGroupName,
+          factoryName,
+          privateEndpointConnectionName,
+          privateEndpointWrapper
+        );
+        console.log(result);
+      }
+
+      approvesOrRejectsAPrivateEndpointConnectionForAFactory().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datafactory_10.7.0/sdk/datafactory/arm-datafactory/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

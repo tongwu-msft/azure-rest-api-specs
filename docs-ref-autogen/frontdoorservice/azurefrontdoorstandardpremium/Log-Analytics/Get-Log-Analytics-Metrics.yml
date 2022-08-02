@@ -240,6 +240,144 @@ examples:
       GET https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/getLogAnalyticsMetrics?api-version=2021-06-01&metrics=clientRequestCount&dateTimeBegin=2020-11-04T04:30:00.000Z&dateTimeEnd=2020-11-04T05:00:00.000Z&granularity=PT5M&groupBy=protocol&customDomains=customdomain1.azurecdn.net&customDomains=customdomain2.azurecdn.net&protocols=https
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cdn.models.LogMetric;
+      import com.azure.resourcemanager.cdn.models.LogMetricsGranularity;
+      import com.azure.resourcemanager.cdn.models.LogMetricsGroupBy;
+      import java.time.OffsetDateTime;
+      import java.util.Arrays;
+
+      /** Samples for LogAnalytics GetLogAnalyticsMetrics. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/LogAnalytics_GetLogAnalyticsMetrics.json
+           */
+          /**
+           * Sample code: LogAnalytics_GetLogAnalyticsMetrics.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void logAnalyticsGetLogAnalyticsMetrics(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getLogAnalytics()
+                  .getLogAnalyticsMetricsWithResponse(
+                      "RG",
+                      "profile1",
+                      Arrays.asList(LogMetric.CLIENT_REQUEST_COUNT),
+                      OffsetDateTime.parse("2020-11-04T04:30:00.000Z"),
+                      OffsetDateTime.parse("2020-11-04T05:00:00.000Z"),
+                      LogMetricsGranularity.PT5M,
+                      Arrays.asList("customdomain1.azurecdn.net", "customdomain2.azurecdn.net"),
+                      Arrays.asList("https"),
+                      Arrays.asList(LogMetricsGroupBy.PROTOCOL),
+                      null,
+                      null,
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/LogAnalytics_GetLogAnalyticsMetrics.json
+      func ExampleLogAnalyticsClient_GetLogAnalyticsMetrics() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewLogAnalyticsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.GetLogAnalyticsMetrics(ctx,
+      		"RG",
+      		"profile1",
+      		[]armcdn.LogMetric{
+      			armcdn.LogMetricClientRequestCount},
+      		func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2020-11-04T04:30:00.000Z"); return t }(),
+      		func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2020-11-04T05:00:00.000Z"); return t }(),
+      		armcdn.LogMetricsGranularityPT5M,
+      		[]string{
+      			"customdomain1.azurecdn.net",
+      			"customdomain2.azurecdn.net"},
+      		[]string{
+      			"https"},
+      		&armcdn.LogAnalyticsClientGetLogAnalyticsMetricsOptions{GroupBy: []armcdn.LogMetricsGroupBy{
+      			armcdn.LogMetricsGroupByProtocol},
+      			Continents:       []string{},
+      			CountryOrRegions: []string{},
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get log report for AFD profile
+       *
+       * @summary Get log report for AFD profile
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/LogAnalytics_GetLogAnalyticsMetrics.json
+       */
+      async function logAnalyticsGetLogAnalyticsMetrics() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const metrics = ["clientRequestCount"];
+        const dateTimeBegin = new Date("2020-11-04T04:30:00.000Z");
+        const dateTimeEnd = new Date("2020-11-04T05:00:00.000Z");
+        const granularity = "PT5M";
+        const groupBy = ["protocol"];
+        const customDomains = ["customdomain1.azurecdn.net", "customdomain2.azurecdn.net"];
+        const protocols = ["https"];
+        const options = { groupBy };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.logAnalytics.getLogAnalyticsMetrics(
+          resourceGroupName,
+          profileName,
+          metrics,
+          dateTimeBegin,
+          dateTimeEnd,
+          granularity,
+          customDomains,
+          protocols,
+          options
+        );
+        console.log(result);
+      }
+
+      logAnalyticsGetLogAnalyticsMetrics().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

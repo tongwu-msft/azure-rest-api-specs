@@ -1620,6 +1620,72 @@ examples:
       GET https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg6936/providers/Microsoft.StreamAnalytics/streamingjobs?api-version=2020-03-01
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armstreamanalytics_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/streamanalytics/armstreamanalytics"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/StreamingJob_List_ByResourceGroup_NoExpand.json
+      func ExampleStreamingJobsClient_NewListByResourceGroupPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstreamanalytics.NewStreamingJobsClient("56b5e0a9-b645-407d-99b0-c64f86013e3d", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByResourceGroupPager("sjrg6936",
+      		&armstreamanalytics.StreamingJobsClientListByResourceGroupOptions{Expand: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstreamanalytics%2Farmstreamanalytics%2Fv1.0.0/sdk/resourcemanager/streamanalytics/armstreamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all of the streaming jobs in the specified resource group.
+       *
+       * @summary Lists all of the streaming jobs in the specified resource group.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/StreamingJob_List_ByResourceGroup_NoExpand.json
+       */
+      async function listAllStreamingJobsInAResourceGroupAndDoNotUseTheExpandODataQueryParameter() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg6936";
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.streamingJobs.listByResourceGroup(resourceGroupName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listAllStreamingJobsInAResourceGroupAndDoNotUseTheExpandODataQueryParameter().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1690,6 +1756,37 @@ examples:
       GET https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg3276/providers/Microsoft.StreamAnalytics/streamingjobs?$expand=inputs,outputs,transformation,functions&api-version=2020-03-01
       ```
 
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all of the streaming jobs in the specified resource group.
+       *
+       * @summary Lists all of the streaming jobs in the specified resource group.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/StreamingJob_List_ByResourceGroup_Expand.json
+       */
+      async function listAllStreamingJobsInAResourceGroupAndUseTheExpandODataQueryParameterToExpandInputsOutputsTransformationAndFunctions() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const expand = "inputs,outputs,transformation,functions";
+        const resourceGroupName = "sjrg3276";
+        const options = { expand };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.streamingJobs.listByResourceGroup(resourceGroupName, options)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listAllStreamingJobsInAResourceGroupAndUseTheExpandODataQueryParameterToExpandInputsOutputsTransformationAndFunctions().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

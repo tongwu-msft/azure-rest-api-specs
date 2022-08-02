@@ -312,6 +312,163 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.sqlvirtualmachine.models.SqlVmGroupImageSku;
+      import com.azure.resourcemanager.sqlvirtualmachine.models.WsfcDomainProfile;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for SqlVirtualMachineGroups CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2021-11-01-preview/examples/CreateOrUpdateSqlVirtualMachineGroup.json
+           */
+          /**
+           * Sample code: Creates or updates a SQL virtual machine group.
+           *
+           * @param manager Entry point to SqlVirtualMachineManager.
+           */
+          public static void createsOrUpdatesASQLVirtualMachineGroup(
+              com.azure.resourcemanager.sqlvirtualmachine.SqlVirtualMachineManager manager) {
+              manager
+                  .sqlVirtualMachineGroups()
+                  .define("testvmgroup")
+                  .withRegion("northeurope")
+                  .withExistingResourceGroup("testrg")
+                  .withTags(mapOf("mytag", "myval"))
+                  .withSqlImageOffer("SQL2016-WS2016")
+                  .withSqlImageSku(SqlVmGroupImageSku.ENTERPRISE)
+                  .withWsfcDomainProfile(
+                      new WsfcDomainProfile()
+                          .withDomainFqdn("testdomain.com")
+                          .withOuPath("OU=WSCluster,DC=testdomain,DC=com")
+                          .withClusterBootstrapAccount("testrpadmin")
+                          .withClusterOperatorAccount("testrp@testdomain.com")
+                          .withSqlServiceAccount("sqlservice@testdomain.com")
+                          .withStorageAccountUrl("https://storgact.blob.core.windows.net/")
+                          .withStorageAccountPrimaryKey("<primary storage access key>"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-sqlvirtualmachine_1.0.0-beta.2/sdk/sqlvirtualmachine/azure-resourcemanager-sqlvirtualmachine/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armsqlvirtualmachine_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sqlvirtualmachine/armsqlvirtualmachine"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2021-11-01-preview/examples/CreateOrUpdateSqlVirtualMachineGroup.json
+      func ExampleGroupsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsqlvirtualmachine.NewGroupsClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"testrg",
+      		"testvmgroup",
+      		armsqlvirtualmachine.Group{
+      			Location: to.Ptr("northeurope"),
+      			Tags: map[string]*string{
+      				"mytag": to.Ptr("myval"),
+      			},
+      			Properties: &armsqlvirtualmachine.GroupProperties{
+      				SQLImageOffer: to.Ptr("SQL2016-WS2016"),
+      				SQLImageSKU:   to.Ptr(armsqlvirtualmachine.SQLVMGroupImageSKUEnterprise),
+      				WsfcDomainProfile: &armsqlvirtualmachine.WsfcDomainProfile{
+      					ClusterBootstrapAccount:  to.Ptr("testrpadmin"),
+      					ClusterOperatorAccount:   to.Ptr("testrp@testdomain.com"),
+      					DomainFqdn:               to.Ptr("testdomain.com"),
+      					OuPath:                   to.Ptr("OU=WSCluster,DC=testdomain,DC=com"),
+      					SQLServiceAccount:        to.Ptr("sqlservice@testdomain.com"),
+      					StorageAccountPrimaryKey: to.Ptr("<primary storage access key>"),
+      					StorageAccountURL:        to.Ptr("https://storgact.blob.core.windows.net/"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsqlvirtualmachine%2Farmsqlvirtualmachine%2Fv0.6.0/sdk/resourcemanager/sqlvirtualmachine/armsqlvirtualmachine/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlVirtualMachineManagementClient } = require("@azure/arm-sqlvirtualmachine");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a SQL virtual machine group.
+       *
+       * @summary Creates or updates a SQL virtual machine group.
+       * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2021-11-01-preview/examples/CreateOrUpdateSqlVirtualMachineGroup.json
+       */
+      async function createsOrUpdatesASqlVirtualMachineGroup() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "testrg";
+        const sqlVirtualMachineGroupName = "testvmgroup";
+        const parameters = {
+          location: "northeurope",
+          sqlImageOffer: "SQL2016-WS2016",
+          sqlImageSku: "Enterprise",
+          tags: { mytag: "myval" },
+          wsfcDomainProfile: {
+            clusterBootstrapAccount: "testrpadmin",
+            clusterOperatorAccount: "testrp@testdomain.com",
+            domainFqdn: "testdomain.com",
+            ouPath: "OU=WSCluster,DC=testdomain,DC=com",
+            sqlServiceAccount: "sqlservice@testdomain.com",
+            storageAccountPrimaryKey: "<primary storage access key>",
+            storageAccountUrl: "https://storgact.blob.core.windows.net/",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
+        const result = await client.sqlVirtualMachineGroups.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          sqlVirtualMachineGroupName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesASqlVirtualMachineGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sqlvirtualmachine_5.0.0-beta.5/sdk/sqlvirtualmachine/arm-sqlvirtualmachine/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -449,6 +449,140 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.azurestackhci.models.Extension;
+      import java.io.IOException;
+
+      /** Samples for Extensions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/PatchExtension.json
+           */
+          /**
+           * Sample code: Update Arc Extension.
+           *
+           * @param manager Entry point to AzureStackHciManager.
+           */
+          public static void updateArcExtension(com.azure.resourcemanager.azurestackhci.AzureStackHciManager manager)
+              throws IOException {
+              Extension resource =
+                  manager
+                      .extensions()
+                      .getWithResponse("test-rg", "myCluster", "default", "MicrosoftMonitoringAgent", Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withPublisher("Microsoft.Compute")
+                  .withTypePropertiesType("MicrosoftMonitoringAgent")
+                  .withTypeHandlerVersion("1.10")
+                  .withSettings(
+                      SerializerFactory
+                          .createDefaultManagementSerializerAdapter()
+                          .deserialize("{\"workspaceId\":\"xx\"}", Object.class, SerializerEncoding.JSON))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-azurestackhci_1.0.0-beta.3/sdk/azurestackhci/azure-resourcemanager-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armazurestackhci_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/azurestackhci/armazurestackhci"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/PatchExtension.json
+      func ExampleExtensionsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armazurestackhci.NewExtensionsClient("fd3c3665-1729-4b7b-9a38-238e83b0f98b", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"test-rg",
+      		"myCluster",
+      		"default",
+      		"MicrosoftMonitoringAgent",
+      		armazurestackhci.Extension{
+      			Properties: &armazurestackhci.ExtensionProperties{
+      				ExtensionParameters: &armazurestackhci.ExtensionParameters{
+      					Type:      to.Ptr("MicrosoftMonitoringAgent"),
+      					Publisher: to.Ptr("Microsoft.Compute"),
+      					Settings: map[string]interface{}{
+      						"workspaceId": "xx",
+      					},
+      					TypeHandlerVersion: to.Ptr("1.10"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fazurestackhci%2Farmazurestackhci%2Fv1.0.0/sdk/resourcemanager/azurestackhci/armazurestackhci/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureStackHCIClient } = require("@azure/arm-azurestackhci");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update Extension for HCI cluster.
+       *
+       * @summary Update Extension for HCI cluster.
+       * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/PatchExtension.json
+       */
+      async function updateArcExtension() {
+        const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+        const resourceGroupName = "test-rg";
+        const clusterName = "myCluster";
+        const arcSettingName = "default";
+        const extensionName = "MicrosoftMonitoringAgent";
+        const extension = {
+          typePropertiesExtensionParametersType: "MicrosoftMonitoringAgent",
+          publisher: "Microsoft.Compute",
+          settings: { workspaceId: "xx" },
+          typeHandlerVersion: "1.10",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureStackHCIClient(credential, subscriptionId);
+        const result = await client.extensions.beginUpdateAndWait(
+          resourceGroupName,
+          clusterName,
+          arcSettingName,
+          extensionName,
+          extension
+        );
+        console.log(result);
+      }
+
+      updateArcExtension().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-azurestackhci_3.0.0/sdk/azurestackhci/arm-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

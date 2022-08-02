@@ -367,6 +367,179 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cdn.models.ActivatedResourceReference;
+      import com.azure.resourcemanager.cdn.models.ResourceReference;
+      import com.azure.resourcemanager.cdn.models.SecurityPolicyUpdateParameters;
+      import com.azure.resourcemanager.cdn.models.SecurityPolicyWebApplicationFirewallAssociation;
+      import com.azure.resourcemanager.cdn.models.SecurityPolicyWebApplicationFirewallParameters;
+      import java.util.Arrays;
+
+      /** Samples for SecurityPolicies Patch. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/SecurityPolicies_Patch.json
+           */
+          /**
+           * Sample code: SecurityPolicies_Patch.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void securityPoliciesPatch(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getSecurityPolicies()
+                  .patch(
+                      "RG",
+                      "profile1",
+                      "securityPolicy1",
+                      new SecurityPolicyUpdateParameters()
+                          .withParameters(
+                              new SecurityPolicyWebApplicationFirewallParameters()
+                                  .withWafPolicy(
+                                      new ResourceReference()
+                                          .withId(
+                                              "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Network/frontdoorwebapplicationfirewallpolicies/wafTest"))
+                                  .withAssociations(
+                                      Arrays
+                                          .asList(
+                                              new SecurityPolicyWebApplicationFirewallAssociation()
+                                                  .withDomains(
+                                                      Arrays
+                                                          .asList(
+                                                              new ActivatedResourceReference()
+                                                                  .withId(
+                                                                      "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/afddomains/testdomain1"),
+                                                              new ActivatedResourceReference()
+                                                                  .withId(
+                                                                      "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/afddomains/testdomain2")))
+                                                  .withPatternsToMatch(Arrays.asList("/*"))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/SecurityPolicies_Patch.json
+      func ExampleSecurityPoliciesClient_BeginPatch() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewSecurityPoliciesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginPatch(ctx,
+      		"RG",
+      		"profile1",
+      		"securityPolicy1",
+      		armcdn.SecurityPolicyUpdateParameters{
+      			Properties: &armcdn.SecurityPolicyUpdateProperties{
+      				Parameters: &armcdn.SecurityPolicyWebApplicationFirewallParameters{
+      					Type: to.Ptr(armcdn.SecurityPolicyTypeWebApplicationFirewall),
+      					Associations: []*armcdn.SecurityPolicyWebApplicationFirewallAssociation{
+      						{
+      							Domains: []*armcdn.ActivatedResourceReference{
+      								{
+      									ID: to.Ptr("/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/customdomains/testdomain1"),
+      								},
+      								{
+      									ID: to.Ptr("/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/customdomains/testdomain2"),
+      								}},
+      							PatternsToMatch: []*string{
+      								to.Ptr("/*")},
+      						}},
+      					WafPolicy: &armcdn.ResourceReference{
+      						ID: to.Ptr("/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Network/frontdoorwebapplicationfirewallpolicies/wafTest"),
+      					},
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing security policy within a profile.
+       *
+       * @summary Updates an existing security policy within a profile.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/SecurityPolicies_Patch.json
+       */
+      async function securityPoliciesPatch() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const securityPolicyName = "securityPolicy1";
+        const securityPolicyUpdateProperties = {
+          parameters: {
+            type: "WebApplicationFirewall",
+            associations: [
+              {
+                domains: [
+                  {
+                    id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/afddomains/testdomain1",
+                  },
+                  {
+                    id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/afddomains/testdomain2",
+                  },
+                ],
+                patternsToMatch: ["/*"],
+              },
+            ],
+            wafPolicy: {
+              id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Network/frontdoorwebapplicationfirewallpolicies/wafTest",
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.securityPolicies.beginPatchAndWait(
+          resourceGroupName,
+          profileName,
+          securityPolicyName,
+          securityPolicyUpdateProperties
+        );
+        console.log(result);
+      }
+
+      securityPoliciesPatch().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -251,6 +251,90 @@ examples:
 
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armservicebus_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/servicebus/resource-manager/Microsoft.ServiceBus/stable/2021-11-01/examples/Migrationconfigurations/SBMigrationconfigurationCreateAndStartMigration.json
+      func ExampleMigrationConfigsClient_BeginCreateAndStartMigration() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armservicebus.NewMigrationConfigsClient("SubscriptionId", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateAndStartMigration(ctx,
+      		"ResourceGroup",
+      		"sdk-Namespace-41",
+      		armservicebus.MigrationConfigurationNameDefault,
+      		armservicebus.MigrationConfigProperties{
+      			Properties: &armservicebus.MigrationConfigPropertiesProperties{
+      				PostMigrationName: to.Ptr("sdk-PostMigration-5919"),
+      				TargetNamespace:   to.Ptr("/subscriptions/SubscriptionId/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-4028"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fservicebus%2Farmservicebus%2Fv1.0.0/sdk/resourcemanager/servicebus/armservicebus/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ServiceBusManagementClient } = require("@azure/arm-servicebus");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates Migration configuration and starts migration of entities from Standard to Premium namespace
+       *
+       * @summary Creates Migration configuration and starts migration of entities from Standard to Premium namespace
+       * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/stable/2021-11-01/examples/Migrationconfigurations/SBMigrationconfigurationCreateAndStartMigration.json
+       */
+      async function migrationConfigurationsStartMigration() {
+        const subscriptionId = "SubscriptionId";
+        const resourceGroupName = "ResourceGroup";
+        const namespaceName = "sdk-Namespace-41";
+        const configName = "$default";
+        const parameters = {
+          postMigrationName: "sdk-PostMigration-5919",
+          targetNamespace:
+            "/subscriptions/SubscriptionId/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-4028",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ServiceBusManagementClient(credential, subscriptionId);
+        const result = await client.migrationConfigs.beginCreateAndStartMigrationAndWait(
+          resourceGroupName,
+          namespaceName,
+          configName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      migrationConfigurationsStartMigration().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-servicebus_6.0.0/sdk/servicebus/arm-servicebus/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

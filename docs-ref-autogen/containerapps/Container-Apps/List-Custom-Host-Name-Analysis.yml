@@ -58,81 +58,61 @@ definitions:
   description: Custom domain analysis.
   kind: object
   properties:
-  - name: properties.hostName
+  - name: hostName
     isReadyOnly: true
     description: Host name that was analyzed
     types:
     - uid: string
-  - name: properties.isHostnameAlreadyVerified
+  - name: isHostnameAlreadyVerified
     isReadyOnly: true
     description: <code>true</code> if hostname is already verified; otherwise, <code>false</code>.
     types:
     - uid: boolean
-  - name: properties.customDomainVerificationTest
+  - name: customDomainVerificationTest
     isReadyOnly: true
     description: DNS verification test result.
     types:
     - uid: DnsVerificationTestResult
-  - name: properties.customDomainVerificationFailureInfo
+  - name: customDomainVerificationFailureInfo
     isReadyOnly: true
     description: Raw failure information if DNS verification fails.
     types:
     - uid: DefaultErrorResponse
-  - name: properties.hasConflictOnManagedEnvironment
+  - name: hasConflictOnManagedEnvironment
     isReadyOnly: true
     description: <code>true</code> if there is a conflict on the Container App's managed environment; otherwise, <code>false</code>.
     types:
     - uid: boolean
-  - name: properties.conflictingContainerAppResourceId
+  - name: conflictingContainerAppResourceId
     isReadyOnly: true
     description: Name of the conflicting Container App on the Managed Environment if it's within the same subscription.
     types:
     - uid: string
-  - name: properties.cNameRecords
+  - name: cNameRecords
     description: CName records visible for this hostname.
     types:
     - uid: string
       isArray: true
-  - name: properties.txtRecords
+  - name: txtRecords
     description: TXT records visible for this hostname.
     types:
     - uid: string
       isArray: true
-  - name: properties.aRecords
+  - name: aRecords
     description: A records visible for this hostname.
     types:
     - uid: string
       isArray: true
-  - name: properties.alternateCNameRecords
+  - name: alternateCNameRecords
     description: Alternate CName records visible for this hostname.
     types:
     - uid: string
       isArray: true
-  - name: properties.alternateTxtRecords
+  - name: alternateTxtRecords
     description: Alternate TXT records visible for this hostname.
     types:
     - uid: string
       isArray: true
-  - name: id
-    isReadyOnly: true
-    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the resource
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-    types:
-    - uid: string
-  - name: systemData
-    isReadyOnly: true
-    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
-    types:
-    - uid: systemData
 - name: DefaultErrorResponse
   description: App Service error response.
   kind: object
@@ -153,34 +133,6 @@ definitions:
     types:
     - uid: string
   - name: Skipped
-    types:
-    - uid: string
-- name: systemData
-  description: Metadata pertaining to creation and last modification of the resource.
-  kind: object
-  properties:
-  - name: createdBy
-    description: The identity that created the resource.
-    types:
-    - uid: string
-  - name: createdByType
-    description: The type of identity that created the resource.
-    types:
-    - uid: createdByType
-  - name: createdAt
-    description: The timestamp of resource creation (UTC).
-    types:
-    - uid: string
-  - name: lastModifiedBy
-    description: The identity that last modified the resource.
-    types:
-    - uid: string
-  - name: lastModifiedByType
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: createdByType
-  - name: lastModifiedAt
-    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: Error
@@ -212,22 +164,6 @@ definitions:
     description: More information to debug error.
     types:
     - uid: string
-- name: createdByType
-  description: The type of identity that created the resource.
-  kind: enum
-  properties:
-  - name: User
-    types:
-    - uid: string
-  - name: Application
-    types:
-    - uid: string
-  - name: ManagedIdentity
-    types:
-    - uid: string
-  - name: Key
-    types:
-    - uid: string
 - name: Details
   description: Details or the error
   kind: object
@@ -257,39 +193,129 @@ examples:
       POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/containerApps/testcontainerApp0/listCustomHostNameAnalysis?customHostname=my.name.corp&api-version=2022-03-01
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ContainerApps ListCustomHostnameAnalysis. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ContainerApps_ListCustomHostNameAnalysis.json
+           */
+          /**
+           * Sample code: Analyze Custom Hostname.
+           *
+           * @param manager Entry point to ContainerAppsApiManager.
+           */
+          public static void analyzeCustomHostname(com.azure.resourcemanager.appcontainers.ContainerAppsApiManager manager) {
+              manager
+                  .containerApps()
+                  .listCustomHostnameAnalysisWithResponse("rg", "testcontainerApp0", "my.name.corp", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appcontainers_1.0.0-beta.3/sdk/appcontainers/azure-resourcemanager-appcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappcontainers_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appcontainers/armappcontainers"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ContainerApps_ListCustomHostNameAnalysis.json
+      func ExampleContainerAppsClient_ListCustomHostNameAnalysis() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappcontainers.NewContainerAppsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.ListCustomHostNameAnalysis(ctx,
+      		"rg",
+      		"testcontainerApp0",
+      		&armappcontainers.ContainerAppsClientListCustomHostNameAnalysisOptions{CustomHostname: to.Ptr("my.name.corp")})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappcontainers%2Farmappcontainers%2Fv1.0.0/sdk/resourcemanager/appcontainers/armappcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerAppsAPIClient } = require("@azure/arm-appcontainers");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Analyzes a custom hostname for a Container App
+       *
+       * @summary Analyzes a custom hostname for a Container App
+       * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ContainerApps_ListCustomHostNameAnalysis.json
+       */
+      async function analyzeCustomHostname() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "rg";
+        const containerAppName = "testcontainerApp0";
+        const customHostname = "my.name.corp";
+        const options = {
+          customHostname,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerAppsAPIClient(credential, subscriptionId);
+        const result = await client.containerApps.listCustomHostNameAnalysis(
+          resourceGroupName,
+          containerAppName,
+          options
+        );
+        console.log(result);
+      }
+
+      analyzeCustomHostname().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appcontainers_1.0.0/sdk/appcontainers/arm-appcontainers/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/containerApps/testcontainerApp0",
-        "properties": {
-          "hostName": "my.name.corp",
-          "isHostnameAlreadyVerified": true,
-          "customDomainVerificationTest": "Passed",
-          "customDomainVerificationFailureInfo": {},
-          "hasConflictOnManagedEnvironment": false,
-          "conflictingContainerAppResourceId": "",
-          "cNameRecords": [
-            "cNameRecord1",
-            "cNameRecord2"
-          ],
-          "txtRecords": [
-            "txtRecord1",
-            "txtRecord2"
-          ],
-          "aRecords": [
-            "aRecord1",
-            "aRecord2"
-          ],
-          "alternateCNameRecords": [
-            "cNameRecord1",
-            "cNameRecord2"
-          ],
-          "alternateTxtRecords": [
-            "txtRecord1",
-            "txtRecord2"
-          ]
-        }
+        "hostName": "my.name.corp",
+        "isHostnameAlreadyVerified": true,
+        "customDomainVerificationTest": "Passed",
+        "customDomainVerificationFailureInfo": {},
+        "hasConflictOnManagedEnvironment": false,
+        "conflictingContainerAppResourceId": "",
+        "cNameRecords": [
+          "cNameRecord1",
+          "cNameRecord2"
+        ],
+        "txtRecords": [
+          "txtRecord1",
+          "txtRecord2"
+        ],
+        "aRecords": [
+          "aRecord1",
+          "aRecord2"
+        ],
+        "alternateCNameRecords": [
+          "cNameRecord1",
+          "cNameRecord2"
+        ],
+        "alternateTxtRecords": [
+          "txtRecord1",
+          "txtRecord2"
+        ]
       }
 security:
 - name: azure_auth

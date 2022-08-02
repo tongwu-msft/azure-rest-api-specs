@@ -3,7 +3,7 @@ uid: management.azure.com.recoveryservices.recoveryservices.checknameavailabilit
 name: Check Name Availability
 service: Recovery Services
 groupName: Recovery Services
-apiVersion: 2016-06-01
+apiVersion: 2022-04-01
 summary: >-
   API to check for resource name availability.
 
@@ -15,7 +15,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/locations/{location}/checkNameAvailability?api-version=2016-06-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/locations/{location}/checkNameAvailability?api-version=2022-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,6 +46,10 @@ responses:
   description: OK
   types:
   - uid: CheckNameAvailabilityResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -77,6 +81,14 @@ definitions:
     description: ''
     types:
     - uid: string
+- name: CloudError
+  description: CloudError
+  kind: object
+  properties:
+  - name: error
+    description: The resource management error response.
+    types:
+    - uid: Error
 - name: CheckNameAvailabilityParameters
   description: Resource Name availability input parameters - Resource type and resource name
   kind: object
@@ -89,10 +101,55 @@ definitions:
     description: Resource name for which availability needs to be checked
     types:
     - uid: string
+- name: Error
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: Error
+      isArray: true
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
 examples:
 - name: Availability status of Resource Name when no resource with same name, type and subscription exists, nor has been deleted within last 24 hours
   request:
-    uri: POST https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/resGroupFoo/providers/Microsoft.RecoveryServices/locations/westus/checkNameAvailability?api-version=2016-06-01
+    uri: POST https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/resGroupFoo/providers/Microsoft.RecoveryServices/locations/westus/checkNameAvailability?api-version=2022-04-01
     body: >-
       {
         "name": "swaggerExample",
@@ -101,7 +158,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/resGroupFoo/providers/Microsoft.RecoveryServices/locations/westus/checkNameAvailability?api-version=2016-06-01
+      POST https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/resGroupFoo/providers/Microsoft.RecoveryServices/locations/westus/checkNameAvailability?api-version=2022-04-01
 
       {
         "name": "swaggerExample",
@@ -110,6 +167,86 @@ examples:
 
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armrecoveryservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservices"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/CheckNameAvailability_Available.json
+      func ExampleClient_CheckNameAvailability() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armrecoveryservices.NewClient("77777777-b0c6-47a2-b37c-d8e65a629c18", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CheckNameAvailability(ctx,
+      		"resGroupFoo",
+      		"westus",
+      		armrecoveryservices.CheckNameAvailabilityParameters{
+      			Name: to.Ptr("swaggerExample"),
+      			Type: to.Ptr("Microsoft.RecoveryServices/Vaults"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Frecoveryservices%2Farmrecoveryservices%2Fv1.1.0/sdk/resourcemanager/recoveryservices/armrecoveryservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to API to check for resource name availability.
+      A name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type
+      or if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago
+       *
+       * @summary API to check for resource name availability.
+      A name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type
+      or if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago
+       * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/CheckNameAvailability_Available.json
+       */
+      async function availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours() {
+        const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
+        const resourceGroupName = "resGroupFoo";
+        const location = "westus";
+        const input = {
+          name: "swaggerExample",
+          type: "Microsoft.RecoveryServices/Vaults",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new RecoveryServicesClient(credential, subscriptionId);
+        const result = await client.recoveryServices.checkNameAvailability(
+          resourceGroupName,
+          location,
+          input
+        );
+        console.log(result);
+      }
+
+      availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-recoveryservices_5.1.0/sdk/recoveryservices/arm-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -118,7 +255,7 @@ examples:
       }
 - name: Availability status of Resource Name when resource with same name, type and subscription exists
   request:
-    uri: POST https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/resGroupBar/providers/Microsoft.RecoveryServices/locations/westus/checkNameAvailability?api-version=2016-06-01
+    uri: POST https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/resGroupBar/providers/Microsoft.RecoveryServices/locations/westus/checkNameAvailability?api-version=2022-04-01
     body: >-
       {
         "name": "swaggerExample2",
@@ -127,7 +264,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/resGroupBar/providers/Microsoft.RecoveryServices/locations/westus/checkNameAvailability?api-version=2016-06-01
+      POST https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/resGroupBar/providers/Microsoft.RecoveryServices/locations/westus/checkNameAvailability?api-version=2022-04-01
 
       {
         "name": "swaggerExample2",
@@ -136,6 +273,45 @@ examples:
 
       ```
 
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to API to check for resource name availability.
+      A name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type
+      or if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago
+       *
+       * @summary API to check for resource name availability.
+      A name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type
+      or if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago
+       * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/CheckNameAvailability_NotAvailable.json
+       */
+      async function availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSubscriptionExists() {
+        const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
+        const resourceGroupName = "resGroupBar";
+        const location = "westus";
+        const input = {
+          name: "swaggerExample2",
+          type: "Microsoft.RecoveryServices/Vaults",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new RecoveryServicesClient(credential, subscriptionId);
+        const result = await client.recoveryServices.checkNameAvailability(
+          resourceGroupName,
+          location,
+          input
+        );
+        console.log(result);
+      }
+
+      availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSubscriptionExists().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-recoveryservices_5.1.0/sdk/recoveryservices/arm-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

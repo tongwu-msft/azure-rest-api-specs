@@ -3,15 +3,15 @@ uid: management.azure.com.automation.hybridrunbookworkergroup.listbyautomationac
 name: List By Automation Account
 service: Automation
 groupName: Hybrid Runbook Worker Group
-apiVersion: 2021-06-22
+apiVersion: 2022-02-22
 summary: Retrieve a list of hybrid runbook worker groups.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups?api-version=2021-06-22
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups?$filter={$filter}&api-version=2021-06-22
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups?api-version=2022-02-22
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups?$filter={$filter}&api-version=2022-02-22
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -84,73 +84,32 @@ definitions:
   description: Definition of hybrid runbook worker group.
   kind: object
   properties:
-  - name: id
-    description: Gets or sets the id of the resource.
-    types:
-    - uid: string
-  - name: name
-    description: Gets or sets the name of the group.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The type of the resource.
-    types:
-    - uid: string
-  - name: hybridRunbookWorkers
-    description: Gets or sets the list of hybrid runbook workers.
-    types:
-    - uid: HybridRunbookWorkerLegacy
-      isArray: true
-  - name: credential
-    description: Sets the credential of a worker group.
-    types:
-    - uid: RunAsCredentialAssociationProperty
-  - name: groupType
-    description: Type of the HybridWorkerGroup.
-    types:
-    - uid: GroupTypeEnum
   - name: systemData
     isReadyOnly: true
     description: Resource system metadata.
     types:
     - uid: systemData
-- name: HybridRunbookWorkerLegacy
-  description: Definition of hybrid runbook worker Legacy.
-  kind: object
-  properties:
+  - name: properties.groupType
+    description: Type of the HybridWorkerGroup.
+    types:
+    - uid: GroupTypeEnum
+  - name: properties.credential
+    description: Sets the credential of a worker group.
+    types:
+    - uid: RunAsCredentialAssociationProperty
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource
+    types:
+    - uid: string
   - name: name
-    description: Gets or sets the worker machine name.
+    isReadyOnly: true
+    description: The name of the resource
     types:
     - uid: string
-  - name: ip
-    description: Gets or sets the assigned machine IP address.
-    types:
-    - uid: string
-  - name: registrationTime
-    description: Gets or sets the registration time of the worker machine.
-    types:
-    - uid: string
-  - name: lastSeenDateTime
-    description: Last Heartbeat from the Worker
-    types:
-    - uid: string
-- name: RunAsCredentialAssociationProperty
-  description: Definition of RunAs credential to use for hybrid worker.
-  kind: object
-  properties:
-  - name: name
-    description: Gets or sets the name of the credential.
-    types:
-    - uid: string
-- name: GroupTypeEnum
-  description: Type of the HybridWorkerGroup.
-  kind: enum
-  properties:
-  - name: User
-    types:
-    - uid: string
-  - name: System
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
     types:
     - uid: string
 - name: systemData
@@ -181,6 +140,24 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
+- name: GroupTypeEnum
+  description: Type of the HybridWorkerGroup.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: System
+    types:
+    - uid: string
+- name: RunAsCredentialAssociationProperty
+  description: Definition of RunAs credential to use for hybrid worker.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the credential.
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -200,13 +177,53 @@ definitions:
 examples:
 - name: List hybrid worker groups by Automation Account
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups?api-version=2021-06-22
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups?api-version=2022-02-22
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups?api-version=2021-06-22
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups?api-version=2022-02-22
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armautomation_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/automation/resource-manager/Microsoft.Automation/stable/2022-02-22/examples/listHybridRunbookWorkerGroup.json
+      func ExampleHybridRunbookWorkerGroupClient_NewListByAutomationAccountPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armautomation.NewHybridRunbookWorkerGroupClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByAutomationAccountPager("rg",
+      		"testaccount",
+      		&armautomation.HybridRunbookWorkerGroupClientListByAutomationAccountOptions{Filter: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fautomation%2Farmautomation%2Fv0.7.0/sdk/resourcemanager/automation/armautomation/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -215,10 +232,12 @@ examples:
           {
             "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestHybridGroup",
             "name": "TestHybridGroup",
-            "credential": {
-              "name": "myRunAsCredentialName"
+            "properties": {
+              "groupType": "User",
+              "credential": {
+                "name": "myRunAsCredentialName"
+              }
             },
-            "groupType": "User",
             "systemData": {
               "createdBy": "foo@contoso.com",
               "createdByType": "User",

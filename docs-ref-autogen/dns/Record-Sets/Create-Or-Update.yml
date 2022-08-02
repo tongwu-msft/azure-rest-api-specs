@@ -495,6 +495,151 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dns.fluent.models.RecordSetInner;
+      import com.azure.resourcemanager.dns.models.ARecord;
+      import com.azure.resourcemanager.dns.models.RecordType;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for RecordSets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateARecordset.json
+           */
+          /**
+           * Sample code: Create A recordset.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createARecordset(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .dnsZones()
+                  .manager()
+                  .serviceClient()
+                  .getRecordSets()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "zone1",
+                      "record1",
+                      RecordType.A,
+                      new RecordSetInner()
+                          .withMetadata(mapOf("key1", "value1"))
+                          .withTtl(3600L)
+                          .withARecords(Arrays.asList(new ARecord().withIpv4Address("127.0.0.1"))),
+                      null,
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdns_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateARecordset.json
+      func ExampleRecordSetsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdns.NewRecordSetsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"rg1",
+      		"zone1",
+      		"record1",
+      		armdns.RecordTypeA,
+      		armdns.RecordSet{
+      			Properties: &armdns.RecordSetProperties{
+      				ARecords: []*armdns.ARecord{
+      					{
+      						IPv4Address: to.Ptr("127.0.0.1"),
+      					}},
+      				TTL: to.Ptr[int64](3600),
+      				Metadata: map[string]*string{
+      					"key1": to.Ptr("value1"),
+      				},
+      			},
+      		},
+      		&armdns.RecordSetsClientCreateOrUpdateOptions{IfMatch: nil,
+      			IfNoneMatch: nil,
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdns%2Farmdns%2Fv1.0.0/sdk/resourcemanager/dns/armdns/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a record set within a DNS zone.
+       *
+       * @summary Creates or updates a record set within a DNS zone.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateARecordset.json
+       */
+      async function createARecordset() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const zoneName = "zone1";
+        const relativeRecordSetName = "record1";
+        const recordType = "A";
+        const parameters = {
+          aRecords: [{ ipv4Address: "127.0.0.1" }],
+          ttl: 3600,
+          metadata: { key1: "value1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const result = await client.recordSets.createOrUpdate(
+          resourceGroupName,
+          zoneName,
+          relativeRecordSetName,
+          recordType,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createARecordset().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -570,6 +715,102 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.SubResource;
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dns.fluent.models.RecordSetInner;
+      import com.azure.resourcemanager.dns.models.RecordType;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for RecordSets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateARecordsetAlias.json
+           */
+          /**
+           * Sample code: Create A recordset with alias target resource.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createARecordsetWithAliasTargetResource(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .dnsZones()
+                  .manager()
+                  .serviceClient()
+                  .getRecordSets()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "zone1",
+                      "record1",
+                      RecordType.A,
+                      new RecordSetInner()
+                          .withMetadata(mapOf("key1", "value1"))
+                          .withTtl(3600L)
+                          .withTargetResource(
+                              new SubResource()
+                                  .withId(
+                                      "/subscriptions/726f8cd6-6459-4db4-8e6d-2cd2716904e2/resourceGroups/test/providers/Microsoft.Network/trafficManagerProfiles/testpp2")),
+                      null,
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a record set within a DNS zone.
+       *
+       * @summary Creates or updates a record set within a DNS zone.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateARecordsetAlias.json
+       */
+      async function createARecordsetWithAliasTargetResource() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const zoneName = "zone1";
+        const relativeRecordSetName = "record1";
+        const recordType = "A";
+        const parameters = {
+          ttl: 3600,
+          metadata: { key1: "value1" },
+          targetResource: {
+            id: "/subscriptions/726f8cd6-6459-4db4-8e6d-2cd2716904e2/resourceGroups/test/providers/Microsoft.Network/trafficManagerProfiles/testpp2",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const result = await client.recordSets.createOrUpdate(
+          resourceGroupName,
+          zoneName,
+          relativeRecordSetName,
+          recordType,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createARecordsetWithAliasTargetResource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -647,6 +888,98 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dns.fluent.models.RecordSetInner;
+      import com.azure.resourcemanager.dns.models.AaaaRecord;
+      import com.azure.resourcemanager.dns.models.RecordType;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for RecordSets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateAAAARecordset.json
+           */
+          /**
+           * Sample code: Create AAAA recordset.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAAAARecordset(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .dnsZones()
+                  .manager()
+                  .serviceClient()
+                  .getRecordSets()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "zone1",
+                      "record1",
+                      RecordType.AAAA,
+                      new RecordSetInner()
+                          .withMetadata(mapOf("key1", "value1"))
+                          .withTtl(3600L)
+                          .withAaaaRecords(Arrays.asList(new AaaaRecord().withIpv6Address("::1"))),
+                      null,
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a record set within a DNS zone.
+       *
+       * @summary Creates or updates a record set within a DNS zone.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateAAAARecordset.json
+       */
+      async function createAaaaRecordset() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const zoneName = "zone1";
+        const relativeRecordSetName = "record1";
+        const recordType = "AAAA";
+        const parameters = {
+          aaaaRecords: [{ ipv6Address: "::1" }],
+          ttl: 3600,
+          metadata: { key1: "value1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const result = await client.recordSets.createOrUpdate(
+          resourceGroupName,
+          zoneName,
+          relativeRecordSetName,
+          recordType,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createAaaaRecordset().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -730,6 +1063,99 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dns.fluent.models.RecordSetInner;
+      import com.azure.resourcemanager.dns.models.CaaRecord;
+      import com.azure.resourcemanager.dns.models.RecordType;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for RecordSets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateCaaRecordset.json
+           */
+          /**
+           * Sample code: Create CAA recordset.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createCAARecordset(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .dnsZones()
+                  .manager()
+                  .serviceClient()
+                  .getRecordSets()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "zone1",
+                      "record1",
+                      RecordType.CAA,
+                      new RecordSetInner()
+                          .withMetadata(mapOf("key1", "value1"))
+                          .withTtl(3600L)
+                          .withCaaRecords(
+                              Arrays.asList(new CaaRecord().withFlags(0).withTag("issue").withValue("ca.contoso.com"))),
+                      null,
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a record set within a DNS zone.
+       *
+       * @summary Creates or updates a record set within a DNS zone.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateCaaRecordset.json
+       */
+      async function createCaaRecordset() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const zoneName = "zone1";
+        const relativeRecordSetName = "record1";
+        const recordType = "CAA";
+        const parameters = {
+          ttl: 3600,
+          caaRecords: [{ flags: 0, tag: "issue", value: "ca.contoso.com" }],
+          metadata: { key1: "value1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const result = await client.recordSets.createOrUpdate(
+          resourceGroupName,
+          zoneName,
+          relativeRecordSetName,
+          recordType,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createCaaRecordset().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -809,6 +1235,97 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dns.fluent.models.RecordSetInner;
+      import com.azure.resourcemanager.dns.models.CnameRecord;
+      import com.azure.resourcemanager.dns.models.RecordType;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for RecordSets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateCNAMERecordset.json
+           */
+          /**
+           * Sample code: Create CNAME recordset.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createCNAMERecordset(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .dnsZones()
+                  .manager()
+                  .serviceClient()
+                  .getRecordSets()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "zone1",
+                      "record1",
+                      RecordType.CNAME,
+                      new RecordSetInner()
+                          .withMetadata(mapOf("key1", "value1"))
+                          .withTtl(3600L)
+                          .withCnameRecord(new CnameRecord().withCname("contoso.com")),
+                      null,
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a record set within a DNS zone.
+       *
+       * @summary Creates or updates a record set within a DNS zone.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateCNAMERecordset.json
+       */
+      async function createCnameRecordset() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const zoneName = "zone1";
+        const relativeRecordSetName = "record1";
+        const recordType = "CNAME";
+        const parameters = {
+          cnameRecord: { cname: "contoso.com" },
+          ttl: 3600,
+          metadata: { key1: "value1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const result = await client.recordSets.createOrUpdate(
+          resourceGroupName,
+          zoneName,
+          relativeRecordSetName,
+          recordType,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createCnameRecordset().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -886,6 +1403,98 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dns.fluent.models.RecordSetInner;
+      import com.azure.resourcemanager.dns.models.MxRecord;
+      import com.azure.resourcemanager.dns.models.RecordType;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for RecordSets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateMXRecordset.json
+           */
+          /**
+           * Sample code: Create MX recordset.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createMXRecordset(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .dnsZones()
+                  .manager()
+                  .serviceClient()
+                  .getRecordSets()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "zone1",
+                      "record1",
+                      RecordType.MX,
+                      new RecordSetInner()
+                          .withMetadata(mapOf("key1", "value1"))
+                          .withTtl(3600L)
+                          .withMxRecords(Arrays.asList(new MxRecord().withPreference(0).withExchange("mail.contoso.com"))),
+                      null,
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a record set within a DNS zone.
+       *
+       * @summary Creates or updates a record set within a DNS zone.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateMXRecordset.json
+       */
+      async function createMxRecordset() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const zoneName = "zone1";
+        const relativeRecordSetName = "record1";
+        const recordType = "MX";
+        const parameters = {
+          mxRecords: [{ exchange: "mail.contoso.com", preference: 0 }],
+          ttl: 3600,
+          metadata: { key1: "value1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const result = await client.recordSets.createOrUpdate(
+          resourceGroupName,
+          zoneName,
+          relativeRecordSetName,
+          recordType,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createMxRecordset().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -967,6 +1576,98 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dns.fluent.models.RecordSetInner;
+      import com.azure.resourcemanager.dns.models.NsRecord;
+      import com.azure.resourcemanager.dns.models.RecordType;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for RecordSets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateNSRecordset.json
+           */
+          /**
+           * Sample code: Create NS recordset.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createNSRecordset(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .dnsZones()
+                  .manager()
+                  .serviceClient()
+                  .getRecordSets()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "zone1",
+                      "record1",
+                      RecordType.NS,
+                      new RecordSetInner()
+                          .withMetadata(mapOf("key1", "value1"))
+                          .withTtl(3600L)
+                          .withNsRecords(Arrays.asList(new NsRecord().withNsdname("ns1.contoso.com"))),
+                      null,
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a record set within a DNS zone.
+       *
+       * @summary Creates or updates a record set within a DNS zone.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateNSRecordset.json
+       */
+      async function createNsRecordset() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const zoneName = "zone1";
+        const relativeRecordSetName = "record1";
+        const recordType = "NS";
+        const parameters = {
+          nsRecords: [{ nsdname: "ns1.contoso.com" }],
+          ttl: 3600,
+          metadata: { key1: "value1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const result = await client.recordSets.createOrUpdate(
+          resourceGroupName,
+          zoneName,
+          relativeRecordSetName,
+          recordType,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createNsRecordset().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1046,6 +1747,98 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dns.fluent.models.RecordSetInner;
+      import com.azure.resourcemanager.dns.models.PtrRecord;
+      import com.azure.resourcemanager.dns.models.RecordType;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for RecordSets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdatePTRRecordset.json
+           */
+          /**
+           * Sample code: Create PTR recordset.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createPTRRecordset(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .dnsZones()
+                  .manager()
+                  .serviceClient()
+                  .getRecordSets()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "0.0.127.in-addr.arpa",
+                      "1",
+                      RecordType.PTR,
+                      new RecordSetInner()
+                          .withMetadata(mapOf("key1", "value1"))
+                          .withTtl(3600L)
+                          .withPtrRecords(Arrays.asList(new PtrRecord().withPtrdname("localhost"))),
+                      null,
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a record set within a DNS zone.
+       *
+       * @summary Creates or updates a record set within a DNS zone.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdatePTRRecordset.json
+       */
+      async function createPtrRecordset() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const zoneName = "0.0.127.in-addr.arpa";
+        const relativeRecordSetName = "1";
+        const recordType = "PTR";
+        const parameters = {
+          ptrRecords: [{ ptrdname: "localhost" }],
+          ttl: 3600,
+          metadata: { key1: "value1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const result = await client.recordSets.createOrUpdate(
+          resourceGroupName,
+          zoneName,
+          relativeRecordSetName,
+          recordType,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPtrRecordset().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1133,6 +1926,113 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dns.fluent.models.RecordSetInner;
+      import com.azure.resourcemanager.dns.models.RecordType;
+      import com.azure.resourcemanager.dns.models.SoaRecord;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for RecordSets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateSOARecordset.json
+           */
+          /**
+           * Sample code: Create SOA recordset.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createSOARecordset(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .dnsZones()
+                  .manager()
+                  .serviceClient()
+                  .getRecordSets()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "zone1",
+                      "@",
+                      RecordType.SOA,
+                      new RecordSetInner()
+                          .withMetadata(mapOf("key1", "value1"))
+                          .withTtl(3600L)
+                          .withSoaRecord(
+                              new SoaRecord()
+                                  .withHost("ns1.contoso.com")
+                                  .withEmail("hostmaster.contoso.com")
+                                  .withSerialNumber(1L)
+                                  .withRefreshTime(3600L)
+                                  .withRetryTime(300L)
+                                  .withExpireTime(2419200L)
+                                  .withMinimumTtl(300L)),
+                      null,
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a record set within a DNS zone.
+       *
+       * @summary Creates or updates a record set within a DNS zone.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateSOARecordset.json
+       */
+      async function createSoaRecordset() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const zoneName = "zone1";
+        const relativeRecordSetName = "@";
+        const recordType = "SOA";
+        const parameters = {
+          soaRecord: {
+            email: "hostmaster.contoso.com",
+            expireTime: 2419200,
+            host: "ns1.contoso.com",
+            minimumTtl: 300,
+            refreshTime: 3600,
+            retryTime: 300,
+            serialNumber: 1,
+          },
+          ttl: 3600,
+          metadata: { key1: "value1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const result = await client.recordSets.createOrUpdate(
+          resourceGroupName,
+          zoneName,
+          relativeRecordSetName,
+          recordType,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createSoaRecordset().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1226,6 +2126,101 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dns.fluent.models.RecordSetInner;
+      import com.azure.resourcemanager.dns.models.RecordType;
+      import com.azure.resourcemanager.dns.models.SrvRecord;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for RecordSets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateSRVRecordset.json
+           */
+          /**
+           * Sample code: Create SRV recordset.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createSRVRecordset(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .dnsZones()
+                  .manager()
+                  .serviceClient()
+                  .getRecordSets()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "zone1",
+                      "record1",
+                      RecordType.SRV,
+                      new RecordSetInner()
+                          .withMetadata(mapOf("key1", "value1"))
+                          .withTtl(3600L)
+                          .withSrvRecords(
+                              Arrays
+                                  .asList(
+                                      new SrvRecord().withPriority(0).withWeight(10).withPort(80).withTarget("contoso.com"))),
+                      null,
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a record set within a DNS zone.
+       *
+       * @summary Creates or updates a record set within a DNS zone.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateSRVRecordset.json
+       */
+      async function createSrvRecordset() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const zoneName = "zone1";
+        const relativeRecordSetName = "record1";
+        const recordType = "SRV";
+        const parameters = {
+          srvRecords: [{ port: 80, priority: 0, target: "contoso.com", weight: 10 }],
+          ttl: 3600,
+          metadata: { key1: "value1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const result = await client.recordSets.createOrUpdate(
+          resourceGroupName,
+          zoneName,
+          relativeRecordSetName,
+          recordType,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createSrvRecordset().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1317,6 +2312,98 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dns.fluent.models.RecordSetInner;
+      import com.azure.resourcemanager.dns.models.RecordType;
+      import com.azure.resourcemanager.dns.models.TxtRecord;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for RecordSets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateTXTRecordset.json
+           */
+          /**
+           * Sample code: Create TXT recordset.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createTXTRecordset(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .dnsZones()
+                  .manager()
+                  .serviceClient()
+                  .getRecordSets()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "zone1",
+                      "record1",
+                      RecordType.TXT,
+                      new RecordSetInner()
+                          .withMetadata(mapOf("key1", "value1"))
+                          .withTtl(3600L)
+                          .withTxtRecords(Arrays.asList(new TxtRecord().withValue(Arrays.asList("string1", "string2")))),
+                      null,
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a record set within a DNS zone.
+       *
+       * @summary Creates or updates a record set within a DNS zone.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateTXTRecordset.json
+       */
+      async function createTxtRecordset() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const zoneName = "zone1";
+        const relativeRecordSetName = "record1";
+        const recordType = "TXT";
+        const parameters = {
+          ttl: 3600,
+          txtRecords: [{ value: ["string1", "string2"] }],
+          metadata: { key1: "value1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const result = await client.recordSets.createOrUpdate(
+          resourceGroupName,
+          zoneName,
+          relativeRecordSetName,
+          recordType,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createTxtRecordset().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

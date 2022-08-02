@@ -3,14 +3,14 @@ uid: management.azure.com.recoveryservices.vaultextendedinfo.createorupdate
 name: Create Or Update
 service: Recovery Services
 groupName: Vault Extended Info
-apiVersion: 2016-06-01
+apiVersion: 2022-04-01
 summary: Create vault extended info.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo?api-version=2016-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo?api-version=2022-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +41,10 @@ responses:
   description: OK
   types:
   - uid: VaultExtendedInfoResource
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -64,7 +68,7 @@ requestBody:
     description: Algorithm for Vault ExtendedInfo
     types:
     - uid: string
-  - name: eTag
+  - name: etag
     in: body
     description: Optional ETag.
     types:
@@ -106,14 +110,67 @@ definitions:
     description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
     types:
     - uid: string
-  - name: eTag
+  - name: etag
     description: Optional ETag.
+    types:
+    - uid: string
+- name: CloudError
+  description: CloudError
+  kind: object
+  properties:
+  - name: error
+    description: The resource management error response.
+    types:
+    - uid: Error
+- name: Error
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: Error
+      isArray: true
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
 examples:
 - name: Put ExtendedInfo of Resource
   request:
-    uri: PUT https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/Default-RecoveryServices-ResourceGroup/providers/Microsoft.RecoveryServices/vaults/swaggerExample/extendedInformation/vaultExtendedInfo?api-version=2016-06-01
+    uri: PUT https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/Default-RecoveryServices-ResourceGroup/providers/Microsoft.RecoveryServices/vaults/swaggerExample/extendedInformation/vaultExtendedInfo?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -124,7 +181,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/Default-RecoveryServices-ResourceGroup/providers/Microsoft.RecoveryServices/vaults/swaggerExample/extendedInformation/vaultExtendedInfo?api-version=2016-06-01
+      PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/Default-RecoveryServices-ResourceGroup/providers/Microsoft.RecoveryServices/vaults/swaggerExample/extendedInformation/vaultExtendedInfo?api-version=2022-04-01
 
       {
         "properties": {
@@ -135,12 +192,101 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for VaultExtendedInfo CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/UpdateVaultExtendedInfo.json
+           */
+          /**
+           * Sample code: Put ExtendedInfo of Resource.
+           *
+           * @param manager Entry point to RecoveryServicesManager.
+           */
+          public static void putExtendedInfoOfResource(
+              com.azure.resourcemanager.recoveryservices.RecoveryServicesManager manager) {
+              manager
+                  .vaultExtendedInfoes()
+                  .createOrUpdateWithResponse("Default-RecoveryServices-ResourceGroup", "swaggerExample", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-recoveryservices_1.0.0-beta.3/sdk/recoveryservices/azure-resourcemanager-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armrecoveryservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservices"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/UpdateVaultExtendedInfo.json
+      func ExampleVaultExtendedInfoClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armrecoveryservices.NewVaultExtendedInfoClient("77777777-b0c6-47a2-b37c-d8e65a629c18", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"Default-RecoveryServices-ResourceGroup",
+      		"swaggerExample",
+      		armrecoveryservices.VaultExtendedInfoResource{},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Frecoveryservices%2Farmrecoveryservices%2Fv1.1.0/sdk/resourcemanager/recoveryservices/armrecoveryservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create vault extended info.
+       *
+       * @summary Create vault extended info.
+       * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/UpdateVaultExtendedInfo.json
+       */
+      async function putExtendedInfoOfResource() {
+        const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
+        const resourceGroupName = "Default-RecoveryServices-ResourceGroup";
+        const vaultName = "swaggerExample";
+        const credential = new DefaultAzureCredential();
+        const client = new RecoveryServicesClient(credential, subscriptionId);
+        const result = await client.vaultExtendedInfo.createOrUpdate(resourceGroupName, vaultName, {
+          integrityKey: "J99wzS27fmJ+Wjot7xO5wA==",
+          algorithm: "None",
+        });
+        console.log(result);
+      }
+
+      putExtendedInfoOfResource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-recoveryservices_5.1.0/sdk/recoveryservices/arm-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
         "name": "vaultExtendedInfo",
-        "eTag": "f0d0260b-b92d-4458-ba0a-32c6cdabacb7",
+        "etag": "f0d0260b-b92d-4458-ba0a-32c6cdabacb7",
         "properties": {
           "integrityKey": "J99wzS27fmJ+Wjot7xO5wA==",
           "algorithm": "None"

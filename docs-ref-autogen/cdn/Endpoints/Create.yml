@@ -248,64 +248,22 @@ definitions:
     description: The JSON object that contains the properties to determine origin health using real requests/responses.This property is currently not supported.
     types:
     - uid: ResponseBasedOriginErrorDetectionParameters
-- name: CustomDomain
-  description: Friendly domain name mapping to the endpoint hostname that the customer provides for branding purposes, e.g. www.contoso.com.
+- name: DeepCreatedCustomDomain
+  description: Custom domains created on the CDN endpoint.
   kind: object
   properties:
+  - name: name
+    description: Custom domain name.
+    types:
+    - uid: string
   - name: properties.hostName
     description: The host name of the custom domain. Must be a domain name.
     types:
     - uid: string
-  - name: properties.resourceState
-    isReadyOnly: true
-    description: Resource status of the custom domain.
-    types:
-    - uid: CustomDomainResourceState
-  - name: properties.customHttpsProvisioningState
-    isReadyOnly: true
-    description: Provisioning status of the custom domain.
-    types:
-    - uid: CustomHttpsProvisioningState
-  - name: properties.customHttpsProvisioningSubstate
-    isReadyOnly: true
-    description: Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
-    types:
-    - uid: CustomHttpsProvisioningSubstate
-  - name: properties.customHttpsParameters
-    description: Certificate parameters for securing custom HTTPS
-    types:
-    - uid: CdnManagedHttpsParameters
-    - uid: UserManagedHttpsParameters
-    typesTitle: CustomDomainHttpsParameters
   - name: properties.validationData
     description: Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
     types:
     - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: Provisioning status of Custom Https of the custom domain.
-    types:
-    - uid: CustomHttpsProvisioningState
-  - name: id
-    isReadyOnly: true
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-  - name: systemData
-    isReadyOnly: true
-    description: Read only system data
-    types:
-    - uid: SystemData
 - name: SystemData
   description: Read only system data
   kind: object
@@ -415,7 +373,7 @@ definitions:
     isReadyOnly: true
     description: The custom domains under the endpoint.
     types:
-    - uid: CustomDomain
+    - uid: DeepCreatedCustomDomain
       isArray: true
   - name: properties.resourceState
     isReadyOnly: true
@@ -582,72 +540,6 @@ definitions:
     types:
     - uid: HttpErrorRangeParameters
       isArray: true
-- name: CustomDomainResourceState
-  description: Resource status of the custom domain.
-  kind: enum
-  properties:
-  - name: Creating
-    types:
-    - uid: string
-  - name: Active
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-- name: CustomHttpsProvisioningState
-  description: Provisioning status of the custom domain.
-  kind: enum
-  properties:
-  - name: Enabling
-    types:
-    - uid: string
-  - name: Enabled
-    types:
-    - uid: string
-  - name: Disabling
-    types:
-    - uid: string
-  - name: Disabled
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-- name: CustomHttpsProvisioningSubstate
-  description: Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
-  kind: enum
-  properties:
-  - name: SubmittingDomainControlValidationRequest
-    types:
-    - uid: string
-  - name: PendingDomainControlValidationREquestApproval
-    types:
-    - uid: string
-  - name: DomainControlValidationRequestApproved
-    types:
-    - uid: string
-  - name: DomainControlValidationRequestRejected
-    types:
-    - uid: string
-  - name: DomainControlValidationRequestTimedOut
-    types:
-    - uid: string
-  - name: IssuingCertificate
-    types:
-    - uid: string
-  - name: DeployingCertificate
-    types:
-    - uid: string
-  - name: CertificateDeployed
-    types:
-    - uid: string
-  - name: DeletingCertificate
-    types:
-    - uid: string
-  - name: CertificateDeleted
-    types:
-    - uid: string
 - name: IdentityType
   description: The type of identity that creates/modifies resources
   kind: enum
@@ -937,48 +829,6 @@ definitions:
     description: The inclusive end of the http status code range.
     types:
     - uid: integer
-- name: CdnManagedHttpsParameters
-  description: Defines the certificate source parameters using CDN managed certificate for enabling SSL.
-  kind: object
-  properties:
-  - name: certificateSourceParameters
-    description: Defines the certificate source parameters using CDN managed certificate for enabling SSL.
-    types:
-    - uid: CdnCertificateSourceParameters
-  - name: certificateSource
-    description: Defines the source of the SSL certificate.
-    types:
-    - uid: Cdn
-    typesTitle: string
-  - name: protocolType
-    description: Defines the TLS extension protocol that is used for secure delivery.
-    types:
-    - uid: ProtocolType
-  - name: minimumTlsVersion
-    description: TLS protocol version that will be used for Https
-    types:
-    - uid: MinimumTlsVersion
-- name: UserManagedHttpsParameters
-  description: Defines the certificate source parameters using user's keyvault certificate for enabling SSL.
-  kind: object
-  properties:
-  - name: certificateSourceParameters
-    description: Defines the certificate source parameters using user's keyvault certificate for enabling SSL.
-    types:
-    - uid: KeyVaultCertificateSourceParameters
-  - name: certificateSource
-    description: Defines the source of the SSL certificate.
-    types:
-    - uid: AzureKeyVault
-    typesTitle: string
-  - name: protocolType
-    description: Defines the TLS extension protocol that is used for secure delivery.
-    types:
-    - uid: ProtocolType
-  - name: minimumTlsVersion
-    description: TLS protocol version that will be used for Https
-    types:
-    - uid: MinimumTlsVersion
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -993,79 +843,6 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: CdnCertificateSourceParameters
-  description: Defines the parameters for using CDN managed certificate for securing custom domain.
-  kind: object
-  properties:
-  - name: typeName
-    description: ''
-    types:
-    - uid: CdnCertificateSourceParameters
-    typesTitle: enum
-  - name: certificateType
-    description: Type of certificate used
-    types:
-    - uid: CertificateType
-- name: ProtocolType
-  description: Defines the TLS extension protocol that is used for secure delivery.
-  kind: enum
-  properties:
-  - name: ServerNameIndication
-    types:
-    - uid: string
-  - name: IPBased
-    types:
-    - uid: string
-- name: MinimumTlsVersion
-  description: TLS protocol version that will be used for Https
-  kind: enum
-  properties:
-  - name: None
-    types:
-    - uid: string
-  - name: TLS10
-    types:
-    - uid: string
-  - name: TLS12
-    types:
-    - uid: string
-- name: KeyVaultCertificateSourceParameters
-  description: Describes the parameters for using a user's KeyVault certificate for securing custom domain.
-  kind: object
-  properties:
-  - name: typeName
-    description: ''
-    types:
-    - uid: KeyVaultCertificateSourceParameters
-    typesTitle: enum
-  - name: subscriptionId
-    description: Subscription Id of the user's Key Vault containing the SSL certificate
-    types:
-    - uid: string
-  - name: resourceGroupName
-    description: Resource group of the user's Key Vault containing the SSL certificate
-    types:
-    - uid: string
-  - name: vaultName
-    description: The name of the user's Key Vault containing the SSL certificate
-    types:
-    - uid: string
-  - name: secretName
-    description: The name of Key Vault Secret (representing the full certificate PFX) in Key Vault.
-    types:
-    - uid: string
-  - name: secretVersion
-    description: The version(GUID) of Key Vault Secret in Key Vault.
-    types:
-    - uid: string
-  - name: updateRule
-    description: Describes the action that shall be taken when the certificate is updated in Key Vault.
-    types:
-    - uid: UpdateRule
-  - name: deleteRule
-    description: Describes the action that shall be taken when the certificate is removed from Key Vault.
-    types:
-    - uid: DeleteRule
 - name: DeliveryRuleRemoteAddressCondition
   description: Defines the RemoteAddress condition for the delivery rule.
   kind: object
@@ -1430,30 +1207,6 @@ definitions:
     types:
     - uid: RouteConfigurationOverride
     typesTitle: string
-- name: CertificateType
-  description: Type of certificate used
-  kind: enum
-  properties:
-  - name: Shared
-    types:
-    - uid: string
-  - name: Dedicated
-    types:
-    - uid: string
-- name: UpdateRule
-  description: Describes the action that shall be taken when the certificate is updated in Key Vault.
-  kind: enum
-  properties:
-  - name: NoAction
-    types:
-    - uid: string
-- name: DeleteRule
-  description: Describes the action that shall be taken when the certificate is removed from Key Vault.
-  kind: enum
-  properties:
-  - name: NoAction
-    types:
-    - uid: string
 - name: RemoteAddressMatchConditionParameters
   description: Defines the parameters for RemoteAddress match conditions
   kind: object
@@ -3062,6 +2815,471 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cdn.fluent.models.EndpointInner;
+      import com.azure.resourcemanager.cdn.models.CacheBehavior;
+      import com.azure.resourcemanager.cdn.models.CacheExpirationActionParameters;
+      import com.azure.resourcemanager.cdn.models.CacheType;
+      import com.azure.resourcemanager.cdn.models.DeepCreatedOrigin;
+      import com.azure.resourcemanager.cdn.models.DeepCreatedOriginGroup;
+      import com.azure.resourcemanager.cdn.models.DeliveryRule;
+      import com.azure.resourcemanager.cdn.models.DeliveryRuleCacheExpirationAction;
+      import com.azure.resourcemanager.cdn.models.DeliveryRuleRemoteAddressCondition;
+      import com.azure.resourcemanager.cdn.models.DeliveryRuleRequestHeaderAction;
+      import com.azure.resourcemanager.cdn.models.DeliveryRuleResponseHeaderAction;
+      import com.azure.resourcemanager.cdn.models.EndpointPropertiesUpdateParametersDeliveryPolicy;
+      import com.azure.resourcemanager.cdn.models.HeaderAction;
+      import com.azure.resourcemanager.cdn.models.HeaderActionParameters;
+      import com.azure.resourcemanager.cdn.models.HealthProbeParameters;
+      import com.azure.resourcemanager.cdn.models.HealthProbeRequestType;
+      import com.azure.resourcemanager.cdn.models.ProbeProtocol;
+      import com.azure.resourcemanager.cdn.models.QueryStringCachingBehavior;
+      import com.azure.resourcemanager.cdn.models.RemoteAddressMatchConditionParameters;
+      import com.azure.resourcemanager.cdn.models.RemoteAddressOperator;
+      import com.azure.resourcemanager.cdn.models.ResourceReference;
+      import com.azure.resourcemanager.cdn.models.ResponseBasedDetectedErrorTypes;
+      import com.azure.resourcemanager.cdn.models.ResponseBasedOriginErrorDetectionParameters;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Endpoints Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Endpoints_Create.json
+           */
+          /**
+           * Sample code: Endpoints_Create.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void endpointsCreate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getEndpoints()
+                  .create(
+                      "RG",
+                      "profile1",
+                      "endpoint1",
+                      new EndpointInner()
+                          .withLocation("WestUs")
+                          .withTags(mapOf("key1", "value1"))
+                          .withOrigins(
+                              Arrays
+                                  .asList(
+                                      new DeepCreatedOrigin()
+                                          .withName("origin1")
+                                          .withHostname("www.someDomain1.net")
+                                          .withHttpPort(80)
+                                          .withHttpsPort(443)
+                                          .withOriginHostHeader("www.someDomain1.net")
+                                          .withPriority(1)
+                                          .withWeight(50)
+                                          .withEnabled(true),
+                                      new DeepCreatedOrigin()
+                                          .withName("origin2")
+                                          .withHostname("www.someDomain2.net")
+                                          .withHttpPort(80)
+                                          .withHttpsPort(443)
+                                          .withOriginHostHeader("www.someDomain2.net")
+                                          .withPriority(2)
+                                          .withWeight(50)
+                                          .withEnabled(true)))
+                          .withOriginGroups(
+                              Arrays
+                                  .asList(
+                                      new DeepCreatedOriginGroup()
+                                          .withName("originGroup1")
+                                          .withHealthProbeSettings(
+                                              new HealthProbeParameters()
+                                                  .withProbePath("/health.aspx")
+                                                  .withProbeRequestType(HealthProbeRequestType.GET)
+                                                  .withProbeProtocol(ProbeProtocol.HTTP)
+                                                  .withProbeIntervalInSeconds(120))
+                                          .withOrigins(
+                                              Arrays
+                                                  .asList(
+                                                      new ResourceReference()
+                                                          .withId(
+                                                              "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin1"),
+                                                      new ResourceReference()
+                                                          .withId(
+                                                              "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin2")))
+                                          .withResponseBasedOriginErrorDetectionSettings(
+                                              new ResponseBasedOriginErrorDetectionParameters()
+                                                  .withResponseBasedDetectedErrorTypes(
+                                                      ResponseBasedDetectedErrorTypes.TCP_ERRORS_ONLY)
+                                                  .withResponseBasedFailoverThresholdPercentage(10))))
+                          .withOriginPath("/photos")
+                          .withContentTypesToCompress(Arrays.asList("text/html", "application/octet-stream"))
+                          .withOriginHostHeader("www.bing.com")
+                          .withIsCompressionEnabled(true)
+                          .withIsHttpAllowed(true)
+                          .withIsHttpsAllowed(true)
+                          .withQueryStringCachingBehavior(QueryStringCachingBehavior.BYPASS_CACHING)
+                          .withDefaultOriginGroup(
+                              new ResourceReference()
+                                  .withId(
+                                      "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/originGroups/originGroup1"))
+                          .withDeliveryPolicy(
+                              new EndpointPropertiesUpdateParametersDeliveryPolicy()
+                                  .withDescription("Test description for a policy.")
+                                  .withRules(
+                                      Arrays
+                                          .asList(
+                                              new DeliveryRule()
+                                                  .withName("rule1")
+                                                  .withOrder(1)
+                                                  .withConditions(
+                                                      Arrays
+                                                          .asList(
+                                                              new DeliveryRuleRemoteAddressCondition()
+                                                                  .withParameters(
+                                                                      new RemoteAddressMatchConditionParameters()
+                                                                          .withOperator(RemoteAddressOperator.IPMATCH)
+                                                                          .withNegateCondition(true)
+                                                                          .withMatchValues(
+                                                                              Arrays
+                                                                                  .asList("192.168.1.0/24", "10.0.0.0/24")))))
+                                                  .withActions(
+                                                      Arrays
+                                                          .asList(
+                                                              new DeliveryRuleCacheExpirationAction()
+                                                                  .withParameters(
+                                                                      new CacheExpirationActionParameters()
+                                                                          .withCacheBehavior(CacheBehavior.OVERRIDE)
+                                                                          .withCacheType(CacheType.ALL)
+                                                                          .withCacheDuration("10:10:09")),
+                                                              new DeliveryRuleResponseHeaderAction()
+                                                                  .withParameters(
+                                                                      new HeaderActionParameters()
+                                                                          .withHeaderAction(HeaderAction.OVERWRITE)
+                                                                          .withHeaderName("Access-Control-Allow-Origin")
+                                                                          .withValue("*")),
+                                                              new DeliveryRuleRequestHeaderAction()
+                                                                  .withParameters(
+                                                                      new HeaderActionParameters()
+                                                                          .withHeaderAction(HeaderAction.OVERWRITE)
+                                                                          .withHeaderName("Accept-Encoding")
+                                                                          .withValue("gzip"))))))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Endpoints_Create.json
+      func ExampleEndpointsClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewEndpointsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"RG",
+      		"profile1",
+      		"endpoint1",
+      		armcdn.Endpoint{
+      			Location: to.Ptr("WestUs"),
+      			Tags: map[string]*string{
+      				"key1": to.Ptr("value1"),
+      			},
+      			Properties: &armcdn.EndpointProperties{
+      				ContentTypesToCompress: []*string{
+      					to.Ptr("text/html"),
+      					to.Ptr("application/octet-stream")},
+      				DefaultOriginGroup: &armcdn.ResourceReference{
+      					ID: to.Ptr("/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/originGroups/originGroup1"),
+      				},
+      				DeliveryPolicy: &armcdn.EndpointPropertiesUpdateParametersDeliveryPolicy{
+      					Description: to.Ptr("Test description for a policy."),
+      					Rules: []*armcdn.DeliveryRule{
+      						{
+      							Name: to.Ptr("rule1"),
+      							Actions: []armcdn.DeliveryRuleActionAutoGeneratedClassification{
+      								&armcdn.DeliveryRuleCacheExpirationAction{
+      									Name: to.Ptr(armcdn.DeliveryRuleActionCacheExpiration),
+      									Parameters: &armcdn.CacheExpirationActionParameters{
+      										CacheBehavior: to.Ptr(armcdn.CacheBehaviorOverride),
+      										CacheDuration: to.Ptr("10:10:09"),
+      										CacheType:     to.Ptr(armcdn.CacheTypeAll),
+      										TypeName:      to.Ptr(armcdn.CacheExpirationActionParametersTypeNameDeliveryRuleCacheExpirationActionParameters),
+      									},
+      								},
+      								&armcdn.DeliveryRuleResponseHeaderAction{
+      									Name: to.Ptr(armcdn.DeliveryRuleActionModifyResponseHeader),
+      									Parameters: &armcdn.HeaderActionParameters{
+      										HeaderAction: to.Ptr(armcdn.HeaderActionOverwrite),
+      										HeaderName:   to.Ptr("Access-Control-Allow-Origin"),
+      										TypeName:     to.Ptr(armcdn.HeaderActionParametersTypeNameDeliveryRuleHeaderActionParameters),
+      										Value:        to.Ptr("*"),
+      									},
+      								},
+      								&armcdn.DeliveryRuleRequestHeaderAction{
+      									Name: to.Ptr(armcdn.DeliveryRuleActionModifyRequestHeader),
+      									Parameters: &armcdn.HeaderActionParameters{
+      										HeaderAction: to.Ptr(armcdn.HeaderActionOverwrite),
+      										HeaderName:   to.Ptr("Accept-Encoding"),
+      										TypeName:     to.Ptr(armcdn.HeaderActionParametersTypeNameDeliveryRuleHeaderActionParameters),
+      										Value:        to.Ptr("gzip"),
+      									},
+      								}},
+      							Conditions: []armcdn.DeliveryRuleConditionClassification{
+      								&armcdn.DeliveryRuleRemoteAddressCondition{
+      									Name: to.Ptr(armcdn.MatchVariableRemoteAddress),
+      									Parameters: &armcdn.RemoteAddressMatchConditionParameters{
+      										MatchValues: []*string{
+      											to.Ptr("192.168.1.0/24"),
+      											to.Ptr("10.0.0.0/24")},
+      										NegateCondition: to.Ptr(true),
+      										Operator:        to.Ptr(armcdn.RemoteAddressOperatorIPMatch),
+      										TypeName:        to.Ptr(armcdn.RemoteAddressMatchConditionParametersTypeNameDeliveryRuleRemoteAddressConditionParameters),
+      									},
+      								}},
+      							Order: to.Ptr[int32](1),
+      						}},
+      				},
+      				IsCompressionEnabled:       to.Ptr(true),
+      				IsHTTPAllowed:              to.Ptr(true),
+      				IsHTTPSAllowed:             to.Ptr(true),
+      				OriginHostHeader:           to.Ptr("www.bing.com"),
+      				OriginPath:                 to.Ptr("/photos"),
+      				QueryStringCachingBehavior: to.Ptr(armcdn.QueryStringCachingBehaviorBypassCaching),
+      				OriginGroups: []*armcdn.DeepCreatedOriginGroup{
+      					{
+      						Name: to.Ptr("originGroup1"),
+      						Properties: &armcdn.DeepCreatedOriginGroupProperties{
+      							HealthProbeSettings: &armcdn.HealthProbeParameters{
+      								ProbeIntervalInSeconds: to.Ptr[int32](120),
+      								ProbePath:              to.Ptr("/health.aspx"),
+      								ProbeProtocol:          to.Ptr(armcdn.ProbeProtocolHTTP),
+      								ProbeRequestType:       to.Ptr(armcdn.HealthProbeRequestTypeGET),
+      							},
+      							Origins: []*armcdn.ResourceReference{
+      								{
+      									ID: to.Ptr("/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin1"),
+      								},
+      								{
+      									ID: to.Ptr("/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin2"),
+      								}},
+      							ResponseBasedOriginErrorDetectionSettings: &armcdn.ResponseBasedOriginErrorDetectionParameters{
+      								ResponseBasedDetectedErrorTypes:          to.Ptr(armcdn.ResponseBasedDetectedErrorTypesTCPErrorsOnly),
+      								ResponseBasedFailoverThresholdPercentage: to.Ptr[int32](10),
+      							},
+      						},
+      					}},
+      				Origins: []*armcdn.DeepCreatedOrigin{
+      					{
+      						Name: to.Ptr("origin1"),
+      						Properties: &armcdn.DeepCreatedOriginProperties{
+      							Enabled:          to.Ptr(true),
+      							HostName:         to.Ptr("www.someDomain1.net"),
+      							HTTPPort:         to.Ptr[int32](80),
+      							HTTPSPort:        to.Ptr[int32](443),
+      							OriginHostHeader: to.Ptr("www.someDomain1.net"),
+      							Priority:         to.Ptr[int32](1),
+      							Weight:           to.Ptr[int32](50),
+      						},
+      					},
+      					{
+      						Name: to.Ptr("origin2"),
+      						Properties: &armcdn.DeepCreatedOriginProperties{
+      							Enabled:          to.Ptr(true),
+      							HostName:         to.Ptr("www.someDomain2.net"),
+      							HTTPPort:         to.Ptr[int32](80),
+      							HTTPSPort:        to.Ptr[int32](443),
+      							OriginHostHeader: to.Ptr("www.someDomain2.net"),
+      							Priority:         to.Ptr[int32](2),
+      							Weight:           to.Ptr[int32](50),
+      						},
+      					}},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.
+       *
+       * @summary Creates a new CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Endpoints_Create.json
+       */
+      async function endpointsCreate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const endpointName = "endpoint1";
+        const endpoint = {
+          contentTypesToCompress: ["text/html", "application/octet-stream"],
+          defaultOriginGroup: {
+            id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/originGroups/originGroup1",
+          },
+          deliveryPolicy: {
+            description: "Test description for a policy.",
+            rules: [
+              {
+                name: "rule1",
+                actions: [
+                  {
+                    name: "CacheExpiration",
+                    parameters: {
+                      cacheBehavior: "Override",
+                      cacheDuration: "10:10:09",
+                      cacheType: "All",
+                      typeName: "DeliveryRuleCacheExpirationActionParameters",
+                    },
+                  },
+                  {
+                    name: "ModifyResponseHeader",
+                    parameters: {
+                      headerAction: "Overwrite",
+                      headerName: "Access-Control-Allow-Origin",
+                      typeName: "DeliveryRuleHeaderActionParameters",
+                      value: "*",
+                    },
+                  },
+                  {
+                    name: "ModifyRequestHeader",
+                    parameters: {
+                      headerAction: "Overwrite",
+                      headerName: "Accept-Encoding",
+                      typeName: "DeliveryRuleHeaderActionParameters",
+                      value: "gzip",
+                    },
+                  },
+                ],
+                conditions: [
+                  {
+                    name: "RemoteAddress",
+                    parameters: {
+                      matchValues: ["192.168.1.0/24", "10.0.0.0/24"],
+                      negateCondition: true,
+                      operator: "IPMatch",
+                      typeName: "DeliveryRuleRemoteAddressConditionParameters",
+                    },
+                  },
+                ],
+                order: 1,
+              },
+            ],
+          },
+          isCompressionEnabled: true,
+          isHttpAllowed: true,
+          isHttpsAllowed: true,
+          location: "WestUs",
+          originGroups: [
+            {
+              name: "originGroup1",
+              healthProbeSettings: {
+                probeIntervalInSeconds: 120,
+                probePath: "/health.aspx",
+                probeProtocol: "Http",
+                probeRequestType: "GET",
+              },
+              origins: [
+                {
+                  id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin1",
+                },
+                {
+                  id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin2",
+                },
+              ],
+              responseBasedOriginErrorDetectionSettings: {
+                responseBasedDetectedErrorTypes: "TcpErrorsOnly",
+                responseBasedFailoverThresholdPercentage: 10,
+              },
+            },
+          ],
+          originHostHeader: "www.bing.com",
+          originPath: "/photos",
+          origins: [
+            {
+              name: "origin1",
+              enabled: true,
+              hostName: "www.someDomain1.net",
+              httpPort: 80,
+              httpsPort: 443,
+              originHostHeader: "www.someDomain1.net",
+              priority: 1,
+              weight: 50,
+            },
+            {
+              name: "origin2",
+              enabled: true,
+              hostName: "www.someDomain2.net",
+              httpPort: 80,
+              httpsPort: 443,
+              originHostHeader: "www.someDomain2.net",
+              priority: 2,
+              weight: 50,
+            },
+          ],
+          queryStringCachingBehavior: "BypassCaching",
+          tags: { key1: "value1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.endpoints.beginCreateAndWait(
+          resourceGroupName,
+          profileName,
+          endpointName,
+          endpoint
+        );
+        console.log(result);
+      }
+
+      endpointsCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

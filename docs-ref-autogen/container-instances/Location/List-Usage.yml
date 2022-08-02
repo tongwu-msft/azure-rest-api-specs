@@ -63,6 +63,11 @@ definitions:
   description: A single usage result
   kind: object
   properties:
+  - name: id
+    isReadyOnly: true
+    description: Id of the usage result
+    types:
+    - uid: string
   - name: unit
     isReadyOnly: true
     description: Unit of the usage result
@@ -128,6 +133,93 @@ examples:
       GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ContainerInstance/locations/westcentralus/usages?api-version=2021-10-01
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Location ListUsage. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerGroupUsage.json
+           */
+          /**
+           * Sample code: ContainerUsage.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void containerUsage(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.containerGroups().manager().serviceClient().getLocations().listUsage("westcentralus", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcontainerinstance_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerinstance/armcontainerinstance"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerGroupUsage.json
+      func ExampleLocationClient_NewListUsagePager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcontainerinstance.NewLocationClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListUsagePager("westcentralus",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcontainerinstance%2Farmcontainerinstance%2Fv1.0.0/sdk/resourcemanager/containerinstance/armcontainerinstance/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerInstanceManagementClient } = require("@azure/arm-containerinstance");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get the usage for a subscription
+       *
+       * @summary Get the usage for a subscription
+       * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerGroupUsage.json
+       */
+      async function containerUsage() {
+        const subscriptionId = "subid";
+        const location = "westcentralus";
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerInstanceManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.location.listUsage(location)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      containerUsage().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-containerinstance_8.2.0/sdk/containerinstance/arm-containerinstance/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

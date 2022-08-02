@@ -909,6 +909,142 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.appcontainers.models.AppRegistration;
+      import com.azure.resourcemanager.appcontainers.models.AuthPlatform;
+      import com.azure.resourcemanager.appcontainers.models.Facebook;
+      import com.azure.resourcemanager.appcontainers.models.GlobalValidation;
+      import com.azure.resourcemanager.appcontainers.models.IdentityProviders;
+      import com.azure.resourcemanager.appcontainers.models.UnauthenticatedClientActionV2;
+
+      /** Samples for ContainerAppsAuthConfigs CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/AuthConfigs_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: Create or Update Container App AuthConfig.
+           *
+           * @param manager Entry point to ContainerAppsApiManager.
+           */
+          public static void createOrUpdateContainerAppAuthConfig(
+              com.azure.resourcemanager.appcontainers.ContainerAppsApiManager manager) {
+              manager
+                  .containerAppsAuthConfigs()
+                  .define("current")
+                  .withExistingContainerApp("workerapps-rg-xj", "testcanadacentral")
+                  .withPlatform(new AuthPlatform().withEnabled(true))
+                  .withGlobalValidation(
+                      new GlobalValidation().withUnauthenticatedClientAction(UnauthenticatedClientActionV2.ALLOW_ANONYMOUS))
+                  .withIdentityProviders(
+                      new IdentityProviders()
+                          .withFacebook(
+                              new Facebook()
+                                  .withRegistration(
+                                      new AppRegistration().withAppId("123").withAppSecretSettingName("facebook-secret"))))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appcontainers_1.0.0-beta.3/sdk/appcontainers/azure-resourcemanager-appcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappcontainers_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appcontainers/armappcontainers"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/AuthConfigs_CreateOrUpdate.json
+      func ExampleContainerAppsAuthConfigsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappcontainers.NewContainerAppsAuthConfigsClient("651f8027-33e8-4ec4-97b4-f6e9f3dc8744", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"workerapps-rg-xj",
+      		"testcanadacentral",
+      		"current",
+      		armappcontainers.AuthConfig{
+      			Properties: &armappcontainers.AuthConfigProperties{
+      				GlobalValidation: &armappcontainers.GlobalValidation{
+      					UnauthenticatedClientAction: to.Ptr(armappcontainers.UnauthenticatedClientActionV2AllowAnonymous),
+      				},
+      				IdentityProviders: &armappcontainers.IdentityProviders{
+      					Facebook: &armappcontainers.Facebook{
+      						Registration: &armappcontainers.AppRegistration{
+      							AppID:                to.Ptr("123"),
+      							AppSecretSettingName: to.Ptr("facebook-secret"),
+      						},
+      					},
+      				},
+      				Platform: &armappcontainers.AuthPlatform{
+      					Enabled: to.Ptr(true),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappcontainers%2Farmappcontainers%2Fv1.0.0/sdk/resourcemanager/appcontainers/armappcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerAppsAPIClient } = require("@azure/arm-appcontainers");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update the AuthConfig for a Container App.
+       *
+       * @summary Create or update the AuthConfig for a Container App.
+       * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/AuthConfigs_CreateOrUpdate.json
+       */
+      async function createOrUpdateContainerAppAuthConfig() {
+        const subscriptionId = "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
+        const resourceGroupName = "workerapps-rg-xj";
+        const containerAppName = "testcanadacentral";
+        const authConfigName = "current";
+        const authConfigEnvelope = {
+          globalValidation: { unauthenticatedClientAction: "AllowAnonymous" },
+          identityProviders: {
+            facebook: {
+              registration: { appId: "123", appSecretSettingName: "facebook-secret" },
+            },
+          },
+          platform: { enabled: true },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerAppsAPIClient(credential, subscriptionId);
+        const result = await client.containerAppsAuthConfigs.createOrUpdate(
+          resourceGroupName,
+          containerAppName,
+          authConfigName,
+          authConfigEnvelope
+        );
+        console.log(result);
+      }
+
+      createOrUpdateContainerAppAuthConfig().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appcontainers_1.0.0/sdk/appcontainers/arm-appcontainers/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -259,6 +259,129 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.healthcareapis.fluent.models.PrivateEndpointConnectionDescriptionInner;
+      import com.azure.resourcemanager.healthcareapis.models.PrivateEndpointServiceConnectionStatus;
+      import com.azure.resourcemanager.healthcareapis.models.PrivateLinkServiceConnectionState;
+
+      /** Samples for WorkspacePrivateEndpointConnections CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/privatelink/WorkspaceCreatePrivateEndpointConnection.json
+           */
+          /**
+           * Sample code: WorkspacePrivateEndpointConnection_CreateOrUpdate.
+           *
+           * @param manager Entry point to HealthcareApisManager.
+           */
+          public static void workspacePrivateEndpointConnectionCreateOrUpdate(
+              com.azure.resourcemanager.healthcareapis.HealthcareApisManager manager) {
+              manager
+                  .workspacePrivateEndpointConnections()
+                  .createOrUpdate(
+                      "testRG",
+                      "workspace1",
+                      "myConnection",
+                      new PrivateEndpointConnectionDescriptionInner()
+                          .withPrivateLinkServiceConnectionState(
+                              new PrivateLinkServiceConnectionState()
+                                  .withStatus(PrivateEndpointServiceConnectionStatus.APPROVED)
+                                  .withDescription("Auto-Approved")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-healthcareapis_1.0.0-beta.2/sdk/healthcareapis/azure-resourcemanager-healthcareapis/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhealthcareapis_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/healthcareapis/armhealthcareapis"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/privatelink/WorkspaceCreatePrivateEndpointConnection.json
+      func ExampleWorkspacePrivateEndpointConnectionsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhealthcareapis.NewWorkspacePrivateEndpointConnectionsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"testRG",
+      		"workspace1",
+      		"myConnection",
+      		armhealthcareapis.PrivateEndpointConnectionDescription{
+      			Properties: &armhealthcareapis.PrivateEndpointConnectionProperties{
+      				PrivateLinkServiceConnectionState: &armhealthcareapis.PrivateLinkServiceConnectionState{
+      					Description: to.Ptr("Auto-Approved"),
+      					Status:      to.Ptr(armhealthcareapis.PrivateEndpointServiceConnectionStatusApproved),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhealthcareapis%2Farmhealthcareapis%2Fv1.0.0/sdk/resourcemanager/healthcareapis/armhealthcareapis/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { HealthcareApisManagementClient } = require("@azure/arm-healthcareapis");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update the state of the specified private endpoint connection associated with the workspace.
+       *
+       * @summary Update the state of the specified private endpoint connection associated with the workspace.
+       * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/privatelink/WorkspaceCreatePrivateEndpointConnection.json
+       */
+      async function workspacePrivateEndpointConnectionCreateOrUpdate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "testRG";
+        const workspaceName = "workspace1";
+        const privateEndpointConnectionName = "myConnection";
+        const properties = {
+          privateLinkServiceConnectionState: {
+            description: "Auto-Approved",
+            status: "Approved",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new HealthcareApisManagementClient(credential, subscriptionId);
+        const result = await client.workspacePrivateEndpointConnections.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          workspaceName,
+          privateEndpointConnectionName,
+          properties
+        );
+        console.log(result);
+      }
+
+      workspacePrivateEndpointConnectionCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-healthcareapis_2.1.0/sdk/healthcareapis/arm-healthcareapis/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

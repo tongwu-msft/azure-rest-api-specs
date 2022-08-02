@@ -3,14 +3,14 @@ uid: management.azure.com.recoveryservices.vaults.update
 name: Update
 service: Recovery Services
 groupName: Vaults
-apiVersion: 2016-06-01
+apiVersion: 2022-04-01
 summary: Updates the vault.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}?api-version=2016-06-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}?api-version=2022-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,10 +41,12 @@ responses:
   description: OK
   types:
   - uid: Vault
-- name: 201 Created
-  description: Created
+- name: 202 Accepted
+  description: Accepted
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
   types:
-  - uid: Vault
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -77,7 +79,7 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: eTag
+  - name: etag
     in: body
     description: Optional ETag.
     types:
@@ -113,14 +115,56 @@ definitions:
     description: Private endpoint state for site recovery.
     types:
     - uid: VaultPrivateEndpointState
+  - name: encryption
+    description: Customer Managed Key details of the resource.
+    types:
+    - uid: Encryption
+  - name: moveDetails
+    description: The details of the latest move operation performed on the Azure Resource
+    types:
+    - uid: MoveDetails
+  - name: moveState
+    isReadyOnly: true
+    description: The State of the Resource after the move operation
+    types:
+    - uid: ResourceMoveState
+  - name: backupStorageVersion
+    isReadyOnly: true
+    description: Backup storage version
+    types:
+    - uid: BackupStorageVersion
+  - name: monitoringSettings
+    description: Monitoring Settings of the vault
+    types:
+    - uid: MonitoringSettings
+  - name: redundancySettings
+    description: The redundancy Settings of a Vault
+    types:
+    - uid: RedundancySettings
 - name: Sku
   description: Identifies the unique system identifier for each Azure resource.
   kind: object
   properties:
   - name: name
-    description: The Sku name.
+    description: Name of SKU is RS0 (Recovery Services 0th version) and the tier is standard tier. They do not have affect on backend storage redundancy or any other vault settings. To manage storage redundancy, use the backupstorageconfig
     types:
     - uid: SkuName
+  - name: tier
+    description: The Sku tier.
+    types:
+    - uid: string
+  - name: family
+    description: The sku family
+    types:
+    - uid: string
+  - name: size
+    description: The sku size
+    types:
+    - uid: string
+  - name: capacity
+    description: The sku capacity
+    types:
+    - uid: string
 - name: IdentityData
   description: Identity for the resource.
   kind: object
@@ -136,9 +180,17 @@ definitions:
     types:
     - uid: string
   - name: type
-    description: The identity type.
+    description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identities.
     types:
     - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user-assigned identities associated with the resource. The user-assigned identity dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserIdentity
 - name: Vault
   description: Resource information, as returned by the resource provider.
   kind: object
@@ -155,6 +207,11 @@ definitions:
     description: Identifies the unique system identifier for each Azure resource.
     types:
     - uid: Sku
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: location
     description: Resource location.
     types:
@@ -182,10 +239,18 @@ definitions:
     description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
     types:
     - uid: string
-  - name: eTag
+  - name: etag
     description: Optional ETag.
     types:
     - uid: string
+- name: CloudError
+  description: CloudError
+  kind: object
+  properties:
+  - name: error
+    description: The resource management error response.
+    types:
+    - uid: Error
 - name: PatchVault
   description: Patch Resource information, as returned by the resource provider.
   kind: object
@@ -229,7 +294,7 @@ definitions:
     description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
     types:
     - uid: string
-  - name: eTag
+  - name: etag
     description: Optional ETag.
     types:
     - uid: string
@@ -296,6 +361,21 @@ definitions:
     description: Private Endpoint Connection Response Properties.
     types:
     - uid: PrivateEndpointConnection
+  - name: name
+    isReadyOnly: true
+    description: The name of the private Endpoint Connection
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type, which will be of the format, Microsoft.RecoveryServices/vaults/privateEndpointConnections
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The location of the private Endpoint connection
+    types:
+    - uid: string
 - name: VaultPrivateEndpointState
   description: Private endpoint state for backup.
   kind: enum
@@ -306,8 +386,126 @@ definitions:
   - name: Enabled
     types:
     - uid: string
+- name: Encryption
+  description: Customer Managed Key details of the resource.
+  kind: object
+  properties:
+  - name: keyVaultProperties
+    description: The properties of the Key Vault which hosts CMK
+    types:
+    - uid: CmkKeyVaultProperties
+  - name: kekIdentity
+    description: The details of the identity used for CMK
+    types:
+    - uid: CmkKekIdentity
+  - name: infrastructureEncryption
+    description: Enabling/Disabling the Double Encryption state
+    types:
+    - uid: InfrastructureEncryptionState
+- name: MoveDetails
+  description: The details of the latest move operation performed on the Azure Resource
+  kind: object
+  properties:
+  - name: operationId
+    isReadyOnly: true
+    description: OperationId of the Resource Move Operation
+    types:
+    - uid: string
+  - name: startTimeUtc
+    isReadyOnly: true
+    description: Start Time of the Resource Move Operation
+    types:
+    - uid: string
+  - name: completionTimeUtc
+    isReadyOnly: true
+    description: End Time of the Resource Move Operation
+    types:
+    - uid: string
+  - name: sourceResourceId
+    isReadyOnly: true
+    description: Source Resource of the Resource Move Operation
+    types:
+    - uid: string
+  - name: targetResourceId
+    isReadyOnly: true
+    description: Target Resource of the Resource Move Operation
+    types:
+    - uid: string
+- name: ResourceMoveState
+  description: The State of the Resource after the move operation
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: PrepareFailed
+    types:
+    - uid: string
+  - name: CommitFailed
+    types:
+    - uid: string
+  - name: PrepareTimedout
+    types:
+    - uid: string
+  - name: CommitTimedout
+    types:
+    - uid: string
+  - name: MoveSucceeded
+    types:
+    - uid: string
+  - name: Failure
+    types:
+    - uid: string
+  - name: CriticalFailure
+    types:
+    - uid: string
+  - name: PartialSuccess
+    types:
+    - uid: string
+- name: BackupStorageVersion
+  description: Backup storage version
+  kind: enum
+  properties:
+  - name: V1
+    types:
+    - uid: string
+  - name: V2
+    types:
+    - uid: string
+  - name: Unassigned
+    types:
+    - uid: string
+- name: MonitoringSettings
+  description: Monitoring Settings of the vault
+  kind: object
+  properties:
+  - name: azureMonitorAlertSettings
+    description: Settings for Azure Monitor based alerts
+    types:
+    - uid: AzureMonitorAlertSettings
+  - name: classicAlertSettings
+    description: Settings for classic alerts
+    types:
+    - uid: ClassicAlertSettings
+- name: RedundancySettings
+  description: The redundancy Settings of a Vault
+  kind: object
+  properties:
+  - name: standardTierStorageRedundancy
+    isReadyOnly: true
+    description: The storage redundancy setting of a vault
+    types:
+    - uid: standardTierStorageRedundancy
+  - name: crossRegionRestore
+    isReadyOnly: true
+    description: Flag to show if Cross Region Restore is enabled on the Vault or not
+    types:
+    - uid: crossRegionRestore
 - name: SkuName
-  description: The Sku name.
+  description: Name of SKU is RS0 (Recovery Services 0th version) and the tier is standard tier. They do not have affect on backend storage redundancy or any other vault settings. To manage storage redundancy, use the backupstorageconfig
   kind: enum
   properties:
   - name: Standard
@@ -317,13 +515,92 @@ definitions:
     types:
     - uid: string
 - name: ResourceIdentityType
-  description: The identity type.
+  description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identities.
   kind: enum
   properties:
   - name: SystemAssigned
     types:
     - uid: string
   - name: None
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+- name: UserIdentity
+  description: A resource identity that is managed by the user of the service.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the user-assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the user-assigned identity.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: string
+- name: Error
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: Error
+      isArray: true
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
 - name: VaultUpgradeState
@@ -371,6 +648,105 @@ definitions:
     description: Gets or sets private link service connection state.
     types:
     - uid: PrivateLinkServiceConnectionState
+- name: CmkKeyVaultProperties
+  description: The properties of the Key Vault which hosts CMK
+  kind: object
+  properties:
+  - name: keyUri
+    description: The key uri of the Customer Managed Key
+    types:
+    - uid: string
+- name: CmkKekIdentity
+  description: The details of the identity used for CMK
+  kind: object
+  properties:
+  - name: useSystemAssignedIdentity
+    description: Indicate that system assigned identity should be used. Mutually exclusive with 'userAssignedIdentity' field
+    types:
+    - uid: boolean
+  - name: userAssignedIdentity
+    description: The user assigned identity to be used to grant permissions in case the type of identity used is UserAssigned
+    types:
+    - uid: string
+- name: InfrastructureEncryptionState
+  description: Enabling/Disabling the Double Encryption state
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: AzureMonitorAlertSettings
+  description: Settings for Azure Monitor based alerts
+  kind: object
+  properties:
+  - name: alertsForAllJobFailures
+    description: ''
+    types:
+    - uid: AlertsState
+- name: ClassicAlertSettings
+  description: Settings for classic alerts
+  kind: object
+  properties:
+  - name: alertsForCriticalOperations
+    description: ''
+    types:
+    - uid: AlertsState
+- name: standardTierStorageRedundancy
+  description: The storage redundancy setting of a vault
+  kind: enum
+  properties:
+  - name: LocallyRedundant
+    types:
+    - uid: string
+  - name: GeoRedundant
+    types:
+    - uid: string
+  - name: ZoneRedundant
+    types:
+    - uid: string
+- name: crossRegionRestore
+  description: Flag to show if Cross Region Restore is enabled on the Vault or not
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
 - name: ProvisioningState
   description: Gets or sets provisioning state of the private endpoint connection.
   kind: enum
@@ -415,6 +791,15 @@ definitions:
     description: Gets or sets actions required.
     types:
     - uid: string
+- name: AlertsState
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 - name: PrivateEndpointConnectionStatus
   description: Gets or sets the status.
   kind: enum
@@ -434,7 +819,7 @@ definitions:
 examples:
 - name: Update Resource
   request:
-    uri: PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample?api-version=2016-06-01
+    uri: PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample?api-version=2022-04-01
     body: >-
       {
         "tags": {
@@ -444,7 +829,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample?api-version=2016-06-01
+      PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample?api-version=2022-04-01
 
       {
         "tags": {
@@ -454,13 +839,122 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.recoveryservices.models.Vault;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Vaults Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault.json
+           */
+          /**
+           * Sample code: Update Resource.
+           *
+           * @param manager Entry point to RecoveryServicesManager.
+           */
+          public static void updateResource(com.azure.resourcemanager.recoveryservices.RecoveryServicesManager manager) {
+              Vault resource =
+                  manager.vaults().getByResourceGroupWithResponse("HelloWorld", "swaggerExample", Context.NONE).getValue();
+              resource.update().withTags(mapOf("PatchKey", "PatchKeyUpdated")).apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-recoveryservices_1.0.0-beta.3/sdk/recoveryservices/azure-resourcemanager-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armrecoveryservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservices"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault.json
+      func ExampleVaultsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armrecoveryservices.NewVaultsClient("77777777-b0c6-47a2-b37c-d8e65a629c18", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"HelloWorld",
+      		"swaggerExample",
+      		armrecoveryservices.PatchVault{
+      			Tags: map[string]*string{
+      				"PatchKey": to.Ptr("PatchKeyUpdated"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Frecoveryservices%2Farmrecoveryservices%2Fv1.1.0/sdk/resourcemanager/recoveryservices/armrecoveryservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates the vault.
+       *
+       * @summary Updates the vault.
+       * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault.json
+       */
+      async function updateResource() {
+        const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
+        const resourceGroupName = "HelloWorld";
+        const vaultName = "swaggerExample";
+        const vault = { tags: { patchKey: "PatchKeyUpdated" } };
+        const credential = new DefaultAzureCredential();
+        const client = new RecoveryServicesClient(credential, subscriptionId);
+        const result = await client.vaults.beginUpdateAndWait(resourceGroupName, vaultName, vault);
+        console.log(result);
+      }
+
+      updateResource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-recoveryservices_5.1.0/sdk/recoveryservices/arm-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
         "location": "westus",
         "name": "swaggerExample",
-        "eTag": "W/\"datetime'2017-12-15T12%3A36%3A51.68Z'\"",
+        "etag": "W/\"datetime'2017-12-15T12%3A36%3A51.68Z'\"",
         "tags": {
           "PatchKey": "PatchKeyUpdated"
         },
@@ -473,14 +967,152 @@ examples:
           "name": "Standard"
         }
       }
-  - statusCode: "201"
+  - statusCode: "202"
+    headers:
+    - name: Retry-After
+      value: "10"
+    - name: Azure-AsyncOperation
+      value: /subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample/operationStatus/YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==?api-version=2015-03-15
+    - name: Location
+      value: /subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample/operationResults/YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==?api-version=2015-03-15
+- name: Update Resource With User Assigned Identity
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample?api-version=2022-04-01
+    body: >-
+      {
+        "tags": {
+          "PatchKey": "PatchKeyUpdated"
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi": {}
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample?api-version=2022-04-01
+
+      {
+        "tags": {
+          "PatchKey": "PatchKeyUpdated"
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi": {}
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.recoveryservices.models.IdentityData;
+      import com.azure.resourcemanager.recoveryservices.models.ResourceIdentityType;
+      import com.azure.resourcemanager.recoveryservices.models.UserIdentity;
+      import com.azure.resourcemanager.recoveryservices.models.Vault;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Vaults Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithUserAssignedIdentity.json
+           */
+          /**
+           * Sample code: Update Resource With User Assigned Identity.
+           *
+           * @param manager Entry point to RecoveryServicesManager.
+           */
+          public static void updateResourceWithUserAssignedIdentity(
+              com.azure.resourcemanager.recoveryservices.RecoveryServicesManager manager) {
+              Vault resource =
+                  manager.vaults().getByResourceGroupWithResponse("HelloWorld", "swaggerExample", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withTags(mapOf("PatchKey", "PatchKeyUpdated"))
+                  .withIdentity(
+                      new IdentityData()
+                          .withType(ResourceIdentityType.USER_ASSIGNED)
+                          .withUserAssignedIdentities(
+                              mapOf(
+                                  "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi",
+                                  new UserIdentity())))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-recoveryservices_1.0.0-beta.3/sdk/recoveryservices/azure-resourcemanager-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates the vault.
+       *
+       * @summary Updates the vault.
+       * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithUserAssignedIdentity.json
+       */
+      async function updateResourceWithUserAssignedIdentity() {
+        const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
+        const resourceGroupName = "HelloWorld";
+        const vaultName = "swaggerExample";
+        const vault = {
+          identity: {
+            type: "UserAssigned",
+            userAssignedIdentities: {
+              "/subscriptions/85bf5e8c30844f42Add2746ebb7e97b2/resourcegroups/defaultrg/providers/MicrosoftManagedIdentity/userAssignedIdentities/examplemsi":
+                {},
+            },
+          },
+          tags: { patchKey: "PatchKeyUpdated" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new RecoveryServicesClient(credential, subscriptionId);
+        const result = await client.vaults.beginUpdateAndWait(resourceGroupName, vaultName, vault);
+        console.log(result);
+      }
+
+      updateResourceWithUserAssignedIdentity().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-recoveryservices_5.1.0/sdk/recoveryservices/arm-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
     body: >-
       {
         "location": "westus",
         "name": "swaggerExample",
-        "eTag": "W/\"datetime'2017-12-15T12%3A36%3A51.68Z'\"",
+        "etag": "W/\"datetime'2017-12-15T12%3A36%3A51.68Z'\"",
         "tags": {
           "PatchKey": "PatchKeyUpdated"
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi": {
+              "clientId": "fbe75b66-01c5-4f87-a220-233af3270436",
+              "principalId": "075a0ca6-43f6-4434-9abf-c9b1b79f9219"
+            }
+          }
         },
         "properties": {
           "provisioningState": "Succeeded"
@@ -491,6 +1123,766 @@ examples:
           "name": "Standard"
         }
       }
+  - statusCode: "202"
+    headers:
+    - name: Retry-After
+      value: "10"
+    - name: Azure-AsyncOperation
+      value: /subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample/operationStatus/YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==?api-version=2015-03-15
+    - name: Location
+      value: /subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample/operationResults/YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==?api-version=2015-03-15
+- name: Update Resource With CustomerManagedKeys
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample?api-version=2022-04-01
+    body: >-
+      {
+        "tags": {
+          "PatchKey": "PatchKeyUpdated"
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi": {}
+          }
+        },
+        "properties": {
+          "encryption": {
+            "keyVaultProperties": {
+              "keyUri": "https://cmk2xkv.vault.azure.net/keys/Key1/0767b348bb1a4c07baa6c4ec0055d2b3"
+            },
+            "kekIdentity": {
+              "userAssignedIdentity": "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi"
+            },
+            "infrastructureEncryption": "Enabled"
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample?api-version=2022-04-01
+
+      {
+        "tags": {
+          "PatchKey": "PatchKeyUpdated"
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi": {}
+          }
+        },
+        "properties": {
+          "encryption": {
+            "keyVaultProperties": {
+              "keyUri": "https://cmk2xkv.vault.azure.net/keys/Key1/0767b348bb1a4c07baa6c4ec0055d2b3"
+            },
+            "kekIdentity": {
+              "userAssignedIdentity": "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi"
+            },
+            "infrastructureEncryption": "Enabled"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.recoveryservices.models.CmkKekIdentity;
+      import com.azure.resourcemanager.recoveryservices.models.CmkKeyVaultProperties;
+      import com.azure.resourcemanager.recoveryservices.models.IdentityData;
+      import com.azure.resourcemanager.recoveryservices.models.InfrastructureEncryptionState;
+      import com.azure.resourcemanager.recoveryservices.models.ResourceIdentityType;
+      import com.azure.resourcemanager.recoveryservices.models.UserIdentity;
+      import com.azure.resourcemanager.recoveryservices.models.Vault;
+      import com.azure.resourcemanager.recoveryservices.models.VaultProperties;
+      import com.azure.resourcemanager.recoveryservices.models.VaultPropertiesEncryption;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Vaults Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithCMK.json
+           */
+          /**
+           * Sample code: Update Resource With CustomerManagedKeys.
+           *
+           * @param manager Entry point to RecoveryServicesManager.
+           */
+          public static void updateResourceWithCustomerManagedKeys(
+              com.azure.resourcemanager.recoveryservices.RecoveryServicesManager manager) {
+              Vault resource =
+                  manager.vaults().getByResourceGroupWithResponse("HelloWorld", "swaggerExample", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withTags(mapOf("PatchKey", "PatchKeyUpdated"))
+                  .withProperties(
+                      new VaultProperties()
+                          .withEncryption(
+                              new VaultPropertiesEncryption()
+                                  .withKeyVaultProperties(
+                                      new CmkKeyVaultProperties()
+                                          .withKeyUri(
+                                              "https://cmk2xkv.vault.azure.net/keys/Key1/0767b348bb1a4c07baa6c4ec0055d2b3"))
+                                  .withKekIdentity(
+                                      new CmkKekIdentity()
+                                          .withUserAssignedIdentity(
+                                              "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi"))
+                                  .withInfrastructureEncryption(InfrastructureEncryptionState.ENABLED)))
+                  .withIdentity(
+                      new IdentityData()
+                          .withType(ResourceIdentityType.USER_ASSIGNED)
+                          .withUserAssignedIdentities(
+                              mapOf(
+                                  "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi",
+                                  new UserIdentity())))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-recoveryservices_1.0.0-beta.3/sdk/recoveryservices/azure-resourcemanager-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates the vault.
+       *
+       * @summary Updates the vault.
+       * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithCMK.json
+       */
+      async function updateResourceWithCustomerManagedKeys() {
+        const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
+        const resourceGroupName = "HelloWorld";
+        const vaultName = "swaggerExample";
+        const vault = {
+          identity: {
+            type: "UserAssigned",
+            userAssignedIdentities: {
+              "/subscriptions/85bf5e8c30844f42Add2746ebb7e97b2/resourcegroups/defaultrg/providers/MicrosoftManagedIdentity/userAssignedIdentities/examplemsi":
+                {},
+            },
+          },
+          properties: {
+            encryption: {
+              infrastructureEncryption: "Enabled",
+              kekIdentity: {
+                userAssignedIdentity:
+                  "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi",
+              },
+              keyVaultProperties: {
+                keyUri: "https://cmk2xkv.vault.azure.net/keys/Key1/0767b348bb1a4c07baa6c4ec0055d2b3",
+              },
+            },
+          },
+          tags: { patchKey: "PatchKeyUpdated" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new RecoveryServicesClient(credential, subscriptionId);
+        const result = await client.vaults.beginUpdateAndWait(resourceGroupName, vaultName, vault);
+        console.log(result);
+      }
+
+      updateResourceWithCustomerManagedKeys().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-recoveryservices_5.1.0/sdk/recoveryservices/arm-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "westus",
+        "name": "swaggerExample",
+        "etag": "W/\"datetime'2017-12-15T12%3A36%3A51.68Z'\"",
+        "tags": {
+          "PatchKey": "PatchKeyUpdated"
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi": {
+              "clientId": "fbe75b66-01c5-4f87-a220-233af3270436",
+              "principalId": "075a0ca6-43f6-4434-9abf-c9b1b79f9219"
+            }
+          }
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "encryption": {
+            "keyVaultProperties": {
+              "keyUri": "https://cmk2xkv.vault.azure.net/keys/Key1/0767b348bb1a4c07baa6c4ec0055d2b3"
+            },
+            "kekIdentity": {
+              "userAssignedIdentity": "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi",
+              "useSystemAssignedIdentity": false
+            },
+            "infrastructureEncryption": "Enabled"
+          }
+        },
+        "id": "/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample",
+        "type": "Microsoft.RecoveryServices/vaults",
+        "sku": {
+          "name": "Standard"
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: Retry-After
+      value: "10"
+    - name: Azure-AsyncOperation
+      value: /subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample/operationStatus/YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==?api-version=2015-03-15
+    - name: Location
+      value: /subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample/operationResults/YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==?api-version=2015-03-15
+- name: Update Resource With CustomerManagedKeys2
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample?api-version=2022-04-01
+    body: >-
+      {
+        "tags": {
+          "PatchKey": "PatchKeyUpdated"
+        },
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "properties": {
+          "encryption": {
+            "kekIdentity": {
+              "useSystemAssignedIdentity": true
+            }
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample?api-version=2022-04-01
+
+      {
+        "tags": {
+          "PatchKey": "PatchKeyUpdated"
+        },
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "properties": {
+          "encryption": {
+            "kekIdentity": {
+              "useSystemAssignedIdentity": true
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.recoveryservices.models.CmkKekIdentity;
+      import com.azure.resourcemanager.recoveryservices.models.IdentityData;
+      import com.azure.resourcemanager.recoveryservices.models.ResourceIdentityType;
+      import com.azure.resourcemanager.recoveryservices.models.Vault;
+      import com.azure.resourcemanager.recoveryservices.models.VaultProperties;
+      import com.azure.resourcemanager.recoveryservices.models.VaultPropertiesEncryption;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Vaults Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PatchVault_WithCMK2.json
+           */
+          /**
+           * Sample code: Update Resource With CustomerManagedKeys2.
+           *
+           * @param manager Entry point to RecoveryServicesManager.
+           */
+          public static void updateResourceWithCustomerManagedKeys2(
+              com.azure.resourcemanager.recoveryservices.RecoveryServicesManager manager) {
+              Vault resource =
+                  manager.vaults().getByResourceGroupWithResponse("HelloWorld", "swaggerExample", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withTags(mapOf("PatchKey", "PatchKeyUpdated"))
+                  .withProperties(
+                      new VaultProperties()
+                          .withEncryption(
+                              new VaultPropertiesEncryption()
+                                  .withKekIdentity(new CmkKekIdentity().withUseSystemAssignedIdentity(true))))
+                  .withIdentity(new IdentityData().withType(ResourceIdentityType.SYSTEM_ASSIGNED))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-recoveryservices_1.0.0-beta.3/sdk/recoveryservices/azure-resourcemanager-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates the vault.
+       *
+       * @summary Updates the vault.
+       * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PatchVault_WithCMK2.json
+       */
+      async function updateResourceWithCustomerManagedKeys2() {
+        const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
+        const resourceGroupName = "HelloWorld";
+        const vaultName = "swaggerExample";
+        const vault = {
+          identity: { type: "SystemAssigned" },
+          properties: {
+            encryption: { kekIdentity: { useSystemAssignedIdentity: true } },
+          },
+          tags: { patchKey: "PatchKeyUpdated" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new RecoveryServicesClient(credential, subscriptionId);
+        const result = await client.vaults.beginUpdateAndWait(resourceGroupName, vaultName, vault);
+        console.log(result);
+      }
+
+      updateResourceWithCustomerManagedKeys2().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-recoveryservices_5.1.0/sdk/recoveryservices/arm-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "westus",
+        "name": "swaggerExample",
+        "etag": "W/\"datetime'2017-12-15T12%3A36%3A51.68Z'\"",
+        "tags": {
+          "PatchKey": "PatchKeyUpdated"
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi": {
+              "clientId": "fbe75b66-01c5-4f87-a220-233af3270436",
+              "principalId": "075a0ca6-43f6-4434-9abf-c9b1b79f9219"
+            }
+          }
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "encryption": {
+            "keyVaultProperties": {
+              "keyUri": "https://cmk2xkv.vault.azure.net/keys/Key1/0767b348bb1a4c07baa6c4ec0055d2b3"
+            },
+            "kekIdentity": {
+              "useSystemAssignedIdentity": true
+            },
+            "infrastructureEncryption": "Enabled"
+          }
+        },
+        "id": "/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample",
+        "type": "Microsoft.RecoveryServices/vaults",
+        "sku": {
+          "name": "Standard"
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: Retry-After
+      value: "10"
+    - name: Azure-AsyncOperation
+      value: /subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample/operationStatus/YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==?api-version=2015-03-15
+    - name: Location
+      value: /subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample/operationResults/YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==?api-version=2015-03-15
+- name: Update Resource With CustomerManagedKeys3
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample?api-version=2022-04-01
+    body: >-
+      {
+        "tags": {
+          "PatchKey": "PatchKeyUpdated"
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi": {}
+          }
+        },
+        "properties": {
+          "encryption": {
+            "keyVaultProperties": {
+              "keyUri": "https://cmk2xkv.vault.azure.net/keys/Key1/0767b348bb1a4c07baa6c4ec0055d2b3"
+            }
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample?api-version=2022-04-01
+
+      {
+        "tags": {
+          "PatchKey": "PatchKeyUpdated"
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi": {}
+          }
+        },
+        "properties": {
+          "encryption": {
+            "keyVaultProperties": {
+              "keyUri": "https://cmk2xkv.vault.azure.net/keys/Key1/0767b348bb1a4c07baa6c4ec0055d2b3"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.recoveryservices.models.CmkKeyVaultProperties;
+      import com.azure.resourcemanager.recoveryservices.models.IdentityData;
+      import com.azure.resourcemanager.recoveryservices.models.ResourceIdentityType;
+      import com.azure.resourcemanager.recoveryservices.models.UserIdentity;
+      import com.azure.resourcemanager.recoveryservices.models.Vault;
+      import com.azure.resourcemanager.recoveryservices.models.VaultProperties;
+      import com.azure.resourcemanager.recoveryservices.models.VaultPropertiesEncryption;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Vaults Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithCMK3.json
+           */
+          /**
+           * Sample code: Update Resource With CustomerManagedKeys3.
+           *
+           * @param manager Entry point to RecoveryServicesManager.
+           */
+          public static void updateResourceWithCustomerManagedKeys3(
+              com.azure.resourcemanager.recoveryservices.RecoveryServicesManager manager) {
+              Vault resource =
+                  manager.vaults().getByResourceGroupWithResponse("HelloWorld", "swaggerExample", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withTags(mapOf("PatchKey", "PatchKeyUpdated"))
+                  .withProperties(
+                      new VaultProperties()
+                          .withEncryption(
+                              new VaultPropertiesEncryption()
+                                  .withKeyVaultProperties(
+                                      new CmkKeyVaultProperties()
+                                          .withKeyUri(
+                                              "https://cmk2xkv.vault.azure.net/keys/Key1/0767b348bb1a4c07baa6c4ec0055d2b3"))))
+                  .withIdentity(
+                      new IdentityData()
+                          .withType(ResourceIdentityType.USER_ASSIGNED)
+                          .withUserAssignedIdentities(
+                              mapOf(
+                                  "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi",
+                                  new UserIdentity())))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-recoveryservices_1.0.0-beta.3/sdk/recoveryservices/azure-resourcemanager-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates the vault.
+       *
+       * @summary Updates the vault.
+       * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithCMK3.json
+       */
+      async function updateResourceWithCustomerManagedKeys3() {
+        const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
+        const resourceGroupName = "HelloWorld";
+        const vaultName = "swaggerExample";
+        const vault = {
+          identity: {
+            type: "UserAssigned",
+            userAssignedIdentities: {
+              "/subscriptions/85bf5e8c30844f42Add2746ebb7e97b2/resourcegroups/defaultrg/providers/MicrosoftManagedIdentity/userAssignedIdentities/examplemsi":
+                {},
+            },
+          },
+          properties: {
+            encryption: {
+              keyVaultProperties: {
+                keyUri: "https://cmk2xkv.vault.azure.net/keys/Key1/0767b348bb1a4c07baa6c4ec0055d2b3",
+              },
+            },
+          },
+          tags: { patchKey: "PatchKeyUpdated" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new RecoveryServicesClient(credential, subscriptionId);
+        const result = await client.vaults.beginUpdateAndWait(resourceGroupName, vaultName, vault);
+        console.log(result);
+      }
+
+      updateResourceWithCustomerManagedKeys3().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-recoveryservices_5.1.0/sdk/recoveryservices/arm-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "westus",
+        "name": "swaggerExample",
+        "etag": "W/\"datetime'2017-12-15T12%3A36%3A51.68Z'\"",
+        "tags": {
+          "PatchKey": "PatchKeyUpdated"
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi": {
+              "clientId": "fbe75b66-01c5-4f87-a220-233af3270436",
+              "principalId": "075a0ca6-43f6-4434-9abf-c9b1b79f9219"
+            }
+          }
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "encryption": {
+            "keyVaultProperties": {
+              "keyUri": "https://cmk2xkv.vault.azure.net/keys/Key1/0767b348bb1a4c07baa6c4ec0055d2b3"
+            },
+            "kekIdentity": {
+              "userAssignedIdentity": "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi",
+              "useSystemAssignedIdentity": false
+            },
+            "infrastructureEncryption": "Enabled"
+          }
+        },
+        "id": "/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample",
+        "type": "Microsoft.RecoveryServices/vaults",
+        "sku": {
+          "name": "Standard"
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: Retry-After
+      value: "10"
+    - name: Azure-AsyncOperation
+      value: /subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample/operationStatus/YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==?api-version=2015-03-15
+    - name: Location
+      value: /subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample/operationResults/YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==?api-version=2015-03-15
+- name: Update Vault With Monitoring Setting
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample?api-version=2022-04-01
+    body: >-
+      {
+        "tags": {
+          "PatchKey": "PatchKeyUpdated"
+        },
+        "properties": {
+          "monitoringSettings": {
+            "azureMonitorAlertSettings": {
+              "alertsForAllJobFailures": "Enabled"
+            },
+            "classicAlertSettings": {
+              "alertsForCriticalOperations": "Disabled"
+            }
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample?api-version=2022-04-01
+
+      {
+        "tags": {
+          "PatchKey": "PatchKeyUpdated"
+        },
+        "properties": {
+          "monitoringSettings": {
+            "azureMonitorAlertSettings": {
+              "alertsForAllJobFailures": "Enabled"
+            },
+            "classicAlertSettings": {
+              "alertsForCriticalOperations": "Disabled"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.recoveryservices.models.AlertsState;
+      import com.azure.resourcemanager.recoveryservices.models.AzureMonitorAlertSettings;
+      import com.azure.resourcemanager.recoveryservices.models.ClassicAlertSettings;
+      import com.azure.resourcemanager.recoveryservices.models.MonitoringSettings;
+      import com.azure.resourcemanager.recoveryservices.models.Vault;
+      import com.azure.resourcemanager.recoveryservices.models.VaultProperties;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Vaults Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithMonitoringSettings.json
+           */
+          /**
+           * Sample code: Update Vault With Monitoring Setting.
+           *
+           * @param manager Entry point to RecoveryServicesManager.
+           */
+          public static void updateVaultWithMonitoringSetting(
+              com.azure.resourcemanager.recoveryservices.RecoveryServicesManager manager) {
+              Vault resource =
+                  manager.vaults().getByResourceGroupWithResponse("HelloWorld", "swaggerExample", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withTags(mapOf("PatchKey", "PatchKeyUpdated"))
+                  .withProperties(
+                      new VaultProperties()
+                          .withMonitoringSettings(
+                              new MonitoringSettings()
+                                  .withAzureMonitorAlertSettings(
+                                      new AzureMonitorAlertSettings().withAlertsForAllJobFailures(AlertsState.ENABLED))
+                                  .withClassicAlertSettings(
+                                      new ClassicAlertSettings().withAlertsForCriticalOperations(AlertsState.DISABLED))))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-recoveryservices_1.0.0-beta.3/sdk/recoveryservices/azure-resourcemanager-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates the vault.
+       *
+       * @summary Updates the vault.
+       * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithMonitoringSettings.json
+       */
+      async function updateVaultWithMonitoringSetting() {
+        const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
+        const resourceGroupName = "HelloWorld";
+        const vaultName = "swaggerExample";
+        const vault = {
+          properties: {
+            monitoringSettings: {
+              azureMonitorAlertSettings: { alertsForAllJobFailures: "Enabled" },
+              classicAlertSettings: { alertsForCriticalOperations: "Disabled" },
+            },
+          },
+          tags: { patchKey: "PatchKeyUpdated" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new RecoveryServicesClient(credential, subscriptionId);
+        const result = await client.vaults.beginUpdateAndWait(resourceGroupName, vaultName, vault);
+        console.log(result);
+      }
+
+      updateVaultWithMonitoringSetting().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-recoveryservices_5.1.0/sdk/recoveryservices/arm-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "westus",
+        "name": "swaggerExample",
+        "etag": "W/\"datetime'2017-12-15T12%3A36%3A51.68Z'\"",
+        "tags": {
+          "PatchKey": "PatchKeyUpdated"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "monitoringSettings": {
+            "azureMonitorAlertSettings": {
+              "alertsForAllJobFailures": "Enabled"
+            },
+            "classicAlertSettings": {
+              "alertsForCriticalOperations": "Disabled"
+            }
+          }
+        },
+        "id": "/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample",
+        "type": "Microsoft.RecoveryServices/vaults",
+        "sku": {
+          "name": "Standard"
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: Retry-After
+      value: "10"
+    - name: Azure-AsyncOperation
+      value: /subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample/operationStatus/YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==?api-version=2015-03-15
+    - name: Location
+      value: /subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample/operationResults/YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==?api-version=2015-03-15
 security:
 - name: azure_auth
   type: oauth2

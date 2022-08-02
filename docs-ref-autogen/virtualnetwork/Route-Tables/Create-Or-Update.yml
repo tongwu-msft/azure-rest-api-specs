@@ -2696,6 +2696,107 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.RouteTableInner;
+
+      /** Samples for RouteTables CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/RouteTableCreate.json
+           */
+          /**
+           * Sample code: Create route table.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createRouteTable(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getRouteTables()
+                  .createOrUpdate("rg1", "testrt", new RouteTableInner().withLocation("westus"), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/RouteTableCreate.json
+      func ExampleRouteTablesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewRouteTablesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"rg1",
+      		"testrt",
+      		armnetwork.RouteTable{
+      			Location: to.Ptr("westus"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or updates a route table in a specified resource group.
+       *
+       * @summary Create or updates a route table in a specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/RouteTableCreate.json
+       */
+      async function createRouteTable() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const routeTableName = "testrt";
+        const parameters = { location: "westus" };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.routeTables.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          routeTableName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createRouteTable().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2765,6 +2866,89 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.RouteInner;
+      import com.azure.resourcemanager.network.fluent.models.RouteTableInner;
+      import com.azure.resourcemanager.network.models.RouteNextHopType;
+      import java.util.Arrays;
+
+      /** Samples for RouteTables CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/RouteTableCreateWithRoute.json
+           */
+          /**
+           * Sample code: Create route table with route.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createRouteTableWithRoute(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getRouteTables()
+                  .createOrUpdate(
+                      "rg1",
+                      "testrt",
+                      new RouteTableInner()
+                          .withLocation("westus")
+                          .withRoutes(
+                              Arrays
+                                  .asList(
+                                      new RouteInner()
+                                          .withName("route1")
+                                          .withAddressPrefix("10.0.3.0/24")
+                                          .withNextHopType(RouteNextHopType.VIRTUAL_NETWORK_GATEWAY)))
+                          .withDisableBgpRoutePropagation(true),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or updates a route table in a specified resource group.
+       *
+       * @summary Create or updates a route table in a specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/RouteTableCreateWithRoute.json
+       */
+      async function createRouteTableWithRoute() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const routeTableName = "testrt";
+        const parameters = {
+          disableBgpRoutePropagation: true,
+          location: "westus",
+          routes: [
+            {
+              name: "route1",
+              addressPrefix: "10.0.3.0/24",
+              nextHopType: "VirtualNetworkGateway",
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.routeTables.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          routeTableName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createRouteTableWithRoute().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

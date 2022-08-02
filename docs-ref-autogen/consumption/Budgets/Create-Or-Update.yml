@@ -292,12 +292,15 @@ definitions:
   kind: enum
   properties:
   - name: EqualTo
+    description: 'Alert will be triggered if the evaluated cost is the same as threshold value. Note: It’s not recommended to use this OperatorType as there’s low chance of cost being exactly the same as threshold value, leading to missing of your alert. This OperatorType will be deprecated in future. '
     types:
     - uid: string
   - name: GreaterThan
+    description: 'Alert will be triggered if the evaluated cost is greater than the threshold value. Note: This is the recommended OperatorType while configuring Budget Alert.'
     types:
     - uid: string
   - name: GreaterThanOrEqualTo
+    description: Alert will be triggered if the evaluated cost is greater than or equal to the threshold value.
     types:
     - uid: string
 - name: ThresholdType
@@ -305,9 +308,11 @@ definitions:
   kind: enum
   properties:
   - name: Actual
+    description: Actual costs budget alerts notify when the actual accrued cost exceeds the allocated budget .
     types:
     - uid: string
   - name: Forecasted
+    description: Forecasted costs budget alerts provide advanced notification that your spending trends are likely to exceed your allocated budget, as it relies on forecasted cost predictions.
     types:
     - uid: string
 - name: CultureCode
@@ -572,6 +577,276 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.consumption.models.BudgetComparisonExpression;
+      import com.azure.resourcemanager.consumption.models.BudgetFilter;
+      import com.azure.resourcemanager.consumption.models.BudgetFilterProperties;
+      import com.azure.resourcemanager.consumption.models.BudgetOperatorType;
+      import com.azure.resourcemanager.consumption.models.BudgetTimePeriod;
+      import com.azure.resourcemanager.consumption.models.CategoryType;
+      import com.azure.resourcemanager.consumption.models.CultureCode;
+      import com.azure.resourcemanager.consumption.models.Notification;
+      import com.azure.resourcemanager.consumption.models.OperatorType;
+      import com.azure.resourcemanager.consumption.models.ThresholdType;
+      import com.azure.resourcemanager.consumption.models.TimeGrainType;
+      import java.math.BigDecimal;
+      import java.time.OffsetDateTime;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Budgets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/CreateOrUpdateBudget.json
+           */
+          /**
+           * Sample code: CreateOrUpdateBudget.
+           *
+           * @param manager Entry point to ConsumptionManager.
+           */
+          public static void createOrUpdateBudget(com.azure.resourcemanager.consumption.ConsumptionManager manager) {
+              manager
+                  .budgets()
+                  .define("TestBudget")
+                  .withExistingScope("subscriptions/00000000-0000-0000-0000-000000000000")
+                  .withEtag("\"1d34d016a593709\"")
+                  .withCategory(CategoryType.COST)
+                  .withAmount(new BigDecimal("100.65"))
+                  .withTimeGrain(TimeGrainType.MONTHLY)
+                  .withTimePeriod(
+                      new BudgetTimePeriod()
+                          .withStartDate(OffsetDateTime.parse("2017-10-01T00:00:00Z"))
+                          .withEndDate(OffsetDateTime.parse("2018-10-31T00:00:00Z")))
+                  .withFilter(
+                      new BudgetFilter()
+                          .withAnd(
+                              Arrays
+                                  .asList(
+                                      new BudgetFilterProperties()
+                                          .withDimensions(
+                                              new BudgetComparisonExpression()
+                                                  .withName("ResourceId")
+                                                  .withOperator(BudgetOperatorType.IN)
+                                                  .withValues(
+                                                      Arrays
+                                                          .asList(
+                                                              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MSVM2",
+                                                              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1"))),
+                                      new BudgetFilterProperties()
+                                          .withTags(
+                                              new BudgetComparisonExpression()
+                                                  .withName("category")
+                                                  .withOperator(BudgetOperatorType.IN)
+                                                  .withValues(Arrays.asList("Dev", "Prod"))),
+                                      new BudgetFilterProperties()
+                                          .withTags(
+                                              new BudgetComparisonExpression()
+                                                  .withName("department")
+                                                  .withOperator(BudgetOperatorType.IN)
+                                                  .withValues(Arrays.asList("engineering", "sales"))))))
+                  .withNotifications(
+                      mapOf(
+                          "Actual_GreaterThan_80_Percent",
+                          new Notification()
+                              .withEnabled(true)
+                              .withOperator(OperatorType.GREATER_THAN)
+                              .withThreshold(new BigDecimal("80"))
+                              .withContactEmails(Arrays.asList("johndoe@contoso.com", "janesmith@contoso.com"))
+                              .withContactRoles(Arrays.asList("Contributor", "Reader"))
+                              .withContactGroups(
+                                  Arrays
+                                      .asList(
+                                          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup"))
+                              .withThresholdType(ThresholdType.ACTUAL)
+                              .withLocale(CultureCode.EN_US)))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-consumption_1.0.0-beta.3/sdk/consumption/azure-resourcemanager-consumption/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armconsumption_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/consumption/armconsumption"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/CreateOrUpdateBudget.json
+      func ExampleBudgetsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armconsumption.NewBudgetsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"subscriptions/00000000-0000-0000-0000-000000000000",
+      		"TestBudget",
+      		armconsumption.Budget{
+      			ETag: to.Ptr("\"1d34d016a593709\""),
+      			Properties: &armconsumption.BudgetProperties{
+      				Amount:   to.Ptr[float64](100.65),
+      				Category: to.Ptr(armconsumption.CategoryTypeCost),
+      				Filter: &armconsumption.BudgetFilter{
+      					And: []*armconsumption.BudgetFilterProperties{
+      						{
+      							Dimensions: &armconsumption.BudgetComparisonExpression{
+      								Name:     to.Ptr("ResourceId"),
+      								Operator: to.Ptr(armconsumption.BudgetOperatorTypeIn),
+      								Values: []*string{
+      									to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MSVM2"),
+      									to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1")},
+      							},
+      						},
+      						{
+      							Tags: &armconsumption.BudgetComparisonExpression{
+      								Name:     to.Ptr("category"),
+      								Operator: to.Ptr(armconsumption.BudgetOperatorTypeIn),
+      								Values: []*string{
+      									to.Ptr("Dev"),
+      									to.Ptr("Prod")},
+      							},
+      						},
+      						{
+      							Tags: &armconsumption.BudgetComparisonExpression{
+      								Name:     to.Ptr("department"),
+      								Operator: to.Ptr(armconsumption.BudgetOperatorTypeIn),
+      								Values: []*string{
+      									to.Ptr("engineering"),
+      									to.Ptr("sales")},
+      							},
+      						}},
+      				},
+      				Notifications: map[string]*armconsumption.Notification{
+      					"Actual_GreaterThan_80_Percent": {
+      						ContactEmails: []*string{
+      							to.Ptr("johndoe@contoso.com"),
+      							to.Ptr("janesmith@contoso.com")},
+      						ContactGroups: []*string{
+      							to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup")},
+      						ContactRoles: []*string{
+      							to.Ptr("Contributor"),
+      							to.Ptr("Reader")},
+      						Enabled:       to.Ptr(true),
+      						Locale:        to.Ptr(armconsumption.CultureCodeEnUs),
+      						Operator:      to.Ptr(armconsumption.OperatorTypeGreaterThan),
+      						Threshold:     to.Ptr[float64](80),
+      						ThresholdType: to.Ptr(armconsumption.ThresholdTypeActual),
+      					},
+      				},
+      				TimeGrain: to.Ptr(armconsumption.TimeGrainTypeMonthly),
+      				TimePeriod: &armconsumption.BudgetTimePeriod{
+      					EndDate:   to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2018-10-31T00:00:00Z"); return t }()),
+      					StartDate: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2017-10-01T00:00:00Z"); return t }()),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fconsumption%2Farmconsumption%2Fv1.0.0/sdk/resourcemanager/consumption/armconsumption/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ConsumptionManagementClient } = require("@azure/arm-consumption");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to The operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
+       *
+       * @summary The operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
+       * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/CreateOrUpdateBudget.json
+       */
+      async function createOrUpdateBudget() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
+        const budgetName = "TestBudget";
+        const parameters = {
+          amount: 100.65,
+          category: "Cost",
+          eTag: '"1d34d016a593709"',
+          filter: {
+            and: [
+              {
+                dimensions: {
+                  name: "ResourceId",
+                  operator: "In",
+                  values: [
+                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MSVM2",
+                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1",
+                  ],
+                },
+              },
+              { tags: { name: "category", operator: "In", values: ["Dev", "Prod"] } },
+              {
+                tags: {
+                  name: "department",
+                  operator: "In",
+                  values: ["engineering", "sales"],
+                },
+              },
+            ],
+          },
+          notifications: {
+            actualGreaterThan80Percent: {
+              contactEmails: ["johndoe@contoso.com", "janesmith@contoso.com"],
+              contactGroups: [
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup",
+              ],
+              contactRoles: ["Contributor", "Reader"],
+              enabled: true,
+              locale: "en-us",
+              operator: "GreaterThan",
+              threshold: 80,
+              thresholdType: "Actual",
+            },
+          },
+          timeGrain: "Monthly",
+          timePeriod: {
+            endDate: new Date("2018-10-31T00:00:00Z"),
+            startDate: new Date("2017-10-01T00:00:00Z"),
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ConsumptionManagementClient(credential, subscriptionId);
+        const result = await client.budgets.createOrUpdate(scope, budgetName, parameters);
+        console.log(result);
+      }
+
+      createOrUpdateBudget().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-consumption_9.0.1/sdk/consumption/arm-consumption/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

@@ -159,6 +159,118 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.synapse.fluent.models.FollowerDatabaseDefinitionInner;
+
+      /** Samples for KustoPools DetachFollowerDatabases. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolFollowerDatabasesDetach.json
+           */
+          /**
+           * Sample code: KustoPoolDetachFollowerDatabases.
+           *
+           * @param manager Entry point to SynapseManager.
+           */
+          public static void kustoPoolDetachFollowerDatabases(com.azure.resourcemanager.synapse.SynapseManager manager) {
+              manager
+                  .kustoPools()
+                  .detachFollowerDatabases(
+                      "kustorptest",
+                      "kustoclusterrptest4",
+                      "kustorptest",
+                      new FollowerDatabaseDefinitionInner()
+                          .withKustoPoolResourceId(
+                              "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Synapse/workspaces/kustorptest/kustoPools/leader4")
+                          .withAttachedDatabaseConfigurationName("myAttachedDatabaseConfiguration"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-synapse_1.0.0-beta.6/sdk/synapse/azure-resourcemanager-synapse/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armsynapse_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/synapse/armsynapse"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolFollowerDatabasesDetach.json
+      func ExampleKustoPoolsClient_BeginDetachFollowerDatabases() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsynapse.NewKustoPoolsClient("12345678-1234-1234-1234-123456789098", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginDetachFollowerDatabases(ctx,
+      		"kustorptest",
+      		"kustoclusterrptest4",
+      		"kustorptest",
+      		armsynapse.FollowerDatabaseDefinition{
+      			AttachedDatabaseConfigurationName: to.Ptr("myAttachedDatabaseConfiguration"),
+      			KustoPoolResourceID:               to.Ptr("/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Synapse/workspaces/kustorptest/kustoPools/leader4"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsynapse%2Farmsynapse%2Fv0.5.0/sdk/resourcemanager/synapse/armsynapse/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SynapseManagementClient } = require("@azure/arm-synapse");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Detaches all followers of a database owned by this Kusto Pool.
+       *
+       * @summary Detaches all followers of a database owned by this Kusto Pool.
+       * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolFollowerDatabasesDetach.json
+       */
+      async function kustoPoolDetachFollowerDatabases() {
+        const subscriptionId = "12345678-1234-1234-1234-123456789098";
+        const workspaceName = "kustorptest";
+        const kustoPoolName = "kustoclusterrptest4";
+        const resourceGroupName = "kustorptest";
+        const followerDatabaseToRemove = {
+          attachedDatabaseConfigurationName: "myAttachedDatabaseConfiguration",
+          kustoPoolResourceId:
+            "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Synapse/workspaces/kustorptest/kustoPools/leader4",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SynapseManagementClient(credential, subscriptionId);
+        const result = await client.kustoPools.beginDetachFollowerDatabasesAndWait(
+          workspaceName,
+          kustoPoolName,
+          resourceGroupName,
+          followerDatabaseToRemove
+        );
+        console.log(result);
+      }
+
+      kustoPoolDetachFollowerDatabases().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-synapse_8.1.0-beta.1/sdk/synapse/arm-synapse/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"

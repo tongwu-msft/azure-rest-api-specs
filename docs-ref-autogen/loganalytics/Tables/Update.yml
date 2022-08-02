@@ -588,6 +588,135 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.loganalytics.models.Column;
+      import com.azure.resourcemanager.loganalytics.models.ColumnTypeEnum;
+      import com.azure.resourcemanager.loganalytics.models.Schema;
+      import java.util.Arrays;
+
+      /** Samples for Tables CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/preview/2021-12-01-preview/examples/TablesUpsert.json
+           */
+          /**
+           * Sample code: TablesUpsert.
+           *
+           * @param manager Entry point to LogAnalyticsManager.
+           */
+          public static void tablesUpsert(com.azure.resourcemanager.loganalytics.LogAnalyticsManager manager) {
+              manager
+                  .tables()
+                  .define("AzureNetworkFlow")
+                  .withExistingWorkspace("oiautorest6685", "oiautorest6685")
+                  .withRetentionInDays(45)
+                  .withTotalRetentionInDays(70)
+                  .withSchema(
+                      new Schema()
+                          .withName("AzureNetworkFlow")
+                          .withColumns(Arrays.asList(new Column().withName("MyNewColumn").withType(ColumnTypeEnum.GUID))))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-loganalytics_1.0.0-beta.3/sdk/loganalytics/azure-resourcemanager-loganalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armoperationalinsights_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/preview/2021-12-01-preview/examples/TablesUpsert.json
+      func ExampleTablesClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armoperationalinsights.NewTablesClient("00000000-0000-0000-0000-00000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"oiautorest6685",
+      		"oiautorest6685",
+      		"AzureNetworkFlow",
+      		armoperationalinsights.Table{
+      			Properties: &armoperationalinsights.TableProperties{
+      				Schema: &armoperationalinsights.Schema{
+      					Name: to.Ptr("AzureNetworkFlow"),
+      					Columns: []*armoperationalinsights.Column{
+      						{
+      							Name: to.Ptr("MyNewColumn"),
+      							Type: to.Ptr(armoperationalinsights.ColumnTypeEnumGUID),
+      						}},
+      				},
+      				RetentionInDays:      to.Ptr[int32](45),
+      				TotalRetentionInDays: to.Ptr[int32](70),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Foperationalinsights%2Farmoperationalinsights%2Fv2.0.0-beta.2/sdk/resourcemanager/operationalinsights/armoperationalinsights/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { OperationalInsightsManagementClient } = require("@azure/arm-operationalinsights");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update or Create a Log Analytics workspace table.
+       *
+       * @summary Update or Create a Log Analytics workspace table.
+       * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/preview/2021-12-01-preview/examples/TablesUpsert.json
+       */
+      async function tablesUpsert() {
+        const subscriptionId = "00000000-0000-0000-0000-00000000000";
+        const resourceGroupName = "oiautorest6685";
+        const workspaceName = "oiautorest6685";
+        const tableName = "AzureNetworkFlow";
+        const parameters = {
+          schema: {
+            name: "AzureNetworkFlow",
+            columns: [{ name: "MyNewColumn", type: "guid" }],
+          },
+          retentionInDays: 45,
+          totalRetentionInDays: 70,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new OperationalInsightsManagementClient(credential, subscriptionId);
+        const result = await client.tables.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          workspaceName,
+          tableName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      tablesUpsert().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-operationalinsights_9.0.0-beta.1/sdk/operationalinsights/arm-operationalinsights/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

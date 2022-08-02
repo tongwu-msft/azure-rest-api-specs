@@ -765,6 +765,239 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.labservices.models.AutoShutdownProfile;
+      import com.azure.resourcemanager.labservices.models.ConnectionProfile;
+      import com.azure.resourcemanager.labservices.models.ConnectionType;
+      import com.azure.resourcemanager.labservices.models.CreateOption;
+      import com.azure.resourcemanager.labservices.models.Credentials;
+      import com.azure.resourcemanager.labservices.models.EnableState;
+      import com.azure.resourcemanager.labservices.models.ImageReference;
+      import com.azure.resourcemanager.labservices.models.LabNetworkProfile;
+      import com.azure.resourcemanager.labservices.models.SecurityProfile;
+      import com.azure.resourcemanager.labservices.models.ShutdownOnIdleMode;
+      import com.azure.resourcemanager.labservices.models.Sku;
+      import com.azure.resourcemanager.labservices.models.VirtualMachineAdditionalCapabilities;
+      import com.azure.resourcemanager.labservices.models.VirtualMachineProfile;
+      import java.time.Duration;
+
+      /** Samples for Labs CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/preview/2021-11-15-preview/examples/Labs/putLab.json
+           */
+          /**
+           * Sample code: putLab.
+           *
+           * @param manager Entry point to LabServicesManager.
+           */
+          public static void putLab(com.azure.resourcemanager.labservices.LabServicesManager manager) {
+              manager
+                  .labs()
+                  .define("testlab")
+                  .withRegion("westus")
+                  .withExistingResourceGroup("testrg123")
+                  .withNetworkProfile(
+                      new LabNetworkProfile()
+                          .withSubnetId(
+                              "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/default"))
+                  .withAutoShutdownProfile(
+                      new AutoShutdownProfile()
+                          .withShutdownOnDisconnect(EnableState.ENABLED)
+                          .withShutdownWhenNotConnected(EnableState.ENABLED)
+                          .withShutdownOnIdle(ShutdownOnIdleMode.USER_ABSENCE)
+                          .withDisconnectDelay(Duration.parse("00:05"))
+                          .withNoConnectDelay(Duration.parse("01:00"))
+                          .withIdleDelay(Duration.parse("01:00")))
+                  .withConnectionProfile(
+                      new ConnectionProfile()
+                          .withWebSshAccess(ConnectionType.NONE)
+                          .withWebRdpAccess(ConnectionType.NONE)
+                          .withClientSshAccess(ConnectionType.PUBLIC)
+                          .withClientRdpAccess(ConnectionType.PUBLIC))
+                  .withVirtualMachineProfile(
+                      new VirtualMachineProfile()
+                          .withCreateOption(CreateOption.TEMPLATE_VM)
+                          .withImageReference(
+                              new ImageReference()
+                                  .withOffer("WindowsServer")
+                                  .withPublisher("Microsoft")
+                                  .withSku("2019-Datacenter")
+                                  .withVersion("2019.0.20190410"))
+                          .withSku(new Sku().withName("Medium"))
+                          .withAdditionalCapabilities(
+                              new VirtualMachineAdditionalCapabilities().withInstallGpuDrivers(EnableState.DISABLED))
+                          .withUsageQuota(Duration.parse("10:00"))
+                          .withUseSharedPassword(EnableState.DISABLED)
+                          .withAdminUser(new Credentials().withUsername("test-user")))
+                  .withSecurityProfile(new SecurityProfile().withOpenAccess(EnableState.DISABLED))
+                  .withLabPlanId(
+                      "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan")
+                  .withTitle("Test Lab")
+                  .withDescription("This is a test lab.")
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-labservices_1.0.0-beta.2/sdk/labservices/azure-resourcemanager-labservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armlabservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/labservices/armlabservices"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/labservices/resource-manager/Microsoft.LabServices/preview/2021-11-15-preview/examples/Labs/putLab.json
+      func ExampleLabsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armlabservices.NewLabsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"testrg123",
+      		"testlab",
+      		armlabservices.Lab{
+      			Location: to.Ptr("westus"),
+      			Properties: &armlabservices.LabProperties{
+      				Description: to.Ptr("This is a test lab."),
+      				AutoShutdownProfile: &armlabservices.AutoShutdownProfile{
+      					DisconnectDelay:          to.Ptr("00:05"),
+      					IdleDelay:                to.Ptr("01:00"),
+      					NoConnectDelay:           to.Ptr("01:00"),
+      					ShutdownOnDisconnect:     to.Ptr(armlabservices.EnableStateEnabled),
+      					ShutdownOnIdle:           to.Ptr(armlabservices.ShutdownOnIdleModeUserAbsence),
+      					ShutdownWhenNotConnected: to.Ptr(armlabservices.EnableStateEnabled),
+      				},
+      				ConnectionProfile: &armlabservices.ConnectionProfile{
+      					ClientRdpAccess: to.Ptr(armlabservices.ConnectionTypePublic),
+      					ClientSSHAccess: to.Ptr(armlabservices.ConnectionTypePublic),
+      					WebRdpAccess:    to.Ptr(armlabservices.ConnectionTypeNone),
+      					WebSSHAccess:    to.Ptr(armlabservices.ConnectionTypeNone),
+      				},
+      				LabPlanID: to.Ptr("/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan"),
+      				SecurityProfile: &armlabservices.SecurityProfile{
+      					OpenAccess: to.Ptr(armlabservices.EnableStateDisabled),
+      				},
+      				Title: to.Ptr("Test Lab"),
+      				VirtualMachineProfile: &armlabservices.VirtualMachineProfile{
+      					AdditionalCapabilities: &armlabservices.VirtualMachineAdditionalCapabilities{
+      						InstallGpuDrivers: to.Ptr(armlabservices.EnableStateDisabled),
+      					},
+      					AdminUser: &armlabservices.Credentials{
+      						Username: to.Ptr("test-user"),
+      					},
+      					CreateOption: to.Ptr(armlabservices.CreateOptionTemplateVM),
+      					ImageReference: &armlabservices.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("Microsoft"),
+      						SKU:       to.Ptr("2019-Datacenter"),
+      						Version:   to.Ptr("2019.0.20190410"),
+      					},
+      					SKU: &armlabservices.SKU{
+      						Name: to.Ptr("Medium"),
+      					},
+      					UsageQuota:        to.Ptr("10:00"),
+      					UseSharedPassword: to.Ptr(armlabservices.EnableStateDisabled),
+      				},
+      				NetworkProfile: &armlabservices.LabNetworkProfile{
+      					SubnetID: to.Ptr("/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/default"),
+      				},
+      				State: to.Ptr(armlabservices.LabStateDraft),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Flabservices%2Farmlabservices%2Fv0.5.0/sdk/resourcemanager/labservices/armlabservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { LabServicesClient } = require("@azure/arm-labservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Operation to create or update a lab resource.
+       *
+       * @summary Operation to create or update a lab resource.
+       * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/preview/2021-11-15-preview/examples/Labs/putLab.json
+       */
+      async function putLab() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testrg123";
+        const labName = "testlab";
+        const body = {
+          description: "This is a test lab.",
+          autoShutdownProfile: {
+            disconnectDelay: "P0Y0M0DT0H0M5S",
+            idleDelay: "P0Y0M0DT0H1M0S",
+            noConnectDelay: "P0Y0M0DT0H1M0S",
+            shutdownOnDisconnect: "Enabled",
+            shutdownOnIdle: "UserAbsence",
+            shutdownWhenNotConnected: "Enabled",
+          },
+          connectionProfile: {
+            clientRdpAccess: "Public",
+            clientSshAccess: "Public",
+            webRdpAccess: "None",
+            webSshAccess: "None",
+          },
+          labPlanId:
+            "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan",
+          location: "westus",
+          networkProfile: {
+            subnetId:
+              "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/default",
+          },
+          securityProfile: { openAccess: "Disabled" },
+          state: "Draft",
+          title: "Test Lab",
+          virtualMachineProfile: {
+            additionalCapabilities: { installGpuDrivers: "Disabled" },
+            adminUser: { username: "test-user" },
+            createOption: "TemplateVM",
+            imageReference: {
+              offer: "WindowsServer",
+              publisher: "Microsoft",
+              sku: "2019-Datacenter",
+              version: "2019.0.20190410",
+            },
+            sku: { name: "Medium" },
+            usageQuota: "P0Y0M0DT0H10M0S",
+            useSharedPassword: "Disabled",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new LabServicesClient(credential, subscriptionId);
+        const result = await client.labs.beginCreateOrUpdateAndWait(resourceGroupName, labName, body);
+        console.log(result);
+      }
+
+      putLab().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-labservices_3.0.0-beta.3/sdk/labservices/arm-labservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

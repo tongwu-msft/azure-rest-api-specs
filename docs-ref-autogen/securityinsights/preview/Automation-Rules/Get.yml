@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.automationrules.get
 name: Get
 service: Sentinel
 groupName: Automation Rules
-apiVersion: 2021-10-01-preview
+apiVersion: 2022-07-01-preview
 summary: Gets the automation rule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/automationRules/{automationRuleId}?api-version=2021-10-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/automationRules/{automationRuleId}?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -57,19 +57,19 @@ definitions:
   kind: object
   properties:
   - name: properties.displayName
-    description: The display name of the automation rule
+    description: The display name of the automation rule.
     types:
     - uid: string
   - name: properties.order
-    description: The order of execution of the automation rule
+    description: The order of execution of the automation rule.
     types:
     - uid: integer
   - name: properties.triggeringLogic
-    description: Describes automation rule triggering logic
+    description: Describes automation rule triggering logic.
     types:
     - uid: AutomationRuleTriggeringLogic
   - name: properties.actions
-    description: The actions to execute when the automation rule is triggered
+    description: The actions to execute when the automation rule is triggered.
     types:
     - uid: AutomationRuleModifyPropertiesAction
       isArray: true
@@ -78,12 +78,12 @@ definitions:
     typesTitle: AutomationRuleAction[]
   - name: properties.lastModifiedTimeUtc
     isReadyOnly: true
-    description: The last time the automation rule was updated
+    description: The last time the automation rule was updated.
     types:
     - uid: string
   - name: properties.createdTimeUtc
     isReadyOnly: true
-    description: The time the automation rule was created
+    description: The time the automation rule was created.
     types:
     - uid: string
   - name: properties.lastModifiedBy
@@ -129,11 +129,11 @@ definitions:
     types:
     - uid: CloudErrorBody
 - name: AutomationRuleTriggeringLogic
-  description: Describes automation rule triggering logic
+  description: Describes automation rule triggering logic.
   kind: object
   properties:
   - name: isEnabled
-    description: Determines whether the automation rule is enabled or disabled
+    description: Determines whether the automation rule is enabled or disabled.
     types:
     - uid: boolean
   - name: expirationTimeUtc
@@ -149,8 +149,12 @@ definitions:
     types:
     - uid: triggersWhen
   - name: conditions
-    description: The conditions to evaluate to determine if the automation rule should be triggered on a given object
+    description: The conditions to evaluate to determine if the automation rule should be triggered on a given object.
     types:
+    - uid: PropertyArrayChangedConditionProperties
+      isArray: true
+    - uid: PropertyChangedConditionProperties
+      isArray: true
     - uid: PropertyConditionProperties
       isArray: true
     typesTitle: AutomationRuleCondition[]
@@ -223,11 +227,19 @@ definitions:
     description: Trigger on Incidents
     types:
     - uid: string
+  - name: Alerts
+    description: Trigger on Alerts
+    types:
+    - uid: string
 - name: triggersWhen
   kind: enum
   properties:
   - name: Created
     description: Trigger on created objects
+    types:
+    - uid: string
+  - name: Updated
+    description: Trigger on updated objects
     types:
     - uid: string
 - name: AutomationRuleModifyPropertiesAction
@@ -243,7 +255,7 @@ definitions:
     types:
     - uid: integer
   - name: actionType
-    description: The type of the automation rule action
+    description: The type of the automation rule action.
     types:
     - uid: ModifyProperties
     typesTitle: string
@@ -260,7 +272,7 @@ definitions:
     types:
     - uid: integer
   - name: actionType
-    description: The type of the automation rule action
+    description: The type of the automation rule action.
     types:
     - uid: RunPlaybook
     typesTitle: string
@@ -280,6 +292,32 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: PropertyArrayChangedConditionProperties
+  description: Describes an automation rule condition that evaluates an array property's value change
+  kind: object
+  properties:
+  - name: conditionProperties
+    description: ''
+    types:
+    - uid: AutomationRulePropertyArrayChangedValuesCondition
+  - name: conditionType
+    description: ''
+    types:
+    - uid: PropertyArrayChanged
+    typesTitle: string
+- name: PropertyChangedConditionProperties
+  description: Describes an automation rule condition that evaluates a property's value change
+  kind: object
+  properties:
+  - name: conditionProperties
+    description: ''
+    types:
+    - uid: AutomationRulePropertyValuesChangedCondition
+  - name: conditionType
+    description: ''
+    types:
+    - uid: PropertyChanged
+    typesTitle: string
 - name: PropertyConditionProperties
   description: Describes an automation rule condition that evaluates a property's value
   kind: object
@@ -313,7 +351,7 @@ definitions:
     types:
     - uid: IncidentClassificationReason
   - name: classificationComment
-    description: Describes the reason the incident was closed
+    description: Describes the reason the incident was closed.
     types:
     - uid: string
   - name: owner
@@ -321,12 +359,12 @@ definitions:
     types:
     - uid: IncidentOwnerInfo
   - name: labels
-    description: List of labels to add to the incident
+    description: List of labels to add to the incident.
     types:
     - uid: IncidentLabel
       isArray: true
 - name: ActionType
-  description: The type of the automation rule action
+  description: The type of the automation rule action.
   kind: enum
   properties:
   - name: ModifyProperties
@@ -341,18 +379,64 @@ definitions:
   kind: object
   properties:
   - name: logicAppResourceId
-    description: The resource id of the playbook resource
+    description: The resource id of the playbook resource.
     types:
     - uid: string
   - name: tenantId
-    description: The tenant id of the playbook resource
+    description: The tenant id of the playbook resource.
     types:
     - uid: string
+- name: AutomationRulePropertyArrayChangedValuesCondition
+  kind: object
+  properties:
+  - name: arrayType
+    description: ''
+    types:
+    - uid: AutomationRulePropertyArrayChangedConditionSupportedArrayType
+  - name: changeType
+    description: ''
+    types:
+    - uid: AutomationRulePropertyArrayChangedConditionSupportedChangeType
+- name: ConditionType
+  kind: enum
+  properties:
+  - name: Property
+    description: Evaluate an object property value
+    types:
+    - uid: string
+  - name: PropertyChanged
+    description: Evaluate an object property changed value
+    types:
+    - uid: string
+  - name: PropertyArrayChanged
+    description: Evaluate an object array property changed value
+    types:
+    - uid: string
+- name: AutomationRulePropertyValuesChangedCondition
+  kind: object
+  properties:
+  - name: propertyName
+    description: ''
+    types:
+    - uid: AutomationRulePropertyChangedConditionSupportedPropertyType
+  - name: changeType
+    description: ''
+    types:
+    - uid: AutomationRulePropertyChangedConditionSupportedChangedType
+  - name: operator
+    description: ''
+    types:
+    - uid: AutomationRulePropertyConditionSupportedOperator
+  - name: propertyValues
+    description: ''
+    types:
+    - uid: string
+      isArray: true
 - name: AutomationRulePropertyValuesCondition
   kind: object
   properties:
   - name: propertyName
-    description: The property to evaluate in an automation rule property condition
+    description: The property to evaluate in an automation rule property condition.
     types:
     - uid: AutomationRulePropertyConditionSupportedProperty
   - name: operator
@@ -364,13 +448,6 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: ConditionType
-  kind: enum
-  properties:
-  - name: Property
-    description: Evaluate an object property value
-    types:
-    - uid: string
 - name: IncidentSeverity
   description: The severity of the incident
   kind: enum
@@ -468,7 +545,6 @@ definitions:
     types:
     - uid: string
   - name: ownerType
-    isReadyOnly: true
     description: The type of the owner the incident is assigned to.
     types:
     - uid: OwnerType
@@ -485,8 +561,95 @@ definitions:
     description: The type of the label
     types:
     - uid: IncidentLabelType
+- name: AutomationRulePropertyArrayChangedConditionSupportedArrayType
+  kind: enum
+  properties:
+  - name: Alerts
+    description: Evaluate the condition on the alerts
+    types:
+    - uid: string
+  - name: Labels
+    description: Evaluate the condition on the labels
+    types:
+    - uid: string
+  - name: Tactics
+    description: Evaluate the condition on the tactics
+    types:
+    - uid: string
+  - name: Comments
+    description: Evaluate the condition on the comments
+    types:
+    - uid: string
+- name: AutomationRulePropertyArrayChangedConditionSupportedChangeType
+  kind: enum
+  properties:
+  - name: Added
+    description: Evaluate the condition on items added to the array
+    types:
+    - uid: string
+- name: AutomationRulePropertyChangedConditionSupportedPropertyType
+  kind: enum
+  properties:
+  - name: IncidentSeverity
+    description: Evaluate the condition on the incident severity
+    types:
+    - uid: string
+  - name: IncidentStatus
+    description: Evaluate the condition on the incident status
+    types:
+    - uid: string
+  - name: IncidentOwner
+    description: Evaluate the condition on the incident owner
+    types:
+    - uid: string
+- name: AutomationRulePropertyChangedConditionSupportedChangedType
+  kind: enum
+  properties:
+  - name: ChangedFrom
+    description: Evaluate the condition on the previous value of the property
+    types:
+    - uid: string
+  - name: ChangedTo
+    description: Evaluate the condition on the updated value of the property
+    types:
+    - uid: string
+- name: AutomationRulePropertyConditionSupportedOperator
+  kind: enum
+  properties:
+  - name: Equals
+    description: Evaluates if the property equals at least one of the condition values
+    types:
+    - uid: string
+  - name: NotEquals
+    description: Evaluates if the property does not equal any of the condition values
+    types:
+    - uid: string
+  - name: Contains
+    description: Evaluates if the property contains at least one of the condition values
+    types:
+    - uid: string
+  - name: NotContains
+    description: Evaluates if the property does not contain any of the condition values
+    types:
+    - uid: string
+  - name: StartsWith
+    description: Evaluates if the property starts with any of the condition values
+    types:
+    - uid: string
+  - name: NotStartsWith
+    description: Evaluates if the property does not start with any of the condition values
+    types:
+    - uid: string
+  - name: EndsWith
+    description: Evaluates if the property ends with any of the condition values
+    types:
+    - uid: string
+  - name: NotEndsWith
+    description: Evaluates if the property does not end with any of the condition values
+    types:
+    - uid: string
 - name: AutomationRulePropertyConditionSupportedProperty
-  description: The property to evaluate in an automation rule property condition
+  description: The property to evaluate in an automation rule property condition.
   kind: enum
   properties:
   - name: IncidentTitle
@@ -555,6 +718,10 @@ definitions:
     - uid: string
   - name: AlertProductNames
     description: The name of the product of the alert
+    types:
+    - uid: string
+  - name: AlertAnalyticRuleIds
+    description: The analytic rule ids of the alert
     types:
     - uid: string
   - name: AzureResourceResourceId
@@ -705,41 +872,6 @@ definitions:
     description: The url
     types:
     - uid: string
-- name: AutomationRulePropertyConditionSupportedOperator
-  kind: enum
-  properties:
-  - name: Equals
-    description: Evaluates if the property equals at least one of the condition values
-    types:
-    - uid: string
-  - name: NotEquals
-    description: Evaluates if the property does not equal any of the condition values
-    types:
-    - uid: string
-  - name: Contains
-    description: Evaluates if the property contains at least one of the condition values
-    types:
-    - uid: string
-  - name: NotContains
-    description: Evaluates if the property does not contain any of the condition values
-    types:
-    - uid: string
-  - name: StartsWith
-    description: Evaluates if the property starts with any of the condition values
-    types:
-    - uid: string
-  - name: NotStartsWith
-    description: Evaluates if the property does not start with any of the condition values
-    types:
-    - uid: string
-  - name: EndsWith
-    description: Evaluates if the property ends with any of the condition values
-    types:
-    - uid: string
-  - name: NotEndsWith
-    description: Evaluates if the property does not end with any of the condition values
-    types:
-    - uid: string
 - name: OwnerType
   description: The type of the owner the incident is assigned to.
   kind: enum
@@ -764,20 +896,50 @@ definitions:
     description: Label manually created by a user
     types:
     - uid: string
-  - name: System
+  - name: AutoAssigned
     description: Label automatically created by the system
     types:
     - uid: string
 examples:
 - name: AutomationRules_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/automationRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/automationRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/automationRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/automationRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
       ```
 
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the automation rule.
+       *
+       * @summary Gets the automation rule.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/automationRules/AutomationRules_Get.json
+       */
+      async function automationRulesGet() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const automationRuleId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.automationRules.get(
+          resourceGroupName,
+          workspaceName,
+          automationRuleId
+        );
+        console.log(result);
+      }
+
+      automationRulesGet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -787,17 +949,17 @@ examples:
         "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
         "type": "Microsoft.SecurityInsights/automationRules",
         "properties": {
-          "displayName": "High severity incidents escalation",
+          "displayName": "Suspicious alerts in workspace",
           "order": 1,
           "triggeringLogic": {
             "isEnabled": true,
-            "triggersOn": "Incidents",
+            "triggersOn": "Alerts",
             "triggersWhen": "Created",
             "conditions": [
               {
                 "conditionType": "Property",
                 "conditionProperties": {
-                  "propertyName": "IncidentRelatedAnalyticRuleIds",
+                  "propertyName": "AlertAnalyticRuleIds",
                   "operator": "Contains",
                   "propertyValues": [
                     "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/fab3d2d4-747f-46a7-8ef0-9c0be8112bf7",
@@ -810,9 +972,10 @@ examples:
           "actions": [
             {
               "order": 1,
-              "actionType": "ModifyProperties",
+              "actionType": "RunPlaybook",
               "actionConfiguration": {
-                "severity": "High"
+                "tenantId": "d23e3eef-eed0-428f-a2d5-bc48c268e31d",
+                "logicAppResourceId": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.Logic/workflows/AlertPlaybook"
               }
             }
           ],

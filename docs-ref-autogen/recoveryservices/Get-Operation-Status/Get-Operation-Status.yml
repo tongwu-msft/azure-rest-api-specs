@@ -1,0 +1,258 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.recoveryservices.getoperationstatus.getoperationstatus
+name: Get Operation Status
+service: Recovery Services
+groupName: Get Operation Status
+apiVersion: 2022-04-01
+summary: Gets the operation status for a resource.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/operationStatus/{operationId}?api-version=2022-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: OperationResource
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: OperationResource
+  description: Operation Resource
+  kind: object
+  properties:
+  - name: endTime
+    description: End time of the operation
+    types:
+    - uid: string
+  - name: error
+    description: Required if status == failed or status == canceled. This is the OData v4 error format, used by the RPC and will go into the v2.2 Azure REST API guidelines.
+    types:
+    - uid: Error
+  - name: id
+    description: It should match what is used to GET the operation result
+    types:
+    - uid: string
+  - name: name
+    description: It must match the last segment of the "id" field, and will typically be a GUID / system generated value
+    types:
+    - uid: string
+  - name: status
+    description: The status of the operation. (InProgress/Success/Failed/Cancelled)
+    types:
+    - uid: string
+  - name: startTime
+    description: Start time of the operation
+    types:
+    - uid: string
+- name: CloudError
+  description: CloudError
+  kind: object
+  properties:
+  - name: error
+    description: The resource management error response.
+    types:
+    - uid: Error
+- name: Error
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: Error
+      isArray: true
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+examples:
+- name: Get Operation Status
+  request:
+    uri: GET https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample/operationStatus/YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==?api-version=2022-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample/operationStatus/YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==?api-version=2022-04-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ResourceProvider GetOperationStatus. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/GetOperationStatus.json
+           */
+          /**
+           * Sample code: Get Operation Status.
+           *
+           * @param manager Entry point to RecoveryServicesManager.
+           */
+          public static void getOperationStatus(com.azure.resourcemanager.recoveryservices.RecoveryServicesManager manager) {
+              manager
+                  .resourceProviders()
+                  .getOperationStatusWithResponse(
+                      "HelloWorld",
+                      "swaggerExample",
+                      "YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==",
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-recoveryservices_1.0.0-beta.3/sdk/recoveryservices/azure-resourcemanager-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armrecoveryservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservices"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/GetOperationStatus.json
+      func ExampleOperationsClient_OperationStatusGet() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armrecoveryservices.NewOperationsClient("77777777-b0c6-47a2-b37c-d8e65a629c18", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.OperationStatusGet(ctx,
+      		"HelloWorld",
+      		"swaggerExample",
+      		"YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Frecoveryservices%2Farmrecoveryservices%2Fv1.1.0/sdk/resourcemanager/recoveryservices/armrecoveryservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the operation status for a resource.
+       *
+       * @summary Gets the operation status for a resource.
+       * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/GetOperationStatus.json
+       */
+      async function getOperationStatus() {
+        const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
+        const resourceGroupName = "HelloWorld";
+        const vaultName = "swaggerExample";
+        const operationId =
+          "YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==";
+        const credential = new DefaultAzureCredential();
+        const client = new RecoveryServicesClient(credential, subscriptionId);
+        const result = await client.getOperationStatus(resourceGroupName, vaultName, operationId);
+        console.log(result);
+      }
+
+      getOperationStatus().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-recoveryservices_5.1.0/sdk/recoveryservices/arm-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/77777777-b0c6-47a2-b37c-d8e65a629c18/resourceGroups/HelloWorld/providers/Microsoft.RecoveryServices/vaults/swaggerExample/operationStatus/YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==",
+        "name": "YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==",
+        "status": "Succeeded",
+        "startTime": "2019-11-20T09:49:44.0478496Z",
+        "endTime": "2019-11-20T09:49:46Z"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+metadata:
+  description: Learn more about Recovery Services service - Gets the operation status for a resource.
+errorCodes: []

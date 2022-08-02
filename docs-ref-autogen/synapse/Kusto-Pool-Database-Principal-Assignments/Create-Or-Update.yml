@@ -163,6 +163,11 @@ definitions:
     description: The provisioned state of the resource.
     types:
     - uid: ResourceProvisioningState
+  - name: properties.aadObjectId
+    isReadyOnly: true
+    description: The service principal object id in AAD (Azure active directory)
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -336,6 +341,130 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.synapse.models.DatabasePrincipalRole;
+      import com.azure.resourcemanager.synapse.models.PrincipalType;
+
+      /** Samples for KustoPoolDatabasePrincipalAssignments CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDatabasePrincipalAssignmentsCreateOrUpdate.json
+           */
+          /**
+           * Sample code: KustoPoolDatabasePrincipalAssignmentsCreateOrUpdate.
+           *
+           * @param manager Entry point to SynapseManager.
+           */
+          public static void kustoPoolDatabasePrincipalAssignmentsCreateOrUpdate(
+              com.azure.resourcemanager.synapse.SynapseManager manager) {
+              manager
+                  .kustoPoolDatabasePrincipalAssignments()
+                  .define("kustoprincipal1")
+                  .withExistingDatabase("synapseWorkspaceName", "kustoclusterrptest4", "Kustodatabase8", "kustorptest")
+                  .withPrincipalId("87654321-1234-1234-1234-123456789123")
+                  .withRole(DatabasePrincipalRole.ADMIN)
+                  .withTenantId("12345678-1234-1234-1234-123456789123")
+                  .withPrincipalType(PrincipalType.APP)
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-synapse_1.0.0-beta.6/sdk/synapse/azure-resourcemanager-synapse/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armsynapse_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/synapse/armsynapse"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDatabasePrincipalAssignmentsCreateOrUpdate.json
+      func ExampleKustoPoolDatabasePrincipalAssignmentsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsynapse.NewKustoPoolDatabasePrincipalAssignmentsClient("12345678-1234-1234-1234-123456789098", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"synapseWorkspaceName",
+      		"kustoclusterrptest4",
+      		"Kustodatabase8",
+      		"kustoprincipal1",
+      		"kustorptest",
+      		armsynapse.DatabasePrincipalAssignment{
+      			Properties: &armsynapse.DatabasePrincipalProperties{
+      				PrincipalID:   to.Ptr("87654321-1234-1234-1234-123456789123"),
+      				PrincipalType: to.Ptr(armsynapse.PrincipalTypeApp),
+      				Role:          to.Ptr(armsynapse.DatabasePrincipalRoleAdmin),
+      				TenantID:      to.Ptr("12345678-1234-1234-1234-123456789123"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsynapse%2Farmsynapse%2Fv0.5.0/sdk/resourcemanager/synapse/armsynapse/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SynapseManagementClient } = require("@azure/arm-synapse");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a Kusto pool database principalAssignment.
+       *
+       * @summary Creates a Kusto pool database principalAssignment.
+       * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDatabasePrincipalAssignmentsCreateOrUpdate.json
+       */
+      async function kustoPoolDatabasePrincipalAssignmentsCreateOrUpdate() {
+        const subscriptionId = "12345678-1234-1234-1234-123456789098";
+        const workspaceName = "synapseWorkspaceName";
+        const kustoPoolName = "kustoclusterrptest4";
+        const databaseName = "Kustodatabase8";
+        const principalAssignmentName = "kustoprincipal1";
+        const resourceGroupName = "kustorptest";
+        const parameters = {
+          principalId: "87654321-1234-1234-1234-123456789123",
+          principalType: "App",
+          role: "Admin",
+          tenantId: "12345678-1234-1234-1234-123456789123",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SynapseManagementClient(credential, subscriptionId);
+        const result = await client.kustoPoolDatabasePrincipalAssignments.beginCreateOrUpdateAndWait(
+          workspaceName,
+          kustoPoolName,
+          databaseName,
+          principalAssignmentName,
+          resourceGroupName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      kustoPoolDatabasePrincipalAssignmentsCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-synapse_8.1.0-beta.1/sdk/synapse/arm-synapse/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -350,7 +479,8 @@ examples:
           "tenantId": "12345678-1234-1234-1234-123456789123",
           "tenantName": "tenantName",
           "principalName": "TestApp",
-          "provisioningState": "Succeeded"
+          "provisioningState": "Succeeded",
+          "aadObjectId": "98765432-1234-1234-1234-123456789123"
         }
       }
   - statusCode: "201"
@@ -366,7 +496,8 @@ examples:
           "tenantId": "12345678-1234-1234-1234-123456789123",
           "tenantName": "tenantName",
           "principalName": "TestApp",
-          "provisioningState": "Succeeded"
+          "provisioningState": "Succeeded",
+          "aadObjectId": "98765432-1234-1234-1234-123456789123"
         }
       }
 security: []

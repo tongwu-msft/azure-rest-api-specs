@@ -3,14 +3,14 @@ uid: management.azure.com.kubernetesconfiguration.fluxconfigurations.update
 name: Update
 service: Kubernetes Configuration
 groupName: Flux Configurations
-apiVersion: 2022-03-01
+apiVersion: 2022-07-01
 summary: Update an existing Kubernetes Flux Configuration.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}?api-version=2022-03-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}?api-version=2022-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -90,6 +90,11 @@ requestBody:
     description: Parameters to reconcile to the Bucket source kind type.
     types:
     - uid: BucketPatchDefinition
+  - name: properties.azureBlob
+    in: body
+    description: Parameters to reconcile to the AzureBlob source kind type.
+    types:
+    - uid: AzureBlobPatchDefinition
   - name: properties.kustomizations
     in: body
     description: Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster.
@@ -147,7 +152,7 @@ definitions:
     types:
     - uid: string
 - name: BucketPatchDefinition
-  description: Parameters to reconcile to the GitRepository source kind type.
+  description: Parameters to reconcile to the Bucket source kind type.
   kind: object
   properties:
   - name: url
@@ -163,17 +168,57 @@ definitions:
     types:
     - uid: boolean
   - name: timeoutInSeconds
-    description: The maximum time to attempt to reconcile the cluster git repository source with the remote.
+    description: The maximum time to attempt to reconcile the cluster bucket source with the remote.
     types:
     - uid: integer
   - name: syncIntervalInSeconds
-    description: The interval at which to re-reconcile the cluster git repository source with the remote.
+    description: The interval at which to re-reconcile the cluster bucket source with the remote.
     types:
     - uid: integer
   - name: accessKey
     description: Plaintext access key used to securely access the S3 bucket
     types:
     - uid: string
+  - name: localAuthRef
+    description: Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets.
+    types:
+    - uid: string
+- name: AzureBlobPatchDefinition
+  description: Parameters to reconcile to the AzureBlob source kind type.
+  kind: object
+  properties:
+  - name: url
+    description: The URL to sync for the flux configuration Azure Blob storage account.
+    types:
+    - uid: string
+  - name: containerName
+    description: The Azure Blob container name to sync from the url endpoint for the flux configuration.
+    types:
+    - uid: string
+  - name: timeoutInSeconds
+    description: The maximum time to attempt to reconcile the cluster Azure Blob source with the remote.
+    types:
+    - uid: integer
+  - name: syncIntervalInSeconds
+    description: The interval at which to re-reconcile the cluster Azure Blob source with the remote.
+    types:
+    - uid: integer
+  - name: servicePrincipal
+    description: Parameters to authenticate using Service Principal.
+    types:
+    - uid: ServicePrincipalPatchDefinition
+  - name: accountKey
+    description: The account key (shared key) to access the storage account
+    types:
+    - uid: string
+  - name: sasToken
+    description: The Shared Access token to access the storage container
+    types:
+    - uid: string
+  - name: managedIdentity
+    description: Parameters to authenticate using a Managed Identity.
+    types:
+    - uid: ManagedIdentityPatchDefinition
   - name: localAuthRef
     description: Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets.
     types:
@@ -248,6 +293,10 @@ definitions:
     description: Parameters to reconcile to the Bucket source kind type.
     types:
     - uid: BucketDefinition
+  - name: properties.azureBlob
+    description: Parameters to reconcile to the AzureBlob source kind type.
+    types:
+    - uid: AzureBlobDefinition
   - name: properties.kustomizations
     description: Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster.
     types:
@@ -349,6 +398,10 @@ definitions:
     description: Parameters to reconcile to the Bucket source kind type.
     types:
     - uid: BucketPatchDefinition
+  - name: properties.azureBlob
+    description: Parameters to reconcile to the AzureBlob source kind type.
+    types:
+    - uid: AzureBlobPatchDefinition
   - name: properties.kustomizations
     description: Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster.
     types:
@@ -383,6 +436,42 @@ definitions:
     - uid: string
   - name: commit
     description: The commit SHA to checkout. This value must be combined with the branch name to be valid. This takes precedence over semver.
+    types:
+    - uid: string
+- name: ServicePrincipalPatchDefinition
+  description: Parameters to authenticate using Service Principal.
+  kind: object
+  properties:
+  - name: clientId
+    description: The client Id for authenticating a Service Principal.
+    types:
+    - uid: string
+  - name: tenantId
+    description: The tenant Id for authenticating a Service Principal
+    types:
+    - uid: string
+  - name: clientSecret
+    description: The client secret for authenticating a Service Principal
+    types:
+    - uid: string
+  - name: clientCertificate
+    description: 'Base64-encoded certificate used to authenticate a Service Principal '
+    types:
+    - uid: string
+  - name: clientCertificatePassword
+    description: 'The password for the certificate used to authenticate a Service Principal '
+    types:
+    - uid: string
+  - name: clientCertificateSendChain
+    description: Specifies whether to include x5c header in client claims when acquiring a token to enable subject name / issuer based authentication for the Client Certificate
+    types:
+    - uid: boolean
+- name: ManagedIdentityPatchDefinition
+  description: Parameters to authenticate using a Managed Identity.
+  kind: object
+  properties:
+  - name: clientId
+    description: The client Id for authenticating a Managed Identity.
     types:
     - uid: string
 - name: systemData
@@ -433,6 +522,9 @@ definitions:
   - name: Bucket
     types:
     - uid: string
+  - name: AzureBlob
+    types:
+    - uid: string
 - name: GitRepositoryDefinition
   description: Parameters to reconcile to the GitRepository source kind type.
   kind: object
@@ -472,7 +564,7 @@ definitions:
     types:
     - uid: string
 - name: BucketDefinition
-  description: Parameters to reconcile to the GitRepository source kind type.
+  description: Parameters to reconcile to the Bucket source kind type.
   kind: object
   properties:
   - name: url
@@ -489,12 +581,12 @@ definitions:
     - uid: boolean
     defaultValue: true
   - name: timeoutInSeconds
-    description: The maximum time to attempt to reconcile the cluster git repository source with the remote.
+    description: The maximum time to attempt to reconcile the cluster bucket source with the remote.
     types:
     - uid: integer
     defaultValue: 600
   - name: syncIntervalInSeconds
-    description: The interval at which to re-reconcile the cluster git repository source with the remote.
+    description: The interval at which to re-reconcile the cluster bucket source with the remote.
     types:
     - uid: integer
     defaultValue: 600
@@ -502,6 +594,48 @@ definitions:
     description: Plaintext access key used to securely access the S3 bucket
     types:
     - uid: string
+  - name: localAuthRef
+    description: Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets.
+    types:
+    - uid: string
+- name: AzureBlobDefinition
+  description: Parameters to reconcile to the AzureBlob source kind type.
+  kind: object
+  properties:
+  - name: url
+    description: The URL to sync for the flux configuration Azure Blob storage account.
+    types:
+    - uid: string
+  - name: containerName
+    description: The Azure Blob container name to sync from the url endpoint for the flux configuration.
+    types:
+    - uid: string
+  - name: timeoutInSeconds
+    description: The maximum time to attempt to reconcile the cluster Azure Blob source with the remote.
+    types:
+    - uid: integer
+    defaultValue: 600
+  - name: syncIntervalInSeconds
+    description: The interval at which to re-reconcile the cluster Azure Blob source with the remote.
+    types:
+    - uid: integer
+    defaultValue: 600
+  - name: servicePrincipal
+    description: Parameters to authenticate using Service Principal.
+    types:
+    - uid: ServicePrincipalDefinition
+  - name: accountKey
+    description: The account key (shared key) to access the storage account
+    types:
+    - uid: string
+  - name: sasToken
+    description: The Shared Access token to access the storage container
+    types:
+    - uid: string
+  - name: managedIdentity
+    description: Parameters to authenticate using a Managed Identity.
+    types:
+    - uid: ManagedIdentityDefinition
   - name: localAuthRef
     description: Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets.
     types:
@@ -671,6 +805,43 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: ServicePrincipalDefinition
+  description: Parameters to authenticate using Service Principal.
+  kind: object
+  properties:
+  - name: clientId
+    description: The client Id for authenticating a Service Principal.
+    types:
+    - uid: string
+  - name: tenantId
+    description: The tenant Id for authenticating a Service Principal
+    types:
+    - uid: string
+  - name: clientSecret
+    description: The client secret for authenticating a Service Principal
+    types:
+    - uid: string
+  - name: clientCertificate
+    description: 'Base64-encoded certificate used to authenticate a Service Principal '
+    types:
+    - uid: string
+  - name: clientCertificatePassword
+    description: 'The password for the certificate used to authenticate a Service Principal '
+    types:
+    - uid: string
+  - name: clientCertificateSendChain
+    description: Specifies whether to include x5c header in client claims when acquiring a token to enable subject name / issuer based authentication for the Client Certificate
+    types:
+    - uid: boolean
+    defaultValue: false
+- name: ManagedIdentityDefinition
+  description: Parameters to authenticate using a Managed Identity.
+  kind: object
+  properties:
+  - name: clientId
+    description: The client Id for authenticating a Managed Identity.
+    types:
+    - uid: string
 - name: ObjectReferenceDefinition
   description: Object reference to a Kubernetes object on a cluster
   kind: object
@@ -748,7 +919,7 @@ definitions:
 examples:
 - name: Patch Flux Configuration
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig?api-version=2022-03-01
+    uri: PATCH https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig?api-version=2022-07-01
     body: >-
       {
         "properties": {
@@ -773,7 +944,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig?api-version=2022-03-01
+      PATCH https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig?api-version=2022-07-01
 
       {
         "properties": {
@@ -918,7 +1089,7 @@ examples:
     - name: x-ms-async-operation-timeout
       value: PT48H
     - name: Azure-AsyncOperation
-      value: http://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Kubernetes/ConnectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig/operations/operationId?api-version=2022-03-01
+      value: http://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Kubernetes/ConnectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/srs-fluxconfig/operations/operationId?api-version=2022-07-01
     body: >-
       {
         "properties": {

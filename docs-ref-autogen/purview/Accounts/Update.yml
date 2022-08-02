@@ -664,6 +664,84 @@ examples:
 
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armpurview_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/purview/armpurview"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/Accounts_Update.json
+      func ExampleAccountsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armpurview.NewAccountsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"SampleResourceGroup",
+      		"account1",
+      		armpurview.AccountUpdateParameters{
+      			Tags: map[string]*string{
+      				"newTag": to.Ptr("New tag value."),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fpurview%2Farmpurview%2Fv1.0.0/sdk/resourcemanager/purview/armpurview/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PurviewManagementClient } = require("@azure/arm-purview");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an account
+       *
+       * @summary Updates an account
+       * x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/Accounts_Update.json
+       */
+      async function accountsUpdate() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "SampleResourceGroup";
+        const accountName = "account1";
+        const accountUpdateParameters = {
+          tags: { newTag: "New tag value." },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PurviewManagementClient(credential, subscriptionId);
+        const result = await client.accounts.beginUpdateAndWait(
+          resourceGroupName,
+          accountName,
+          accountUpdateParameters
+        );
+        console.log(result);
+      }
+
+      accountsUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-purview_1.0.1/sdk/purview/arm-purview/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:

@@ -1,0 +1,524 @@
+### YamlMime:RESTOperation
+uid: purview.sharedataplane.assets.create
+name: Create
+service: Purview
+groupName: Assets
+apiVersion: 2021-09-01-preview
+summary: "Adds a new asset to an existing share.  \nCreate an asset on a sent share"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT {endpoint}/sentShares/{sentShareName}/assets/{assetName}?api-version=2021-09-01-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The scanning endpoint of your purview account. Example: https://{accountName}.purview.azure.com/share'
+  types:
+  - uid: string
+- name: sentShareName
+  in: path
+  isRequired: true
+  description: The name of the sent share
+  types:
+  - uid: string
+- name: assetName
+  in: path
+  isRequired: true
+  description: The name of the asset
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version to use.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted
+  types:
+  - uid: AdlsGen2AccountAsset
+  - uid: BlobAccountAsset
+  typesTitle: Asset
+- name: Other Status Codes
+  description: Default error response.
+  types:
+  - uid: PurviewShareError
+requestBody:
+- name: AdlsGen2AccountAsset
+  description: An adls gen2 storage account asset.
+  parameters:
+  - name: properties.paths
+    in: body
+    isRequired: true
+    description: A list of adls gen2 storage account paths to be shared.
+    types:
+    - uid: StorageAccountPath
+      isArray: true
+  - name: properties.receiverAssetName
+    in: body
+    isRequired: true
+    description: Name of the asset for the receiver.
+    types:
+    - uid: string
+  - name: properties.storageAccountResourceId
+    in: body
+    isRequired: true
+    description: Resource id of the adls gen2 storage account.
+    types:
+    - uid: string
+  - name: kind
+    in: body
+    isRequired: true
+    description: The types of asset.
+    types:
+    - uid: AdlsGen2Account
+    typesTitle: string
+- name: BlobAccountAsset
+  description: A blob storage account asset.
+  parameters:
+  - name: properties.paths
+    in: body
+    isRequired: true
+    description: A list of blob storage account paths to be shared.
+    types:
+    - uid: StorageAccountPath
+      isArray: true
+  - name: properties.receiverAssetName
+    in: body
+    isRequired: true
+    description: Name of the asset for the receiver.
+    types:
+    - uid: string
+  - name: properties.storageAccountResourceId
+    in: body
+    isRequired: true
+    description: Resource id of the blob storage account.
+    types:
+    - uid: string
+  - name: kind
+    in: body
+    isRequired: true
+    description: The types of asset.
+    types:
+    - uid: BlobAccount
+    typesTitle: string
+requestHeader: []
+definitions:
+- name: AdlsGen2AccountAsset
+  description: An adls gen2 storage account asset.
+  kind: object
+  properties:
+  - name: properties.location
+    isReadyOnly: true
+    description: Location of the adls gen2 storage account.
+    types:
+    - uid: string
+  - name: properties.paths
+    description: A list of adls gen2 storage account paths to be shared.
+    types:
+    - uid: StorageAccountPath
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning status of the resource
+    types:
+    - uid: ProvisioningState
+  - name: properties.receiverAssetName
+    description: Name of the asset for the receiver.
+    types:
+    - uid: string
+  - name: properties.storageAccountResourceId
+    description: Resource id of the adls gen2 storage account.
+    types:
+    - uid: string
+  - name: kind
+    description: The types of asset.
+    types:
+    - uid: AdlsGen2Account
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: The resource id of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+- name: BlobAccountAsset
+  description: A blob storage account asset.
+  kind: object
+  properties:
+  - name: properties.location
+    isReadyOnly: true
+    description: Location of the blob storage account.
+    types:
+    - uid: string
+  - name: properties.paths
+    description: A list of blob storage account paths to be shared.
+    types:
+    - uid: StorageAccountPath
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning status of the resource
+    types:
+    - uid: ProvisioningState
+  - name: properties.receiverAssetName
+    description: Name of the asset for the receiver.
+    types:
+    - uid: string
+  - name: properties.storageAccountResourceId
+    description: Resource id of the blob storage account.
+    types:
+    - uid: string
+  - name: kind
+    description: The types of asset.
+    types:
+    - uid: BlobAccount
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: The resource id of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+- name: PurviewShareError
+  description: The purview share error model.
+  kind: object
+  properties:
+  - name: error
+    description: The purview share error body model.
+    types:
+    - uid: PurviewShareErrorInfo
+- name: StorageAccountPath
+  description: Defines a single StorageAccountPath path.
+  kind: object
+  properties:
+  - name: containerName
+    description: Gets or sets the container name.
+    types:
+    - uid: string
+  - name: receiverPath
+    description: Gets or sets the path on the receiver side where the asset is to be mapped.
+    types:
+    - uid: string
+  - name: senderPath
+    description: Gets or sets the path to file/folder within the container to be shared.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Provisioning status of the resource
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Moving
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: SoftDeleting
+    types:
+    - uid: string
+  - name: SoftDeleted
+    types:
+    - uid: string
+  - name: SourceMoved
+    types:
+    - uid: string
+  - name: SourceDeleted
+    types:
+    - uid: string
+  - name: TargetMoved
+    types:
+    - uid: string
+  - name: TargetDeleted
+    types:
+    - uid: string
+- name: AssetType
+  description: The types of asset.
+  kind: enum
+  properties:
+  - name: AdlsGen2Account
+    types:
+    - uid: string
+  - name: BlobAccount
+    types:
+    - uid: string
+- name: PurviewShareErrorInfo
+  description: The purview share error body model.
+  kind: object
+  properties:
+  - name: code
+    description: Code of the error
+    types:
+    - uid: string
+  - name: details
+    description: Nested details of the error model
+    types:
+    - uid: PurviewShareErrorInfo
+      isArray: true
+  - name: message
+    description: Message of the error
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error
+    types:
+    - uid: string
+examples:
+- name: Assets_Create
+  request:
+    uri: PUT accountName.purview.azure.com/share/sentShares/share1/assets/assetName1?api-version=2021-09-01-preview
+    body: >-
+      {
+        "kind": "AdlsGen2Account",
+        "properties": {
+          "storageAccountResourceId": "/subscriptions/0f3dcfc3-18f8-4099-b381-8353e19d43a7/resourceGroups/sender-storage-rg/providers/Microsoft.Storage/storageAccounts/senderStorage",
+          "receiverAssetName": "receiverFriendlyName",
+          "paths": [
+            {
+              "containerName": "container1",
+              "senderPath": "directory/file.txt",
+              "receiverPath": "folder"
+            }
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT accountName.purview.azure.com/share/sentShares/share1/assets/assetName1?api-version=2021-09-01-preview
+
+      {
+        "kind": "AdlsGen2Account",
+        "properties": {
+          "storageAccountResourceId": "/subscriptions/0f3dcfc3-18f8-4099-b381-8353e19d43a7/resourceGroups/sender-storage-rg/providers/Microsoft.Storage/storageAccounts/senderStorage",
+          "receiverAssetName": "receiverFriendlyName",
+          "paths": [
+            {
+              "containerName": "container1",
+              "senderPath": "directory/file.txt",
+              "receiverPath": "folder"
+            }
+          ]
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2017 18:04:32 GMT
+    - name: x-ms-correlation-request-id
+      value: 25c78f97-0b0a-4fe9-ad39-883a482265cd
+    - name: x-ms-long-running-operation
+      value: "True"
+    - name: Azure-AsyncOperation
+      value: https://accountName.purview.azure.com/share/operationResults/dad6baec-3a39-41df-a469-843a9ee94213?api-version=2021-09-01-preview
+    - name: Operation-Location
+      value: https://accountName.purview.azure.com/share/operationResults/dad6baec-3a39-41df-a469-843a9ee94213?api-version=2021-09-01-preview
+    body: >-
+      {
+        "properties": {
+          "storageAccountResourceId": "/subscriptions/0f3dcfc3-18f8-4099-b381-8353e19d43a7/resourceGroups/sender-storage-rg/providers/Microsoft.Storage/storageAccounts/senderStorage",
+          "receiverAssetName": "receiverFriendlyName",
+          "paths": [
+            {
+              "containerName": "container1",
+              "senderPath": "directory/file.txt",
+              "receiverPath": "folder"
+            }
+          ],
+          "location": "eastus2",
+          "provisioningState": "Succeeded"
+        },
+        "kind": "AdlsGen2Account",
+        "id": "/sentShares/share1/assets/assetName1",
+        "name": "assetName1",
+        "type": "sentShares/assets"
+      }
+- name: Assets_BlobAccountCreate
+  request:
+    uri: PUT accountName.purview.azure.com/share/sentShares/share1/assets/assetName1?api-version=2021-09-01-preview
+    body: >-
+      {
+        "kind": "BlobAccount",
+        "properties": {
+          "storageAccountResourceId": "/subscriptions/0f3dcfc3-18f8-4099-b381-8353e19d43a7/resourceGroups/sender-storage-rg/providers/Microsoft.Storage/storageAccounts/senderStorage",
+          "receiverAssetName": "receiverFriendlyName",
+          "paths": [
+            {
+              "containerName": "container1",
+              "senderPath": "directory/file.txt",
+              "receiverPath": "folder"
+            }
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT accountName.purview.azure.com/share/sentShares/share1/assets/assetName1?api-version=2021-09-01-preview
+
+      {
+        "kind": "BlobAccount",
+        "properties": {
+          "storageAccountResourceId": "/subscriptions/0f3dcfc3-18f8-4099-b381-8353e19d43a7/resourceGroups/sender-storage-rg/providers/Microsoft.Storage/storageAccounts/senderStorage",
+          "receiverAssetName": "receiverFriendlyName",
+          "paths": [
+            {
+              "containerName": "container1",
+              "senderPath": "directory/file.txt",
+              "receiverPath": "folder"
+            }
+          ]
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2017 18:04:32 GMT
+    - name: x-ms-correlation-request-id
+      value: 25c78f97-0b0a-4fe9-ad39-883a482265cd
+    - name: x-ms-long-running-operation
+      value: "True"
+    - name: Azure-AsyncOperation
+      value: https://accountName.purview.azure.com/share/operationResults/dad6baec-3a39-41df-a469-843a9ee94213?api-version=2021-09-01-preview
+    - name: Operation-Location
+      value: https://accountName.purview.azure.com/share/operationResults/dad6baec-3a39-41df-a469-843a9ee94213?api-version=2021-09-01-preview
+    body: >-
+      {
+        "properties": {
+          "storageAccountResourceId": "/subscriptions/0f3dcfc3-18f8-4099-b381-8353e19d43a7/resourceGroups/sender-storage-rg/providers/Microsoft.Storage/storageAccounts/senderStorage",
+          "receiverAssetName": "receiverFriendlyName",
+          "paths": [
+            {
+              "containerName": "container1",
+              "senderPath": "directory/file.txt",
+              "receiverPath": "folder"
+            }
+          ],
+          "location": "eastus2",
+          "provisioningState": "Succeeded"
+        },
+        "kind": "BlobAccount",
+        "id": "/sentShares/share1/assets/assetName1",
+        "name": "assetName1",
+        "type": "sentShares/assets"
+      }
+- name: Assets_AdlsGen2AccountCreate
+  request:
+    uri: PUT accountName.purview.azure.com/share/sentShares/share1/assets/assetName1?api-version=2021-09-01-preview
+    body: >-
+      {
+        "kind": "AdlsGen2Account",
+        "properties": {
+          "storageAccountResourceId": "/subscriptions/0f3dcfc3-18f8-4099-b381-8353e19d43a7/resourceGroups/sender-storage-rg/providers/Microsoft.Storage/storageAccounts/senderStorage",
+          "receiverAssetName": "receiverFriendlyName",
+          "paths": [
+            {
+              "containerName": "container1",
+              "senderPath": "directory/file.txt",
+              "receiverPath": "folder"
+            }
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT accountName.purview.azure.com/share/sentShares/share1/assets/assetName1?api-version=2021-09-01-preview
+
+      {
+        "kind": "AdlsGen2Account",
+        "properties": {
+          "storageAccountResourceId": "/subscriptions/0f3dcfc3-18f8-4099-b381-8353e19d43a7/resourceGroups/sender-storage-rg/providers/Microsoft.Storage/storageAccounts/senderStorage",
+          "receiverAssetName": "receiverFriendlyName",
+          "paths": [
+            {
+              "containerName": "container1",
+              "senderPath": "directory/file.txt",
+              "receiverPath": "folder"
+            }
+          ]
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2017 18:04:32 GMT
+    - name: x-ms-correlation-request-id
+      value: 25c78f97-0b0a-4fe9-ad39-883a482265cd
+    - name: x-ms-long-running-operation
+      value: "True"
+    - name: Azure-AsyncOperation
+      value: https://accountName.purview.azure.com/share/operationResults/dad6baec-3a39-41df-a469-843a9ee94213?api-version=2021-09-01-preview
+    - name: Operation-Location
+      value: https://accountName.purview.azure.com/share/operationResults/dad6baec-3a39-41df-a469-843a9ee94213?api-version=2021-09-01-preview
+    body: >-
+      {
+        "properties": {
+          "storageAccountResourceId": "/subscriptions/0f3dcfc3-18f8-4099-b381-8353e19d43a7/resourceGroups/sender-storage-rg/providers/Microsoft.Storage/storageAccounts/senderStorage",
+          "receiverAssetName": "receiverFriendlyName",
+          "paths": [
+            {
+              "containerName": "container1",
+              "senderPath": "directory/file.txt",
+              "receiverPath": "folder"
+            }
+          ],
+          "location": "eastus2",
+          "provisioningState": "Succeeded"
+        },
+        "kind": "AdlsGen2Account",
+        "id": "/sentShares/share1/assets/assetName1",
+        "name": "assetName1",
+        "type": "sentShares/assets"
+      }
+security: []
+metadata:
+  description: "Learn more about Purview service - Adds a new asset to an existing share.  \nCreate an asset on a sent share"
+errorCodes: []

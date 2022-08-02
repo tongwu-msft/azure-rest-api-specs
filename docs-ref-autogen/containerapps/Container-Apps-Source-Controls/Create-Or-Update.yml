@@ -368,6 +368,161 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.appcontainers.models.AzureCredentials;
+      import com.azure.resourcemanager.appcontainers.models.GithubActionConfiguration;
+      import com.azure.resourcemanager.appcontainers.models.RegistryInfo;
+
+      /** Samples for ContainerAppsSourceControls CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/SourceControls_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: Create or Update Container App SourceControl.
+           *
+           * @param manager Entry point to ContainerAppsApiManager.
+           */
+          public static void createOrUpdateContainerAppSourceControl(
+              com.azure.resourcemanager.appcontainers.ContainerAppsApiManager manager) {
+              manager
+                  .containerAppsSourceControls()
+                  .define("current")
+                  .withExistingContainerApp("workerapps-rg-xj", "testcanadacentral")
+                  .withRepoUrl("https://github.com/xwang971/ghatest")
+                  .withBranch("master")
+                  .withGithubActionConfiguration(
+                      new GithubActionConfiguration()
+                          .withRegistryInfo(
+                              new RegistryInfo()
+                                  .withRegistryUrl("xwang971reg.azurecr.io")
+                                  .withRegistryUsername("xwang971reg")
+                                  .withRegistryPassword("<registrypassword>"))
+                          .withAzureCredentials(
+                              new AzureCredentials()
+                                  .withClientId("<clientid>")
+                                  .withClientSecret("<clientsecret>")
+                                  .withTenantId("<tenantid>"))
+                          .withContextPath("./")
+                          .withImage("image/tag"))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appcontainers_1.0.0-beta.3/sdk/appcontainers/azure-resourcemanager-appcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappcontainers_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appcontainers/armappcontainers"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/SourceControls_CreateOrUpdate.json
+      func ExampleContainerAppsSourceControlsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappcontainers.NewContainerAppsSourceControlsClient("651f8027-33e8-4ec4-97b4-f6e9f3dc8744", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"workerapps-rg-xj",
+      		"testcanadacentral",
+      		"current",
+      		armappcontainers.SourceControl{
+      			Properties: &armappcontainers.SourceControlProperties{
+      				Branch: to.Ptr("master"),
+      				GithubActionConfiguration: &armappcontainers.GithubActionConfiguration{
+      					AzureCredentials: &armappcontainers.AzureCredentials{
+      						ClientID:     to.Ptr("<clientid>"),
+      						ClientSecret: to.Ptr("<clientsecret>"),
+      						TenantID:     to.Ptr("<tenantid>"),
+      					},
+      					ContextPath: to.Ptr("./"),
+      					Image:       to.Ptr("image/tag"),
+      					RegistryInfo: &armappcontainers.RegistryInfo{
+      						RegistryPassword: to.Ptr("<registrypassword>"),
+      						RegistryURL:      to.Ptr("xwang971reg.azurecr.io"),
+      						RegistryUserName: to.Ptr("xwang971reg"),
+      					},
+      				},
+      				RepoURL: to.Ptr("https://github.com/xwang971/ghatest"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappcontainers%2Farmappcontainers%2Fv1.0.0/sdk/resourcemanager/appcontainers/armappcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerAppsAPIClient } = require("@azure/arm-appcontainers");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update the SourceControl for a Container App.
+       *
+       * @summary Create or update the SourceControl for a Container App.
+       * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/SourceControls_CreateOrUpdate.json
+       */
+      async function createOrUpdateContainerAppSourceControl() {
+        const subscriptionId = "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
+        const resourceGroupName = "workerapps-rg-xj";
+        const containerAppName = "testcanadacentral";
+        const sourceControlName = "current";
+        const sourceControlEnvelope = {
+          branch: "master",
+          githubActionConfiguration: {
+            azureCredentials: {
+              clientId: "<clientid>",
+              clientSecret: "<clientsecret>",
+              tenantId: "<tenantid>",
+            },
+            contextPath: "./",
+            image: "image/tag",
+            registryInfo: {
+              registryPassword: "<registrypassword>",
+              registryUrl: "xwang971reg.azurecr.io",
+              registryUserName: "xwang971reg",
+            },
+          },
+          repoUrl: "https://github.com/xwang971/ghatest",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerAppsAPIClient(credential, subscriptionId);
+        const result = await client.containerAppsSourceControls.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          containerAppName,
+          sourceControlName,
+          sourceControlEnvelope
+        );
+        console.log(result);
+      }
+
+      createOrUpdateContainerAppSourceControl().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appcontainers_1.0.0/sdk/appcontainers/arm-appcontainers/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

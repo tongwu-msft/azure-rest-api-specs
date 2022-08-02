@@ -150,6 +150,116 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.azurestackhci.models.RawCertificateData;
+      import com.azure.resourcemanager.azurestackhci.models.UploadCertificateRequest;
+      import java.util.Arrays;
+
+      /** Samples for Clusters UploadCertificate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/UploadCertificate.json
+           */
+          /**
+           * Sample code: Upload certificate.
+           *
+           * @param manager Entry point to AzureStackHciManager.
+           */
+          public static void uploadCertificate(com.azure.resourcemanager.azurestackhci.AzureStackHciManager manager) {
+              manager
+                  .clusters()
+                  .uploadCertificate(
+                      "test-rg",
+                      "myCluster",
+                      new UploadCertificateRequest()
+                          .withProperties(
+                              new RawCertificateData().withCertificates(Arrays.asList("base64cert", "base64cert"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-azurestackhci_1.0.0-beta.3/sdk/azurestackhci/azure-resourcemanager-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armazurestackhci_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/azurestackhci/armazurestackhci"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/UploadCertificate.json
+      func ExampleClustersClient_BeginUploadCertificate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armazurestackhci.NewClustersClient("fd3c3665-1729-4b7b-9a38-238e83b0f98b", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUploadCertificate(ctx,
+      		"test-rg",
+      		"myCluster",
+      		armazurestackhci.UploadCertificateRequest{
+      			Properties: &armazurestackhci.RawCertificateData{
+      				Certificates: []*string{
+      					to.Ptr("base64cert"),
+      					to.Ptr("base64cert")},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fazurestackhci%2Farmazurestackhci%2Fv1.0.0/sdk/resourcemanager/azurestackhci/armazurestackhci/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureStackHCIClient } = require("@azure/arm-azurestackhci");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Upload certificate.
+       *
+       * @summary Upload certificate.
+       * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/UploadCertificate.json
+       */
+      async function uploadCertificate() {
+        const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+        const resourceGroupName = "test-rg";
+        const clusterName = "myCluster";
+        const uploadCertificateRequest = {
+          properties: { certificates: ["base64cert", "base64cert"] },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureStackHCIClient(credential, subscriptionId);
+        const result = await client.clusters.beginUploadCertificateAndWait(
+          resourceGroupName,
+          clusterName,
+          uploadCertificateRequest
+        );
+        console.log(result);
+      }
+
+      uploadCertificate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-azurestackhci_3.0.0/sdk/azurestackhci/arm-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
 security:

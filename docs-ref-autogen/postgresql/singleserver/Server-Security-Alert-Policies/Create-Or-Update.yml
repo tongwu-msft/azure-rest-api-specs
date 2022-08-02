@@ -205,6 +205,145 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.postgresql.models.SecurityAlertPolicyName;
+      import com.azure.resourcemanager.postgresql.models.ServerSecurityAlertPolicy;
+      import com.azure.resourcemanager.postgresql.models.ServerSecurityAlertPolicyState;
+      import java.util.Arrays;
+
+      /** Samples for ServerSecurityAlertPolicies CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/ServerSecurityAlertsCreateMax.json
+           */
+          /**
+           * Sample code: Update a server's threat detection policy with all parameters.
+           *
+           * @param manager Entry point to PostgreSqlManager.
+           */
+          public static void updateAServerSThreatDetectionPolicyWithAllParameters(
+              com.azure.resourcemanager.postgresql.PostgreSqlManager manager) {
+              ServerSecurityAlertPolicy resource =
+                  manager
+                      .serverSecurityAlertPolicies()
+                      .getWithResponse(
+                          "securityalert-4799", "securityalert-6440", SecurityAlertPolicyName.DEFAULT, Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withState(ServerSecurityAlertPolicyState.ENABLED)
+                  .withDisabledAlerts(Arrays.asList("Access_Anomaly", "Usage_Anomaly"))
+                  .withEmailAddresses(Arrays.asList("testSecurityAlert@microsoft.com"))
+                  .withEmailAccountAdmins(true)
+                  .withStorageEndpoint("https://mystorage.blob.core.windows.net")
+                  .withStorageAccountAccessKey(
+                      "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==")
+                  .withRetentionDays(5)
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-postgresql_1.0.2/sdk/postgresql/azure-resourcemanager-postgresql/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armpostgresql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/ServerSecurityAlertsCreateMax.json
+      func ExampleServerSecurityAlertPoliciesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armpostgresql.NewServerSecurityAlertPoliciesClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"securityalert-4799",
+      		"securityalert-6440",
+      		armpostgresql.SecurityAlertPolicyNameDefault,
+      		armpostgresql.ServerSecurityAlertPolicy{
+      			Properties: &armpostgresql.SecurityAlertPolicyProperties{
+      				DisabledAlerts: []*string{
+      					to.Ptr("Access_Anomaly"),
+      					to.Ptr("Usage_Anomaly")},
+      				EmailAccountAdmins: to.Ptr(true),
+      				EmailAddresses: []*string{
+      					to.Ptr("testSecurityAlert@microsoft.com")},
+      				RetentionDays:           to.Ptr[int32](5),
+      				State:                   to.Ptr(armpostgresql.ServerSecurityAlertPolicyStateEnabled),
+      				StorageAccountAccessKey: to.Ptr("sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD=="),
+      				StorageEndpoint:         to.Ptr("https://mystorage.blob.core.windows.net"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fpostgresql%2Farmpostgresql%2Fv1.0.0/sdk/resourcemanager/postgresql/armpostgresql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PostgreSQLManagementClient } = require("@azure/arm-postgresql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a threat detection policy.
+       *
+       * @summary Creates or updates a threat detection policy.
+       * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/ServerSecurityAlertsCreateMax.json
+       */
+      async function updateAServerThreatDetectionPolicyWithAllParameters() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "securityalert-4799";
+        const serverName = "securityalert-6440";
+        const securityAlertPolicyName = "Default";
+        const parameters = {
+          disabledAlerts: ["Access_Anomaly", "Usage_Anomaly"],
+          emailAccountAdmins: true,
+          emailAddresses: ["testSecurityAlert@microsoft.com"],
+          retentionDays: 5,
+          state: "Enabled",
+          storageAccountAccessKey:
+            "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
+          storageEndpoint: "https://mystorage.blob.core.windows.net",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PostgreSQLManagementClient(credential, subscriptionId);
+        const result = await client.serverSecurityAlertPolicies.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          serverName,
+          securityAlertPolicyName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      updateAServerThreatDetectionPolicyWithAllParameters().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-postgresql_6.0.1/sdk/postgresql/arm-postgresql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -251,6 +390,72 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.postgresql.models.SecurityAlertPolicyName;
+      import com.azure.resourcemanager.postgresql.models.ServerSecurityAlertPolicy;
+      import com.azure.resourcemanager.postgresql.models.ServerSecurityAlertPolicyState;
+
+      /** Samples for ServerSecurityAlertPolicies CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/ServerSecurityAlertsCreateMin.json
+           */
+          /**
+           * Sample code: Update a server's threat detection policy with minimal parameters.
+           *
+           * @param manager Entry point to PostgreSqlManager.
+           */
+          public static void updateAServerSThreatDetectionPolicyWithMinimalParameters(
+              com.azure.resourcemanager.postgresql.PostgreSqlManager manager) {
+              ServerSecurityAlertPolicy resource =
+                  manager
+                      .serverSecurityAlertPolicies()
+                      .getWithResponse(
+                          "securityalert-4799", "securityalert-6440", SecurityAlertPolicyName.DEFAULT, Context.NONE)
+                      .getValue();
+              resource.update().withState(ServerSecurityAlertPolicyState.DISABLED).withEmailAccountAdmins(true).apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-postgresql_1.0.2/sdk/postgresql/azure-resourcemanager-postgresql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PostgreSQLManagementClient } = require("@azure/arm-postgresql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a threat detection policy.
+       *
+       * @summary Creates or updates a threat detection policy.
+       * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/ServerSecurityAlertsCreateMin.json
+       */
+      async function updateAServerThreatDetectionPolicyWithMinimalParameters() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "securityalert-4799";
+        const serverName = "securityalert-6440";
+        const securityAlertPolicyName = "Default";
+        const parameters = {
+          emailAccountAdmins: true,
+          state: "Disabled",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PostgreSQLManagementClient(credential, subscriptionId);
+        const result = await client.serverSecurityAlertPolicies.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          serverName,
+          securityAlertPolicyName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      updateAServerThreatDetectionPolicyWithMinimalParameters().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-postgresql_6.0.1/sdk/postgresql/arm-postgresql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

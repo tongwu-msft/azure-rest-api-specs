@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.watchlists.createorupdate
 name: Create Or Update
 service: Sentinel
 groupName: Watchlists
-apiVersion: 2021-10-01-preview
-summary: Creates or updates a watchlist and its watchlist items (bulk creation, e.g. through text/csv content type). To create a Watchlist and its items, we should call this endpoint with rawContent and contentType properties.
+apiVersion: 2022-07-01-preview
+summary: Create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content type). To create a Watchlist and its Items, we should call this endpoint with either rawContent or a valid SAR URI and contentType properties. The rawContent is mainly used for small watchlist (content size below 3.8 MB). The SAS URI enables the creation of large watchlist, where the content size can go up to 500 MB. The status of processing such large file can be polled through the URL returned in Azure-AsyncOperation header.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/watchlists/{watchlistAlias}?api-version=2021-10-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/watchlists/{watchlistAlias}?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,7 +48,10 @@ responses:
   types:
   - uid: Watchlist
 - name: 201 Created
-  description: Created
+  headers:
+  - name: Azure-AsyncOperation
+    value: string
+  description: Created. The response includes the Provisioning State and the Azure-AsyncOperation header. To get the progress of the operation, call GET operation on the URL in Azure-AsyncOperation header field.
   types:
   - uid: Watchlist
 - name: Other Status Codes
@@ -77,10 +80,14 @@ requestBody:
     - uid: string
   - name: properties.source
     in: body
-    isRequired: true
-    description: The source of the watchlist
+    description: The filename of the watchlist, called 'source'
     types:
-    - uid: source
+    - uid: string
+  - name: properties.sourceType
+    in: body
+    description: The sourceType of the watchlist
+    types:
+    - uid: sourceType
   - name: properties.created
     in: body
     description: The time the watchlist was created
@@ -163,11 +170,6 @@ requestBody:
     description: 'The status of the Watchlist upload : New, InProgress or Complete. Pls note : When a Watchlist upload status is equal to InProgress, the Watchlist cannot be deleted'
     types:
     - uid: string
-  - name: properties.watchlistItemsCount
-    in: body
-    description: The number of Watchlist Items in the Watchlist
-    types:
-    - uid: integer
   - name: etag
     in: body
     description: Etag of the azure resource
@@ -238,9 +240,13 @@ definitions:
     types:
     - uid: string
   - name: properties.source
-    description: The source of the watchlist
+    description: The filename of the watchlist, called 'source'
     types:
-    - uid: source
+    - uid: string
+  - name: properties.sourceType
+    description: The sourceType of the watchlist
+    types:
+    - uid: sourceType
   - name: properties.created
     description: The time the watchlist was created
     types:
@@ -306,10 +312,6 @@ definitions:
     description: 'The status of the Watchlist upload : New, InProgress or Complete. Pls note : When a Watchlist upload status is equal to InProgress, the Watchlist cannot be deleted'
     types:
     - uid: string
-  - name: properties.watchlistItemsCount
-    description: The number of Watchlist Items in the Watchlist
-    types:
-    - uid: integer
   - name: etag
     description: Etag of the azure resource
     types:
@@ -358,8 +360,8 @@ definitions:
   - name: Key
     types:
     - uid: string
-- name: source
-  description: The source of the watchlist
+- name: sourceType
+  description: The sourceType of the watchlist
   kind: enum
   properties:
   - name: Local file
@@ -385,13 +387,14 @@ definitions:
 examples:
 - name: Creates or updates a watchlist.
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/watchlists/highValueAsset?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/watchlists/highValueAsset?api-version=2022-07-01-preview
     body: >-
       {
         "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
         "properties": {
           "displayName": "High Value Assets Watchlist",
-          "source": "Local file",
+          "source": "watchlist.csv",
+          "sourceType": "Local file",
           "provider": "Microsoft",
           "description": "Watchlist from CSV content",
           "itemsSearchKey": "header1"
@@ -400,13 +403,14 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/watchlists/highValueAsset?api-version=2021-10-01-preview
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/watchlists/highValueAsset?api-version=2022-07-01-preview
 
       {
         "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
         "properties": {
           "displayName": "High Value Assets Watchlist",
-          "source": "Local file",
+          "source": "watchlist.csv",
+          "sourceType": "Local file",
           "provider": "Microsoft",
           "description": "Watchlist from CSV content",
           "itemsSearchKey": "header1"
@@ -415,6 +419,46 @@ examples:
 
       ```
 
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content type). To create a Watchlist and its Items, we should call this endpoint with either rawContent or a valid SAR URI and contentType properties. The rawContent is mainly used for small watchlist (content size below 3.8 MB). The SAS URI enables the creation of large watchlist, where the content size can go up to 500 MB. The status of processing such large file can be polled through the URL returned in Azure-AsyncOperation header.
+       *
+       * @summary Create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content type). To create a Watchlist and its Items, we should call this endpoint with either rawContent or a valid SAR URI and contentType properties. The rawContent is mainly used for small watchlist (content size below 3.8 MB). The SAS URI enables the creation of large watchlist, where the content size can go up to 500 MB. The status of processing such large file can be polled through the URL returned in Azure-AsyncOperation header.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/watchlists/CreateWatchlist.json
+       */
+      async function createsOrUpdatesAWatchlist() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const watchlistAlias = "highValueAsset";
+        const watchlist = {
+          description: "Watchlist from CSV content",
+          displayName: "High Value Assets Watchlist",
+          etag: '"0300bf09-0000-0000-0000-5c37296e0000"',
+          itemsSearchKey: "header1",
+          provider: "Microsoft",
+          source: "watchlist.csv",
+          sourceType: "Local file",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.watchlists.createOrUpdate(
+          resourceGroupName,
+          workspaceName,
+          watchlistAlias,
+          watchlist
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesAWatchlist().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -427,7 +471,8 @@ examples:
           "watchlistId": "76d5a51f-ba1f-4038-9d22-59fda38dc017",
           "displayName": "High Value Assets Watchlist",
           "provider": "Microsoft",
-          "source": "Local file",
+          "source": "watchlist.csv",
+          "sourceType": "Local file",
           "created": "2020-09-28T00:26:54.7746089+00:00",
           "updated": "2020-09-28T00:26:57+00:00",
           "createdBy": {
@@ -459,7 +504,8 @@ examples:
           "watchlistId": "76d5a51f-ba1f-4038-9d22-59fda38dc017",
           "displayName": "High Value Assets Watchlist",
           "provider": "Microsoft",
-          "source": "Local file",
+          "source": "watchlist.csv",
+          "sourceType": "Local file",
           "created": "2020-09-28T00:26:54.7746089+00:00",
           "updated": "2020-09-28T00:26:57+00:00",
           "createdBy": {
@@ -482,13 +528,14 @@ examples:
       }
 - name: Creates or updates a watchlist and bulk creates watchlist items.
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/watchlists/highValueAsset?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/watchlists/highValueAsset?api-version=2022-07-01-preview
     body: >-
       {
         "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
         "properties": {
           "displayName": "High Value Assets Watchlist",
-          "source": "Local file",
+          "source": "watchlist.csv",
+          "sourceType": "Local file",
           "provider": "Microsoft",
           "description": "Watchlist from CSV content",
           "numberOfLinesToSkip": 1,
@@ -500,13 +547,14 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/watchlists/highValueAsset?api-version=2021-10-01-preview
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/watchlists/highValueAsset?api-version=2022-07-01-preview
 
       {
         "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
         "properties": {
           "displayName": "High Value Assets Watchlist",
-          "source": "Local file",
+          "source": "watchlist.csv",
+          "sourceType": "Local file",
           "provider": "Microsoft",
           "description": "Watchlist from CSV content",
           "numberOfLinesToSkip": 1,
@@ -518,6 +566,49 @@ examples:
 
       ```
 
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content type). To create a Watchlist and its Items, we should call this endpoint with either rawContent or a valid SAR URI and contentType properties. The rawContent is mainly used for small watchlist (content size below 3.8 MB). The SAS URI enables the creation of large watchlist, where the content size can go up to 500 MB. The status of processing such large file can be polled through the URL returned in Azure-AsyncOperation header.
+       *
+       * @summary Create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content type). To create a Watchlist and its Items, we should call this endpoint with either rawContent or a valid SAR URI and contentType properties. The rawContent is mainly used for small watchlist (content size below 3.8 MB). The SAS URI enables the creation of large watchlist, where the content size can go up to 500 MB. The status of processing such large file can be polled through the URL returned in Azure-AsyncOperation header.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/watchlists/CreateWatchlistAndWatchlistItems.json
+       */
+      async function createsOrUpdatesAWatchlistAndBulkCreatesWatchlistItems() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const watchlistAlias = "highValueAsset";
+        const watchlist = {
+          description: "Watchlist from CSV content",
+          contentType: "text/csv",
+          displayName: "High Value Assets Watchlist",
+          etag: '"0300bf09-0000-0000-0000-5c37296e0000"',
+          itemsSearchKey: "header1",
+          numberOfLinesToSkip: 1,
+          provider: "Microsoft",
+          rawContent: "This line will be skipped\nheader1,header2\nvalue1,value2",
+          source: "watchlist.csv",
+          sourceType: "Local file",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.watchlists.createOrUpdate(
+          resourceGroupName,
+          workspaceName,
+          watchlistAlias,
+          watchlist
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesAWatchlistAndBulkCreatesWatchlistItems().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -530,7 +621,8 @@ examples:
           "watchlistId": "76d5a51f-ba1f-4038-9d22-59fda38dc017",
           "displayName": "High Value Assets Watchlist",
           "provider": "Microsoft",
-          "source": "Local file",
+          "source": "watchlist.csv",
+          "sourceType": "Local file",
           "created": "2020-09-28T00:26:54.7746089+00:00",
           "updated": "2020-09-28T00:26:57+00:00",
           "createdBy": {
@@ -562,7 +654,8 @@ examples:
           "watchlistId": "76d5a51f-ba1f-4038-9d22-59fda38dc017",
           "displayName": "High Value Assets Watchlist",
           "provider": "Microsoft",
-          "source": "Local file",
+          "source": "watchlist.csv",
+          "sourceType": "Local file",
           "created": "2020-09-28T00:26:54.7746089+00:00",
           "updated": "2020-09-28T00:26:57+00:00",
           "createdBy": {
@@ -593,5 +686,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Creates or updates a watchlist and its watchlist items (bulk creation, e.g. through text/csv content type).
+  description: Create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content type).
 errorCodes: []

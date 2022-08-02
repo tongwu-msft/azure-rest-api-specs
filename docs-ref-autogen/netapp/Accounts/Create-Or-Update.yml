@@ -375,6 +375,152 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.netapp.models.ActiveDirectory;
+      import java.util.Arrays;
+
+      /** Samples for Accounts CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/Accounts_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: Accounts_CreateOrUpdate.
+           *
+           * @param manager Entry point to NetAppFilesManager.
+           */
+          public static void accountsCreateOrUpdate(com.azure.resourcemanager.netapp.NetAppFilesManager manager) {
+              manager
+                  .accounts()
+                  .define("account1")
+                  .withRegion("eastus")
+                  .withExistingResourceGroup("myRG")
+                  .withActiveDirectories(
+                      Arrays
+                          .asList(
+                              new ActiveDirectory()
+                                  .withUsername("ad_user_name")
+                                  .withPassword("ad_password")
+                                  .withDomain("10.10.10.3")
+                                  .withDns("10.10.10.3, 10.10.10.4")
+                                  .withSmbServerName("SMBServer")
+                                  .withOrganizationalUnit("OU=Engineering")
+                                  .withSite("SiteName")
+                                  .withAesEncryption(true)
+                                  .withLdapSigning(false)
+                                  .withLdapOverTls(false)))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-netapp_1.0.0-beta.8/sdk/netapp/azure-resourcemanager-netapp/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetapp_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/netapp/armnetapp"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/Accounts_CreateOrUpdate.json
+      func ExampleAccountsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetapp.NewAccountsClient("D633CC2E-722B-4AE1-B636-BBD9E4C60ED9", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"myRG",
+      		"account1",
+      		armnetapp.Account{
+      			Location: to.Ptr("eastus"),
+      			Properties: &armnetapp.AccountProperties{
+      				ActiveDirectories: []*armnetapp.ActiveDirectory{
+      					{
+      						AesEncryption:      to.Ptr(true),
+      						DNS:                to.Ptr("10.10.10.3, 10.10.10.4"),
+      						Domain:             to.Ptr("10.10.10.3"),
+      						LdapOverTLS:        to.Ptr(false),
+      						LdapSigning:        to.Ptr(false),
+      						OrganizationalUnit: to.Ptr("OU=Engineering"),
+      						Password:           to.Ptr("ad_password"),
+      						Site:               to.Ptr("SiteName"),
+      						SmbServerName:      to.Ptr("SMBServer"),
+      						Username:           to.Ptr("ad_user_name"),
+      					}},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetapp%2Farmnetapp%2Fv1.0.0/sdk/resourcemanager/netapp/armnetapp/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetAppManagementClient } = require("@azure/arm-netapp");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update the specified NetApp account within the resource group
+       *
+       * @summary Create or update the specified NetApp account within the resource group
+       * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/Accounts_CreateOrUpdate.json
+       */
+      async function accountsCreateOrUpdate() {
+        const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+        const resourceGroupName = "myRG";
+        const accountName = "account1";
+        const body = {
+          activeDirectories: [
+            {
+              aesEncryption: true,
+              dns: "10.10.10.3, 10.10.10.4",
+              domain: "10.10.10.3",
+              ldapOverTLS: false,
+              ldapSigning: false,
+              organizationalUnit: "OU=Engineering",
+              password: "ad_password",
+              site: "SiteName",
+              smbServerName: "SMBServer",
+              username: "ad_user_name",
+            },
+          ],
+          location: "eastus",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetAppManagementClient(credential, subscriptionId);
+        const result = await client.accounts.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          accountName,
+          body
+        );
+        console.log(result);
+      }
+
+      accountsCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-netapp_15.1.1/sdk/netapp/arm-netapp/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

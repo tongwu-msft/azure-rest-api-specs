@@ -353,6 +353,222 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.SubResource;
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.HubVirtualNetworkConnectionInner;
+      import com.azure.resourcemanager.network.models.PropagatedRouteTable;
+      import com.azure.resourcemanager.network.models.RoutingConfiguration;
+      import com.azure.resourcemanager.network.models.StaticRoute;
+      import com.azure.resourcemanager.network.models.VnetRoute;
+      import java.util.Arrays;
+
+      /** Samples for HubVirtualNetworkConnections CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/HubVirtualNetworkConnectionPut.json
+           */
+          /**
+           * Sample code: HubVirtualNetworkConnectionPut.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void hubVirtualNetworkConnectionPut(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getHubVirtualNetworkConnections()
+                  .createOrUpdate(
+                      "rg1",
+                      "virtualHub1",
+                      "connection1",
+                      new HubVirtualNetworkConnectionInner()
+                          .withRemoteVirtualNetwork(
+                              new SubResource()
+                                  .withId(
+                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/SpokeVnet1"))
+                          .withEnableInternetSecurity(false)
+                          .withRoutingConfiguration(
+                              new RoutingConfiguration()
+                                  .withAssociatedRouteTable(
+                                      new SubResource()
+                                          .withId(
+                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1"))
+                                  .withPropagatedRouteTables(
+                                      new PropagatedRouteTable()
+                                          .withLabels(Arrays.asList("label1", "label2"))
+                                          .withIds(
+                                              Arrays
+                                                  .asList(
+                                                      new SubResource()
+                                                          .withId(
+                                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1"))))
+                                  .withVnetRoutes(
+                                      new VnetRoute()
+                                          .withStaticRoutes(
+                                              Arrays
+                                                  .asList(
+                                                      new StaticRoute()
+                                                          .withName("route1")
+                                                          .withAddressPrefixes(Arrays.asList("10.1.0.0/16", "10.2.0.0/16"))
+                                                          .withNextHopIpAddress("10.0.0.68"),
+                                                      new StaticRoute()
+                                                          .withName("route2")
+                                                          .withAddressPrefixes(Arrays.asList("10.3.0.0/16", "10.4.0.0/16"))
+                                                          .withNextHopIpAddress("10.0.0.65"))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/HubVirtualNetworkConnectionPut.json
+      func ExampleHubVirtualNetworkConnectionsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewHubVirtualNetworkConnectionsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"rg1",
+      		"virtualHub1",
+      		"connection1",
+      		armnetwork.HubVirtualNetworkConnection{
+      			Properties: &armnetwork.HubVirtualNetworkConnectionProperties{
+      				EnableInternetSecurity: to.Ptr(false),
+      				RemoteVirtualNetwork: &armnetwork.SubResource{
+      					ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/SpokeVnet1"),
+      				},
+      				RoutingConfiguration: &armnetwork.RoutingConfiguration{
+      					AssociatedRouteTable: &armnetwork.SubResource{
+      						ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1"),
+      					},
+      					PropagatedRouteTables: &armnetwork.PropagatedRouteTable{
+      						IDs: []*armnetwork.SubResource{
+      							{
+      								ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1"),
+      							}},
+      						Labels: []*string{
+      							to.Ptr("label1"),
+      							to.Ptr("label2")},
+      					},
+      					VnetRoutes: &armnetwork.VnetRoute{
+      						StaticRoutes: []*armnetwork.StaticRoute{
+      							{
+      								Name: to.Ptr("route1"),
+      								AddressPrefixes: []*string{
+      									to.Ptr("10.1.0.0/16"),
+      									to.Ptr("10.2.0.0/16")},
+      								NextHopIPAddress: to.Ptr("10.0.0.68"),
+      							},
+      							{
+      								Name: to.Ptr("route2"),
+      								AddressPrefixes: []*string{
+      									to.Ptr("10.3.0.0/16"),
+      									to.Ptr("10.4.0.0/16")},
+      								NextHopIPAddress: to.Ptr("10.0.0.65"),
+      							}},
+      					},
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a hub virtual network connection if it doesn't exist else updates the existing one.
+       *
+       * @summary Creates a hub virtual network connection if it doesn't exist else updates the existing one.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/HubVirtualNetworkConnectionPut.json
+       */
+      async function hubVirtualNetworkConnectionPut() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualHubName = "virtualHub1";
+        const connectionName = "connection1";
+        const hubVirtualNetworkConnectionParameters = {
+          enableInternetSecurity: false,
+          remoteVirtualNetwork: {
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/SpokeVnet1",
+          },
+          routingConfiguration: {
+            associatedRouteTable: {
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1",
+            },
+            propagatedRouteTables: {
+              ids: [
+                {
+                  id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1",
+                },
+              ],
+              labels: ["label1", "label2"],
+            },
+            vnetRoutes: {
+              staticRoutes: [
+                {
+                  name: "route1",
+                  addressPrefixes: ["10.1.0.0/16", "10.2.0.0/16"],
+                  nextHopIpAddress: "10.0.0.68",
+                },
+                {
+                  name: "route2",
+                  addressPrefixes: ["10.3.0.0/16", "10.4.0.0/16"],
+                  nextHopIpAddress: "10.0.0.65",
+                },
+              ],
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.hubVirtualNetworkConnections.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualHubName,
+          connectionName,
+          hubVirtualNetworkConnectionParameters
+        );
+        console.log(result);
+      }
+
+      hubVirtualNetworkConnectionPut().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

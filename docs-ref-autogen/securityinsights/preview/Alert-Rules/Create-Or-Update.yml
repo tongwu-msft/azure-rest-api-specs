@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.alertrules.createorupdate
 name: Create Or Update
 service: Sentinel
 groupName: Alert Rules
-apiVersion: 2021-10-01-preview
+apiVersion: 2022-07-01-preview
 summary: Creates or updates the alert rule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules/{ruleId}?api-version=2021-10-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules/{ruleId}?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -112,7 +112,6 @@ requestBody:
     - uid: boolean
   - name: properties.sourceSettings
     in: body
-    isRequired: true
     description: Configuration for all supported source signals in fusion detection.
     types:
     - uid: FusionSourceSettings
@@ -226,47 +225,6 @@ requestBody:
 - name: ScheduledAlertRule
   description: Represents scheduled alert rule.
   parameters:
-  - name: kind
-    in: body
-    isRequired: true
-    description: The kind of the alert rule
-    types:
-    - uid: Scheduled
-    typesTitle: string
-  - name: etag
-    in: body
-    description: Etag of the azure resource
-    types:
-    - uid: string
-  - name: properties.queryFrequency
-    in: body
-    isRequired: true
-    description: The frequency (in ISO 8601 duration format) for this alert rule to run.
-    types:
-    - uid: string
-  - name: properties.queryPeriod
-    in: body
-    isRequired: true
-    description: The period (in ISO 8601 duration format) that this alert rule looks at.
-    types:
-    - uid: string
-  - name: properties.triggerOperator
-    in: body
-    isRequired: true
-    description: The operation against the threshold that triggers alert rule.
-    types:
-    - uid: TriggerOperator
-  - name: properties.triggerThreshold
-    in: body
-    isRequired: true
-    description: The threshold triggers this alert rule.
-    types:
-    - uid: integer
-  - name: properties.eventGroupingSettings
-    in: body
-    description: The event grouping settings.
-    types:
-    - uid: EventGroupingSettings
   - name: properties.alertRuleTemplateName
     in: body
     description: The Name of the alert rule template used to create this rule.
@@ -282,24 +240,6 @@ requestBody:
     description: The description of the alert rule.
     types:
     - uid: string
-  - name: properties.query
-    in: body
-    isRequired: true
-    description: The query that creates alerts for this rule.
-    types:
-    - uid: string
-  - name: properties.tactics
-    in: body
-    description: The tactics of the alert rule
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.techniques
-    in: body
-    description: The techniques of the alert rule
-    types:
-    - uid: string
-      isArray: true
   - name: properties.displayName
     in: body
     isRequired: true
@@ -324,17 +264,76 @@ requestBody:
     description: Determines whether the suppression for this alert rule is enabled or disabled.
     types:
     - uid: boolean
+  - name: properties.tactics
+    in: body
+    description: The tactics of the alert rule
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.techniques
+    in: body
+    description: The techniques of the alert rule
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.incidentConfiguration
+    in: body
+    description: The settings of the incidents that created from alerts triggered by this analytics rule
+    types:
+    - uid: IncidentConfiguration
+  - name: kind
+    in: body
+    isRequired: true
+    description: The kind of the alert rule
+    types:
+    - uid: Scheduled
+    typesTitle: string
+  - name: etag
+    in: body
+    description: Etag of the azure resource
+    types:
+    - uid: string
+  - name: properties.query
+    in: body
+    isRequired: true
+    description: The query that creates alerts for this rule.
+    types:
+    - uid: string
+  - name: properties.queryFrequency
+    in: body
+    isRequired: true
+    description: The frequency (in ISO 8601 duration format) for this alert rule to run.
+    types:
+    - uid: string
+  - name: properties.queryPeriod
+    in: body
+    isRequired: true
+    description: The period (in ISO 8601 duration format) that this alert rule looks at.
+    types:
+    - uid: string
   - name: properties.severity
     in: body
     isRequired: true
     description: The severity for alerts created by this alert rule.
     types:
     - uid: AlertSeverity
-  - name: properties.incidentConfiguration
+  - name: properties.triggerOperator
     in: body
-    description: The settings of the incidents that created from alerts triggered by this analytics rule
+    isRequired: true
+    description: The operation against the threshold that triggers alert rule.
     types:
-    - uid: IncidentConfiguration
+    - uid: TriggerOperator
+  - name: properties.triggerThreshold
+    in: body
+    isRequired: true
+    description: The threshold triggers this alert rule.
+    types:
+    - uid: integer
+  - name: properties.eventGroupingSettings
+    in: body
+    description: The event grouping settings.
+    types:
+    - uid: EventGroupingSettings
   - name: properties.customDetails
     in: body
     description: Dictionary of string key-value pairs of columns to be attached to the alert
@@ -358,18 +357,6 @@ requestBody:
 - name: NrtAlertRule
   description: Represents NRT alert rule.
   parameters:
-  - name: kind
-    in: body
-    isRequired: true
-    description: The kind of the alert rule
-    types:
-    - uid: NRT
-    typesTitle: string
-  - name: etag
-    in: body
-    description: Etag of the azure resource
-    types:
-    - uid: string
   - name: properties.alertRuleTemplateName
     in: body
     description: The Name of the alert rule template used to create this rule.
@@ -387,6 +374,7 @@ requestBody:
     - uid: string
   - name: properties.query
     in: body
+    isRequired: true
     description: The query that creates alerts for this rule.
     types:
     - uid: string
@@ -428,6 +416,7 @@ requestBody:
     - uid: boolean
   - name: properties.severity
     in: body
+    isRequired: true
     description: The severity for alerts created by this alert rule.
     types:
     - uid: AlertSeverity
@@ -456,6 +445,18 @@ requestBody:
     description: The alert details override settings
     types:
     - uid: AlertDetailsOverride
+  - name: kind
+    in: body
+    isRequired: true
+    description: The kind of the alert rule
+    types:
+    - uid: NRT
+    typesTitle: string
+  - name: etag
+    in: body
+    description: Etag of the azure resource
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: MLBehaviorAnalyticsAlertRule
@@ -764,6 +765,53 @@ definitions:
   description: Represents scheduled alert rule.
   kind: object
   properties:
+  - name: properties.alertRuleTemplateName
+    description: The Name of the alert rule template used to create this rule.
+    types:
+    - uid: string
+  - name: properties.templateVersion
+    description: The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2>
+    types:
+    - uid: string
+  - name: properties.description
+    description: The description of the alert rule.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: The display name for alerts created by this alert rule.
+    types:
+    - uid: string
+  - name: properties.enabled
+    description: Determines whether this alert rule is enabled or disabled.
+    types:
+    - uid: boolean
+  - name: properties.lastModifiedUtc
+    isReadyOnly: true
+    description: The last time that this alert rule has been modified.
+    types:
+    - uid: string
+  - name: properties.suppressionDuration
+    description: The suppression (in ISO 8601 duration format) to wait since last time this alert rule been triggered.
+    types:
+    - uid: string
+  - name: properties.suppressionEnabled
+    description: Determines whether the suppression for this alert rule is enabled or disabled.
+    types:
+    - uid: boolean
+  - name: properties.tactics
+    description: The tactics of the alert rule
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.techniques
+    description: The techniques of the alert rule
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.incidentConfiguration
+    description: The settings of the incidents that created from alerts triggered by this analytics rule
+    types:
+    - uid: IncidentConfiguration
   - name: kind
     description: The kind of the alert rule
     types:
@@ -793,6 +841,10 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
+  - name: properties.query
+    description: The query that creates alerts for this rule.
+    types:
+    - uid: string
   - name: properties.queryFrequency
     description: The frequency (in ISO 8601 duration format) for this alert rule to run.
     types:
@@ -801,6 +853,10 @@ definitions:
     description: The period (in ISO 8601 duration format) that this alert rule looks at.
     types:
     - uid: string
+  - name: properties.severity
+    description: The severity for alerts created by this alert rule.
+    types:
+    - uid: AlertSeverity
   - name: properties.triggerOperator
     description: The operation against the threshold that triggers alert rule.
     types:
@@ -813,6 +869,27 @@ definitions:
     description: The event grouping settings.
     types:
     - uid: EventGroupingSettings
+  - name: properties.customDetails
+    description: Dictionary of string key-value pairs of columns to be attached to the alert
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.entityMappings
+    description: Array of the entity mappings of the alert rule
+    types:
+    - uid: EntityMapping
+      isArray: true
+  - name: properties.alertDetailsOverride
+    description: The alert details override settings
+    types:
+    - uid: AlertDetailsOverride
+- name: NrtAlertRule
+  description: Represents NRT alert rule.
+  kind: object
+  properties:
   - name: properties.alertRuleTemplateName
     description: The Name of the alert rule template used to create this rule.
     types:
@@ -885,10 +962,6 @@ definitions:
     description: The alert details override settings
     types:
     - uid: AlertDetailsOverride
-- name: NrtAlertRule
-  description: Represents NRT alert rule.
-  kind: object
-  properties:
   - name: kind
     description: The kind of the alert rule
     types:
@@ -918,78 +991,6 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-  - name: properties.alertRuleTemplateName
-    description: The Name of the alert rule template used to create this rule.
-    types:
-    - uid: string
-  - name: properties.templateVersion
-    description: The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2>
-    types:
-    - uid: string
-  - name: properties.description
-    description: The description of the alert rule.
-    types:
-    - uid: string
-  - name: properties.query
-    description: The query that creates alerts for this rule.
-    types:
-    - uid: string
-  - name: properties.tactics
-    description: The tactics of the alert rule
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.techniques
-    description: The techniques of the alert rule
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.displayName
-    description: The display name for alerts created by this alert rule.
-    types:
-    - uid: string
-  - name: properties.enabled
-    description: Determines whether this alert rule is enabled or disabled.
-    types:
-    - uid: boolean
-  - name: properties.lastModifiedUtc
-    isReadyOnly: true
-    description: The last time that this alert rule has been modified.
-    types:
-    - uid: string
-  - name: properties.suppressionDuration
-    description: The suppression (in ISO 8601 duration format) to wait since last time this alert rule been triggered.
-    types:
-    - uid: string
-  - name: properties.suppressionEnabled
-    description: Determines whether the suppression for this alert rule is enabled or disabled.
-    types:
-    - uid: boolean
-  - name: properties.severity
-    description: The severity for alerts created by this alert rule.
-    types:
-    - uid: AlertSeverity
-  - name: properties.incidentConfiguration
-    description: The settings of the incidents that created from alerts triggered by this analytics rule
-    types:
-    - uid: IncidentConfiguration
-  - name: properties.customDetails
-    description: Dictionary of string key-value pairs of columns to be attached to the alert
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: properties.entityMappings
-    description: Array of the entity mappings of the alert rule
-    types:
-    - uid: EntityMapping
-      isArray: true
-  - name: properties.alertDetailsOverride
-    description: The alert details override settings
-    types:
-    - uid: AlertDetailsOverride
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -1100,6 +1101,18 @@ definitions:
   - name: Microsoft Defender Advanced Threat Protection
     types:
     - uid: string
+- name: IncidentConfiguration
+  description: Incident Configuration property bag.
+  kind: object
+  properties:
+  - name: createIncident
+    description: Create incidents from alerts triggered by this analytics rule
+    types:
+    - uid: boolean
+  - name: groupingConfiguration
+    description: Set how the alerts that are triggered by this analytics rule, are grouped into incidents
+    types:
+    - uid: GroupingConfiguration
 - name: TriggerOperator
   description: The operation against the threshold that triggers alert rule.
   kind: enum
@@ -1124,18 +1137,6 @@ definitions:
     description: The event grouping aggregation kinds
     types:
     - uid: EventGroupingAggregationKind
-- name: IncidentConfiguration
-  description: Incident Configuration property bag.
-  kind: object
-  properties:
-  - name: createIncident
-    description: Create incidents from alerts triggered by this analytics rule
-    types:
-    - uid: boolean
-  - name: groupingConfiguration
-    description: Set how the alerts that are triggered by this analytics rule, are grouped into incidents
-    types:
-    - uid: GroupingConfiguration
 - name: EntityMapping
   description: Single entity mapping for the alert rule
   kind: object
@@ -1220,16 +1221,6 @@ definitions:
     description: Severity configuration for a source subtype consumed in fusion detection.
     types:
     - uid: FusionSubTypeSeverityFilter
-- name: EventGroupingAggregationKind
-  description: The event grouping aggregation kinds
-  kind: enum
-  properties:
-  - name: SingleAlert
-    types:
-    - uid: string
-  - name: AlertPerResult
-    types:
-    - uid: string
 - name: GroupingConfiguration
   description: Grouping configuration property bag.
   kind: object
@@ -1265,6 +1256,16 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: EventGroupingAggregationKind
+  description: The event grouping aggregation kinds
+  kind: enum
+  properties:
+  - name: SingleAlert
+    types:
+    - uid: string
+  - name: AlertPerResult
+    types:
+    - uid: string
 - name: EntityMappingType
   description: The V3 type of the mapped entity
   kind: enum
@@ -1398,7 +1399,7 @@ definitions:
 examples:
 - name: Creates or updates a Scheduled alert rule.
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "Scheduled",
@@ -1478,7 +1479,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
 
       {
         "kind": "Scheduled",
@@ -1558,6 +1559,85 @@ examples:
 
       ```
 
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates the alert rule.
+       *
+       * @summary Creates or updates the alert rule.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/alertRules/CreateScheduledAlertRule.json
+       */
+      async function createsOrUpdatesAScheduledAlertRule() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const ruleId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
+        const alertRule = {
+          description: "An example for a scheduled rule",
+          alertDetailsOverride: {
+            alertDescriptionFormat: "Suspicious activity was made by {{ComputerIP}}",
+            alertDisplayNameFormat: "Alert from {{Computer}}",
+          },
+          customDetails: {
+            operatingSystemName: "OSName",
+            operatingSystemType: "OSType",
+          },
+          displayName: "My scheduled rule",
+          enabled: true,
+          entityMappings: [
+            {
+              entityType: "Host",
+              fieldMappings: [{ columnName: "Computer", identifier: "FullName" }],
+            },
+            {
+              entityType: "IP",
+              fieldMappings: [{ columnName: "ComputerIP", identifier: "Address" }],
+            },
+          ],
+          etag: '"0300bf09-0000-0000-0000-5c37296e0000"',
+          eventGroupingSettings: { aggregationKind: "AlertPerResult" },
+          incidentConfiguration: {
+            createIncident: true,
+            groupingConfiguration: {
+              enabled: true,
+              groupByAlertDetails: ["DisplayName"],
+              groupByCustomDetails: ["OperatingSystemType", "OperatingSystemName"],
+              groupByEntities: ["Host"],
+              lookbackDuration: "PT5H",
+              matchingMethod: "Selected",
+              reopenClosedIncident: false,
+            },
+          },
+          kind: "Scheduled",
+          query: "Heartbeat",
+          queryFrequency: "PT1H",
+          queryPeriod: "P2DT1H30M",
+          severity: "High",
+          suppressionDuration: "PT1H",
+          suppressionEnabled: false,
+          tactics: ["Persistence", "LateralMovement"],
+          techniques: ["T1037", "T1021"],
+          triggerOperator: "GreaterThan",
+          triggerThreshold: 0,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.alertRules.createOrUpdate(
+          resourceGroupName,
+          workspaceName,
+          ruleId,
+          alertRule
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesAScheduledAlertRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1726,7 +1806,7 @@ examples:
       }
 - name: Creates or updates a Nrt alert rule.
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "NRT",
@@ -1768,7 +1848,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01-preview
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2022-07-01-preview
 
       {
         "kind": "NRT",
@@ -1810,6 +1890,61 @@ examples:
 
       ```
 
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates the alert rule.
+       *
+       * @summary Creates or updates the alert rule.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/alertRules/CreateNrtAlertRule.json
+       */
+      async function createsOrUpdatesANrtAlertRule() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const ruleId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
+        const alertRule = {
+          description: "",
+          displayName: "Rule2",
+          enabled: true,
+          etag: '"0300bf09-0000-0000-0000-5c37296e0000"',
+          incidentConfiguration: {
+            createIncident: true,
+            groupingConfiguration: {
+              enabled: true,
+              groupByEntities: ["Host", "Account"],
+              lookbackDuration: "PT5H",
+              matchingMethod: "Selected",
+              reopenClosedIncident: false,
+            },
+          },
+          kind: "NRT",
+          query:
+            "ProtectionStatus | extend HostCustomEntity = Computer | extend IPCustomEntity = ComputerIP_Hidden",
+          severity: "High",
+          suppressionDuration: "PT1H",
+          suppressionEnabled: false,
+          tactics: ["Persistence", "LateralMovement"],
+          techniques: ["T1037", "T1021"],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.alertRules.createOrUpdate(
+          resourceGroupName,
+          workspaceName,
+          ruleId,
+          alertRule
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesANrtAlertRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1895,7 +2030,7 @@ examples:
       }
 - name: Creates or updates a Fusion alert rule.
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/myFirstFusionRule?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/myFirstFusionRule?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "Fusion",
@@ -2156,7 +2291,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/myFirstFusionRule?api-version=2021-10-01-preview
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/myFirstFusionRule?api-version=2022-07-01-preview
 
       {
         "kind": "Fusion",
@@ -2417,6 +2552,171 @@ examples:
 
       ```
 
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates the alert rule.
+       *
+       * @summary Creates or updates the alert rule.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/alertRules/CreateFusionAlertRule.json
+       */
+      async function createsOrUpdatesAFusionAlertRule() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const ruleId = "myFirstFusionRule";
+        const alertRule = {
+          alertRuleTemplateName: "f71aba3d-28fb-450b-b192-4e76a83015c8",
+          enabled: true,
+          etag: "3d00c3ca-0000-0100-0000-5d42d5010000",
+          kind: "Fusion",
+          sourceSettings: [
+            { enabled: true, sourceName: "Anomalies", sourceSubTypes: [] },
+            {
+              enabled: true,
+              sourceName: "Alert providers",
+              sourceSubTypes: [
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Azure Active Directory Identity Protection",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Azure Defender",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Azure Defender for IoT",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Microsoft 365 Defender",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Microsoft Cloud App Security",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Microsoft Defender for Endpoint",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Microsoft Defender for Identity",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Microsoft Defender for Office 365",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Azure Sentinel scheduled analytics rules",
+                },
+              ],
+            },
+            {
+              enabled: true,
+              sourceName: "Raw logs from other sources",
+              sourceSubTypes: [
+                {
+                  enabled: true,
+                  severityFilters: { filters: [] },
+                  sourceSubTypeName: "Palo Alto Networks",
+                },
+              ],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.alertRules.createOrUpdate(
+          resourceGroupName,
+          workspaceName,
+          ruleId,
+          alertRule
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesAFusionAlertRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2998,7 +3298,7 @@ examples:
       }
 - name: Creates or updates a Fusion alert rule with scenario exclusion pattern.
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/myFirstFusionRule?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/myFirstFusionRule?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "Fusion",
@@ -3259,7 +3559,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/myFirstFusionRule?api-version=2021-10-01-preview
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/myFirstFusionRule?api-version=2022-07-01-preview
 
       {
         "kind": "Fusion",
@@ -3520,6 +3820,171 @@ examples:
 
       ```
 
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates the alert rule.
+       *
+       * @summary Creates or updates the alert rule.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/alertRules/CreateFusionAlertRuleWithFusionScenarioExclusion.json
+       */
+      async function createsOrUpdatesAFusionAlertRuleWithScenarioExclusionPattern() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const ruleId = "myFirstFusionRule";
+        const alertRule = {
+          alertRuleTemplateName: "f71aba3d-28fb-450b-b192-4e76a83015c8",
+          enabled: true,
+          etag: "3d00c3ca-0000-0100-0000-5d42d5010000",
+          kind: "Fusion",
+          sourceSettings: [
+            { enabled: true, sourceName: "Anomalies", sourceSubTypes: [] },
+            {
+              enabled: true,
+              sourceName: "Alert providers",
+              sourceSubTypes: [
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Azure Active Directory Identity Protection",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Azure Defender",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Azure Defender for IoT",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Microsoft 365 Defender",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Microsoft Cloud App Security",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Microsoft Defender for Endpoint",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Microsoft Defender for Identity",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Microsoft Defender for Office 365",
+                },
+                {
+                  enabled: true,
+                  severityFilters: {
+                    filters: [
+                      { enabled: true, severity: "High" },
+                      { enabled: true, severity: "Medium" },
+                      { enabled: true, severity: "Low" },
+                      { enabled: true, severity: "Informational" },
+                    ],
+                  },
+                  sourceSubTypeName: "Azure Sentinel scheduled analytics rules",
+                },
+              ],
+            },
+            {
+              enabled: true,
+              sourceName: "Raw logs from other sources",
+              sourceSubTypes: [
+                {
+                  enabled: true,
+                  severityFilters: { filters: [] },
+                  sourceSubTypeName: "Palo Alto Networks",
+                },
+              ],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.alertRules.createOrUpdate(
+          resourceGroupName,
+          workspaceName,
+          ruleId,
+          alertRule
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesAFusionAlertRuleWithScenarioExclusionPattern().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -4107,7 +4572,7 @@ examples:
       }
 - name: Creates or updates a MicrosoftSecurityIncidentCreation rule.
   request:
-    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/microsoftSecurityIncidentCreationRuleExample?api-version=2021-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/microsoftSecurityIncidentCreationRuleExample?api-version=2022-07-01-preview
     body: >-
       {
         "etag": "\"260097e0-0000-0d00-0000-5d6fa88f0000\"",
@@ -4121,7 +4586,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/microsoftSecurityIncidentCreationRuleExample?api-version=2021-10-01-preview
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/microsoftSecurityIncidentCreationRuleExample?api-version=2022-07-01-preview
 
       {
         "etag": "\"260097e0-0000-0d00-0000-5d6fa88f0000\"",
@@ -4135,6 +4600,44 @@ examples:
 
       ```
 
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates the alert rule.
+       *
+       * @summary Creates or updates the alert rule.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/alertRules/CreateMicrosoftSecurityIncidentCreationAlertRule.json
+       */
+      async function createsOrUpdatesAMicrosoftSecurityIncidentCreationRule() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const ruleId = "microsoftSecurityIncidentCreationRuleExample";
+        const alertRule = {
+          displayName: "testing displayname",
+          enabled: true,
+          etag: '"260097e0-0000-0d00-0000-5d6fa88f0000"',
+          kind: "MicrosoftSecurityIncidentCreation",
+          productFilter: "Microsoft Cloud App Security",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.alertRules.createOrUpdate(
+          resourceGroupName,
+          workspaceName,
+          ruleId,
+          alertRule
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesAMicrosoftSecurityIncidentCreationRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
